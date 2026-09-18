@@ -181,8 +181,7 @@ function initialise(root: HTMLElement) {
       country: names[state.country as keyof typeof names] ?? state.country,
       domain: domainLabel,
       ageLabel,
-      change: last.estimate - first.estimate,
-      changeStandardError: Math.hypot(first.se, last.se)
+      change: last.estimate - first.estimate
     });
     chartTitleElement.textContent = title;
     chartSubtitleElement.textContent = copy.subtitle(

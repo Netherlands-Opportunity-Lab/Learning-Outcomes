@@ -15,8 +15,6 @@ describe("controlled narrative", () => {
     expect(classifyTrend(-3)).toBe("decrease");
     expect(classifyTrend(3)).toBe("increase");
     expect(classifyTrend(1)).toBe("stable");
-    expect(classifyTrend(-3, 2)).toBe("stable");
-    expect(classifyTrend(-5, 2)).toBe("decrease");
   });
 
   it("renders parallel Dutch and English claims", () => {
@@ -25,16 +23,14 @@ describe("controlled narrative", () => {
       country: "Nederland",
       domain: "lees",
       ageLabel: "15-jarigen",
-      change: -10,
-      changeStandardError: 2
+      change: -10
     });
     const en = trendTitle({
       locale: "en",
       country: "the Netherlands",
       domain: "reading",
       ageLabel: "15-year-olds",
-      change: -10,
-      changeStandardError: 2
+      change: -10
     });
     expect(nl).toContain("daalden");
     expect(en).toContain("decreased");

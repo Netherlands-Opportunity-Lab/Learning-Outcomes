@@ -1,7 +1,11 @@
 # Ontwerptokens voor dashboard en figuren
 
 Deze waarden volgen `Stijlgids_slides_figuren_PISA_PIRLS_v1_1_definitief(3).docx`
-van 18 september 2026. Dit is de leidende projectstandaard. De gecontroleerde
+van 18 september 2026. Dit is uitsluitend de leidende standaard voor
+vormgeving, visuele grammatica, slide-opbouw, typografie, kleuren,
+grafiekkeuze, annotaties, toegankelijkheid, technische productie en visuele
+reproduceerbaarheid. De gids bepaalt geen estimands, groepsdefinities,
+steekproeven, analysemethoden of inhoudelijke conclusies. De gecontroleerde
 bron heeft SHA-256
 `89b25e67e8574722ebe55302bc8b32a466fa84214fd8142149018260dfbb0327`.
 
@@ -31,8 +35,8 @@ bron heeft SHA-256
 Gebruik bij twee groepen posities 1 en 5, bij drie groepen posities 1, 3 en 5,
 en bij vier groepen posities 1, 2, 4 en 5. Bij vijf inhoudelijk geordende
 groepen wordt de volledige reeks gebruikt. Kleuren krijgen nooit achteraf een
-andere rangbetekenis. In PIRLS verwijzen de vijf posities primair naar de echte
-categorieën boeken thuis en niet naar quintielen.
+andere rangbetekenis. Welke groepen inhoudelijk worden getoond en hoe zij
+worden benoemd, komt uitsluitend uit het geldende analyseprotocol.
 
 ## Regels
 
@@ -60,5 +64,6 @@ responsieve applicatie. Daarom gelden drie vastgelegde aanpassingen:
 - Selectievelden en actieknoppen zijn functionele bediening, geen decoratieve
   dashboardkaarten. Zij mogen daarom een zichtbare focus- en invoerrand hebben.
 
-Alle overige afwijkingen vereisen een vermelding in dit bestand of in het
-figuurregister.
+Alle overige visuele afwijkingen vereisen een vermelding in dit bestand of in
+het figuurregister. Inhoudelijke of methodologische afwijkingen worden beheerd
+in het methode- en analyseregister, onafhankelijk van deze stijlgids.
