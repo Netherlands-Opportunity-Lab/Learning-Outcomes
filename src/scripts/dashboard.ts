@@ -116,6 +116,7 @@ function initialise(root: HTMLElement) {
   const domainSelect = root.querySelector<HTMLSelectElement>("[data-domain]");
   const chart = root.querySelector<HTMLElement>("[data-chart]");
   const chartTitle = root.querySelector<HTMLElement>("[data-chart-title]");
+  const chartSubtitle = root.querySelector<HTMLElement>("[data-chart-subtitle]");
   const chartStatus = root.querySelector<HTMLElement>("[data-chart-status]");
   const languageLink = root.querySelector<HTMLAnchorElement>("[data-language-link]");
   const downloadButton = root.querySelector<HTMLButtonElement>("[data-download]");
@@ -123,10 +124,11 @@ function initialise(root: HTMLElement) {
   const shareButton = root.querySelector<HTMLButtonElement>("[data-share]");
   const actionStatus = root.querySelector<HTMLElement>("[data-action-status]");
 
-  if (!controls || !countrySelect || !domainSelect || !chart || !chartTitle || !chartStatus) return;
+  if (!controls || !countrySelect || !domainSelect || !chart || !chartTitle || !chartSubtitle || !chartStatus) return;
 
   const chartElement = chart;
   const chartTitleElement = chartTitle;
+  const chartSubtitleElement = chartSubtitle;
   const chartStatusElement = chartStatus;
 
   const state = parseState(root);
@@ -179,9 +181,16 @@ function initialise(root: HTMLElement) {
       country: names[state.country as keyof typeof names] ?? state.country,
       domain: domainLabel,
       ageLabel,
-      change: last.estimate - first.estimate
+      change: last.estimate - first.estimate,
+      changeStandardError: Math.hypot(first.se, last.se)
     });
     chartTitleElement.textContent = title;
+    chartSubtitleElement.textContent = copy.subtitle(
+      first.survey,
+      ageLabel,
+      first.year,
+      last.year
+    );
 
     const values = selected.flatMap((row) => [row.ciLow, row.ciHigh]);
     const yMin = Math.floor((Math.min(...values) - 8) / 10) * 10;
@@ -201,7 +210,7 @@ function initialise(root: HTMLElement) {
         background: "transparent",
         color: colours.text,
         fontFamily: 'Aptos, "Segoe UI", Arial, sans-serif',
-        fontSize: "14px"
+        fontSize: "16px"
       },
       x: {
         label: null,
@@ -233,7 +242,7 @@ function initialise(root: HTMLElement) {
           x: "year",
           y: "estimate",
           stroke: colours.focus,
-          strokeWidth: 3
+          strokeWidth: 4
         }),
         Plot.dot(focus, {
           x: "year",
@@ -247,8 +256,8 @@ function initialise(root: HTMLElement) {
           text: "countryLabel",
           dx: 8,
           textAnchor: "start",
-          fill: colours.contextDark,
-          fontSize: 12
+          fill: colours.muted,
+          fontSize: 16
         }),
         Plot.text([last], {
           x: "year",
@@ -258,7 +267,7 @@ function initialise(root: HTMLElement) {
           textAnchor: "start",
           fill: colours.focus,
           fontWeight: 700,
-          fontSize: 13
+          fontSize: 16
         })
       ]
     });

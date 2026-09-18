@@ -21,10 +21,14 @@ bestand met manifest en tests.
 ## PIRLS
 
 - Hoofdproxy: student-gerapporteerd aantal boeken thuis, vijf inhoudelijk
-  stabiele categorieën over 2001–2021.
-- Huidige operationalisering voor de uiterste nationale groepen gebruikt
-  gewogen grenzen met fractionele toedeling van grenscategorieën; definitieve
-  labels en releasevelden worden vóór productie vastgelegd.
+  stabiele categorieën over 2001–2021: 0–10, 11–25, 26–100, 101–200 en meer
+  dan 200 boeken. De hoofdreeks toont deze vijf categorieën en noemt ze geen
+  quintielen of officiële Home SES.
+- Een vergelijking van de gewogen onderste en bovenste 25 procent op de
+  rangorde van boeken thuis is uitsluitend een expliciet gelabelde
+  bridge/sensitivity voor vergelijking met PISA. Alleen daarvoor worden
+  grenscategorieën fractioneel toegedeeld; deze constructie vervangt de vijf
+  primaire PIRLS-categorieën niet.
 - Volledige analyse vereist vijf plausible values en de JK-variantieprocedure.
 - Stage 2A valideert eerst Nederland, Duitsland, Zweden, Italië en Singapore
   tegen officiële gemiddelden, benchmark 475 en standaardfouten.

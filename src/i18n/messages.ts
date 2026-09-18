@@ -29,7 +29,8 @@ export const messages = {
     mathematics: "Wiskunde",
     science: "Science",
     chartEyebrow: "Ontwikkeling door de tijd",
-    subtitle: "Gemiddelde score met 95%-betrouwbaarheidsinterval voor het gekozen land",
+    subtitle: (survey: string, age: string, start: number, end: number) =>
+      `${survey}, ${age}, ${start}–${end}. Gemiddelde leesscore; 95%-betrouwbaarheidsinterval voor het gekozen land.`,
     points: "Toetspunten",
     noData: "Voor deze combinatie zijn nog geen gegevens beschikbaar.",
     interpretationHeading: "Wat betekent dit?",
@@ -74,7 +75,8 @@ export const messages = {
     mathematics: "Mathematics",
     science: "Science",
     chartEyebrow: "Change over time",
-    subtitle: "Mean score with a 95% confidence interval for the selected country",
+    subtitle: (survey: string, age: string, start: number, end: number) =>
+      `${survey}, ${age}, ${start}–${end}. Mean reading score; 95% confidence interval for the selected country.`,
     points: "Test-score points",
     noData: "No data are available for this combination yet.",
     interpretationHeading: "What does this mean?",
