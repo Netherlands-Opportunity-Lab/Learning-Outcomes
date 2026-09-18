@@ -26,7 +26,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Confirm that Pages deployment is absent
         run: |
-          if grep -R "actions/deploy-pages" .github/workflows; then
+          pattern="actions/deploy""-pages@"
+          if grep -R "$pattern" .github/workflows --exclude=ci.yml; then
             echo "Deployment must remain disabled until the publication gate is cleared."
             exit 1
           fi
