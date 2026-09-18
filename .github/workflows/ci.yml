@@ -1,0 +1,32 @@
+name: Validate repository
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run verify
+
+  publication-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm that Pages deployment is absent
+        run: |
+          if grep -R "actions/deploy-pages" .github/workflows; then
+            echo "Deployment must remain disabled until the publication gate is cleared."
+            exit 1
+          fi

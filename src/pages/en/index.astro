@@ -1,0 +1,11 @@
+---
+import Dashboard from "../../components/Dashboard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getMessages } from "../../i18n/messages";
+
+const copy = getMessages("en");
+---
+
+<BaseLayout locale="en" title={copy.brand} description={copy.intro}>
+  <Dashboard locale="en" initialCountry="NLD" />
+</BaseLayout>

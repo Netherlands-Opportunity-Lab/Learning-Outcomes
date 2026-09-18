@@ -1,0 +1,27 @@
+{
+  "name": "learning-outcomes-dashboard",
+  "version": "0.1.0-dev",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "vitest run",
+    "test:boundaries": "node scripts/check-repository-boundaries.mjs",
+    "verify": "npm run test:boundaries && npm run check && npm test && npm run build"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "@observablehq/plot": "0.6.17",
+    "astro": "7.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "typescript": "6.0.3",
+    "vitest": "5.0.1"
+  }
+}

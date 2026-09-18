@@ -1,0 +1,26 @@
+schema_version: 1
+sources:
+  - id: oecd-pisa
+    title: OECD Programme for International Student Assessment
+    status: metadata-pending
+    files: []
+    licence_url: https://www.oecd.org/en/about/terms-conditions.html
+    public_redistribution: derived-aggregates-only-after-review
+  - id: iea-pirls
+    title: IEA Progress in International Reading Literacy Study
+    status: permission-request-pending
+    files: []
+    licence_url: https://www.iea.nl/sites/default/files/data-repository/Disclaimer_and_License_Agreement.pdf
+    public_redistribution: blocked-until-written-confirmation
+  - id: iea-timss
+    title: IEA Trends in International Mathematics and Science Study
+    status: permission-request-pending
+    files: []
+    licence_url: https://www.iea.nl/sites/default/files/data-repository/Disclaimer_and_License_Agreement.pdf
+    public_redistribution: blocked-until-written-confirmation
+  - id: unicef-validation
+    title: UNICEF validation sources
+    status: dataset-specific-review-required
+    files: []
+    licence_url: https://data.unicef.org/
+    public_redistribution: depends-on-specific-dataset

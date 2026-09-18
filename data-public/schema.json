@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learning-outcomes.example/schema/public-observation.json",
+  "title": "Public learning-outcomes observation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "country_iso3",
+    "survey",
+    "cycle",
+    "age_group",
+    "domain",
+    "metric",
+    "estimate",
+    "standard_error",
+    "ci_low",
+    "ci_high",
+    "panel_id",
+    "analysis_release"
+  ],
+  "properties": {
+    "country_iso3": { "type": "string", "pattern": "^[A-Z]{3}$" },
+    "survey": { "enum": ["PISA", "PIRLS", "TIMSS"] },
+    "cycle": { "type": "integer", "minimum": 1995, "maximum": 2100 },
+    "age_group": { "enum": ["age_10", "age_15"] },
+    "domain": { "enum": ["reading", "mathematics", "science"] },
+    "metric": { "type": "string" },
+    "threshold": { "type": ["string", "null"] },
+    "background_measure": { "type": ["string", "null"] },
+    "background_group": { "type": ["string", "null"] },
+    "estimate": { "type": "number" },
+    "standard_error": { "type": "number", "minimum": 0 },
+    "ci_low": { "type": "number" },
+    "ci_high": { "type": "number" },
+    "rank": { "type": ["integer", "null"], "minimum": 1 },
+    "rank_direction": { "enum": ["higher_is_better", "lower_is_better", null] },
+    "country_count": { "type": ["integer", "null"], "minimum": 1 },
+    "panel_id": { "type": "string", "minLength": 1 },
+    "quality_flags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "source_id": { "type": ["string", "null"] },
+    "analysis_release": { "type": "string", "minLength": 1 }
+  }
+}

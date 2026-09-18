@@ -1,0 +1,16 @@
+---
+import Dashboard from "../../../components/Dashboard.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getMessages } from "../../../i18n/messages";
+
+export function getStaticPaths() {
+  return ["NLD", "DEU", "BEL"].map((country) => ({ params: { country }, props: { country } }));
+}
+
+const { country } = Astro.props;
+const copy = getMessages("nl");
+---
+
+<BaseLayout locale="nl" title={copy.brand} description={copy.intro}>
+  <Dashboard locale="nl" initialCountry={country} />
+</BaseLayout>

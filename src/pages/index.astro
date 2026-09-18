@@ -1,0 +1,19 @@
+---
+const destination = `${import.meta.env.BASE_URL}nl/`;
+---
+
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Leerprestaties in beeld</title>
+  </head>
+  <body>
+    <p><a href={destination}>Ga naar de Nederlandstalige versie</a></p>
+    <script define:vars={{ destination }}>
+      window.location.replace(destination + window.location.search);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+# Raw and intermediate research data
+data-raw/*
+!data-raw/README.md
+data-derived/*
+!data-derived/.gitkeep
+
+# R
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+renv/library/
+renv/staging/
+_targets/
+
+# Node and Astro
+node_modules/
+dist/
+.astro/
+
+# Test and editor output
+coverage/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Local secrets and overrides
+.env
+.env.*
+!.env.example

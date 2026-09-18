@@ -1,0 +1,144 @@
+---
+import { getMessages, type Locale } from "../i18n/messages";
+
+interface Props {
+  locale: Locale;
+  initialCountry: string;
+}
+
+const { locale, initialCountry } = Astro.props;
+const copy = getMessages(locale);
+const base = import.meta.env.BASE_URL;
+const alternateLocale = locale === "nl" ? "en" : "nl";
+const countryBase = `${base}${locale}/country/`;
+const alternateBase = `${base}${alternateLocale}/country/`;
+const countryNames = {
+  nl: { NLD: "Nederland", DEU: "Duitsland", BEL: "België" },
+  en: { NLD: "Netherlands", DEU: "Germany", BEL: "Belgium" }
+} as const;
+---
+
+<div
+  class="dashboard-root"
+  data-dashboard
+  data-locale={locale}
+  data-initial-country={initialCountry}
+  data-country-base={countryBase}
+  data-alternate-base={alternateBase}
+>
+  <a class="skip-link" href="#figure-title">{copy.skip}</a>
+
+  <header class="site-header">
+    <a class="brand" href={`${base}${locale}/`}>
+      <span>{copy.brand}</span>
+      <small>{copy.strapline}</small>
+    </a>
+    <a class="language-link" data-language-link href={`${alternateBase}${initialCountry}/`}>
+      {copy.language}
+    </a>
+  </header>
+
+  <main>
+    <p class="prototype-notice">{copy.prototype}</p>
+
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow">PISA · PIRLS · TIMSS</p>
+      <h1 id="page-title">{copy.pageTitle}</h1>
+      <p class="intro">{copy.intro}</p>
+    </section>
+
+    <section class="questions" aria-labelledby="question-heading">
+      <h2 id="question-heading">{copy.question}</h2>
+      <div class="question-grid">
+        <button class="question-option active" type="button" aria-current="true">
+          <span>1</span>
+          {copy.questions.trend}
+        </button>
+        <button class="question-option" type="button" disabled>
+          <span>2</span>
+          <span>{copy.questions.proficiency}<small>{copy.comingSoon}</small></span>
+        </button>
+        <button class="question-option" type="button" disabled>
+          <span>3</span>
+          <span>{copy.questions.background}<small>{copy.comingSoon}</small></span>
+        </button>
+        <button class="question-option" type="button" disabled>
+          <span>4</span>
+          <span>{copy.questions.international}<small>{copy.comingSoon}</small></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="explorer" aria-labelledby="controls-heading">
+      <form class="controls" data-controls>
+        <h2 id="controls-heading">{copy.controls}</h2>
+
+        <label>
+          <span>{copy.country}</span>
+          <select name="country" data-country>
+            {Object.entries(countryNames[locale]).map(([code, label]) => (
+              <option value={code} selected={code === initialCountry}>{label}</option>
+            ))}
+          </select>
+        </label>
+
+        <fieldset>
+          <legend>{copy.age}</legend>
+          <label class="radio-option">
+            <input type="radio" name="age" value="10" />
+            <span>{copy.age10}</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="age" value="15" checked />
+            <span>{copy.age15}</span>
+          </label>
+        </fieldset>
+
+        <label>
+          <span>{copy.domain}</span>
+          <select name="domain" data-domain>
+            <option value="reading">{copy.reading}</option>
+            <option value="mathematics" disabled>{copy.mathematics} — {copy.unavailable}</option>
+            <option value="science" disabled>{copy.science} — {copy.unavailable}</option>
+          </select>
+        </label>
+      </form>
+
+      <figure class="chart-figure" aria-labelledby="figure-title">
+        <figcaption>
+          <p class="eyebrow">{copy.chartEyebrow}</p>
+          <h2 id="figure-title" data-chart-title></h2>
+          <p class="chart-subtitle">{copy.subtitle}</p>
+        </figcaption>
+        <div class="chart" data-chart></div>
+        <p class="chart-status" data-chart-status role="status"></p>
+        <p class="source-note">{copy.source}</p>
+      </figure>
+
+      <div class="figure-actions" aria-label={locale === "nl" ? "Figuuracties" : "Figure actions"}>
+        <button type="button" data-download>{copy.downloadCsv}</button>
+        <button type="button" data-print>{copy.printPdf}</button>
+        <button type="button" data-share>{copy.share}</button>
+        <span data-action-status role="status" aria-live="polite"></span>
+      </div>
+
+      <div class="explanation-grid">
+        <section>
+          <h2>{copy.interpretationHeading}</h2>
+          <p>{copy.interpretation}</p>
+        </section>
+        <details>
+          <summary>{copy.methodsHeading}</summary>
+          <p>{copy.methods}</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer>{copy.footer}</footer>
+</div>
+
+<script>
+  import { initDashboards } from "../scripts/dashboard";
+  initDashboards();
+</script>

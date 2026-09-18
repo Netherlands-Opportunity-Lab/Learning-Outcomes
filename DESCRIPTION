@@ -1,0 +1,16 @@
+Package: learningoutcomes
+Type: Project
+Title: Reproducible International Learning Outcomes Analysis
+Version: 0.1.0.9000
+Authors@R: person("Bastian", "Ravesteijn", role = c("aut", "cre"))
+Description: Analysis pipeline for country-by-cycle estimates used by the
+    Learning Outcomes dashboard.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports:
+    jsonlite,
+    targets,
+    yaml
+Suggests:
+    ggplot2,
+    testthat
