@@ -1,0 +1,18 @@
+{
+  "release_id": "dashboard-rc1-20260922",
+  "analysis_release": "ANALYSIS_RELEASE_RC1_20260922_v3",
+  "figure_release": "FIGURE_RELEASE_RC1_FINAL",
+  "domain": "reading",
+  "generated_date": "2026-09-22",
+  "default_locale": "nl",
+  "default_country": "iso3:NLD",
+  "public_data_only": true,
+  "raw_microdata_included": false,
+  "scientific_computation_frontend": false,
+  "panel_policy": {
+    "latest_ses_main": "N45_harmonized_system_bridge",
+    "latest_ses_sensitivity": "N44_exact_id"
+  },
+  "notes_nl": "Dashboardlaag gebruikt bevroren RC1-puntinschattingen en vooraf berekende vergelijkingen; geen wetenschappelijke berekeningen in de frontend.",
+  "notes_en": "Dashboard layer uses frozen RC1 point estimates and precomputed comparisons; no scientific calculations in the frontend."
+}
