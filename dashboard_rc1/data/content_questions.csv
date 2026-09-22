@@ -1,0 +1,6 @@
+content_question,label_nl,label_en,description_nl,description_en,display_order
+performance_level,Prestatieniveau,Performance level,Ontwikkeling van gemiddelde score en basisniveau.,Trends in mean achievement and baseline proficiency.,1
+distribution,Prestatieverdeling,Achievement distribution,"P10, mediaan, P90 en spreiding.","P10, median, P90 and spread.",2
+group_differences_social,Verschillen naar sociale achtergrond,Differences by social background,Niveaus van Q1/Q4 en sociale kloven.,Q1/Q4 levels and social-background gaps.,3
+school_sorting,Schoolsorting,School sorting,Sociale en academische sorting tussen scholen; beschrijvend.,Social and academic between-school sorting; descriptive.,4
+quality,Kwaliteit en representativiteit,Quality and representativeness,"Respons, uitsluitingen, validatiestatus en caveats.","Response, exclusions, validation status and caveats.",5
