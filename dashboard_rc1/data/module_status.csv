@@ -1,0 +1,7 @@
+module_id,status,label_nl,label_en,note_nl,note_en
+geography_panels,FROZEN,Geografie en panels,Geography and panels,N=45 hoofdset; N=44 exact-ID gevoeligheidsanalyse.,N=45 main set; N=44 exact-ID sensitivity.
+pirls_demographic_jrr,VALIDATED_CONDITIONAL,PIRLS demografische JRR,PIRLS demographic JRR,V2 uitgevoerd; puntinschattingen behouden; inferentiediagnostiek blijft zichtbaar.,V2 executed; point estimates preserved; inference diagnostics remain visible.
+sorting_oecd,CONDITIONAL,Schoolsorting versus OECD,School sorting versus OECD,OECD-tabellen zijn ankers; schatters verschillen.,OECD tables are anchors; estimators differ.
+representativeness,CONDITIONAL,Representativiteit,Representativeness,Nederland PISA opnieuw gecontroleerd; niet alle records extern geadjudiceerd.,Dutch PISA rechecked; not all records externally adjudicated.
+international_escs,VALIDATED,Internationale ESCS,International ESCS,Officiële PISA-2025 nationale en internationale kwartieltabel opgenomen.,Official PISA 2025 national and international quartile tables included.
+language_migration,CONDITIONAL,Taal en migratie,Language and migration,Support- en meertaligheidsrestricties gelden.,Support and multilingual-system restrictions apply.
