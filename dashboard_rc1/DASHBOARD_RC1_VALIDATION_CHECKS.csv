@@ -1,0 +1,19 @@
+check,status,detail
+release_id,PASS,dashboard-rc1-20260922
+no_raw_microdata,PASS,
+observations_nonempty,PASS,10059
+observation_country_fk,PASS,0
+year_integer,PASS,
+quality_enum,PASS,
+latest_four_cells,PASS,4
+latest_n45,PASS,"{('social_proficiency_gap', 'age10'): 45, ('social_proficiency_gap', 'age15'): 45, ('social_score_gap', 'age10'): 45, ('social_score_gap', 'age15'): 45}"
+nl_latest_anchors,PASS,
+figure_count_14,PASS,14
+figure_assets,PASS,
+frontend_no_estimators,PASS,
+html_main,PASS,<main
+html_header,PASS,<header
+html_footer,PASS,<footer
+html_label,PASS,<label
+html_arialabel,PASS,aria-label
+html_langnl,PASS,"lang=""nl"""
