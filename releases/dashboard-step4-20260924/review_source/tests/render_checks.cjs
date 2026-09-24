@@ -1,0 +1,30 @@
+const vm=require('vm'),fs=require('fs'),path=require('path'),assert=require('assert');
+const root=path.resolve(__dirname,'..');const read=p=>JSON.parse(fs.readFileSync(path.join(root,p),'utf8'));
+const dom={};const element=id=>dom[id]??=( {textContent:'',innerHTML:'',hidden:false,disabled:false,options:[],value:'',classList:{toggle(){}},setAttribute(){}} );
+const ctx=vm.createContext({console,URLSearchParams,Intl,Number,Map,Set,Array,JSON,history:{replaceState(){}},location:{search:''},document:{querySelector:s=>s==='#content svg'?(element('#content').innerHTML.includes('<svg')?{}:null):element(s),querySelectorAll:()=>[],documentElement:{lang:'nl'}},setTimeout,Blob});
+const code=fs.readFileSync(path.join(root,'assets/app.js'),'utf8').split('init().catch(')[0];vm.runInContext(code,ctx);
+ctx.countries=read('data/json/countries.json');ctx.metadata=read('data/json/metadata.json');ctx.international=read('data/json/international.json');ctx.reference=read('data/json/nl_international_reference.json');ctx.domainData=read('data/json/domain_context.json');vm.runInContext('S.countries=countries;S.metadata=metadata;S.international=international;S.reference=reference;S.domainContext=domainData;',ctx);
+const tests=[];function test(name,fn){try{fn();tests.push({name,status:'PASS'});}catch(e){tests.push({name,status:'FAIL',detail:e.message});}}
+function select({country='iso3:NLD',age='both',view='performance_level',tab='country',locale='nl',domain='reading',panel='45',trend='13',ses='national',sortingPanel='max'}={}){ctx.profile=read('data/json/profiles/'+country.replace(':','_')+'.json');ctx.selection={country,age,view,tab,locale,domain,panel,trend,ses,sortingPanel};vm.runInContext('Object.assign(S,selection);S.profile=profile;render();',ctx);return element('#content').innerHTML;}
+test('Four distinct instrument figures',()=>assert.equal((select().match(/<svg/g)||[]).length,4));
+test('NL PIRLS quality warning',()=>{select();assert(element('#statusStrip').innerHTML.includes('44%'));assert(element('#statusStrip').innerHTML.includes('79%'));});
+test('Both international ages show fixed panels',()=>{const html=select({tab:'international'});assert(html.includes('PIRLS_READ_MAIN13'));assert(html.includes('PISA_READ_LONG_32'));assert.equal((html.match(/<svg/g)||[]).length,2);});
+test('MAIN12 sensitivity produces values',()=>{const html=select({tab:'international',trend:'12'});assert(html.includes('PIRLS_MAIN12_NO_NORWAY'));assert.equal((html.match(/<svg/g)||[]).length,2);});
+test('Maximum 45 SES ranks and levels',()=>{const html=select({view:'group_differences_social'});assert(html.includes('42/45'));assert(html.includes('20/45'));assert(html.includes('502,0'));assert(html.includes('495,6'));});
+test('Quality 43 SES ranks',()=>{const html=select({view:'group_differences_social',panel:'43'});assert(html.includes('41/43'));assert(html.includes('38/43'));assert(!html.includes('/45'));});
+test('Age filter excludes other instrument from data',()=>{select({view:'group_differences_social',age:'age10'});assert(vm.runInContext('S.rendered.every(r=>r.age==="age10")',ctx));});
+test('Global SES list includes levels and 43 systems per cell',()=>{const html=select({view:'group_differences_social',tab:'international',panel:'43'});assert(html.includes('Q1 (SE)'));assert(html.includes('Alle 43'));});
+test('International ESCS has true fixed reference',()=>{const html=select({view:'group_differences_social',ses:'international'});assert(html.includes('31 landen'));assert(html.includes('383,6'));});
+test('Missing age10 ESCS explicit',()=>assert(select({view:'group_differences_social',ses:'international',age:'age10'}).includes('alleen beschikbaar')));
+test('Social sorting charts contain real values',()=>{const html=select({view:'school_sorting'});assert.equal((html.match(/<svg/g)||[]).length,4);assert(html.includes('15,9'));});
+test('International maximum sorting separate dimensions',()=>{const html=select({view:'school_sorting',tab:'international'});assert(html.includes('Sociale schoolsortering'));assert(html.includes('Academische schoolsortering'));assert(html.includes('Nederland'));});
+test('Missing math is not filled with reading',()=>{const html=select({country:'iso3:USA',domain:'math'});assert(!html.includes('<svg'));assert.equal(vm.runInContext('S.rendered.length',ctx),0);assert(html.includes('Geen complete RC2'));});
+test('Limited NL domains retain 8 observed means only',()=>{const html=select({domain:'math'});assert.equal(vm.runInContext('S.rendered.length',ctx),8);assert(html.includes('geen RC2-freeze'));assert(html.includes('492,7'));});
+test('Precomputed group ranks displayed',()=>{const html=select({view:'group_differences_social'});assert(html.includes('Groepsrang'));assert(vm.runInContext('S.rendered.some(r=>r.level_rank)',ctx));});
+test('Missing gender explicit',()=>assert(select({view:'group_differences_gender'}).includes('geen gevalideerde gender-export')));
+test('Migratie language only eligible rows',()=>{select({view:'group_differences_migration_language'});assert(vm.runInContext('S.rendered.length>0 && S.rendered.every(r=>r.release_main_eligible===true)',ctx));});
+test('English country title',()=>{select({locale:'en'});assert.equal(element('#countryTab').textContent,'Netherlands');});
+test('Kosovo explicit bridge',()=>{const html=select({country:'system:XKX'});assert.equal((html.match(/<svg/g)||[]).length,4);});
+test('No missing-values-as-zero',()=>{assert.equal(vm.runInContext('fmt(null)',ctx),'—');assert.equal(vm.runInContext('finite(null)',ctx),false);});
+test('No malformed HTML numerical output in diverse countries',()=>{for(const country of ['iso3:NLD','iso3:ALB','iso3:USA','system:XKX','system:ABU','iso3:NOR'])for(const view of ['performance_level','distribution','group_differences_social','school_sorting','quality','group_differences_migration_language']){const html=select({country,view});assert(!/NaN|Infinity|undefined/.test(html),country+' '+view);}});
+fs.writeFileSync(path.join(root,'audit/RENDER_CHECKS.json'),JSON.stringify(tests,null,2)+'\n');console.log(JSON.stringify(tests,null,2));if(tests.some(t=>t.status==='FAIL'))process.exitCode=1;
