@@ -5,26 +5,27 @@
 - Scientific/product source lock: `749a0de8e6ab707f4ecd887247ea8fde82f55656`
 - Analysis release: `FINAL_ANALYSIS_FREEZE_20260928`
 - Public release: `PUBLIC_DASHBOARD_20260928_FINAL`
-- Controlled runtime ZIP: 257 files, 14,528,896 bytes
-- Runtime ZIP SHA-256: `f230fd4090ecfb0574d4c0379231e79e6ec662c504d5c782f109c9488479cdf1`
+- Minimal public runtime: 253 files, 14,525,361 bytes
+- Runtime SHA-256: `ae6404aeedecdf3f42e22ef1612e27d3f0e61bc663a0fc99f89aad4c8c15a706`
 
 ## Public data gate
-The gate was constructed before the public-release branch was created. It inventories every file in the public runtime and explicitly records the main excluded classes. The two complete derived masters are `PUBLIC_SUMMARY_ONLY`; source microdata, restricted source bytes, chats/personal files, credentials and third-party assessment content are `DO_NOT_PUBLISH`; analysis/replicate caches and private inventories are `PRIVATE_REPRODUCIBILITY_ONLY`.
+The gate was constructed before the public-release branch was created. Every public runtime file is `PUBLIC_OK`. The two complete derived masters are `PUBLIC_SUMMARY_ONLY`; source microdata, restricted source bytes, chats/personal files, credentials and third-party assessment content are `DO_NOT_PUBLISH`; analysis/replicate caches and private inventories are `PRIVATE_REPRODUCIBILITY_ONLY`.
+
+The final minimal runtime omits four small project control tables that the frontend does not fetch or link. They remain part of the reproducibility repository where applicable, but not the public website runtime. This removes an unnecessary legacy local-path detail from the pre-integration transport without changing any scientific result.
 
 ## Scientific fidelity
-- 160 country/system profile files compared field-by-field with frozen `RESULTATEN_MASTER.csv.gz`.
-- 278,431 published result rows compared.
-- 0 missing result IDs.
-- 0 field mismatches.
-- Fields include result ID, estimate, SE, CI, year, group, status and source, plus the remaining public result-contract fields.
-- 12,619 precomputed rank rows matched the final dashboard release.
-- 172 panel definitions matched for panel ID, N, membership, status and source.
-- 812 quality rows matched.
-- Curated product mappings matched.
-- All 257 public runtime files were byte-identical to the definitive local dashboard release.
+- 160 public country/system profile files checked against frozen `RESULTATEN_MASTER.csv.gz`.
+- 278,431 published result rows checked field-by-field.
+- 0 missing result IDs; 0 field mismatches.
+- Result ID, estimate, SE, CI, year, group, status and source were checked together with the remaining public result-contract fields.
+- 12,619 precomputed rank rows: exact match.
+- 172 panel definitions including N/membership/status/source: exact match.
+- 812 quality rows: exact match.
+- Curated mappings: exact match.
+- All 253 final public runtime files: unchanged scientific/data bytes from the definitive local dashboard package.
 
-## Publication boundary
-`FINAL_PRODUCT_BASIS.csv.gz` and `RESULTATEN_MASTER.csv.gz` remain absent from the public runtime and are not linked as downloads. The public browser consumes only frozen aggregates and never computes estimates, SEs, CIs, ranks or scientific aggregations.
+## Publication/download boundary
+`FINAL_PRODUCT_BASIS.csv.gz` and `RESULTATEN_MASTER.csv.gz` are absent from the public runtime and have no public download link. The public browser consumes only frozen aggregates and never computes estimates, SEs, CIs, ranks or scientific aggregations.
 
 ## Result
 **PASS**
