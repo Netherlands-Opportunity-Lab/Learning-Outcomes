@@ -1,7 +1,7 @@
 from pathlib import Path
-import csv
 import hashlib
 import html
+import json
 import shutil
 import zipfile
 
@@ -9,15 +9,9 @@ ROOT = Path(__file__).resolve().parents[1]
 PUB = ROOT / "05_publication"
 APP = ROOT / "03_dashboard" / "app"
 DOCS = ROOT / "03_dashboard" / "docs"
-MANIFEST = ROOT / "03_dashboard" / "data" / "PRODUCTION_DATA_MANIFEST.csv"
+MANIFEST = PUB / "PUBLIC_DASHBOARD_MANIFEST.json"
 BUNDLE = PUB / "public_dashboard_runtime_20260928.zip"
 OUT = ROOT / "public_site_dist"
-
-EXPECTED_BUNDLE_SHA256 = "f230fd4090ecfb0574d4c0379231e79e6ec662c504d5c782f109c9488479cdf1"
-BLOCKED = {
-    "product_data/FINAL_PRODUCT_BASIS.csv.gz",
-    "product_data/RESULTATEN_MASTER.csv.gz",
-}
 
 def sha256_bytes(data):
     return hashlib.sha256(data).hexdigest()
@@ -25,15 +19,18 @@ def sha256_bytes(data):
 def fail(msg):
     raise SystemExit("PUBLIC BUILD FAIL: " + msg)
 
+m = json.loads(MANIFEST.read_text(encoding="utf-8"))
 if not BUNDLE.exists():
-    fail("missing controlled public runtime ZIP: " + str(BUNDLE.relative_to(ROOT)))
-
-if sha256_bytes(BUNDLE.read_bytes()) != EXPECTED_BUNDLE_SHA256:
+    fail("missing controlled public runtime ZIP")
+if len(BUNDLE.read_bytes()) != m["runtime_transport_bytes"]:
+    fail("public runtime ZIP byte-size mismatch")
+if sha256_bytes(BUNDLE.read_bytes()) != m["runtime_transport_sha256"]:
     fail("public runtime ZIP SHA-256 mismatch")
 
-rows = list(csv.DictReader(MANIFEST.open(encoding="utf-8")))
-manifest = {r["file"]: (int(r["bytes"]), r["sha256"].lower()) for r in rows}
-expected = {p: v for p, v in manifest.items() if p not in BLOCKED}
+expected = {
+    r["filename"]: (int(r["bytes"]), r["sha256"].lower())
+    for r in m["files"] if r["publication_status"] == "PUBLIC_OK"
+}
 
 with zipfile.ZipFile(BUNDLE) as zf:
     files = [n for n in zf.namelist() if not n.endswith("/")]
@@ -55,10 +52,8 @@ if OUT.exists():
     shutil.rmtree(OUT)
 OUT.mkdir()
 
-# Copy the frozen renderer; publication-specific wording changes only in the built copy.
 shutil.copy2(APP / "index.html", OUT / "index.html")
 shutil.copytree(APP / "assets", OUT / "assets")
-
 (OUT / "docs").mkdir()
 for name in ["SCIENTIFIC_BOUNDARIES.md", "DATA_CONTRACT.md"]:
     shutil.copy2(DOCS / name, OUT / "docs" / name)
@@ -78,11 +73,11 @@ public_status = """# Publicatiestatus
 
 Publieke onderzoeksversie van de finale productrelease van 28 september 2026.
 
-De interactieve website toont project-berekende geaggregeerde resultaten en project-authored figures. De website bevat geen leerling- of schoolmicrodata en geen OECD/IEA-bronbestanden.
+De website toont project-berekende geaggregeerde resultaten en project-authored figures. Zij bevat geen leerling- of schoolmicrodata en geen OECD/IEA-bronbestanden.
 
-De complete bulkbestanden FINAL_PRODUCT_BASIS.csv.gz en RESULTATEN_MASTER.csv.gz worden voorlopig niet als publieke downloads gespiegeld. De publicatiegrens en bronvoorwaarden staan in PUBLICATION_RIGHTS_REVIEW.md.
+De complete bulkbestanden FINAL_PRODUCT_BASIS.csv.gz en RESULTATEN_MASTER.csv.gz worden niet als publieke downloads gespiegeld. De publicatiegrens staat in PUBLICATION_RIGHTS_REVIEW.md en PUBLIC_DASHBOARD_MANIFEST.json in de repository.
 
-De wetenschappelijke/product source lock is Git commit 749a0de8e6ab707f4ecd887247ea8fde82f55656. De browser rekent geen wetenschappelijke schattingen of rangen opnieuw uit.
+De wetenschappelijke/product source lock is Git commit 749a0de8e6ab707f4ecd887247ea8fde82f55656. De browser rekent geen wetenschappelijke schattingen, onzekerheid of rangen opnieuw uit.
 """
 (OUT / "docs" / "PUBLICATION_STATUS.md").write_text(public_status, encoding="utf-8")
 shutil.copy2(PUB / "PUBLICATION_RIGHTS_REVIEW.md", OUT / "docs" / "PUBLICATION_RIGHTS_REVIEW.md")
@@ -109,7 +104,7 @@ downloads = f"""<!doctype html>
 <h1>Gegevens, figuren en replicatie</h1>
 <p>Deze publieke versie is een onderzoeks- en beleidsproduct, geen spiegel van de OECD/IEA-brondatabases. De interactieve pagina gebruikt alleen geaggregeerde projectresultaten. Er staan geen leerling- of schoolmicrodata op deze site.</p>
 <h2>Wat kan wel worden gedownload?</h2>
-<p>De knop <em>Download getoonde gegevens (CSV)</em> in het dashboard exporteert uitsluitend de geaggregeerde records die op dat moment in de geselecteerde weergave worden gebruikt. Hieronder staan de project-authored figures en hun kleine figuurdata.</p>
+<p>De knop <em>Download getoonde gegevens (CSV)</em> exporteert uitsluitend de geaggregeerde records die op dat moment in de geselecteerde weergave worden gebruikt. Hieronder staan project-authored figures en hun kleine figuurdata.</p>
 <ul>{''.join(figure_rows)}</ul>
 <h2>Volledige bulkbestanden</h2>
 <p>De volledige afgeleide masters <code>FINAL_PRODUCT_BASIS.csv.gz</code> en <code>RESULTATEN_MASTER.csv.gz</code> worden niet als publieke downloads aangeboden zolang de redistributiepositie voor de volledige IEA-afgeleide downloadlaag niet expliciet is bevestigd.</p>
@@ -127,4 +122,4 @@ downloads = f"""<!doctype html>
 (OUT / "downloads.html").write_text(downloads, encoding="utf-8")
 (OUT / ".nojekyll").write_text("", encoding="utf-8")
 
-print(f"Public Pages build complete: {len(expected)} frozen runtime files; blocked bulk masters omitted.")
+print(f"Public Pages build complete: {len(expected)} minimal frozen runtime files.")

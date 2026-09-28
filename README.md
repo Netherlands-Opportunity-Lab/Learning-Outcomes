@@ -39,6 +39,20 @@ Not published:
 
 See [DATA_LICENSE.md](DATA_LICENSE.md) and [05_publication/RIGHTS_MATRIX.csv](05_publication/RIGHTS_MATRIX.csv).
 
+## Final public dashboard integration
+
+The definitive public publication layer is maintained under [`05_publication/`](05_publication/README.md) and is built directly from the frozen renderer in `03_dashboard/app/`; it is not a second scientific implementation.
+
+Release anchors:
+- scientific/product lock: `749a0de8e6ab707f4ecd887247ea8fde82f55656`;
+- analysis release: `FINAL_ANALYSIS_FREEZE_20260928`;
+- integration base SHA: `db8b7d7ddc22c6d96191148ffac9c2953dc00900`;
+- public-data inventory and hashes: [`05_publication/PUBLIC_DASHBOARD_MANIFEST.json`](05_publication/PUBLIC_DASHBOARD_MANIFEST.json);
+- file-by-file publication gate: [`05_publication/PUBLIC_DATA_GATE.csv`](05_publication/PUBLIC_DATA_GATE.csv);
+- public-to-freeze fidelity evidence: [`05_publication/PUBLIC_RESULT_FIDELITY.json`](05_publication/PUBLIC_RESULT_FIDELITY.json).
+
+The minimal public runtime contains 253 frozen aggregate/figure files actually required by the site. Four safe project control tables remain in the repository but are not shipped in the site runtime. The two complete derived masters remain documented by size and SHA-256 but are not served or linked as public downloads. Merge and deployment are deliberately separated: the GitHub Pages deployment workflow is manual-only, so merging a scientific/publication PR does not itself publish a new site build.
+
 ## Reproduce the results
 
 1. Obtain the official OECD/IEA source files yourself under the source providers' current terms.

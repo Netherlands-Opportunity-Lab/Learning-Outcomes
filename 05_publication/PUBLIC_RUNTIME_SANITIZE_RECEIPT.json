@@ -1,0 +1,15 @@
+{
+  "release": "PUBLIC_DASHBOARD_20260928_FINAL",
+  "runtime_file": "05_publication/public_dashboard_runtime_20260928.zip",
+  "file_count": 253,
+  "bytes": 14525361,
+  "sha256": "ae6404aeedecdf3f42e22ef1612e27d3f0e61bc663a0fc99f89aad4c8c15a706",
+  "removed_not_runtime_required": [
+    "product_data/FINAL_IMPACT_MATRIX.csv",
+    "product_data/FINAL_OPEN_POINTS_STATUS.csv",
+    "product_data/FINAL_TECHNICAL_VALIDATION.csv",
+    "product_data/FINAL_USE_STATUS_REGISTER.csv"
+  ],
+  "absolute_local_path_scan": "PASS",
+  "forbidden_source_microdata_scan": "PASS"
+}

@@ -1,47 +1,34 @@
 # 05 — Public publication layer
 
-This directory turns the frozen dashboard into a public GitHub Pages research site without changing the scientific analysis or the canonical dashboard implementation.
+This directory is the definitive public product layer for the frozen PISA/PIRLS/TIMSS dashboard. It does not replace the scientific source under `03_dashboard/`; it builds from the canonical renderer and precomputed frozen aggregates.
 
-## Source lock
+## Source locks
 
-- Repository: `Netherlands-Opportunity-Lab/Learning-Outcomes`
 - Scientific/product source commit: `749a0de8e6ab707f4ecd887247ea8fde82f55656`
-- Canonical dashboard source: `03_dashboard/app/`
-- Canonical complete data manifest: `03_dashboard/data/PRODUCTION_DATA_MANIFEST.csv`
+- Analysis release: `FINAL_ANALYSIS_FREEZE_20260928`
+- Public integration base SHA: `db8b7d7ddc22c6d96191148ffac9c2953dc00900`
+- Canonical dashboard renderer: `03_dashboard/app/`
+- Complete private production-data inventory: `03_dashboard/data/PRODUCTION_DATA_MANIFEST.csv`
 
-Publication code may copy and label the canonical dashboard for hosting, but it must not recompute scientific values or ranks.
+## Publication controls
 
-## Public boundary
+- `PUBLIC_DATA_GATE.csv` — file/data classification.
+- `PUBLIC_DASHBOARD_MANIFEST.json` — exact public runtime files, byte sizes, SHA-256 and provenance.
+- `PUBLIC_RESULT_FIDELITY.json` — recorded public-to-freeze comparison results.
+- `PUBLICATION_QA_REPORT_20260928_FINAL.md` — final integration QA.
+- `tests/build_public_release_registers.py` — reproducible private-master comparison code.
+- `tests/validate_public_integration.py` — repository/public-site checks.
+- `public_dashboard_runtime_20260928.zip` — minimal 253-file runtime transport.
 
-The Pages build includes:
-- canonical HTML/CSS/JavaScript;
-- aggregate JSON required by the interactive dashboard;
-- project-authored SVG figures and their small figure-data CSVs;
-- methods, source attribution, public status and replication documentation.
+The runtime ZIP is 14,525,361 bytes with SHA-256:
+`ae6404aeedecdf3f42e22ef1612e27d3f0e61bc663a0fc99f89aad4c8c15a706`.
 
-It excludes:
-- `product_data/FINAL_PRODUCT_BASIS.csv.gz`;
-- `product_data/RESULTATEN_MASTER.csv.gz`;
-- all pupil/school microdata and official source bytes;
-- assessment items, passages, questionnaire reproductions and copied IEA publication figures.
+It contains only the aggregate JSON and project-authored figure assets needed by the public site. Four small project control tables that are not fetched or linked by the frontend are omitted from the runtime; the two complete derived masters are also omitted.
 
-## Files
+## Scientific rule
 
-- `PUBLICATION_RIGHTS_REVIEW.md` — terms review and PUBLIC/HOLD decisions.
-- `RIGHTS_MATRIX.csv` — machine-readable publication boundary.
-- `REPLICATION_GUIDE.md` — end-to-end reproduction instructions.
-- `build_public_pages.py` — assembles the Pages artifact without scientific computation.
-- `validate_public_site.py` — blocks forbidden/bulk files and checks key frozen hashes.
-- `public_dashboard_runtime_20260928.zip` — controlled aggregate runtime used by Pages; generated from the final 28 September dashboard bundle and intentionally excludes the two bulk masters.
-
-The runtime ZIP expected by the build has SHA-256:
-
-`f230fd4090ecfb0574d4c0379231e79e6ec662c504d5c782f109c9488479cdf1`
-
-The build also validates every file in that ZIP against the canonical production-data manifest.
+The browser does not compute estimates, SEs, CIs, ranks, panels or scientific aggregates. Public-result fidelity is checked against the final frozen master before merge, while public CI verifies the committed manifest, runtime hashes and recorded zero-mismatch evidence.
 
 ## Hosting
 
-The workflow `.github/workflows/pages.yml` builds and validates the public artifact and deploys it to GitHub Pages. GitHub Pages itself performs no scientific analysis.
-
-Controlled runtime transport: 257 files, 14,528,896 bytes. Its archive hash is a transport check; the build additionally validates every internal file against the canonical production manifest.
+`.github/workflows/pages.yml` is manual-only. A merge does not trigger a deployment. Deployment from `main` requires an explicit workflow dispatch and confirmation.
