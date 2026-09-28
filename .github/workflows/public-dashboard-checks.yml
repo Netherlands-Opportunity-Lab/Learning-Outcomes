@@ -1,0 +1,37 @@
+name: public-dashboard-checks
+
+on:
+  pull_request:
+    paths:
+      - "03_dashboard/**"
+      - "05_publication/**"
+      - "README.md"
+      - "DATA_LICENSE.md"
+      - "KNOWN_LIMITATIONS.md"
+      - "CHANGELOG.md"
+      - ".github/workflows/public-dashboard-checks.yml"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  public-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: JavaScript syntax
+        run: node --check 03_dashboard/app/assets/app-product.js
+      - name: Build public-safe site
+        run: python 05_publication/build_public_pages.py
+      - name: Existing public-site validator
+        run: python 05_publication/validate_public_site.py
+      - name: Final public integration checks
+        run: python 05_publication/tests/validate_public_integration.py
