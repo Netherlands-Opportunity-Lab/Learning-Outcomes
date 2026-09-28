@@ -1,0 +1,5 @@
+slides_or_product,topic,final_update,instruction
+B14/B15/B25; W22-W24,Gender,PISA gender repaired/blocked where sources not valid,Use final gender availability caveats; no synthetic 2025 girl/boy for affected systems
+B29/B38/B39; W03/W06/W41/W44,PIRLS uncertainty,PIRLS 2001/2006/2011 core SEs cycle-specific JRR,Replace old blocked wording
+Technical appendix,TIMSS 1995/2015,Completion freeze handles target/Numeracy repairs,Use with caveats and validation registers
+Dashboard/downloads,All touched data,"Final product basis derives from 283,284-row completion estimates",aggregate_replicates omitted from upload but retained locally

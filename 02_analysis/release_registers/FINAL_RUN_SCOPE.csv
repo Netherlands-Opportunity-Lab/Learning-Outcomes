@@ -1,0 +1,11 @@
+component,action,release_rule
+Existing V6 output,Reuse all validated caches; original 127471 result rows preserved or changed with old values recorded,Exact cache/master checks
+TIMSS1995,Country target and revised scores; full families,External same-population validation required
+TIMSS2015 mathematics,Combine only distinct main/Numeracy files; science separate,Joint design and source validation required
+PISA gender,Reimport original variables and labels; official anchors separate,Source/support gate
+PIRLS old core variance,Compute 2001/2006/2011 core with cycle-specific JRR; preserve RC1,Compare levels to prior RC1 and SE to cycle documentation
+Missing group distributions and demographic outcomes,Compute only missing/specified repaired families with support and replicate diagnostics,Review comparability and support per group
+Three historical SE differences,Use uploaded replicate arrays; no extra microdata run solely for these differences,Retain discrepancy; unchanged tolerance
+Palestine2022 edition difference,Unresolved source edition/population explanation; no invented adjustment,Conditional use with explicit discrepancy
+"International panels, rankings, institutional context",Existing step2 release retained; final integration uses output aggregates and needs no additional microdata run,Review panel memberships and definitions before publication
+Original RC1 and products,Read-only; no silent methodological or product overwrite,All original bytes retained

@@ -1,0 +1,6 @@
+"component","status","reason"
+"aggregate_replicates/","OMITTED_FROM_CHAT_HANDOFF_RETAINED_LOCALLY","Large per-task replicate aggregate RDS caches; hashes/register and derived diagnostics are included"
+"official_sources_v6/","OMITTED_FROM_CHAT_HANDOFF_RETAINED_LOCALLY","Official source bytes not needed for this handoff; provenance/check tables remain included"
+"LOCAL_SOURCE_INVENTORY.csv","OMITTED_FOR_PRIVACY","May contain filenames outside this project"
+"old/failing packaging manifests","OMITTED_PACKAGING_METADATA","Superseded metadata from failed ZIP attempts"
+"FATAL_ERROR.txt","OMITTED_PACKAGING_DIAGNOSTIC","Scientific run completed before packaging failure"
