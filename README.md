@@ -1,41 +1,53 @@
 # Learning Outcomes — PISA / PIRLS / TIMSS
 
-This private repository contains the reproducible code and documentation for the Netherlands Opportunity Lab project on international learning outcomes at approximately age 10 and age 15.
+Reproducible analyses and a public research dashboard on international learning outcomes at approximately age 10 and age 15.
 
-## Current scientific basis
+## Scientific source lock
 
-The current production basis is the final 28 September 2026 integration derived from the completed PISA/PIRLS/TIMSS completion run. The final product basis contains 283,284 estimate rows. Of 2,570 planned tasks, 2,569 completed pending validation and one local PISA 2003 Korea reading supplement remains non-blocking. The product release therefore uses explicit use-status fields rather than treating every cell as equally strong.
+The scientific/product source of truth is commit `749a0de8e6ab707f4ecd887247ea8fde82f55656` (28 September 2026). Publication-only commits after that lock may add hosting, rights documentation, a public-safe data subset and build/QA automation, but do not alter the scientific analysis or the canonical dashboard implementation in `03_dashboard/`.
 
-Surveys remain separate measurement systems: PIRLS (reading, ≈10), TIMSS (mathematics/science, ≈10), and PISA (reading/mathematics/science, age 15). Raw score points are never subtracted across surveys.
+The final analysis basis contains 283,284 estimate rows. PISA, PIRLS and TIMSS remain separate measurement systems; raw score points are never subtracted across surveys.
 
 ## Repository structure
 
 | Directory | Purpose |
 |---|---|
 | [`01_data_download_preprocessing/`](01_data_download_preprocessing/README.md) | Source acquisition, provenance, dictionaries, harmonisation history and source-side preprocessing |
-| [`02_analysis/`](02_analysis/README.md) | Canonical production analysis and archived/superseded analysis scripts |
-| [`03_dashboard/`](03_dashboard/README.md) | Final tested dashboard source, data contract and production-data manifest |
-| [`04_products_or_release/`](04_products_or_release/README.md) | Release manifests, product matrix, impact matrix, validation and change/loss records |
+| [`02_analysis/`](02_analysis/README.md) | Canonical production analysis and archived/superseded scripts |
+| [`03_dashboard/`](03_dashboard/README.md) | Frozen tested dashboard source and complete production-data manifest |
+| [`04_products_or_release/`](04_products_or_release/README.md) | Release manifests, product matrix, validation and change/loss records |
+| [`05_publication/`](05_publication/README.md) | Public-site boundary, rights review, replication guide and GitHub Pages build/QA |
 
-Start with [REPRODUCIBILITY.md](REPRODUCIBILITY.md), [DATA_SOURCES.md](DATA_SOURCES.md), [METHODS.md](METHODS.md), and [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md).
+Start with [REPRODUCIBILITY.md](REPRODUCIBILITY.md), [DATA_SOURCES.md](DATA_SOURCES.md), [METHODS.md](METHODS.md), [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md), and [05_publication/PUBLICATION_RIGHTS_REVIEW.md](05_publication/PUBLICATION_RIGHTS_REVIEW.md).
 
-## From official source to dashboard
+## Public dashboard boundary
 
-1. Obtain official OECD/IEA source files under their original access and redistribution terms.
-2. Keep pupil-level files outside Git. See `01_data_download_preprocessing/` and [DATA_SOURCES.md](DATA_SOURCES.md).
-3. Run the canonical completion script in `02_analysis/current/` against the documented local source layout.
-4. Validate the generated aggregates against `02_analysis/release_registers/` and the documented external anchors.
-5. Build the dashboard distribution from the frozen aggregate release. The browser never recomputes scientific estimates or ranks.
-6. Use the final use-status and caveat registers in every downstream product.
+The public site is a research/policy publication, not a mirror of OECD/IEA source databases.
 
-## What is not committed
+Published:
+- project-authored interactive analyses and figures;
+- aggregate country/system estimates needed to render those analyses;
+- figure-level CSV exports, methods, sources, status and caveat information;
+- all project analysis/dashboard/publication code.
 
-Student microdata, local caches, private file inventories, credentials, chat transcripts, user-specific absolute paths, and source bytes without clear redistribution permission are excluded. Large final dashboard result bundles are represented by exact SHA-256 manifests and are regenerated from the analysis pipeline or supplied as controlled release assets when rights permit.
+Not published:
+- pupil- or school-level source data;
+- OECD/IEA source files;
+- assessment items, reading passages, questionnaire content, photographs or other third-party copyrighted assessment material;
+- the complete bulk tables `FINAL_PRODUCT_BASIS.csv.gz` and `RESULTATEN_MASTER.csv.gz`;
+- local caches, credentials, private file inventories and user-specific paths.
 
-## Current release status
+See [DATA_LICENSE.md](DATA_LICENSE.md) and [05_publication/RIGHTS_MATRIX.csv](05_publication/RIGHTS_MATRIX.csv).
 
-The final product integration is `FINAL_PRODUCT_INTEGRATION_WITH_LOCAL_CAVEATS`. See [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md) and `02_analysis/release_registers/FINAL_OPEN_POINTS_STATUS.csv`.
+## Reproduce the results
+
+1. Obtain the official OECD/IEA source files yourself under the source providers' current terms.
+2. Keep pupil-level files outside Git.
+3. Follow [05_publication/REPLICATION_GUIDE.md](05_publication/REPLICATION_GUIDE.md).
+4. Run the canonical production code in `02_analysis/current/`.
+5. Compare the resulting validation/status files with `02_analysis/release_registers/`.
+6. Build the dashboard from the frozen aggregates. The browser renders precomputed values; it does not estimate scientific quantities or recompute ranks.
 
 ## Licences
 
-Code is MIT unless a file states otherwise. Data/source rights are source-specific; see [DATA_LICENSE.md](DATA_LICENSE.md). No repository-level open-data licence is asserted for OECD/IEA-derived aggregates.
+Project code is MIT unless a file states otherwise. No repository-level open-data licence is asserted for OECD/IEA source data or derived aggregates. Source-provider terms remain applicable; see [DATA_LICENSE.md](DATA_LICENSE.md).
