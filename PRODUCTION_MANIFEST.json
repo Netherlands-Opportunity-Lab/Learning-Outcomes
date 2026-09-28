@@ -5,8 +5,8 @@
   "files": [
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 299,
-      "sha256": "f98a9e83f242359225815c51e0c8f66c867ea8e5e4c1a6a337a74fbd54974012"
+      "bytes": 443,
+      "sha256": "2feae90b5aa43350e1938f8282fed8054df25bfcf29418a750ebd3d8973c9ec6"
     },
     {
       "path": ".gitignore",
@@ -17,16 +17,6 @@
       "path": "01_data_download_preprocessing/README.md",
       "bytes": 585,
       "sha256": "f86fc54a1db9ee2afaf0fa097bd17560167e60075e636f67d5ef80bc9d28f3a4"
-    },
-    {
-      "path": "01_data_download_preprocessing/archive_or_superseded/PISA_PIRLS_MASTER_PIPELINE_v1_3_5_FAST_SCHEMA_ORDER_FIX.R",
-      "bytes": 302133,
-      "sha256": "de1387a28514c966c16915ea61ad455f6cf381d07ca382143296a6f4156088a3"
-    },
-    {
-      "path": "01_data_download_preprocessing/archive_or_superseded/PISA_PIRLS_MASTER_PIPELINE_v1_3_6_FAST_GEOGRAPHY_FIX.R",
-      "bytes": 303892,
-      "sha256": "a444ecbdb6a0cfca5f0527e570152233e1f638653abcfcc57331129f2b19bb80"
     },
     {
       "path": "01_data_download_preprocessing/current/SOURCE_FUNCTION_MAP.md",
@@ -72,21 +62,6 @@
       "path": "02_analysis/README.md",
       "bytes": 791,
       "sha256": "eab6724ae41b84a7b6fa05f05c6439b59296d07f51d26c2b563e87cd9a207af5"
-    },
-    {
-      "path": "02_analysis/archive_or_superseded/PISA_PIRLS_RC1_MODAL_ISCED_SORTING_V1.R",
-      "bytes": 23346,
-      "sha256": "086a72e79364ddec144c5849f5dbc2159bf2dff35202f3f815cabd629d6e5251"
-    },
-    {
-      "path": "02_analysis/archive_or_superseded/PISA_PIRLS_RC1_NORMALISE_AND_COHORT_V9_CACHE_SAFE_RESUME.R",
-      "bytes": 52021,
-      "sha256": "45314065593ee4b5d50252d08b640de51b70881e3227049c28d814c0abada737"
-    },
-    {
-      "path": "02_analysis/archive_or_superseded/PISA_PIRLS_RC1_RESULTS_FACTORY_V2_STABLE_PARALLEL.R",
-      "bytes": 41122,
-      "sha256": "922c6c74ada52fb36cf99d7c3cae94d5b5756886f73f0ff7d5b80d8e85bfd3db"
     },
     {
       "path": "02_analysis/current/EXECUTED_COMPLETION_SCRIPT_SANITISED.R",
@@ -150,8 +125,8 @@
     },
     {
       "path": "03_dashboard/FINAL_UPDATE_README.md",
-      "bytes": 602,
-      "sha256": "5bddfe4914a389720df780dc22a470efdf52bcd6f51fffbb61382e0d4e9ad4c9"
+      "bytes": 799,
+      "sha256": "7f48e8eadefcb55a9fca886dcb05d4a3d27644404a6dd901abcc394d79c96fc1"
     },
     {
       "path": "03_dashboard/README.md",
@@ -170,13 +145,13 @@
     },
     {
       "path": "03_dashboard/app/downloads.html",
-      "bytes": 6058,
-      "sha256": "67724c002e28f331e2a5a38ed34883778c8793bc2c66dceed828c75728a26acd"
+      "bytes": 6202,
+      "sha256": "e501292ebd2927424edb998167024c3d056349d4894034eced3788e7213434a9"
     },
     {
       "path": "03_dashboard/app/index.html",
-      "bytes": 6634,
-      "sha256": "8d2dc6d0d94c094baac55b2e54ecbf027e9932b7183682714dad7984c2a54d54"
+      "bytes": 6619,
+      "sha256": "492d39606f4816a7ac26f507da28fac7a0e1bd5424e37d276a51793f1d295e1c"
     },
     {
       "path": "03_dashboard/data/FINAL_IMPACT_MATRIX.csv",
@@ -215,8 +190,8 @@
     },
     {
       "path": "03_dashboard/docs/PUBLICATION_STATUS.md",
-      "bytes": 816,
-      "sha256": "44b50194430271d9c8e2abc7c2de9cd0504adf9a5edfeaabfe1867c8155c9145"
+      "bytes": 707,
+      "sha256": "1a8065588721c1b5d9b09a070e8c51f9110e5c2aecbbc4aba5f4baab7c9938de"
     },
     {
       "path": "03_dashboard/docs/SCIENTIFIC_BOUNDARIES.md",
@@ -315,8 +290,8 @@
     },
     {
       "path": "scripts/validate_repository.py",
-      "bytes": 1350,
-      "sha256": "4e970a78777776c1a9b068665762e737b51fcdf47984003aaa86558f80a659b0"
+      "bytes": 3605,
+      "sha256": "117cfed43853e6ba20c608b6eba2060adc6ae7313cc6941be62802686e29ec6b"
     }
   ]
 }
