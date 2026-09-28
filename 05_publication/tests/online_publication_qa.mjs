@@ -191,16 +191,16 @@ add('national SES option present',sesOptions.includes('national'),sesOptions.joi
 add('international ESCS option present',sesOptions.includes('international'),sesOptions.join(','));
 
 let blockedFound=false, blockedExample='';
-outer:
-for(const domain of ['reading','math','science']){
-  for(const age of ['age10','age15']){
-    for(const view of ['group_differences_gender','group_differences_migration_language','school_sorting']){
-      await select(page,'domainSelect',domain); await select(page,'ageSelect',age); await select(page,'questionSelect',view);
-      const txt=await bodyText(page);
-      if(/Geen vrijgegeven uitkomst|No released result|uitsluitend ontbrekende of geblokkeerde records|missing or blocked records/i.test(txt)){
-        blockedFound=true; blockedExample=domain+'/'+age+'/'+view; break outer;
-      }
-    }
+await select(page,'domainSelect','math');
+await select(page,'ageSelect','age15');
+await select(page,'questionSelect','group_differences_gender');
+await select(page,'variantSelect','v6');
+const blockedYears=await page.locator('#yearSelect option').evaluateAll(os=>os.map(o=>o.value));
+if(blockedYears.includes('2003')){
+  await select(page,'yearSelect','2003');
+  const txt=await bodyText(page);
+  if(/uitsluitend ontbrekende of geblokkeerde records|missing or blocked records|geen resultaatfiguur|no result chart/i.test(txt)){
+    blockedFound=true; blockedExample='PISA 2003 mathematics gender, V6 blocked source';
   }
 }
 add('scientifically blocked/empty state is explicit',blockedFound,blockedExample);
@@ -208,6 +208,11 @@ add('scientifically blocked/empty state is explicit',blockedFound,blockedExample
 await select(page,'localeSelect','en'); await select(page,'countrySelect','iso3:AUS'); await select(page,'domainSelect','math'); await select(page,'questionSelect','performance_level');
 const stateUrl=page.url();
 add('state encoded in URL',stateUrl.includes('country=iso3%3AAUS')&&stateUrl.includes('locale=en')&&stateUrl.includes('domain=math'),stateUrl);
+const histLen=await page.evaluate(()=>history.length);
+await select(page,'domainSelect','science');
+const histLen2=await page.evaluate(()=>history.length);
+add('filter changes use replaceState rather than polluting back/forward history',histLen2===histLen,'history length '+histLen+' -> '+histLen2);
+await select(page,'domainSelect','math');
 const p2=await context.newPage(); await p2.goto(stateUrl,{waitUntil:'networkidle'}); await waitReady(p2);
 add('shareable URL restores state',(await p2.locator('#countrySelect').inputValue())==='iso3:AUS'&&(await p2.locator('#localeSelect').inputValue())==='en'&&(await p2.locator('#domainSelect').inputValue())==='math');
 await p2.close();
@@ -241,17 +246,24 @@ add('no body-level horizontal overflow desktop',desktopDims.sw<=desktopDims.iw+1
 add('vertical layout remains scrollable desktop',desktopDims.sh>=desktopDims.ih,JSON.stringify(desktopDims));
 
 const contrastSamples=await page.evaluate(()=>{
+  function effectiveBg(e){
+    let n=e;
+    while(n){
+      const bg=getComputedStyle(n).backgroundColor;
+      if(bg && bg!=='rgba(0, 0, 0, 0)' && bg!=='transparent') return bg;
+      n=n.parentElement;
+    }
+    return 'rgb(244, 240, 231)';
+  }
   const sels=['body','.eyebrow','.method-card a','.notice','.control-group label'];
-  return sels.map(sel=>{const e=document.querySelector(sel);if(!e)return null;const s=getComputedStyle(e);return {sel,color:s.color,bg:s.backgroundColor,parentBg:getComputedStyle(e.parentElement||document.body).backgroundColor,fontSize:parseFloat(s.fontSize),fontWeight:s.fontWeight};}).filter(Boolean);
+  return sels.map(sel=>{const e=document.querySelector(sel);if(!e)return null;const s=getComputedStyle(e);return {sel,color:s.color,bg:effectiveBg(e),fontSize:parseFloat(s.fontSize),fontWeight:s.fontWeight};}).filter(Boolean);
 });
 for(const s of contrastSamples){
-  const fg=parseRgb(s.color);
-  let bg=parseRgb(s.bg);
-  if(!bg || s.bg==='rgba(0, 0, 0, 0)') bg=parseRgb(s.parentBg)||[244,240,231];
+  const fg=parseRgb(s.color), bg=parseRgb(s.bg);
   if(fg&&bg){
     const ratio=contrast(fg,bg);
     const large=s.fontSize>=24 || (s.fontSize>=18.66 && parseInt(s.fontWeight)>=700);
-    add('contrast '+s.sel,ratio>=(large?3:4.5),'ratio '+ratio.toFixed(2));
+    add('contrast '+s.sel,ratio>=(large?3:4.5),'ratio '+ratio.toFixed(2)+' on '+s.bg);
   }
 }
 
@@ -274,6 +286,18 @@ add('no uncaught page errors',pageErrors.length===0,pageErrors.slice(0,10).join(
 add('no failed page network requests',failedRequests.length===0,JSON.stringify(failedRequests.slice(0,10)));
 const unexpectedBad=badResponses.filter(x=>!x.url.endsWith('favicon.ico'));
 add('no 4xx/5xx responses during normal page interaction',unexpectedBad.length===0,JSON.stringify(unexpectedBad.slice(0,10)));
+
+const mimeChecks=[
+ ['product_data/metadata.json','application/json'],
+ ['product_data/ranks.json','application/json']
+];
+for(const pair of mimeChecks){
+  const row=fileAudit.find(x=>x.filename===pair[0]);
+  add('MIME type '+pair[0],Boolean(row)&&row.content_type.includes(pair[1]),row?row.content_type:'missing','http');
+}
+const cacheRows=fileAudit.filter(x=>['product_data/metadata.json','product_data/ranks.json'].includes(x.filename));
+add('cache headers present on key data assets',cacheRows.every(x=>Boolean(x.cache_control)),cacheRows.map(x=>x.filename+':'+x.cache_control).join('; '),'http');
+add('same-origin requests avoid CORS failures',failedRequests.length===0,'normal browser requests completed without CORS/network failure','http');
 
 const idx=await fetchBytes(SITE);
 const idxText=idx.bytes.toString('utf8');
