@@ -6,7 +6,7 @@ The public Pages build expects one controlled binary asset at:
 
 Expected SHA-256:
 
-`1e8dab161a4998aadfabd97a1224cc7a52505a7a2e80fc186e1558f632d0278e`
+`f230fd4090ecfb0574d4c0379231e79e6ec662c504d5c782f109c9488479cdf1`
 
 The ZIP was generated from the final 28 September dashboard distribution by taking every file listed in `03_dashboard/data/PRODUCTION_DATA_MANIFEST.csv` except:
 
@@ -18,3 +18,5 @@ It therefore contains the aggregate JSON required by the interface and the proje
 `build_public_pages.py` verifies the ZIP hash and then verifies each contained file's byte size and SHA-256 against the canonical manifest before anything is published.
 
 This is a transport artefact, not a new scientific release.
+
+Archive size: `14,528,896` bytes. Runtime inventory: `257` files. Every contained file is revalidated against `03_dashboard/data/PRODUCTION_DATA_MANIFEST.csv` during the Pages build.
