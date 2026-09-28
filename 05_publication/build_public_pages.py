@@ -61,6 +61,9 @@ shutil.copytree(APP / "assets", OUT / "assets")
 styles_path = OUT / "assets" / "styles.css"
 styles = styles_path.read_text(encoding="utf-8")
 styles = styles.replace("--muted:#63707a", "--muted:#606c75")
+# Public mobile overflow containment: wide result tables scroll inside their
+# table wrapper rather than forcing the document wider than the viewport.
+styles += "\n/* Public mobile overflow containment */\n.grid,.card,.span12{min-width:0}.table-wrap{max-width:100%;overflow-x:auto}@media(max-width:560px){main,.shell,#content,.grid,.card,.span12{min-width:0;max-width:100%}.card{width:100%}.table-wrap{width:100%;max-width:100%;overflow-x:auto}}\n"
 styles_path.write_text(styles, encoding="utf-8")
 (OUT / "docs").mkdir()
 for name in ["SCIENTIFIC_BOUNDARIES.md", "DATA_CONTRACT.md"]:
