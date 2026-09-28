@@ -36,10 +36,12 @@ It excludes:
 
 The runtime ZIP expected by the build has SHA-256:
 
-`1e8dab161a4998aadfabd97a1224cc7a52505a7a2e80fc186e1558f632d0278e`
+`f230fd4090ecfb0574d4c0379231e79e6ec662c504d5c782f109c9488479cdf1`
 
 The build also validates every file in that ZIP against the canonical production-data manifest.
 
 ## Hosting
 
 The workflow `.github/workflows/pages.yml` builds and validates the public artifact and deploys it to GitHub Pages. GitHub Pages itself performs no scientific analysis.
+
+Controlled runtime transport: 257 files, 14,528,896 bytes. Its archive hash is a transport check; the build additionally validates every internal file against the canonical production manifest.
