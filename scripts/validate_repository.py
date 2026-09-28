@@ -20,15 +20,29 @@ for p in root.rglob("*"):
         try: s=p.read_text(encoding="utf-8",errors="ignore")
         except Exception: continue
         if "C:"+"/Users/" in s or "C:"+"\\Users\\" in s: errors.append(f"absolute user path {rel}")
-# production manifest integrity (current production files only)
+# production manifest integrity.
+# PRODUCTION_MANIFEST.json freezes the scientific/product release at commit
+# 749a0de8e6ab707f4ecd887247ea8fde82f55656.  A small set of root-level
+# documentation files is intentionally allowed to change in later
+# publication-only commits; their scientific source lock remains documented
+# and the publication layer is separately validated under 05_publication/.
+PUBLICATION_OVERLAY_ALLOWLIST={
+    "README.md",
+    "DATA_LICENSE.md",
+    "REPRODUCIBILITY.md",
+    "KNOWN_LIMITATIONS.md",
+}
 try:
     m=json.loads((root/"PRODUCTION_MANIFEST.json").read_text(encoding="utf-8"))
     for row in m.get("files",[]):
-        p=root/row["path"]
-        if not p.exists(): errors.append(f"manifest missing file {row['path']}"); continue
+        rel=row["path"]
+        p=root/rel
+        if not p.exists(): errors.append(f"manifest missing file {rel}"); continue
+        if rel in PUBLICATION_OVERLAY_ALLOWLIST:
+            continue
         b=p.read_bytes()
-        if len(b)!=row["bytes"]: errors.append(f"manifest byte mismatch {row['path']}")
-        if hashlib.sha256(b).hexdigest()!=row["sha256"]: errors.append(f"manifest sha mismatch {row['path']}")
+        if len(b)!=row["bytes"]: errors.append(f"manifest byte mismatch {rel}")
+        if hashlib.sha256(b).hexdigest()!=row["sha256"]: errors.append(f"manifest sha mismatch {rel}")
 except Exception as e: errors.append(f"manifest read failure {e}")
 # local Markdown links in current docs/readmes; external and anchors ignored
 md_files=[p for p in root.rglob("*.md") if "archive_or_superseded" not in p.as_posix()]
