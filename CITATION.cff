@@ -1,11 +1,11 @@
 cff-version: 1.2.0
-message: "If you use this software or its published estimates, cite the relevant release."
-title: "Learning Outcomes"
+title: "Learning Outcomes — PISA/PIRLS/TIMSS reproducible project"
+message: "Please cite this repository and the original OECD/IEA studies used for each result."
 type: software
 authors:
-  - family-names: "Ravesteijn"
-    given-names: "Bastian"
-version: 0.1.0-dev
-date-released: 2026-09-18
+  - family-names: Ravesteijn
+    given-names: Bastian
 repository-code: "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes"
 license: MIT
+version: "2026-09-28"
+date-released: "2026-09-28"

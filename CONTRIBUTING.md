@@ -1,18 +1,8 @@
-# Bijdragen aan Learning Outcomes
+# Contributing
 
-Werk vanuit een issue of een korte, expliciete onderzoeksvraag. Iedere wijziging
-aan een figuur of estimate moet zowel inhoudelijk als technisch traceerbaar zijn.
-
-## Voor een pull request
-
-1. Voer `npm run check`, `npm test` en `npm run build` uit.
-2. Controleer dat geen microdata, toetsitems, leespassages of persoonsgegevens
-   zijn toegevoegd.
-3. Werk `CHANGELOG.md`, `DECISIONS.md` of `CAVEATS.md` bij als de wijziging een
-   definitie, interpretatie of open probleem raakt.
-4. Vermeld datarelease, landenset, steekproef, plausible values, gewichten en
-   onzekerheidsmethode bij gewijzigde estimates.
-5. Controleer Nederlands en Engels samen; beide talen moeten dezelfde feiten
-   en waarden tonen.
-
-Publiceer geen dashboardrelease rechtstreeks vanuit een ontwikkelbranch.
+1. Do not commit pupil microdata, private local inventories, credentials, chat exports or user-specific absolute paths.
+2. Do not change a scientific definition solely to make a product or test pass.
+3. Preserve superseded scientific code under `archive_or_superseded/` when it is useful for provenance.
+4. Update `PRODUCTION_MANIFEST.json`, `CHANGELOG.md`, and the relevant methods/limitations documentation when production files change.
+5. Run repository/privacy checks before opening a PR.
+6. Never fill unavailable estimates with zero or synthetic values.

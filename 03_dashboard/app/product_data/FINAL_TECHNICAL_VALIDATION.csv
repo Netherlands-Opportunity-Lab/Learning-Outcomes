@@ -1,0 +1,9 @@
+check,pass,detail
+unique_estimate_keys,True,283284
+finite_estimates_have_complete_replication,False,
+SE_squared_equals_total_variance,True,
+variance_shares_0_100,True,
+proportions_0_1,True,
+group_level_gap_and_quantile_identities,True,0
+no_unexplained_missing_overall_means,True,0
+baseline_master_byte_unchanged,True,${LOCAL_DOWNLOADS}/PISA_PIRLS_MASTER_PIPELINE/20_rc2_domains/runs/run_20260924_184649/RC2_AGGREGATE_OUTPUT_MASTER.rds

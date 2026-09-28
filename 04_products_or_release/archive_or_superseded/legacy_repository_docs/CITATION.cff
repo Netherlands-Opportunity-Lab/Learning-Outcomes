@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software or its published estimates, cite the relevant release."
+title: "Learning Outcomes"
+type: software
+authors:
+  - family-names: "Ravesteijn"
+    given-names: "Bastian"
+version: 0.1.0-dev
+date-released: 2026-09-18
+repository-code: "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes"
+license: MIT

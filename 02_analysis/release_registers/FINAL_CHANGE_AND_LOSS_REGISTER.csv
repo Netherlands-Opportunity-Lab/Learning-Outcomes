@@ -1,0 +1,6 @@
+component,change,reason,loss_register_note
+deck_text,replaced old general PIRLS blocked wording,PIRLS 2001/2006/2011 core SEs cycle-specific repaired,none; old text retained in prior release
+dashboard,added final product basis and registers,existing working UI preserved,no UI removal
+figures,added final-freeze QA figures FZ01-FZ03,previous figures preserved,no existing figure removed
+notitie,added final update section and change table,previous content preserved plus final addendum,no paragraph deletion
+handoff,aggregate_replicates omitted from upload copy,retained locally and registered,replicate arrays not included in compact handoff

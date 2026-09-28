@@ -1,0 +1,3 @@
+# Country data contract: column-dictionary-v1
+
+Each country JSON object has format, length, columns. Each column stores a values dictionary and an indices array with exactly length entries. Index -1 means the property was absent in that row; null in values remains a missing value, not zero. Other indices select the unchanged original value, preserving numbers, text and sample objects. expandCountry in app-product.js reconstructs records before filtering. All 160 country files have been compared for exact record equality before and after encoding. The complete CSV export keeps its ordinary uncompressed column structure inside the gzip file.

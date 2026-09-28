@@ -1,93 +1,41 @@
-# Leerprestaties in beeld
+# Learning Outcomes — PISA / PIRLS / TIMSS
 
-Reproduceerbare analyses en een Nederlandstalig en Engelstalig dashboard over
-internationale leerprestaties, verschillen naar sociale achtergrond en trends
-op ongeveer 10- en 15-jarige leeftijd.
+This private repository contains the reproducible code and documentation for the Netherlands Opportunity Lab project on international learning outcomes at approximately age 10 and age 15.
 
-De repository is een private ontwikkelomgeving. GitHub Pages staat bewust nog
-niet aan. De huidige webdata zijn synthetische demonstratiegegevens en mogen
-niet als onderzoeksresultaten worden geciteerd.
+## Current scientific basis
 
-## Inhoudelijke uitgangspunten
+The current production basis is the final 28 September 2026 integration derived from the completed PISA/PIRLS/TIMSS completion run. The final product basis contains 283,284 estimate rows. Of 2,570 planned tasks, 2,569 completed pending validation and one local PISA 2003 Korea reading supplement remains non-blocking. The product release therefore uses explicit use-status fields rather than treating every cell as equally strong.
 
-- PISA, PIRLS en TIMSS blijven afzonderlijke meetreeksen.
-- Levels en verschillen worden samen getoond.
-- Trends en rangposities gebruiken een vaste, vergelijkbare landenpopulatie.
-- Schattingen gebruiken alle plausible values en de voorgeschreven
-  replicate-weightmethode.
-- Onzekerheid, linking en relevante designbreuken blijven zichtbaar.
-- De taal blijft beschrijvend waar geen causaal effect is geïdentificeerd.
-- Land en interfacetaal zijn onafhankelijke dimensies.
+Surveys remain separate measurement systems: PIRLS (reading, ≈10), TIMSS (mathematics/science, ≈10), and PISA (reading/mathematics/science, age 15). Raw score points are never subtracted across surveys.
 
-## Repositorystructuur
+## Repository structure
 
-| Pad | Functie |
-| --- | --- |
-| `R/` en `_targets.R` | Reproduceerbare analyse- en publicatiepijplijn |
-| `data-raw/` | Alleen lokale bronbestanden; nooit in Git |
-| `data-derived/` | Lokale tussenbestanden; nooit in Git |
-| `data-public/` | Alleen gecontroleerde land-jaaraggregaten |
-| `src/` | Astro-dashboard, teksten, componenten en voorbeelddata |
-| `docs/methods/` | Definities, vergelijkbaarheid en kwaliteitsregister |
-| `docs/style/` | Visuele tokens uit de projectstijlgids |
-| `tests/` | Tests voor teksten en logica |
-| `.github/workflows/` | Controle en build, zonder publicatiestap |
+| Directory | Purpose |
+|---|---|
+| [`01_data_download_preprocessing/`](01_data_download_preprocessing/README.md) | Source acquisition, provenance, dictionaries, harmonisation history and source-side preprocessing |
+| [`02_analysis/`](02_analysis/README.md) | Canonical production analysis and archived/superseded analysis scripts |
+| [`03_dashboard/`](03_dashboard/README.md) | Final tested dashboard source, data contract and production-data manifest |
+| [`04_products_or_release/`](04_products_or_release/README.md) | Release manifests, product matrix, impact matrix, validation and change/loss records |
 
-## Dashboard lokaal starten
+Start with [REPRODUCIBILITY.md](REPRODUCIBILITY.md), [DATA_SOURCES.md](DATA_SOURCES.md), [METHODS.md](METHODS.md), and [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md).
 
-Vereisten: Node.js 24 of nieuwer en npm.
+## From official source to dashboard
 
-```bash
-npm ci
-npm run dev
-```
+1. Obtain official OECD/IEA source files under their original access and redistribution terms.
+2. Keep pupil-level files outside Git. See `01_data_download_preprocessing/` and [DATA_SOURCES.md](DATA_SOURCES.md).
+3. Run the canonical completion script in `02_analysis/current/` against the documented local source layout.
+4. Validate the generated aggregates against `02_analysis/release_registers/` and the documented external anchors.
+5. Build the dashboard distribution from the frozen aggregate release. The browser never recomputes scientific estimates or ranks.
+6. Use the final use-status and caveat registers in every downstream product.
 
-De productiecontrole bestaat uit:
+## What is not committed
 
-```bash
-npm run check
-npm test
-npm run build
-```
+Student microdata, local caches, private file inventories, credentials, chat transcripts, user-specific absolute paths, and source bytes without clear redistribution permission are excluded. Large final dashboard result bundles are represented by exact SHA-256 manifests and are regenerated from the analysis pipeline or supplied as controlled release assets when rights permit.
 
-De hoofdpagina verwijst naar `/nl/`; de Engelse versie staat onder `/en/`.
-Landpagina's gebruiken stabiele ISO3-codes, bijvoorbeeld
-`/nl/country/NLD/` en `/en/country/NLD/`.
+## Current release status
 
-## Analysepijplijn
+The final product integration is `FINAL_PRODUCT_INTEGRATION_WITH_LOCAL_CAVEATS`. See [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md) and `02_analysis/release_registers/FINAL_OPEN_POINTS_STATUS.csv`.
 
-De R-structuur is voorbereid, maar bevat nog geen publieke microdata of
-definitieve estimates. Zodra de gevalideerde productiescripts worden
-ingebracht:
+## Licences
 
-1. registreer bronbestanden en checksums in `sources.yml`;
-2. bewaar bronbestanden uitsluitend lokaal in `data-raw/`;
-3. laat `_targets.R` alle schattingen en kwaliteitscontroles uitvoeren;
-4. publiceer alleen bestanden die aan `data-public/schema.json` voldoen;
-5. maak pas daarna een vaste analyserelease.
-
-Een `renv.lock` wordt gemaakt bij de eerste uitvoerbare R-release. Een
-schijn-lockfile zonder lokaal geteste pakketversies wordt bewust niet
-opgenomen.
-
-## Publicatieblokkades
-
-Publiceer de website en afgeleide datasets pas nadat:
-
-- de definities van SES-groepen en PIRLS-tiehandling zijn vergrendeld;
-- de PISA-reeks volledig is gevalideerd;
-- schriftelijk is bevestigd welke PIRLS- en TIMSS-aggregaten openbaar mogen
-  worden verspreid;
-- alle synthetische voorbeelddata zijn vervangen;
-- de rechten- en toegankelijkheidscontrole is voltooid.
-
-Zie [DATA_LICENSE.md](DATA_LICENSE.md), [NOTICE.md](NOTICE.md),
-[DECISIONS.md](DECISIONS.md) en [CAVEATS.md](CAVEATS.md).
-
-## Licenties
-
-- Code: MIT, zie [LICENSE](LICENSE).
-- Eigen teksten en vormgeving: beoogd CC BY 4.0, met de uitzonderingen in
-  [DATA_LICENSE.md](DATA_LICENSE.md).
-- Data en afgeleide data: bronafhankelijk; er geldt geen overkoepelende open
-  datalicentie.
+Code is MIT unless a file states otherwise. Data/source rights are source-specific; see [DATA_LICENSE.md](DATA_LICENSE.md). No repository-level open-data licence is asserted for OECD/IEA-derived aggregates.
