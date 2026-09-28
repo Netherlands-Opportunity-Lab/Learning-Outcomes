@@ -16,8 +16,8 @@ Public-release controls:
 
 The small final status/validation tables committed under `data/` are project-authored control metadata. `data/PRODUCTION_DATA_MANIFEST.csv` remains the complete authoritative inventory of the tested final dashboard package.
 
-The public runtime is intentionally narrower: it includes only the frozen aggregate country/system profiles, precomputed rank/panel/quality metadata and project-authored figure files required by the interactive site. It excludes `FINAL_PRODUCT_BASIS.csv.gz` and `RESULTATEN_MASTER.csv.gz`, source microdata, official restricted source bytes, caches and private inventories.
+The public runtime is intentionally narrower: it includes only the frozen aggregate country/system profiles, precomputed rank/panel/quality/institution metadata and project-authored figure files required by the interactive site. Four small project control tables that are not fetched or linked by the frontend are not shipped in the public runtime. It excludes `FINAL_PRODUCT_BASIS.csv.gz` and `RESULTATEN_MASTER.csv.gz`, source microdata, official restricted source bytes, caches and private inventories.
 
 To reproduce the full analysis, obtain the official OECD/IEA source files under their current terms and run the canonical analysis under `02_analysis/current/`. To reproduce the public product boundary, use the scripts and registers under `05_publication/`.
 
-The final integration comparison checked 278,431 published country/system result rows field-by-field against the frozen result master, 12,619 precomputed rank rows, 172 panel definitions and all 257 public runtime files. No content difference was found; no new scientific calculation was introduced.
+The final integration comparison checked 278,431 published country/system result rows field-by-field against the frozen result master, 12,619 precomputed rank rows, 172 panel definitions and all 253 final public runtime files. No content difference was found; no new scientific calculation was introduced.
