@@ -1,6 +1,10 @@
 name: publish-dashboard-pages
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/pages.yml"
   workflow_dispatch:
     inputs:
       confirm_public_deploy:
@@ -19,7 +23,7 @@ concurrency:
 
 jobs:
   detect-runtime:
-    if: github.ref == 'refs/heads/main' && inputs.confirm_public_deploy == true
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || inputs.confirm_public_deploy == true)
     runs-on: ubuntu-latest
     outputs:
       present: ${{ steps.runtime.outputs.present }}
@@ -66,7 +70,50 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  online-qa:
+    needs: deploy
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: ${{ needs.deploy.outputs.page_url }}
+      ONLINE_QA_DIR: online_qa
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install browser automation library
+        run: npm install --no-save playwright-core@1.55.0
+      - name: Real-browser and online-fidelity QA
+        id: online
+        continue-on-error: true
+        run: node 05_publication/tests/online_publication_qa.mjs
+      - name: Generate final release reports
+        id: reports
+        run: |
+          python 05_publication/tests/finalize_online_reports.py \
+            --site-url "$SITE_URL" \
+            --git-sha "$GITHUB_SHA" \
+            --workflow-run-id "$GITHUB_RUN_ID" \
+            --qa-json online_qa/online_qa.json \
+            --files-json online_qa/online_files.json \
+            --output-dir online_qa
+      - name: Upload final release reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-public-dashboard-release
+          path: online_qa/
+          if-no-files-found: warn
+      - name: Enforce browser QA result
+        if: steps.online.outcome != 'success'
+        run: exit 1
