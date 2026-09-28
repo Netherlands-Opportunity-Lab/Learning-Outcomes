@@ -36,4 +36,10 @@ The public dashboard necessarily serves aggregate JSON/CSV/SVG files required to
 
 The complete bulk tables `FINAL_PRODUCT_BASIS.csv.gz` and `RESULTATEN_MASTER.csv.gz` remain outside the public site while the IEA redistribution question is unresolved.
 
+## Machine-readable publication gate
+
+The final public release is governed by `05_publication/PUBLIC_DATA_GATE.csv` and `05_publication/PUBLIC_DASHBOARD_MANIFEST.json`. Every runtime file is classified as `PUBLIC_OK`; the two complete derived masters are `PUBLIC_SUMMARY_ONLY`; controlled reproducibility caches/inventories are `PRIVATE_REPRODUCIBILITY_ONLY`; source microdata, restricted source bytes, credentials, personal/chat material, assessment content and local absolute paths are `DO_NOT_PUBLISH`.
+
+A `PUBLIC_SUMMARY_ONLY` file may be documented by filename, byte size, SHA-256 and provenance, but its bytes are not included in the public runtime and no direct, hidden or indirect download route is provided. This classification affects distribution only and does not alter the scientific freeze.
+
 This document records the project's operational interpretation of the source terms; it is not legal advice.

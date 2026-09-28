@@ -32,6 +32,8 @@ PUBLICATION_OVERLAY_ALLOWLIST={
     "REPRODUCIBILITY.md",
     "KNOWN_LIMITATIONS.md",
     "scripts/validate_repository.py",
+    "CHANGELOG.md",
+    "03_dashboard/README.md",
 }
 try:
     m=json.loads((root/"PRODUCTION_MANIFEST.json").read_text(encoding="utf-8"))

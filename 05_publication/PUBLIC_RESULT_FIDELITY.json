@@ -1,0 +1,68 @@
+{
+  "release": "PUBLIC_DASHBOARD_20260928_FINAL",
+  "analysis_release": "FINAL_ANALYSIS_FREEZE_20260928",
+  "git_base_sha": "db8b7d7ddc22c6d96191148ffac9c2953dc00900",
+  "comparison_scope": {
+    "country_profile_files": 160,
+    "country_profile_rows": 278431,
+    "fields": [
+      "id",
+      "country",
+      "survey",
+      "domain",
+      "year",
+      "stat",
+      "group",
+      "definition",
+      "unit",
+      "estimate",
+      "se",
+      "ci_low",
+      "ci_high",
+      "edition",
+      "variant",
+      "family",
+      "source",
+      "table",
+      "cell",
+      "se_cell",
+      "start_year",
+      "status",
+      "note",
+      "method",
+      "population",
+      "original_estimate",
+      "original_se",
+      "sample",
+      "series_key"
+    ],
+    "ranks_rows": 12619,
+    "panels": 172,
+    "quality_rows": 812,
+    "public_runtime_files": 253
+  },
+  "publication_only_runtime_minimisation": {
+    "removed_not_required_by_frontend": [
+      "product_data/FINAL_IMPACT_MATRIX.csv",
+      "product_data/FINAL_OPEN_POINTS_STATUS.csv",
+      "product_data/FINAL_TECHNICAL_VALIDATION.csv",
+      "product_data/FINAL_USE_STATUS_REGISTER.csv"
+    ],
+    "reason": "These four project-authored control tables are not fetched or linked by the public frontend. They remain in the repository where applicable but are omitted from the public site runtime. This also removes a legacy local-path detail present in the pre-integration transport copy; no scientific result row is altered."
+  },
+  "results": {
+    "missing_result_ids": 0,
+    "country_profile_field_mismatches": 0,
+    "rank_fingerprint_public": "325c8b6a7f2710887c381a5b274b1419f9d1099331fbbbc2ae5eac12a6debc70",
+    "rank_fingerprint_freeze": "325c8b6a7f2710887c381a5b274b1419f9d1099331fbbbc2ae5eac12a6debc70",
+    "panel_fingerprint_public": "2e369e690619dfb6528f249acd47639b34146e12fc567f6a1e738aa88be95f50",
+    "panel_fingerprint_freeze": "2e369e690619dfb6528f249acd47639b34146e12fc567f6a1e738aa88be95f50",
+    "ranks_match": true,
+    "panels_match": true,
+    "quality_match": true,
+    "curated_mapping_match": true,
+    "all_253_public_runtime_files_match_definitive_dashboard_source_files": true,
+    "runtime_file_byte_mismatches": 0
+  },
+  "pass": true
+}
