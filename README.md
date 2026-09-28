@@ -51,7 +51,7 @@ Release anchors:
 - file-by-file publication gate: [`05_publication/PUBLIC_DATA_GATE.csv`](05_publication/PUBLIC_DATA_GATE.csv);
 - public-to-freeze fidelity evidence: [`05_publication/PUBLIC_RESULT_FIDELITY.json`](05_publication/PUBLIC_RESULT_FIDELITY.json).
 
-The public runtime contains 257 frozen aggregate/control/figure files. The two complete derived masters remain documented by size and SHA-256 but are not served or linked as public downloads. Merge and deployment are deliberately separated: the GitHub Pages deployment workflow is manual-only, so merging a scientific/publication PR does not itself publish a new site build.
+The minimal public runtime contains 253 frozen aggregate/figure files actually required by the site. Four safe project control tables remain in the repository but are not shipped in the site runtime. The two complete derived masters remain documented by size and SHA-256 but are not served or linked as public downloads. Merge and deployment are deliberately separated: the GitHub Pages deployment workflow is manual-only, so merging a scientific/publication PR does not itself publish a new site build.
 
 ## Reproduce the results
 
