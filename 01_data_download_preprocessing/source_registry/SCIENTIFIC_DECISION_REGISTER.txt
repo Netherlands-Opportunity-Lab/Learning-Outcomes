@@ -1,0 +1,5 @@
+SORTING_MAIN_DECISION_UNRESOLVED_APPROVAL_TRACE
+Canonical lock v1.2 E0: modal-ISCED main. Later RC1-SORT-001 change register: all-target main.
+No explicit user approval of this specific lock change located. Compute and preserve both.
+No PIRLS year pairs substituted for TIMSS; candidate plan requires empirical timing review.
+RC1 milestone immutable; PIRLS 2001/2006/2011 core is separately re-estimated with cycle-aware JRR; new supplements for all waves.

@@ -1,12 +1,11 @@
-# Wijzigingslog
+# Changelog
 
-## 0.1.0-dev — 2026-09-18
+## 2026-09-28 — final reproducible repository integration
 
-- Private repositorystructuur opgezet.
-- Nederlands en Engels dashboardskelet toegevoegd.
-- Taal en land technisch van elkaar gescheiden.
-- Gecontroleerde narratieve sjablonen en synthetische prototypegegevens
-  toegevoegd.
-- Rechten-, methoden-, kwaliteits- en beslisregisters gestart.
-- CI voert typecontrole, tests en statische build uit; publicatie is niet
-  geactiveerd.
+- Reorganised the private repository into source/preprocessing, analysis, dashboard and release layers.
+- Added the final completion analysis script and final release/status registers.
+- Replaced the synthetic-dashboard framing with the final tested dashboard source contract.
+- Archived earlier RC1/pipeline scripts as superseded provenance rather than deleting them.
+- Added reproducibility, data-source, methods, limitations, licensing and privacy documentation.
+- Added production manifests and explicit handling of restricted/uncommitted large aggregate data.
+- Supersedes the 24 September dashboard review snapshot; PR #2 remains historical context only.

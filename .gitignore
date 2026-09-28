@@ -1,31 +1,50 @@
-# Raw and intermediate research data
-data-raw/*
-!data-raw/README.md
-data-derived/*
-!data-derived/.gitkeep
-
-# R
-.Rhistory
-.RData
-.Ruserdata
-.Rproj.user/
-renv/library/
-renv/staging/
-_targets/
-
-# Node and Astro
-node_modules/
-dist/
-.astro/
-
-# Test and editor output
-coverage/
-.DS_Store
-Thumbs.db
-.idea/
-.vscode/
-
-# Local secrets and overrides
+# Credentials / environment
 .env
 .env.*
 !.env.example
+*.pem
+*.key
+*secret*
+*token*
+
+# Pupil microdata and restricted source bytes
+*.sav
+*.zsav
+*.sas7bdat
+*.dta
+*.por
+*.xpt
+*.dat
+*.sps
+*.sas
+*.sd2
+*.rdata
+*.RData
+
+# Local raw/extract/cache directories
+**/data-raw/**
+**/data-derived/**
+**/cache/**
+**/extracts/**
+**/microdata/**
+**/private/**
+**/aggregate_replicates/**
+LOCAL_SOURCE_INVENTORY.csv
+
+# Large controlled production data bundles (generated locally / release asset)
+03_dashboard/data/private_bundle/**
+03_dashboard/data/FINAL_PRODUCT_BASIS.csv.gz
+03_dashboard/data/RESULTATEN_MASTER.csv.gz
+03_dashboard/data/countries/**
+03_dashboard/data/curated.json
+03_dashboard/data/ranks.json
+03_dashboard/data/quality.json
+03_dashboard/data/metadata.json
+
+# Local/system
+.DS_Store
+Thumbs.db
+.Rhistory
+.Rproj.user/
+node_modules/
+dist/
