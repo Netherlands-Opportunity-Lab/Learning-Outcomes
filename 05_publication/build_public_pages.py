@@ -54,6 +54,14 @@ OUT.mkdir()
 
 shutil.copy2(APP / "index.html", OUT / "index.html")
 shutil.copytree(APP / "assets", OUT / "assets")
+
+# Public-only accessibility color correction: the original muted token was
+# marginally below WCAG AA for normal text on the page background. This does
+# not affect scientific content or data.
+styles_path = OUT / "assets" / "styles.css"
+styles = styles_path.read_text(encoding="utf-8")
+styles = styles.replace("--muted:#63707a", "--muted:#606c75")
+styles_path.write_text(styles, encoding="utf-8")
 (OUT / "docs").mkdir()
 for name in ["SCIENTIFIC_BOUNDARIES.md", "DATA_CONTRACT.md"]:
     shutil.copy2(DOCS / name, OUT / "docs" / name)
@@ -121,5 +129,6 @@ downloads = f"""<!doctype html>
 </main></body></html>"""
 (OUT / "downloads.html").write_text(downloads, encoding="utf-8")
 (OUT / ".nojekyll").write_text("", encoding="utf-8")
+(OUT / "robots.txt").write_text("User-agent: *\nAllow: /\n", encoding="utf-8")
 
 print(f"Public Pages build complete: {len(expected)} minimal frozen runtime files.")
