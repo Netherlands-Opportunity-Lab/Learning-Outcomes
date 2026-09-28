@@ -96,12 +96,15 @@ PIRLS:
 - 2021: https://doi.org/10.58150/PIRLS_2021_edition_2_including_Log-file_data
 
 TIMSS Grade 4:
+- 1995: https://doi.org/10.58150/IEA_TIMSS_1995_G4
+- 2003: https://doi.org/10.58150/IEA_TIMSS_2003_G4
+- 2007: https://doi.org/10.58150/IEA_TIMSS_2007_G4
 - 2011: https://doi.org/10.58150/IEA_TIMSS_2011_G4
 - 2015: https://doi.org/10.58150/IEA_TIMSS_2015_G4
 - 2019: https://doi.org/10.58150/IEA_TIMSS_2019_G4
 - 2023: https://doi.org/10.58150/IEA_TIMSS_2023_G4_data_edition_1
 
-For earlier TIMSS cycles and all PISA cycles, use the exact official source entries/provenance recorded by the project and the provider's current database pages/terms.
+For PISA cycles, use the exact official OECD source entries/provenance recorded by the project and the provider's current database pages/terms.
 
 ## 6. Change rule
 
