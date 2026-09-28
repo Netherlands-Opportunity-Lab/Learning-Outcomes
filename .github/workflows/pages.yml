@@ -1,15 +1,12 @@
 name: publish-dashboard-pages
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "03_dashboard/app/**"
-      - "03_dashboard/docs/**"
-      - "03_dashboard/data/PRODUCTION_DATA_MANIFEST.csv"
-      - "05_publication/**"
-      - ".github/workflows/pages.yml"
   workflow_dispatch:
+    inputs:
+      confirm_public_deploy:
+        description: "Deploy the validated public dashboard from main"
+        required: true
+        type: boolean
 
 permissions:
   contents: read
@@ -22,6 +19,7 @@ concurrency:
 
 jobs:
   detect-runtime:
+    if: github.ref == 'refs/heads/main' && inputs.confirm_public_deploy == true
     runs-on: ubuntu-latest
     outputs:
       present: ${{ steps.runtime.outputs.present }}
@@ -34,7 +32,7 @@ jobs:
             echo "present=true" >> "$GITHUB_OUTPUT"
           else
             echo "present=false" >> "$GITHUB_OUTPUT"
-            echo "Controlled public runtime ZIP is not committed yet; publication job will remain skipped."
+            echo "Controlled public runtime ZIP is missing."
           fi
 
   build:
@@ -46,10 +44,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: JavaScript syntax
+        run: node --check 03_dashboard/app/assets/app-product.js
       - name: Build public-safe static site
         run: python 05_publication/build_public_pages.py
-      - name: Validate rights boundary and frozen data fidelity
+      - name: Validate public site
         run: python 05_publication/validate_public_site.py
+      - name: Validate final public integration
+        run: python 05_publication/tests/validate_public_integration.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
