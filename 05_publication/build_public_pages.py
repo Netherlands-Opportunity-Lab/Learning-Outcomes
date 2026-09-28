@@ -13,7 +13,7 @@ MANIFEST = ROOT / "03_dashboard" / "data" / "PRODUCTION_DATA_MANIFEST.csv"
 BUNDLE = PUB / "public_dashboard_runtime_20260928.zip"
 OUT = ROOT / "public_site_dist"
 
-EXPECTED_BUNDLE_SHA256 = "1e8dab161a4998aadfabd97a1224cc7a52505a7a2e80fc186e1558f632d0278e"
+EXPECTED_BUNDLE_SHA256 = "f230fd4090ecfb0574d4c0379231e79e6ec662c504d5c782f109c9488479cdf1"
 BLOCKED = {
     "product_data/FINAL_PRODUCT_BASIS.csv.gz",
     "product_data/RESULTATEN_MASTER.csv.gz",
