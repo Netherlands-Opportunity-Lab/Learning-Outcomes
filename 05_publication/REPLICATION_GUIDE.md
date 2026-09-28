@@ -43,13 +43,16 @@ Obtain public-use PIRLS files from the IEA Data Repository. Relevant dataset ide
 
 ### IEA TIMSS Grade 4
 
-Obtain public-use TIMSS files from the IEA Data Repository. Relevant recent dataset identifiers include:
+Obtain public-use TIMSS files from the IEA Data Repository. Dataset identifiers for the Grade 4 cycles used by the project include:
+- TIMSS 1995 G4: https://doi.org/10.58150/IEA_TIMSS_1995_G4
+- TIMSS 2003 G4: https://doi.org/10.58150/IEA_TIMSS_2003_G4
+- TIMSS 2007 G4: https://doi.org/10.58150/IEA_TIMSS_2007_G4
 - TIMSS 2011 G4: https://doi.org/10.58150/IEA_TIMSS_2011_G4
 - TIMSS 2015 G4: https://doi.org/10.58150/IEA_TIMSS_2015_G4
 - TIMSS 2019 G4: https://doi.org/10.58150/IEA_TIMSS_2019_G4
 - TIMSS 2023 G4: https://doi.org/10.58150/IEA_TIMSS_2023_G4_data_edition_1
 
-Earlier-cycle provenance is recorded in the source registry and production code.
+Use the source registry and production code to determine the exact files/populations used within each cycle; do not substitute a different grade or companion sample because its filename looks similar.
 
 IEA terms:
 https://www.iea.nl/sites/default/files/data-repository/Disclaimer_and_License_Agreement.pdf
