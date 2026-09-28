@@ -1,0 +1,20 @@
+component,public_status,rationale
+project_analysis_code,PUBLIC,Project-authored code; MIT unless stated otherwise
+dashboard_source_code,PUBLIC,Project-authored renderer; no scientific estimation in browser
+publication_build_code,PUBLIC,Project-authored hosting and QA code
+project_methods_and_documentation,PUBLIC,Project-authored documentation with source attribution
+project_authored_figures,PUBLIC,Own visualisations of aggregate results; source attribution retained
+figure_level_csv,PUBLIC,Small aggregate data directly supporting own figures
+interactive_runtime_aggregate_json,PUBLIC,Aggregate values required to render public research dashboard
+filtered_view_csv_export,PUBLIC,User-triggered export of currently displayed aggregate records
+FINAL_PRODUCT_BASIS.csv.gz,HOLD,Complete bulk derived master withheld pending explicit IEA redistribution clarification
+RESULTATEN_MASTER.csv.gz,HOLD,Complete bulk derived result master withheld pending explicit IEA redistribution clarification
+OECD_PISA_PUF,HOLD,OECD terms prohibit redistribution of PISA Dataset/PUF
+IEA_PIRLS_TIMSS_source_files,HOLD,Do not mirror source files; provider terms remain applicable
+restricted_use_items,HOLD,Written permission/access conditions apply
+assessment_questions_and_items,HOLD,Assessment content is not needed for dashboard and may be copyrighted/restricted
+reading_passages,HOLD,Third-party copyrighted assessment material not redistributed
+questionnaire_reproductions,HOLD,Not needed for public research reporting; source documentation linked instead
+IEA_publication_figures,HOLD,Use project-authored figures instead of reproducing IEA graphics
+pupil_or_school_microdata,HOLD,Never published
+local_paths_credentials_private_inventories,HOLD,Privacy/security boundary

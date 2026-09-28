@@ -1,0 +1,67 @@
+name: publish-dashboard-pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "03_dashboard/app/**"
+      - "03_dashboard/docs/**"
+      - "03_dashboard/data/PRODUCTION_DATA_MANIFEST.csv"
+      - "05_publication/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  detect-runtime:
+    runs-on: ubuntu-latest
+    outputs:
+      present: ${{ steps.runtime.outputs.present }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: runtime
+        shell: bash
+        run: |
+          if [ -f 05_publication/public_dashboard_runtime_20260928.zip ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "Controlled public runtime ZIP is not committed yet; publication job will remain skipped."
+          fi
+
+  build:
+    needs: detect-runtime
+    if: needs.detect-runtime.outputs.present == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build public-safe static site
+        run: python 05_publication/build_public_pages.py
+      - name: Validate rights boundary and frozen data fidelity
+        run: python 05_publication/validate_public_site.py
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public_site_dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
