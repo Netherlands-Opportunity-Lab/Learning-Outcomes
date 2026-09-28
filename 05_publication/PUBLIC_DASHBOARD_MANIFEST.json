@@ -6,53 +6,11 @@
   "canonical_dashboard_source": "03_dashboard/app/",
   "public_layer": "05_publication/",
   "runtime_transport": "05_publication/public_dashboard_runtime_20260928.zip",
-  "runtime_transport_bytes": 14528896,
-  "runtime_transport_sha256": "f230fd4090ecfb0574d4c0379231e79e6ec662c504d5c782f109c9488479cdf1",
-  "public_runtime_file_count": 257,
-  "publication_rule": "Publish only frozen aggregate/runtime data actually required by the interactive research dashboard and project-authored figures. Do not publish source microdata, restricted source bytes, caches or the two complete derived bulk masters.",
+  "runtime_transport_bytes": 14525361,
+  "runtime_transport_sha256": "ae6404aeedecdf3f42e22ef1612e27d3f0e61bc663a0fc99f89aad4c8c15a706",
+  "public_runtime_file_count": 253,
+  "publication_rule": "Only frozen aggregate data and project-authored figure assets actually required by the public site are included in the runtime. Complete bulk masters, private/source data, caches and non-runtime control tables are excluded.",
   "files": [
-    {
-      "filename": "product_data/FINAL_IMPACT_MATRIX.csv",
-      "bytes": 1847,
-      "sha256": "f8f10d95c3f8cd4b0b36e71f7c92f4fee8aea28eb13af84061720b83fefd7c84",
-      "publication_status": "PUBLIC_OK",
-      "source_provenance_id": "FINAL_ANALYSIS_FREEZE_20260928:release registers"
-    },
-    {
-      "filename": "product_data/FINAL_OPEN_POINTS_STATUS.csv",
-      "bytes": 3022,
-      "sha256": "c13080fe8fec2f2f3794870c18089fb7743b9b4d02a02221f8bb1f20a9872d52",
-      "publication_status": "PUBLIC_OK",
-      "source_provenance_id": "FINAL_ANALYSIS_FREEZE_20260928:release registers"
-    },
-    {
-      "filename": "product_data/FINAL_PRODUCT_BASIS.csv.gz",
-      "bytes": 14637983,
-      "sha256": "a65ce3fe274835535cfbf25e4598d647644eb00f9f1d6c7aac621aee71b83bb0",
-      "publication_status": "PUBLIC_SUMMARY_ONLY",
-      "source_provenance_id": "FINAL_ANALYSIS_FREEZE_20260928"
-    },
-    {
-      "filename": "product_data/FINAL_TECHNICAL_VALIDATION.csv",
-      "bytes": 441,
-      "sha256": "ca30ea2dc12b69eb619961b57c5e520722035f7ae24a84224870bc1139e7305b",
-      "publication_status": "PUBLIC_OK",
-      "source_provenance_id": "FINAL_ANALYSIS_FREEZE_20260928:release registers"
-    },
-    {
-      "filename": "product_data/FINAL_USE_STATUS_REGISTER.csv",
-      "bytes": 615,
-      "sha256": "b6a6bd648dabb961785cb4e1ecaec2103f7fe68ead5870ea33d7d638c8a922c3",
-      "publication_status": "PUBLIC_OK",
-      "source_provenance_id": "FINAL_ANALYSIS_FREEZE_20260928:release registers"
-    },
-    {
-      "filename": "product_data/RESULTATEN_MASTER.csv.gz",
-      "bytes": 15157933,
-      "sha256": "701945943605f794cd97c36e2e834e9b2ac415ac54204b66a8c7110ed73c8182",
-      "publication_status": "PUBLIC_SUMMARY_ONLY",
-      "source_provenance_id": "FINAL_ANALYSIS_FREEZE_20260928"
-    },
     {
       "filename": "product_data/countries/iso3_ALB.json",
       "bytes": 612739,
@@ -1185,7 +1143,7 @@
       "bytes": 20807,
       "sha256": "ac9e1f4e14ef84602d7eabf36afccefcba6705e59cdf46f4e209ed96fe2ac744",
       "publication_status": "PUBLIC_OK",
-      "source_provenance_id": "FINAL_DASHBOARD_RELEASE_20260928"
+      "source_provenance_id": "FINAL_PROJECT_PRODUCTS_HANDOFF:institutional context register"
     },
     {
       "filename": "product_data/metadata.json",
@@ -1823,6 +1781,20 @@
       "sha256": "328e3cc4c691a3e7e9ebbdefc9433f5a4b684684e3ba62c8d8edf7f00f10156c",
       "publication_status": "PUBLIC_OK",
       "source_provenance_id": "FINAL_PROJECT_PRODUCTS_HANDOFF:figure data map"
+    },
+    {
+      "filename": "product_data/FINAL_PRODUCT_BASIS.csv.gz",
+      "bytes": 14637983,
+      "sha256": "a65ce3fe274835535cfbf25e4598d647644eb00f9f1d6c7aac621aee71b83bb0",
+      "publication_status": "PUBLIC_SUMMARY_ONLY",
+      "source_provenance_id": "FINAL_ANALYSIS_FREEZE_20260928"
+    },
+    {
+      "filename": "product_data/RESULTATEN_MASTER.csv.gz",
+      "bytes": 15157933,
+      "sha256": "701945943605f794cd97c36e2e834e9b2ac415ac54204b66a8c7110ed73c8182",
+      "publication_status": "PUBLIC_SUMMARY_ONLY",
+      "source_provenance_id": "FINAL_ANALYSIS_FREEZE_20260928"
     }
   ]
 }
