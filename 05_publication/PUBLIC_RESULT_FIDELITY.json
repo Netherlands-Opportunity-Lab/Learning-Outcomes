@@ -2,8 +2,6 @@
   "release": "PUBLIC_DASHBOARD_20260928_FINAL",
   "analysis_release": "FINAL_ANALYSIS_FREEZE_20260928",
   "git_base_sha": "db8b7d7ddc22c6d96191148ffac9c2953dc00900",
-  "final_dashboard_source": "PISA_PIRLS_TIMSS_FINAL_DASHBOARD_20260928.zip",
-  "comparison_executed_at_release": "2026-09-28",
   "comparison_scope": {
     "country_profile_files": 160,
     "country_profile_rows": 278431,
@@ -39,35 +37,18 @@
       "series_key"
     ],
     "ranks_rows": 12619,
-    "rank_fields": [
-      "panel_id",
-      "wave",
-      "country_id",
-      "n",
-      "estimate",
-      "se",
-      "point_rank",
-      "rank_best",
-      "rank_worst",
-      "familywise_alpha",
-      "method"
-    ],
     "panels": 172,
-    "panel_fields": [
-      "panel_id",
-      "type",
-      "metric",
-      "n",
-      "waves",
-      "admission_rule",
-      "quality_rule",
-      "scientific_status",
-      "_source",
-      "_id",
-      "members"
-    ],
     "quality_rows": 812,
-    "runtime_files": 257
+    "public_runtime_files": 253
+  },
+  "publication_only_runtime_minimisation": {
+    "removed_not_required_by_frontend": [
+      "product_data/FINAL_IMPACT_MATRIX.csv",
+      "product_data/FINAL_OPEN_POINTS_STATUS.csv",
+      "product_data/FINAL_TECHNICAL_VALIDATION.csv",
+      "product_data/FINAL_USE_STATUS_REGISTER.csv"
+    ],
+    "reason": "These four project-authored control tables are not fetched or linked by the public frontend. They remain in the repository where applicable but are omitted from the public site runtime. This also removes a legacy local-path detail present in the pre-integration transport copy; no scientific result row is altered."
   },
   "results": {
     "missing_result_ids": 0,
@@ -80,9 +61,8 @@
     "panels_match": true,
     "quality_match": true,
     "curated_mapping_match": true,
-    "all_public_runtime_files_byte_equal_to_final_dashboard": true,
+    "all_253_public_runtime_files_match_definitive_dashboard_source_files": true,
     "runtime_file_byte_mismatches": 0
   },
-  "interpretation": "All actually published country/system result rows were compared field-by-field with the frozen RESULTATEN_MASTER. Panel/N metadata and precomputed ranks were checked separately against the frozen final dashboard release. Publication performs no scientific recalculation.",
   "pass": true
 }
