@@ -1,0 +1,148 @@
+{
+  "a11y": {
+    "skip": "Ga naar inhoud",
+    "language": "Taal"
+  },
+  "hero": {
+    "kicker": "Internationale leerprestaties",
+    "title": "Hoe hebben leerprestaties zich ontwikkeld — en voor wie?",
+    "copy": "Begin met een echte figuur en verfijn daarna stap voor stap de vraag die u wilt beantwoorden."
+  },
+  "controls": {
+    "country": "Referentieland of -systeem",
+    "age": "Leeftijd/moment",
+    "domain": "Domein",
+    "outcome": "Uitkomst",
+    "split": "Uitsplitsing",
+    "viewMode": "Weergave",
+    "peerDefinition": "Peerdefinitie"
+  },
+  "questions": {
+    "trends": {
+      "title": "Ontwikkeling",
+      "description": "Hoe hebben leerprestaties zich ontwikkeld?",
+      "routeTitle": "Hoe hebben leerprestaties zich ontwikkeld?",
+      "routeDescription": "Volg prestaties door de tijd, met het gekozen referentiesysteem centraal."
+    },
+    "distribution": {
+      "title": "Verdeling",
+      "description": "Waar in de verdeling veranderden de prestaties?",
+      "routeTitle": "Waar in de verdeling veranderden de prestaties?",
+      "routeDescription": "Bekijk de onderkant, het midden en de bovenkant van de prestatieverdeling door de tijd."
+    },
+    "gaps": {
+      "title": "Verschillen tussen groepen",
+      "description": "Zijn verschillen tussen groepen veranderd?",
+      "routeTitle": "Zijn verschillen tussen groepen veranderd?",
+      "routeDescription": "Vergelijk niveaus en verschillen naar sociale achtergrond, geslacht, thuistaal en migratie waar valide."
+    },
+    "environment": {
+      "title": "Leeromgeving",
+      "description": "Hoe is de leeromgeving van verschillende groepen samengesteld?",
+      "routeTitle": "Hoe is de leeromgeving van verschillende groepen samengesteld?",
+      "routeDescription": "Bekijk peer exposure en de samenstelling van de directe leeromgeving of de school als geheel."
+    }
+  },
+  "nav": {
+    "home": "Start"
+  },
+  "ages": {
+    "age10": "Rond 10 jaar / groep 6",
+    "age15": "15-jarigen"
+  },
+  "domains": {
+    "reading": "Taal",
+    "mathematics": "Rekenen/wiskunde",
+    "science": "Natuurwetenschappen"
+  },
+  "actions": {
+    "copyLink": "Deel deze weergave",
+    "copied": "Link gekopieerd",
+    "download": "Data downloaden",
+    "methods": "Hoe is dit berekend?",
+    "downloadCountry": "Alle getoonde resultaten voor dit land",
+    "downloadUnavailable": "Geen gevalideerde data om te downloaden"
+  },
+  "methods": {
+    "title": "Methode en bron",
+    "copy": "De browser selecteert en tekent vooraf berekende resultaten. Wetenschappelijke schattingen worden niet in de frontend gemaakt.",
+    "definition": "Definitie",
+    "availability": "Beschikbaarheid",
+    "sesDefinition": "SES-definitie",
+    "coverage": "Dekking / missingness",
+    "coveragePending": "Nog niet beschikbaar in de gekoppelde release.",
+    "comparator": "Vergelijkingsgroep"
+  },
+  "status": {
+    "shellReady": "De applicatieshell is gereed. De gevalideerde figuurdata worden in de volgende inhoudelijke stap gekoppeld.",
+    "invalidRoute": "Deze route bestaat niet binnen het gelockte dashboard.",
+    "PLACEHOLDER": "Resultaten worden nog berekend.",
+    "HELD": "Kandidaatresultaten zijn beschikbaar, maar worden nog niet vrijgegeven zolang de methodologische validatie loopt.",
+    "UNAVAILABLE": "Deze uitkomst is voor deze selectie niet op een voldoende vergelijkbare manier beschikbaar.",
+    "NOT_APPLICABLE": "Deze uitkomst is niet van toepassing op deze selectie.",
+    "VALIDATED": "Gevalideerde resultaten.",
+    "bindingPending": "De figuur is volledig gebouwd. Gevalideerde resultaten worden toegevoegd zodra de analyse voor deze selectie is afgerond."
+  },
+  "figure": {
+    "measure": "Uitkomst",
+    "title": "Figuurweergave",
+    "subtitle": "De figuurdefinitie volgt de gekozen vraag, leeftijd en het domein.",
+    "noDataTitle": "Figuur gereed — data volgen",
+    "sourcePending": "Bronmetadata worden met de gevalideerde records gekoppeld.",
+    "dataTable": "Onderliggende waarden",
+    "year": "Jaar",
+    "group": "Groep",
+    "estimate": "Schatting",
+    "confidenceInterval": "95%-interval",
+    "comparatorN": "Vergelijkingsgroep: {n} systemen",
+    "chartAria": "Tijdreeks voor {title}.",
+    "tooltipYear": "Jaar",
+    "tooltipEstimate": "Schatting",
+    "tooltipCI": "95%-interval"
+  },
+  "footer": {
+    "public": "Publieke onderzoeksinfrastructuur · GitHub Pages",
+    "method": "PISA, PIRLS en TIMSS blijven op hun eigen meetschalen."
+  },
+  "splits": {
+    "ses": "Sociale achtergrond",
+    "gender": "Geslacht",
+    "home_language": "Thuistaal",
+    "migration": "Migratieachtergrond"
+  },
+  "viewModes": {
+    "levels": "Niveaus",
+    "difference": "Verschil"
+  },
+  "peerDefinitions": {
+    "direct_learning_environment": "Directe leeromgeving",
+    "whole_school": "School als geheel"
+  },
+  "seriesLabels": {
+    "total": "Referentieland",
+    "comparator": "Vergelijkingsgroep",
+    "q1": "Onderste kwartiel SES",
+    "q4": "Bovenste kwartiel SES",
+    "girl": "Meisjes",
+    "boy": "Jongens",
+    "native": "Zonder migratieachtergrond",
+    "first_generation": "Eerste generatie",
+    "second_generation": "Tweede generatie",
+    "third_generation": "Derde generatie",
+    "self_below_high": "Zelf niet op hoog niveau",
+    "self_high": "Zelf op hoog niveau",
+    "test_language_home": "Toetstaal thuis",
+    "other_language_home": "Andere taal thuis"
+  },
+  "landing": {
+    "example": "Startpunt",
+    "current": "Uw figuur"
+  },
+  "builder": {
+    "kicker": "Maak de figuur passend bij uw vraag",
+    "title": "Kies eerst wat u wilt weten",
+    "copy": "De figuur hierboven verandert na iedere keuze. Alleen relevante vervolgstappen verschijnen.",
+    "question": "Wat wilt u weten?",
+    "advanced": "Alleen wetenschappelijk geldige combinaties worden aangeboden; ontbrekende resultaten blijven zichtbaar als expliciete status."
+  }
+}
