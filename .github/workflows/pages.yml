@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "05_publication/preview_chunks/**"
+      - "05_publication/preview_overlay/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -39,22 +40,35 @@ jobs:
           mkdir -p public_site_dist
           tar -xzf /tmp/current_dashboard_preview.tar.gz -C public_site_dist
 
-      - name: Build physical common-42 deep links
+      - name: Apply chart-first guided landing overlay
+        shell: bash
+        run: |
+          cp 05_publication/preview_overlay/assets/app-shell.js public_site_dist/assets/app-shell.js
+          cp 05_publication/preview_overlay/assets/styles.css public_site_dist/assets/styles.css
+          cp 05_publication/preview_overlay/locales/nl.json public_site_dist/locales/nl.json
+          cp 05_publication/preview_overlay/locales/en.json public_site_dist/locales/en.json
+
+      - name: Rebuild locale homes and common-42 deep links from one template
         shell: python
         run: |
-          import json, pathlib, shutil
+          import json, pathlib
           root = pathlib.Path("public_site_dist")
+          template = pathlib.Path("05_publication/preview_overlay/index.html").read_text(encoding="utf-8")
           countries = json.loads((root/"data/common42.json").read_text(encoding="utf-8"))
           codes = [x["code"] for x in countries]
           assert len(codes) == 42 and len(set(codes)) == 42 and codes.count("NLD") == 1
           questions = ["trends","distribution","gaps","environment"]
-          shell = root/"404.html"
+          def write(parts):
+              dest=root.joinpath(*parts); dest.mkdir(parents=True,exist_ok=True)
+              base="../"*len(parts)
+              (dest/"index.html").write_text(template.replace("__BASE__",base),encoding="utf-8")
           for locale in ["nl","en"]:
+              write([locale])
               for code in codes:
                   for question in questions:
-                      dest = root/locale/"country"/code/question
-                      dest.mkdir(parents=True, exist_ok=True)
-                      shutil.copy2(shell, dest/"index.html")
+                      write([locale,"country",code,question])
+          (root/"index.html").write_text('<!doctype html><meta charset="utf-8"><title>International Learning Outcomes Explorer</title><meta http-equiv="refresh" content="0; url=nl/"><p><a href="nl/">Nederlands</a> · <a href="en/">English</a></p>',encoding="utf-8")
+          (root/"404.html").write_text('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Not found · International Learning Outcomes Explorer</title><style>body{font-family:Aptos,"Segoe UI",Arial,sans-serif;background:#F7F5F0;color:#17242D;padding:3rem;line-height:1.5}a{color:#315D8A}</style></head><body><h1>Deze route bestaat niet / This route does not exist</h1><p><a href="./nl/">Nederlands</a> · <a href="./en/">English</a></p></body></html>',encoding="utf-8")
 
       - name: Preview integrity checks
         shell: bash
@@ -66,7 +80,8 @@ jobs:
           test -f public_site_dist/data/countries/NLD.json
           test -f public_site_dist/data/availability/NLD.json
           grep -q "International Learning Outcomes Explorer" public_site_dist/nl/index.html
-          grep -q "Werkversie / Working version" public_site_dist/nl/index.html
+          grep -q "question-strip" public_site_dist/nl/index.html
+          grep -q "guided-builder" public_site_dist/nl/index.html
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
@@ -78,9 +93,9 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: \${{ steps.deployment.outputs.page_url }}
     outputs:
-      page_url: ${{ steps.deployment.outputs.page_url }}
+      page_url: \${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy current working dashboard
         id: deployment
@@ -90,31 +105,54 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     env:
-      SITE_URL: ${{ needs.deploy.outputs.page_url }}
+      SITE_URL: \${{ needs.deploy.outputs.page_url }}
     steps:
-      - name: Online smoke test
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: HTTP smoke test
         shell: python
         run: |
           import os, urllib.request, time
           base = os.environ["SITE_URL"].rstrip("/") + "/"
-          urls = [
-              base,
-              base + "nl/",
-              base + "en/",
-              base + "nl/country/NLD/trends/",
-              base + "assets/app-shell.js",
-              base + "data/countries/NLD.json",
-          ]
+          urls = [base,base+"nl/",base+"en/",base+"nl/country/NLD/trends/",base+"assets/app-shell.js",base+"data/countries/NLD.json"]
           for attempt in range(6):
               try:
                   for url in urls:
                       with urllib.request.urlopen(url, timeout=20) as r:
-                          body = r.read()
-                          assert r.status == 200, (url, r.status)
-                          assert body, url
-                  print("Online dashboard smoke test passed:", base)
-                  break
+                          body=r.read(); assert r.status==200,(url,r.status); assert body,url
+                  print("Online dashboard HTTP smoke test passed:",base); break
               except Exception:
-                  if attempt == 5:
-                      raise
+                  if attempt==5: raise
                   time.sleep(10)
+      - name: Install browser automation library
+        run: npm install --no-save playwright-core@1.55.0
+      - name: Guided landing browser smoke
+        shell: node {0}
+        run: |
+          const { chromium } = require('playwright-core');
+          (async()=>{
+            const base = process.env.SITE_URL.replace(/\/$/,'') + '/';
+            const browser = await chromium.launch({headless:true, executablePath:'/usr/bin/google-chrome'});
+            const page = await browser.newPage({viewport:{width:1440,height:1000}});
+            const errors=[]; page.on('console',m=>{if(m.type()==='error')errors.push(m.text())}); page.on('pageerror',e=>errors.push(String(e)));
+            await page.goto(base+'nl/',{waitUntil:'networkidle'});
+            if(await page.locator('svg.time-chart').count()!==1) throw new Error('Landing chart missing');
+            if(await page.locator('#questionGrid .question-choice').count()!==4) throw new Error('Question guide missing');
+            if(!((await page.locator('#figureContext').innerText()).includes('Nederland'))) throw new Error('Landing context missing');
+            await page.locator('[data-question="distribution"]').click();
+            await page.waitForTimeout(150);
+            if(!page.url().includes('/nl/country/NLD/distribution/')) throw new Error('Question route not updated');
+            await page.locator('[data-question="gaps"]').click(); await page.waitForTimeout(100);
+            if(!(await page.locator('#splitGroup').isVisible())) throw new Error('Progressive gap controls missing');
+            await page.locator('[data-question="environment"]').click(); await page.waitForTimeout(100);
+            if(!(await page.locator('#peerGroup').isVisible())) throw new Error('Progressive peer controls missing');
+            const mobile = await browser.newPage({viewport:{width:390,height:844}}); await mobile.goto(base+'nl/',{waitUntil:'networkidle'});
+            const overflow=await mobile.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth); if(overflow) throw new Error('Mobile horizontal overflow');
+            if(errors.length) throw new Error('Console errors: '+errors.join(' | '));
+            console.log('Guided landing browser smoke passed:', base);
+            await browser.close();
+          })().catch(err=>{console.error(err);process.exit(1)});
