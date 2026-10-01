@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="nl" data-base="__BASE__">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="International Learning Outcomes Explorer — PISA, PIRLS and TIMSS.">
+  <meta name="color-scheme" content="light"><title>International Learning Outcomes Explorer</title>
+  <link rel="stylesheet" href="__BASE__assets/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Ga naar inhoud</a>
+  <header class="site-header">
+    <div class="brand-block"><span class="brand-mark" aria-hidden="true"></span><div><div class="eyebrow">Netherlands Opportunity Lab</div><a class="brand-title" id="homeLink" href="#">International Learning Outcomes Explorer</a><div class="brand-subtitle">PISA · PIRLS · TIMSS</div></div></div>
+    <div class="header-actions"><label class="sr-only" id="localeLabel" for="localeSelect" data-i18n="a11y.language">Taal</label><select id="localeSelect" class="compact-select" aria-labelledby="localeLabel"><option value="nl">NL</option><option value="en">EN</option></select></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="hero" id="hero">
+      <p class="kicker" data-i18n="hero.kicker">Internationale leerprestaties</p>
+      <h1 data-i18n="hero.title">Hoe hebben leerprestaties zich ontwikkeld — en voor wie?</h1>
+      <p class="hero-copy" data-i18n="hero.copy">Begin met een echte figuur en verfijn daarna stap voor stap de vraag die u wilt beantwoorden.</p>
+    </section>
+
+    <section class="visual-first" id="visualFirst" aria-labelledby="figureQuestion">
+      <div class="visual-context-row">
+        <div>
+          <p class="kicker visual-kicker" data-i18n="landing.example">Startpunt</p>
+          <h2 class="current-question" id="figureQuestion"></h2>
+          <p class="context-line" id="figureContext"></p>
+        </div>
+        <button class="link-button" id="copyLink" type="button" data-i18n="actions.copyLink">Deel deze weergave</button>
+      </div>
+
+      <section class="figure-shell" aria-labelledby="figureHeading">
+        <div class="figure-header">
+          <div>
+            <div class="figure-status-row"><p class="measure-label" id="measureLabel"></p><span class="status-badge" id="figureStatus"></span></div>
+            <h2 id="figureHeading"></h2>
+            <p class="figure-subtitle" id="figureSubtitle"></p>
+          </div>
+          <div class="figure-actions">
+            <button type="button" id="downloadData" disabled data-i18n="actions.download">Data downloaden</button>
+            <button type="button" id="methodsButton" aria-expanded="false" aria-controls="methodsPanel" data-i18n="actions.methods">Hoe is dit berekend?</button>
+          </div>
+        </div>
+        <div class="chart-stage" id="chartStage" role="region" aria-live="polite"></div>
+        <aside class="methods-panel" id="methodsPanel" hidden>
+          <h3 data-i18n="methods.title">Methode en bron</h3><p id="methodsCopy" data-i18n="methods.copy"></p>
+          <dl class="method-grid">
+            <div><dt data-i18n="methods.definition">Definitie</dt><dd id="methodDefinition"></dd></div>
+            <div><dt data-i18n="methods.availability">Beschikbaarheid</dt><dd id="methodAvailability"></dd></div>
+            <div id="sesDefinitionRow" hidden><dt data-i18n="methods.sesDefinition">SES-definitie</dt><dd id="methodSesDefinition"></dd></div>
+            <div id="coverageRow" hidden><dt data-i18n="methods.coverage">Dekking / missingness</dt><dd id="methodCoverage" data-i18n="methods.coveragePending"></dd></div>
+            <div id="comparatorRow" hidden><dt data-i18n="methods.comparator">Vergelijkingsgroep</dt><dd id="methodComparator"></dd></div>
+          </dl>
+          <button type="button" id="downloadCountry" class="secondary-action" disabled data-i18n="actions.downloadCountry">Alle getoonde resultaten voor dit land</button>
+        </aside>
+      </section>
+    </section>
+
+    <section class="guided-builder" id="guidedBuilder" aria-labelledby="builderTitle">
+      <div class="builder-intro">
+        <p class="kicker" data-i18n="builder.kicker">Maak de figuur passend bij uw vraag</p>
+        <h2 id="builderTitle" data-i18n="builder.title">Kies eerst wat u wilt weten</h2>
+        <p data-i18n="builder.copy">De figuur hierboven verandert na iedere keuze. Alleen relevante vervolgstappen verschijnen.</p>
+      </div>
+
+      <fieldset class="guided-control question-control" data-step="1">
+        <legend data-i18n="builder.question">Wat wilt u weten?</legend>
+        <div class="question-strip" id="questionGrid">
+          <button class="question-choice" type="button" data-question="trends"><span class="question-short" data-i18n="questions.trends.title">Ontwikkeling</span><span data-i18n="questions.trends.description">Hoe hebben leerprestaties zich ontwikkeld?</span></button>
+          <button class="question-choice" type="button" data-question="distribution"><span class="question-short" data-i18n="questions.distribution.title">Verdeling</span><span data-i18n="questions.distribution.description">Waar in de verdeling veranderden de prestaties?</span></button>
+          <button class="question-choice" type="button" data-question="gaps"><span class="question-short" data-i18n="questions.gaps.title">Verschillen tussen groepen</span><span data-i18n="questions.gaps.description">Zijn verschillen tussen groepen veranderd?</span></button>
+          <button class="question-choice" type="button" data-question="environment"><span class="question-short" data-i18n="questions.environment.title">Leeromgeving</span><span data-i18n="questions.environment.description">Hoe is de leeromgeving samengesteld?</span></button>
+        </div>
+      </fieldset>
+
+      <div class="builder-grid" id="builderControls">
+        <div class="guided-control" data-step="2"><label for="countrySelect" data-i18n="controls.country">Referentieland of -systeem</label><select id="countrySelect" class="control-select"></select></div>
+        <fieldset class="guided-control" id="ageGroup" data-step="3"><legend data-i18n="controls.age">Leeftijd/moment</legend><div class="segmented" id="ageControls"><button type="button" data-value="age10" data-i18n="ages.age10">Rond 10 jaar / groep 6</button><button type="button" data-value="age15" data-i18n="ages.age15">15-jarigen</button></div></fieldset>
+        <fieldset class="guided-control" id="domainGroup" data-step="4"><legend data-i18n="controls.domain">Domein</legend><div class="segmented" id="domainControls"><button type="button" data-value="reading" data-i18n="domains.reading">Taal</button><button type="button" data-value="mathematics" data-i18n="domains.mathematics">Rekenen/wiskunde</button><button type="button" data-value="science" data-i18n="domains.science">Natuurwetenschappen</button></div></fieldset>
+        <fieldset class="guided-control" id="splitGroup" data-step="5" hidden><legend data-i18n="controls.split">Uitsplitsing</legend><select id="splitSelect" class="control-select"></select></fieldset>
+        <fieldset class="guided-control" id="viewModeGroup" data-step="6" hidden><legend data-i18n="controls.viewMode">Weergave</legend><div class="segmented" id="viewModeControls"><button type="button" data-value="levels" data-i18n="viewModes.levels">Niveaus</button><button type="button" data-value="difference" data-i18n="viewModes.difference">Verschil</button></div></fieldset>
+        <fieldset class="guided-control" id="peerGroup" data-step="5" hidden><legend data-i18n="controls.peerDefinition">Peerdefinitie</legend><div class="segmented" id="peerControls"><button type="button" data-value="direct_learning_environment" data-i18n="peerDefinitions.direct_learning_environment">Directe leeromgeving</button><button type="button" data-value="whole_school" data-i18n="peerDefinitions.whole_school">School als geheel</button></div></fieldset>
+        <fieldset class="guided-control" id="outcomeGroup" data-step="5"><legend data-i18n="controls.outcome">Uitkomst</legend><select id="outcomeSelect" class="control-select"></select></fieldset>
+      </div>
+      <p class="builder-footnote" data-i18n="builder.advanced">Alleen wetenschappelijk geldige combinaties worden aangeboden; ontbrekende resultaten blijven zichtbaar als expliciete status.</p>
+    </section>
+
+    <section class="invalid-route" id="invalidRoute" hidden><p class="kicker">404</p><h2 data-i18n="status.invalidRoute">Deze route bestaat niet binnen het gelockte dashboard.</h2></section>
+  </main>
+
+  <footer class="site-footer"><span data-i18n="footer.public">Publieke onderzoeksinfrastructuur · GitHub Pages</span><span data-i18n="footer.method">PISA, PIRLS en TIMSS blijven op hun eigen meetschalen.</span></footer>
+  <script type="module" src="__BASE__assets/app-shell.js"></script>
+</body></html>
