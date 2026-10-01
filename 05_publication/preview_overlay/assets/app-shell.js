@@ -149,7 +149,7 @@ function render(){
 }
 
 function currentShareUrl(){
-  const path=route(state.locale,state.country,state.question),query=stateSearch(state);return new URL(path+query,location.origin).href;
+  const path=route(state.locale,state.country,state.question),query=stateSearch(state);return new URL(path+query,location.href).href;
 }
 function syncUrl(mode='replace'){
   const path=state.isLanding?route(state.locale,state.country,null):route(state.locale,state.country,state.question),query=state.isLanding?'':stateSearch(state),url=path+query+location.hash;
