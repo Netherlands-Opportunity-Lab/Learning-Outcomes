@@ -1,0 +1,148 @@
+{
+  "a11y": {
+    "skip": "Skip to content",
+    "language": "Language"
+  },
+  "hero": {
+    "kicker": "International learning outcomes",
+    "title": "How have learning outcomes changed — and for whom?",
+    "copy": "Start with a real figure, then refine it step by step until it answers your question."
+  },
+  "controls": {
+    "country": "Reference country or system",
+    "age": "Age / stage",
+    "domain": "Domain",
+    "outcome": "Outcome",
+    "split": "Split",
+    "viewMode": "View",
+    "peerDefinition": "Peer definition"
+  },
+  "questions": {
+    "trends": {
+      "title": "Trends",
+      "description": "How have learning outcomes changed?",
+      "routeTitle": "How have learning outcomes changed?",
+      "routeDescription": "Follow outcomes over time, keeping the selected reference system in focus."
+    },
+    "distribution": {
+      "title": "Distribution",
+      "description": "Where in the distribution did they change?",
+      "routeTitle": "Where in the distribution did they change?",
+      "routeDescription": "Track the bottom, middle and top of the achievement distribution over time."
+    },
+    "gaps": {
+      "title": "Gaps between groups",
+      "description": "Have gaps between groups changed?",
+      "routeTitle": "Have gaps between groups changed?",
+      "routeDescription": "Compare levels and gaps by socioeconomic background, sex category, home language and migration where valid."
+    },
+    "environment": {
+      "title": "Learning environment",
+      "description": "How are students’ learning environments composed?",
+      "routeTitle": "How are students’ learning environments composed?",
+      "routeDescription": "Explore peer exposure in the direct learning environment or the whole school."
+    }
+  },
+  "nav": {
+    "home": "Home"
+  },
+  "ages": {
+    "age10": "Around age 10 / grade 4",
+    "age15": "Age 15"
+  },
+  "domains": {
+    "reading": "Language / reading",
+    "mathematics": "Mathematics",
+    "science": "Science"
+  },
+  "actions": {
+    "copyLink": "Share this view",
+    "copied": "Link copied",
+    "download": "Download data",
+    "methods": "How is this calculated?",
+    "downloadCountry": "All displayed results for this country",
+    "downloadUnavailable": "No validated data to download"
+  },
+  "methods": {
+    "title": "Method and source",
+    "copy": "The browser selects and draws precomputed results. Scientific estimates are not calculated in the frontend.",
+    "definition": "Definition",
+    "availability": "Availability",
+    "sesDefinition": "SES definition",
+    "coverage": "Coverage / missingness",
+    "coveragePending": "Not yet available in the bound release.",
+    "comparator": "Comparison group"
+  },
+  "status": {
+    "shellReady": "The application shell is ready. Validated figure data will be connected in the next content step.",
+    "invalidRoute": "This route is not part of the locked dashboard.",
+    "PLACEHOLDER": "Results are still being produced.",
+    "HELD": "Candidate results are available but are not released while methodological validation is pending.",
+    "UNAVAILABLE": "This outcome is not available in a sufficiently comparable form for this selection.",
+    "NOT_APPLICABLE": "This outcome does not apply to this selection.",
+    "VALIDATED": "Validated results.",
+    "bindingPending": "The figure is fully built. Validated results will be added once the analysis for this selection is complete."
+  },
+  "figure": {
+    "measure": "Outcome",
+    "title": "Figure view",
+    "subtitle": "The figure definition follows the selected question, age and domain.",
+    "noDataTitle": "Figure ready — data pending",
+    "sourcePending": "Source metadata will be bound with the validated records.",
+    "dataTable": "Underlying values",
+    "year": "Year",
+    "group": "Group",
+    "estimate": "Estimate",
+    "confidenceInterval": "95% interval",
+    "comparatorN": "Comparison group: {n} systems",
+    "chartAria": "Time series for {title}.",
+    "tooltipYear": "Year",
+    "tooltipEstimate": "Estimate",
+    "tooltipCI": "95% interval"
+  },
+  "footer": {
+    "public": "Public research infrastructure · GitHub Pages",
+    "method": "PISA, PIRLS and TIMSS remain on their own measurement scales."
+  },
+  "splits": {
+    "ses": "Socioeconomic background",
+    "gender": "Sex category",
+    "home_language": "Home language",
+    "migration": "Migration background"
+  },
+  "viewModes": {
+    "levels": "Levels",
+    "difference": "Difference"
+  },
+  "peerDefinitions": {
+    "direct_learning_environment": "Direct learning environment",
+    "whole_school": "Whole school"
+  },
+  "seriesLabels": {
+    "total": "Reference system",
+    "comparator": "Comparison group",
+    "q1": "Bottom SES quarter",
+    "q4": "Top SES quarter",
+    "girl": "Girls",
+    "boy": "Boys",
+    "native": "No migration background",
+    "first_generation": "First generation",
+    "second_generation": "Second generation",
+    "third_generation": "Third generation",
+    "self_below_high": "Student below high level",
+    "self_high": "Student at high level",
+    "test_language_home": "Assessment language at home",
+    "other_language_home": "Other language at home"
+  },
+  "landing": {
+    "example": "Starting point",
+    "current": "Your figure"
+  },
+  "builder": {
+    "kicker": "Shape the figure around your question",
+    "title": "Start with what you want to know",
+    "copy": "The figure above changes after every choice. Only relevant follow-up steps appear.",
+    "question": "What do you want to know?",
+    "advanced": "Only scientifically valid combinations are offered; missing results remain visible as an explicit status."
+  }
+}
