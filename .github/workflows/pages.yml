@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "05_publication/current_dashboard_preview_20261001.tar.gz"
+      - "05_publication/preview_chunks/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -29,12 +29,15 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Expand current working dashboard preview
+      - name: Reconstruct current working dashboard preview
         shell: bash
         run: |
+          cat 05_publication/preview_chunks/part*.b64 > /tmp/current_dashboard_preview.b64
+          base64 -d /tmp/current_dashboard_preview.b64 > /tmp/current_dashboard_preview.tar.gz
+          echo "08d6343903d4e5263a9ea2edc178cc8b63225f92f66e33bfaeb7365200498629  /tmp/current_dashboard_preview.tar.gz" | sha256sum -c -
           rm -rf public_site_dist
           mkdir -p public_site_dist
-          tar -xzf 05_publication/current_dashboard_preview_20261001.tar.gz -C public_site_dist
+          tar -xzf /tmp/current_dashboard_preview.tar.gz -C public_site_dist
 
       - name: Build physical common-42 deep links
         shell: python
@@ -102,7 +105,6 @@ jobs:
               base + "assets/app-shell.js",
               base + "data/countries/NLD.json",
           ]
-          last = None
           for attempt in range(6):
               try:
                   for url in urls:
@@ -112,8 +114,7 @@ jobs:
                           assert body, url
                   print("Online dashboard smoke test passed:", base)
                   break
-              except Exception as e:
-                  last = e
+              except Exception:
                   if attempt == 5:
                       raise
                   time.sleep(10)
