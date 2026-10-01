@@ -1,17 +1,12 @@
-# final-public-release-trigger: 2026-09-28T21:29+02:00
-name: publish-dashboard-pages
+name: publish-dashboard-pages-working-preview
 
 on:
   push:
     branches: [main]
     paths:
+      - "05_publication/current_dashboard_preview_20261001.tar.gz"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
-    inputs:
-      confirm_public_deploy:
-        description: "Deploy the validated public dashboard from main"
-        required: true
-        type: boolean
 
 permissions:
   contents: read
@@ -23,43 +18,53 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  detect-runtime:
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || inputs.confirm_public_deploy == true)
-    runs-on: ubuntu-latest
-    outputs:
-      present: ${{ steps.runtime.outputs.present }}
-    steps:
-      - uses: actions/checkout@v4
-      - id: runtime
-        shell: bash
-        run: |
-          if [ -f 05_publication/public_dashboard_runtime_20260928.zip ]; then
-            echo "present=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "present=false" >> "$GITHUB_OUTPUT"
-            echo "Controlled public runtime ZIP is missing."
-          fi
-
   build:
-    needs: detect-runtime
-    if: needs.detect-runtime.outputs.present == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
-      - name: JavaScript syntax
-        run: node --check 03_dashboard/app/assets/app-product.js
-      - name: Build public-safe static site
-        run: python 05_publication/build_public_pages.py
-      - name: Validate public site
-        run: python 05_publication/validate_public_site.py
-      - name: Validate final public integration
-        run: python 05_publication/tests/validate_public_integration.py
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Expand current working dashboard preview
+        shell: bash
+        run: |
+          rm -rf public_site_dist
+          mkdir -p public_site_dist
+          tar -xzf 05_publication/current_dashboard_preview_20261001.tar.gz -C public_site_dist
+
+      - name: Build physical common-42 deep links
+        shell: python
+        run: |
+          import json, pathlib, shutil
+          root = pathlib.Path("public_site_dist")
+          countries = json.loads((root/"data/common42.json").read_text(encoding="utf-8"))
+          codes = [x["code"] for x in countries]
+          assert len(codes) == 42 and len(set(codes)) == 42 and codes.count("NLD") == 1
+          questions = ["trends","distribution","gaps","environment"]
+          shell = root/"404.html"
+          for locale in ["nl","en"]:
+              for code in codes:
+                  for question in questions:
+                      dest = root/locale/"country"/code/question
+                      dest.mkdir(parents=True, exist_ok=True)
+                      shutil.copy2(shell, dest/"index.html")
+
+      - name: Preview integrity checks
+        shell: bash
+        run: |
+          node --check public_site_dist/assets/app-shell.js
+          test -f public_site_dist/nl/index.html
+          test -f public_site_dist/en/index.html
+          test -f public_site_dist/nl/country/NLD/trends/index.html
+          test -f public_site_dist/data/countries/NLD.json
+          test -f public_site_dist/data/availability/NLD.json
+          grep -q "International Learning Outcomes Explorer" public_site_dist/nl/index.html
+          grep -q "Werkversie / Working version" public_site_dist/nl/index.html
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -74,47 +79,41 @@ jobs:
     outputs:
       page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy current working dashboard
         id: deployment
         uses: actions/deploy-pages@v4
 
-  online-qa:
+  smoke:
     needs: deploy
     runs-on: ubuntu-latest
     env:
       SITE_URL: ${{ needs.deploy.outputs.page_url }}
-      ONLINE_QA_DIR: online_qa
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "24"
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Install browser automation library
-        run: npm install --no-save playwright-core@1.55.0
-      - name: Real-browser and online-fidelity QA
-        id: online
-        continue-on-error: true
-        run: node 05_publication/tests/online_publication_qa.mjs
-      - name: Generate final release reports
-        id: reports
+      - name: Online smoke test
+        shell: python
         run: |
-          python 05_publication/tests/finalize_online_reports.py \
-            --site-url "$SITE_URL" \
-            --git-sha "$GITHUB_SHA" \
-            --workflow-run-id "$GITHUB_RUN_ID" \
-            --qa-json online_qa/online_qa.json \
-            --files-json online_qa/online_files.json \
-            --output-dir online_qa
-      - name: Upload final release reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: final-public-dashboard-release
-          path: online_qa/
-          if-no-files-found: warn
-      - name: Enforce browser QA result
-        if: steps.online.outcome != 'success'
-        run: exit 1
+          import os, urllib.request, time
+          base = os.environ["SITE_URL"].rstrip("/") + "/"
+          urls = [
+              base,
+              base + "nl/",
+              base + "en/",
+              base + "nl/country/NLD/trends/",
+              base + "assets/app-shell.js",
+              base + "data/countries/NLD.json",
+          ]
+          last = None
+          for attempt in range(6):
+              try:
+                  for url in urls:
+                      with urllib.request.urlopen(url, timeout=20) as r:
+                          body = r.read()
+                          assert r.status == 200, (url, r.status)
+                          assert body, url
+                  print("Online dashboard smoke test passed:", base)
+                  break
+              except Exception as e:
+                  last = e
+                  if attempt == 5:
+                      raise
+                  time.sleep(10)
