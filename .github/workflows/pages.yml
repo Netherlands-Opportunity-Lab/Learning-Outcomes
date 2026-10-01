@@ -133,7 +133,7 @@ jobs:
       - name: Guided landing browser smoke
         shell: node {0}
         run: |
-          const { chromium } = require('playwright-core');
+          const { chromium } = require(require.resolve('playwright-core',{paths:[process.cwd()]}));
           (async()=>{
             const base = process.env.SITE_URL.replace(/\/$/,'') + '/';
             const browser = await chromium.launch({headless:true, executablePath:'/usr/bin/google-chrome'});
