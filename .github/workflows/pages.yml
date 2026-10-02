@@ -143,6 +143,14 @@ jobs:
             if(await page.locator('svg.time-chart').count()!==1) throw new Error('Landing chart missing');
             if(await page.locator('#questionGrid .question-choice').count()!==4) throw new Error('Question guide missing');
             if(!((await page.locator('#figureContext').innerText()).includes('Nederland'))) throw new Error('Landing context missing');
+            const axisAudit=await page.evaluate(()=>{const s=window.__learningOutcomesShell.state,svg=document.querySelector('svg.time-chart'),rows=s.records.filter(r=>r.figure_id===s.currentFigure.figure_id&&Number.isFinite(+r.estimate)),vals=rows.map(r=>+r.estimate);return {yMin:+svg.dataset.yMin,yMax:+svg.dataset.yMax,policy:svg.dataset.axisPolicy,min:Math.min(...vals),max:Math.max(...vals)};});
+            if(!(axisAudit.yMin<axisAudit.min&&axisAudit.yMax>axisAudit.max)) throw new Error('Tight y-axis does not bracket visible points: '+JSON.stringify(axisAudit));
+            if(axisAudit.policy!=='dynamic') throw new Error('Landing time-series axis should be dynamic: '+JSON.stringify(axisAudit));
+            if(await page.locator('#outcomeSelect option[value="below_basic"]').count()){
+              await page.locator('#outcomeSelect').selectOption('below_basic'); await page.waitForTimeout(100);
+              const pctAxis=await page.locator('svg.time-chart').evaluate(svg=>({min:+svg.dataset.yMin,max:+svg.dataset.yMax,policy:svg.dataset.axisPolicy}));
+              if(pctAxis.policy!=='dynamic'||(pctAxis.min===0&&pctAxis.max===100)) throw new Error('Ordinary percentage time series should use a tight dynamic axis: '+JSON.stringify(pctAxis));
+            }
             await page.locator('[data-question="distribution"]').click();
             await page.waitForTimeout(150);
             if(!page.url().includes('/nl/country/NLD/distribution/')) throw new Error('Question route not updated');
