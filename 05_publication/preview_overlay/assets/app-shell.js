@@ -99,15 +99,62 @@ function seriesStyle(key,role,index){if(role==='comparator')return {stroke:'#A7A
 function fmtNumber(v){return Number.isFinite(+v)?new Intl.NumberFormat(state.locale==='nl'?'nl-NL':'en-GB',{maximumFractionDigits:2}).format(+v):'—';}
 function chartTooltipText(r){const ci=Number.isFinite(+r.ci_low)&&Number.isFinite(+r.ci_high)?`${fmtNumber(r.ci_low)} – ${fmtNumber(r.ci_high)}`:'—';return `${seriesLabel(r)} · ${tr('figure.tooltipYear')}: ${r.year} · ${tr('figure.tooltipEstimate')}: ${fmtNumber(r.estimate)} · ${tr('figure.tooltipCI')}: ${ci}`;}
 
+function axisUnitKind(unit){
+  const u=String(unit||'').toLowerCase();
+  if(u==='rank'||u.includes('rank'))return 'rank';
+  if(u.includes('percentage_point')||u.includes('percentage point')||u.includes('procentpunt'))return 'percentage_points';
+  if(u.includes('percent')||u.includes('percentage')||u==='%')return 'percent';
+  if(u.includes('score'))return 'score';
+  return 'other';
+}
+function minimumAxisMargin(kind,midpoint){
+  if(kind==='score')return 2.5;
+  if(kind==='percent'||kind==='percentage_points')return 1;
+  if(kind==='rank')return .5;
+  return Math.max(Math.abs(midpoint)*.01,.5);
+}
+function axisDomain(rows,f){
+  const pointValues=rows.map(r=>+r.estimate).filter(Number.isFinite);
+  if(!pointValues.length)return {lo:0,hi:1,policy:'dynamic'};
+  const unit=f.unit||rows[0]?.unit||'',kind=axisUnitKind(unit),pointLo=Math.min(...pointValues),pointHi=Math.max(...pointValues),mid=(pointLo+pointHi)/2,span=Math.max(0,pointHi-pointLo),floor=minimumAxisMargin(kind,mid);
+  const margin=Math.max(span*.06,floor);
+  let lo=pointLo-margin,hi=pointHi+margin,policy='dynamic';
+
+  const ciLows=rows.map(r=>+r.ci_low).filter(Number.isFinite),ciHighs=rows.map(r=>+r.ci_high).filter(Number.isFinite);
+  const ciLo=ciLows.length?Math.min(...ciLows):null,ciHi=ciHighs.length?Math.max(...ciHighs):null;
+  const ciSafety=Math.max(span*.015,floor*.35);
+  if(ciLo!==null&&ciLo<lo)lo=ciLo-ciSafety;
+  if(ciHi!==null&&ciHi>hi)hi=ciHi+ciSafety;
+
+  const declared=String(f.y_axis_policy||'').toLowerCase();
+  const fixedMin=Number(f.y_axis_min),fixedMax=Number(f.y_axis_max);
+  const fixedNumeric=Number.isFinite(fixedMin)&&Number.isFinite(fixedMax)&&fixedMin<fixedMax;
+  const fixedHundred=declared==='fixed_0_100'||String(f.chart_type||'').toLowerCase()==='stacked_100'||String(f.outcome_family||'').toLowerCase()==='composition';
+  if(fixedNumeric){lo=fixedMin;hi=fixedMax;policy='fixed_declared';}
+  else if(fixedHundred){lo=0;hi=100;policy='fixed_0_100';}
+  else{
+    if(kind==='percent'){lo=Math.max(0,lo);hi=Math.min(100,hi);}
+    if(kind==='rank'){
+      lo=Math.max(1,lo);
+      const logicalMax=Math.max(...rows.map(r=>Number.isFinite(+r.comparator_n)?+r.comparator_n+1:1));
+      if(logicalMax>1)hi=Math.min(logicalMax,hi);
+    }
+  }
+  if(!(hi>lo)){
+    const fallback=Math.max(floor,1);lo=pointLo-fallback;hi=pointHi+fallback;
+    if(kind==='percent'){lo=Math.max(0,lo);hi=Math.min(100,hi);}
+    if(kind==='rank')lo=Math.max(1,lo);
+  }
+  return {lo,hi,policy,pointLo,pointHi,kind};
+}
+
 function chartHtml(rows,f){
   const usable=rows.filter(r=>Number.isFinite(+r.estimate)&&Number.isFinite(+r.year));
   if(!usable.length)return tableHtml(rows);
   const mobile=window.innerWidth<=430,tablet=window.innerWidth<=760;
   const W=mobile?360:(tablet?720:940),H=mobile?340:(tablet?390:430),pad=mobile?{l:44,r:110,t:24,b:48}:(tablet?{l:58,r:125,t:26,b:52}:{l:62,r:140,t:28,b:54});
   const years=[...new Set(usable.map(r=>+r.year))].sort((a,b)=>a-b),unit=f.unit||usable[0]?.unit||'';
-  let vals=usable.flatMap(r=>[r.estimate,r.ci_low,r.ci_high].filter(v=>Number.isFinite(+v)).map(Number)),lo=Math.min(...vals),hi=Math.max(...vals);
-  if(unit==='percent'){lo=0;hi=100;}else if(unit==='rank'){lo=Math.max(1,Math.floor(lo));hi=Math.max(lo+1,Math.ceil(hi));}else{const gap=Math.max(hi-lo,10);lo-=gap*.12;hi+=gap*.12;}
-  const minY=lo,maxY=hi,x0=years[0],x1=years.at(-1),sx=y=>pad.l+(y-x0)/(x1-x0||1)*(W-pad.l-pad.r),sy=v=>{const q=(v-minY)/(maxY-minY||1);return unit==='rank'?pad.t+q*(H-pad.t-pad.b):pad.t+(1-q)*(H-pad.t-pad.b);};
+  const axis=axisDomain(usable,f),minY=axis.lo,maxY=axis.hi,x0=years[0],x1=years.at(-1),sx=y=>pad.l+(y-x0)/(x1-x0||1)*(W-pad.l-pad.r),sy=v=>{const q=(v-minY)/(maxY-minY||1);return axis.kind==='rank'?pad.t+q*(H-pad.t-pad.b):pad.t+(1-q)*(H-pad.t-pad.b);};
   const groups=new Map();for(const r of usable){const k=seriesKey(r);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(r);}for(const a of groups.values())a.sort((a,b)=>+a.year-+b.year);
   let body='',idx=0;const ticks=4;
   for(let i=0;i<ticks;i++){const v=minY+(maxY-minY)*i/(ticks-1),y=sy(v);body+=`<line class="grid-line" x1="${pad.l}" x2="${W-pad.r}" y1="${y}" y2="${y}"></line><text class="axis-label" x="${pad.l-10}" y="${y+4}" text-anchor="end">${esc(fmtNumber(v))}</text>`;}
@@ -120,7 +167,7 @@ function chartHtml(rows,f){
     const last=a.at(-1);if(last)body+=`<text class="direct-label" x="${Math.min(W-8,sx(+last.year)+10)}" y="${sy(+last.estimate)+4}" fill="${sty.stroke}">${esc(seriesLabel(last))}</text>`;
   }
   const aria=tr('figure.chartAria').replace('{title}',figureLabel(f));
-  return `<div class="chart-wrap"><svg class="time-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(aria)}">${body}</svg><div class="chart-tooltip" id="chartTooltip" role="status" aria-live="polite" hidden></div></div>${tableHtml(rows)}`;
+  return `<div class="chart-wrap"><svg class="time-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(aria)}" data-y-min="${minY}" data-y-max="${maxY}" data-axis-policy="${axis.policy}">${body}</svg><div class="chart-tooltip" id="chartTooltip" role="status" aria-live="polite" hidden></div></div>${tableHtml(rows)}`;
 }
 
 function bindChartTooltip(){const tt=$('#chartTooltip');if(!tt)return;const show=(el,e)=>{tt.textContent=el.dataset.tooltip||'';tt.hidden=false;const wrap=el.closest('.chart-wrap'),box=wrap.getBoundingClientRect();let x=(e?.clientX??box.left+box.width*.5)-box.left+12,y=(e?.clientY??box.top+40)-box.top+12;tt.style.left=`${Math.max(8,Math.min(x,box.width-240))}px`;tt.style.top=`${Math.max(8,y)}px`;};const hide=()=>{tt.hidden=true;};$$('.data-point').forEach(el=>{el.addEventListener('pointerenter',e=>show(el,e));el.addEventListener('pointerleave',hide);el.addEventListener('focus',e=>show(el,e));el.addEventListener('blur',hide);el.addEventListener('pointerdown',e=>{e.preventDefault();show(el,e);});});}
