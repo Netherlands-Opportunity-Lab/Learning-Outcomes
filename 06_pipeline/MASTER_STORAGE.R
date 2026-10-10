@@ -301,10 +301,15 @@ lo_master_plan <- function(cfg) {
   raw_risk<-grepl("(^|/)(student|students|raw|microdata|source|input)(/|$)",
                   tolower(rows$relative_path))
   live_db<-exts%in%c("sqlite","sqlite3","db","duckdb")
+  # Raw OECD/IEA extracts may live outside folders named raw/source/input.
+  # Fail closed for source-like paths and unusually large text extracts.
+  source_like<-grepl("(^|/)(pisa_extracts|pirls_extracts|timss_extracts|participation_extracts|[0-9]+_[a-z]*extract)(/|$)|(^|/)(pisa|pirls|timss)[^/]*[.](txt|sav|dta|sas7bdat)$",tolower(rows$relative_path)) | (exts=="txt" & is.finite(rows$bytes) & rows$bytes>100*1024^2)
+  raw_risk<-raw_risk | source_like
   classify<-rep("HOLD_REQUIRE_ORIGINAL_AND_RIGHTS_REVIEW",nrow(rows))
   classify[canonical&!live_db&!raw_risk]<-"PRIORITY_PRIVATE_BACKUP"
   classify[derived&binary_safe&!raw_risk]<-"CANDIDATE_PRIVATE_BACKUP_AFTER_REVIEW"
   classify[live_db]<-"HOLD_DB_SNAPSHOT_REQUIRED"
+  classify[source_like]<-"HOLD_SOURCE_NOT_FOR_AUTOMATIC_CLOUD_TRANSFER"
   classify[grepl("SOURCE|MICRODATA",rows$classification)]<-
     "HOLD_SOURCE_NOT_FOR_AUTOMATIC_CLOUD_TRANSFER"
   classify[rows$classification=="CODE_OR_METHOD_PROTECTED"]<-
@@ -334,6 +339,8 @@ lo_master_plan <- function(cfg) {
      raw_89gb_removable="NO_NOT_UNTIL_SEPARATE_SOURCE_RIGHTS_AND_RESTORE",
      reason=quota$reason,stringsAsFactors=FALSE)
   lo_master_write_csv(q,file.path(cfg$state,"CLOUD_QUOTA_AND_MIGRATION_LIMIT.csv"))
+  cat("Durable storage plan: ",normalizePath(file.path(cfg$state,"MASTER_STORAGE_ACTION_PLAN.csv"),winslash="/",mustWork=TRUE),"\n",sep="")
+  cat("Cloud quota report: ",normalizePath(file.path(cfg$state,"CLOUD_QUOTA_AND_MIGRATION_LIMIT.csv"),winslash="/",mustWork=TRUE),"\n",sep="")
   cat("Storage plan: ",sum(classify=="PRIORITY_PRIVATE_BACKUP"),
       " priority aggregate files; ",
       sum(classify=="CANDIDATE_PRIVATE_BACKUP_AFTER_REVIEW"),
