@@ -53,7 +53,7 @@ class StorageTests(unittest.TestCase):
         with patch.object(s,"independent",return_value=True):
             s.verify_backup(self.db,self.cfg)
             decisions=s.cleanup_plan(self.db,self.cfg)
-        self.assertTrue(any(x["decision"]=="PRODUCT_PIN" for x in decisions))
+        self.assertTrue(all(x["decision"]=="COMPLETE_RELEASE_PRODUCT_PINS_MISSING" for x in decisions))
         self.assertTrue(self.result.exists())
     def test_removal_only_after_full_product_pins_and_restore(self):
         s.migrate(self.db,self.cfg)
