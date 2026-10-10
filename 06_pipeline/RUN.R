@@ -291,7 +291,7 @@ lo_pipeline_main <- function() {
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
               all="FULL_INTERNATIONAL")
   if (!scope %in% names(scopes)) stop("Unknown scope: ",scope)
-  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish")
+  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","reference-audit","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish")
   if (!action %in% actions) stop("Unknown action: ",action)
 
   stamp <- format(Sys.time(),"%Y%m%d_%H%M%S")
@@ -358,6 +358,15 @@ lo_pipeline_main <- function() {
   if (action=="check-contract") {
     bundle <- lo_pipeline_science_bundle(repo)
     lo_pipeline_product_contract(repo,bundle)
+    return(invisible(run))
+  }
+  if (action=="reference-audit") {
+    bundle <- lo_pipeline_science_bundle(repo)
+    source(file.path(repo,"06_pipeline","REFERENCE_SOURCE_AUDIT.R"),
+           local=environment(),encoding="UTF-8")
+    root <- file.path(Sys.getenv("USERPROFILE",unset=path.expand("~")),
+                      "Downloads","LO05_RESULTATEN")
+    lo_wdi_2024_reference_audit(bundle,root)
     return(invisible(run))
   }
   if (action=="replicate") {
