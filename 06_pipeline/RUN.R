@@ -46,8 +46,18 @@ lo_pipeline_storage <- function(repo, action, config) {
 lo_pipeline_drive_config_path <- function() {
   override <- Sys.getenv("LO_DRIVE_SYNC_CONFIG","")
   if (nzchar(override)) return(override)
-  file.path(path.expand("~"),"Downloads","LO05_RESULTATEN",
-            ".cloud_sync","drive.local.json")
+  home <- Sys.getenv("USERPROFILE",unset=path.expand("~"))
+  candidates <- unique(c(
+    file.path(home,"Downloads","LO05_RESULTATEN",
+              ".cloud_sync","drive.local.json"),
+    file.path(home,"Documents","Downloads","LO05_RESULTATEN",
+              ".cloud_sync","drive.local.json"),
+    file.path(path.expand("~"),"Downloads","LO05_RESULTATEN",
+              ".cloud_sync","drive.local.json")))
+  existing <- candidates[vapply(candidates,function(p)
+    isTRUE(file.exists(as.character(p)[1L])),logical(1L))]
+  if(length(existing))return(existing[[1L]])
+  candidates[[1L]]
 }
 
 lo_pipeline_find_rclone <- function() {
@@ -56,6 +66,15 @@ lo_pipeline_find_rclone <- function() {
     if (!file.exists(explicit))
       stop("LO_RCLONE_EXE points to missing file: ",explicit)
     return(normalizePath(explicit,winslash="/",mustWork=TRUE))
+  }
+  cfgpath <- lo_pipeline_drive_config_path()
+  if(file.exists(cfgpath) && requireNamespace("jsonlite",quietly=TRUE)) {
+    stored <- tryCatch(jsonlite::fromJSON(cfgpath),error=function(e)NULL)
+    if(!is.null(stored) && is.character(stored$rclone_binary) &&
+       length(stored$rclone_binary)==1L &&
+       isTRUE(file.exists(stored$rclone_binary)))
+      return(normalizePath(stored$rclone_binary,
+                           winslash="/",mustWork=TRUE))
   }
   existing <- Sys.which("rclone")
   if (nzchar(existing)) return(unname(existing))
