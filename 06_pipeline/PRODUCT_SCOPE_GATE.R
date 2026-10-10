@@ -1,6 +1,8 @@
 # One internal module of 06_pipeline/RUN.R; no learner estimators or release here.
 # Verifies all slide/dashboard/paper contracts against the unchanged October bundle.
-lo_product_gate <- function(bundle, output_root, expected=list(
+lo_product_gate <- function(bundle, output_root,
+    product_register=file.path("06_pipeline","BR_POLICY_DECK_21_SOURCE_REGISTER_20261010.csv"),
+    expected=list(
     tasks=79448L, figures=138L, paper=8L, refs=300L,
     nld=1867L, oecd19=27979L, other=49602L, ranks=6L)) {
   read_contract <- function(name) {
@@ -85,27 +87,54 @@ lo_product_gate <- function(bundle, output_root, expected=list(
     fig[[field]] <- as.integer(n[fig$figure_id])
     fig[[field]][is.na(fig[[field]])] <- 0L
   }
-  slides <- data.frame(slide=1:13,
-    purpose=c("Title","Means","P10/P50/P90","SES levels","SES gaps",
-              "Basic proficiency by SES","Gender means","Home language means",
-              "Migration means","Low-SES pupils' high-SES peers",
-              "High-SES pupils' low-SES peers","Language peer composition",
-              "Migration peer composition"),
-    outcome=c("","mean_score","p10;p50;p90","ses_mean_levels",
-              "ses_score_gap","ses_basic_levels","gender_mean_levels",
-              "home_language_mean_levels","migration_mean_levels",
-              "ses_peer_exposure","ses_peer_exposure",
-              "home_language_peer_exposure","migration_peer_exposure"),
-    science_status=c("TITLE_NO_DATA",rep("NOT_SCIENTIFICALLY_RELEASED",8),
-       "Q1_TO_Q4_PEER_GROUP_BINDING_REVIEW","Q4_TO_Q1_PEER_GROUP_BINDING_REVIEW",
-       "LANGUAGE_UNIT_AND_DEFINITION_REVIEW",
-       "MIGRATION_AND_PEER_UNIT_REVIEW"),
-    stringsAsFactors=FALSE)
-  slides$figure_contracts <- vapply(slides$outcome,function(x)
-    if(!nzchar(x))0L else sum(figures$outcome%in%
-      strsplit(x,";",fixed=TRUE)[[1L]]),integer(1))
-  require(all(slides$figure_contracts[-1]>0L),"current 13-slide deck outcome families")
-  # Never interpret historical source_slides column as the NEW 13-slide numbering.
+  # The uploaded 1 October user's authoritative policy deck has 21 slides,
+  # NOT the provisional 13-slide October computation-kernel prototype.
+  require(file.exists(product_register),"authoritative 21-slide register")
+  slides <- read.csv(product_register,stringsAsFactors=FALSE,check.names=FALSE)
+  required_slide_cols <- c("slide_number","title","analysis_family",
+                           "release_status","product_id","product_sha256")
+  require(all(required_slide_cols%in%names(slides)),
+          "policy slide source register schema")
+  require(identical(as.integer(slides$slide_number),seq_len(21L)),
+          "authoritative policy deck MUST have all 21 slides in order")
+  require(length(unique(slides$product_sha256))==1L &&
+          identical(unique(slides$product_sha256),
+            "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"),
+          "user-leading 1 October 21-slide sha256 changed")
+  slides$contract_link_status <- ifelse(
+       slides$analysis_family=="title","TITLE_NO_DATA",
+       ifelse(slides$analysis_family%in%
+          c("home_language_peer","home_language_means"),
+          "MIXED_LANGUAGE_DEFINITIONS_SOURCE_VALIDATION_REQUIRED",
+          "NEEDS_RESULT_VERSION_AND_PRODUCT_EQUIVALENCE_CHECK"))
+  slides$historic_13_slide_alias <- "NOT_APPLICABLE_DIFFERENT_DECK"
+  slides$comparison_requirement <- ifelse(slides$slide_number %in%
+     c(2L,4L,5L,6L),"PRESERVE_ORIGINAL_42_PANEL_OR_ASSESSMENT_PANEL",
+     ifelse(slides$slide_number %in% c(7L,8L,9L,21L),
+             "COBREROS_13_COMMON_ITEMS",
+             "RESPECT_SLIDE_SPECIFIC_POPULATION"))
+  slides$numeric_result_lineage <- "NOT_VERIFIED_DO_NOT_AUTOPROMOTE"
+  # The separate 50-slide scientific seminar and 16-page note are distinct
+  # products. Their exact uploaded source hashes are in USER_PRODUCT_SOURCE_LOCK.
+  lock <- file.path(dirname(product_register),"USER_PRODUCT_SOURCE_LOCK_20261010.csv")
+  require(file.exists(lock),"scientific product lock")
+  products <- read.csv(lock,stringsAsFactors=FALSE,check.names=FALSE)
+  require(all(c("POLICY_DECK","SCIENTIFIC_SEMINAR","SCIENTIFIC_NOTE",
+                "IMPACT_CONTEXT")%in%products$product_id),
+          "four distinct deliverable source locks")
+  require(as.integer(products$pages_or_slides[products$product_id=="SCIENTIFIC_SEMINAR"])==50L,
+          "frozen scientific seminar 50 slides")
+  require(as.integer(products$pages_or_slides[products$product_id=="SCIENTIFIC_NOTE"])==16L,
+          "scientific note 16 pages")
+  products$source_scientific_consistency <- ifelse(
+      products$product_id=="SCIENTIFIC_NOTE",
+      "FINAL_PAGE_REPAIRS_CONTRADICT_EARLIER_PIRLS_SE_HOLDS_REVIEW",
+      ifelse(products$product_id=="SCIENTIFIC_SEMINAR",
+      "SLIDES_6_49_PRE_FINAL_HOLD_TEXT_VS_FINAL_REPAIRS_REVIEW",
+      ifelse(products$product_id=="POLICY_DECK",
+       "21_SLIDE_USER_COPY_LEADING_PENDING_SOURCE_ROW_VALIDATION",
+       "CONTEXT_NOT_DIRECT_ESTIMATOR_SOURCE")))
+  products$release_status <- "PIN_SOURCE_KEEP_EXISTING_NOT_REESTIMATED"
   paper$scientific_release_status <- "REVIEW_REQUIRED_NO_VALIDATED_SOURCE_ADAPTER"
   by_module <- as.data.frame(table(phase=phase,module=tasks$module))
   names(by_module)[3] <- "task_contracts"
@@ -119,14 +148,14 @@ lo_product_gate <- function(bundle, output_root, expected=list(
   preflight <- data.frame(
     check=c("CONTRACT_JOIN","NL_SCOPE","OECD19_SCOPE","OTHER_SCOPE",
        "FIGURE_CONTRACTS","DIRECT_LINKED_FIGURES","DERIVED_POSITION_FIGURES",
-       "PAPER_GATES_OPEN","TIMSS_1995_GRID","COMPARATOR_DEFAULT","KERNEL_SLIDE_MAP",
+       "PAPER_GATES_OPEN","TIMSS_1995_GRID","COMPARATOR_DEFAULT","POLICY_SLIDE_MAP",
        "SCIENTIFIC_RELEASE"),
     value=c("PASS",as.character(counts[[1]]),as.character(counts[[2]]),
       as.character(counts[[3]]),as.character(nrow(figures)),
       as.character(nrow(figures)-length(unmapped)),as.character(length(unmapped)),
       as.character(nrow(paper)),"NOT_IN_GRID",
       "DIFFERENT_FROM_19_COUNTRY_PRODUCTION_SCOPE",
-      "13_SLIDE_FAMILY_LINKS_REVIEW_GROUP_DETAILS","NOT_GRANTED"),
+      "21_SLIDE_USER_VERSION_PINNED_DISSIMILAR_13_PROTOTYPE","NOT_GRANTED"),
     stringsAsFactors=FALSE)
   dir.create(output_root,recursive=TRUE,showWarnings=FALSE)
   dest <- file.path(output_root,paste0("scope_preflight_",
@@ -140,10 +169,11 @@ lo_product_gate <- function(bundle, output_root, expected=list(
   }
   atomic(preflight,"PRODUCT_SCOPE_STATUS.csv")
   atomic(fig,"FIGURE_REQUIREMENT_STATUS.csv")
-  atomic(slides,"SLIDE_13_REQUIREMENT_STATUS.csv")
+  atomic(slides,"SLIDE_21_REQUIREMENT_STATUS.csv")
+  atomic(products,"SOURCE_PRODUCTS_LOCK_AND_CAVEATS.csv")
   atomic(paper,"PAPER_Q01_Q08_STATUS.csv")
   atomic(by_module,"SCIENTIFIC_ADAPTER_REQUIREMENTS.csv")
-  cat("Product contract PASS: ",counts[[1]]," NL, ",counts[[2]],
+  cat("Product contract PASS: 21-slide policy; 50-slide seminar; 16-page note. ",counts[[1]]," NL, ",counts[[2]],
       " OECD19, ",counts[[3]]," other tasks; 138 figure contracts, ",
       length(unmapped)," derived ranks, 8 paper gates open.\n",sep="")
   invisible(list(report_dir=dest,counts=counts,
