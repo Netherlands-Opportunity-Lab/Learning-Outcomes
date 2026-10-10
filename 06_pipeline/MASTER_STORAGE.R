@@ -122,6 +122,55 @@ lo_master_files <- function(cfg) {
     warning("Unreadable file metadata in inventory; those files are held")
   out
 }
+lo_master_registry_schema_audit <- function(cfg,files) {
+  targets <- files[grepl("[.](sqlite|db|sqlite3)$",files$relative_path,
+                         ignore.case=TRUE),,drop=FALSE]
+  findings<-list()
+  if(!nrow(targets))return(invisible(NULL))
+  for(i in seq_len(nrow(targets))) {
+    relative<-targets$relative_path[i]
+    if(!requireNamespace("RSQLite",quietly=TRUE) ||
+       !requireNamespace("DBI",quietly=TRUE)) {
+      findings[[length(findings)+1L]]<-data.frame(
+        relative_path=relative,table="NOT_INSPECTED",
+        column_names="RSQLITE_NOT_INSTALLED",
+        row_version_and_source_lineage="UNVERIFIED")
+      next
+    }
+    p<-file.path(cfg$root,relative)
+    con<-tryCatch(DBI::dbConnect(RSQLite::SQLite(),dbname=p,
+                                flags=1L),error=function(e)NULL)
+    if(is.null(con)) {
+      findings[[length(findings)+1L]]<-data.frame(
+        relative_path=relative,table="OPEN_READONLY_FAILED",
+        column_names="DATABASE_LOCK_OR_SCHEMA_ERROR",
+        row_version_and_source_lineage="UNVERIFIED")
+      next
+    }
+    tryCatch({
+      tabs<-tryCatch(DBI::dbListTables(con),error=function(e)character())
+      for(tab in tabs) {
+        fields<-tryCatch(DBI::dbListFields(con,tab),
+                         error=function(e)character())
+        k<-tolower(fields)
+        complete<-any(grepl("result_version|record_version",k)) &&
+           any(grepl("source.*sha|input.*hash|source.*fingerprint",k)) &&
+           any(grepl("code.*sha|producer.*sha|code.*fingerprint",k))
+        findings[[length(findings)+1L]]<-data.frame(
+          relative_path=relative,table=tab,
+          column_names=paste(fields,collapse=";"),
+          row_version_and_source_lineage=if(complete)
+            "CANDIDATE_REQUIRES_ROW_LEVEL_VALIDATION" else
+            "MISSING_EXPLICIT_PRODUCER_OR_INPUT_VERSION_COLUMN")
+      }
+    },finally=DBI::dbDisconnect(con))
+  }
+  if(length(findings))
+    lo_master_write_csv(do.call(rbind,findings),
+                        file.path(cfg$state,"SQLITE_SCHEMA_LINEAGE_AUDIT.csv"))
+  invisible(findings)
+}
+
 lo_master_inventory <- function(cfg) {
   files<-lo_master_files(cfg)
   file<-file.path(cfg$state,"MASTER_FILES_PRIVATE.csv")
@@ -143,6 +192,8 @@ lo_master_inventory <- function(cfg) {
   names(byfolder)[2]<-"bytes"
   byfolder<-byfolder[order(-byfolder$bytes),,drop=FALSE]
   lo_master_write_csv(byfolder,file.path(cfg$state,"TOP_LEVEL_FOLDER_BYTES.csv"))
+  tryCatch(lo_master_registry_schema_audit(cfg,files),
+    error=function(e)warning("Read-only SQLite schema audit held: ",conditionMessage(e)))
   stat<-c("STATUS=MASTER_INVENTORY_COMPLETE",
           "SCIENTIFIC_RELEASE=NOT_GRANTED",
           paste0("STORAGE_FILES_SCANNED=",nrow(files)),
@@ -359,7 +410,8 @@ lo_master_share_reports <- function(cfg) {
     "LARGEST_50_FILES_PRIVATE.csv",
     "MASTER_STORAGE_ACTION_PLAN.csv",
     "MASTER_FILES_PRIVATE.csv",
-    "MASTER_RETIREMENT_PLAN.csv"))
+    "MASTER_RETIREMENT_PLAN.csv",
+    "SQLITE_SCHEMA_LINEAGE_AUDIT.csv"))
   for(path in paths) {
     if(!file.exists(path)||is.na(file.info(path)$size)||
        file.info(path)$size>35*2^20)next
