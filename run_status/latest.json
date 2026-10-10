@@ -1,14 +1,19 @@
 {
   "schema_version": "lo-public-safe-run-status-v1",
   "privacy": "METADATA_ONLY_NO_PATHS_NO_VALUES_NO_LOGS",
-  "status_publisher_git_commit": "aecbb318ad87bae89246510a26ea9b0507c3f391",
+  "status_publisher_git_commit": "74c08fa4a37afe19db6ac88c58c0cb31248e5eea",
   "result_producer_git_commit": "NOT_VERIFIED",
-  "requested_action": "PUBLISH",
+  "requested_action": "STORAGE_AUDIT",
   "requested_scope": "NLD_PLUS_19",
   "invocation_outcome": "OBSERVED",
-  "latest_local_run_id": "run_20261010_095049",
-  "availability": "RUN_FOLDER_ONLY",
+  "latest_local_run_id": "run_20261010_184019",
+  "availability": "STATUS_FILE_FOUND",
   "scientific_release": "NOT_AUTOMATICALLY_GRANTED",
-  "runtime_states": [],
-  "counts": []
+  "runtime_states": {
+    "status": "STORAGE_INVENTORY_COMPLETE"
+  },
+  "counts": {
+    "storage_files_scanned": 35087,
+    "storage_mib_scanned": 91139
+  }
 }
