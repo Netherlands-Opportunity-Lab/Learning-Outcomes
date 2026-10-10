@@ -22,6 +22,8 @@ SOURCE_EXT = {".sav", ".zsav", ".sas7bdat", ".dta", ".por", ".xpt", ".dat", ".sa
 CODE_EXT = {".r", ".py", ".sql"}
 DATA_EXT = {".csv", ".gz", ".rds", ".parquet", ".sqlite", ".json"}
 EXCLUDED_DIRS = {".git", "node_modules", ".Rproj.user", "__pycache__", "microdata"}
+PROTECTED_PARTS = {"source_registry", "registry", "release_registers", "methods",
+                   "validation", "audit", "logs", "published", "checkpoints"}
 PROTECTED_NAMES = {"CURRENT_RESULTS.parquet", "RESULT_HISTORY.parquet",
                    "PROJECT_RESULTS_REGISTRY.sqlite", "FINAL_PRODUCT_BASIS.csv.gz",
                    "RESULTATEN_MASTER.csv.gz"}
@@ -47,7 +49,7 @@ def classify(p: Path) -> str:
         return "CODE_PROTECTED"
     if p.suffix.lower() in {".sqlite",".db",".json"}:
         return "PINNED_CANDIDATE"
-    if name in PROTECTED_NAMES or "release" in (x.lower() for x in p.parts):
+    if name in PROTECTED_NAMES or any(x.lower() in PROTECTED_PARTS for x in p.parts) or "release" in (x.lower() for x in p.parts):
         return "PINNED_CANDIDATE"
     if p.suffix.lower() in DATA_EXT:
         return "INTERMEDIATE_CANDIDATE"
@@ -97,6 +99,8 @@ def load_config(path: Path) -> dict:
     cfg.setdefault("minimum_age_days", 30)
     cfg.setdefault("automatic_cleanup_enabled", False)
     cfg.setdefault("required_product_pins", ["slides","dashboard","paper"])
+    cfg["replication_receipt"] = (
+        canonical(cfg["replication_receipt"]) if cfg.get("replication_receipt") else None)
     if not cfg["scan_roots"]:
         raise ValueError("At least one explicit input root required")
     for root in cfg["scan_roots"]:
@@ -225,6 +229,8 @@ def pin(db, manifest_path: Path):
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     if not manifest.get("release_id") or not manifest.get("product"):
         raise ValueError("Pin manifest needs product and release_id")
+    if manifest.get("dependency_closure_verified") is not True:
+        raise ValueError("Pin manifest must attest a verified complete dependency closure")
     hashes = manifest.get("artifact_sha256", [])
     if not hashes:
         raise ValueError("At least one exact artifact SHA256 is required")
@@ -275,12 +281,29 @@ def cleanup_plan(db, cfg):
     by_release = {}
     for product, release_id in db.execute("SELECT DISTINCT product,release_id FROM product_pins"):
         by_release.setdefault(release_id,set()).add(product)
-    contract_complete = bool(required) and any(required.issubset(x) for x in by_release.values())
+    complete_release_ids = [release for release,products in by_release.items()
+                            if required and required.issubset(products)]
+    contract_complete = bool(complete_release_ids)
+    # A verified clean-from-sources reproduction must exist for the SAME
+    # product release. A filename or a configuration toggle is not proof.
+    receipt = cfg.get("replication_receipt")
+    expected_receipt_hash = cfg.get("replication_receipt_sha256","")
+    replication_ok = False
+    if receipt is not None and receipt.is_file() and expected_receipt_hash:
+        if sha256(receipt) == expected_receipt_hash:
+            proof = json.loads(receipt.read_text(encoding="utf-8"))
+            replication_ok = (proof.get("status") == "PASS" and
+                proof.get("clean_from_sources") is True and
+                proof.get("result_fidelity_verified") is True and
+                proof.get("source_editions_verified") is True and
+                proof.get("release_id") in complete_release_ids)
     for path, digest, kind, science_status, mtime, archive, backed, restored in rows:
         p = Path(path)
         reason = "PROTECTED"
         if not contract_complete:
             reason = "COMPLETE_RELEASE_PRODUCT_PINS_MISSING"
+        elif not replication_ok:
+            reason = "CLEAN_REPLICATION_PROOF_MISSING"
         elif p.name in PROTECTED_NAMES or kind != "INTERMEDIATE_CANDIDATE":
             reason = "PROTECTED_CLASS"
         elif digest in pins:
