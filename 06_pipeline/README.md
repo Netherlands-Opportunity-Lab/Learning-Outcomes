@@ -160,6 +160,76 @@ The existing September frozen public dashboard is unchanged until a
 new release is scientifically validated and the public data/fidelity
 manifests pass. Do not delete historical result files in the meantime.
 
+## Large historical 89-GB local master: safe native R reconciliation
+
+The user's `PISA_PIRLS_MASTER_PIPELINE` (approximately 89 GB according
+to the owner) is a mixed **historical raw-source / current / history / cache /
+code / release** tree. It has not yet been traversed from a local Windows
+session. DO NOT classify the whole tree as redundant scientific results.
+
+The owner-controlled private Drive location
+[Canonical-Results-v1](https://drive.google.com/drive/folders/1i4Kl8BOonSrAEdK_MH8wcEiPE41_Zwkb)
+contains separate catalogue, immutable objects, releases and private migration
+reports. It is not an independent backup by itself and may not have enough
+free quota for a 89-GB full copy.
+
+The same versioned `RUN.R` supports the following ordered actions, none of
+which launches student-level estimators:
+
+1. `LO_ACTION=storage-audit`: scan the complete project directory, report
+   file/folder bytes and classifications, inspect SQLite *schema* where
+   RSQLite/DBI is available, register all original relative paths LOCALLY,
+   and publish only metadata reports to the private Drive folder. No
+   hashes of all 89 GB, no cloud bulk transfer and no deletion.
+2. `LO_ACTION=storage-plan`: read the inventory, distinguish authoritative
+   current/historical registries from candidate caches and restricted input
+   files, and check Google Drive's actual free quota. No migration yet.
+3. `LO_ACTION=storage-dedupe`: optional, incremental SHA-256 audit of
+   equal-size derived files; resumable (default 2 GiB of read work per pass)
+   and estimates strictly byte-identical possible savings. **Never delete**
+   solely because sizes or SHA hashes coincide.
+4. `LO_ACTION=storage-migrate`: explicitly authorized limited batch
+   (default up to 1 GiB) of safe, high-priority aggregated result artifacts
+   only. Uses SHA-256 content-addressed Drive objects, downloads them to
+   re-check actual bytes and persists a local copy-register before proceeding.
+   This is not permission to upload OECD/IEA microdata, live SQLite files,
+   unknown archives, or code that should be versioned in Git.
+5. `LO_ACTION=storage-retirement-plan`: show files that might eventually
+   be retired, after full source/code/result/product lineage, tested
+   independent backup, clean scientific replication, and provider-rights
+   checks.
+6. `LO_ACTION=storage-cleanup-apply`: **explicitly blocked** at this
+   stage. We do not destroy unique historical research evidence just
+   because a single Drive copy exists.
+
+The original source directory is READ ONLY in all implemented storage
+actions. Its deletion is **not** safe until every unique and licensed
+source/input asset also has a separately recoverable authorized source,
+all product-version dependencies are pinned, and real end-to-end restore
+tests have passed. The journal-style relational lineage schema is tracked
+in [RESULT_LINEAGE_SCHEMA.sql](RESULT_LINEAGE_SCHEMA.sql); schema existence
+is not proof that old rows have been remapped.
+
+**One next local command after git pull:**
+
+    Sys.setenv(LO_ACTION="storage-audit")
+    source(file.path(Sys.getenv("USERPROFILE"),
+       "Downloads","Learning-Outcomes","06_pipeline","RUN.R"))
+
+The local report directory is under
+`Downloads/LO05_RESULTATEN/master_reconciliation/`. Its private Drive
+mirror will permit ChatGPT to examine findings without another uploaded ZIP.
+The Git public run-status channel receives only aggregate counts, never
+a list of filenames or absolute paths.
+
+**Product basis corrected from uploaded attachments:** the current policy
+deck contains **21 slides**, not the older prototype's 13; the science
+seminar has **50 slides** and the final science note **16 pages**.
+See [PRODUCT_SOURCE_RECONCILIATION_20261010.md](PRODUCT_SOURCE_RECONCILIATION_20261010.md)
+and the exact SHA-256 product locks. The frozen September dashboard remains
+on GitHub Pages and does not need Google Drive at runtime.
+
+
 ## Store lifecycle (only controlled non-source files)
 
 The local-only config identifies the original result directories, primary
