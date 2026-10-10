@@ -149,7 +149,7 @@ and the eight paper QA gates remain open.
 **Windows handoff after pulling this branch:**
 
     Sys.setenv(LO_ACTION='check-contract')
-    source('C:/Users/bason/Downloads/Learning-Outcomes/06_pipeline/RUN.R')
+    source(file.path(Sys.getenv('USERPROFILE'),'Downloads','Learning-Outcomes','06_pipeline','RUN.R'))
 
 The historic/producer code archival is a separate one-time invocation
 (set `LO_ACTION='vendor-push'`) so that Git history is preserved **before**
