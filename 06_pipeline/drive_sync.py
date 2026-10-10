@@ -12,6 +12,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -112,7 +113,8 @@ def manifest_for(items,root):
         st2=p.stat()
         if st1.st_size!=st2.st_size or st1.st_mtime_ns!=st2.st_mtime_ns:
             raise SyncError(f"File changed while hashing: {rel}")
-        out.append({"path":rel,"sha256":digest,"bytes":size,
+        cloud_name=digest[:2]+"/"+digest+p.suffix.lower()
+        out.append({"path":rel,"cloud_object":cloud_name,"sha256":digest,"bytes":size,
                     "scientific_status":"NOT_AUTOMATICALLY_VALIDATED",
                     "producer_git_commit":git_commit()})
     return {"schema_version":"learning-outcomes-private-sync-v1",
@@ -121,6 +123,31 @@ def manifest_for(items,root):
             "visibility":"PRIVATE_ACCOUNT_ONLY",
             "scientific_status":"NOT_AUTOMATICALLY_VALIDATED",
             "files":out}
+
+def stage_immutable_objects(files,items,root):
+    """Snapshot only complete files to immutable, content-addressed cloud objects."""
+    out=[]
+    for item,(source,rel,size,mtime) in zip(files,items):
+        digest=item["sha256"]
+        obj=root/".cloud_sync"/"objects"/item["cloud_object"]
+        obj.parent.mkdir(parents=True,exist_ok=True)
+        if obj.is_file():
+            if sha256(obj)!=digest:
+                raise SyncError("Previously staged object changed: "+str(obj))
+        else:
+            with tempfile.NamedTemporaryFile(dir=obj.parent,prefix=".snap_",delete=False) as f:
+                temp=Path(f.name)
+                with source.open("rb") as inp:
+                    shutil.copyfileobj(inp,f,length=4*1024*1024)
+                f.flush();os.fsync(f.fileno())
+            try:
+                if sha256(temp)!=digest:
+                    raise SyncError("Source changed during immutable snapshot: "+rel)
+                os.replace(temp,obj)
+            finally:
+                temp.unlink(missing_ok=True)
+        out.append(item["cloud_object"])
+    return out
 
 def write_manifest(data,where):
     where.parent.mkdir(parents=True,exist_ok=True)
@@ -138,7 +165,8 @@ def publish(cfg, dry_run=False):
     data=manifest_for(items,root)
     manifest_root=root/".cloud_sync"
     latest=manifest_root/"LATEST.json"
-    write_manifest(data,latest)
+    if not dry_run:
+        write_manifest(data,latest)
     summary={"files_selected":len(items),"bytes_selected":sum(x[2] for x in items),
              "manifest_sha256":sha256(latest),"scientific_status":"NOT_AUTOMATICALLY_VALIDATED",
              "dry_run":bool(dry_run)}
@@ -146,17 +174,18 @@ def publish(cfg, dry_run=False):
         return summary
     if not items:
         return summary
+    stage_immutable_objects(data["files"],items,root)
     binary=cfg["rclone_binary"]
     remote=cfg["remote"].rstrip("/")
     with tempfile.NamedTemporaryFile(mode="w",encoding="utf-8",prefix="lo-files-",
                                      suffix=".txt",delete=False) as f:
         paths=Path(f.name)
-        for item in items:
-            f.write(item[1]+"\n")
+        for item in data["files"]:
+            f.write(item["cloud_object"]+"\n")
     try:
-        root_arg=str(root)
+        root_arg=str(manifest_root/"objects")
         files_arg=str(paths)
-        cloud=remote+"/artifacts"
+        cloud=remote+"/objects"
         options=["--files-from",files_arg]
         transfers=["--transfers",str(int(cfg["max_transfers"])),"--checkers","8"]
         # copy, not sync: never delete remote history because local files were pruned.
