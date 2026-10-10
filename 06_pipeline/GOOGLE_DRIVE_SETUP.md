@@ -4,7 +4,35 @@ Two separate user authorizations are needed: (1) connect Google Drive to
 ChatGPT, and (2) authenticate rclone against the same Google Drive account on
 Windows. Neither authorization is available to repository scripts automatically.
 
-## Local Windows setup
+## Current project: rclone OAuth already works
+
+The user has completed Google OAuth and verified the private Drive folder
+from Windows. ChatGPT independently read the uploaded connection_test.txt.
+Do not repeat the OAuth or Google Cloud setup.
+
+**One-time local setup using the existing R runner:**
+
+    Rscript 06_pipeline/RUN.R --action=setup-drive
+
+This finds the extracted rclone.exe in Downloads, checks the configured
+lo_private remote and the existing Learning-Outcomes-Private folder, and
+writes a local-only drive.local.json under
+Downloads/LO05_RESULTATEN/.cloud_sync/. No upload or deletion occurs.
+
+**First real upload (after setup):**
+
+    Rscript 06_pipeline/RUN.R --action=publish
+
+After that, plan and execute actions attempt a verified Drive upload
+automatically at completion. For checkpoints during a long-running job,
+run the same entry point with --action=watch in a separate PowerShell
+window. This does not start a second scientific R run.
+
+These commands assume a local clone of the feature branch and Python 3
+on PATH. The October scientific engine still needs the local LO05_BUNDLE
+setting for actual calculations; the cloud setup alone does not validate it.
+
+## Local Windows setup (manual alternative)
 
 1. Connect Google Drive in the ChatGPT connection flow, with the account
    that will own the private project folder. User authorization is required.
