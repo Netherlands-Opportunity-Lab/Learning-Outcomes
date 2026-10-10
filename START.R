@@ -10,7 +10,16 @@ lo_bootstrap_main <- function() {
          "\nThe first clone needs to exist. Do not download this into another project.")
   repo <- normalizePath(repo,winslash="/",mustWork=TRUE)
   git <- unname(Sys.which("git"))
-  if (!nzchar(git)) stop("Git for Windows missing from PATH")
+  if (!nzchar(git)) {
+    program_files <- Sys.getenv("ProgramFiles",unset="C:/Program Files")
+    userlocal <- Sys.getenv("LOCALAPPDATA",unset=file.path(home,"AppData","Local"))
+    candidates <- c(file.path(program_files,"Git","cmd","git.exe"),
+                    file.path(userlocal,"Programs","Git","cmd","git.exe"))
+    found <- candidates[vapply(candidates,function(p)
+       isTRUE(file.exists(p)),logical(1))]
+    if(length(found)) git <- found[[1L]]
+  }
+  if (!nzchar(git)) stop("Git for Windows not found in PATH or standard install folders")
   command <- function(parts,allow_failure=FALSE) {
     result <- suppressWarnings(system2(git,args=shQuote(parts),
                                       stdout=TRUE,stderr=TRUE))
