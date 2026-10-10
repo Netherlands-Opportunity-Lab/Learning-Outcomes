@@ -68,6 +68,17 @@ The full clean replication is explicitly gated by LO_ALLOW_FULL_REPLICATION=YES
 and uses the 28 September scientific lock. It is not equivalent to an
 October re-estimation until all October extensions are independently validated.
 
+## Share completed results during long runs
+
+The optional **private Google Drive** publisher has been wired into the same
+R entry point, with actions publish and watch. It synchronizes finished
+allowlisted R outputs (not raw source data) into immutable SHA-256 objects,
+verifies cloud copies, and publishes a manifest pointer. GitHub stores code
+history and reviewed metadata, not private raw data.
+
+See [GOOGLE_DRIVE_SETUP.md](GOOGLE_DRIVE_SETUP.md) for user authorization,
+rclone setup, the two separate connections, and exact Windows commands.
+
 ## Store lifecycle (only controlled non-source files)
 
 The local-only config identifies the original result directories, primary
