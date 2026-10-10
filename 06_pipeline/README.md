@@ -69,6 +69,7 @@ archive and independent backup drive. Use:
     python 06_pipeline/storage_manager.py pin --input release-pins.json --config .../config.local.json
     python 06_pipeline/storage_manager.py verify-backup --config .../config.local.json
     python 06_pipeline/storage_manager.py cleanup-plan --config .../config.local.json
+    python 06_pipeline/storage_manager.py export-manifest --config .../config.local.json --output .../release_manifest_for_review.json
 
 A pin manifest is JSON, e.g.:
     {"product":"slides","release_id":"v1",
@@ -87,6 +88,8 @@ Default cleanup is still disabled. The tool refuses deletion without the
 complete pins, independent off-device backup, tested restoration, replication
 receipt and retention period. Method, source and validation registers and
 current central-result registries are explicitly protected.
+
+**For intermediate results in Git:** commit only reviewed, path-free release manifests with content hashes, sizes, scientific status and producer-code references. The `export-manifest` command generates a draft metadata-only inventory; it does NOT approve publication of the underlying result bytes. Upload small aggregated result files only after the existing scientific and source-provider rights gates permit it.
 
 **Never push the local provenance.sqlite or object store into public Git.**
 They can contain sensitive absolute paths, restricted source lineage and
