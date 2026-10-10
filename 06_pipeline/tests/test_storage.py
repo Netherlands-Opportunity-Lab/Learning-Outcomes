@@ -48,7 +48,7 @@ class StorageTests(unittest.TestCase):
         digest=s.sha256(self.result)
         pins=self.inp.parent/"pins.json"
         pins.write_text(json.dumps({"product":"slides","release_id":"v1",
-                                    "artifact_sha256":[digest]}),encoding="utf-8")
+                                    "artifact_sha256":[digest],"dependency_closure_verified":True}),encoding="utf-8")
         s.pin(self.db,pins)
         with patch.object(s,"independent",return_value=True):
             s.verify_backup(self.db,self.cfg)
@@ -65,9 +65,15 @@ class StorageTests(unittest.TestCase):
         pinfile=self.inp.parent/"pins.json"
         for product in ("slides","dashboard","paper"):
             pinfile.write_text(json.dumps({"product":product,"release_id":"v1",
-                "artifact_sha256":[digest]}),encoding="utf-8")
+                "artifact_sha256":[digest],"dependency_closure_verified":True}),encoding="utf-8")
             s.pin(self.db,pinfile)
         self.cfg["automatic_cleanup_enabled"]=True
+        proof=self.inp.parent/"clean_replication_pass.json"
+        proof.write_text(json.dumps({"release_id":"v1","status":"PASS",
+             "clean_from_sources":True,"result_fidelity_verified":True,
+             "source_editions_verified":True}),encoding="utf-8")
+        self.cfg["replication_receipt"]=proof
+        self.cfg["replication_receipt_sha256"]=s.sha256(proof)
         with patch.object(s,"independent",return_value=True):
             s.verify_backup(self.db,self.cfg)
             plan={v["path"]:v["decision"] for v in s.cleanup_plan(self.db,self.cfg)}
