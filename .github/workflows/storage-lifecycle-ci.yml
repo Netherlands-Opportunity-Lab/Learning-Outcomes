@@ -7,13 +7,17 @@ on:
   workflow_dispatch:
 jobs:
   storage-tests:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Test content-addressed store and safety gates
+      - name: Test local storage and private Drive sync (no credentials)
         run: python -m unittest discover -s 06_pipeline/tests -v
   r-entrypoint-parse:
     runs-on: ubuntu-latest
