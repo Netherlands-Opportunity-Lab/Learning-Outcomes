@@ -96,7 +96,7 @@ def eligible(root, min_age_seconds, max_file_bytes, now=None):
             if rel is None:
                 continue
             st=p.stat()
-            if st.st_size>max_file_bytes or now-st.st_mtime<min_age_seconds:
+            if st.st_size>max_file_bytes or (min_age_seconds>0 and now-st.st_mtime<min_age_seconds):
                 continue
             found.append((p,rel,st.st_size,st.st_mtime))
     return found
