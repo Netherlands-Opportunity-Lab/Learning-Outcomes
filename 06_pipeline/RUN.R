@@ -292,7 +292,8 @@ lo_pipeline_product_contract <- function(repo,bundle) {
          local=environment(),encoding="UTF-8")
   root <- file.path(Sys.getenv("USERPROFILE",unset=path.expand("~")),
                     "Downloads","LO05_RESULTATEN","runs")
-  lo_product_gate(bundle,output_root=root)
+  lo_product_gate(bundle,output_root=root,
+    product_register=file.path(repo,"06_pipeline","BR_POLICY_DECK_21_SOURCE_REGISTER_20261010.csv"))
 }
 
 lo_pipeline_main <- function() {
@@ -303,7 +304,7 @@ lo_pipeline_main <- function() {
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
               all="FULL_INTERNATIONAL")
   if (!scope %in% names(scopes)) stop("Unknown scope: ",scope)
-  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","reference-audit","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish")
+  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","reference-audit","storage-audit","storage-plan","storage-migrate","storage-retirement-plan","storage-cleanup-apply","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish")
   if (!action %in% actions) stop("Unknown action: ",action)
 
   stamp <- format(Sys.time(),"%Y%m%d_%H%M%S")
@@ -333,6 +334,16 @@ lo_pipeline_main <- function() {
   if (action %in% c("inventory","migrate","status")) {
     lo_pipeline_storage(repo,action,config)
     return(invisible(run))
+  }
+  if(action %in% c("storage-audit","storage-plan","storage-migrate",
+                   "storage-retirement-plan","storage-cleanup-apply")) {
+    source(file.path(repo,"06_pipeline","MASTER_STORAGE.R"),
+           local=environment(),encoding="UTF-8")
+    answer <- lo_master_action(action)
+    tryCatch(lo_pipeline_publish_status(repo,action,scope,"OBSERVED"),
+      error=function(e)warning("Public status held; private audit intact: ",
+                               conditionMessage(e),call.=FALSE))
+    return(invisible(answer))
   }
   if(action=="setup-drive") {
     lo_pipeline_setup_drive()
