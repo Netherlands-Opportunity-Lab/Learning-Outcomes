@@ -49,9 +49,15 @@ lo_product_gate <- function(bundle, output_root, expected=list(
   phase[tasks$country%in%foreign&
         paste(task_series,tasks$year,sep="~YEAR~")%in%wanted] <- "OECD19"
   counts <- table(factor(phase,levels=c("NLD","OECD19","OTHER")))
-  require(identical(unname(as.integer(counts)),
-     as.integer(c(expected$nld,expected$oecd19,expected$other))),
-     "contract country/scope counts")
+  expect_counts <- as.integer(c(expected$nld,expected$oecd19,expected$other))
+  observed_counts <- unname(as.integer(counts))
+  if(!identical(observed_counts,expect_counts))
+    stop("CONTRACT_INTEGRITY_FAIL: scope counts observed=",
+      paste(observed_counts,collapse="/")," expected=",
+      paste(expect_counts,collapse="/"),
+      " reference_series_match=",
+      sum(paste(task_series,tasks$year,sep="~YEAR~")%in%wanted),
+      call.=FALSE)
   unmapped <- setdiff(figures$figure_id,links$contract_figure_id)
   require(length(unmapped)==expected$ranks &&
        all(grepl("^TR_POSITION_",unmapped)) &&
