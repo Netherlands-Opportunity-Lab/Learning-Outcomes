@@ -41,7 +41,7 @@ write_gate(data.frame(requirement_id=sprintf("Q%02d",1:8),
  action=rep("REVIEW",8)),"OPEN_PAPER_REQUIREMENTS.csv")
 members<-c("NLD","CZE","AUS","AUT","BEL","CAN","CHE","DEU","DNK",
  "ESP","FIN","FRA","GBR","IRL","ISL","ITA","KOR","LUX","NOR","SWE","USA")
-sig<-paste(as.character(task[n-1L,fields]),collapse="|")
+sig<-do.call(paste,c(task[n-1L,fields,drop=FALSE],sep="|"))
 write_gate(data.frame(reference="OECD_GDP_PPP_GE_CZE_2024",
  series_id=sig,years="2015",eligible_members=paste(members,collapse=";")),
  "REFERENTIE_ASSEMBLAGE.csv.gz",TRUE)
