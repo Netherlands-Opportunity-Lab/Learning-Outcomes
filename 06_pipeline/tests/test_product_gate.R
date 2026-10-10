@@ -54,7 +54,9 @@ expected<-list(tasks=n,figures=n+1L,paper=8L,refs=1L,
 res<-lo_product_gate(root,tempdir(),expected=expected)
 stopifnot(length(res$positions)==1L,
  identical(unname(as.integer(res$counts)),c(n-2L,1L,1L)),
- file.exists(file.path(res$report_dir,"SLIDE_13_REQUIREMENT_STATUS.csv")))
+ file.exists(file.path(res$report_dir,"SLIDE_21_REQUIREMENT_STATUS.csv")),
+ nrow(read.csv(file.path(res$report_dir,"SLIDE_21_REQUIREMENT_STATUS.csv")))==21L,
+ file.exists(file.path(res$report_dir,"SOURCE_PRODUCTS_LOCK_AND_CAVEATS.csv")))
 # Regression: missing one metric-product link must fail closed.
 write_gate(data.frame(metric_key=task$metric_key[-1L],
  contract_figure_id=fid[-1L]),"PRODUCT_FIGUUR_RESULTAAT.csv.gz",TRUE)
