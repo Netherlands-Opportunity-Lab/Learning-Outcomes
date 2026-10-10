@@ -109,6 +109,57 @@ the published dashboard. New scientific results must pass the scientific
 release and public-data/fidelity gates before replacing the published JSON
 assets; do not publish arbitrary LO05 run outputs directly as dashboard data.
 
+## October scientific production: one active R entry point
+
+The October v2 source bundle is **content-locked**. The single active
+`06_pipeline/RUN.R` now discovers the precise existing extracted bundle or
+the original reviewed `LEARNING_OUTCOMES_INTEGRAAL_v2_20261010.zip` under
+Downloads. It verifies the ZIP SHA-256, all 56 source manifest entries
+and critical R code SHAs. It refuses mismatched or mixed releases.
+
+Actions with the same R entry point:
+
+- `LO_ACTION=check-contract`: read-only scientific product contract audit,
+  with 79,448 task IDs, 1,867 NL tasks, 27,979 tasks for 19 foreign
+  reference countries, 49,602 other-country tasks, 138 figure contracts,
+  13 core-deck slides and Q01–Q08. It writes explicit coverage/hold reports.
+- `LO_ACTION=vendor-push`: one-time archive of original October scientific
+  producer **R code only** on this feature Git branch, with SHA-256
+  provenance and sanitation of any personal fallback path. This does not
+  publish pupil files, result stores or caches.
+- `LO_ACTION=plan`: invokes the same contract gate before the LO05
+  planning and provenance consolidation, without calculations.
+- `LO_ACTION=execute, LO_SCOPE=nld_plus_19`: NL phase first, then 19
+  reference countries; previously verified core/gender engine estimates
+  can be reused, and non-core legacy estimators remain in quarantined
+  candidate checkpoints. No silent scientific promotion.
+- `LO_SCOPE=other`: optional later international coverage, independently
+  invoked and not blocking the main paper/deck release.
+- `LO_ACTION=reference-audit`: separately pins the World Bank WDI 2024
+  PPP numeric source snapshot and reports any differences without
+  changing the locked 19-country production list.
+
+Exact user-oriented status and scientific gaps are documented in
+[SCIENCE_AUDIT_20261010.md](SCIENCE_AUDIT_20261010.md).
+**Do not confuse successful structural validation with completed learner
+calculations or an AER cold replication.** The source engine still blocks
+some modules without validated input columns/design-based uncertainties,
+and the eight paper QA gates remain open.
+
+**Windows handoff after pulling this branch:**
+
+    Sys.setenv(LO_ACTION='check-contract')
+    source('C:/Users/bason/Downloads/Learning-Outcomes/06_pipeline/RUN.R')
+
+The historic/producer code archival is a separate one-time invocation
+(set `LO_ACTION='vendor-push'`) so that Git history is preserved **before**
+starting long production. Subsequently set `LO_ACTION='execute'` and
+`LO_SCOPE='nld_plus_19'` in the same RStudio session.
+
+The existing September frozen public dashboard is unchanged until a
+new release is scientifically validated and the public data/fidelity
+manifests pass. Do not delete historical result files in the meantime.
+
 ## Store lifecycle (only controlled non-source files)
 
 The local-only config identifies the original result directories, primary
