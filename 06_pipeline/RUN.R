@@ -61,7 +61,10 @@ lo_pipeline_find_rclone <- function() {
     c(file.path(d,"rclone.exe"),
       file.path(list.dirs(d,recursive=FALSE,full.names=TRUE),"rclone.exe"))
   }),use.names=FALSE)
-  candidates <- candidates[file.exists(candidates)]
+  candidates <- as.character(unlist(candidates,use.names=FALSE))
+  candidates <- candidates[!is.na(candidates) & nzchar(candidates)]
+  candidates <- candidates[vapply(candidates,function(p)
+    isTRUE(file.exists(as.character(p)[1L])),logical(1L))]
   if (!length(candidates))
     stop("rclone.exe not found in Downloads or PATH")
   normalizePath(candidates[[1]],winslash="/",mustWork=TRUE)
