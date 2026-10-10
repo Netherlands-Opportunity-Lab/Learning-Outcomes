@@ -68,9 +68,28 @@ lo_pipeline_find_rclone <- function() {
 }
 
 lo_pipeline_setup_drive <- function() {
-  base <- file.path(path.expand("~"),"Downloads","LO05_RESULTATEN")
-  if (!dir.exists(base))
-    stop("LO05_RESULTATEN missing; no scientific outputs to sync yet")
+  home <- path.expand("~")
+  roots <- unique(c(file.path(home,"Downloads"),
+                    file.path(Sys.getenv("USERPROFILE",home),"Downloads"),
+                    file.path(home,"OneDrive","Downloads"),
+                    file.path(home,"OneDrive","Documents"),
+                    file.path(home,"Documents")))
+  preferred <- Sys.getenv("LO_LOCAL_RESULTS_ROOT","")
+  candidates <- if (nzchar(preferred)) preferred else character()
+  candidates <- c(candidates,file.path(roots,"LO05_RESULTATEN"))
+  # A missing results folder is not an error for a first-time cloud setup.
+  # Only create an empty output root; never overwrite historical results.
+  existing <- candidates[dir.exists(candidates)]
+  if (length(existing)) {
+    base <- normalizePath(existing[[1]],winslash="/",mustWork=TRUE)
+  } else if (nzchar(preferred)) {
+    base <- normalizePath(preferred,winslash="/",mustWork=FALSE)
+    dir.create(base,recursive=TRUE,showWarnings=FALSE)
+  } else {
+    base <- file.path(roots[[1]],"LO05_RESULTATEN")
+    dir.create(base,recursive=TRUE,showWarnings=FALSE)
+  }
+  if (!dir.exists(base)) stop("Cannot create or access local results root: ",base)
   rc <- lo_pipeline_find_rclone()
   remotes <- suppressWarnings(system2(rc,"listremotes",stdout=TRUE,stderr=TRUE))
   code <- attr(remotes,"status")
