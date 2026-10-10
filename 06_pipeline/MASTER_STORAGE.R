@@ -411,7 +411,8 @@ lo_master_share_reports <- function(cfg) {
     "MASTER_STORAGE_ACTION_PLAN.csv",
     "MASTER_FILES_PRIVATE.csv",
     "MASTER_RETIREMENT_PLAN.csv",
-    "SQLITE_SCHEMA_LINEAGE_AUDIT.csv"))
+    "SQLITE_SCHEMA_LINEAGE_AUDIT.csv",
+    "EXACT_DUPLICATE_RESULT_GROUPS.csv"))
   for(path in paths) {
     if(!file.exists(path)||is.na(file.info(path)$size)||
        file.info(path)$size>35*2^20)next
@@ -456,6 +457,78 @@ lo_master_record_run_status <- function(cfg,action,result=NULL) {
   invisible(p)
 }
 
+lo_master_duplicate_audit <- function(cfg) {
+  if(!requireNamespace("digest",quietly=TRUE))
+    stop("digest required for an exact content-based duplicate audit")
+  rows<-lo_master_load_files(cfg)
+  accepted<-rows$classification %in%
+    c("DERIVED_CANDIDATE_UNVERIFIED","CANONICAL_RESULT_PROTECTED")
+  byte_sizes<-rows$bytes[accepted&!is.na(rows$bytes)&rows$bytes>0]
+  common<-as.numeric(names(which(table(byte_sizes)>1L)))
+  subset<-rows[accepted & !is.na(rows$bytes) &
+               rows$bytes%in%common,,drop=FALSE]
+  if(!nrow(subset)) {
+    cat("Duplicate audit: no same-size result candidates; nothing deleted.\n")
+    return(invisible(data.frame()))
+  }
+  receiptpath<-file.path(cfg$state,"DUPLICATE_SHA_PROGRESS.csv")
+  prev<-if(file.exists(receiptpath))
+    read.csv(receiptpath,stringsAsFactors=FALSE) else
+    data.frame(relative_path=character(),bytes=double(),
+      modified_utc=character(),sha256=character(),stringsAsFactors=FALSE)
+  verified<-paste(prev$relative_path,prev$bytes,prev$modified_utc,sep="|")
+  requested<-paste(subset$relative_path,subset$bytes,subset$modified_utc,sep="|")
+  todo<-subset[!requested%in%verified,,drop=FALSE]
+  maxgb<-suppressWarnings(as.numeric(Sys.getenv("LO_DEDUPE_BATCH_GIB","2")))
+  if(!is.finite(maxgb)||maxgb<=0||maxgb>20)
+    stop("LO_DEDUPE_BATCH_GIB must be between 0 and 20")
+  remaining<-maxgb*2^30
+  processed<-0L
+  todo<-todo[order(todo$bytes),,drop=FALSE]
+  for(i in seq_len(nrow(todo))) {
+    if(!is.finite(todo$bytes[i])||todo$bytes[i]>remaining)next
+    src<-file.path(cfg$root,todo$relative_path[i])
+    if(!file.exists(src)||isTRUE(dir.exists(src)))next
+    m1<-file.info(src)
+    if(is.na(m1$size)||m1$size!=todo$bytes[i])next
+    sha<-unname(digest::digest(file=src,algo="sha256"))
+    m2<-file.info(src)
+    if(m1$size!=m2$size || m1$mtime!=m2$mtime)next
+    prev<-rbind(prev,data.frame(relative_path=todo$relative_path[i],
+       bytes=todo$bytes[i],modified_utc=todo$modified_utc[i],
+       sha256=sha,stringsAsFactors=FALSE))
+    remaining<-remaining-todo$bytes[i];processed<-processed+1L
+    if(processed%%25L==0L)
+      lo_master_write_csv(prev,receiptpath)
+  }
+  lo_master_write_csv(prev,receiptpath)
+  valid<-merge(prev,subset,by=c("relative_path","bytes","modified_utc"),
+               all=FALSE)
+  groups<-table(valid$sha256)
+  duplicate_sha<-names(groups)[groups>=2L]
+  groupsout<-valid[valid$sha256%in%duplicate_sha,
+    c("relative_path","sha256","bytes","classification"),drop=FALSE]
+  groupsout<-groupsout[order(groupsout$sha256,
+                             groupsout$classification,
+                             groupsout$relative_path),,drop=FALSE]
+  if(nrow(groupsout)) {
+    groupsout$copy_status<-"EXACT_DUPLICATE_HOLD_ORIGINAL_UNTIL_FULL_RESTORE"
+    groupsout$reclaim_estimate_bytes<-ifelse(duplicated(groupsout$sha256),
+                                              groupsout$bytes,0)
+  } else {
+    groupsout<-data.frame(relative_path=character(),sha256=character(),
+      bytes=double(),classification=character(),copy_status=character(),
+      reclaim_estimate_bytes=double())
+  }
+  lo_master_write_csv(groupsout,
+     file.path(cfg$state,"EXACT_DUPLICATE_RESULT_GROUPS.csv"))
+  cat("Duplicate SHA audit: ",processed," files hashed this batch; ",
+      length(duplicate_sha)," exact repeated result objects; ",
+      format(round(sum(groupsout$reclaim_estimate_bytes)/2^30,3),nsmall=3),
+      " GiB is a theoretical upper bound, NOT deletion authorization.\n",sep="")
+  invisible(groupsout)
+}
+
 lo_master_action <- function(action) {
   cfg<-lo_master_init()
   if(identical(action,"storage-cleanup-apply"))
@@ -464,6 +537,7 @@ lo_master_action <- function(action) {
   result<-switch(action,
     "storage-audit"=lo_master_inventory(cfg),
     "storage-plan"=lo_master_plan(cfg),
+    "storage-dedupe"=lo_master_duplicate_audit(cfg),
     "storage-migrate"=lo_master_migrate(cfg),
     "storage-retirement-plan"=lo_master_gc_plan(cfg),
     stop("Unsupported storage action: ",action))
