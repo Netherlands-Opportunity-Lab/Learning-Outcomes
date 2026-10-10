@@ -27,6 +27,10 @@ stopifnot(nrow(files)==7L,
      "03_RESULTS/current/CURRENT_RESULTS.parquet"],
            "CANONICAL_REGISTRY_PROTECTED"),
   sum(files$bytes)==16L+6*10L)
+status_dir<-lo_master_record_run_status(cfg,"storage-audit")
+stopifnot(file.exists(file.path(status_dir,"STATUS.txt")),
+  any(grepl("^STORAGE_FILES_SCANNED=7$",
+      readLines(file.path(status_dir,"STATUS.txt")))))
 plan<-lo_master_plan(cfg)
 stopifnot(!any(plan$can_delete_local=="YES"),
           identical(plan$storage_action[plan$relative_path==
