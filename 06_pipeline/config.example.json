@@ -1,0 +1,15 @@
+{
+  "scan_roots": [
+    "${LO_LOCAL_PROJECT_ROOT}"
+  ],
+  "archive_root": "${LO_ARCHIVE_ROOT}",
+  "backup_root": "${LO_BACKUP_ROOT}",
+  "minimum_age_days": 90,
+  "required_product_pins": [
+    "slides",
+    "dashboard",
+    "paper"
+  ],
+  "automatic_cleanup_enabled": false,
+  "notes": "Copy to config.local.json (gitignored). Provide absolute paths outside repository and two independent storage devices."
+}
