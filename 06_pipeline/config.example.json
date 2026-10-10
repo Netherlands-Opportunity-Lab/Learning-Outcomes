@@ -11,5 +11,7 @@
     "paper"
   ],
   "automatic_cleanup_enabled": false,
-  "notes": "Copy to config.local.json (gitignored). Provide absolute paths outside repository and two independent storage devices."
+  "notes": "Set independent off-device primary+backup roots; replicate receipt SHA only after a real end-to-end clean scientific validation. GitHub never stores private paths/data.",
+  "replication_receipt": "${LO_REPLICATION_RECEIPT}",
+  "replication_receipt_sha256": ""
 }
