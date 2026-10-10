@@ -1,0 +1,28 @@
+# Source-version reconciliation — 10 October 2026
+
+## Controlling source products
+
+Latest user-approved policy deck is **21 slides**, not the former 13-slide prototype. Authoritative uploaded PowerPoint: `20260929BR_Leerprestaties_gecontroleerd_20261001(3).pptx`, SHA-256 `cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac`. Exact slide titles, families and statuses are pinned in `BR_POLICY_DECK_21_SOURCE_REGISTER_20261010.csv` and the release products in `USER_PRODUCT_SOURCE_LOCK_20261010.csv`.
+
+The 21-slide earlier `20260929BR_Leerprestaties_aangevuld_20260930(1).pptx` is **not** the controlling source. The principal slide-content difference is slide 12: the newer version has three actual charts (PIRLS home language and TIMSS 2023 math/science, with uncertainty/interpretation notes). All other slide title/text and speaker notes were structurally unchanged in the tested comparison. Do not restore the older empty placeholder.
+
+The separate scientific seminar is **50 pages/slides** (`PISA_PIRLS_TIMSS_FINAL_WETENSCHAPPELIJK_DECK_20260928.pdf`, SHA-256 `b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4`). The scientific note has **16 pages** (`PISA_PIRLS_TIMSS_FINAL_WETENSCHAPPELIJKE_NOTITIE_20260928.pdf`, SHA-256 `be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27`). These must not be collapsed into the 21-slide policy deck or the 138 scientific figure contracts.
+
+## Explicit consistency holds — no silent numerical editing
+
+- The note's final update (page 16) states that older PIRLS 2001/2006/2011 core standard errors were recomputed cycle-specifically. Earlier text in the SAME PDF (notably pages 3–4 and 13) still says that old PIRLS core SEs are held. The 50-slide seminar PDF also retains older wording on slides 6 and 49. This is an **internal revision conflict**; the late update has chronological priority but numeric SEs must be retrieved and mapped to exact record IDs before changing displays. No fabricated historical uncertainty allowed.
+- Final note (page 16) reports TIMSS 1995 and TIMSS 2015 Numeracy-specific repair and 2,569/2,570 completion tasks, whereas earlier chapter 15 holds those issues. Preserve the original freeze and register precisely which results were repaired and which one task was blocked (PISA 2003 Korea reading PV check). This evidence must be reconciled with the current October task grid rather than recomputing all 1995 or 2015 tasks.
+- Policy slide 2 uses an explicit 42-system common pool (with other domain-specific additions); science seminar/notes use 31-system international absolute ESCS comparison, balanced 46/48/49 panels and legacy 13/32 trend panels. The **new OECD19 (foreign) PPP group is a separate analytical product scope**, not an interchangeable replacement for historical 31-, 42-, 46-, 48-, 49-, or 13/32-system panels. Preserve all with uniquely named versioned comparator IDs and never silently alter the country sets.
+- Policy slides 7–9 and 21 use the trend-comparable 13-item Cobreros SES and explicitly mark V8 results as conditional. Do not relabel these as standard OECD national ESCS or an unconditional publication release. Slide 21 contains observed coverage 98.9%, 97.6%, 96.0%, 91.9% in years 2015, 2018, 2022, 2025; never infer uniform item coverage.
+- Policy slide 12 shows four *frequencies of test language at home* in TIMSS, and the related PIRLS language categories; it does **not** establish a complete exact Dutch/non-Dutch classification for all surveys. Slide 18 is correctly held pending validated Dutch-language peer classification.
+- Policy slides 16–17 use reciprocal exposures Q1→Q4 and Q4→Q1. Equal PIRLS/TIMSS point values in these two exposure directions should not be auto-corrected without checking the weighting, symmetry and exact input series. PISA values differ slightly. Preserve user figures and investigate scientific source parity.
+- Policy slide 19 has generation-specific migrant-peer exposure; slide 20 has high-achiever-peer (raw-wave for PISA). These are descriptives within a defined peer unit (school×class or school×PROGN); never swap for simple school averages.
+- Scientific/policy distinction from the impact document: the economics paper, public dashboard, empirical ESB diagnosis, and separate 'Doen wat werkt' intervention-evidence strategy are different deliverables. No causal claims that educational outcomes declined because of insufficient evidence-based interventions.
+
+## Required pipeline changes implemented
+
+The Git runner's `PRODUCT_SCOPE_GATE.R` now pins the user-leading **21-slide register**, the 50-slide seminar and 16-page scientific note separately. The obsolete `SLIDE_13_REQUIREMENT_STATUS.csv` report is replaced with `SLIDE_21_REQUIREMENT_STATUS.csv` and `SOURCE_PRODUCTS_LOCK_AND_CAVEATS.csv`. Existing 138 figure contracts are still checked independently, not replaced by only 21 figures. The current public frozen dashboard and original user PowerPoint content are not edited or overwritten.
+
+## Storage deletion safety
+
+The 89-GB local `PISA_PIRLS_MASTER_PIPELINE` is an *uninspected local source/derived tree*, not 89 GB of known redundant results. The runner must inventory its entire content, identify canonical current/history/official data/producer source versions, record SHA-256 for selected migrated artifacts, verify encrypted/private remote readback, inspect actual quota, establish independent second backup and restore, and link all product dependencies before authorizing irreversible deletion. During the first phases, all deletion actions are fail-closed. An R Studio cleanup function may later target only producer-owned, verified nonreferenced derived duplicates or stale scratch, not unrestricted Downloads.
