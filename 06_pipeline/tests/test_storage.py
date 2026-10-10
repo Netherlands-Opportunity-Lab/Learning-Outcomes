@@ -87,9 +87,9 @@ class StorageTests(unittest.TestCase):
         self.cfg["replication_receipt_sha256"]=s.sha256(proof)
         with patch.object(s,"independent",return_value=True):
             s.verify_backup(self.db,self.cfg)
-            plan={v["path"]:v["decision"] for v in s.cleanup_plan(self.db,self.cfg)}
-            self.assertEqual(plan[str(self.result)],"PRODUCT_PIN")
-            self.assertEqual(plan[str(surplus)],"ELIGIBLE_AFTER_GATES")
+            plan={v["sha256"]:v["decision"] for v in s.cleanup_plan(self.db,self.cfg)}
+            self.assertEqual(plan[digest],"PRODUCT_PIN")
+            self.assertEqual(plan[s.sha256(surplus)],"ELIGIBLE_AFTER_GATES")
             output=s.cleanup(self.db,self.cfg,apply=True)
         self.assertEqual(output["deleted"],1)
         self.assertTrue(self.result.exists())
