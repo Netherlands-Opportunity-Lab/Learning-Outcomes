@@ -42,6 +42,30 @@ lo_pipeline_storage <- function(repo, action, config) {
   invisible(out)
 }
 
+lo_pipeline_drive_publish <- function(repo,action="publish") {
+  config<-Sys.getenv("LO_DRIVE_SYNC_CONFIG","")
+  if(!nzchar(config)) {
+    message("Google Drive cloud sync not configured: set LO_DRIVE_SYNC_CONFIG. ",
+            "No results uploaded; existing local results remain intact.")
+    return(invisible(FALSE))
+  }
+  if(!file.exists(config)) stop("LO_DRIVE_SYNC_CONFIG points to missing file")
+  binary<-Sys.getenv("LO_PYTHON","python")
+  script<-file.path(repo,"06_pipeline","drive_sync.py")
+  gitsha<-lo_pipeline_git_info(repo)
+  old<-Sys.getenv("LO_PRODUCER_GIT_COMMIT",unset=NA_character_)
+  on.exit(if(is.na(old)) Sys.unsetenv("LO_PRODUCER_GIT_COMMIT")
+          else Sys.setenv(LO_PRODUCER_GIT_COMMIT=old),add=TRUE)
+  Sys.setenv(LO_PRODUCER_GIT_COMMIT=gitsha)
+  output<-suppressWarnings(system2(binary,
+     shQuote(c(script,action,"--config",config)),stdout=TRUE,stderr=TRUE))
+  code<-attr(output,"status")
+  cat(paste(output,collapse="\n"),"\n")
+  if(!is.null(code) && code!=0L)
+    stop("Cloud sync FAILED; scientific run outputs remain local and unchanged")
+  invisible(TRUE)
+}
+
 lo_pipeline_git_info <- function(repo) {
   git <- Sys.which("git")
   if (!nzchar(git)) return("git_not_available")
@@ -117,7 +141,7 @@ lo_pipeline_main <- function() {
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
               all="FULL_INTERNATIONAL")
   if (!scope %in% names(scopes)) stop("Unknown scope: ",scope)
-  actions <- c("plan","execute","replicate","vendor","inventory","migrate","maintain","status")
+  actions <- c("plan","execute","replicate","vendor","inventory","migrate","maintain","status","publish","watch")
   if (!action %in% actions) stop("Unknown action: ",action)
 
   stamp <- format(Sys.time(),"%Y%m%d_%H%M%S")
@@ -133,6 +157,10 @@ lo_pipeline_main <- function() {
   config <- Sys.getenv("LO_STORAGE_CONFIG","")
   if (action %in% c("inventory","migrate","status")) {
     lo_pipeline_storage(repo,action,config)
+    return(invisible(run))
+  }
+  if(action%in%c("publish","watch")) {
+    lo_pipeline_drive_publish(repo,action)
     return(invisible(run))
   }
   if (action=="maintain") {
@@ -185,6 +213,13 @@ lo_pipeline_main <- function() {
     # Record newly created outputs without deleting original caches.
     lo_pipeline_storage(repo,"migrate",config)
     lo_pipeline_storage(repo,"cleanup-plan",config)
+  }
+  # Cloud publish is a post-production side effect; failure never overwrites
+  # scientific results. During long runs a scheduled --action=publish task
+  # independently uploads only completed atomic checkpoints.
+  if(nzchar(Sys.getenv("LO_DRIVE_SYNC_CONFIG",""))) {
+    tryCatch(lo_pipeline_drive_publish(repo,"publish"),
+      error=function(e)warning("Cloud sync held after computation: ",conditionMessage(e)))
   }
   invisible(run)
 }
