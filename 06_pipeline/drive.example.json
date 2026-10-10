@@ -1,5 +1,5 @@
 {
-  "local_results_root": "C:/Users/REPLACE_WITH_USER/Downloads/LO05_RESULTATEN",
+  "local_results_root": "${LO_LOCAL_RESULTS_ROOT}",
   "remote": "lo_private:Learning-Outcomes-Private",
   "data_visibility": "PRIVATE_ACCOUNT_ONLY",
   "rclone_binary": "rclone",
