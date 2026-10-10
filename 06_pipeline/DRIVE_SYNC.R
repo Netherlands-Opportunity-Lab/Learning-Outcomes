@@ -94,12 +94,15 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
       ext <- tolower(tools::file_ext(p))
       object <- paste0(remote,"/objects/",substr(rec$sha256,1,2),"/",rec$sha256,".",ext)
       # Copying to immutable object names preserves every earlier version.
+      # Google Drive MD5 metadata may be absent or delayed. Verify actual
+      # remote bytes by reading the object back and comparing SHA-256.
       lo_drive_run(exe,c("copyto",p,object))
-      local_md5 <- unname(tools::md5sum(p))
-      cloud <- lo_drive_run(exe,c("md5sum",object))
-      if (!length(cloud) || !identical(tolower(strsplit(trimws(cloud[[1]]),"[[:space:]]+")[[1]][1]),
-                                      tolower(local_md5)))
-        stop("Remote checksum mismatch: ",rec$path)
+      verify_file <- tempfile("lo_remote_verify_",fileext=paste0(".",ext))
+      tryCatch({
+        lo_drive_run(exe,c("copyto",object,verify_file))
+        if (!identical(digest::digest(file=verify_file,algo="sha256"),rec$sha256))
+          stop("Remote SHA-256 mismatch: ",rec$path)
+      },finally=unlink(verify_file))
       if (!identical(digest::digest(file=p,algo="sha256"),rec$sha256))
         stop("Local file changed during transfer: ",rec$path)
       uploaded <- uploaded+1L
@@ -116,10 +119,12 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
     id <- paste0(format(Sys.time(),"%Y%m%dT%H%M%SZ",tz="UTC"),"_",substr(mh,1,16))
     destination <- paste0(remote,"/manifests/",id,".json")
     lo_drive_run(exe,c("copyto",manifestfile,destination))
-    md5 <- unname(tools::md5sum(manifestfile))
-    got <- lo_drive_run(exe,c("md5sum",destination))
-    if (!length(got) || !identical(tolower(strsplit(trimws(got[[1]]),"[[:space:]]+")[[1]][1]),
-                                  tolower(md5))) stop("Remote manifest verification failed")
+    verify_manifest <- tempfile("lo_remote_manifest_",fileext=".json")
+    tryCatch({
+      lo_drive_run(exe,c("copyto",destination,verify_manifest))
+      if (!identical(digest::digest(file=verify_manifest,algo="sha256"),mh))
+        stop("Remote manifest SHA-256 verification failed")
+    },finally=unlink(verify_manifest))
     pointer <- file.path(stage,"pointer_pending.json")
     jsonlite::write_json(list(manifest=id,sha256=mh),pointer,auto_unbox=TRUE,pretty=TRUE)
     lo_drive_run(exe,c("copyto",pointer,paste0(remote,"/LATEST.json")))
