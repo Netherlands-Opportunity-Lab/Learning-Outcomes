@@ -160,6 +160,21 @@ The existing September frozen public dashboard is unchanged until a
 new release is scientifically validated and the public data/fidelity
 manifests pass. Do not delete historical result files in the meantime.
 
+## One RStudio command, no routine PowerShell
+
+Save the reviewed GitHub root `START.R` **once** to the Windows Downloads
+folder (a standalone identical copy is included in the 10 October handoff ZIP).
+Then run just:
+
+    source(file.path(Sys.getenv("USERPROFILE"),"Downloads","START.R"))
+
+It checks the exact expected repository and feature branch, runs a
+`git pull --ff-only` (no force/reset or branch switching), and invokes the
+existing `06_pipeline/RUN.R`. By default it selects the non-destructive
+`storage-audit`, regardless of an old RStudio LO_ACTION. Explicitly set
+`LO_START_ACTION` for other stages; see the source-locked handoff. It does
+not run science/cleanup invisibly.
+
 ## Large historical 89-GB local master: safe native R reconciliation
 
 The user's `PISA_PIRLS_MASTER_PIPELINE` (approximately 89 GB according
