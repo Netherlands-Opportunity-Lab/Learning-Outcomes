@@ -45,6 +45,8 @@ def classify(p: Path) -> str:
         return "SOURCE_NO_REDISTRIBUTION"
     if p.suffix.lower() in CODE_EXT:
         return "CODE_PROTECTED"
+    if p.suffix.lower() in {".sqlite",".db",".json"}:
+        return "PINNED_CANDIDATE"
     if name in PROTECTED_NAMES or "release" in (x.lower() for x in p.parts):
         return "PINNED_CANDIDATE"
     if p.suffix.lower() in DATA_EXT:
@@ -94,6 +96,13 @@ def load_config(path: Path) -> dict:
     cfg["scan_roots"] = [canonical(p) for p in cfg["scan_roots"]]
     cfg.setdefault("minimum_age_days", 30)
     cfg.setdefault("automatic_cleanup_enabled", False)
+    cfg.setdefault("required_product_pins", ["slides","dashboard","paper"])
+    if not cfg["scan_roots"]:
+        raise ValueError("At least one explicit input root required")
+    for root in cfg["scan_roots"]:
+        for target in (cfg["archive_root"],cfg["backup_root"]):
+            if target is not None and (target == root or root in target.parents):
+                raise ValueError("Archive and backup must be outside scanned source roots")
     return cfg
 
 def connect(root: Path):
@@ -110,6 +119,11 @@ def connect(root: Path):
           path TEXT PRIMARY KEY, sha256 TEXT NOT NULL REFERENCES artifacts(sha256),
           kind TEXT NOT NULL, producer_code_sha256 TEXT, science_status TEXT NOT NULL,
           mtime REAL NOT NULL, deleted_at INTEGER);
+        CREATE TABLE IF NOT EXISTS origin_versions(
+          path TEXT NOT NULL, sha256 TEXT NOT NULL REFERENCES artifacts(sha256),
+          observed_mtime REAL NOT NULL, kind TEXT NOT NULL,
+          producer_code_sha256 TEXT, science_status TEXT NOT NULL,
+          PRIMARY KEY(path,sha256,observed_mtime));
         CREATE TABLE IF NOT EXISTS metric_versions(
           metric_key TEXT NOT NULL, artifact_sha256 TEXT NOT NULL REFERENCES artifacts(sha256),
           source_row INTEGER NOT NULL, producer_code_sha256 TEXT,
@@ -172,6 +186,10 @@ def migrate(db, cfg):
                 ON CONFLICT(path) DO UPDATE SET sha256=excluded.sha256,
                 kind=excluded.kind,mtime=excluded.mtime,deleted_at=NULL""",
                 (str(p), digest, kind, None, "UNREVIEWED_LEGACY", s.st_mtime))
+            db.execute("""INSERT OR IGNORE INTO origin_versions
+                (path,sha256,observed_mtime,kind,producer_code_sha256,science_status)
+                VALUES(?,?,?,?,?,?)""",
+                (str(p),digest,s.st_mtime,kind,None,"UNREVIEWED_LEGACY"))
             action_log(db, "MIGRATE", p, digest, "VERIFIED_OBJECT")
         indexed += 1
     return dict(files_scanned=scanned, origins_indexed=indexed,
@@ -253,10 +271,17 @@ def cleanup_plan(db, cfg):
     result = []
     b = cfg["backup_root"]
     independent_backup = b is not None and b.is_dir() and independent(cfg["archive_root"], b)
+    required = set(cfg.get("required_product_pins",["slides","dashboard","paper"]))
+    by_release = {}
+    for product, release_id in db.execute("SELECT DISTINCT product,release_id FROM product_pins"):
+        by_release.setdefault(release_id,set()).add(product)
+    contract_complete = bool(required) and any(required.issubset(x) for x in by_release.values())
     for path, digest, kind, science_status, mtime, archive, backed, restored in rows:
         p = Path(path)
         reason = "PROTECTED"
-        if p.name in PROTECTED_NAMES or kind != "INTERMEDIATE_CANDIDATE":
+        if not contract_complete:
+            reason = "COMPLETE_RELEASE_PRODUCT_PINS_MISSING"
+        elif p.name in PROTECTED_NAMES or kind != "INTERMEDIATE_CANDIDATE":
             reason = "PROTECTED_CLASS"
         elif digest in pins:
             reason = "PRODUCT_PIN"
@@ -287,9 +312,12 @@ def cleanup(db, cfg, apply=False):
             if item["decision"] != "ELIGIBLE_AFTER_GATES":
                 continue
             p = Path(item["path"])
-            # Recheck every condition at the moment of deletion.
-            current = {x["path"]:x for x in cleanup_plan(db,cfg)}.get(str(p))
-            if not current or current["decision"] != "ELIGIBLE_AFTER_GATES":
+            # Recheck source and both archives before each deletion without
+            # rescanning and rehashing every other cache (O(n), not O(n^2)).
+            digest = item["sha256"]
+            if (not p.is_file() or sha256(p) != digest or
+                sha256(object_path(cfg["archive_root"],digest)) != digest or
+                sha256(object_path(cfg["backup_root"],digest)) != digest):
                 raise RuntimeError("Cleanup precondition changed: "+str(p))
             p.unlink()
             with db:
@@ -306,6 +334,7 @@ def status(db):
     return {
         "unique_artifacts":db.execute("SELECT COUNT(*) FROM artifacts").fetchone()[0],
         "active_origin_paths":db.execute("SELECT COUNT(*) FROM origins WHERE deleted_at IS NULL").fetchone()[0],
+        "historical_origin_versions":db.execute("SELECT COUNT(*) FROM origin_versions").fetchone()[0],
         "review_required_metric_versions":db.execute("SELECT COUNT(*) FROM metric_versions WHERE science_status='REVIEW_REQUIRED'").fetchone()[0],
         "product_pins":db.execute("SELECT COUNT(*) FROM product_pins").fetchone()[0]
     }
