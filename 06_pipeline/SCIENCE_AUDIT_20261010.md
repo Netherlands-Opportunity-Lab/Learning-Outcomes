@@ -15,7 +15,7 @@ Contract matrices in archive: `engine/TASKS.csv`, `FIGURE_SERIES_CONTRACT_202610
 | 19 foreign reference countries | 27,979 | 3,534 PIRLS, 18,045 PISA, 6,400 TIMSS |
 | Other international | 49,602 | Separate user-authorized production mode |
 | Figure contracts | 138 | 132 with direct task mapping; six international ranking figures are **derived** from validated country scores |
-| Current editable kernel deck | 13 slides | 12 substantive slides plus title; the historic `source_slides` fields refer to a different slide numbering |
+| User-leading policy deck | 21 slides | October 1 PowerPoint is authoritative; previous 13-slide kernel only a historical prototype |
 | Paper Q01–Q08 | 8 open requirements | SES coverage, samples, exact Cobreros replication, reference/covariance, within-wave SES robustness, trend uncertainty |
 | LO02 previous current results | 3,486 | All are `COMPUTED_PENDING_VALIDATION` and `NOT_RELEASED`; six are for NLD |
 | LO01 historic evidence | 16,767 | All explicitly `UNVALIDATED` and `NOT_RELEASED` |
@@ -26,7 +26,7 @@ Contract matrices in archive: `engine/TASKS.csv`, `FIGURE_SERIES_CONTRACT_202610
 - The six `TR_POSITION_*` contracts must compute valid panel/ranking functions from released national inputs. They are **not** missing microdata estimation tasks.
 - TIMSS 1995 is absent from the current 79,448-row task grid. Any inclusion requires a population/grade decision and separate new scientific tasks.
 - The `ses_harmonized`, `migration_generation` and `migration_peer_exposure` module families do not have independently released direct adapters. The remaining non-core modules also require method/variance/official-anchoring checks. Candidate calculations are not publication-ready.
-- The 13-slide deck uses school×class peers for PIRLS/TIMSS and school×programme peers for PISA. School-only results cannot silently replace them. Home assessment-language frequency is not automatically a Dutch/non-Dutch indicator.
+- The 21-slide user-leading deck uses school×class peers for PIRLS/TIMSS and school×programme peers for PISA. School-only results cannot silently replace them. Home assessment-language frequency is not automatically a Dutch/non-Dutch indicator.
 - For PISA, national/year-specific published ESCS is not a substitute for the trend-comparable Cobreros SES definition. Q03/Q04 exact 34-/36-system replication and Q08 change uncertainty are open.
 - The previous six Dutch LO02 rows are not evidence that the Netherlands 253 PISA core/gender scope cells are complete: the rest must be matched against older central records and actual inputs before calculating.
 - `RESULT_PROVENANCE.sqlite` / immutable Parquet consolidation in the October v2 runner is a **provenance sidecar**. Its presence alone is not independent scientific equivalence, complete original-source migration, or a cold-replication PASS.
@@ -37,3 +37,7 @@ Contract matrices in archive: `engine/TASKS.csv`, `FIGURE_SERIES_CONTRACT_202610
 One Git-root `06_pipeline/RUN.R` entry point. `BUNDLE_DISCOVERY.R` refuses unknown/mixed October sources, checks the immutable archive identity and each source manifest entry. `PRODUCT_SCOPE_GATE.R` enumerates all figure/slide/paper needs before running the existing scientific estimators. The October v2 bundle is retained locally as raw immutable source input. A `vendor` / `vendor-push` action archives only the producer R code in Git with **original** source SHA and a separate public, path-sanitized Git copy SHA. Any path sanitization must be tested for numerical equivalence before it becomes a certified reproduction method.
 
 Scientific data and Cobreros / sample / design variance tests remain on the user's Windows computer, followed by 19-country production. The static dashboard release remains unchanged until its public manifest and numerical fidelity gate pass. This report is a historical audit and implementation record, **not** a statement that all estimates were produced.
+
+## 10 October attachment reconciliation (supersedes 13-slide assumption)
+
+The user's uploaded October 1 controlled PowerPoint contains **21 slides** and its SHA-256 and exact title/family list are pinned in `BR_POLICY_DECK_21_SOURCE_REGISTER_20261010.csv`. The scientific seminar PDF contains **50 slides**, and the final note contains **16 pages**. These are separate products; compare their source editions and limitations rather than merging them or overwriting the user's deck. See `PRODUCT_SOURCE_RECONCILIATION_20261010.md`. The September 28 note's final update reports completed cycle-specific PIRLS core-SE repairs and TIMSS 1995/2015 fixes, whereas older body pages still retain pre-repair holds. Those discrepancies are intentionally registered for source-lineage review. The 19-country OECD-PPP group is **not** a replacement for the 31-system absolute SES benchmark or the 42-system pool explicitly labelled on policy slide 2.
