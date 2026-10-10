@@ -253,8 +253,42 @@ lo_master_load_files <- function(cfg) {
                         classification="character"),na.strings="")
 }
 
+lo_master_code_hash_audit <- function(cfg,files) {
+  if(!requireNamespace("digest",quietly=TRUE)) {
+    warning("digest unavailable; producer code hash audit remains held")
+    return(invisible(NULL))
+  }
+  code <- files[files$classification=="CODE_OR_METHOD_PROTECTED" &
+      !is.na(files$bytes) & files$bytes<=50*2^20,,drop=FALSE]
+  if(!nrow(code))return(invisible(NULL))
+  progress <- file.path(cfg$state,"MASTER_PRODUCER_CODE_SHA256.csv")
+  old <- if(file.exists(progress))read.csv(progress,stringsAsFactors=FALSE)else
+    data.frame(relative_path=character(),bytes=double(),sha256=character(),
+               producer_release_status=character())
+  done<-old$relative_path
+  for(i in seq_len(nrow(code))) {
+    rel<-code$relative_path[i]
+    if(rel%in%done)next
+    src<-file.path(cfg$root,rel)
+    if(!isTRUE(file.exists(src)))next
+    before<-file.info(src)
+    hash<-unname(digest::digest(file=src,algo="sha256"))
+    after<-file.info(src)
+    if(before$size!=after$size||before$mtime!=after$mtime)next
+    old<-rbind(old,data.frame(relative_path=rel,bytes=code$bytes[i],
+      sha256=hash,producer_release_status="EXACT_SOURCE_HASH_ONLY_NO_RESULT_JOIN"))
+    if(i%%100L==0L)lo_master_write_csv(old,progress)
+  }
+  lo_master_write_csv(old,progress)
+  cat("Historical R/Python code hash audit: ",nrow(old),
+      " SHA-linked producer files, result-level source linkage still held.\n",sep="")
+  invisible(old)
+}
+
 lo_master_plan <- function(cfg) {
   rows<-lo_master_load_files(cfg)
+  tryCatch(lo_master_code_hash_audit(cfg,rows),
+           error=function(e)warning("Producer code SHA audit held: ",conditionMessage(e)))
   # Conservative: derived files need source/method parity review before
   # scientific promotion, but are eligible for *private archival copies*.
   canonical<-rows$classification%in%
@@ -461,7 +495,8 @@ lo_master_share_reports <- function(cfg) {
     "MASTER_RETIREMENT_PLAN.csv",
     "CLOUD_QUOTA_AND_MIGRATION_LIMIT.csv",
     "SQLITE_SCHEMA_LINEAGE_AUDIT.csv",
-    "EXACT_DUPLICATE_RESULT_GROUPS.csv"))
+    "EXACT_DUPLICATE_RESULT_GROUPS.csv",
+    "MASTER_PRODUCER_CODE_SHA256.csv"))
   for(path in paths) {
     if(!file.exists(path)||is.na(file.info(path)$size)||
        file.info(path)$size>35*2^20)next
