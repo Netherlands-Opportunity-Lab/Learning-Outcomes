@@ -9,6 +9,10 @@ locked 28 September 2026 release. The scientific code already published in
 
 - One R entry point: RUN.R, with scopes nld_only, nld_plus_19,
   reference_19, other, all.
+- A one-time `vendor` action copies only scientific `.R` producer files from the
+  existing local LO05 bundle into the feature-branch working tree, accompanied
+  by a SHA-256/size manifest. These files must be reviewed and committed before
+  claiming a self-contained October code release. No data or caches are copied.
 - Incremental execution delegates to the existing locally installed,
   checksum-verified LO05 integrated engine. It **does not** silently promote
   non-core candidate estimators into scientifically released results.
@@ -47,12 +51,17 @@ claim that thousands of old caches have already migrated to GitHub.
 5. Make an inventory and migrate safe derived intermediate files:
    Rscript 06_pipeline/RUN.R --action=inventory
    Rscript 06_pipeline/RUN.R --action=migrate
-6. Run a dry planning pass:
+6. To prepare the complete October **producer code history** for Git,
+   run `Rscript 06_pipeline/RUN.R --action=vendor` with LO05_BUNDLE set;
+   inspect `06_pipeline/vendor/PRODUCER_SOURCE_SHA256.csv`, review and commit
+   only the listed source code. This is not a data migration and cannot be
+   done remotely without access to the local bundle.
+7. Run a dry planning pass:
    Rscript 06_pipeline/RUN.R --action=plan --scope=nld_plus_19
-7. After the Windows tests and science gates pass, perform incremental
+8. After the Windows tests and science gates pass, perform incremental
    calculation, first NL then 19 reference countries:
    Rscript 06_pipeline/RUN.R --action=execute --scope=nld_plus_19
-8. Other countries form an independent scope:
+9. Other countries form an independent scope:
    Rscript 06_pipeline/RUN.R --action=execute --scope=other
 
 The full clean replication is explicitly gated by LO_ALLOW_FULL_REPLICATION=YES
@@ -97,6 +106,11 @@ large derived files. Commit *sanitised* release-level file manifests only
 after the existing [rights review](../DATA_LICENSE.md) is satisfied.
 Code history is kept by Git commits/tags; each released metric must additionally
 name its producing code SHA, source SHA, estimator fingerprint and validation.
+
+
+A separately documented [historical results catalog](HISTORICAL_RESULT_FAMILIES.csv)
+records known row counts, immutable archive hashes, uncertain producer links
+and explicit publication holds. It is metadata, not an uploaded result archive.
 
 ## AER replication
 
