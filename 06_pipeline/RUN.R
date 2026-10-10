@@ -229,6 +229,21 @@ lo_pipeline_publish_status <- function(repo, action, scope, outcome="OBSERVED",
                         outcome=outcome,dry_run=dry_run)
 }
 
+lo_pipeline_science_bundle <- function(repo) {
+  source(file.path(repo,"06_pipeline","BUNDLE_DISCOVERY.R"),
+         local=environment(),encoding="UTF-8")
+  path <- lo_bundle_discover()
+  Sys.setenv(LO05_BUNDLE=path)
+  path
+}
+lo_pipeline_product_contract <- function(repo,bundle) {
+  source(file.path(repo,"06_pipeline","PRODUCT_SCOPE_GATE.R"),
+         local=environment(),encoding="UTF-8")
+  root <- file.path(Sys.getenv("USERPROFILE",unset=path.expand("~")),
+                    "Downloads","LO05_RESULTATEN","runs")
+  lo_product_gate(bundle,output_root=root)
+}
+
 lo_pipeline_main <- function() {
   repo <- lo_pipeline_root()
   action <- tolower(lo_pipeline_arg("action", Sys.getenv("LO_ACTION","plan")))
@@ -237,7 +252,7 @@ lo_pipeline_main <- function() {
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
               all="FULL_INTERNATIONAL")
   if (!scope %in% names(scopes)) stop("Unknown scope: ",scope)
-  actions <- c("plan","execute","replicate","vendor","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish")
+  actions <- c("plan","execute","replicate","vendor","check-contract","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish")
   if (!action %in% actions) stop("Unknown action: ",action)
 
   stamp <- format(Sys.time(),"%Y%m%d_%H%M%S")
@@ -297,10 +312,13 @@ lo_pipeline_main <- function() {
     return(invisible(run))
   }
   if (action=="vendor") {
-    bundle<-Sys.getenv("LO05_BUNDLE","")
-    if (!nzchar(bundle) || !dir.exists(bundle))
-      stop("Set LO05_BUNDLE to your locally verified extracted integration bundle")
+    bundle <- lo_pipeline_science_bundle(repo)
     lo_pipeline_vendor_source(repo,bundle)
+    return(invisible(run))
+  }
+  if (action=="check-contract") {
+    bundle <- lo_pipeline_science_bundle(repo)
+    lo_pipeline_product_contract(repo,bundle)
     return(invisible(run))
   }
   if (action=="replicate") {
@@ -315,11 +333,10 @@ lo_pipeline_main <- function() {
     run_finished <- TRUE
     return(invisible(run))
   }
-  bundle <- Sys.getenv("LO05_BUNDLE","")
-  if (!nzchar(bundle) || !dir.exists(bundle))
-    stop("LO05_BUNDLE must point to the extracted, checksum-verified LO05/LO04 integrated bundle. ",
-         "Current 10 October modules are NOT yet a clean AER replication release.",call.=FALSE)
+  # One verified source only: no mixing modules from different October ZIPs.
+  bundle <- lo_pipeline_science_bundle(repo)
   lo_pipeline_validate_reference(repo,bundle)
+  lo_pipeline_product_contract(repo,bundle)
   core <- file.path(bundle,"code","INTEGRATED.R")
   if (!file.exists(core)) stop("Historical integration module missing: ",core)
   if (nzchar(config)) lo_pipeline_storage(repo,"status",config)
