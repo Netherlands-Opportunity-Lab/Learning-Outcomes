@@ -168,7 +168,9 @@ def publish(cfg, dry_run=False):
     if not dry_run:
         write_manifest(data,latest)
     summary={"files_selected":len(items),"bytes_selected":sum(x[2] for x in items),
-             "manifest_sha256":sha256(latest),"scientific_status":"NOT_AUTOMATICALLY_VALIDATED",
+             "manifest_sha256":(sha256(latest) if not dry_run else
+                  hashlib.sha256(json.dumps(data,sort_keys=True).encode("utf-8")).hexdigest()),
+             "scientific_status":"NOT_AUTOMATICALLY_VALIDATED",
              "dry_run":bool(dry_run)}
     if dry_run:
         return summary
