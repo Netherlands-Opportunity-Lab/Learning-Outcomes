@@ -217,15 +217,27 @@ lo_pipeline_vendor_source <- function(repo,bundle,push=FALSE) {
       stop("Unexpected private Windows path remains: ",relative)
     dst<-file.path(destroot,relative)
     dir.create(dirname(dst),recursive=TRUE,showWarnings=FALSE)
-    tmp<-tempfile(tmpdir=dirname(dst))
-    writeLines(safe,tmp,useBytes=TRUE)
-    sanitized<-unname(digest::digest(file=tmp,algo="sha256"))
-    if(file.exists(dst)) {
-      if(!identical(unname(digest::digest(file=dst,algo="sha256")),
-                    sanitized))
-        stop("Refusing to overwrite already-archived code: ",relative)
-      unlink(tmp)
-    } else if(!file.rename(tmp,dst))stop("Cannot save historic code: ",relative)
+    if(!san) {
+      # Preserve exact original CRLF/newline bytes when no privacy edit is needed.
+      sanitized<-original
+      if(file.exists(dst)) {
+        if(!identical(unname(digest::digest(file=dst,algo="sha256")),
+                     original))
+          stop("Unchanged archived source differs: ",relative)
+      } else if(!file.copy(src,dst,overwrite=FALSE))
+        stop("Could not retain byte-identical code: ",relative)
+    } else {
+      tmp<-tempfile(tmpdir=dirname(dst))
+      writeLines(safe,tmp,useBytes=TRUE)
+      sanitized<-unname(digest::digest(file=tmp,algo="sha256"))
+      if(file.exists(dst)) {
+        if(!identical(unname(digest::digest(file=dst,algo="sha256")),
+                      sanitized))
+          stop("Refusing to overwrite privacy-sanitized code: ",relative)
+        unlink(tmp)
+      } else if(!file.rename(tmp,dst))
+        stop("Cannot save privacy-sanitized code: ",relative)
+    }
     record[[length(record)+1L]]<-data.frame(relative_path=relative,
       original_sha256=original,git_copy_sha256=sanitized,
       path_sanitized=if(san)"YES_REVIEW_EQUIVALENCE" else "NO",
