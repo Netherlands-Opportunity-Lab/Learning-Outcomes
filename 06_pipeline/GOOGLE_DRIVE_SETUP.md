@@ -1,5 +1,22 @@
 # Private Google Drive result sharing
 
+## R-native publisher (10 October update)
+
+The active R runner now uses `DRIVE_SYNC.R` to invoke the already authorized
+rclone executable directly. Python is **not required** for Drive publication.
+R packages `jsonlite` and `digest` are used for manifests and SHA-256.
+The previously created `drive.local.json` remains valid; do not run
+`setup-drive` again. Use the same local R entry point with
+`LO_ACTION=publish`, then source RUN.R.
+
+The R-native publisher is deliberately more restrictive than the earlier
+Python prototype: it sends only stable, small CSV/TXT/JSON/Markdown result
+summaries with approved names. It does not automatically upload RDS,
+Parquet, ZIP, student records, source microdata, or private SQLite databases.
+Each upload is checksum-verified and old content-addressed objects remain.
+Cloud success does not imply scientific validation.
+
+
 Two separate user authorizations are needed: (1) connect Google Drive to
 ChatGPT, and (2) authenticate rclone against the same Google Drive account on
 Windows. Neither authorization is available to repository scripts automatically.
