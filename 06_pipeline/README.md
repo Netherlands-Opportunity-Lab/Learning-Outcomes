@@ -91,6 +91,24 @@ is separate from code/history branches and the locked September release.
 
 See [GITHUB_STATUS_SETUP.md](GITHUB_STATUS_SETUP.md).
 
+## Dashboard runtime location and fastest publication
+
+The public dashboard is a static site. Its frozen aggregate profiles are
+delivered as country/system JSON files and precomputed metadata/rank/panel
+files in the **published GitHub Pages release** under `05_publication/`.
+The canonical scientific frontend and its production data manifest live in
+`03_dashboard/`. See `03_dashboard/README.md`,
+`03_dashboard/data/PRODUCTION_DATA_MANIFEST.csv` and the
+`05_publication/PUBLIC_DASHBOARD_MANIFEST.json` fidelity contract.
+
+The browser reads precomputed aggregates directly from the published static
+assets; it does **not** query Drive, SQLite, Parquet or an R session. This is
+the efficient and fast architecture for website visitors. Google Drive is
+optional for research backups and private collaboration, not a dependency of
+the published dashboard. New scientific results must pass the scientific
+release and public-data/fidelity gates before replacing the published JSON
+assets; do not publish arbitrary LO05 run outputs directly as dashboard data.
+
 ## Store lifecycle (only controlled non-source files)
 
 The local-only config identifies the original result directories, primary
