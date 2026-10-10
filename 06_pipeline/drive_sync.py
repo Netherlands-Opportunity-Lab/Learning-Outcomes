@@ -49,6 +49,13 @@ def safe_relative(p,root):
         return None
     if p.suffix.lower() in DENY_SUFFIXES or p.suffix.lower() not in ALLOWED_SUFFIXES:
         return None
+    # A filename is not proof of aggregation, but this additional conservative
+    # allowlist prevents arbitrary extracts from being uploaded by default.
+    if not re.search(r"(result|summary|status|plan|counts|audit|validation|"
+                     r"progress|manifest|report|candidate|metrics|figure|"
+                     r"reference|coverage|registry|run_log|connection_test)",
+                     p.name,flags=re.IGNORECASE):
+        return None
     if not p.is_file() or p.is_symlink():
         return None
     return path.as_posix()
