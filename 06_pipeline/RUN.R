@@ -53,6 +53,25 @@ lo_pipeline_git_info <- function(repo) {
   out
 }
 
+lo_pipeline_validate_reference <- function(repo,bundle) {
+  ref <- read.csv(file.path(repo,"06_pipeline","reference_oecd19_2024.csv"),
+                  stringsAsFactors=FALSE)
+  if (nrow(ref)!=19L || anyDuplicated(ref$country) ||
+      "NLD"%in%ref$country ||
+      !identical(unique(ref$reference_id),"OECD_PPP_GT_CZE_2024_RECONSTRUCTED"))
+    stop("Versioned 19-country reference is invalid")
+  legacy <- file.path(bundle,"PPP_COMPARATOR_MEMBERSHIP_v2.csv")
+  if (!file.exists(legacy)) stop("Local bundle reference registry missing")
+  old <- read.csv(legacy,stringsAsFactors=FALSE)
+  if (!all(c("country","strictly_above_czechia")%in%names(old)))
+    stop("Local reference registry schema mismatch")
+  foreign <- old$country[toupper(as.character(old$strictly_above_czechia)) %in%
+                      c("TRUE","T","1") & old$country!="NLD"]
+  if (!setequal(foreign,ref$country) || length(unique(foreign))!=19L)
+    stop("Local legacy engine and versioned Git reference differ; production held")
+  invisible(ref)
+}
+
 lo_pipeline_main <- function() {
   repo <- lo_pipeline_root()
   action <- tolower(lo_pipeline_arg("action", Sys.getenv("LO_ACTION","plan")))
@@ -105,6 +124,7 @@ lo_pipeline_main <- function() {
   if (!nzchar(bundle) || !dir.exists(bundle))
     stop("LO05_BUNDLE must point to the extracted, checksum-verified LO05/LO04 integrated bundle. ",
          "Current 10 October modules are NOT yet a clean AER replication release.",call.=FALSE)
+  lo_pipeline_validate_reference(repo,bundle)
   core <- file.path(bundle,"code","INTEGRATED.R")
   if (!file.exists(core)) stop("Historical integration module missing: ",core)
   if (nzchar(config)) lo_pipeline_storage(repo,"status",config)
