@@ -221,6 +221,14 @@ lo_pipeline_vendor_source <- function(repo,bundle) {
   invisible(tab)
 }
 
+lo_pipeline_publish_status <- function(repo, action, scope, outcome="OBSERVED",
+                                       dry_run=FALSE) {
+  source(file.path(repo,"06_pipeline","GITHUB_STATUS.R"),
+         local=environment(),encoding="UTF-8")
+  lo_status_publish_git(repo,action=action,scope=scope,
+                        outcome=outcome,dry_run=dry_run)
+}
+
 lo_pipeline_main <- function() {
   repo <- lo_pipeline_root()
   action <- tolower(lo_pipeline_arg("action", Sys.getenv("LO_ACTION","plan")))
@@ -229,7 +237,7 @@ lo_pipeline_main <- function() {
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
               all="FULL_INTERNATIONAL")
   if (!scope %in% names(scopes)) stop("Unknown scope: ",scope)
-  actions <- c("plan","execute","replicate","vendor","inventory","migrate","maintain","status","publish","watch","setup-drive")
+  actions <- c("plan","execute","replicate","vendor","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish")
   if (!action %in% actions) stop("Unknown action: ",action)
 
   stamp <- format(Sys.time(),"%Y%m%d_%H%M%S")
@@ -243,6 +251,19 @@ lo_pipeline_main <- function() {
              file.path(run,"RUN_PROVENANCE.txt"))
   cat("Git-gebonden runner; log: ",run,"\n",sep="")
   config <- Sys.getenv("LO_STORAGE_CONFIG","")
+  if (action=="status-publish") {
+    lo_pipeline_publish_status(repo,action,scope,"OBSERVED")
+    return(invisible(run))
+  }
+  run_finished <- FALSE
+  if(action %in% c("plan","execute","replicate")) {
+    on.exit({
+      tryCatch(lo_pipeline_publish_status(repo,action,scope,
+        if(run_finished) "RUNNER_COMPLETED" else "FAILED_OR_INTERRUPTED"),
+        error=function(e) warning("GitHub status not updated; safe local pending manifest retained. ",
+                                  conditionMessage(e),call.=FALSE))
+    },add=TRUE)
+  }
   if (action %in% c("inventory","migrate","status")) {
     lo_pipeline_storage(repo,action,config)
     return(invisible(run))
@@ -252,7 +273,16 @@ lo_pipeline_main <- function() {
     return(invisible(run))
   }
   if(action%in%c("publish","watch")) {
-    lo_pipeline_drive_publish(repo,action)
+    if(action=="publish") {
+      # One user command for BOTH publication routes; Git status still updates
+      # if optional Drive is unavailable.
+      tryCatch(lo_pipeline_drive_publish(repo,"publish"),
+        error=function(e) warning("Private Drive sync held: ",conditionMessage(e),
+                                   call.=FALSE))
+      tryCatch(lo_pipeline_publish_status(repo,action,scope,"OBSERVED"),
+        error=function(e) warning("GitHub status held: ",conditionMessage(e),
+                                   call.=FALSE))
+    } else lo_pipeline_drive_publish(repo,action)
     return(invisible(run))
   }
   if (action=="maintain") {
@@ -282,6 +312,7 @@ lo_pipeline_main <- function() {
     message("Clean reproduction of the 28 September 2026 scientific lock. ",
             "Use provider-obtained source files and separately validate outputs.")
     source(canonical,local=new.env(parent=.GlobalEnv),encoding="UTF-8")
+    run_finished <- TRUE
     return(invisible(run))
   }
   bundle <- Sys.getenv("LO05_BUNDLE","")
@@ -313,6 +344,7 @@ lo_pipeline_main <- function() {
     tryCatch(lo_pipeline_drive_publish(repo,"publish"),
       error=function(e)warning("Cloud sync held after computation: ",conditionMessage(e)))
   }
+  run_finished <- TRUE
   invisible(run)
 }
 
