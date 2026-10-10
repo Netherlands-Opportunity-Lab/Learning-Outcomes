@@ -42,15 +42,82 @@ lo_pipeline_storage <- function(repo, action, config) {
   invisible(out)
 }
 
+# One-time local setup; never stores OAuth tokens in Git or this config.
+lo_pipeline_drive_config_path <- function() {
+  override <- Sys.getenv("LO_DRIVE_SYNC_CONFIG","")
+  if (nzchar(override)) return(override)
+  file.path(path.expand("~"),"Downloads","LO05_RESULTATEN",
+            ".cloud_sync","drive.local.json")
+}
+
+lo_pipeline_find_rclone <- function() {
+  existing <- Sys.which("rclone")
+  if (nzchar(existing)) return(unname(existing))
+  base <- file.path(path.expand("~"),"Downloads")
+  if (!dir.exists(base)) stop("Downloads folder not found")
+  dirs <- list.dirs(base,recursive=FALSE,full.names=TRUE)
+  dirs <- dirs[grepl("^rclone-v",basename(dirs),ignore.case=TRUE)]
+  candidates <- unlist(lapply(dirs,function(d) {
+    c(file.path(d,"rclone.exe"),
+      file.path(list.dirs(d,recursive=FALSE,full.names=TRUE),"rclone.exe"))
+  }),use.names=FALSE)
+  candidates <- candidates[file.exists(candidates)]
+  if (!length(candidates))
+    stop("rclone.exe not found in Downloads or PATH")
+  normalizePath(candidates[[1]],winslash="/",mustWork=TRUE)
+}
+
+lo_pipeline_setup_drive <- function() {
+  base <- file.path(path.expand("~"),"Downloads","LO05_RESULTATEN")
+  if (!dir.exists(base))
+    stop("LO05_RESULTATEN missing; no scientific outputs to sync yet")
+  rc <- lo_pipeline_find_rclone()
+  remotes <- suppressWarnings(system2(rc,"listremotes",stdout=TRUE,stderr=TRUE))
+  code <- attr(remotes,"status")
+  if ((!is.null(code) && code!=0L) || !("lo_private:" %in% trimws(remotes)))
+    stop("rclone remote lo_private: is not configured")
+  target <- "lo_private:Learning-Outcomes-Private"
+  check <- suppressWarnings(system2(rc,c("lsd",shQuote(target)),
+                                    stdout=TRUE,stderr=TRUE))
+  code <- attr(check,"status")
+  if (!is.null(code) && code!=0L)
+    stop("Cannot access existing private Drive folder; nothing changed")
+  py <- Sys.which("python")
+  if (!nzchar(py)) stop("Python 3 not on PATH; required by existing Drive sync module")
+  cfg <- lo_pipeline_drive_config_path()
+  dir.create(dirname(cfg),recursive=TRUE,showWarnings=FALSE)
+  if (file.exists(cfg))
+    stop("Drive config already exists; refusing to overwrite: ",cfg)
+  js <- function(x) encodeString(x,quote='"')
+  lines <- c("{",
+    paste0('  "local_results_root": ',js(normalizePath(base,winslash="/")),","),
+    paste0('  "remote": ',js(target),","),
+    '  "data_visibility": "PRIVATE_ACCOUNT_ONLY",',
+    paste0('  "rclone_binary": ',js(normalizePath(rc,winslash="/")),","),
+    '  "min_age_seconds": 120,',
+    '  "max_file_bytes": 2147483648,',
+    '  "max_transfers": 2,',
+    '  "watch_interval_seconds": 180',
+    "}")
+  writeLines(lines,cfg,useBytes=TRUE)
+  Sys.setenv(LO_DRIVE_SYNC_CONFIG=cfg,LO_PYTHON=unname(py))
+  cat("Drive sync configured. Local config: ",cfg,
+      "\nNo results uploaded or deleted.\n",
+      "Next: Rscript 06_pipeline/RUN.R --action=publish\n",sep="")
+  invisible(cfg)
+}
+
 lo_pipeline_drive_publish <- function(repo,action="publish") {
-  config<-Sys.getenv("LO_DRIVE_SYNC_CONFIG","")
+  config<-lo_pipeline_drive_config_path()
   if(!nzchar(config)) {
     message("Google Drive cloud sync not configured: set LO_DRIVE_SYNC_CONFIG. ",
             "No results uploaded; existing local results remain intact.")
     return(invisible(FALSE))
   }
   if(!file.exists(config)) stop("LO_DRIVE_SYNC_CONFIG points to missing file")
-  binary<-Sys.getenv("LO_PYTHON","python")
+  binary<-Sys.getenv("LO_PYTHON","")
+  if (!nzchar(binary)) binary<-unname(Sys.which("python"))
+  if (!nzchar(binary)) stop("Python 3 not available on PATH")
   script<-file.path(repo,"06_pipeline","drive_sync.py")
   gitsha<-lo_pipeline_git_info(repo)
   old<-Sys.getenv("LO_PRODUCER_GIT_COMMIT",unset=NA_character_)
@@ -141,7 +208,7 @@ lo_pipeline_main <- function() {
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
               all="FULL_INTERNATIONAL")
   if (!scope %in% names(scopes)) stop("Unknown scope: ",scope)
-  actions <- c("plan","execute","replicate","vendor","inventory","migrate","maintain","status","publish","watch")
+  actions <- c("plan","execute","replicate","vendor","inventory","migrate","maintain","status","publish","watch","setup-drive")
   if (!action %in% actions) stop("Unknown action: ",action)
 
   stamp <- format(Sys.time(),"%Y%m%d_%H%M%S")
@@ -157,6 +224,10 @@ lo_pipeline_main <- function() {
   config <- Sys.getenv("LO_STORAGE_CONFIG","")
   if (action %in% c("inventory","migrate","status")) {
     lo_pipeline_storage(repo,action,config)
+    return(invisible(run))
+  }
+  if(action=="setup-drive") {
+    lo_pipeline_setup_drive()
     return(invisible(run))
   }
   if(action%in%c("publish","watch")) {
@@ -217,7 +288,7 @@ lo_pipeline_main <- function() {
   # Cloud publish is a post-production side effect; failure never overwrites
   # scientific results. During long runs a scheduled --action=publish task
   # independently uploads only completed atomic checkpoints.
-  if(nzchar(Sys.getenv("LO_DRIVE_SYNC_CONFIG",""))) {
+  if(file.exists(lo_pipeline_drive_config_path())) {
     tryCatch(lo_pipeline_drive_publish(repo,"publish"),
       error=function(e)warning("Cloud sync held after computation: ",conditionMessage(e)))
   }
