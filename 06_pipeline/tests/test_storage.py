@@ -37,6 +37,17 @@ class StorageTests(unittest.TestCase):
         self.assertFalse(any(p.name=="protected.sav" for p in self.archive.rglob("*")))
         self.assertEqual(s.index_result_csv(self.db,self.result)["indexed_metric_rows"],1)
         self.assertEqual(s.status(self.db)["review_required_metric_versions"],1)
+    def test_git_manifest_contains_hashes_but_no_private_paths(self):
+        s.migrate(self.db,self.cfg)
+        target=Path(self.tmp.name)/"manifest_for_review.json"
+        ans=s.export_public_manifest(self.db,target)
+        obj=json.loads(target.read_text(encoding="utf-8"))
+        self.assertEqual(ans["public_bytes_in_manifest"],0)
+        self.assertEqual(obj["publication_status"],"METADATA_ONLY_NOT_DATA_RELEASE")
+        self.assertEqual(len(obj["artifacts"]),1)
+        self.assertNotIn(str(self.inp),target.read_text(encoding="utf-8"))
+        self.assertNotIn("legacy_results.csv",target.read_text(encoding="utf-8"))
+
     def test_cleanup_is_safe_by_default(self):
         s.migrate(self.db,self.cfg)
         self.assertEqual(s.cleanup(self.db,self.cfg)["deleted"],0)
