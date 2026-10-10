@@ -353,6 +353,33 @@ def cleanup(db, cfg, apply=False):
         summary[x["decision"]]=summary.get(x["decision"],0)+1
     return {"counts":summary,"deleted":removed,"dry_run":not apply}
 
+def export_public_manifest(db, output: Path):
+    """Export Git-safe *metadata*, not raw files, local paths, or unpublished data.
+
+    PUBLICATION_NOT_AUTHORIZED is intentional: legal and scientific reviews
+    must be documented elsewhere before aggregate result bytes are published.
+    """
+    rows=db.execute("""SELECT a.sha256,a.bytes,a.kind,
+        (SELECT COUNT(*) FROM metric_versions m WHERE m.artifact_sha256=a.sha256),
+        (SELECT COUNT(*) FROM product_pins p WHERE p.artifact_sha256=a.sha256)
+        FROM artifacts a ORDER BY a.sha256""").fetchall()
+    manifest={"schema_version":"lo-content-manifest-v1",
+              "data_bytes_embedded":False,
+              "contains_local_paths":False,
+              "publication_status":"METADATA_ONLY_NOT_DATA_RELEASE",
+              "artifacts":[{"sha256":digest,"bytes":bytesize,"kind":kind,
+                            "indexed_metric_versions":n,"product_pin_count":npin}
+                           for digest,bytesize,kind,n,npin in rows]}
+    output.parent.mkdir(parents=True,exist_ok=True)
+    with tempfile.NamedTemporaryFile(mode="w",encoding="utf-8",
+         dir=output.parent,prefix=".manifest_",delete=False) as f:
+        temp=Path(f.name)
+        json.dump(manifest,f,sort_keys=True,ensure_ascii=False,indent=2)
+        f.write("\n");f.flush();os.fsync(f.fileno())
+    os.replace(temp,output)
+    return {"exported_artifacts":len(rows),
+            "public_bytes_in_manifest":0,"file":str(output)}
+
 def status(db):
     return {
         "unique_artifacts":db.execute("SELECT COUNT(*) FROM artifacts").fetchone()[0],
@@ -365,9 +392,10 @@ def status(db):
 def main(argv=None):
     parser=argparse.ArgumentParser()
     parser.add_argument("action", choices=["inventory","migrate","index-csv","pin",
-          "verify-backup","cleanup-plan","cleanup-apply","status"])
+          "verify-backup","cleanup-plan","cleanup-apply","export-manifest","status"])
     parser.add_argument("--config",required=True)
     parser.add_argument("--input")
+    parser.add_argument("--output")
     args=parser.parse_args(argv)
     cfg=load_config(canonical(args.config))
     if args.action=="inventory":
@@ -388,6 +416,9 @@ def main(argv=None):
             elif args.action=="verify-backup": ans=verify_backup(db,cfg)
             elif args.action=="cleanup-plan": ans=cleanup(db,cfg,False)
             elif args.action=="cleanup-apply": ans=cleanup(db,cfg,True)
+            elif args.action=="export-manifest":
+                if not args.output: raise ValueError("--output required")
+                ans=export_public_manifest(db,canonical(args.output))
             else: ans=status(db)
         finally:
             db.close()
