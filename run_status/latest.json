@@ -1,12 +1,12 @@
 {
   "schema_version": "lo-public-safe-run-status-v1",
   "privacy": "METADATA_ONLY_NO_PATHS_NO_VALUES_NO_LOGS",
-  "status_publisher_git_commit": "c73c8a60768dc81b5e3ee6938a2e968ec5073a27",
+  "status_publisher_git_commit": "f0e74f9f4771112c32166011b32ca012c7e264fd",
   "result_producer_git_commit": "NOT_VERIFIED",
   "requested_action": "STORAGE_PLAN",
   "requested_scope": "NLD_PLUS_19",
   "invocation_outcome": "OBSERVED",
-  "latest_local_run_id": "run_20261010_230254",
+  "latest_local_run_id": "run_20261010_231305",
   "availability": "STATUS_FILE_FOUND",
   "scientific_release": "NOT_AUTOMATICALLY_GRANTED",
   "runtime_states": {
