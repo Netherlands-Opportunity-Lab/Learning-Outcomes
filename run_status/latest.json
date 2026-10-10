@@ -1,0 +1,8 @@
+{
+  "schema_version": "lo-public-safe-run-status-v1",
+  "availability": "AWAITING_FIRST_LOCAL_RUN",
+  "scientific_release": "NOT_GRANTED",
+  "disclosure": "No research microdata, absolute file paths, logs, tokens or individual estimates are permitted here.",
+  "counts": {},
+  "producer_git_commit": null
+}
