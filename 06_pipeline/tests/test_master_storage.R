@@ -1,6 +1,11 @@
 # Synthetic-only, no original research data, network access or deletions.
 source("06_pipeline/MASTER_STORAGE.R",encoding="UTF-8")
 base<-tempfile("test_master_inventory_")
+stopifnot(
+ lo_master_class("22_completion_final/cache/PIRLS_RESULTS.csv.gz")==
+   "DERIVED_CANDIDATE_UNVERIFIED",
+ lo_master_class("22_completion_final/FINAL_ANALYSIS_FREEZE_20260928.rds")==
+   "CANONICAL_RESULT_PROTECTED")
 root<-file.path(base,"PISA_PIRLS_MASTER_PIPELINE")
 state<-file.path(base,"LO05_RESULTATEN","master_reconciliation")
 dir.create(root,recursive=TRUE);dir.create(state,recursive=TRUE)
