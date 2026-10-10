@@ -79,7 +79,13 @@ lo_pipeline_setup_drive <- function() {
   candidates <- c(candidates,file.path(roots,"LO05_RESULTATEN"))
   # A missing results folder is not an error for a first-time cloud setup.
   # Only create an empty output root; never overwrite historical results.
-  existing <- candidates[dir.exists(candidates)]
+  # Check paths one at a time: some Windows R installations reject
+  # a vector in the underlying file.exists() implementation.
+  candidates <- as.character(unlist(candidates,use.names=FALSE))
+  candidates <- unique(candidates[!is.na(candidates) & nzchar(candidates)])
+  existing <- candidates[vapply(candidates,function(p) {
+    isTRUE(dir.exists(as.character(p)[1L]))
+  },logical(1L))]
   if (length(existing)) {
     base <- normalizePath(existing[[1]],winslash="/",mustWork=TRUE)
   } else if (nzchar(preferred)) {
