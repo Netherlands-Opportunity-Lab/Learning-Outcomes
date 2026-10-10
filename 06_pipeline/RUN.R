@@ -47,7 +47,9 @@ lo_pipeline_git_info <- function(repo) {
   if (!nzchar(git)) return("git_not_available")
   out <- suppressWarnings(system2(git,c("-C",shQuote(repo),"rev-parse","HEAD"),
                                   stdout=TRUE,stderr=FALSE))
-  if (length(out) != 1L || attr(out,"status") %in% 1:255) return("git_commit_unavailable")
+  exitcode <- attr(out,"status")
+  if (length(out) != 1L || (!is.null(exitcode) && exitcode != 0L))
+    return("git_commit_unavailable")
   out
 }
 
