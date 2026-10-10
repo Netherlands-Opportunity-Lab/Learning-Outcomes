@@ -72,6 +72,43 @@ lo_pipeline_validate_reference <- function(repo,bundle) {
   invisible(ref)
 }
 
+lo_pipeline_vendor_source <- function(repo,bundle) {
+  # Prepare historical October producer CODE only, never raw/derived data.
+  # The caller reviews and commits these files on the feature branch.
+  scripts <- c(
+    paste0("code/",c("INTEGRATED.R","LO04_COMMON.R","LO04_CACHE.R",
+      "LO04_HISTORY.R","LO04_ADAPTERS.R","LO04_EXECUTION.R",
+      "LO04_EXTENDED_EXECUTION.R","LO04_WINDOWS_TESTS.R",
+      "LO04_SCIENCE_SMOKE.R","LO04_GC.R","LO05_CONSOLIDATION.R",
+      "LO05_LIFECYCLE.R")),
+    paste0("engine/",c("V11.R","BACKEND.R","REPAIRS.R","EXTENSIONS.R",
+      "production.R","engine.R","store.R","tests.R")))
+  destroot<-file.path(repo,"06_pipeline","vendor")
+  if (!requireNamespace("digest",quietly=TRUE))
+    stop("Package digest is required to produce SHA256 producer manifest")
+  out <- list()
+  for (relative in scripts) {
+    src <- file.path(bundle,relative)
+    if (!file.exists(src)) stop("Producer missing: ",src)
+    dest <- file.path(destroot,relative)
+    dir.create(dirname(dest),recursive=TRUE,showWarnings=FALSE)
+    original <- digest::digest(file=src,algo="sha256")
+    if (file.exists(dest)) {
+      if (digest::digest(file=dest,algo="sha256")!=original)
+        stop("Vendored scientific code differs; refuse overwrite: ",dest)
+    } else {
+      if (!file.copy(src,dest,overwrite=FALSE)) stop("Copy failed: ",dest)
+    }
+    out[[length(out)+1L]] <- data.frame(
+      relative_path=relative,sha256=original,bytes=file.info(src)$size)
+  }
+  tab<-do.call(rbind,out)
+  write.csv(tab,file.path(destroot,"PRODUCER_SOURCE_SHA256.csv"),row.names=FALSE)
+  cat("PRODUCER_CODE_READY_FOR_GIT_REVIEW: ",nrow(tab)," files\n",
+      "No results/data files copied. Review the commit diff and rights first.\n",sep="")
+  invisible(tab)
+}
+
 lo_pipeline_main <- function() {
   repo <- lo_pipeline_root()
   action <- tolower(lo_pipeline_arg("action", Sys.getenv("LO_ACTION","plan")))
@@ -80,7 +117,7 @@ lo_pipeline_main <- function() {
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
               all="FULL_INTERNATIONAL")
   if (!scope %in% names(scopes)) stop("Unknown scope: ",scope)
-  actions <- c("plan","execute","replicate","inventory","migrate","maintain","status")
+  actions <- c("plan","execute","replicate","vendor","inventory","migrate","maintain","status")
   if (!action %in% actions) stop("Unknown action: ",action)
 
   stamp <- format(Sys.time(),"%Y%m%d_%H%M%S")
@@ -107,6 +144,13 @@ lo_pipeline_main <- function() {
     # scientific/product dependency and independent-backup gates have passed.
     if (identical(Sys.getenv("LO_APPLY_VERIFIED_CLEANUP"),"YES"))
       lo_pipeline_storage(repo,"cleanup-apply",config)
+    return(invisible(run))
+  }
+  if (action=="vendor") {
+    bundle<-Sys.getenv("LO05_BUNDLE","")
+    if (!nzchar(bundle) || !dir.exists(bundle))
+      stop("Set LO05_BUNDLE to your locally verified extracted integration bundle")
+    lo_pipeline_vendor_source(repo,bundle)
     return(invisible(run))
   }
   if (action=="replicate") {
