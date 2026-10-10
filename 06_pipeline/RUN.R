@@ -117,8 +117,6 @@ lo_pipeline_setup_drive <- function() {
   code <- attr(check,"status")
   if (!is.null(code) && code!=0L)
     stop("Cannot access existing private Drive folder; nothing changed")
-  py <- Sys.which("python")
-  if (!nzchar(py)) stop("Python 3 not on PATH; required by existing Drive sync module")
   cfg <- lo_pipeline_drive_config_path()
   dir.create(dirname(cfg),recursive=TRUE,showWarnings=FALSE)
   if (file.exists(cfg))
@@ -135,7 +133,7 @@ lo_pipeline_setup_drive <- function() {
     '  "watch_interval_seconds": 180',
     "}")
   writeLines(lines,cfg,useBytes=TRUE)
-  Sys.setenv(LO_DRIVE_SYNC_CONFIG=cfg,LO_PYTHON=unname(py))
+  Sys.setenv(LO_DRIVE_SYNC_CONFIG=cfg)
   cat("Drive sync configured. Local config: ",cfg,
       "\nNo results uploaded or deleted.\n",
       "Next: Rscript 06_pipeline/RUN.R --action=publish\n",sep="")
@@ -143,28 +141,16 @@ lo_pipeline_setup_drive <- function() {
 }
 
 lo_pipeline_drive_publish <- function(repo,action="publish") {
-  config<-lo_pipeline_drive_config_path()
-  if(!nzchar(config)) {
-    message("Google Drive cloud sync not configured: set LO_DRIVE_SYNC_CONFIG. ",
-            "No results uploaded; existing local results remain intact.")
+  config <- lo_pipeline_drive_config_path()
+  if (!file.exists(config)) {
+    message("Drive sync not configured; no upload attempted.")
     return(invisible(FALSE))
   }
-  if(!file.exists(config)) stop("LO_DRIVE_SYNC_CONFIG points to missing file")
-  binary<-Sys.getenv("LO_PYTHON","")
-  if (!nzchar(binary)) binary<-unname(Sys.which("python"))
-  if (!nzchar(binary)) stop("Python 3 not available on PATH")
-  script<-file.path(repo,"06_pipeline","drive_sync.py")
-  gitsha<-lo_pipeline_git_info(repo)
-  old<-Sys.getenv("LO_PRODUCER_GIT_COMMIT",unset=NA_character_)
-  on.exit(if(is.na(old)) Sys.unsetenv("LO_PRODUCER_GIT_COMMIT")
-          else Sys.setenv(LO_PRODUCER_GIT_COMMIT=old),add=TRUE)
-  Sys.setenv(LO_PRODUCER_GIT_COMMIT=gitsha)
-  output<-suppressWarnings(system2(binary,
-     shQuote(c(script,action,"--config",config)),stdout=TRUE,stderr=TRUE))
-  code<-attr(output,"status")
-  cat(paste(output,collapse="\n"),"\n")
-  if(!is.null(code) && code!=0L)
-    stop("Cloud sync FAILED; scientific run outputs remain local and unchanged")
+  source(file.path(repo,"06_pipeline","DRIVE_SYNC.R"),local=environment(),
+         encoding="UTF-8")
+  rc <- lo_pipeline_find_rclone()
+  lo_drive_sync(config,action=action,rclone_override=rc,
+                producer_commit=lo_pipeline_git_info(repo))
   invisible(TRUE)
 }
 
