@@ -55,6 +55,31 @@ class StorageTests(unittest.TestCase):
             decisions=s.cleanup_plan(self.db,self.cfg)
         self.assertTrue(any(x["decision"]=="PRODUCT_PIN" for x in decisions))
         self.assertTrue(self.result.exists())
+    def test_removal_only_after_full_product_pins_and_restore(self):
+        s.migrate(self.db,self.cfg)
+        digest=s.sha256(self.result)
+        # A second unpinned historical result is eligible only after all gates.
+        surplus=self.inp/"retired_export.csv"
+        surplus.write_text("metric_key,estimate\nOLD_ONLY,23\n",encoding="utf-8")
+        s.migrate(self.db,self.cfg)
+        pinfile=self.inp.parent/"pins.json"
+        for product in ("slides","dashboard","paper"):
+            pinfile.write_text(json.dumps({"product":product,"release_id":"v1",
+                "artifact_sha256":[digest]}),encoding="utf-8")
+            s.pin(self.db,pinfile)
+        self.cfg["automatic_cleanup_enabled"]=True
+        with patch.object(s,"independent",return_value=True):
+            s.verify_backup(self.db,self.cfg)
+            plan={v["path"]:v["decision"] for v in s.cleanup_plan(self.db,self.cfg)}
+            self.assertEqual(plan[str(self.result)],"PRODUCT_PIN")
+            self.assertEqual(plan[str(surplus)],"ELIGIBLE_AFTER_GATES")
+            output=s.cleanup(self.db,self.cfg,apply=True)
+        self.assertEqual(output["deleted"],1)
+        self.assertTrue(self.result.exists())
+        self.assertFalse(surplus.exists())
+        self.assertTrue(s.object_path(self.archive,digest).is_file())
+        self.assertEqual(s.status(self.db)["historical_origin_versions"],2)
+
     def test_without_verified_product_contract_no_cleanup(self):
         s.migrate(self.db,self.cfg)
         with patch.object(s,"independent",return_value=True):
