@@ -40,11 +40,11 @@ lo_bootstrap_main <- function() {
   if(length(pulled$lines))cat(paste(pulled$lines,collapse="\n"),"\n")
   runner <- file.path(repo,"06_pipeline","RUN.R")
   if(!file.exists(runner))stop("Integrated runner missing after Git update")
-  action <- Sys.getenv("LO_ACTION","")
-  if(!nzchar(action)) {
-    action <- "storage-audit"
-    Sys.setenv(LO_ACTION=action)
-  }
+  # Avoid resuming a stale LO_ACTION=execute or publish from a prior R session.
+  # Set LO_START_ACTION explicitly only when the user chooses another stage.
+  action <- Sys.getenv("LO_START_ACTION",unset="storage-audit")
+  if(!nzchar(action)) action <- "storage-audit"
+  Sys.setenv(LO_ACTION=action)
   message("One-entry R runner: ",action)
   Sys.setenv(LO_REPO_ROOT=repo)
   # Execute the just-updated source, not stale functions from an R session.
