@@ -4,7 +4,7 @@
 # Results stay locally and optional detailed artifacts go to private Drive.
 lo_status_safe_code <- function(x, default="UNKNOWN") {
   if (length(x)!=1L || is.na(x)) return(default)
-  x <- toupper(trimws(as.character(x)))
+  x <- gsub("-", "_", toupper(trimws(as.character(x))), fixed=TRUE)
   if (!grepl("^[A-Z0-9_]{1,80}$", x)) return(default)
   x
 }
