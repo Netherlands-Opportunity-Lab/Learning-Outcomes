@@ -72,12 +72,21 @@ archive and independent backup drive. Use:
 
 A pin manifest is JSON, e.g.:
     {"product":"slides","release_id":"v1",
+     "dependency_closure_verified":true,
      "artifact_sha256":["<exact-64-character-SHA256>"]}
 
-Release pins must collectively cover slides, dashboard, and paper, including
-all their result dependencies. The absence of a pin must never be interpreted
-as permission to erase a file. Cleanup is disabled until those contracts,
-an independently verified backup and tested restore exist.
+Release pins must collectively cover slides, dashboard, and paper for the same
+release, with an explicit attestation that the entire dependency closure has
+been checked. The absence of a pin must never mean permission to erase a file.
+A separate clean-replication PASS receipt, bound by an SHA-256 checksum in the
+local config and matching that release, must also document verified source
+editions and numerical output fidelity. It is generated only AFTER an actual
+end-to-end replication check, not by this storage tool.
+
+Default cleanup is still disabled. The tool refuses deletion without the
+complete pins, independent off-device backup, tested restoration, replication
+receipt and retention period. Method, source and validation registers and
+current central-result registries are explicitly protected.
 
 **Never push the local provenance.sqlite or object store into public Git.**
 They can contain sensitive absolute paths, restricted source lineage and
