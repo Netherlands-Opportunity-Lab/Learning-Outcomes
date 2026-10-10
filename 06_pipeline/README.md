@@ -79,6 +79,18 @@ history and reviewed metadata, not private raw data.
 See [GOOGLE_DRIVE_SETUP.md](GOOGLE_DRIVE_SETUP.md) for user authorization,
 rclone setup, the two separate connections, and exact Windows commands.
 
+## Automatically publish safe run progress to GitHub
+
+The ONE R entry point now supports `LO_ACTION=status-publish`, which reads
+the latest local LO05 run metadata and commits a sanitized status-only JSON
+to an isolated public GitHub branch. Plan, execute and replicate also attempt
+this automatically on exit; `publish` attempts both private Drive and safe
+GitHub status. No raw logs or statistical result rows are published to GitHub.
+Detailed outputs stay local or in private Drive. The GitHub control branch
+is separate from code/history branches and the locked September release.
+
+See [GITHUB_STATUS_SETUP.md](GITHUB_STATUS_SETUP.md).
+
 ## Store lifecycle (only controlled non-source files)
 
 The local-only config identifies the original result directories, primary
