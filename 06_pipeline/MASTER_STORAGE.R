@@ -171,8 +171,41 @@ lo_master_registry_schema_audit <- function(cfg,files) {
   invisible(findings)
 }
 
+lo_master_downloads_audit <- function(cfg) {
+  # One-level survey only: never recursively scan another person's Downloads
+  # or mistake a PPTX, original R source or a handoff ZIP for disposable junk.
+  home<-Sys.getenv("USERPROFILE",unset=path.expand("~"))
+  dl<-file.path(home,"Downloads")
+  if(!dir.exists(dl))return(invisible(NULL))
+  entries<-list.files(dl,recursive=FALSE,all.files=FALSE,
+                      full.names=TRUE,no..=TRUE)
+  if(!length(entries))return(invisible(NULL))
+  info<-file.info(entries)
+  names<-basename(entries)
+  suspected<-grepl("^(LO[0-9]+|LEARNING_OUTCOMES|PISA_PIRLS|PISA_PROJECT|run_[0-9]{8}|RC[0-9])",
+                   names,ignore.case=TRUE)
+  out<-data.frame(name=names,is_directory=isTRUE(FALSE),
+    size_bytes=as.numeric(info$size),
+    project_candidate=suspected,
+    disposition=ifelse(suspected,
+      "USER_REVIEW_R_GENERATED_OR_SOURCE_HOLD",
+      "OUTSIDE_PROJECT_NO_AUTOMATIC_CLEANUP"),
+    delete_authorized=FALSE,stringsAsFactors=FALSE)
+  out$is_directory<-!is.na(info$isdir)&info$isdir
+  out$size_bytes[out$is_directory]<-NA_real_
+  out$disposition[out$is_directory]<-
+    "FOLDER_NOT_SCANNED_BY_THIS_DOWNLOADS_TOPLEVEL_AUDIT"
+  lo_master_write_csv(out,file.path(cfg$state,
+                                   "DOWNLOADS_TOPLEVEL_R_OUTPUT_REVIEW.csv"))
+  cat("Downloads top-level review: ",nrow(out)," entries; ",
+      sum(suspected)," matched project/R prefix. Nothing deleted.\n",sep="")
+  invisible(out)
+}
+
 lo_master_inventory <- function(cfg) {
   files<-lo_master_files(cfg)
+  tryCatch(lo_master_downloads_audit(cfg),
+           error=function(e)warning("Downloads top-level audit held: ",conditionMessage(e)))
   file<-file.path(cfg$state,"MASTER_FILES_PRIVATE.csv")
   lo_master_write_csv(files,file)
   types<-aggregate(files$bytes,list(classification=files$classification),
@@ -418,6 +451,7 @@ lo_master_share_reports <- function(cfg) {
   # Full relative metadata list may contain sensitive file names; never Git.
   paths <- file.path(cfg$state,c(
     "MASTER_INVENTORY_STATUS.txt",
+    "DOWNLOADS_TOPLEVEL_R_OUTPUT_REVIEW.csv",
     "MASTER_CLASS_SIZE_COUNTS.csv",
     "TOP_LEVEL_FOLDER_BYTES.csv",
     "LARGEST_50_FILES_PRIVATE.csv",
