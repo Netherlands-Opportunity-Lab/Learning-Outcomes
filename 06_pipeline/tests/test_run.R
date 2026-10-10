@@ -30,9 +30,7 @@ prevConfig <- Sys.getenv("LO_DRIVE_SYNC_CONFIG",unset=NA_character_)
 Sys.setenv(USERPROFILE=tmpHome)
 Sys.unsetenv("LO_DRIVE_SYNC_CONFIG")
 stopifnot(identical(lo_pipeline_drive_config_path(),cfg))
-if(is.na(prevHome))Sys.unsetenv("USERPROFILE")
-else Sys.setenv(USERPROFILE=prevHome)
-if(is.na(prevConfig))Sys.unsetenv("LO_DRIVE_SYNC_CONFIG")
-else Sys.setenv(LO_DRIVE_SYNC_CONFIG=prevConfig)
+if(is.na(prevHome)) {Sys.unsetenv("USERPROFILE")} else {Sys.setenv(USERPROFILE=prevHome)}
+if(is.na(prevConfig)) {Sys.unsetenv("LO_DRIVE_SYNC_CONFIG")} else {Sys.setenv(LO_DRIVE_SYNC_CONFIG=prevConfig)}
 unlink(tmpHome,recursive=TRUE)
 cat("PASS fixed-reference membership and mismatch fail-closed\n")
