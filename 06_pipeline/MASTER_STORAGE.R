@@ -60,11 +60,11 @@ lo_master_class <- function(relative) {
     return("ARCHIVE_OR_SOURCE_RIGHTS_REVIEW")
   if(grepl("([.]tmp$|[.]partial$|[.]lock$|[.]bak$|[.]old$|[.]sqlite-wal$|[.]sqlite-shm$)",p))
     return("SCRATCH_OR_BACKUP_REVIEW")
-  if(grepl("(current_results|result_history|master_analysis|final_product_basis|resultaten_master)",
+  if(grepl("(current_results|result_history|master_analysis|final_analysis_freeze|final_product_basis|resultaten_master)",
            name))
     return("CANONICAL_RESULT_PROTECTED")
-  if(ext%in%c(".parquet",".rds",".fst",".feather",".csv",".tsv",".json",".rds.gz",
-              ".qs",".rdata.gz") &&
+  if((ext%in%c(".parquet",".rds",".fst",".feather",".csv",".tsv",".json",
+                ".qs") || grepl("[.](csv|tsv|parquet)[.]gz$",name)) &&
      grepl("(cache|result|output|master|metric|figure|consolid|standardis|analyse|analysis|dashboard|final)",
            p))
     return("DERIVED_CANDIDATE_UNVERIFIED")
@@ -262,7 +262,8 @@ lo_master_plan <- function(cfg) {
   derived<-rows$classification=="DERIVED_CANDIDATE_UNVERIFIED"
   exts<-tolower(tools::file_ext(rows$relative_path))
   binary_safe<-exts%in%c("parquet","rds","csv","tsv","json","feather",
-                        "fst","qs")
+                        "fst","qs") | grepl("[.](csv|tsv|parquet)[.]gz$",
+                                         tolower(rows$relative_path))
   raw_risk<-grepl("(^|/)(student|students|raw|microdata|source|input)(/|$)",
                   tolower(rows$relative_path))
   live_db<-exts%in%c("sqlite","sqlite3","db","duckdb")
