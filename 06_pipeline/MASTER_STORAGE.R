@@ -349,14 +349,76 @@ lo_master_gc_plan <- function(cfg) {
   invisible(plan)
 }
 
+lo_master_share_reports <- function(cfg) {
+  # Only to the existing owner-controlled, non-public Google Drive.
+  # Full relative metadata list may contain sensitive file names; never Git.
+  paths <- file.path(cfg$state,c(
+    "MASTER_INVENTORY_STATUS.txt",
+    "MASTER_CLASS_SIZE_COUNTS.csv",
+    "TOP_LEVEL_FOLDER_BYTES.csv",
+    "LARGEST_50_FILES_PRIVATE.csv",
+    "MASTER_STORAGE_ACTION_PLAN.csv",
+    "MASTER_FILES_PRIVATE.csv",
+    "MASTER_RETIREMENT_PLAN.csv"))
+  for(path in paths) {
+    if(!file.exists(path)||is.na(file.info(path)$size)||
+       file.info(path)$size>35*2^20)next
+    target<-paste0(cfg$remote,"/migration-reports/",basename(path))
+    tryCatch({
+      lo_master_rclone(cfg,c("copyto",path,target))
+      if(requireNamespace("digest",quietly=TRUE)) {
+        digest<-unname(digest::digest(file=path,algo="sha256"))
+        lo_master_readback_sha(cfg,target,digest)
+      } else {
+        warning("digest not available; report SHA could not be verified")
+      }
+    },error=function(e)
+      warning("Private report not uploaded: ",basename(path),": ",
+              conditionMessage(e),call.=FALSE))
+  }
+  invisible(TRUE)
+}
+
+lo_master_record_run_status <- function(cfg,action,result=NULL) {
+  root<-file.path(cfg$state,"..","runs")
+  dir.create(root,recursive=TRUE,showWarnings=FALSE)
+  p<-file.path(root,paste0("run_",format(Sys.time(),"%Y%m%d_%H%M%S")))
+  if(!dir.create(p,recursive=TRUE,showWarnings=FALSE))
+    stop("Could not create local run status directory")
+  n <- file.path(cfg$state,"MASTER_FILES_PRIVATE.csv")
+  count<-if(file.exists(n))nrow(utils::read.csv(n,stringsAsFactors=FALSE))else 0L
+  size <- if(file.exists(n))sum(utils::read.csv(n,colClasses=c("NULL","numeric","NULL","NULL"))$bytes,
+                                 na.rm=TRUE)else 0
+  status<-c(paste0("STATUS=",switch(action,
+      "storage-audit"="STORAGE_INVENTORY_COMPLETE",
+      "storage-plan"="STORAGE_PLAN_READY",
+      "storage-migrate"="STORAGE_MIGRATION_ATTEMPTED",
+      "storage-retirement-plan"="STORAGE_RETIREMENT_HELD",
+      "STORAGE_ACTION_EXECUTED")),
+    "SCIENTIFIC_RELEASE=NOT_GRANTED",
+    paste0("STORAGE_FILES_SCANNED=",count),
+    paste0("STORAGE_MIB_SCANNED=",round(size/2^20)),
+    "CENTRAL_PROJECT_STORAGE_CHANGED=FALSE",
+    "AUTOMATIC_GC_PERFORMED=FALSE")
+  lo_master_write_text(status,file.path(p,"STATUS.txt"))
+  invisible(p)
+}
+
 lo_master_action <- function(action) {
   cfg<-lo_master_init()
-  if(identical(action,"storage-audit"))return(lo_master_inventory(cfg))
-  if(identical(action,"storage-plan"))return(lo_master_plan(cfg))
-  if(identical(action,"storage-migrate"))return(lo_master_migrate(cfg))
-  if(identical(action,"storage-retirement-plan"))return(lo_master_gc_plan(cfg))
   if(identical(action,"storage-cleanup-apply"))
     stop("DELETION_SAFETY_HOLD: no independently verified restore and ",
          "complete product-result provenance receipt; no deletion permitted.")
-  stop("Unsupported storage action: ",action)
+  result<-switch(action,
+    "storage-audit"=lo_master_inventory(cfg),
+    "storage-plan"=lo_master_plan(cfg),
+    "storage-migrate"=lo_master_migrate(cfg),
+    "storage-retirement-plan"=lo_master_gc_plan(cfg),
+    stop("Unsupported storage action: ",action))
+  lo_master_record_run_status(cfg,action,result)
+  # Reports are metadata only; publication remains inside private Drive.
+  tryCatch(lo_master_share_reports(cfg),
+    error=function(e)warning("Private report sharing held: ",
+                             conditionMessage(e),call.=FALSE))
+  invisible(result)
 }
