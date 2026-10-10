@@ -78,7 +78,9 @@ lo_status_from_file <- function(path) {
               "HISTORICAL_SOURCE_FILES_PRESENT",
               "HISTORICAL_SOURCE_FILES_NOT_FOUND","LEGACY_EVIDENCE_ROWS",
               "CROSS_REGISTRY_OVERLAPS","NLD_TASKS_COMPUTED",
-              "METRICS_REUSED","METRICS_COMPUTED","METRICS_HELD")
+              "METRICS_REUSED","METRICS_COMPUTED","METRICS_HELD",
+              "STORAGE_FILES_SCANNED","STORAGE_MIB_SCANNED",
+              "STORAGE_UNCLASSIFIED_FILES","STORAGE_CLOUD_VERIFIED_FILES")
   for (line in lines) {
     if (!grepl("^[A-Z0-9_]+=",line)) next
     match <- regexec("^([A-Z0-9_]+)=(.*)$",line)
@@ -113,7 +115,9 @@ lo_status_build <- function(repo,action="status-publish",scope="nld_plus_19",
               "HISTORICAL_SOURCE_FILES_PRESENT",
               "HISTORICAL_SOURCE_FILES_NOT_FOUND","LEGACY_EVIDENCE_ROWS",
               "CROSS_REGISTRY_OVERLAPS","NLD_TASKS_COMPUTED",
-              "METRICS_REUSED","METRICS_COMPUTED","METRICS_HELD")) {
+              "METRICS_REUSED","METRICS_COMPUTED","METRICS_HELD",
+              "STORAGE_FILES_SCANNED","STORAGE_MIB_SCANNED",
+              "STORAGE_UNCLASSIFIED_FILES","STORAGE_CLOUD_VERIFIED_FILES")) {
     if(!is.null(extracted[[k]])) counts[[tolower(k)]] <- extracted[[k]]
   }
   states <- list()
