@@ -51,9 +51,16 @@ lo_pipeline_drive_config_path <- function() {
 }
 
 lo_pipeline_find_rclone <- function() {
+  explicit <- Sys.getenv("LO_RCLONE_EXE","")
+  if (nzchar(explicit)) {
+    if (!file.exists(explicit))
+      stop("LO_RCLONE_EXE points to missing file: ",explicit)
+    return(normalizePath(explicit,winslash="/",mustWork=TRUE))
+  }
   existing <- Sys.which("rclone")
   if (nzchar(existing)) return(unname(existing))
-  base <- file.path(path.expand("~"),"Downloads")
+  home <- Sys.getenv("USERPROFILE",unset=path.expand("~"))
+  base <- file.path(home,"Downloads")
   if (!dir.exists(base)) stop("Downloads folder not found")
   dirs <- list.dirs(base,recursive=FALSE,full.names=TRUE)
   dirs <- dirs[grepl("^rclone-v",basename(dirs),ignore.case=TRUE)]
