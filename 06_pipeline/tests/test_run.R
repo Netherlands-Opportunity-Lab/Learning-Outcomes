@@ -18,4 +18,21 @@ write.csv(bad,file.path(bundle,"PPP_COMPARATOR_MEMBERSHIP_v2.csv"),row.names=FAL
 e <- try(lo_pipeline_validate_reference(repo,bundle),silent=TRUE)
 stopifnot(inherits(e,"try-error"))
 unlink(bundle,recursive=TRUE)
+# Regression: after RStudio restart, discover the previous Documents/Downloads
+# cloud sync settings even when LO_DRIVE_SYNC_CONFIG is not retained.
+tmpHome <- tempfile("win_profile_")
+cfg <- file.path(tmpHome,"Documents","Downloads","LO05_RESULTATEN",
+                 ".cloud_sync","drive.local.json")
+dir.create(dirname(cfg),recursive=TRUE,showWarnings=FALSE)
+writeLines("{}",cfg)
+prevHome <- Sys.getenv("USERPROFILE",unset=NA_character_)
+prevConfig <- Sys.getenv("LO_DRIVE_SYNC_CONFIG",unset=NA_character_)
+Sys.setenv(USERPROFILE=tmpHome)
+Sys.unsetenv("LO_DRIVE_SYNC_CONFIG")
+stopifnot(identical(lo_pipeline_drive_config_path(),cfg))
+if(is.na(prevHome))Sys.unsetenv("USERPROFILE")
+else Sys.setenv(USERPROFILE=prevHome)
+if(is.na(prevConfig))Sys.unsetenv("LO_DRIVE_SYNC_CONFIG")
+else Sys.setenv(LO_DRIVE_SYNC_CONFIG=prevConfig)
+unlink(tmpHome,recursive=TRUE)
 cat("PASS fixed-reference membership and mismatch fail-closed\n")
