@@ -20,7 +20,7 @@ import time
 from datetime import datetime, timezone
 
 ALLOWED_TOP_LEVEL = {"runs", "candidate_checkpoints"}
-ALLOWED_SUFFIXES = {".csv", ".json", ".txt", ".md", ".gz", ".parquet", ".rds", ".zip"}
+ALLOWED_SUFFIXES = {".csv", ".json", ".txt", ".md", ".gz", ".parquet", ".rds"}
 DENY_SUFFIXES = {".sav", ".zsav", ".sas7bdat", ".dta", ".por", ".xpt", ".sas", ".sps",
                  ".db", ".sqlite", ".sqlite3", ".pem", ".key"}
 DENY_FRAGMENTS = ("password", "secret", "credential", "access_token", "refresh_token",
