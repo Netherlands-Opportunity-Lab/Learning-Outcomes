@@ -1,16 +1,16 @@
 {
   "schema_version": "lo-public-safe-run-status-v1",
   "privacy": "METADATA_ONLY_NO_PATHS_NO_VALUES_NO_LOGS",
-  "status_publisher_git_commit": "74c08fa4a37afe19db6ac88c58c0cb31248e5eea",
+  "status_publisher_git_commit": "c73c8a60768dc81b5e3ee6938a2e968ec5073a27",
   "result_producer_git_commit": "NOT_VERIFIED",
-  "requested_action": "STORAGE_AUDIT",
+  "requested_action": "STORAGE_PLAN",
   "requested_scope": "NLD_PLUS_19",
   "invocation_outcome": "OBSERVED",
-  "latest_local_run_id": "run_20261010_184019",
+  "latest_local_run_id": "run_20261010_230254",
   "availability": "STATUS_FILE_FOUND",
   "scientific_release": "NOT_AUTOMATICALLY_GRANTED",
   "runtime_states": {
-    "status": "STORAGE_INVENTORY_COMPLETE"
+    "status": "STORAGE_PLAN_READY"
   },
   "counts": {
     "storage_files_scanned": 35087,
