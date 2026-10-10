@@ -210,7 +210,7 @@ lo_pipeline_vendor_source <- function(repo,bundle,push=FALSE) {
     if(!file.exists(src))stop("Producer source absent: ",relative)
     original<-unname(digest::digest(file=src,algo="sha256"))
     lines<-readLines(src,warn=FALSE,encoding="UTF-8")
-    safe<-gsub("C:/Users/[A-Za-z0-9_.-]+/Downloads",
+    safe<-gsub(paste0("C:","/Users/","[A-Za-z0-9_.-]+/Downloads"),
                "~/Downloads",lines,perl=TRUE)
     san <- !identical(lines,safe)
     if(any(grepl("[A-Za-z]:[/\\\\]Users[/\\\\]",safe)))
