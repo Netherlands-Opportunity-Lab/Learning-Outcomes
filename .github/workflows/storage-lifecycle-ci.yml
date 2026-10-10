@@ -22,3 +22,5 @@ jobs:
       - uses: r-lib/actions/setup-r@v2
       - name: Parse R production launcher without starting any production
         run: Rscript -e "parse(file='06_pipeline/RUN.R'); cat('R launcher parses OK\n')"
+      - name: Validate the fixed 19-country reference membership contract
+        run: Rscript 06_pipeline/tests/test_run.R
