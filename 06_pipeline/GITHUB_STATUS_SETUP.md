@@ -19,7 +19,8 @@ Pull latest feature-branch code in PowerShell:
 Then in RStudio:
 
     Sys.setenv(LO_ACTION="status-publish")
-    source("C:/Users/bason/Downloads/Learning-Outcomes/06_pipeline/RUN.R")
+    source(file.path(Sys.getenv("USERPROFILE"), "Downloads",
+                     "Learning-Outcomes", "06_pipeline", "RUN.R"))
 
 The first GitHub push may ask to authenticate with Git Credential Manager. Do not put a personal access token into a script, screenshot, chat or repository. If the git push fails, the safe pending status remains locally under ignored `06_pipeline/state/`; scientific results are unaffected.
 
