@@ -256,6 +256,16 @@ lo_master_plan <- function(cfg) {
   rows$cloud_status<-"NOT_UPLOADED"
   rows$can_delete_local<-"NO"
   lo_master_write_csv(rows,file.path(cfg$state,"MASTER_STORAGE_ACTION_PLAN.csv"))
+  quota<-tryCatch(lo_master_quota(cfg),error=function(e)
+    list(known=FALSE,free=NA_real_,reason="QUOTA_CHECK_FAILED"))
+  q<-data.frame(account_visibility="PRIVATE_ACCOUNT_ONLY",
+     quota_known=quota$known,
+     free_gib=if(isTRUE(quota$known))round(quota$free/2^30,3)else NA_real_,
+     estimated_priority_gib=round(sum(rows$bytes[
+       rows$storage_action=="PRIORITY_PRIVATE_BACKUP"],na.rm=TRUE)/2^30,3),
+     raw_89gb_removable="NO_NOT_UNTIL_SEPARATE_SOURCE_RIGHTS_AND_RESTORE",
+     reason=quota$reason,stringsAsFactors=FALSE)
+  lo_master_write_csv(q,file.path(cfg$state,"CLOUD_QUOTA_AND_MIGRATION_LIMIT.csv"))
   cat("Storage plan: ",sum(classify=="PRIORITY_PRIVATE_BACKUP"),
       " priority aggregate files; ",
       sum(classify=="CANDIDATE_PRIVATE_BACKUP_AFTER_REVIEW"),
@@ -318,8 +328,11 @@ lo_master_migrate <- function(cfg) {
   quota<-lo_master_quota(cfg)
   if(!quota$known)
     stop("Drive free-space quota unavailable; refusing to upload without it")
-  if(quota$free < min(remaining,sum(allowed$bytes,na.rm=TRUE))+128*2^20)
-    stop("Drive has insufficient free quota for this migration batch")
+  cloud_available<-max(0,quota$free-256*2^20)
+  remaining<-min(remaining,cloud_available)
+  if(remaining<=0)stop("Drive has no safely usable free quota")
+  cat("Drive quota check PASS; controlled first batch budget: ",
+      round(remaining/2^30,3)," GiB.\n",sep="")
   receipt_path<-file.path(cfg$state,"VERIFIED_CLOUD_ARTIFACTS.csv")
   received<-if(file.exists(receipt_path))
     read.csv(receipt_path,stringsAsFactors=FALSE) else
@@ -411,6 +424,7 @@ lo_master_share_reports <- function(cfg) {
     "MASTER_STORAGE_ACTION_PLAN.csv",
     "MASTER_FILES_PRIVATE.csv",
     "MASTER_RETIREMENT_PLAN.csv",
+    "CLOUD_QUOTA_AND_MIGRATION_LIMIT.csv",
     "SQLITE_SCHEMA_LINEAGE_AUDIT.csv",
     "EXACT_DUPLICATE_RESULT_GROUPS.csv"))
   for(path in paths) {
