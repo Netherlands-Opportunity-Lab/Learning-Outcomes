@@ -184,49 +184,88 @@ lo_pipeline_validate_reference <- function(repo,bundle) {
   invisible(ref)
 }
 
-lo_pipeline_vendor_source <- function(repo,bundle) {
-  # Prepare historical October producer CODE only, never raw/derived data.
-  # The caller reviews and commits these files on the feature branch.
-  scripts <- c(
-    paste0("code/",c("INTEGRATED.R","LO04_COMMON.R","LO04_CACHE.R",
-      "LO04_HISTORY.R","LO04_ADAPTERS.R","LO04_EXECUTION.R",
+lo_pipeline_vendor_source <- function(repo,bundle,push=FALSE) {
+  # Exact historical SHA256 is preserved in the manifest. Public text copies
+  # are sanitised only for a user-specific absolute-path fallback; never
+  # claim numerical science equivalence without a cold-source comparison.
+  source(file.path(repo,"06_pipeline","BUNDLE_DISCOVERY.R"),
+         local=environment(),encoding="UTF-8")
+  lo_bundle_verify(bundle)
+  paths <- c("LEARNING_OUTCOMES_RUN.R","PROJECT_CONFIG.R",
+    file.path("code",c("INTEGRATED.R","LO04_COMMON.R","LO04_HISTORY.R",
+      "LO04_CACHE.R","LO04_ADAPTERS.R","LO04_EXECUTION.R",
       "LO04_EXTENDED_EXECUTION.R","LO04_WINDOWS_TESTS.R",
       "LO04_SCIENCE_SMOKE.R","LO04_GC.R","LO05_CONSOLIDATION.R",
       "LO05_LIFECYCLE.R")),
-    paste0("engine/",c("V11.R","BACKEND.R","REPAIRS.R","EXTENSIONS.R",
-      "production.R","engine.R","store.R","tests.R")))
-  destroot<-file.path(repo,"06_pipeline","vendor")
-  if (!requireNamespace("digest",quietly=TRUE))
-    stop("Package digest is required to produce SHA256 producer manifest")
-  out <- list()
-  for (relative in scripts) {
-    src <- file.path(bundle,relative)
-    if (!file.exists(src)) stop("Producer missing: ",src)
-    dest <- file.path(destroot,relative)
-    dir.create(dirname(dest),recursive=TRUE,showWarnings=FALSE)
-    original <- digest::digest(file=src,algo="sha256")
-    if (file.exists(dest)) {
-      if (digest::digest(file=dest,algo="sha256")!=original)
-        stop("Vendored scientific code differs; refuse overwrite: ",dest)
-    } else {
-      if (!file.copy(src,dest,overwrite=FALSE)) stop("Copy failed: ",dest)
-    }
-    out[[length(out)+1L]] <- data.frame(
-      relative_path=relative,sha256=original,bytes=file.info(src)$size)
+    file.path("engine",c("BACKEND.R","V11.R","REPAIRS.R",
+      "EXTENSIONS.R","production.R","engine.R","store.R","tests.R",
+      "WORKER.R","app.R")))
+  destroot <- file.path(repo,"06_pipeline","archive_or_superseded",
+                       "LO05_CODE_LOCK_20261010")
+  dir.create(destroot,recursive=TRUE,showWarnings=FALSE)
+  if(!requireNamespace("digest",quietly=TRUE)) stop("digest package required")
+  record <- list()
+  for(relative in paths) {
+    src<-file.path(bundle,relative)
+    if(!file.exists(src))stop("Producer source absent: ",relative)
+    original<-unname(digest::digest(file=src,algo="sha256"))
+    lines<-readLines(src,warn=FALSE,encoding="UTF-8")
+    safe<-gsub("C:/Users/[A-Za-z0-9_.-]+/Downloads",
+               "~/Downloads",lines,perl=TRUE)
+    san <- !identical(lines,safe)
+    if(any(grepl("[A-Za-z]:[/\\\\]Users[/\\\\]",safe)))
+      stop("Unexpected private Windows path remains: ",relative)
+    dst<-file.path(destroot,relative)
+    dir.create(dirname(dst),recursive=TRUE,showWarnings=FALSE)
+    tmp<-tempfile(tmpdir=dirname(dst))
+    writeLines(safe,tmp,useBytes=TRUE)
+    sanitized<-unname(digest::digest(file=tmp,algo="sha256"))
+    if(file.exists(dst)) {
+      if(!identical(unname(digest::digest(file=dst,algo="sha256")),
+                    sanitized))
+        stop("Refusing to overwrite already-archived code: ",relative)
+      unlink(tmp)
+    } else if(!file.rename(tmp,dst))stop("Cannot save historic code: ",relative)
+    record[[length(record)+1L]]<-data.frame(relative_path=relative,
+      original_sha256=original,git_copy_sha256=sanitized,
+      path_sanitized=if(san)"YES_REVIEW_EQUIVALENCE" else "NO",
+      original_bytes=file.info(src)$size,stringsAsFactors=FALSE)
   }
-  tab<-do.call(rbind,out)
-  write.csv(tab,file.path(destroot,"PRODUCER_SOURCE_SHA256.csv"),row.names=FALSE)
-  cat("PRODUCER_CODE_READY_FOR_GIT_REVIEW: ",nrow(tab)," files\n",
-      "No results/data files copied. Review the commit diff and rights first.\n",sep="")
-  invisible(tab)
-}
-
-lo_pipeline_publish_status <- function(repo, action, scope, outcome="OBSERVED",
-                                       dry_run=FALSE) {
-  source(file.path(repo,"06_pipeline","GITHUB_STATUS.R"),
-         local=environment(),encoding="UTF-8")
-  lo_status_publish_git(repo,action=action,scope=scope,
-                        outcome=outcome,dry_run=dry_run)
+  data <- do.call(rbind,record)
+  manifest <- file.path(destroot,"SOURCE_CODE_ORIGINAL_VS_PUBLIC_SHA256.csv")
+  if(file.exists(manifest)) {
+    old<-read.csv(manifest,colClasses="character",stringsAsFactors=FALSE)
+    if(!identical(as.character(old$original_sha256),data$original_sha256))
+      stop("Existing Git producer manifest differs from pinned code")
+  } else write.csv(data,manifest,row.names=FALSE,na="")
+  message("Archived ",nrow(data)," verified R producer files; no source data or results copied.")
+  if(push) {
+    git<-Sys.which("git")
+    if(!nzchar(git))stop("Git for Windows unavailable")
+    run<-function(args) {
+      out<-suppressWarnings(system2(git,shQuote(args),
+                                      stdout=TRUE,stderr=TRUE))
+      status<-attr(out,"status");if(is.null(status))status<-0L
+      if(status!=0L)stop("Git code-history operation failed: ",
+         paste(tail(out,5),collapse="\n"))
+      out
+    }
+    wanted<-"feat/reproducible-storage-and-cleanup-20261010"
+    current<-run(c("-C",repo,"branch","--show-current"))
+    if(length(current)!=1L||current[[1]]!=wanted)
+      stop("Refusing code push on a different Git branch")
+    subdir<-"06_pipeline/archive_or_superseded/LO05_CODE_LOCK_20261010"
+    run(c("-C",repo,"add","--",subdir))
+    changed<-run(c("-C",repo,"diff","--cached","--name-only","--",subdir))
+    if(length(changed)) {
+      run(c("-C",repo,"-c","user.name=Learning Outcomes Source Archivist",
+            "-c","user.email=learning-outcomes-runner@users.noreply.github.com",
+            "commit","-m","Archive reviewed October scientific producer code"))
+    }
+    run(c("-C",repo,"push","origin",paste0("HEAD:refs/heads/",wanted)))
+    message("Historical producer files pushed safely to GitHub feature branch.")
+  }
+  invisible(data)
 }
 
 lo_pipeline_science_bundle <- function(repo) {
@@ -252,7 +291,7 @@ lo_pipeline_main <- function() {
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
               all="FULL_INTERNATIONAL")
   if (!scope %in% names(scopes)) stop("Unknown scope: ",scope)
-  actions <- c("plan","execute","replicate","vendor","check-contract","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish")
+  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish")
   if (!action %in% actions) stop("Unknown action: ",action)
 
   stamp <- format(Sys.time(),"%Y%m%d_%H%M%S")
@@ -311,9 +350,9 @@ lo_pipeline_main <- function() {
       lo_pipeline_storage(repo,"cleanup-apply",config)
     return(invisible(run))
   }
-  if (action=="vendor") {
+  if (action%in%c("vendor","vendor-push")) {
     bundle <- lo_pipeline_science_bundle(repo)
-    lo_pipeline_vendor_source(repo,bundle)
+    lo_pipeline_vendor_source(repo,bundle,push=action=="vendor-push")
     return(invisible(run))
   }
   if (action=="check-contract") {
