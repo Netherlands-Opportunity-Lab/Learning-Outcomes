@@ -76,6 +76,40 @@ lo_bundle_discover <- function() {
     }
     archives <- unique(c(archives,inventory_found))
   }
+  if(!length(archives)) {
+    # Private Drive is the owner-controlled source of the audited v2 archive.
+    # No user download, no public GitHub archive and no raw learner data.
+    cache <- file.path(home,"Documents","LO_PRIVATE_SCIENCE_CACHE")
+    target <- file.path(cache,"LEARNING_OUTCOMES_INTEGRAAL_v2_20261010.zip")
+    private_remote <- "lo_private:Learning-Outcomes-Private/scientific-bundles/LEARNING_OUTCOMES_INTEGRAAL_v2_20261010.zip"
+    dir.create(cache,recursive=TRUE,showWarnings=FALSE)
+    valid_target <- function(p) file.exists(p) &&
+      identical(tolower(unname(digest::digest(file=p,algo="sha256"))),
+                lo_bundle_expected_sha)
+    if(file.exists(target) && !valid_target(target))
+      stop("Private science cache contains a different archive: ",target)
+    if(!valid_target(target)) {
+      if(!exists("lo_pipeline_find_rclone",mode="function"))
+        stop("Cannot locate private rclone configuration through pipeline")
+      rc <- lo_pipeline_find_rclone()
+      staging <- tempfile("science_drive_",tmpdir=cache,fileext=".zip")
+      on.exit(if(file.exists(staging))unlink(staging),add=TRUE)
+      message("Retrieving pinned October v2 science code from private Drive ...")
+      msg <- suppressWarnings(system2(rc,args=shQuote(c(
+        "copyto",private_remote,staging,"--retries","2")),
+        stdout=TRUE,stderr=TRUE))
+      status <- attr(msg,"status")
+      if(!is.null(status) && status!=0L)
+        stop("Private Drive bundle retrieval failed; existing files preserved: ",
+             paste(tail(msg,3L),collapse=" | "))
+      if(!valid_target(staging))
+        stop("Private Drive bundle failed pinned SHA256 verification; not installed")
+      if(!file.rename(staging,target))
+        stop("Verified science bundle could not be installed in private cache")
+    }
+    archives <- target
+    message("Pinned private Drive science ZIP available and SHA256 verified.")
+  }
   if(!length(archives))
     stop("OCTOBER_V2_BUNDLE_ABSENT: Checked usual Downloads locations and ",
          "completed project inventory. Other analyses may proceed; ",
