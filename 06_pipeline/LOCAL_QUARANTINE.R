@@ -64,6 +64,34 @@ lo_quarantine_run <- function(action=c("stage","restore","finalize")) {
     if(anyDuplicated(a$relative_path))stop("Duplicate approvals")
     if(!all(paste(a$relative_path,a$sha256) %in%
             paste(q$relative_path,q$sha256)))stop("Approval not backed by verified queue")
+    # Recheck evidence at stage-time, not only when queue was generated.
+    cloud_path <- file.path(state,"VERIFIED_CLOUD_ARTIFACTS.csv")
+    backup_path <- file.path(state,"INDEPENDENT_BACKUP_RESTORE_RECEIPTS.csv")
+    close_path <- file.path(state,"PRODUCT_DEPENDENCY_CLOSURE.csv")
+    if(!all(file.exists(c(cloud_path,backup_path,close_path))))
+      stop("Independent restore, cloud, or product dependency receipt missing")
+    cl <- read.csv(cloud_path,stringsAsFactors=FALSE)
+    bk <- read.csv(backup_path,stringsAsFactors=FALSE)
+    pc <- read.csv(close_path,stringsAsFactors=FALSE)
+    k <- paste(a$relative_path,tolower(a$sha256))
+    for(required in list(c("relative_path","sha256","verification"),
+                         c("relative_path","sha256","restore_status","independent_location"),
+                         c("relative_path","sha256","closure_status"))) {
+      tab <- if("verification"%in%required)cl else if("restore_status"%in%required)bk else pc
+      if(!all(required%in%names(tab)))stop("Receipt schema mismatch")
+    }
+    goodcl <- paste(cl$relative_path[cl$verification=="READBACK_SHA256_PASS"],
+                    tolower(cl$sha256[cl$verification=="READBACK_SHA256_PASS"]))
+    goodbk <- paste(bk$relative_path[bk$restore_status=="RESTORE_SHA256_PASS" &
+                                   !is.na(bk$independent_location) &
+                                   nzchar(bk$independent_location)],
+                    tolower(bk$sha256[bk$restore_status=="RESTORE_SHA256_PASS" &
+                                      !is.na(bk$independent_location) &
+                                      nzchar(bk$independent_location)]))
+    goodpc <- paste(pc$relative_path[pc$closure_status=="PASS"],
+                    tolower(pc$sha256[pc$closure_status=="PASS"]))
+    if(!all(k%in%goodcl & k%in%goodbk & k%in%goodpc))
+      stop("A selected approval no longer has all required evidence")
     if(Sys.getenv("LO_ALLOW_QUARANTINE_MOVE")!="YES")
       stop("Set LO_ALLOW_QUARANTINE_MOVE=YES explicitly to stage")
     if(toupper(substr(root,1L,1L))!=toupper(substr(quarantine,1L,1L)))
