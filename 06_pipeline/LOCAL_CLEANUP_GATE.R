@@ -29,11 +29,16 @@ lo_cleanup_prepare <- function() {
          d$classification=="DERIVED_CANDIDATE_UNVERIFIED",,drop=FALSE]
     }
   }
-  out <- data.frame(relative_path=candidates$relative_path,bytes=candidates$bytes,
+  hashes <- if(nrow(candidates))a$sha256[match(candidates$relative_path,a$relative_path)] else character()
+  out <- data.frame(relative_path=candidates$relative_path,sha256=hashes,bytes=candidates$bytes,
     classification=candidates$classification,
     decision=rep("QUARANTINE_ELIGIBLE_REQUIRES_FINAL_APPROVAL",nrow(candidates)),
     stringsAsFactors=FALSE)
   write.csv(out,file.path(base,"LOCAL_CLEANUP_APPROVAL_QUEUE.csv"),row.names=FALSE)
+  approval <- data.frame(relative_path=out$relative_path,sha256=out$sha256,
+                         approved=rep("NO",nrow(out)),stringsAsFactors=FALSE)
+  approval_path <- file.path(base,"LOCAL_CLEANUP_APPROVED.csv")
+  if(!file.exists(approval_path))write.csv(approval,approval_path,row.names=FALSE)
   cat("Independently restored and cloud-verified duplicate candidates:",nrow(out),"\n")
   cat("No local files moved or deleted. Approval and fresh hash recheck required.\n")
   invisible(out)
