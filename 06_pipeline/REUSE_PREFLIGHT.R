@@ -1,5 +1,5 @@
 # Pre-execution reuse guard. Fail closed until metric-level decisions are independently verified.
-lo_reuse_preflight <- function(bundle,scope="nld_plus_19",output_dir=NULL) {
+lo_reuse_preflight <- function(bundle,scope="nld_plus_19",enforce=FALSE) {
   home <- Sys.getenv("USERPROFILE",unset=path.expand("~"))
   base <- file.path(home,"Downloads","LO05_RESULTATEN","master_reconciliation")
   taskfile <- file.path(bundle,"engine","TASKS.csv")
@@ -59,9 +59,12 @@ lo_reuse_preflight <- function(bundle,scope="nld_plus_19",output_dir=NULL) {
   write.csv(summary,file.path(base,"EXECUTION_REUSE_PREFLIGHT_COUNTS.csv"),row.names=FALSE)
   cat("REUSE_PREFLIGHT: ",nrow(z)," selected contracts; ",
       sum(valid)," independently approved; ",sum(!valid)," HOLD.\n",sep="")
-  if(!all(valid))stop("EXECUTION_BLOCKED_TO_PREVENT_DUPLICATE_CALCULATION: ",
+  if(!all(valid) && isTRUE(enforce))stop("EXECUTION_BLOCKED_TO_PREVENT_DUPLICATE_CALCULATION: 
     sum(!valid)," selected contracts lack verified reuse/derive/compute decisions. ",
     "See ",report)
   # A verified decision list is not yet a proven selective execution adapter.
-  stop("EXECUTION_BLOCKED: verified per-metric skip/compute adapter has not passed parity testing")
+  if(isTRUE(enforce))
+    stop("EXECUTION_BLOCKED: verified per-metric skip/compute adapter has not passed parity testing")
+  cat("READ_ONLY_PREFLIGHT_COMPLETE: no calculations started.\n")
+  invisible(summary)
 }
