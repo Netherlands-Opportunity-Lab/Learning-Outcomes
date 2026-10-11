@@ -373,19 +373,46 @@ lo_pipeline_main <- function() {
     return(invisible(run))
   }
   if(action=="next-batch") {
-    # One bounded resumable cycle; no scientific production or destructive actions.
-    source(file.path(repo,"06_pipeline","PROVENANCE_AUDIT.R"),
-           local=environment(),encoding="UTF-8")
-    source(file.path(repo,"06_pipeline","CANONICAL_RESULT_RECONCILIATION.R"),
-           local=environment(),encoding="UTF-8")
+    # Single durable batched pass. Independent steps report a specific failure.
+    # No scientific production and no deletion/quarantine mutation here.
+    steps <- list()
+    step <- function(name,expr) {
+      started <- Sys.time()
+      error <- ""
+      tryCatch(force(expr),error=function(e) {
+        error <<- conditionMessage(e)
+        message("NEXT_BATCH_STEP_HELD [",name,"]: ",error)
+      })
+      steps[[length(steps)+1L]] <<- data.frame(
+        step=name,status=if(nzchar(error))"HOLD" else "PASS",
+        elapsed_seconds=round(as.numeric(difftime(Sys.time(),started,units="secs")),2),
+        reason=error,stringsAsFactors=FALSE)
+      invisible(!nzchar(error))
+    }
+    step("scientific_product_contract",{
+      bundle <- lo_pipeline_science_bundle(repo)
+      lo_pipeline_product_contract(repo,bundle)
+    })
+    step("existing_provenance_inventory",source(
+      file.path(repo,"06_pipeline","PROVENANCE_AUDIT.R"),
+      local=environment(),encoding="UTF-8"))
+    step("canonical_result_identity",source(
+      file.path(repo,"06_pipeline","CANONICAL_RESULT_RECONCILIATION.R"),
+      local=environment(),encoding="UTF-8"))
     source(file.path(repo,"06_pipeline","MASTER_STORAGE.R"),
            local=environment(),encoding="UTF-8")
     cfg <- lo_master_init()
-    lo_master_gc_plan(cfg)
-    lo_master_duplicate_audit(cfg)
-    source(file.path(repo,"06_pipeline","LOCAL_CLEANUP_GATE.R"),
-           local=environment(),encoding="UTF-8")
-    cat("NEXT_BATCH_COMPLETE: science unchanged; zero deletions.\\n")
+    step("retirement_review",lo_master_gc_plan(cfg))
+    step("bounded_duplicate_sha",lo_master_duplicate_audit(cfg))
+    step("local_cleanup_approval_queue",source(
+      file.path(repo,"06_pipeline","LOCAL_CLEANUP_GATE.R"),
+      local=environment(),encoding="UTF-8"))
+    statuses <- do.call(rbind,steps)
+    write.csv(statuses,file.path(run,"NEXT_BATCH_STEPS.csv"),row.names=FALSE)
+    cat("NEXT_BATCH_DONE: ",sum(statuses$status=="PASS")," PASS; ",
+        sum(statuses$status=="HOLD")," HOLD. Detailed status: ",
+        file.path(run,"NEXT_BATCH_STEPS.csv"),"\n",sep="")
+    cat("No pupil calculations, no local moves or deletions.\n")
     return(invisible(run))
   }
   if(action=="reconcile-and-plan") {
