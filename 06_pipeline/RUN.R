@@ -371,6 +371,8 @@ lo_pipeline_main <- function() {
            local=environment(),encoding="UTF-8")
     source(file.path(repo,"06_pipeline","RESULT_LINEAGE_RECORDS.R"),
            local=environment(),encoding="UTF-8")
+    source(file.path(repo,"06_pipeline","RESULT_EXACT_COMPARE.R"),
+           local=environment(),encoding="UTF-8")
     # One batched conservative retirement proposal; no deletion.
     source(file.path(repo,"06_pipeline","MASTER_STORAGE.R"),
            local=environment(),encoding="UTF-8")
