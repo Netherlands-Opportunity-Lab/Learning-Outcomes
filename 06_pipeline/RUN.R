@@ -369,6 +369,8 @@ lo_pipeline_main <- function() {
            local=environment(),encoding="UTF-8")
     source(file.path(repo,"06_pipeline","RECONCILE_AND_PLAN.R"),
            local=environment(),encoding="UTF-8")
+    source(file.path(repo,"06_pipeline","RESULT_LINEAGE_RECORDS.R"),
+           local=environment(),encoding="UTF-8")
     return(invisible(run))
   }
   if(action=="audit-batch") {
