@@ -508,7 +508,9 @@ lo_master_share_reports <- function(cfg) {
     "CANONICAL_RESULT_REUSE_DECISIONS_PRIVATE.csv",
     "CANONICAL_RECONCILIATION_ERRORS_PRIVATE.csv",
     "RESULT_FIELD_COVERAGE_COUNTS.csv",
-    "LOCAL_CLEANUP_APPROVAL_QUEUE.csv"))
+    "LOCAL_CLEANUP_APPROVAL_QUEUE.csv",
+    "CONTRACT_LEVEL_REUSE_AND_COMPUTE_QUEUE.csv",
+    "CONTRACT_COVERAGE_BY_FAMILY.csv"))
   for(path in paths) {
     if(!file.exists(path)||is.na(file.info(path)$size)||
        file.info(path)$size>35*2^20)next
