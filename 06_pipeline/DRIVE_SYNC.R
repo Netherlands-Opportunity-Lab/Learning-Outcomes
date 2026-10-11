@@ -39,6 +39,8 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
   if (!file.create(lock)) stop("Could not acquire sync lock")
   on.exit(unlink(lock),add=TRUE)
   select_files <- function() {
+    # Only explicitly reviewed control reports from master_reconciliation.
+    # No broad directory inclusion: inventory rows can contain sensitive paths.
     roots <- c("runs","candidate_checkpoints")
     out <- character()
     for (sub in roots) {
@@ -49,6 +51,9 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
       ff <- ff[file.exists(ff) & !dir.exists(ff)]
       out <- c(out,ff)
     }
+    # Aggregate-only quota report: does not enumerate file paths or student data.
+    quota <- file.path(root,"master_reconciliation","CLOUD_QUOTA_AND_MIGRATION_LIMIT.csv")
+    if (file.exists(quota)) out <- c(out,quota)
     if (!length(out)) return(character())
     out <- normalizePath(out,winslash="/",mustWork=TRUE)
     relative <- substring(out,nchar(root)+2L)
@@ -59,6 +64,8 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
       !grepl("(secret|password|credential|token|private|microdata|student|school_record|\\.partial|\\.tmp|\\.lock)",
              relative,ignore.case=TRUE)
     info <- file.info(out)
+    # Explicitly exclude the full storage action plan: it contains local paths.
+    allowed <- allowed & basename(relative)!="MASTER_STORAGE_ACTION_PLAN.csv"
     allowed <- allowed & !is.na(info$size) & info$size<=maxbytes &
       as.numeric(difftime(Sys.time(),info$mtime,units="secs"))>=minage
     out[allowed]
