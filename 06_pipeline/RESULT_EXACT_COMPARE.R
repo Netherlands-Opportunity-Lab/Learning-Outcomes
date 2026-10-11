@@ -33,7 +33,10 @@ lo_compare_results <- function() {
       n <- DBI::dbGetQuery(con,paste0("SELECT COUNT(*) AS n FROM ",sqltable))$n[[1]]
       if(!is.finite(n)||n<1||n>maxrows)return(NULL)
       if(file.info(path)$size>maxbytes*100)return(NULL)
-      d <- DBI::dbReadTable(con,table)
+      wanted <- unique(c(key,cols[grepl("^(estimate|value|score|mean|se|standard_error|lower_ci|upper_ci|survey|country|year|wave|domain|method|source_sha256|producer_code_sha256|code_sha256|version)$",cols,ignore.case=TRUE)]))
+      if(length(wanted)<2L)return(NULL)
+      quoted <- as.character(DBI::dbQuoteIdentifier(con,wanted))
+      d <- DBI::dbGetQuery(con,paste0("SELECT ",paste(quoted,collapse=",")," FROM ",sqltable))
     } else if(ext=="parquet") {
       if(!requireNamespace("arrow",quietly=TRUE))return(NULL)
       pf <- arrow::ParquetFileReader$create(path)
@@ -74,6 +77,7 @@ lo_compare_results <- function() {
     aa <- a$data[,cols,drop=FALSE];bb <- b$data[,cols,drop=FALSE]
     aa <- aa[order(aa[[a$key]]),,drop=FALSE]
     bb <- bb[order(bb[[b$key]]),,drop=FALSE]
+    rownames(aa) <- NULL; rownames(bb) <- NULL
     same <- identical(aa,bb)
     comparisons[[length(comparisons)+1L]] <- data.frame(
       left_object=paste(a$path,a$table,sep="::"),
