@@ -79,17 +79,33 @@ lo_canonical_result_reconciliation <- function() {
   families <- split(usable,usable$identity)
   tally <- lapply(families,function(g) {
     hashes <- unique(g$result_hash)
+    # Historical SQLite backups repeat records. Determine whether differing
+    # hashes also imply differing estimates/SEs, and whether both are current.
+    vals <- suppressWarnings(as.numeric(g$estimate))
+    ses <- suppressWarnings(as.numeric(g$se))
+    num_signature <- paste(ifelse(is.finite(vals),format(vals,digits=17,scientific=TRUE),"NA"),
+                           ifelse(is.finite(ses),format(ses,digits=17,scientific=TRUE),"NA"),sep="|")
+    distinct_numeric <- length(unique(num_signature))
+    current <- toupper(as.character(g$is_current)) %in% c("TRUE","T","1")
+    current_hashes <- unique(g$result_hash[current])
+    is_conflict <- length(hashes)>1L
+    class <- if(!is_conflict) {
+      if(nrow(g)>1L)"MATCHING_COPIES_NOT_YET_VALIDATED"
+      else "SINGLE_VERSION_NOT_YET_VALIDATED"
+    } else if(distinct_numeric==1L) "HASH_CONFLICT_NUMERIC_EQUAL" else
+      if(length(current_hashes)>1L) "MULTIPLE_CURRENT_NUMERIC_CONFLICT" else
+      "HISTORICAL_NUMERIC_CONFLICT_NEEDS_ADJUDICATION"
     data.frame(metric_key=g$metric_key[[1]],
       evidence_copies=nrow(g),distinct_result_hashes=length(hashes),
+      distinct_numeric_estimate_se=distinct_numeric,
+      current_rows=sum(current),distinct_current_hashes=length(current_hashes),
       distinct_databases=length(unique(g$database)),
-      decision=if(length(hashes)>1L)"CONFLICT_SAME_SCIENTIFIC_IDENTITY"
-               else if(nrow(g)>1L)"MATCHING_COPIES_NOT_YET_VALIDATED"
-               else "SINGLE_VERSION_NOT_YET_VALIDATED",
-      stringsAsFactors=FALSE)
+      decision=class,stringsAsFactors=FALSE)
   })
   out <- if(length(tally))do.call(rbind,tally) else data.frame(
     metric_key=character(),evidence_copies=integer(),
-    distinct_result_hashes=integer(),distinct_databases=integer(),
+    distinct_result_hashes=integer(),distinct_numeric_estimate_se=integer(),
+    current_rows=integer(),distinct_current_hashes=integer(),distinct_databases=integer(),
     decision=character())
   rownames(out) <- NULL
   write.csv(out,file.path(base,"CANONICAL_RESULT_REUSE_DECISIONS_PRIVATE.csv"),
@@ -98,7 +114,9 @@ lo_canonical_result_reconciliation <- function() {
     register_rows=nrow(d),identities_with_complete_fingerprints=length(families),
     incomplete_lineage_rows=sum(!complete),
     matching_copy_identities=sum(out$decision=="MATCHING_COPIES_NOT_YET_VALIDATED"),
-    conflicting_identities=sum(out$decision=="CONFLICT_SAME_SCIENTIFIC_IDENTITY"),
+    conflicting_identities=sum(out$distinct_result_hashes>1L),
+    numeric_conflict_identities=sum(out$distinct_numeric_estimate_se>1L),
+    multiple_current_numeric_conflicts=sum(out$decision=="MULTIPLE_CURRENT_NUMERIC_CONFLICT"),
     singleton_identities=sum(out$decision=="SINGLE_VERSION_NOT_YET_VALIDATED"),
     register_errors=length(failures),scientific_release="NOT_GRANTED")
   write.csv(status,file.path(base,"CANONICAL_RECONCILIATION_SUMMARY.csv"),row.names=FALSE)
