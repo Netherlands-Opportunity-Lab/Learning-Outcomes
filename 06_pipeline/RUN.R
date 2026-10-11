@@ -323,11 +323,11 @@ lo_pipeline_main <- function() {
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
               all="FULL_INTERNATIONAL")
   if (!scope %in% names(scopes)) stop("Unknown scope: ",scope)
-  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","reference-audit","storage-audit","storage-plan","storage-dedupe","storage-migrate","storage-retirement-plan","storage-cleanup-apply","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish","provenance-audit","audit-batch","reconcile-and-plan")
+  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","reference-audit","storage-audit","storage-plan","storage-dedupe","storage-migrate","storage-retirement-plan","storage-cleanup-apply","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish","provenance-audit","audit-batch","reconcile-and-plan","cleanup-stage","cleanup-restore","cleanup-finalize","next-batch")
   if (!action %in% actions) stop("Unknown action: ",action)
 
   stamp <- format(Sys.time(),"%Y%m%d_%H%M%S")
-  output <- Sys.getenv("LO_RUN_OUTPUT", file.path(tempdir(),"learning_outcomes_logs"))
+  output <- Sys.getenv("LO_RUN_OUTPUT", file.path(Sys.getenv("USERPROFILE",unset=path.expand("~")),"Downloads","LO05_RESULTATEN","runner_logs"))
   run <- file.path(output,paste0("run_",stamp))
   dir.create(run, recursive=TRUE, showWarnings=FALSE)
   writeLines(c(paste0("git_commit=",lo_pipeline_git_info(repo)),
@@ -363,6 +363,30 @@ lo_pipeline_main <- function() {
       error=function(e)warning("Public status held; private audit intact: ",
                                conditionMessage(e),call.=FALSE))
     return(invisible(answer))
+  }
+  if(action %in% c("cleanup-stage","cleanup-restore","cleanup-finalize")) {
+    Sys.setenv(LO_QUARANTINE_ACTION=switch(action,
+      "cleanup-stage"="stage","cleanup-restore"="restore",
+      "cleanup-finalize"="finalize"))
+    source(file.path(repo,"06_pipeline","LOCAL_QUARANTINE.R"),
+           local=environment(),encoding="UTF-8")
+    return(invisible(run))
+  }
+  if(action=="next-batch") {
+    # One bounded resumable cycle; no scientific production or destructive actions.
+    source(file.path(repo,"06_pipeline","PROVENANCE_AUDIT.R"),
+           local=environment(),encoding="UTF-8")
+    source(file.path(repo,"06_pipeline","CANONICAL_RESULT_RECONCILIATION.R"),
+           local=environment(),encoding="UTF-8")
+    source(file.path(repo,"06_pipeline","MASTER_STORAGE.R"),
+           local=environment(),encoding="UTF-8")
+    cfg <- lo_master_init()
+    lo_master_gc_plan(cfg)
+    lo_master_duplicate_audit(cfg)
+    source(file.path(repo,"06_pipeline","LOCAL_CLEANUP_GATE.R"),
+           local=environment(),encoding="UTF-8")
+    cat("NEXT_BATCH_COMPLETE: science unchanged; zero deletions.\\n")
+    return(invisible(run))
   }
   if(action=="reconcile-and-plan") {
     source(file.path(repo,"06_pipeline","PROVENANCE_AUDIT.R"),
