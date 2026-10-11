@@ -148,6 +148,33 @@ lo_quarantine_run <- function(action=c("stage","restore","finalize")) {
       if(!file.exists(file.path(state,"INDEPENDENT_BACKUP_RESTORE_RECEIPTS.csv")) ||
          !file.exists(file.path(state,"VERIFIED_CLOUD_ARTIFACTS.csv")))
         stop("Backup receipt absent; final deletion blocked")
+      cloud <- read.csv(file.path(state,"VERIFIED_CLOUD_ARTIFACTS.csv"),
+                        stringsAsFactors=FALSE)
+      backup <- read.csv(file.path(state,"INDEPENDENT_BACKUP_RESTORE_RECEIPTS.csv"),
+                         stringsAsFactors=FALSE)
+      product <- file.path(state,"PRODUCT_DEPENDENCY_CLOSURE.csv")
+      if(!file.exists(product))stop("Product closure receipt missing")
+      product <- read.csv(product,stringsAsFactors=FALSE)
+      for(cols in list(c("relative_path","sha256","verification"),
+                       c("relative_path","sha256","restore_status","independent_location"),
+                       c("relative_path","sha256","closure_status"))) {
+        obj <- if("verification"%in%cols)cloud else
+               if("restore_status"%in%cols)backup else product
+        if(!all(cols%in%names(obj)))stop("Invalid finalization evidence schema")
+      }
+      verified <- any(cloud$relative_path==current$relative_path[i] &
+        tolower(cloud$sha256)==current$sha256[i] &
+        cloud$verification=="READBACK_SHA256_PASS",na.rm=TRUE)
+      recovered <- any(backup$relative_path==current$relative_path[i] &
+        tolower(backup$sha256)==current$sha256[i] &
+        backup$restore_status=="RESTORE_SHA256_PASS" &
+        !is.na(backup$independent_location) &
+        nzchar(backup$independent_location),na.rm=TRUE)
+      closed <- any(product$relative_path==current$relative_path[i] &
+        tolower(product$sha256)==current$sha256[i] &
+        product$closure_status=="PASS",na.rm=TRUE)
+      if(!verified||!recovered||!closed)
+        stop("Backup or product evidence no longer matches staged SHA")
       if(!identical(Sys.getenv("LO_FINAL_DELETE_APPROVED_SHA"),current$sha256[i]))
         next
       unlink(p)
