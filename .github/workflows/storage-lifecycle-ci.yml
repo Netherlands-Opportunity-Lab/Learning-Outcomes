@@ -46,3 +46,5 @@ jobs:
         run: Rscript 06_pipeline/tests/test_reuse_preflight.R
       - name: Test archive-first contract reuse and conflict semantics
         run: Rscript 06_pipeline/tests/test_contract_reuse_queue.R
+      - name: Test NLD-only native V5 path with candidate suppression
+        run: Rscript 06_pipeline/tests/test_v5_nld_core.R
