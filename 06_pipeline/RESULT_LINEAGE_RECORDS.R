@@ -17,6 +17,11 @@ lo_reconcile_records <- function() {
   id_re <- "^(result_id|result_key|estimate_id|contract_id|task_id|cell_id)$"
   evidence <- list()
   append_evidence <- function(path,object,n,ids,hashcols,methodcols,code_match,status,reason) {
+    scalar <- function(v,default="") if(length(v)==0L || is.null(v)) default else as.character(v[[1L]])
+    path <- scalar(path); object <- scalar(object)
+    status <- scalar(status,"HOLD"); reason <- scalar(reason,"Missing reason")
+    n <- if(length(n)==0L) NA_real_ else as.numeric(n[[1L]])
+    code_match <- if(length(code_match)==0L) 0L else as.integer(code_match[[1L]])
     evidence[[length(evidence)+1L]] <<- data.frame(
       relative_path=path,object=object,record_count=as.numeric(n),
       identity_columns=paste(ids,collapse=";"),
