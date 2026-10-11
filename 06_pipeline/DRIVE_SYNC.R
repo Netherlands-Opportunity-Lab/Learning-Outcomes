@@ -42,12 +42,22 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
   # Existing run reports remain local until separately reviewed.
   select_files <- function() {
     p <- file.path(root,"master_reconciliation","CLOUD_QUOTA_AND_MIGRATION_LIMIT.csv")
-    if (!file.exists(p)) return(character())
+    if (!file.exists(p)) {
+      cat("Drive selection HOLD: quota report does not exist.\n")
+      return(character())
+    }
     p <- normalizePath(p,winslash="/",mustWork=TRUE)
     info <- file.info(p)
-    if (is.na(info$size) || info$size > min(maxbytes, 65536) ||
-        as.numeric(difftime(Sys.time(),info$mtime,units="secs")) < minage)
+    if (is.na(info$size) || info$size > min(maxbytes, 65536)) {
+      cat("Drive selection HOLD: quota report size is missing or above 64 KiB.\n")
       return(character())
+    }
+    age <- as.numeric(difftime(Sys.time(),info$mtime,units="secs"))
+    if (is.na(age) || age < minage) {
+      cat("Drive selection WAIT: quota report is ",round(age),
+          " seconds old; minimum age ",minage," seconds.\n",sep="")
+      return(character())
+    }
     z <- tryCatch(read.csv(p,stringsAsFactors=FALSE,check.names=FALSE),
                   error=function(e)NULL)
     expected <- c("account_visibility","quota_known","free_gib",
