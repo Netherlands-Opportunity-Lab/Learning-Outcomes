@@ -503,7 +503,12 @@ lo_master_share_reports <- function(cfg) {
     "CLOUD_QUOTA_AND_MIGRATION_LIMIT.csv",
     "SQLITE_SCHEMA_LINEAGE_AUDIT.csv",
     "EXACT_DUPLICATE_RESULT_GROUPS.csv",
-    "MASTER_PRODUCER_CODE_SHA256.csv"))
+    "MASTER_PRODUCER_CODE_SHA256.csv",
+    "CANONICAL_RECONCILIATION_SUMMARY.csv",
+    "CANONICAL_RESULT_REUSE_DECISIONS_PRIVATE.csv",
+    "CANONICAL_RECONCILIATION_ERRORS_PRIVATE.csv",
+    "RESULT_FIELD_COVERAGE_COUNTS.csv",
+    "LOCAL_CLEANUP_APPROVAL_QUEUE.csv"))
   for(path in paths) {
     if(!file.exists(path)||is.na(file.info(path)$size)||
        file.info(path)$size>35*2^20)next
