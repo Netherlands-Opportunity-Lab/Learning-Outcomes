@@ -377,6 +377,8 @@ lo_pipeline_main <- function() {
     source(file.path(repo,"06_pipeline","MASTER_STORAGE.R"),
            local=environment(),encoding="UTF-8")
     lo_master_gc_plan(lo_master_init())
+    source(file.path(repo,"06_pipeline","LOCAL_CLEANUP_GATE.R"),
+           local=environment(),encoding="UTF-8")
     cat("KEEP/ARCHIVE/DELETE review staged: zero deletions authorized.\n")
     return(invisible(run))
   }
