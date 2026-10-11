@@ -38,37 +38,28 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
   }
   if (!file.create(lock)) stop("Could not acquire sync lock")
   on.exit(unlink(lock),add=TRUE)
+  # Only a narrowly defined aggregate quota summary is automatically eligible.
+  # Existing run reports remain local until separately reviewed.
   select_files <- function() {
-    # Only explicitly reviewed control reports from master_reconciliation.
-    # No broad directory inclusion: inventory rows can contain sensitive paths.
-    roots <- c("runs","candidate_checkpoints")
-    out <- character()
-    for (sub in roots) {
-      base <- file.path(root,sub)
-      if (!dir.exists(base)) next
-      ff <- list.files(base,recursive=TRUE,full.names=TRUE,all.files=FALSE)
-      if (!length(ff)) next
-      ff <- ff[file.exists(ff) & !dir.exists(ff)]
-      out <- c(out,ff)
-    }
-    # Aggregate-only quota report: does not enumerate file paths or student data.
-    quota <- file.path(root,"master_reconciliation","CLOUD_QUOTA_AND_MIGRATION_LIMIT.csv")
-    if (file.exists(quota)) out <- c(out,quota)
-    if (!length(out)) return(character())
-    out <- normalizePath(out,winslash="/",mustWork=TRUE)
-    relative <- substring(out,nchar(root)+2L)
-    # Conservative sharing: only readable result/status/validation summaries.
-    allowed <- grepl("\\.(csv|txt|json|md)$",relative,ignore.case=TRUE) &
-      grepl("(result|summary|status|plan|counts|audit|validation|progress|manifest|report|metrics|figure|reference|coverage|run_log)",
-            basename(relative),ignore.case=TRUE) &
-      !grepl("(secret|password|credential|token|private|microdata|student|school_record|\\.partial|\\.tmp|\\.lock)",
-             relative,ignore.case=TRUE)
-    info <- file.info(out)
-    # Explicitly exclude the full storage action plan: it contains local paths.
-    allowed <- allowed & basename(relative)!="MASTER_STORAGE_ACTION_PLAN.csv"
-    allowed <- allowed & !is.na(info$size) & info$size<=maxbytes &
-      as.numeric(difftime(Sys.time(),info$mtime,units="secs"))>=minage
-    out[allowed]
+    p <- file.path(root,"master_reconciliation","CLOUD_QUOTA_AND_MIGRATION_LIMIT.csv")
+    if (!file.exists(p)) return(character())
+    p <- normalizePath(p,winslash="/",mustWork=TRUE)
+    info <- file.info(p)
+    if (is.na(info$size) || info$size > min(maxbytes, 65536) ||
+        as.numeric(difftime(Sys.time(),info$mtime,units="secs")) < minage)
+      return(character())
+    z <- tryCatch(read.csv(p,stringsAsFactors=FALSE,check.names=FALSE),
+                  error=function(e)NULL)
+    expected <- c("account_visibility","quota_known","free_gib",
+                  "estimated_priority_gib","raw_89gb_removable","reason")
+    if (is.null(z) || !identical(names(z),expected) || nrow(z)!=1L ||
+        !identical(as.character(z$account_visibility[[1]]),"PRIVATE_ACCOUNT_ONLY"))
+      stop("Quota report schema/privacy gate failed")
+    values <- unlist(z,use.names=FALSE)
+    if (any(grepl("([A-Za-z]:[/\\\\]|/Users/|/home/|@|https?://|token|secret|password)",
+                  as.character(values),ignore.case=TRUE)))
+      stop("Quota report content safety gate failed")
+    p
   }
   publish_once <- function() {
     ff <- select_files()
@@ -93,6 +84,7 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
     }
     if (action=="preview") {
       cat("Drive preview: ",length(records)," eligible files; no upload.\n",sep="")
+      for (rec in records) cat("  ",rec$path," (",rec$bytes," bytes)\n",sep="")
       return(invisible(list(selected=length(records),uploaded=0L)))
     }
     uploaded <- 0L
