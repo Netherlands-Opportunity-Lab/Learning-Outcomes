@@ -52,7 +52,10 @@ lo_reconcile_records <- function() {
           n <- tryCatch(DBI::dbGetQuery(con,paste0("SELECT COUNT(*) AS n FROM ",qtable))$n[[1]],error=function(e)NA_real_)
           codecols <- hashes[grepl("producer|code",hashes,ignore.case=TRUE)]
           matched <- 0L
-          if(length(codecols) && length(known_sha)) {
+          # Bound potentially expensive DISTINCT scans and exclude raw/student tables.
+          safe_aggregate <- is.finite(n) && n <= 1000000 &&
+            !grepl("student|microdata|raw|respondent",t,ignore.case=TRUE)
+          if(length(codecols) && length(known_sha) && safe_aggregate) {
             for(c in codecols) {
               qcol <- as.character(DBI::dbQuoteIdentifier(con,c))
               # Aggregation happens inside SQLite: no student-level records exported.
