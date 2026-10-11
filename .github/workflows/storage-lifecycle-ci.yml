@@ -44,3 +44,5 @@ jobs:
         run: Rscript 06_pipeline/tests/test_local_quarantine.R
       - name: Test reuse preflight with no approval and locked execution
         run: Rscript 06_pipeline/tests/test_reuse_preflight.R
+      - name: Test archive-first contract reuse and conflict semantics
+        run: Rscript 06_pipeline/tests/test_contract_reuse_queue.R
