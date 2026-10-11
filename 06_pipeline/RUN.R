@@ -536,7 +536,7 @@ lo_pipeline_main <- function() {
   if (!file.exists(core)) stop("Historical integration module missing: ",core)
   if (nzchar(config)) lo_pipeline_storage(repo,"status",config)
   options(learning_outcomes.mode=unname(scopes[[scope]]),
-          learning_outcomes.action=if (action=="plan")"plan_only" else "production",
+          learning_outcomes.action=if (action=="plan")"plan_only" else if(action=="test-only")"test_only" else "production",
           learning_outcomes.gc_policy="report_only")
   # Increments rely on current local LO05 bundle; scientific gate failures are
   # reported, not promoted. Do not alter the historical scientific release.
