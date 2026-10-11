@@ -523,6 +523,8 @@ lo_pipeline_main <- function() {
     lo_reuse_preflight(bundle,scope)
     return(invisible(run))
   }
+  if(action=="execute-nld-core" && scope!="nld_only")
+    stop("EXECUTE_NLD_CORE_REQUIRES_LO_SCOPE_NLD_ONLY")
   # One verified source only: no mixing modules from different October ZIPs.
   bundle <- lo_pipeline_science_bundle(repo)
   lo_pipeline_validate_reference(repo,bundle)
