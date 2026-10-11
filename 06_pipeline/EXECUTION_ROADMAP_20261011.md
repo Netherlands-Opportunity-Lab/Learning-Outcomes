@@ -1,3 +1,9 @@
+# SUPERSEDED — historische 11-oktober-route
+
+Dit document blijft uitsluitend behouden als besluit- en wijzigingsgeschiedenis. Het nieuwe leidende plan is [MASTERPLAN_20261011_v2.md](MASTERPLAN_20261011_v2.md). De oude instructie om `next-batch` te starten is **niet langer de aanbevolen vervolgstap**; de actuele startactie en wetenschappelijke bewijsgrenzen staan uitsluitend in het masterplan.
+
+---
+
 # Integrated execution and cleanup roadmap — 2026-10-11
 
 Controlling sources: 20261009_OVERDRACHT_LO.txt, DRIE_OPDRACHTEN.txt, project records, draft PR #5. This is not scientific release approval.
