@@ -42,3 +42,5 @@ jobs:
         run: Rscript 06_pipeline/tests/test_master_storage.R
       - name: Test gated same-volume quarantine and restore with synthetic files
         run: Rscript 06_pipeline/tests/test_local_quarantine.R
+      - name: Test reuse preflight with no approval and locked execution
+        run: Rscript 06_pipeline/tests/test_reuse_preflight.R
