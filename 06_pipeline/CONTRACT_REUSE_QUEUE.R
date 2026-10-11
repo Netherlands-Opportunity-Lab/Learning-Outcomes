@@ -42,9 +42,9 @@ lo_contract_reuse_queue <- function(bundle) {
      "numeric_conflict_identities","release_status")
   write.csv(tasks[,wanted],file.path(base,"CONTRACT_LEVEL_REUSE_AND_COMPUTE_QUEUE.csv"),
             row.names=FALSE)
-  table <- aggregate(list(n=rep(1L,nrow(tasks))),
+  coverage <- aggregate(list(n=rep(1L,nrow(tasks))),
        tasks[c("country","survey","module","scientific_action")],sum)
-  write.csv(table,file.path(base,"CONTRACT_COVERAGE_BY_FAMILY.csv"),row.names=FALSE)
+  write.csv(coverage,file.path(base,"CONTRACT_COVERAGE_BY_FAMILY.csv"),row.names=FALSE)
   n <- table(tasks$scientific_action)
   cat("Contract reconciliation: ",nrow(tasks)," contracts; ",
       paste(names(n),as.integer(n),collapse="; "),"\n",sep="")
