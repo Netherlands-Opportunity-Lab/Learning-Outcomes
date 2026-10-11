@@ -55,9 +55,31 @@ lo_bundle_discover <- function() {
                      "LEARNING_OUTCOMES_INTEGRAAL_v2_20261010(1).zip"))),
     use.names=FALSE)
   archives <- archives[vapply(archives,function(x)isTRUE(file.exists(x)),logical(1))]
+  if(!length(archives)) {
+    # Consult the completed 35k-file inventory, not a fresh recursive disk scan.
+    state <- file.path(home,"Downloads","LO05_RESULTATEN",
+                       "master_reconciliation","MASTER_FILES_PRIVATE.csv")
+    inventory_found <- character()
+    if(file.exists(state)) {
+      inv <- tryCatch(read.csv(state,stringsAsFactors=FALSE,
+                               check.names=FALSE),error=function(e)NULL)
+      root <- Sys.getenv("LO_MASTER_PROJECT_ROOT",
+                         file.path(home,"Downloads","PISA_PIRLS_MASTER_PIPELINE"))
+      if(!is.null(inv) && "relative_path" %in% names(inv)) {
+        likely <- inv$relative_path[grepl(
+          "LEARNING_OUTCOMES_INTEGRAAL|OCTOBER.*BUNDLE|20261010.*[.]zip$",
+          inv$relative_path,ignore.case=TRUE)]
+        inventory_found <- file.path(root,likely)
+        inventory_found <- inventory_found[file.exists(inventory_found) &
+                         grepl("[.]zip$",inventory_found,ignore.case=TRUE)]
+      }
+    }
+    archives <- unique(c(archives,inventory_found))
+  }
   if(!length(archives))
-    stop("Cannot find checksum-matched October v2 bundle in Downloads. ",
-         "Preserve existing project files; obtain the reviewed bundle first.")
+    stop("OCTOBER_V2_BUNDLE_ABSENT: Checked usual Downloads locations and ",
+         "completed project inventory. Other analyses may proceed; ",
+         "product-contract validation requires the SHA-locked October v2 ZIP.")
   for(zip in archives) {
     hash <- unname(digest::digest(file=zip,algo="sha256"))
     if(!identical(hash,lo_bundle_expected_sha))next
