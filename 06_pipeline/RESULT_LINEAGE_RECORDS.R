@@ -101,6 +101,18 @@ lo_reconcile_records <- function() {
   schema_map <- out[,c("object","record_count","identity_columns",
                        "hash_columns","method_columns","decision"),drop=FALSE]
   write.csv(schema_map,file.path(base,"RESULT_SCHEMA_FIELD_MAP.csv"),row.names=FALSE)
+  # Compact schema-only diagnostics suitable for inspection without raw data.
+  field_counts <- data.frame(
+    objects=nrow(out),
+    with_identity_fields=sum(nzchar(out$identity_columns)),
+    with_hash_fields=sum(nzchar(out$hash_columns)),
+    with_method_fields=sum(nzchar(out$method_columns)),
+    with_matching_producer_hash=sum(out$producer_hash_matches>0,na.rm=TRUE),
+    conditional_evidence=sum(out$decision=="CONDITIONAL_LINEAGE_EVIDENCE"),
+    stringsAsFactors=FALSE)
+  write.csv(field_counts,file.path(base,"RESULT_FIELD_COVERAGE_COUNTS.csv"),row.names=FALSE)
+  cat("Field coverage: ",paste(names(field_counts),unlist(field_counts),sep="=",collapse="; "),"\n")
+
   cat("Schema field map written; inspect naming conventions before widening joins.\n")
   write.csv(out,file.path(base,"RESULT_LINEAGE_EVIDENCE.csv"),row.names=FALSE)
   counts <- if(nrow(out))as.data.frame(table(out$decision),stringsAsFactors=FALSE) else
