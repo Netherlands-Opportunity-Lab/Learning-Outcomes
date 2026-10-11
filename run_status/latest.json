@@ -1,9 +1,9 @@
 {
   "schema_version": "lo-public-safe-run-status-v1",
   "privacy": "METADATA_ONLY_NO_PATHS_NO_VALUES_NO_LOGS",
-  "status_publisher_git_commit": "cfdac45583bd317774e06c808ac1866b09b87014",
+  "status_publisher_git_commit": "c0b8e0abcca84df30d58f2c9f13b5c1ee60a97cd",
   "result_producer_git_commit": "NOT_VERIFIED",
-  "requested_action": "STORAGE_PLAN",
+  "requested_action": "STATUS_PUBLISH",
   "requested_scope": "NLD_PLUS_19",
   "invocation_outcome": "OBSERVED",
   "latest_local_run_id": "run_20261011_072630",
