@@ -64,7 +64,13 @@ lo_provenance_audit <- function() {
                schema_objects=character(),scientific_status=character())
   write.csv(registry,file.path(base,"RESULT_REGISTRY_SCHEMA_AUDIT.csv"),row.names=FALSE)
   cat("Registry candidates inspected:",nrow(registry),
-      "; no scientific provenance promoted.\\n")
+      "; no scientific provenance promoted.\n")
+  # One bounded actionable summary: inspect schemas and existing evidence counts.
+  status_counts <- as.data.frame(table(registry$inspection_status),stringsAsFactors=FALSE)
+  names(status_counts) <- c("inspection_status","count")
+  write.csv(status_counts,file.path(base,"REGISTRY_AUDIT_STATUS_COUNTS.csv"),row.names=FALSE)
+  cat("Registry inspection outcomes:\n")
+  print(status_counts,row.names=FALSE)
   output <- file.path(base,"RESULT_PROVENANCE_MATRIX.csv")
   write.csv(out,output,row.names=FALSE)
   cat("Written:",output,"\nScientific release unchanged. No data transferred.\n")
