@@ -43,7 +43,9 @@ lo_reuse_preflight <- function(bundle,scope="nld_plus_19",enforce=FALSE) {
     !is.na(v$decision)&v$decision%in%c("REUSE_VERIFIED","DERIVE_VERIFIED","COMPUTE_REQUIRED")&
       v$validation_status=="PASS"&fingerprint_ok
   } else rep(FALSE,nrow(z))
-  z$execution_decision <- ifelse(valid,approved$decision[match(z$metric_key,approved$metric_key)],"HOLD")
+  z$execution_decision <- rep("HOLD",nrow(z))
+  if(any(valid)) z$execution_decision[valid] <-
+    approved$decision[match(z$metric_key[valid],approved$metric_key)]
   z$preflight_reason <- ifelse(valid,"APPROVED_FINGERPRINTED_DECISION",
     ifelse(z$scientific_action=="ADJUDICATE_CONFLICT",
       "HISTORICAL_CONFLICT_NOT_ADJUDICATED",
@@ -59,7 +61,7 @@ lo_reuse_preflight <- function(bundle,scope="nld_plus_19",enforce=FALSE) {
   write.csv(summary,file.path(base,"EXECUTION_REUSE_PREFLIGHT_COUNTS.csv"),row.names=FALSE)
   cat("REUSE_PREFLIGHT: ",nrow(z)," selected contracts; ",
       sum(valid)," independently approved; ",sum(!valid)," HOLD.\n",sep="")
-  if(!all(valid) && isTRUE(enforce))stop("EXECUTION_BLOCKED_TO_PREVENT_DUPLICATE_CALCULATION: 
+  if(!all(valid) && isTRUE(enforce))stop("EXECUTION_BLOCKED_TO_PREVENT_DUPLICATE_CALCULATION: ",
     sum(!valid)," selected contracts lack verified reuse/derive/compute decisions. ",
     "See ",report)
   # A verified decision list is not yet a proven selective execution adapter.
