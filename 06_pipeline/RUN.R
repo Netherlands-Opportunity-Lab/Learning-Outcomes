@@ -530,7 +530,7 @@ lo_pipeline_main <- function() {
   if(action=="execute") {
     source(file.path(repo,"06_pipeline","REUSE_PREFLIGHT.R"),
            local=environment(),encoding="UTF-8")
-    lo_reuse_preflight(bundle,scope)
+    lo_reuse_preflight(bundle,scope,enforce=TRUE)
   }
   core <- file.path(bundle,"code","INTEGRATED.R")
   if (!file.exists(core)) stop("Historical integration module missing: ",core)
