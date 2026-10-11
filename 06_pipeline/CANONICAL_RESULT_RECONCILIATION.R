@@ -86,25 +86,29 @@ lo_canonical_result_reconciliation <- function() {
     num_signature <- paste(ifelse(is.finite(vals),format(vals,digits=17,scientific=TRUE),"NA"),
                            ifelse(is.finite(ses),format(ses,digits=17,scientific=TRUE),"NA"),sep="|")
     distinct_numeric <- length(unique(num_signature))
+    # A matching NA/NA placeholder must NEVER be interpreted as numerical parity.
+    numeric_comparable <- all(is.finite(vals) & is.finite(ses))
     current <- toupper(as.character(g$is_current)) %in% c("TRUE","T","1")
     current_hashes <- unique(g$result_hash[current])
     is_conflict <- length(hashes)>1L
     class <- if(!is_conflict) {
       if(nrow(g)>1L)"MATCHING_COPIES_NOT_YET_VALIDATED"
       else "SINGLE_VERSION_NOT_YET_VALIDATED"
-    } else if(distinct_numeric==1L) "HASH_CONFLICT_NUMERIC_EQUAL" else
-      if(length(current_hashes)>1L) "MULTIPLE_CURRENT_NUMERIC_CONFLICT" else
-      "HISTORICAL_NUMERIC_CONFLICT_NEEDS_ADJUDICATION"
+    } else if(!numeric_comparable) "HASH_CONFLICT_NUMERIC_EVIDENCE_INCOMPLETE"
+      else if(distinct_numeric==1L) "HASH_CONFLICT_NUMERIC_EQUAL"
+      else if(length(current_hashes)>1L) "MULTIPLE_CURRENT_NUMERIC_CONFLICT"
+      else "HISTORICAL_NUMERIC_CONFLICT_NEEDS_ADJUDICATION"
     data.frame(metric_key=g$metric_key[[1]],
       evidence_copies=nrow(g),distinct_result_hashes=length(hashes),
       distinct_numeric_estimate_se=distinct_numeric,
+      numeric_comparable=numeric_comparable,
       current_rows=sum(current),distinct_current_hashes=length(current_hashes),
       distinct_databases=length(unique(g$database)),
       decision=class,stringsAsFactors=FALSE)
   })
   out <- if(length(tally))do.call(rbind,tally) else data.frame(
     metric_key=character(),evidence_copies=integer(),
-    distinct_result_hashes=integer(),distinct_numeric_estimate_se=integer(),
+    distinct_result_hashes=integer(),distinct_numeric_estimate_se=integer(),numeric_comparable=logical(),
     current_rows=integer(),distinct_current_hashes=integer(),distinct_databases=integer(),
     decision=character())
   rownames(out) <- NULL
@@ -115,7 +119,11 @@ lo_canonical_result_reconciliation <- function() {
     incomplete_lineage_rows=sum(!complete),
     matching_copy_identities=sum(out$decision=="MATCHING_COPIES_NOT_YET_VALIDATED"),
     conflicting_identities=sum(out$distinct_result_hashes>1L),
-    numeric_conflict_identities=sum(out$distinct_numeric_estimate_se>1L),
+    numeric_conflict_identities=sum(out$numeric_comparable &
+      out$distinct_numeric_estimate_se>1L),
+    hash_conflicts_without_complete_numerics=sum(out$distinct_result_hashes>1L &
+      !out$numeric_comparable),
+    hash_conflicts_with_numerical_parity=sum(out$decision=="HASH_CONFLICT_NUMERIC_EQUAL"),
     multiple_current_numeric_conflicts=sum(out$decision=="MULTIPLE_CURRENT_NUMERIC_CONFLICT"),
     singleton_identities=sum(out$decision=="SINGLE_VERSION_NOT_YET_VALIDATED"),
     register_errors=length(failures),scientific_release="NOT_GRANTED")
@@ -124,6 +132,8 @@ lo_canonical_result_reconciliation <- function() {
     file.path(base,"CANONICAL_RECONCILIATION_ERRORS_PRIVATE.csv"),row.names=FALSE)
   cat("Canonical records:",nrow(d),"; comparable scientific identities:",
       nrow(out),"; same-identity conflicts:",status$conflicting_identities,
+      "; input/SE-incomplete hash conflicts:",status$hash_conflicts_without_complete_numerics,
+      "; hash conflicts with complete numeric parity:",status$hash_conflicts_with_numerical_parity,
       "; incomplete lineage rows:",status$incomplete_lineage_rows,"\n")
   cat("Summary:",file.path(base,"CANONICAL_RECONCILIATION_SUMMARY.csv"),"\n")
   cat("Scientific release remains held pending source and methodology checks.\n")
