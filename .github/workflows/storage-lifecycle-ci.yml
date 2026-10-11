@@ -31,7 +31,7 @@ jobs:
       - name: Install minimal R JSON dependency
         run: Rscript -e "install.packages('jsonlite', repos='https://cloud.r-project.org')"
       - name: Parse R production launcher without starting any production
-        run: Rscript -e "parse(file='START.R'); parse(file='06_pipeline/RUN.R'); parse(file='06_pipeline/DRIVE_SYNC.R'); parse(file='06_pipeline/GITHUB_STATUS.R'); parse(file='06_pipeline/BUNDLE_DISCOVERY.R'); parse(file='06_pipeline/PRODUCT_SCOPE_GATE.R'); parse(file='06_pipeline/REFERENCE_SOURCE_AUDIT.R'); parse(file='06_pipeline/MASTER_STORAGE.R'); cat('R launcher and native Drive sync parse OK\n')"
+        run: Rscript -e "parse(file='START.R'); parse(file='06_pipeline/RUN.R'); parse(file='06_pipeline/DRIVE_SYNC.R'); parse(file='06_pipeline/GITHUB_STATUS.R'); parse(file='06_pipeline/BUNDLE_DISCOVERY.R'); parse(file='06_pipeline/PRODUCT_SCOPE_GATE.R'); parse(file='06_pipeline/REFERENCE_SOURCE_AUDIT.R'); parse(file='06_pipeline/MASTER_STORAGE.R'); parse(file='06_pipeline/LOCAL_CLEANUP_GATE.R'); parse(file='06_pipeline/LOCAL_QUARANTINE.R'); parse(file='06_pipeline/PROVENANCE_AUDIT.R'); parse(file='06_pipeline/CANONICAL_RESULT_RECONCILIATION.R'); parse(file='06_pipeline/RESULT_LINEAGE_RECORDS.R'); parse(file='06_pipeline/RECONCILE_AND_PLAN.R'); cat('R launcher and native Drive sync parse OK\n')"
       - name: Validate the fixed 19-country reference membership contract
         run: Rscript 06_pipeline/tests/test_run.R
       - name: Test public Git status privacy filter without network push
