@@ -323,7 +323,7 @@ lo_pipeline_main <- function() {
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
               all="FULL_INTERNATIONAL")
   if (!scope %in% names(scopes)) stop("Unknown scope: ",scope)
-  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","reference-audit","storage-audit","storage-plan","storage-dedupe","storage-migrate","storage-retirement-plan","storage-cleanup-apply","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish","provenance-audit","audit-batch")
+  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","reference-audit","storage-audit","storage-plan","storage-dedupe","storage-migrate","storage-retirement-plan","storage-cleanup-apply","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish","provenance-audit","audit-batch","reconcile-and-plan")
   if (!action %in% actions) stop("Unknown action: ",action)
 
   stamp <- format(Sys.time(),"%Y%m%d_%H%M%S")
@@ -363,6 +363,13 @@ lo_pipeline_main <- function() {
       error=function(e)warning("Public status held; private audit intact: ",
                                conditionMessage(e),call.=FALSE))
     return(invisible(answer))
+  }
+  if(action=="reconcile-and-plan") {
+    source(file.path(repo,"06_pipeline","PROVENANCE_AUDIT.R"),
+           local=environment(),encoding="UTF-8")
+    source(file.path(repo,"06_pipeline","RECONCILE_AND_PLAN.R"),
+           local=environment(),encoding="UTF-8")
+    return(invisible(run))
   }
   if(action=="audit-batch") {
     # One invocation, reuse existing inventory and report results.
