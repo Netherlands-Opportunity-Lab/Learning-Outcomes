@@ -36,8 +36,24 @@ lo_contract_reuse_queue <- function(bundle) {
     "COMPUTE_OR_FIND_OLDER_RESULT",
     ifelse(tasks$hash_conflict_identities>0L,
        "ADJUDICATE_CONFLICT","VALIDATE_EXISTING_RESULT"))
+  # Split work by production phase, never mistake OECD19 for the full
+  # international dashboard universe.
+  ref <- file.path(dirname(taskfile),"..","PPP_COMPARATOR_MEMBERSHIP_v2.csv")
+  comparator <- if(file.exists(ref))read.csv(ref,stringsAsFactors=FALSE) else data.frame()
+  foreign <- if(all(c("country","strictly_above_czechia")%in%names(comparator)))
+    setdiff(as.character(comparator$country[
+      as.character(comparator$strictly_above_czechia)=="TRUE"]), "NLD") else character()
+  tasks$production_phase <- ifelse(tasks$country=="NLD","01_NLD",
+    ifelse(tasks$country%in%foreign,"02_REFERENCE19","03_OTHER"))
+  # A single metric_key may have multiple historical input/specification identities.
+  # These counts are candidates, not a green light to reuse.
+  tasks$next_gate <- ifelse(tasks$scientific_action=="ADJUDICATE_CONFLICT",
+    "RESOLVE_NUMERIC_CURRENT_AND_VERSION_CONFLICT",
+    ifelse(tasks$scientific_action=="VALIDATE_EXISTING_RESULT",
+      "CHECK_INPUT_SPECIFICATION_CODE_AND_DESIGN_VARIANCE",
+      "SEARCH_HISTORICAL_RESULT_STORES_BEFORE_COMPUTE"))
   tasks$release_status <- "NOT_RELEASED_METHOD_AND_INPUT_CHECK_PENDING"
-  wanted <- c("metric_key","country","survey","module","scientific_action",
+  wanted <- c("metric_key","country","survey","module","production_phase","scientific_action","next_gate",
      "candidate_identities","hash_conflict_identities",
      "numeric_conflict_identities","release_status")
   write.csv(tasks[,wanted],file.path(base,"CONTRACT_LEVEL_REUSE_AND_COMPUTE_QUEUE.csv"),
