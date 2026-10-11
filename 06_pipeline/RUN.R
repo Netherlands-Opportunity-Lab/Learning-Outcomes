@@ -399,6 +399,12 @@ lo_pipeline_main <- function() {
     step("canonical_result_identity",source(
       file.path(repo,"06_pipeline","CANONICAL_RESULT_RECONCILIATION.R"),
       local=environment(),encoding="UTF-8"))
+    step("contract_level_reuse_queue",{
+      bundle <- lo_pipeline_science_bundle(repo)
+      source(file.path(repo,"06_pipeline","CONTRACT_REUSE_QUEUE.R"),
+             local=environment(),encoding="UTF-8")
+      lo_contract_reuse_queue(bundle)
+    })
     source(file.path(repo,"06_pipeline","MASTER_STORAGE.R"),
            local=environment(),encoding="UTF-8")
     cfg <- lo_master_init()
