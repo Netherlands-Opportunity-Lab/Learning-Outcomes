@@ -1,3 +1,18 @@
+# Projectuitvoering — actuele ingang 11 oktober 2026
+
+**Leidend plan:** [MASTERPLAN_20261011_v2.md](MASTERPLAN_20261011_v2.md). De septemberfreeze en publieke website blijven onaangetast totdat wetenschappelijke en productacceptatie zijn bewezen. Oude instructies hieronder zijn historisch of specifiek voor onderhoud en zijn niet de standaardvolgende stap.
+
+**Enige gebruikersingang in Windows RStudio:**
+```r
+Sys.setenv(LO_START_ACTION="execute-nld-core", LO_SCOPE="nld_only")
+source(file.path(repo,"START.R"))
+```
+Pas toepassen als [PR #5](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/pull/5) alle Windows/Linux CI-tests doorstaat. Deze smalle actie gebruikt de bestaande LO02 V5-route voor alleen Nederlandse PISA core/gender (wetenschappelijke input-/codefingerprint hergebruik), zonder automatische V11-kandidaatproductie, bronimport of GC. Niet gelijk aan definitieve wetenschappelijke vrijgave en niet aan de volledige 29.846-taakproductie. Andere modules worden afzonderlijk wetenschappelijk beoordeeld.
+
+**Niet doen:** automatisch herhaald `next-batch`, de oude `reconcile-and-plan` voor wetenschappelijke productie, of de brede `execute` zolang de productieadapter voor niet-kernmodules niet is gecertificeerd. Gebruik opslaginstructies hieronder alleen wanneer het masterplan de betreffende stap expliciet vrijgeeft.
+
+---
+
 # Next scientific release — reproducible storage and production
 
 This directory is a **new development workflow**, not a replacement for the
