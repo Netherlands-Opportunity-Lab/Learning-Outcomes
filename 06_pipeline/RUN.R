@@ -407,6 +407,7 @@ lo_pipeline_main <- function() {
     step("local_cleanup_approval_queue",source(
       file.path(repo,"06_pipeline","LOCAL_CLEANUP_GATE.R"),
       local=environment(),encoding="UTF-8"))
+    step("private_drive_report_archive",lo_master_share_reports(cfg))
     statuses <- do.call(rbind,steps)
     write.csv(statuses,file.path(run,"NEXT_BATCH_STEPS.csv"),row.names=FALSE)
     cat("NEXT_BATCH_DONE: ",sum(statuses$status=="PASS")," PASS; ",
