@@ -21,7 +21,16 @@ lo_reuse_preflight <- function(bundle,scope="nld_plus_19",enforce=FALSE) {
     other=!(tasks$country=="NLD"|tasks$country%in%foreign),
     all=rep(TRUE,nrow(tasks)),stop("Unknown scope"))
   selected_keys <- tasks$metric_key[selected]
+  # This is an execution capability, not scientific release or proof of reuse.
+  # The unchanged LO02 v5 producer compares actual input + scientific
+  # fingerprints per key at runtime and stores checkpoints after each task.
+  sel_tasks <- tasks[selected,,drop=FALSE]
+  native <- sel_tasks$survey=="PISA" & sel_tasks$module%in%c("core","gender")
   z <- q[match(selected_keys,q$metric_key),,drop=FALSE]
+  z$native_exact_fingerprint_engine <- native
+  z$execution_capability <- ifelse(native,
+    "LO02_V5_PER_METRIC_REUSE_OR_CALCULATE_AFTER_WINDOWS_TEST",
+    "NO_INDEPENDENTLY_CERTIFIED_SCIENTIFIC_ADAPTER_YET")
   # Only explicit audited release decisions can permit execution.
   # A matching metric_key, candidate cache, or VERIFIED_SNAPSHOTS is insufficient.
   approvals <- file.path(base,"SCIENTIFIC_REUSE_EXECUTION_APPROVALS.csv")
@@ -47,20 +56,26 @@ lo_reuse_preflight <- function(bundle,scope="nld_plus_19",enforce=FALSE) {
   if(any(valid)) z$execution_decision[valid] <-
     approved$decision[match(z$metric_key[valid],approved$metric_key)]
   z$preflight_reason <- ifelse(valid,"APPROVED_FINGERPRINTED_DECISION",
-    ifelse(z$scientific_action=="ADJUDICATE_CONFLICT",
-      "HISTORICAL_CONFLICT_NOT_ADJUDICATED",
-      ifelse(z$scientific_action=="VALIDATE_EXISTING_RESULT",
-        "CANDIDATE_NOT_SCIENTIFICALLY_VALIDATED",
-        "HISTORICAL_CACHE_SEARCH_NOT_PROVEN_COMPLETE")))
+    ifelse(z$scientific_action=="ADJUDICATE_NUMERIC_CONFLICT",
+      "CONFIRMED_NUMERIC_DISAGREEMENT_NEEDS_METHOD_REVIEW",
+    ifelse(z$scientific_action=="REVIEW_HASH_NUMERIC_INCOMPLETE",
+      "NUMERIC_PARITY_UNTESTABLE_MISSING_ESTIMATE_OR_SE",
+    ifelse(z$scientific_action=="REVIEW_HASH_METADATA_PARITY",
+      "HASH_ONLY_CONFLICT_REVIEW_METADATA_CI_PROVENANCE",
+    ifelse(native,
+      "LO02_NATIVE_EXACT_INPUT_SCIENCE_REUSE_CHECK_PENDING",
+      "NEEDS_SCIENTIFIC_METHOD_GATE_OR_FURTHER_HISTORICAL_SEARCH")))))
   dir.create(base,recursive=TRUE,showWarnings=FALSE)
   report <- file.path(base,"EXECUTION_REUSE_PREFLIGHT.csv")
-  write.csv(z[,c("metric_key","scientific_action","execution_decision","preflight_reason")],
+  write.csv(z[,c("metric_key","scientific_action","execution_decision","preflight_reason",
+                 "execution_capability","native_exact_fingerprint_engine")],
             report,row.names=FALSE)
   summary <- as.data.frame(table(z$execution_decision),stringsAsFactors=FALSE)
   names(summary) <- c("decision","contracts")
   write.csv(summary,file.path(base,"EXECUTION_REUSE_PREFLIGHT_COUNTS.csv"),row.names=FALSE)
   cat("REUSE_PREFLIGHT: ",nrow(z)," selected contracts; ",
-      sum(valid)," independently approved; ",sum(!valid)," HOLD.\n",sep="")
+      sum(valid)," independently approved; ",sum(!valid)," HOLD; ",
+      sum(native)," PISA-core/gender contracts with a native exact-fingerprint reuse engine.\n",sep="")
   if(!all(valid) && isTRUE(enforce))stop("EXECUTION_BLOCKED_TO_PREVENT_DUPLICATE_CALCULATION: ",
     sum(!valid)," selected contracts lack verified reuse/derive/compute decisions. ",
     "See ",report)
