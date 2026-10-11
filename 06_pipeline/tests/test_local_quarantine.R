@@ -34,7 +34,6 @@ restore_env <- function() {
  for(k in names(old))if(is.na(old[[k]]))Sys.unsetenv(k) else
    do.call(Sys.setenv,as.list(setNames(old[[k]],k)))
 }
-on.exit(restore_env(),add=TRUE)
 Sys.setenv(USERPROFILE=home,LO_MASTER_PROJECT_ROOT=root,
  LO_QUARANTINE_ROOT=file.path(home,"Documents","PISA_QUARANTINE"),
  LO_QUARANTINE_ACTION="stage",LO_ALLOW_QUARANTINE_MOVE="YES")
