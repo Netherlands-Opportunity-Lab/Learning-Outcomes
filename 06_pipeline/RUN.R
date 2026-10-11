@@ -323,7 +323,7 @@ lo_pipeline_main <- function() {
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
               all="FULL_INTERNATIONAL")
   if (!scope %in% names(scopes)) stop("Unknown scope: ",scope)
-  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","reference-audit","storage-audit","storage-plan","storage-dedupe","storage-migrate","storage-retirement-plan","storage-cleanup-apply","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish","provenance-audit","audit-batch","reconcile-and-plan","cleanup-stage","cleanup-restore","cleanup-finalize","next-batch")
+  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","reference-audit","storage-audit","storage-plan","storage-dedupe","storage-migrate","storage-retirement-plan","storage-cleanup-apply","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish","provenance-audit","audit-batch","reconcile-and-plan","cleanup-stage","cleanup-restore","cleanup-finalize","next-batch","reuse-preflight")
   if (!action %in% actions) stop("Unknown action: ",action)
 
   stamp <- format(Sys.time(),"%Y%m%d_%H%M%S")
@@ -516,10 +516,22 @@ lo_pipeline_main <- function() {
     run_finished <- TRUE
     return(invisible(run))
   }
+  if(action=="reuse-preflight") {
+    bundle <- lo_pipeline_science_bundle(repo)
+    source(file.path(repo,"06_pipeline","REUSE_PREFLIGHT.R"),
+           local=environment(),encoding="UTF-8")
+    lo_reuse_preflight(bundle,scope)
+    return(invisible(run))
+  }
   # One verified source only: no mixing modules from different October ZIPs.
   bundle <- lo_pipeline_science_bundle(repo)
   lo_pipeline_validate_reference(repo,bundle)
   lo_pipeline_product_contract(repo,bundle)
+  if(action=="execute") {
+    source(file.path(repo,"06_pipeline","REUSE_PREFLIGHT.R"),
+           local=environment(),encoding="UTF-8")
+    lo_reuse_preflight(bundle,scope)
+  }
   core <- file.path(bundle,"code","INTEGRATED.R")
   if (!file.exists(core)) stop("Historical integration module missing: ",core)
   if (nzchar(config)) lo_pipeline_storage(repo,"status",config)
