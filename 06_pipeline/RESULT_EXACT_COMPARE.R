@@ -79,15 +79,17 @@ lo_compare_results <- function() {
     bb <- bb[order(bb[[b$key]]),,drop=FALSE]
     rownames(aa) <- NULL; rownames(bb) <- NULL
     same <- identical(aa,bb)
+    mismatch_rows <- if(same) 0L else sum(vapply(seq_len(nrow(aa)),function(k)
+      !identical(unname(unlist(aa[k,,drop=FALSE])),unname(unlist(bb[k,,drop=FALSE]))),logical(1)))
     comparisons[[length(comparisons)+1L]] <- data.frame(
       left_object=paste(a$path,a$table,sep="::"),
       right_object=paste(b$path,b$table,sep="::"),
-      rows=nrow(aa),comparison=if(same)"EXACT_AGGREGATE_MATCH" else "CONFLICT",
+      rows=nrow(aa),mismatched_rows=mismatch_rows,comparison=if(same)"EXACT_AGGREGATE_MATCH" else "CONFLICT",
       scientific_release="HOLD_PENDING_SOURCE_AND_METHOD_VALIDATION",
       stringsAsFactors=FALSE)
   }
   out <- if(length(comparisons))do.call(rbind,comparisons) else data.frame(
-    left_object=character(),right_object=character(),rows=integer(),
+    left_object=character(),right_object=character(),rows=integer(),mismatched_rows=integer(),
     comparison=character(),scientific_release=character())
   write.csv(out,file.path(base,"RESULT_EXACT_COMPARISONS.csv"),row.names=FALSE)
   summary <- data.frame(eligible_objects=length(objects),compared_pairs=nrow(out),
