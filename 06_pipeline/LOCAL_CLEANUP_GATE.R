@@ -11,19 +11,24 @@ lo_cleanup_prepare <- function() {
   if(!file.exists(inventory))stop("Inventory missing")
   d <- read.csv(inventory,stringsAsFactors=FALSE)
   candidates <- d[FALSE,,drop=FALSE]
-  if(file.exists(dup)&&file.exists(cloud)&&file.exists(independent)) {
+  closure <- file.path(base,"PRODUCT_DEPENDENCY_CLOSURE.csv")
+  if(file.exists(dup)&&file.exists(cloud)&&file.exists(independent)&&file.exists(closure)) {
     a<-read.csv(dup,stringsAsFactors=FALSE)
     b<-read.csv(cloud,stringsAsFactors=FALSE)
     c<-read.csv(independent,stringsAsFactors=FALSE)
+    e<-read.csv(closure,stringsAsFactors=FALSE)
     required <- c("relative_path","sha256")
     if(all(required%in%names(a)) && all(c(required,"verification")%in%names(b)) &&
-       all(c(required,"restore_status","independent_location")%in%names(c))) {
+       all(c(required,"restore_status","independent_location")%in%names(c)) &&
+       all(c(required,"closure_status")%in%names(e))) {
       a<-a[!is.na(a$sha256)&nzchar(a$sha256),,drop=FALSE]
       b<-b[b$verification=="READBACK_SHA256_PASS",,drop=FALSE]
       c<-c[c$restore_status=="RESTORE_SHA256_PASS"&nzchar(c$independent_location),,drop=FALSE]
+      e<-e[e$closure_status=="PASS",,drop=FALSE]
       k <- paste(a$relative_path,a$sha256)
       eligible <- k%in%paste(b$relative_path,b$sha256) &
-                  k%in%paste(c$relative_path,c$sha256)
+                  k%in%paste(c$relative_path,c$sha256) &
+                  k%in%paste(e$relative_path,e$sha256)
       paths <- a$relative_path[eligible]
       candidates <- d[d$relative_path%in%paths &
          d$classification=="DERIVED_CANDIDATE_UNVERIFIED",,drop=FALSE]
