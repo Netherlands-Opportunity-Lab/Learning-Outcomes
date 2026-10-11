@@ -542,10 +542,16 @@ lo_pipeline_main <- function() {
           learning_outcomes.gc_policy="report_only")
   # Increments rely on current local LO05 bundle; scientific gate failures are
   # reported, not promoted. Do not alter the historical scientific release.
-  source(core,local=.GlobalEnv,encoding="UTF-8")
-  if (!exists("lo_integrated_main",mode="function"))
-    stop("Legacy integrated engine cannot be called")
-  lo_integrated_main(normalizePath(bundle,winslash="/",mustWork=TRUE))
+  if(action=="execute-nld-core") {
+    source(file.path(repo,"06_pipeline","V5_NLD_CORE_ONLY.R"),
+           local=environment(),encoding="UTF-8")
+    lo_v5_nld_core_execute(normalizePath(bundle,winslash="/",mustWork=TRUE),core)
+  } else {
+    source(core,local=.GlobalEnv,encoding="UTF-8")
+    if (!exists("lo_integrated_main",mode="function"))
+      stop("Legacy integrated engine cannot be called")
+    lo_integrated_main(normalizePath(bundle,winslash="/",mustWork=TRUE))
+  }
   if (nzchar(config)) {
     # Record newly created outputs without deleting original caches.
     lo_pipeline_storage(repo,"migrate",config)
