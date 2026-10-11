@@ -97,6 +97,11 @@ lo_reconcile_records <- function() {
                            "HOLD","Unsupported format or required package missing")
   }
   out <- if(length(evidence))do.call(rbind,evidence) else data.frame()
+  # Diagnostic, non-sensitive schema map: show which naming conventions are in use.
+  schema_map <- out[,c("object","record_count","identity_columns",
+                       "hash_columns","method_columns","decision"),drop=FALSE]
+  write.csv(schema_map,file.path(base,"RESULT_SCHEMA_FIELD_MAP.csv"),row.names=FALSE)
+  cat("Schema field map written; inspect naming conventions before widening joins.\n")
   write.csv(out,file.path(base,"RESULT_LINEAGE_EVIDENCE.csv"),row.names=FALSE)
   counts <- if(nrow(out))as.data.frame(table(out$decision),stringsAsFactors=FALSE) else
     data.frame(Var1=character(),Freq=integer())
