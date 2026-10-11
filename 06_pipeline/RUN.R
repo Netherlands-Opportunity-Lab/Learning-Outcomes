@@ -342,7 +342,7 @@ lo_pipeline_main <- function() {
     return(invisible(run))
   }
   run_finished <- FALSE
-  if(action %in% c("plan","execute","replicate","test-only")) {
+  if(action %in% c("plan","execute","replicate","test-only","execute-nld-core")) {
     on.exit({
       tryCatch(lo_pipeline_publish_status(repo,action,scope,
         if(run_finished) "RUNNER_COMPLETED" else "FAILED_OR_INTERRUPTED"),
