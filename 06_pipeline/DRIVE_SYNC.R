@@ -94,7 +94,8 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
     if(!file.exists(zipfile))stop("PRIVATE_REPORT_HOLD: return ZIP missing")
     if(is.na(file.info(zipfile)$size) ||
        file.info(zipfile)$size > 64*1024^2)
-      stop("PRIVATE_REPORT_HOLD: return ZIP exceeds 64 MiB")
+      stop("PRIVATE_REPORT_SIZE_HOLD: compressed return ZIP exceeds 64 MiB; ",
+           "ZIP_mib=",round(file.info(zipfile)$size/1024^2,2))
     listing <- tryCatch(utils::unzip(zipfile,list=TRUE),
                         error=function(e)e)
     if(inherits(listing,"error") ||
@@ -137,10 +138,38 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
       stop("PRIVATE_REPORT_HOLD: return ZIP has unknown, duplicate or missing members",
            if(length(bad))paste0(" (",paste(head(bad,3L),collapse=";"),")") else "")
     sizes <- suppressWarnings(as.numeric(listing$Length))
-    if(any(!is.finite(sizes)) || any(sizes<0) ||
-       any(sizes>8*1024^2) || sum(sizes)>48*1024^2 ||
-       any(sizes[is_dir]!=0))
-      stop("PRIVATE_REPORT_HOLD: ZIP member size exceeds reviewed report limits")
+    # Historical LO05 GC/cache reports are text but can exceed the old
+    # blanket 8 MiB per-entry / 48 MiB total limits. Retain a strict ZIP
+    # whitelist, source-byte SHA equality and text/credential checks.
+    # Only these exact named reports have a larger, still bounded allowance.
+    limits <- rep(8 * 1024^2, length(names))
+    large_reports <- c(
+      "GC_CANDIDATES.csv", "PRODUCT_REQUIREMENTS_TRACE.csv",
+      "NLD_CACHES_FOUND.csv", "PHASE_NLD/CANDIDATES_JOURNAL.csv",
+      "PHASE_OECD19/CANDIDATES_JOURNAL.csv"
+    )
+    limits[!is_dir & !is.na(mapped) & mapped %in% large_reports] <-
+      64 * 1024^2
+    total_limit <- 256 * 1024^2
+    wrong_directory <- any(is_dir & (!is.finite(sizes) | sizes!=0))
+    bad_sizes <- which(!is.finite(sizes) | sizes<0 | sizes>limits)
+    total <- sum(sizes)
+    if(length(bad_sizes) || !is.finite(total) || total>total_limit ||
+       wrong_directory) {
+      worst <- if(length(bad_sizes)) bad_sizes[[1L]] else
+        if(length(sizes)) which.max(sizes)[[1L]] else NA_integer_
+      culprit <- if(is.finite(worst)) names[[worst]] else "unknown"
+      value <- if(is.finite(worst)) sizes[[worst]]/1024^2 else NA_real_
+      cat("Drive reviewed ZIP size diagnostic: largest/offending member=",
+          culprit,"; uncompressed_mib=",round(value,2),
+          "; total_uncompressed_mib=",round(total/1024^2,2),
+          "; ZIP_mib=",round(file.info(zipfile)$size/1024^2,2),
+          "; directory_metadata_invalid=",wrong_directory,"\n",sep="")
+      stop("PRIVATE_REPORT_SIZE_HOLD: vetted report archive exceeds bounded ",
+           "size policy; offending member=",culprit,
+           "; member_mib=",round(value,2),
+           "; total_mib=",round(total/1024^2,2))
+    }
     for(i in which(!is_dir)) {
       con <- tryCatch(unz(zipfile,names[[i]],open="rb"),
                       error=function(e)e)
@@ -217,10 +246,25 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
       return(chosen)
     }
     zipfile <- file.path(d,"LEARNING_OUTCOMES_RETURN.zip")
-    lo_drive_zip_safe(zipfile)
+    zip_hold <- tryCatch({
+      lo_drive_zip_safe(zipfile)
+      ""
+    },error=function(e)conditionMessage(e))
+    if(nzchar(zip_hold) &&
+       !startsWith(zip_hold,"PRIVATE_REPORT_SIZE_HOLD:"))
+      stop(zip_hold) # unknown members, secrets, changed content: fail closed.
     files <- file.path(d,lo_drive_named_reports())
     files <- files[file.exists(files)]
-    files <- c(zipfile,files)
+    if(!length(files) && nzchar(zip_hold))
+      stop("PRIVATE_REPORT_HOLD: no small reviewed reports for partial return")
+    # A bounded oversize archive stays local and is NOT copied. Publish only
+    # separately verified, safe text reports with an explicit PARTIAL receipt;
+    # this lets the scientific counts be reviewed without a new pupil run.
+    if(!nzchar(zip_hold)) files <- c(zipfile,files)
+    if(nzchar(zip_hold))
+      cat("Drive partial return: full ZIP HELD by size policy; ",
+          "publishing individually screened reports only. ",
+          zip_hold,"\n",sep="")
     for(p in files) {
       n <- normalizePath(p,winslash="/",mustWork=TRUE)
       expected_prefix <- paste0(normalizePath(file.path(root,"runs"),
@@ -242,10 +286,17 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
     }
     cat("Drive selection: completed ",basename(d),"; ",
         length(files)," reviewed report files (ZIP included).\n",sep="")
-    unique(c(chosen,files))
+    selected <- unique(c(chosen,files))
+    attr(selected,"return_zip_status") <-
+      if(nzchar(zip_hold))"PARTIAL_OVERSIZE_HELD" else "FULL_REVIEWED"
+    attr(selected,"zip_size_hold") <- zip_hold
+    selected
   }
   publish_once <- function() {
     ff <- select_files()
+    return_zip_status <- attr(ff,"return_zip_status")
+    if(is.null(return_zip_status))return_zip_status <- "NO_COMPLETED_RUN"
+    zip_size_hold <- attr(ff,"zip_size_hold")
     if (!length(ff)) {
       cat("Drive sync: no eligible completed result summaries; nothing uploaded.\n")
       return(invisible(list(selected=0L,uploaded=0L)))
@@ -310,6 +361,8 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
       created_utc=format(Sys.time(),"%Y-%m-%dT%H:%M:%SZ",tz="UTC"),
       visibility="PRIVATE_ACCOUNT_ONLY",
       scientific_status="NOT_AUTOMATICALLY_VALIDATED",
+      run_report_completeness=return_zip_status,
+      zip_size_hold=if(is.null(zip_size_hold))"" else zip_size_hold,
       files=clean)
     manifestfile <- file.path(stage,"manifest_pending.json")
     jsonlite::write_json(manifest,manifestfile,auto_unbox=TRUE,pretty=TRUE)
@@ -326,8 +379,14 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
     pointer <- file.path(stage,"pointer_pending.json")
     jsonlite::write_json(list(manifest=id,sha256=mh),pointer,auto_unbox=TRUE,pretty=TRUE)
     lo_drive_run(exe,c("copyto",pointer,paste0(remote,"/LATEST.json")))
-    cat("Drive sync verified: ",uploaded," files; manifest ",id,"\n",sep="")
-    invisible(list(selected=length(records),uploaded=uploaded,manifest=id))
+    cat("Drive sync verified: ",uploaded," files; manifest ",id,
+        "; run_report_completeness=",return_zip_status,"\n",sep="")
+    if(identical(return_zip_status,"PARTIAL_OVERSIZE_HELD"))
+      cat("NEXT: review private named STATUS, PLAN_COUNTS, PHASE_STATUS and ",
+          "AANTALLEN. Full return ZIP was NOT uploaded. No calculation ",
+          "or deletion occurred.\n")
+    invisible(list(selected=length(records),uploaded=uploaded,
+                   manifest=id,run_report_completeness=return_zip_status))
   }
   if (action=="watch") {
     interval <- if(is.null(cfg$watch_interval_seconds)) 180 else
