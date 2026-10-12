@@ -100,17 +100,31 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
     if(inherits(listing,"error") ||
        !all(c("Name","Length")%in%names(listing)))
       stop("PRIVATE_REPORT_HOLD: cannot inspect return ZIP")
-    names <- as.character(listing$Name)
-    if(!length(names) || length(names)>length(lo_drive_allowed_members()) ||
+    names <- gsub("\\","/",as.character(listing$Name),fixed=TRUE)
+    is_dir <- endsWith(names,"/")
+    allowed <- lo_drive_allowed_members()
+    valid_dirs <- unique(unlist(lapply(allowed,function(x) {
+      bits <- strsplit(x,"/",fixed=TRUE)[[1L]]
+      if(length(bits)<2L)return(character())
+      paste0(vapply(seq_len(length(bits)-1L),function(k)
+        paste(bits[seq_len(k)],collapse="/"),character(1L)),"/")
+    }),use.names=FALSE))
+    report_names <- names[!is_dir]
+    bad <- c(names[is_dir & !names%in%valid_dirs],
+             report_names[!report_names%in%allowed])
+    if(!length(report_names) ||
+       length(names)>length(allowed)+length(valid_dirs) ||
        anyDuplicated(names) ||
-       any(!names%in%lo_drive_allowed_members()) ||
-       !all(c("STATUS.txt","PHASE_STATUS.csv","PLAN_COUNTS.csv")%in%names))
-      stop("PRIVATE_REPORT_HOLD: return ZIP has unknown, duplicate or missing members")
+       length(bad) ||
+       !all(c("STATUS.txt","PHASE_STATUS.csv","PLAN_COUNTS.csv")%in%report_names))
+      stop("PRIVATE_REPORT_HOLD: return ZIP has unknown, duplicate or missing members",
+           if(length(bad))paste0(" (",paste(head(bad,3L),collapse=";"),")") else "")
     sizes <- suppressWarnings(as.numeric(listing$Length))
     if(any(!is.finite(sizes)) || any(sizes<0) ||
-       any(sizes>8*1024^2) || sum(sizes)>48*1024^2)
+       any(sizes>8*1024^2) || sum(sizes)>48*1024^2 ||
+       any(sizes[is_dir]!=0))
       stop("PRIVATE_REPORT_HOLD: ZIP member size exceeds reviewed report limits")
-    for(i in seq_along(names)) {
+    for(i in which(!is_dir)) {
       con <- tryCatch(unz(zipfile,names[[i]],open="rb"),
                       error=function(e)e)
       if(inherits(con,"error"))
