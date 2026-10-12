@@ -74,6 +74,7 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
     "PHASE_OECD19/LO02_RELEASED_PISA_CORE_GENDER/AANTALLEN.csv",
     "PRIVATE_RESULT_EXPORT/LO02_EXPORT_STATUS.csv",
     "PRIVATE_RESULT_EXPORT/LO02_EXPORT_SCHEMA_AUDIT.csv",
+    "PRIVATE_RESULT_EXPORT/LO02_SNAPSHOT_COUNTS.csv",
     "PRIVATE_RESULT_EXPORT/LO02_NEW_RESULT_ROWS.csv"
   )
   lo_drive_run_id_ok <- function(id) {
