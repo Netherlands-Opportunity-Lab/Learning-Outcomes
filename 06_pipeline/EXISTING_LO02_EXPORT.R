@@ -21,9 +21,19 @@ lo_existing_result_export <- function(root, run_id) {
              file.path(root,"runs",run_id,"PHASE_NLD"),
              file.path(dirname(root),"LO02_RESULTATEN"))
   roots <- roots[dir.exists(roots)]
-  dbs <- unique(unlist(lapply(roots,function(p)
+  # Windows paths are case-insensitive: root/lo02 and root/LO02 can be the
+  # same directory, so deduplicate by case-folded normalized path.
+  if(length(roots)) {
+    roots <- normalizePath(roots,winslash="/",mustWork=TRUE)
+    roots <- roots[!duplicated(tolower(roots))]
+  }
+  dbs <- unlist(lapply(roots,function(p)
      list.files(p,pattern="\\.(sqlite|sqlite3|db)$",
-                recursive=TRUE,full.names=TRUE,ignore.case=TRUE))))
+                recursive=TRUE,full.names=TRUE,ignore.case=TRUE)))
+  if(length(dbs)) {
+    dbs <- normalizePath(dbs,winslash="/",mustWork=TRUE)
+    dbs <- dbs[!duplicated(tolower(dbs))]
+  }
   outdir <- file.path(rundir,"PRIVATE_RESULT_EXPORT")
   dir.create(outdir,recursive=TRUE,showWarnings=FALSE)
   diag <- list()
