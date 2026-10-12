@@ -2,11 +2,30 @@
 # Never deletes local or remote files; never uploads raw microdata.
 # Each completed artifact is addressed by SHA-256; pointer is published last.
 lo_drive_run <- function(exe,args) {
-  out <- suppressWarnings(system2(exe, shQuote(args),stdout=TRUE,stderr=TRUE))
-  status <- attr(out,"status")
-  if (!is.null(status) && status!=0L)
-    stop("rclone failed (",status,"): ",paste(tail(out,12),collapse="\n"),call.=FALSE)
-  out
+  # RStudio remains local. Transient Windows DNS/Google API failures must
+  # not invalidate previously computed results or force a pupil rerun.
+  # No deletion, no rclone sync, and no pointer advance on upload failure.
+  max_attempts <- 5L
+  for(attempt in seq_len(max_attempts)) {
+    out <- tryCatch(
+      suppressWarnings(system2(exe,shQuote(args),stdout=TRUE,stderr=TRUE)),
+      error=function(e)structure(conditionMessage(e),status=1L))
+    status <- attr(out,"status")
+    if(is.null(status)||identical(as.integer(status),0L))return(out)
+    message_text <- paste(tail(out,12L),collapse=" | ")
+    transient <- grepl(
+      "no such host|temporary failure|serverbusy|service unavailable|connection reset|timeout|timed out|429|500|502|503|504|rate limit|dns",
+      message_text,ignore.case=TRUE)
+    if(!transient || attempt==max_attempts)
+      stop("PRIVATE_DRIVE_SYNC_PENDING: rclone failed after ",attempt,
+           " attempt(s); local results retained. ",
+           substr(message_text,1L,750L),call.=FALSE)
+    pause <- min(30,2^attempt)
+    cat("Private Drive temporary network issue; retry ",
+        attempt,"/",max_attempts," after ",pause,
+        " seconds; local results preserved.\n",sep="")
+    Sys.sleep(pause)
+  }
 }
 
 lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_override="",
