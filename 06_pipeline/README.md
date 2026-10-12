@@ -1,5 +1,8 @@
 # Projectuitvoering — actuele ingang 11 oktober 2026
 
+> **12 oktober 2026 — bevestigde uitvoering:** RStudio blijft op de eigen Windows-computer rekenen. GitHub is voor versiebeheerde code en gecontroleerde definitieve publieke resultaten/producten; private Google Drive voor automatische opslag van tussenresultaten/caches/rapporten. De eerder kort opgenomen cloud-computerinterpretatie is ingetrokken. Gebruik de lokale runner alleen voor gericht wetenschappelijk werk. De *eerstvolgende* stap is bestaande resultaten automatisch veilig naar Google Drive synchroniseren (de huidige Drive allowlist omvat alleen het quotarapport); niet de vorige run herhalen. Lokale R-geproduceerde bestanden kunnen pas na volledige dependency/backup/restore-gates en toestemming worden opgeruimd. Zie §11 van het [masterplan](MASTERPLAN_20261011_v2.md).
+
+
 **Leidend plan:** [MASTERPLAN_20261011_v2.md](MASTERPLAN_20261011_v2.md). De septemberfreeze en publieke website blijven onaangetast totdat wetenschappelijke en productacceptatie zijn bewezen. Oude instructies hieronder zijn historisch of specifiek voor onderhoud en zijn niet de standaardvolgende stap.
 
 **Enige gebruikersingang in Windows RStudio:**
