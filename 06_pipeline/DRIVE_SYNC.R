@@ -110,8 +110,25 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
         paste(bits[seq_len(k)],collapse="/"),character(1L)),"/")
     }),use.names=FALSE))
     report_names <- names[!is_dir]
+    # zip::zipr(mode="cherry-pick") on some Windows installations
+    # flattens PHASE_NLD/.../AANTALLEN.csv to AANTALLEN.csv. A
+    # flattened basename is accepted only if exactly ONE approved source
+    # path with that basename exists in THIS completed run and its SHA
+    # is identical. This prevents conflating NLD and OECD19 files.
+    source_for_member <- function(name) {
+      candidates <- if(name%in%allowed) name else
+        allowed[basename(allowed)==name]
+      existing <- candidates[file.exists(file.path(dirname(zipfile),candidates))]
+      if(length(existing)!=1L)
+        stop("PRIVATE_REPORT_HOLD: unknown or ambiguous ZIP member: ",name)
+      existing[[1L]]
+    }
+    mapped <- vapply(report_names,function(name)
+      tryCatch(source_for_member(name),error=function(e)NA_character_),
+      character(1L),USE.NAMES=FALSE)
     bad <- c(names[is_dir & !names%in%valid_dirs],
-             report_names[!report_names%in%allowed])
+             report_names[is.na(mapped)])
+
     if(!length(report_names) ||
        length(names)>length(allowed)+length(valid_dirs) ||
        anyDuplicated(names) ||
@@ -134,6 +151,12 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
       if(length(bytes)!=sizes[[i]])
         stop("PRIVATE_REPORT_HOLD: member read size mismatch: ",names[[i]])
       lo_drive_text_safe(bytes,names[[i]])
+      source_path <- source_for_member(names[[i]])
+      disk_file <- file.path(dirname(zipfile),source_path)
+      if(!file.exists(disk_file) ||
+         !identical(unname(digest::digest(bytes,algo="sha256",serialize=FALSE)),
+                    unname(digest::digest(file=disk_file,algo="sha256"))))
+        stop("PRIVATE_REPORT_HOLD: archive/source bytes differ: ",names[[i]])
     }
     invisible(TRUE)
   }
