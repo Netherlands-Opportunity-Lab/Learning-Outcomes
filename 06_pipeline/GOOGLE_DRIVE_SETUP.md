@@ -9,13 +9,45 @@ The previously created `drive.local.json` remains valid; do not run
 `setup-drive` again. Use the same local R entry point with
 `LO_ACTION=publish`, then source RUN.R.
 
-The R-native publisher is deliberately more restrictive than the earlier
-Python prototype: it sends only stable, small CSV/TXT/JSON/Markdown result
-summaries with approved names. It does not automatically upload RDS,
-Parquet, ZIP, student records, source microdata, or private SQLite databases.
-Each upload is checksum-verified and old content-addressed objects remain.
-Cloud success does not imply scientific validation.
+The R-native publisher now has two tightly scoped private outputs: the
+existing small quota report and, when present, the **latest completed, audited
+LO05 return** (`LEARNING_OUTCOMES_RETURN.zip`) together with a fixed list of
+named CSV/TXT status, counts, validation and coverage reports. It does **not**
+recurse over arbitrary files or automatically upload source microdata, raw
+student-level rows, SQLite, Parquet, or RDS. The run ZIP is uploaded only after
+its known member names, member sizes, text payload and credential signatures
+are checked against the pinned LO05 archive contract. Unknown members cause
+a HOLD; the run is not silently skipped when an explicit run ID was requested.
 
+After every private SHA-256 readback the files are stored both as immutable
+`objects/<SHA>` and (for finished runs only) under recognisable
+`reports/run_YYYYMMDD_HHMMSS/<report>` paths. The `LATEST.json` pointer is
+only advanced after *every* selected file and named mirror is verified.
+Cloud success never implies scientific validation.
+
+**12 October 2026: publish the existing Windows run without recomputing:**
+
+```r
+repo <- "C:/Users/bason/Downloads/Learning-Outcomes-Git-20261010"
+Sys.setenv(
+  LO_REPO_ROOT = repo,
+  LO_START_ACTION = "publish",
+  LO_SCOPE = "nld_only",
+  LO_DRIVE_SYNC_RUN_ID = "run_20261012_084825"
+)
+source(file.path(repo,"START.R"), encoding="UTF-8")
+```
+
+This *does not run a scientific calculation*, change central scientific
+registries, or delete any files. The existing rclone OAuth is reused. It
+does create only small local transfer manifests/checkpoint metadata in
+`LO05_RESULTATEN/.cloud_sync`. A normal future `plan/execute` completion
+may publish the latest completed return automatically; the chosen run
+must have its reviewed `STATUS.txt`, `PHASE_STATUS.csv`,
+`PLAN_COUNTS.csv` and `LEARNING_OUTCOMES_RETURN.zip`.
+Set `LO_DRIVE_SYNC_RUN_ID` to a specific completed run if desired,
+or unset it to select the most recent complete run. Do not infer that
+remaining large result caches have already been migrated.
 
 Two separate user authorizations are needed: (1) connect Google Drive to
 ChatGPT, and (2) authenticate rclone against the same Google Drive account on
@@ -95,8 +127,7 @@ The Drive folder has:
   sizes, producer Git commit, and NOT_AUTOMATICALLY_VALIDATED status
 - LATEST.json — updated only after the remote checksum check succeeds
 
-The upload tool selects stable files under LO05_RESULTATEN/runs and
-LO05_RESULTATEN/candidate_checkpoints, never raw source datasets.
+The active R-native uploader selects only completed, reviewed LO05 run reports and the tiny quota summary. It does not publish arbitrary files from candidate_checkpoints or raw sources.
 CSV/TXT/JSON summaries can be reviewed through a connected Drive account.
 Binary RDS/Parquet may require a readable summary export for ChatGPT review.
 
