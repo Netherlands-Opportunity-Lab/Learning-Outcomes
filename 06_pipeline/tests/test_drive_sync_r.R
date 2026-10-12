@@ -102,6 +102,35 @@ stopifnot(file.exists(file.path(named,"LEARNING_OUTCOMES_RETURN.zip")))
 latest_before_bad <- digest::digest(file=remote_latest,algo="sha256")
 calls_before_bad <- length(calls)
 
+# Regression: legitimate reviewed CSV reports can exceed the old
+# blanket 8 MiB expanded-member limit without loosening the name/content gate.
+gc_file <- file.path(run,"GC_CANDIDATES.csv")
+writeBin(rep(charToRaw("reviewed,synthetic,report\\n"),500000L),gc_file)
+members <- c(members,"GC_CANDIDATES.csv")
+make_zip()
+legitimate <- lo_drive_sync(cfg,action="publish",rclone_override=fake_exe,
+                            producer_commit="TEST_ONLY")
+stopifnot(identical(legitimate$run_report_completeness,"FULL_REVIEWED"),
+          file.exists(file.path(named,"LEARNING_OUTCOMES_RETURN.zip")))
+# An oversized-but-known ZIP is withheld, yet separately inspected named
+# text reports still reach private Drive and the manifest marks PARTIAL.
+writeBin(rep(charToRaw("reviewed,synthetic,report\\n"),3500000L),gc_file)
+make_zip()
+oversized <- lo_drive_sync(cfg,action="publish",rclone_override=fake_exe,
+                           producer_commit="TEST_ONLY")
+stopifnot(identical(oversized$run_report_completeness,
+                    "PARTIAL_OVERSIZE_HELD"))
+partial_pointer <- jsonlite::fromJSON(remote_latest)
+partial_manifest <- jsonlite::fromJSON(file.path(
+  remote_folder,"manifests",paste0(partial_pointer$manifest,".json")))
+stopifnot(identical(partial_manifest$run_report_completeness,
+                    "PARTIAL_OVERSIZE_HELD"),
+          !any(grepl("LEARNING_OUTCOMES_RETURN.zip",
+                     partial_manifest$files$path,fixed=TRUE)))
+members <- setdiff(members,"GC_CANDIDATES.csv")
+unlink(gc_file)
+make_zip()
+
 # A ZIP containing an unknown raw student source never leaves the laptop.
 writeLines("FAKE RAW STUDENT DATA",file.path(run,"students.sav"))
 make_zip("students.sav")
