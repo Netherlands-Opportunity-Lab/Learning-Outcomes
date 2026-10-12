@@ -323,7 +323,7 @@ lo_pipeline_main <- function() {
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
               all="FULL_INTERNATIONAL")
   if (!scope %in% names(scopes)) stop("Unknown scope: ",scope)
-  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","reference-audit","storage-audit","storage-plan","storage-dedupe","storage-migrate","storage-retirement-plan","storage-cleanup-apply","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish","provenance-audit","audit-batch","reconcile-and-plan","cleanup-stage","cleanup-restore","cleanup-finalize","next-batch","reuse-preflight","test-only","execute-nld-core")
+  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","reference-audit","storage-audit","storage-plan","storage-dedupe","storage-migrate","storage-retirement-plan","storage-cleanup-apply","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish","provenance-audit","audit-batch","reconcile-and-plan","cleanup-stage","cleanup-restore","cleanup-finalize","next-batch","reuse-preflight","test-only","execute-nld-core","export-existing-nld")
   if (!action %in% actions) stop("Unknown action: ",action)
 
   stamp <- format(Sys.time(),"%Y%m%d_%H%M%S")
@@ -456,6 +456,24 @@ lo_pipeline_main <- function() {
     source(file.path(repo,"06_pipeline","PROVENANCE_AUDIT.R"),
            local=environment(),encoding="UTF-8")
     return(invisible(run))
+  }
+  if(action=="export-existing-nld") {
+    if(scope!="nld_only")stop("EXISTING_EXPORT_NLD_ONLY")
+    source(file.path(repo,"06_pipeline","EXISTING_LO02_EXPORT.R"),
+           local=environment(),encoding="UTF-8")
+    run_id <- Sys.getenv("LO_DRIVE_SYNC_RUN_ID","")
+    if(!grepl("^run_[0-9]{8}_[0-9]{6}$",run_id))
+      stop("Set LO_DRIVE_SYNC_RUN_ID to the existing reviewed run ID")
+    base <- file.path(Sys.getenv("USERPROFILE",unset=path.expand("~")),
+                      "Downloads","LO05_RESULTATEN")
+    result <- lo_existing_result_export(base,run_id)
+    # Conservative: even HOLD diagnostics are published privately so the
+    # remaining exact SQLite schema problem is visible without file uploads.
+    if(!isTRUE(lo_pipeline_drive_publish(repo,"publish")))
+      stop("EXISTING_EXPORT_PRIVATE_DRIVE_UPLOAD_FAILED")
+    cat("EXISTING_EXPORT_FINISHED: ",result$status[[1]],
+        "; no scientific production; no deletion.\n",sep="")
+    return(invisible(result))
   }
   if(action=="setup-drive") {
     lo_pipeline_setup_drive()
