@@ -73,14 +73,21 @@ lo_existing_result_export <- function(root, run_id) {
   status <- "HOLD_NO_EXACT_RUN_LINK"
   if(length(eligible)) {
     z <- do.call(rbind,eligible)
+    scope_ok <- (!"country"%in%names(z) ||
+                 all(as.character(z$country)=="NLD")) &&
+                (!"survey"%in%names(z) ||
+                 all(as.character(z$survey)=="PISA")) &&
+                (!"module"%in%names(z) ||
+                 all(as.character(z$module)%in%c("core","gender")))
+    fields_ok <- all(is.finite(suppressWarnings(as.numeric(z$estimate)))) &&
+                 all(is.finite(suppressWarnings(as.numeric(z$se))))
     if(anyDuplicated(z$metric_key)==0L &&
-       nrow(z)==expected &&
-       all(!is.na(z$estimate)&!is.na(z$se))) {
+       nrow(z)==expected && scope_ok && fields_ok) {
       status <- "PRIVATE_REVIEW_ONLY_EXACT_RUN_MATCH"
       z <- z[,intersect(approved_names,names(z)),drop=FALSE]
       write.csv(z,file.path(outdir,"LO02_NEW_RESULT_ROWS.csv"),
                 row.names=FALSE,na="")
-    } else status <- "HOLD_AMBIGUOUS_RUN_MATCH_OR_MISSING_SE"
+    } else status <- "HOLD_AMBIGUOUS_OR_NONNLD_OR_INVALID_ESTIMATE_SE"
   }
   summary <- data.frame(run_id=run_id,expected_new_results=expected,
     matched_new_results=if(length(eligible))nrow(do.call(rbind,eligible)) else 0L,
