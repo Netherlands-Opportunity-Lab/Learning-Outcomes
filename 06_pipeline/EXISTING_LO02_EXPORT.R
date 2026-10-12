@@ -19,6 +19,9 @@ lo_existing_result_export <- function(root, run_id) {
   # Bounded search of known LO02 directories only; no 95GB project rescan.
   roots <- c(file.path(root,"lo02"),file.path(root,"LO02"),
              file.path(root,"runs",run_id,"PHASE_NLD"),
+             file.path(root,"master_reconciliation"),
+             file.path(root,"candidate_checkpoints"),
+             file.path(root,"verified_snapshots"),
              file.path(dirname(root),"LO02_RESULTATEN"))
   roots <- roots[dir.exists(roots)]
   # Windows paths are case-insensitive: root/lo02 and root/LO02 can be the
@@ -33,6 +36,11 @@ lo_existing_result_export <- function(root, run_id) {
   if(length(dbs)) {
     dbs <- normalizePath(dbs,winslash="/",mustWork=TRUE)
     dbs <- dbs[!duplicated(tolower(dbs))]
+    # Avoid opening hundreds of unrelated databases; explicit HOLD is safer.
+    if(length(dbs)>100L)
+      stop("HOLD: more than 100 candidate SQLite files in bounded LO02 roots")
+    sizes <- file.info(dbs)$size
+    dbs <- dbs[is.finite(sizes) & sizes <= 2e9]
   }
   outdir <- file.path(rundir,"PRIVATE_RESULT_EXPORT")
   dir.create(outdir,recursive=TRUE,showWarnings=FALSE)
