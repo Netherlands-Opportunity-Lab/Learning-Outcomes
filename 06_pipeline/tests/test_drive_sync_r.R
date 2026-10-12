@@ -7,7 +7,6 @@ source("06_pipeline/DRIVE_SYNC.R",encoding="UTF-8")
 
 work <- tempfile("lo_native_drive_test_")
 dir.create(work,recursive=TRUE)
-on.exit <- NULL
 root <- file.path(work,"LO05_RESULTATEN")
 run_id <- "run_20261012_084825"
 run <- file.path(root,"runs",run_id)
@@ -95,12 +94,13 @@ stopifnot(identical(m$scientific_status,"NOT_AUTOMATICALLY_VALIDATED"),
           !any(grepl("^[A-Za-z]:",m$files$path)),
           any(grepl("LEARNING_OUTCOMES_RETURN.zip",m$files$path,fixed=TRUE)),
           all(m$files$scientific_status=="NOT_AUTOMATICALLY_VALIDATED"))
-first_latest <- digest::digest(file=remote_latest,algo="sha256")
 
 # Re-publishing the same bytes remains correct and non-destructive.
 lo_drive_sync(cfg,action="publish",rclone_override=fake_exe,
               producer_commit="TEST_ONLY")
 stopifnot(file.exists(file.path(named,"LEARNING_OUTCOMES_RETURN.zip")))
+latest_before_bad <- digest::digest(file=remote_latest,algo="sha256")
+calls_before_bad <- length(calls)
 
 # A ZIP containing an unknown raw student source never leaves the laptop.
 writeLines("FAKE RAW STUDENT DATA",file.path(run,"students.sav"))
@@ -109,7 +109,7 @@ unsafe <- try(lo_drive_sync(cfg,action="publish",
                             rclone_override=fake_exe),silent=TRUE)
 stopifnot(inherits(unsafe,"try-error"),
           identical(digest::digest(file=remote_latest,algo="sha256"),
-                    digest::digest(file=remote_latest,algo="sha256")))
+                    latest_before_bad), length(calls)==calls_before_bad)
 # Restore known ZIP and check unknown credential payload fails before copying.
 make_zip()
 writeLines(c("RUNNER=LEARNING_OUTCOMES_INTEGRATED_V2_20261010",
