@@ -77,6 +77,41 @@ lo_existing_result_export <- function(root, run_id) {
   diagnostics <- if(length(diag))do.call(rbind,diag) else
     data.frame(file_class="NONE",db_sha256="",table="",has_exact_run_marker=FALSE,
      required_fields_present=FALSE,considered=FALSE)
+  # A missing run_id must not trigger another pupil calculation.
+  # Record a safe diagnostic of exact table metadata and aggregate counts,
+  # using only the bounded, already-discovered SQLite databases.
+  snapshot <- list()
+  for(p in dbs) {
+    con <- tryCatch(DBI::dbConnect(RSQLite::SQLite(),p,
+       flags=RSQLite::SQLITE_RO),error=function(e)NULL)
+    if(is.null(con))next
+    tryCatch({
+      for(tab in DBI::dbListTables(con)) {
+        cols <- DBI::dbListFields(con,tab)
+        if(!("metric_key"%in%cols) ||
+           grepl("student|microdata|respondent|person|pupil",tab,ignore.case=TRUE))
+          next
+        qt <- as.character(DBI::dbQuoteIdentifier(con,tab))
+        n <- tryCatch(DBI::dbGetQuery(con,paste0("SELECT COUNT(*) AS n FROM ",qt))$n[[1L]],
+                      error=function(e)NA_integer_)
+        distinct <- tryCatch(DBI::dbGetQuery(con,paste0(
+          "SELECT COUNT(DISTINCT metric_key) AS n FROM ",qt))$n[[1L]],
+          error=function(e)NA_integer_)
+        snapshot[[length(snapshot)+1L]] <- data.frame(
+          db_sha256=digest::digest(file=p,algo="sha256"),
+          object=tab,n_rows=n,n_metric_keys=distinct,
+          has_result_value=("estimate"%in%cols),
+          has_se=("se"%in%cols),
+          exact_run_link=any(c("run_id","production_run_id","created_run_id")%in%cols),
+          evidence_status="METADATA_ONLY_NOT_VALIDATED",stringsAsFactors=FALSE)
+      }
+    },finally=DBI::dbDisconnect(con))
+  }
+  snap <- if(length(snapshot))do.call(rbind,snapshot) else
+    data.frame(db_sha256=character(),object=character(),n_rows=integer(),
+      n_metric_keys=integer(),has_result_value=logical(),has_se=logical(),
+      exact_run_link=logical(),evidence_status=character())
+  write.csv(snap,file.path(outdir,"LO02_SNAPSHOT_COUNTS.csv"),row.names=FALSE)
   # Never share absolute paths, database bytes, or arbitrary field names.
   write.csv(diagnostics,file.path(outdir,"LO02_EXPORT_SCHEMA_AUDIT.csv"),
             row.names=FALSE)
