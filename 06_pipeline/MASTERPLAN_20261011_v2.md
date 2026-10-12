@@ -192,3 +192,17 @@ Geen enkele bron bewijst momenteel een volledig afgeronde oktober-wetenschappeli
 
 **Eerstvolgende concrete actie**: **geen nieuwe leerlingrun**. Voer na geslaagde CI uitsluitend de private publicatieactie uit voor de **reeds voltooide** Nederlandse `run_20261012_084825`, vanuit de GitHub-gestuurde Windows-RStudio-runner, met `LO_START_ACTION=publish` en `LO_DRIVE_SYNC_RUN_ID=run_20261012_084825`. Controleer daarna via Drive de aantallen/status/QA en de volledige SHA-geverifieerde ZIP. Daarna reconcileer bestaande caches en breng alleen gevalideerde, rechtengecontroleerde definitieve publicatiebestanden naar GitHub. De actie heeft geen leerlingberekeningen en verwijdert geen bestanden. GitHub-publicatie van definitieve wetenschappelijke cijfers pas na de science release en rechtencontrole.
 
+
+
+## 12. Uitvoeringsregel 12 oktober — proactief maximaal voorbereiden vóór gebruikers-RStudio
+
+De gebruiker wil geen keten van eenmalige mini-R-runs. Vóór een volgend RStudio-commando moet de assistent alle redelijkerwijs mogelijke **GitHub-codewijzigingen**, synthetische **Windows én Linux CI**, testdekking, toelichtingen, bestaande Google Drive-rapportcontroles en bekende foutpaden afronden. Lever alleen een uitvoercommando voor een werkelijk geteste, zoveel mogelijk gecombineerde actie; als wetenschappelijke input/gates ontbreken, rapporteer expliciet de HOLD i.p.v. compleetheid te suggereren. Geen onnodige herberekeningen of handmatige ZIP-uitwisselingen.
+
+Huidige vaststelling: de private export van `run_20261012_084825` gaf `HOLD_NO_EXACT_RUN_LINK` (40 verwacht, 0 gelinkt). De gevonden SQLite-`results`-tabel heeft `metric_key`, `estimate` en `se`, maar geen exact run-ID-veld. De code `EXISTING_LO02_EXPORT.R` maakt nu tevens read-only `LO02_SNAPSHOT_COUNTS.csv`: SHA van bestaand SQLite-bestand, tabelnaam, aantal rij-/unieke metric_keys, aanwezige estimator-/SE-/run-ID-velden. Upload automatisch met private Drive-manifest en SHA-readback. Dit is **metadata**, geen bewijs dat de 40 nieuwe records uniek zijn, en verandert noch valideert de leerlinguitkomsten.
+
+Geplande drie geïntegreerde rondes, nog niet volledig uitvoeringsklaar:
+- Ronde A: lokale oude/huidige LO02/LO01/V8/V9/V11-registraties exact vergelijken; alleen goed bewezen identieke input-/methode-/resultaatversies hergebruiken; selectieve recompute queue. Geen promotie bij alleen overeenkomende `metric_key`.
+- Ronde B: resterende wetenschappelijk gecertificeerde modules in taakgroepen produceren, met per-task fingerprints, resumable checkpoints en automatische private Google Drive-tussenopslag. Nieuwe estimators pas na benchmark, PV/design-SE, SES-, cohort- en peergates; geen globale force-override.
+- Ronde C: Q01–Q08, survey/PV/SE/linking/bronrechten, complete productpariteit (21 beleids- en 50 wetenschappelijke slides, 16-page note, 42-system dashboard, figuren en paper), definitieve geautoriseerde aggregate GitHub-release. Publicatiefouten mogen niet automatisch een freeze legitimeren.
+
+Opslag: RStudio Windows blijft rekenen; GitHub is code + finale toegestane publicatie; private Google Drive is tussentijdse resultatenopslag; redundante R-geproduceerde lokale files pas verwijderen na exacte dependency closure, twee onafhankelijk herstelbare backups, SHA- en restorebewijzen, quarantaine en expliciete toestemming. Gecombineerde referentiegroeplijnen krijgen in figuren geen zichtbare SE of CI.
