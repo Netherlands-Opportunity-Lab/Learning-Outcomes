@@ -25,6 +25,11 @@ DBI::dbDisconnect(cn)
 x <- lo_existing_result_export(home,rid)
 stopifnot(x$status=="PRIVATE_REVIEW_ONLY_EXACT_RUN_MATCH",
           x$matched_new_results==2L)
+snap <- read.csv(file.path(run,"PRIVATE_RESULT_EXPORT","LO02_SNAPSHOT_COUNTS.csv"))
+stopifnot(nrow(snap)==1L,snap$n_rows[[1L]]==3L,
+          snap$n_metric_keys[[1L]]==3L,
+          snap$exact_run_link[[1L]])
+
 rows <- read.csv(file.path(run,"PRIVATE_RESULT_EXPORT",
                             "LO02_NEW_RESULT_ROWS.csv"))
 stopifnot(nrow(rows)==2L,setequal(rows$metric_key,c("a","b")))
