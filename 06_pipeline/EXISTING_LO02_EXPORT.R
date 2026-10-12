@@ -142,7 +142,7 @@ lo_existing_result_export <- function(root, run_id) {
           paste(ifelse(is.na(row),"<NA>",as.character(row)),collapse="\\x1f"))
         profiles[[length(profiles)+1L]] <- list(
           db=digest::digest(file=p,algo="sha256"),table=tab,
-          key=as.character(z$metric_key),
+          key=as.character(z$metric_key),fields=fields,
           rowhash=vapply(raw_identity,function(t)
             digest::digest(t,algo="sha256",serialize=FALSE),character(1L)),
           n=nrow(z))
@@ -155,7 +155,9 @@ lo_existing_result_export <- function(root, run_id) {
       a<-profiles[[i]]; b<-profiles[[j]]
       if(identical(a$db,b$db))next
       valid_unique <- !anyDuplicated(a$key) && !anyDuplicated(b$key)
-      shared <- if(valid_unique)intersect(a$key,b$key) else character()
+      same_schema <- identical(a$fields,b$fields)
+      shared <- if(valid_unique && same_schema)
+        intersect(a$key,b$key) else character()
       ix <- match(shared,a$key); iy <- match(shared,b$key)
       match_hash <- sum(a$rowhash[ix]==b$rowhash[iy],na.rm=TRUE)
       comparisons[[length(comparisons)+1L]] <- data.frame(
@@ -166,8 +168,9 @@ lo_existing_result_export <- function(root, run_id) {
         differing_shared_keys=length(shared)-match_hash,
         keys_only_left=if(valid_unique)length(setdiff(a$key,b$key)) else NA_integer_,
         keys_only_right=if(valid_unique)length(setdiff(b$key,a$key)) else NA_integer_,
-        evidence_status=if(valid_unique)"DIAGNOSTIC_NOT_RUN_LINKED"
-            else "HOLD_DUPLICATE_METRIC_KEYS",stringsAsFactors=FALSE)
+        evidence_status=if(!valid_unique)"HOLD_DUPLICATE_METRIC_KEYS"
+            else if(!same_schema)"HOLD_DIFFERENT_SCHEMAS"
+            else "DIAGNOSTIC_NOT_RUN_LINKED",stringsAsFactors=FALSE)
     }
   diff <- if(length(comparisons))do.call(rbind,comparisons) else
     data.frame(left_db_sha256="",right_db_sha256="",left_table="",
