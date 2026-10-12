@@ -172,3 +172,28 @@ Daarna volgt zonder opnieuw scannen: goedkeuren/hergebruiken van gecontroleerde 
 - `PISA_20261010_19_OPSLAGAUDIT_EN_VERVOLG.md`, `SCIENCE_AUDIT_20261010.md`, `HISTORICAL_LESSONS_AND_PARITY.md`, en de oorspronkelijke wetenschappelijke release-/projectlocks.
 
 Geen enkele bron bewijst momenteel een volledig afgeronde oktober-wetenschappelijke release, volledig naar Drive overgezette 95,6 GB of veilig uitvoerbare massale opschoning. Dergelijke claims worden pas gemaakt na de hiervoor omschreven acceptatietests.
+---
+
+## 11. Wijziging 12 oktober 2026 — cloud-only uitvoering en herziene figuurscope (leidend boven oudere startinstructie)
+
+**Nieuw expliciet gebruikersbesluit (12 oktober):** geen nieuwe wetenschappelijke projectbestanden, resultaten, logs, SQLite-/Parquet-writes of RStudio-productie in `Downloads` of elders op laptop-C:. Geen handmatige ZIP-downloads/-uploads voor de onderzoeksoverdracht. GitHub is het versiebeheerde code-, documentatie- en CI-kanaal; Google is het private data-, rekencentrum- en rapportagekanaal.
+
+**De vorige §9-RStudio-opdracht en andere lokale `START.R`-productieadviezen zijn hiermee SUPERSEDED**. De huidige LO05-runner schrijft aantoonbaar op C:, terwijl de laatst gecontroleerde Drive-sync slechts een cloudquotarapport, niet de volledige wetenschappelijke retour, uploadde. Meer lokale runs zijn niet toegestaan onder deze nieuwe eis. De geslaagde beperkte Nederlandse Windows-run van 12 oktober blijft historisch bewijsmateriaal, geen reden om lokaal door te rekenen.
+
+Nieuwe noodzakelijke route:
+1. Versiebeheer en publicatierechten: GitHub voor codespec, CI, publieke toegestane outputs, beslissingen en provenance; geen ruwe leerlingbestanden of private registers op publieke GitHub.
+2. Private **cloud R-runtime** (bijvoorbeeld Google Cloud VM met Posit/RStudio Server of equivalent), met private persistente opslag (bijvoorbeeld Google Cloud Storage en afzonderlijke database-/scratchvolumes) en centraal beheer van keys/secrets. Google Drive is geen rekenomgeving; de bestaande Drivequota (~15 GiB vrij op 11 oktober) is onvoldoende voor circa 95,6 GB bronmateriaal, dus voldoende private cloudcapaciteit en licentietoets zijn voorwaarden.
+3. Versioneerbare resultaten, checkpoints en manifesten uit cloudberekening rechtstreeks naar private cloudopslag; compacte rapporten inclusief volledige return en QA-manifest automatisch naar private Google Drive met SHA-readback. Geen toestemming voor nieuwe lokale C:-cache.
+4. Alle benodigde bestaande lokale brondatasets vereisen hoogstens **eenmalige read-only bronoverdracht** onder gebruikerscontrole; vermijd lokale nieuwe output. Controleer rechten, 2 onafhankelijke backups, hersteltests en productdependency vóór enige lokale verwijdering.
+5. Test op cloudruntime: nul lokaal C:-output, één writer, hervatbaarheid, task fingerprint reuse, officiële bronvalidatie en productcijfers. Pas daarna nieuwe productie.
+
+**Figuurbesluit 12 oktober (zie `FIGURE_LITERATURE_MAPPING_20261012.md`)**:
+- 3 'op/boven basisniveau' vervalt als zelfstandig figuurcontract (complement van onder basis).
+- 12 wordt 'onder basisniveau per SES'; 13 hoog niveau naar SES alleen optionele appendix/robustness; niet tweemaal dezelfde lage-basismeting.
+- 11 en 15 zijn afgeleide groepscontrasten, maar vereisen juiste covariantie of gezamenlijke PV/replicate estimates voor standaardfouten.
+- 23 onder-basis-peers hoofdmaat, hoog niveau afzonderlijke optionele variant; school×klas / school×programma / hele-school strikt afzonderlijk, leave-one-out.
+- 'Trendverschillen' zijn afgeleide inferentiestatistieken met geldige sample-/linking-onzekerheid, niet verplicht elk als losse plot of als causale claim.
+- Alle 138 historische contracten en de gebruikers-PowerPoint van 21 slides blijven bewaard; geldige aanpassingen krijgen een nieuwe specifieke productversie. Figurenregels wijzigen geen eerder bevroren wetenschap zonder validatie.
+
+**Nieuwe eerstvolgende taak:** de huidige GitHub-runner en opslagconfiguratie ombouwen/testen voor cloud-first runtime en output; geen nieuwe gebruikersconsole-opdracht op Windows zolang dit niet het geval is. Daarna resultaat-hergebruik, wetenschappelijke vrijgave, 21/50 decks, paper/dashboard en repliceerbaarheid volgens A/B/C.
+
