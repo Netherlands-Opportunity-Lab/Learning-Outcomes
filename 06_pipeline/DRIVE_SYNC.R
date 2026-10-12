@@ -71,7 +71,10 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
     "PHASE_NLD/WINDOWS_INTEGRATION_TESTS.csv",
     "PHASE_NLD/LO02_RELEASED_PISA_CORE_GENDER/AANTALLEN.csv",
     "PHASE_OECD19/WINDOWS_INTEGRATION_TESTS.csv",
-    "PHASE_OECD19/LO02_RELEASED_PISA_CORE_GENDER/AANTALLEN.csv"
+    "PHASE_OECD19/LO02_RELEASED_PISA_CORE_GENDER/AANTALLEN.csv",
+    "PRIVATE_RESULT_EXPORT/LO02_EXPORT_STATUS.csv",
+    "PRIVATE_RESULT_EXPORT/LO02_EXPORT_SCHEMA_AUDIT.csv",
+    "PRIVATE_RESULT_EXPORT/LO02_NEW_RESULT_ROWS.csv"
   )
   lo_drive_run_id_ok <- function(id) {
     length(id)==1L && !is.na(id) &&
@@ -256,6 +259,19 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
       stop(zip_hold) # unknown members, secrets, changed content: fail closed.
     files <- file.path(d,lo_drive_named_reports())
     files <- files[file.exists(files)]
+    result_export <- file.path(d,"PRIVATE_RESULT_EXPORT",
+                                "LO02_NEW_RESULT_ROWS.csv")
+    if(result_export %in% files) {
+      gate <- file.path(d,"PRIVATE_RESULT_EXPORT","LO02_EXPORT_STATUS.csv")
+      if(!file.exists(gate))stop("PRIVATE_REPORT_HOLD: result export gate absent")
+      g <- read.csv(gate,stringsAsFactors=FALSE)
+      if(nrow(g)!=1L ||
+         !identical(g$status[[1L]],"PRIVATE_REVIEW_ONLY_EXACT_RUN_MATCH") ||
+         !identical(g$scientific_release[[1L]],"NOT_GRANTED") ||
+         as.integer(g$matched_new_results[[1L]])!=
+            as.integer(g$expected_new_results[[1L]]))
+        stop("PRIVATE_REPORT_HOLD: result export not exact-run approved")
+    }
     if(!length(files) && nzchar(zip_hold))
       stop("PRIVATE_REPORT_HOLD: no small reviewed reports for partial return")
     # A bounded oversize archive stays local and is NOT copied. Publish only
