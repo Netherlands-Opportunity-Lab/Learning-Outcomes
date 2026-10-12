@@ -1,16 +1,16 @@
 {
   "schema_version": "lo-public-safe-run-status-v1",
   "privacy": "METADATA_ONLY_NO_PATHS_NO_VALUES_NO_LOGS",
-  "status_publisher_git_commit": "8d97241abacf6b9d5161c3fab0c9c35af6edfa7b",
+  "status_publisher_git_commit": "7ccb43c2c38fe0a5b2af5240031a6cc5d623951f",
   "result_producer_git_commit": "NOT_VERIFIED",
-  "requested_action": "PLAN",
-  "requested_scope": "NLD_PLUS_19",
+  "requested_action": "EXECUTE_NLD_CORE",
+  "requested_scope": "NLD_ONLY",
   "invocation_outcome": "RUNNER_COMPLETED",
-  "latest_local_run_id": "run_20261011_155803",
+  "latest_local_run_id": "run_20261012_084825",
   "availability": "STATUS_FILE_FOUND",
   "scientific_release": "NOT_AUTOMATICALLY_GRANTED",
   "runtime_states": [],
   "counts": {
-    "selected_tasks": 29846
+    "selected_tasks": 1867
   }
 }
