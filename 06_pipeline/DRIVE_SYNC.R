@@ -148,8 +148,9 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
       "NLD_CACHES_FOUND.csv", "PHASE_NLD/CANDIDATES_JOURNAL.csv",
       "PHASE_OECD19/CANDIDATES_JOURNAL.csv"
     )
-    limits[!is_dir & !is.na(mapped) & mapped %in% large_reports] <-
-      64 * 1024^2
+    report_indices <- which(!is_dir)
+    large_indices <- report_indices[!is.na(mapped) & mapped %in% large_reports]
+    limits[large_indices] <- 64 * 1024^2
     total_limit <- 256 * 1024^2
     wrong_directory <- any(is_dir & (!is.finite(sizes) | sizes!=0))
     bad_sizes <- which(!is.finite(sizes) | sizes<0 | sizes>limits)
