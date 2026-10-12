@@ -463,11 +463,18 @@ lo_pipeline_main <- function() {
   }
   if(action%in%c("publish","watch")) {
     if(action=="publish") {
-      # One user command for BOTH publication routes; Git status still updates
-      # if optional Drive is unavailable.
-      tryCatch(lo_pipeline_drive_publish(repo,"publish"),
-        error=function(e) warning("Private Drive sync held: ",conditionMessage(e),
-                                   call.=FALSE))
+      explicit_run <- nzchar(Sys.getenv("LO_DRIVE_SYNC_RUN_ID",""))
+      if(explicit_run) {
+        # An explicitly requested historical return is a required operation,
+        # not a best-effort side effect. Never report success if upload failed.
+        on.exit(Sys.unsetenv("LO_DRIVE_SYNC_RUN_ID"),add=TRUE)
+        if(!isTRUE(lo_pipeline_drive_publish(repo,"publish")))
+          stop("Requested LO05 run was NOT published to private Drive")
+      } else {
+        tryCatch(lo_pipeline_drive_publish(repo,"publish"),
+          error=function(e) warning("Private Drive sync held: ",
+                                     conditionMessage(e),call.=FALSE))
+      }
       tryCatch(lo_pipeline_publish_status(repo,action,scope,"OBSERVED"),
         error=function(e) warning("GitHub status held: ",conditionMessage(e),
                                    call.=FALSE))
