@@ -469,9 +469,16 @@ lo_pipeline_main <- function() {
     result <- lo_existing_result_export(base,run_id)
     # Conservative: even HOLD diagnostics are published privately so the
     # remaining exact SQLite schema problem is visible without file uploads.
-    if(!isTRUE(lo_pipeline_drive_publish(repo,"publish")))
-      stop("EXISTING_EXPORT_PRIVATE_DRIVE_UPLOAD_FAILED")
+    transfer <- tryCatch(
+      isTRUE(lo_pipeline_drive_publish(repo,"publish")),
+      error=function(e) {
+        message("EXISTING_EXPORT_PRIVATE_DRIVE_PENDING: ",
+                conditionMessage(e),
+                "; locally generated diagnostics remain unchanged.")
+        FALSE
+      })
     cat("EXISTING_EXPORT_FINISHED: ",result$status[[1]],
+        "; private_drive_transfer=",if(transfer)"VERIFIED" else "PENDING",
         "; no scientific production; no deletion.\n",sep="")
     return(invisible(result))
   }
