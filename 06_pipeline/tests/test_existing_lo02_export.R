@@ -48,5 +48,20 @@ y <- lo_existing_result_export(home,rid2)
 stopifnot(y$status=="HOLD_NO_EXACT_RUN_LINK",
   !file.exists(file.path(run2,"PRIVATE_RESULT_EXPORT",
                          "LO02_NEW_RESULT_ROWS.csv")))
+# Historic snapshot comparison: one old record, two new exact identities.
+hist_dir <- file.path(home,"verified_snapshots")
+dir.create(hist_dir)
+old_db <- file.path(hist_dir,"old.sqlite")
+old_con <- DBI::dbConnect(RSQLite::SQLite(),old_db)
+DBI::dbWriteTable(old_con,"results",data.frame(
+ metric_key="a",country="NLD",survey="PISA",module="core",
+ year=2022,estimate=501,se=3.1,run_id=rid))
+DBI::dbDisconnect(old_con)
+z <- lo_existing_result_export(home,rid)
+cmp <- read.csv(file.path(run,"PRIVATE_RESULT_EXPORT",
+                          "LO02_SNAPSHOT_COMPARISONS.csv"))
+stopifnot(nrow(cmp)>=1L,
+ any(cmp$shared_keys==1L & cmp$keys_only_right==2L) ||
+ any(cmp$shared_keys==1L & cmp$keys_only_left==2L))
 unlink(home,recursive=TRUE)
-cat("PASS exact LO02 run export, original db unmodified, absent run HOLD\n")
+cat("PASS exact LO02 export, snapshot comparison and absent run HOLD\n")
