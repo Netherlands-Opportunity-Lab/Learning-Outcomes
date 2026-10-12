@@ -161,7 +161,7 @@ See issue #6 for remaining scientific and production acceptance gates.
 Once the [storage-and-replication contract workflow](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions) has succeeded, run the existing GitHub bootstrap in local RStudio:
 
 ```r
-repo <- "C:/Users/bason/Downloads/Learning-Outcomes-Git-20261010"
+repo <- file.path(Sys.getenv("USERPROFILE"),"Downloads","Learning-Outcomes-Git-20261010")
 Sys.setenv(LO_REPO_ROOT=repo, LO_START_ACTION="export-existing-nld",
            LO_SCOPE="nld_only", LO_DRIVE_SYNC_RUN_ID="run_20261012_084825")
 source(file.path(repo,"START.R"),encoding="UTF-8")
