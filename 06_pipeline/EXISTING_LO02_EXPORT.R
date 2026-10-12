@@ -112,6 +112,72 @@ lo_existing_result_export <- function(root, run_id) {
       n_metric_keys=integer(),has_result_value=logical(),has_se=logical(),
       exact_run_link=logical(),evidence_status=character())
   write.csv(snap,file.path(outdir,"LO02_SNAPSHOT_COUNTS.csv"),row.names=FALSE)
+  # Compare every bounded aggregate result SQLite snapshot by full common
+  # scientific columns. This cannot prove the exact 40 run outputs unless
+  # old and new versions and unambiguous provenance are both present.
+  profiles <- list()
+  for(p in dbs) {
+    con <- tryCatch(DBI::dbConnect(RSQLite::SQLite(),p,
+       flags=RSQLite::SQLITE_RO),error=function(e)NULL)
+    if(is.null(con))next
+    tryCatch({
+      for(tab in DBI::dbListTables(con)) {
+        cols <- DBI::dbListFields(con,tab)
+        if(!all(c("metric_key","estimate","se")%in%cols) ||
+           grepl("student|microdata|respondent|person|pupil",tab,
+                 ignore.case=TRUE))next
+        q <- function(z)as.character(DBI::dbQuoteIdentifier(con,z))
+        extra <- intersect(c("country","survey","module","year",
+          "group","stat","input_fingerprint","science_fingerprint",
+          "code_fingerprint","result_hash","result_version_id"),cols)
+        fields <- c("metric_key","estimate","se",extra)
+        if(length(fields)>20L)next
+        query <- paste0("SELECT ",paste(vapply(fields,q,character(1)),
+                         collapse=",")," FROM ",q(tab))
+        z <- tryCatch(DBI::dbGetQuery(con,query),error=function(e)NULL)
+        if(is.null(z)||nrow(z)>100000L)next
+        # Do not export full rows at this stage. Only compare per-metric
+        # evidence against other already-present aggregate snapshots.
+        raw_identity <- apply(z[,fields,drop=FALSE],1L,function(row)
+          paste(ifelse(is.na(row),"<NA>",as.character(row)),collapse="\\x1f"))
+        profiles[[length(profiles)+1L]] <- list(
+          db=digest::digest(file=p,algo="sha256"),table=tab,
+          key=as.character(z$metric_key),
+          rowhash=vapply(raw_identity,function(t)
+            digest::digest(t,algo="sha256",serialize=FALSE),character(1L)),
+          n=nrow(z))
+      }
+    },finally=DBI::dbDisconnect(con))
+  }
+  comparisons <- list()
+  if(length(profiles)>=2L)for(i in seq_len(length(profiles)-1L))
+    for(j in (i+1L):length(profiles)) {
+      a<-profiles[[i]]; b<-profiles[[j]]
+      if(identical(a$db,b$db))next
+      valid_unique <- !anyDuplicated(a$key) && !anyDuplicated(b$key)
+      shared <- if(valid_unique)intersect(a$key,b$key) else character()
+      ix <- match(shared,a$key); iy <- match(shared,b$key)
+      match_hash <- sum(a$rowhash[ix]==b$rowhash[iy],na.rm=TRUE)
+      comparisons[[length(comparisons)+1L]] <- data.frame(
+        left_db_sha256=a$db,right_db_sha256=b$db,
+        left_table=a$table,right_table=b$table,
+        left_n=a$n,right_n=b$n,shared_keys=length(shared),
+        identical_full_row_hashes=match_hash,
+        differing_shared_keys=length(shared)-match_hash,
+        keys_only_left=if(valid_unique)length(setdiff(a$key,b$key)) else NA_integer_,
+        keys_only_right=if(valid_unique)length(setdiff(b$key,a$key)) else NA_integer_,
+        evidence_status=if(valid_unique)"DIAGNOSTIC_NOT_RUN_LINKED"
+            else "HOLD_DUPLICATE_METRIC_KEYS",stringsAsFactors=FALSE)
+    }
+  diff <- if(length(comparisons))do.call(rbind,comparisons) else
+    data.frame(left_db_sha256="",right_db_sha256="",left_table="",
+      right_table="",left_n=NA_integer_,right_n=NA_integer_,
+      shared_keys=NA_integer_,identical_full_row_hashes=NA_integer_,
+      differing_shared_keys=NA_integer_,keys_only_left=NA_integer_,
+      keys_only_right=NA_integer_,
+      evidence_status="HOLD_NO_PAIR_OF_AGGREGATE_SNAPSHOTS")
+  write.csv(diff,file.path(outdir,"LO02_SNAPSHOT_COMPARISONS.csv"),
+            row.names=FALSE)
   # Never share absolute paths, database bytes, or arbitrary field names.
   write.csv(diagnostics,file.path(outdir,"LO02_EXPORT_SCHEMA_AUDIT.csv"),
             row.names=FALSE)
