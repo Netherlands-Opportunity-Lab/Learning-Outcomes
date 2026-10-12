@@ -16,8 +16,12 @@ Leidend: de 21-slide gebruikersversie van 1 oktober, `MASTERPLAN_20261011_v2.md`
 - Trendvergelijkbare ESCS (Cobreros 13-item) en oorspronkelijke wave-specifieke ESCS hebben verschillende construct-ID's. Niet stapelen of impliciet vervangen.
 - Reeksen blijven in vaste vergelijkingspanels, gelijk gewogen; focusland niet in eigen comparator. 42 dashboardlanden blijven scope; 19 buitenlandse referentielanden zijn productieprioriteit, niet volledige scope.
 
-## Opslagbesluit (HARD REQUIREMENT)
-De gebruiker wil geen nieuwe onderzoeksbestanden of RStudio-uitvoer onder Downloads/C:, geen handmatige ZIP-uploads, en GitHub/Google als primaire kanalen. **STOP nieuwe lokale productieruns** zolang code een C:-output kiest. Bestaande runner schrijft naar C: en Google Drive sync publiceert slechts de allowlist (laatste check: quotarapport). Een Google Drive-map is geen R-uitvoermachine. Vereist: Google Cloud R-runtime + private persistente data- en checkpointopslag (capaciteit en bronrechten toetsen), GitHub voor code/CI, Google Drive voor compacte rapporten met automatische verificatie. Eenmalige read-only migratie vanaf bestaande locatie kan nodig zijn; geen verwijderingen zonder bronrechten, 2 onafhankelijke restaurabele kopieën, SHA- en hersteltests en expliciete toestemming.
+## Uitvoering en opslag (bevestigde afspraak 10–12 oktober)
+- **Lokale RStudio blijft de wetenschappelijke rekenomgeving.** Geen cloudcomputer.
+- GitHub versioneert broncode, beslissingen, tests en publiceert na validatie rechtengecontroleerde **definitieve aggregaten en eindproducten**, met de publieke site.
+- Private Google Drive ontvangt **automatisch de tussenresultaten, caches, logs, retouren en herstelkopieën**, na dataclassificatie en remote SHA-readback; geen handmatige chat-ZIP-upload.
+- Bestaande in Downloads gecreëerde onderzoeksbestanden worden **eerst** op resultatenidentiteit en hergebruik onderzocht. RStudio mag pas na onafhankelijke bewezen herstelbaarheid, exacte productdependency, bronrechten, quarantaine/bewaartermijn en expliciete toestemming goedgekeurde redundante **R-geproduceerde** lokale bestanden verwijderen. Originele brondata niet stil opruimen. Zie het gecorrigeerde masterplan §11.
+- **Geen foutbalken/CI/SE op samengestelde referentiegroeplijnen.** Per-landresultaten bewaren hun ontwerp-SE's in de wetenschappelijke basis; geen nieuwe referentie-CI voor presentatie. Focusland/onzekerheid en wetenschappelijke contrasten afzonderlijk, waar relevant.
 
 ## 23 figuurtypen — literatuurkruisverwijzing
 
@@ -95,7 +99,7 @@ De studie van Claes et al. (2026) gebruikt individueel longitudinaal Nederlandse
 
 ## Proces / volgende stap
 1. Leg deze beslissingen in de canonieke productcontracten vast door de juiste 138 historische IDs te taggen, niet te verwijderen. Geef een nieuwe productversie, en actualiseer slides 6, 9, 10 en 20 consistent zonder gebruikerswijzigingen te wissen.
-2. Ontwerp eerst een **cloud-runner met nul C:-output** op een remote rekenomgeving. Voorlopig geen `START.R` meer lokaal starten.
+2. Herstel eerst de automatische, geverifieerde overdracht uit **lokale RStudio** naar private Google Drive, en de definitieve, rechtengecontroleerde GitHub-publicatie. Geen extra volledige R-run of handmatige ZIP-overdracht.
 3. Koppel statistische bouwstenen per juiste versie/covariantie aan figuren; hergebruik bestaande gevalideerde resultaten; voer alleen ontbrekende wetenschappelijke taken uit.
 4. Na de wetenschappelijke release de 21/50 slides, notitie, paper, 42-landendashboard en replicatiepad afleveren. Geen publieke data vóór licentiechecks.
 
@@ -104,3 +108,6 @@ De studie van Claes et al. (2026) gebruikt individueel longitudinaal Nederlandse
 IEA PIRLS/TIMSS gebruikt officieel *Low* 400, *Intermediate* 475, *High* 550 en *Advanced* 625. De historische projectspecificatie die 475 als 'basisniveau' hanteert, selecteert dus feitelijk **onder de Intermediate International Benchmark**. Dit is niet identiek aan 'onder het Low Benchmark' (<400), evenmin aan PISA onder niveau 2. Besluit 12 oktober: projectgrens 475 niet stil wijzigen; in figuren, dashboard en methode de feitelijke scoregrens en officiële naam expliciet opnemen en de inhoudelijke keuze 400 versus 475 zo nodig als aparte wetenschappelijke vergelijking behandelen. Source L26: https://nces.ed.gov/timss/technotes-2023.asp en https://nces.ed.gov/surveys/pirls/pirls2021/technotes.asp.
 
 **Tweede drempellabelcheck:** IEA *High International Benchmark* is 550 en *Advanced International Benchmark* is 625; het in oudere scripts/decks als 'high proficiency' aangeduide ≥625 moet inhoudelijk als **Advanced/geavanceerd** worden gelabeld, tenzij expliciet een afzonderlijke ≥550 High-variant wordt gedefinieerd. Geen verandering van scores door herlabelen; officiële grens en naam op elke figuur.
+
+## Precisering voor referentiegroeplijnen (12 oktober)
+Een gelijk gewogen gecombineerde landenbenchmark wordt als **lijn zonder foutbalken, betrouwbaarheidsintervallen of standaardfouten** getoond. Deze afspraak geldt consequent in het 21-slide-deck, het internationale dashboard en het figurenpakket. Behoud de onzekerheid van individuele landenschattingen intern. Bewaak de exacte ledenlijst, leave-one-out-keuze en vaste landenset over de tijd; er wordt geen wetenschappelijke significantie geïmpliceerd door alleen lijnverschillen.
