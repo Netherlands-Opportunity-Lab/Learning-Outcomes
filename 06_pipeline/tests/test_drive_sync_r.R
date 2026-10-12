@@ -4,6 +4,30 @@ stopifnot(requireNamespace("jsonlite",quietly=TRUE),
           requireNamespace("digest",quietly=TRUE),
           requireNamespace("zip",quietly=TRUE))
 source("06_pipeline/DRIVE_SYNC.R",encoding="UTF-8")
+# Network resilience: temporary DNS failures are retried; persistent failure
+# is a safe PENDING status, not an invitation to re-run pupil estimators.
+original_system2 <- system2
+calls_network <- 0L
+system2 <- function(command,args,stdout,stderr,...) {
+  calls_network <<- calls_network + 1L
+  if(calls_network < 3L)
+    return(structure("dial tcp: lookup www.googleapis.com: no such host",
+                     status=1L))
+  "NETWORK_OK"
+}
+stopifnot(identical(lo_drive_run("dummy",c("copyto","a","b")),"NETWORK_OK"),
+          calls_network==3L)
+calls_network <- 0L
+system2 <- function(command,args,stdout,stderr,...) {
+  calls_network <<- calls_network + 1L
+  structure("dial tcp: lookup www.googleapis.com: no such host",status=1L)
+}
+old_sleep <- Sys.sleep
+Sys.sleep <- function(time) invisible(NULL)
+always_down <- try(lo_drive_run("dummy",c("copyto","a","b")),silent=TRUE)
+stopifnot(inherits(always_down,"try-error"),calls_network==5L)
+rm(system2,Sys.sleep)
+
 
 work <- tempfile("lo_native_drive_test_")
 dir.create(work,recursive=TRUE)
