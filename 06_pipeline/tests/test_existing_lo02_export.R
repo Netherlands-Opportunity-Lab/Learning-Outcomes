@@ -25,6 +25,8 @@ DBI::dbDisconnect(cn)
 x <- lo_existing_result_export(home,rid)
 stopifnot(x$status=="PRIVATE_REVIEW_ONLY_EXACT_RUN_MATCH",
           x$matched_new_results==2L)
+comparison <- read.csv(file.path(run,"PRIVATE_RESULT_EXPORT","LO02_SNAPSHOT_COMPARISONS.csv"))
+stopifnot(comparison$evidence_status[[1L]]=="HOLD_NO_PAIR_OF_AGGREGATE_SNAPSHOTS")
 snap <- read.csv(file.path(run,"PRIVATE_RESULT_EXPORT","LO02_SNAPSHOT_COUNTS.csv"))
 stopifnot(nrow(snap)==1L,snap$n_rows[[1L]]==3L,
           snap$n_metric_keys[[1L]]==3L,
