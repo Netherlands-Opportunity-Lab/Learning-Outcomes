@@ -155,3 +155,19 @@ fidelity against published exhibits and trusted archival deposit.
 
 CI tests here are synthetic smoke tests, not a complete Windows pupil-data run.
 See issue #6 for remaining scientific and production acceptance gates.
+
+## 12 October — exact existing LO02 NLD result export (no pupil calculations)
+
+Once the [storage-and-replication contract workflow](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions) has succeeded, run the existing GitHub bootstrap in local RStudio:
+
+```r
+repo <- "C:/Users/bason/Downloads/Learning-Outcomes-Git-20261010"
+Sys.setenv(LO_REPO_ROOT=repo, LO_START_ACTION="export-existing-nld",
+           LO_SCOPE="nld_only", LO_DRIVE_SYNC_RUN_ID="run_20261012_084825")
+source(file.path(repo,"START.R"),encoding="UTF-8")
+```
+
+This read-only action reads the existing reported LO02 COMPUTE count and searches *bounded known LO02 result directories* for an exact run marker in a read-only SQLite database. It writes a small private diagnostic report `PRIVATE_RESULT_EXPORT/LO02_EXPORT_STATUS.csv` and schema audit. The per-result CSV is produced **only** when precisely 40 distinct full-run-linked NLD PISA core/gender estimates and finite standard errors are proven. If the producer did not store an exact run ID (or the SQLite file was not discoverable within the permitted paths), result export stays HOLD; no figures or scientific release are falsely validated. The uploader still sends the diagnostic private reports, with readback SHA-256. No student microdata, raw DB file or results go to public GitHub and nothing is deleted.
+
+The additional versioned design overlay `FIGURE_ACTIVE_DECISIONS_20261012.csv` documents the approved publication changes without rewriting the historical 138 figure IDs: combined comparator lines have no displayed CI; separate above-basic figure removed; below-basic-by-SES replaces old figure 12; SES and gender gaps derived only with correct joint design uncertainty; below-basic peer exposure prioritized, advanced peers optional.
+
