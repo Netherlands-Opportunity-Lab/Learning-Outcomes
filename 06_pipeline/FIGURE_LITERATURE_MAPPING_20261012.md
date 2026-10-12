@@ -98,3 +98,7 @@ De studie van Claes et al. (2026) gebruikt individueel longitudinaal Nederlandse
 2. Ontwerp eerst een **cloud-runner met nul C:-output** op een remote rekenomgeving. Voorlopig geen `START.R` meer lokaal starten.
 3. Koppel statistische bouwstenen per juiste versie/covariantie aan figuren; hergebruik bestaande gevalideerde resultaten; voer alleen ontbrekende wetenschappelijke taken uit.
 4. Na de wetenschappelijke release de 21/50 slides, notitie, paper, 42-landendashboard en replicatiepad afleveren. Geen publieke data vóór licentiechecks.
+
+## Drempelbenaming op basis van officiële documentatie (aanvulling)
+
+IEA PIRLS/TIMSS gebruikt officieel *Low* 400, *Intermediate* 475, *High* 550 en *Advanced* 625. De historische projectspecificatie die 475 als 'basisniveau' hanteert, selecteert dus feitelijk **onder de Intermediate International Benchmark**. Dit is niet identiek aan 'onder het Low Benchmark' (<400), evenmin aan PISA onder niveau 2. Besluit 12 oktober: projectgrens 475 niet stil wijzigen; in figuren, dashboard en methode de feitelijke scoregrens en officiële naam expliciet opnemen en de inhoudelijke keuze 400 versus 475 zo nodig als aparte wetenschappelijke vergelijking behandelen. Source L26: https://nces.ed.gov/timss/technotes-2023.asp en https://nces.ed.gov/surveys/pirls/pirls2021/technotes.asp.
