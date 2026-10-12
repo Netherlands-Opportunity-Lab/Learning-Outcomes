@@ -130,6 +130,9 @@ stopifnot(identical(partial_manifest$run_report_completeness,
 members <- setdiff(members,"GC_CANDIDATES.csv")
 unlink(gc_file)
 make_zip()
+# Keep the failure baseline after all successful full/partial publications.
+latest_before_bad <- digest::digest(file=remote_latest,algo="sha256")
+calls_before_bad <- length(calls)
 
 # A ZIP containing an unknown raw student source never leaves the laptop.
 writeLines("FAKE RAW STUDENT DATA",file.path(run,"students.sav"))
