@@ -28,7 +28,7 @@ Cloud success never implies scientific validation.
 **12 October 2026: publish the existing Windows run without recomputing:**
 
 ```r
-repo <- "C:/Users/bason/Downloads/Learning-Outcomes-Git-20261010"
+repo <- file.path(Sys.getenv("USERPROFILE"), "Downloads", "Learning-Outcomes-Git-20261010")
 Sys.setenv(
   LO_REPO_ROOT = repo,
   LO_START_ACTION = "publish",
