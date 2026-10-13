@@ -475,6 +475,9 @@ lo_pipeline_main <- function() {
     # All estimates/SE/N deliberately missing until exact science and
     # fingerprint matching is proven; this grid NEVER goes to public GitHub.
     write.csv(blank_grid,grid_path,row.names=FALSE,na="")
+    derived_path <- file.path(private_root,"master_reconciliation",
+      "MINIMUM_FIGURE_QUEUE","GRID_DERIVED_RELATIONSHIPS.csv")
+    write.csv(lo_grid_derived_contract(),derived_path,row.names=FALSE)
     cat("BLANK_ESTIMATION_GRID: ",nrow(blank_grid),
         " exact source contract cells, zero presumed validated.\n",sep="")
     if(file.exists(lo_pipeline_drive_config_path())) {
