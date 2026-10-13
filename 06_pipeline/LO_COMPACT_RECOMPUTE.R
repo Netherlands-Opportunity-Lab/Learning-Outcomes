@@ -325,11 +325,38 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
       lo_compact_put(con,z);n_held<-n_held+nrow(z)
       next
     }
-    objects<-lapply(candidates,function(p)tryCatch(readRDS(p),error=function(e)e))
     slices<-split(seq_len(nrow(subset)),
        paste(subset$module,subset$domain,subset$definition,
              subset$peer_definition,subset$threshold,sep="|"))
-    for(indices in slices) {
+    # Compare duplicate canonical RDS files one at a time, never retain all
+    # large historical pupil caches in memory. Cache projections per slice.
+    projections<-vector("list",length(slices))
+    obj<-NULL
+    for(source_i in seq_along(candidates)) {
+      nextobj<-tryCatch(readRDS(candidates[[source_i]]),
+                       error=function(e)e)
+      if(inherits(nextobj,"error")) {
+        projections[]<-list(paste0("HOLD_SOURCE_READ:",conditionMessage(nextobj)))
+        break
+      }
+      current<-lapply(slices,function(indices) {
+        science<-lo_compact_backend_tasks(subset[indices,,drop=FALSE])
+        tryCatch(lo_compact_projection(nextobj,science),
+                 error=function(e)paste0("HOLD_PROJECTION:",conditionMessage(e)))
+      })
+      if(source_i==1L) {
+        obj<-nextobj
+        projections<-current
+      } else {
+        for(i in seq_along(projections)) {
+          if(!identical(projections[[i]],current[[i]]))
+            projections[[i]]<-"HOLD_CONFLICTING_SCIENTIFIC_INPUT_PROJECTIONS"
+        }
+        rm(nextobj);gc(FALSE)
+      }
+    }
+    for(slice_i in seq_along(slices)) {
+      indices<-slices[[slice_i]]
       block<-subset[indices,,drop=FALSE]
       method<-paste0("OCT2026_",block$module[[1L]],"_V11_PV_REPLICATE")
       if(!block$module[[1L]]%in%supported ||
@@ -340,21 +367,18 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
         next
       }
       attempt<-tryCatch({
-        if(any(vapply(objects,inherits,logical(1L),what="error")))
-          stop("ONE_OR_MORE_CANONICAL_RDS_UNREADABLE")
-        science_block<-lo_compact_backend_tasks(block)
-        projections<-vapply(objects,function(o)lo_compact_projection(o,science_block),
-                            character(1L))
-        if(length(unique(projections))!=1L)
-          stop("CONFLICTING_SCIENTIFIC_INPUT_PROJECTIONS")
-        obj<-objects[[1L]]
+        inputfp<-projections[[slice_i]]
+        if(length(inputfp)!=1L || !is.character(inputfp) ||
+           !grepl("^[a-f0-9]{64}$",inputfp))
+          stop("CANONICAL_SCIENCE_INPUT_HOLD: ",inputfp)
+        if(is.null(obj)||inherits(obj,"error"))
+          stop("CANONICAL_PRIMARY_RDS_NOT_READABLE")
         if(!identical(as.character(obj$meta$survey),block$survey[[1L]]) ||
            !identical(as.character(obj$meta$year),block$year[[1L]]) ||
            (!is.null(obj$meta$v9_country) &&
             nzchar(as.character(obj$meta$v9_country)) &&
             !identical(as.character(obj$meta$v9_country),block$country[[1L]])))
           stop("CANONICAL_COUNTRY_SURVEY_YEAR_MISMATCH")
-        inputfp<-projections[[1L]]
         reuse<-lo_compact_known(con,block$metric_key,inputfp,codefp,method)
         if(all(reuse)) {
           list(reused=sum(reuse),rows=NULL)
@@ -401,7 +425,8 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
         }
       }
     }
-    rm(objects);gc(FALSE)
+    if(!is.null(obj))rm(obj)
+    gc(FALSE)
     if(n_units%%20L==0L)cat("COMPACT_PROGRESS: units=",n_units,
       " written=",n_new," reused=",n_reused," holds=",n_held,"\n",sep="")
   }
