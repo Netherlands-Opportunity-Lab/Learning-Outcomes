@@ -100,7 +100,9 @@ lo_compact_put <- function(con,x) {
       }
       # A subsequent incomplete attempt can never erase a complete matching result.
       if(nrow(old)&&old$status[[1L]]=="COMPUTED_PENDING_VALIDATION" &&
-         x$status[[i]]!="COMPUTED_PENDING_VALIDATION") next
+         x$status[[i]]!="COMPUTED_PENDING_VALIDATION" &&
+         identical(old$input_fingerprint[[1L]],x$input_fingerprint[[i]]) &&
+         identical(old$producer_fingerprint[[1L]],x$producer_fingerprint[[i]])) next
       DBI::dbExecute(con,sql,params=unname(as.list(x[i,names_sql,drop=FALSE])))
       inserted <- inserted+1L
     }
@@ -139,7 +141,7 @@ lo_compact_export <- function(con,root) {
   stage<-paste0(file,".new")
   if(file.exists(stage))unlink(stage)
   gc<-gzfile(stage,"wt",compression=9)
-  tryCatch({write.csv(x,gc,row.names=FALSE,na="",digits=17);close(gc)},
+  tryCatch({write.csv(x,gc,row.names=FALSE,na="");close(gc)},
     error=function(e){try(close(gc),silent=TRUE);unlink(stage);stop(e)})
   if(file.exists(file) && !file.remove(file))stop("COMPACT_GRID_EXPORT_LOCKED")
   if(!file.rename(stage,file))stop("COMPACT_GRID_EXPORT_RENAME_FAILED")
