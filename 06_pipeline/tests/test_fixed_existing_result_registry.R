@@ -1,0 +1,32 @@
+source("06_pipeline/LO_EXISTING_RESULT_REGISTRY.R")
+work<-tempfile("lo_sources_");dir.create(work)
+bundle<-file.path(work,"bundle");dir.create(bundle)
+dir.create(file.path(bundle,"evidence"))
+state<-file.path(work,"LO05_RESULTATEN");dir.create(state)
+write_gz <- function(x,p) {
+  con<-gzfile(p,"wt")
+  write.csv(x,con,row.names=FALSE)
+  close(con)
+}
+write_gz(data.frame(metric_key="m1",record_version_id="older",
+ action="REUSE",estimate="490",se="",scientific_status="UNVALIDATED",
+ stringsAsFactors=FALSE),
+ file.path(bundle,"evidence","LO01_HISTORICAL_CANDIDATES.csv.gz"))
+write_gz(data.frame(metric_key="m2",record_version_id="newer",
+ estimate="500",se="3",scientific_status="COMPUTED_PENDING_VALIDATION",
+ input_fingerprint=paste(rep("a",64),collapse="")),
+ file.path(bundle,"evidence","LO02_RETURN_20261010_CURRENT_RESULTS.csv.gz"))
+tasks<-data.frame(metric_key=c("m1","m2","m3"),survey="PISA",
+ country="NLD",year="2022",module="core")
+e<-lo_existing_result_evidence(bundle,tasks,state,lo02_root="")
+stopifnot(e$summary$scope_contracts==3L,
+ e$summary$keys_with_archive_candidates==2L,
+ e$summary$without_archive_candidate==1L,
+ e$summary$approved_to_reuse==0L,
+ e$summary$approved_to_compute==0L,
+ e$summary$candidate_rows_with_numeric_se==1L,
+ e$summary$candidate_rows_with_sample_n==0L)
+stopifnot(all(e$evidence$reuse_gate==
+  "HOLD_REQUIRE_INDEPENDENT_SAMPLE_METHOD_INPUT_PV_N_REVIEW"))
+unlink(work,recursive=TRUE)
+cat("PASS bounded candidate evidence: no scientific promotion and missing N flagged\n")
