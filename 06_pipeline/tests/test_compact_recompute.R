@@ -39,6 +39,7 @@ rc2_pool<-function(f,rr,factor)list(estimate=colMeans(f),se=rep(0,ncol(f)))
 q<-tasks[rep(4L,3L),,drop=FALSE]
 q$metric_key<-c("peer_total","peer_low","peer_high")
 q$module<-"peer_below_basic"
+q$unit<-"percent"
 q$group<-c("total","self_below_basic","self_at_or_above_basic")
 q$peer_definition<-"whole_school"
 p<-lo_compact_low_peer(obj,q)
