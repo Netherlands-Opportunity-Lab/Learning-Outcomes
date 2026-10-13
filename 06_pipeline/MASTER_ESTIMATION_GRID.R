@@ -5,7 +5,7 @@ lo_grid_schema <- function() c("cell_id","survey","country","year","age",
  "outcome_id","statistic","ses_construct_id","threshold_id","peer_environment",
  "peer_target_group","peer_own_group","method_version","weight_design",
  "pv_rule","variance_rule","linking_rule","n_unweighted","n_effective",
- "estimate","standard_error","covariance_group_id","target_contract_sha256","input_fingerprint",
+ "estimate","standard_error","covariance_group_id","target_contract_sha256","source_edition_sha256","input_fingerprint",
  "code_fingerprint","result_hash","archive_source","status","hold_reason")
 lo_grid_from_tasks <- function(tasks) {
  required <- c("metric_key","survey","country","year","domain","module",
@@ -38,7 +38,7 @@ lo_grid_from_tasks <- function(tasks) {
     weight_design="",pv_rule="",variance_rule="",linking_rule="",
     n_unweighted=NA_integer_,n_effective=NA_real_,estimate=NA_real_,
     standard_error=NA_real_,covariance_group_id="",
-    target_contract_sha256=signatures,
+    target_contract_sha256=signatures,source_edition_sha256="",
     input_fingerprint="",code_fingerprint="",result_hash="",
     archive_source="",status="TARGET_NOT_YET_ADJUDICATED",
     hold_reason="Exact sample/construct/method identity and results must be checked",
