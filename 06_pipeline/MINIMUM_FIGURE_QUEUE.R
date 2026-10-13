@@ -1,6 +1,7 @@
 # Product-driven minimum-new-computation planning. Read-only sources;
 # never promotes historical candidates to VALIDATED and never recalculates pupils.
-lo_minimum_figure_queue <- function(bundle, root) {
+lo_minimum_figure_queue <- function(bundle, root, expected_contracts=79448L,
+                                    expected_figures=138L) {
   stopifnot(dir.exists(bundle),dir.exists(root))
   source_csv <- function(rel) {
     p <- file.path(bundle,rel)
@@ -14,7 +15,7 @@ lo_minimum_figure_queue <- function(bundle, root) {
   fig <- source_csv("FIGURE_SERIES_CONTRACT_20261002.csv")
   lo01 <- source_csv("evidence/LO01_HISTORICAL_CANDIDATES.csv.gz")
   lo02 <- source_csv("evidence/LO02_RETURN_20261010_CURRENT_RESULTS.csv.gz")
-  if(nrow(tasks)!=79448L || nrow(fig)!=138L ||
+  if(nrow(tasks)!=expected_contracts || nrow(fig)!=expected_figures ||
      anyDuplicated(tasks$metric_key))stop("MINIMUM_PLAN_HOLD: contract lock mismatch")
   a <- unique(lo01$metric_key)
   b <- unique(lo02$metric_key)
