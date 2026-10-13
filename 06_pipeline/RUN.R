@@ -470,6 +470,17 @@ lo_pipeline_main <- function() {
     task_rows <- read.csv(task_file,stringsAsFactors=FALSE,
                           colClasses="character",check.names=FALSE)
     blank_grid <- lo_grid_from_tasks(task_rows)
+    source(file.path(repo,"06_pipeline","GRID_ARCHIVE_BATCH.R"),
+           local=environment(),encoding="UTF-8")
+    read_archived_keys <- function(path) {
+      con <- gzfile(file.path(bundle,path),"rt")
+      on.exit(close(con))
+      unique(read.csv(con,stringsAsFactors=FALSE,
+                      colClasses="character")$metric_key)
+    }
+    lo01_keys <- read_archived_keys("evidence/LO01_HISTORICAL_CANDIDATES.csv.gz")
+    lo02_keys <- read_archived_keys("evidence/LO02_RETURN_20261010_CURRENT_RESULTS.csv.gz")
+    blank_grid <- lo_grid_mark_archive_candidates(blank_grid,lo01_keys,lo02_keys)
     grid_path <- file.path(private_root,"master_reconciliation",
                            "MINIMUM_FIGURE_QUEUE","PRIVATE_MASTER_ESTIMATION_GRID.csv")
     # All estimates/SE/N deliberately missing until exact science and
@@ -478,8 +489,19 @@ lo_pipeline_main <- function() {
     derived_path <- file.path(private_root,"master_reconciliation",
       "MINIMUM_FIGURE_QUEUE","GRID_DERIVED_RELATIONSHIPS.csv")
     write.csv(lo_grid_derived_contract(),derived_path,row.names=FALSE)
-    cat("BLANK_ESTIMATION_GRID: ",nrow(blank_grid),
-        " exact source contract cells, zero presumed validated.\n",sep="")
+    groups <- as.data.frame(table(blank_grid$status),stringsAsFactors=FALSE)
+    names(groups) <- c("status","n_cells")
+    groups$scientific_release <- "NOT_GRANTED"
+    write.csv(groups,file.path(dirname(grid_path),
+      "GRID_ARCHIVE_FILL_COUNTS.csv"),row.names=FALSE)
+    batch <- lo_grid_batch_plan(blank_grid)
+    write.csv(batch,file.path(dirname(grid_path),
+      "GRID_BATCH_READY_COUNTS.csv"),row.names=FALSE)
+    cat("MASTER_ESTIMATION_GRID: ",nrow(blank_grid),
+        " locked target cells; archive candidates ",
+        sum(blank_grid$status=="ARCHIVE_CANDIDATE_FOUND_NOT_VALIDATED"),
+        "; scientifically approved compute batches=",nrow(batch),
+        "; zero presumed validated.\n",sep="")
     if(file.exists(lo_pipeline_drive_config_path())) {
       transfer <- tryCatch({
         lo_pipeline_drive_publish(repo,"publish")
