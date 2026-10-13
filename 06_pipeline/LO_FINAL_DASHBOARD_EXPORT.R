@@ -41,7 +41,7 @@ lo_dashboard_export_from_grid <- function(bundle,tasks,approved,out) {
   records <- if(length(supported))do.call(rbind,mapping[supported]) else
     matrix(character(),ncol=3L)
   missing <- data.frame(module=q$module[omitted],stat=q$stat[omitted],
-    group=q$group[omitted],reason="UNSUPPORTED_DASHBOARD_MAPPING",
+    group=q$group[omitted],reason=rep("UNSUPPORTED_DASHBOARD_MAPPING",length(omitted)),
     stringsAsFactors=FALSE)
   write.csv(missing,file.path(out,"PRIVATE_DASHBOARD_UNMAPPED_STATS.csv"),
             row.names=FALSE)
