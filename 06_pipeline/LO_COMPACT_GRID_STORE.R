@@ -13,7 +13,7 @@ lo_compact_open <- function(root) {
     DBI::dbExecute(con,paste0("CREATE TABLE IF NOT EXISTS grid (",
       "cell_id TEXT PRIMARY KEY, survey TEXT NOT NULL, country TEXT NOT NULL, ",
       "year TEXT NOT NULL, domain TEXT NOT NULL, module TEXT NOT NULL, ",
-      "stat TEXT NOT NULL, subgroup TEXT NOT NULL, definition TEXT NOT NULL, ",
+      "stat TEXT NOT NULL, subgroup TEXT NOT NULL, definition TEXT NOT NULL, unit TEXT NOT NULL, ",
       "peer_environment TEXT NOT NULL, threshold TEXT NOT NULL, ",
       "estimate REAL, standard_error REAL, n_unweighted INTEGER, ",
       "input_fingerprint TEXT NOT NULL, producer_fingerprint TEXT NOT NULL, ",
@@ -22,6 +22,7 @@ lo_compact_open <- function(root) {
       "batch_key TEXT PRIMARY KEY, survey TEXT NOT NULL, country TEXT NOT NULL, ",
       "year TEXT NOT NULL, scope TEXT NOT NULL, status TEXT NOT NULL, ",
       "n_rows INTEGER NOT NULL)"))
+    if(!"unit"%in%DBI::dbListFields(con,"grid")) DBI::dbExecute(con,"ALTER TABLE grid ADD COLUMN unit TEXT NOT NULL DEFAULT ''")
     DBI::dbExecute(con,"CREATE INDEX IF NOT EXISTS grid_status ON grid(status)")
     DBI::dbExecute(con,"CREATE INDEX IF NOT EXISTS grid_country ON grid(country,survey,year)")
     if(!identical(DBI::dbGetQuery(con,"PRAGMA integrity_check")[[1L]][1L],"ok"))
@@ -35,7 +36,7 @@ lo_compact_close <- function(con) {
 }
 lo_compact_require <- function(x) {
   required <- c("cell_id","survey","country","year","domain","module",
-                "stat","subgroup","definition","peer_environment","threshold",
+                "stat","subgroup","definition","unit","peer_environment","threshold",
                 "estimate","standard_error","n_unweighted",
                 "input_fingerprint","producer_fingerprint","method_id",
                 "status","hold_reason")
@@ -127,7 +128,7 @@ lo_compact_hold_rows <- function(tasks,reason,input_fp="",producer_fp="",method=
   if(!nrow(tasks))return(data.frame())
   data.frame(cell_id=tasks$metric_key,survey=tasks$survey,country=tasks$country,
      year=tasks$year,domain=tasks$domain,module=tasks$module,
-     stat=tasks$stat,subgroup=tasks$group,definition=tasks$definition,
+     stat=tasks$stat,subgroup=tasks$group,definition=tasks$definition,unit=tasks$unit,
      peer_environment=tasks$peer_definition,threshold=tasks$threshold,
      estimate=NA_real_,standard_error=NA_real_,n_unweighted=NA_integer_,
      input_fingerprint=input_fp,producer_fingerprint=producer_fp,
@@ -147,6 +148,10 @@ lo_compact_export <- function(con,root) {
   if(!file.rename(stage,file))stop("COMPACT_GRID_EXPORT_RENAME_FAILED")
   # Display-only rounding; never round source estimates before comparisons.
   y<-x[x$status=="COMPUTED_PENDING_VALIDATION",,drop=FALSE]
+  proportions<-y$unit=="proportion"
+  proportions[is.na(proportions)]<-FALSE
+  y$estimate[proportions]<-100*y$estimate[proportions]
+  y$standard_error[proportions]<-100*y$standard_error[proportions]
   y$estimate<-round(y$estimate,1L)
   y$standard_error<-round(y$standard_error,2L)
   presentation<-file.path(root,"COMPACT_DASHBOARD_ROUNDED.csv.gz")
