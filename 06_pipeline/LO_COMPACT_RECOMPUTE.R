@@ -57,10 +57,23 @@ lo_compact_count_n <- function(obj,q) {
           "test_language_home","other_language_home"))
   }
   if(m=="home_language_peer_exposure" ||
-     (m=="peer_baseline" && q$stat[[1L]]=="test_language_share"))
+     (m=="peer_baseline" && q$stat[[1L]]=="test_language_share" &&
+       q$definition[[1L]]=="same_as_assessment_language_vs_other"))
        g<-v10_language(obj)
+  if(m=="peer_baseline" && q$stat[[1L]]=="test_language_share" &&
+     q$definition[[1L]]=="frequency_always_almost_vs_sometimes_never") {
+    raw<-v10_language(obj,TRUE)
+    g<-ifelse(is.na(raw),NA_character_,
+         ifelse(raw%in%c("always","almost_always","always_or_almost_always"),
+               "test_language_home","other_language_home"))
+  }
   if(m=="peer_baseline" && q$stat[[1L]]=="reference_share")
        g<-v10_migration(obj,q$definition[[1L]])
+  if(m=="migration_generation") {
+    mg<-migration_groups(obj)
+    if(!isTRUE(mg$ok))stop(mg$reason)
+    g<-mg$group
+  }
   if(m%in%c("ses_national","ses_peer_exposure") ||
      (m=="peer_baseline" && q$stat[[1L]]%in%c("q1_share","q4_share")))
      tails<-rc2_tails_rank(d$SES,w)
@@ -77,6 +90,13 @@ lo_compact_count_n <- function(obj,q) {
       if(m=="gender") {
         eligible<-eligible&!is.na(g)&
            (if(stat=="gap")g%in%c("girl","boy") else g==group)
+      }
+      if(m=="migration_generation") {
+        eligible<-eligible&!is.na(g)&
+          if(stat=="mean_score_gap") {
+            focus<-sub("_minus_native$","",group)
+            g%in%c("native",focus)
+          } else g==group
       }
       if(m=="migration") {
         eligible<-eligible&!is.na(g)&
