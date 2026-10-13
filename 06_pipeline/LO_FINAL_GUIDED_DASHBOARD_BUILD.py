@@ -75,8 +75,12 @@ def figure_contract(bundle,allow_synthetic=False):
    # Existing figure IDs keep their linkage, but the new mandatory metric
    # is peer share BELOW basic; old high-peer estimates cannot fill them.
    figure.update(outcome="peer_share_below_basic",
-     label_nl="Aandeel directe klasgenoten onder basisniveau",
-     label_en="Share of classmates below basic proficiency",
+     label_nl=("Aandeel klasgenoten onder basisniveau – directe leeromgeving" if
+       r["peer_definition"]=="direct_learning_environment" else
+       "Aandeel leerlingen onder basisniveau – gehele school"),
+     label_en=("Share of peers below basic – direct learning setting" if
+       r["peer_definition"]=="direct_learning_environment" else
+       "Share below-basic peers – whole school"),
      measure_label_nl="Percentage klasgenoten onder basisniveau",
      measure_label_en="Share of peers below basic",
      subtitle_nl=("Beschrijvend; directe leeromgeving en gehele school "
@@ -159,7 +163,25 @@ def product_rows(path,countries,figures):
    if val["comparator_n"] not in (19,20):fail("comparator count invalid")
   out.append(val)
  return out
-def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False):
+def reviewed_unavailable(path,countries,figures):
+ if path is None:return {}
+ cols,rows=readcsv(path)
+ need={"country","figure_id","decision","reason_nl","reason_en"}
+ if not need <= cols:fail("unavailability review schema missing")
+ allowed={f["figure_id"] for f in figures}
+ seen={}
+ for r in rows:
+  k=(r["country"],r["figure_id"])
+  if k in seen or k[0] not in countries or k[1] not in allowed:
+   fail("duplicated or out-of-scope unavailable review")
+  if r["decision"]!="REVIEWED_UNAVAILABLE" or not r["reason_nl"] or not r["reason_en"]:
+   fail("unreviewed or undocumented unavailable status")
+  if any(tag in r["reason_nl"]+r["reason_en"] for tag in ("C:\\\\Users\\\\","/Users/")):
+   fail("private path in public unavailability reason")
+  seen[k]=r
+ return seen
+def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
+          unavailable_review=None):
  if destination.exists():fail("immutable candidate path already exists")
  source=repo/"05_publication"/"preview_overlay"
  for rel in ("index.html","assets/app-shell.js","assets/styles.css",
@@ -170,6 +192,7 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False)
  if not figures:fail("no active figure contracts")
  ids={x["route_code"] for x in countries}
  numeric_rows=product_rows(scientific_rows,ids,figures)
+ unavailable=reviewed_unavailable(unavailable_review,ids,figures)
  by_country=defaultdict(list)
  for row in numeric_rows:by_country[row["country_id"].split(":")[1]].append(row)
  destination.mkdir(parents=True)
@@ -212,12 +235,17 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False)
    expected={x for x in f["expected_series"].split(";") if x}
    fully=bool(current) and required.issubset(years) and (
      not expected or expected.issubset(roles))
-   st="VALIDATED" if fully else "PLACEHOLDER"
+   reviewed=unavailable.get((country,f["figure_id"]))
+   if reviewed and current:
+    fail("cannot mark a figure unavailable while releasing numeric rows")
+   st="VALIDATED" if fully else ("UNAVAILABLE" if reviewed else "PLACEHOLDER")
    availability_states[st]+=1
    reason_nl=("Alle vereiste meetjaren en groepen wetenschappelijk gecontroleerd."
-          if fully else "Nog niet volledig wetenschappelijk gevalideerd; geen verzonnen waarden.")
+       if fully else reviewed["reason_nl"] if reviewed else
+       "Nog niet volledig wetenschappelijk gevalideerd; geen verzonnen waarden.")
    reason_en=("All required survey waves and groups scientifically validated."
-          if fully else "Scientific evidence incomplete; no fabricated estimates.")
+       if fully else reviewed["reason_en"] if reviewed else
+       "Scientific evidence incomplete; no fabricated estimates.")
    available.append(dict(figure_id=f["figure_id"],display_state=st,
       reason_nl=reason_nl,reason_en=reason_en))
   (destination/"data"/"availability"/(country+".json")).write_text(
@@ -259,7 +287,9 @@ def main():
  p.add_argument("--bundle",type=Path,required=True)
  p.add_argument("--output",type=Path,required=True)
  p.add_argument("--validated-grid",type=Path)
+ p.add_argument("--reviewed-unavailable",type=Path)
  args=p.parse_args()
  print(json.dumps(build(args.repo,args.bundle,args.output,
-                   args.validated_grid),sort_keys=True))
+                   args.validated_grid,
+                   unavailable_review=args.reviewed_unavailable),sort_keys=True))
 if __name__=="__main__":main()
