@@ -95,7 +95,7 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out) {
   peer_pass <- peer_fields_ok && peer_hash_ok && context_ok &&
                length(peer_missing)==0L
   write.csv(data.frame(cell_id=peer_missing,
-     decision="HOLD_NEW_BELOW_BASIC_PEER_NOT_SCIENTIFICALLY_VALIDATED"),
+     decision=rep("HOLD_NEW_BELOW_BASIC_PEER_NOT_SCIENTIFICALLY_VALIDATED",length(peer_missing))),
      file.path(out,"PRIVATE_NEW_PEER_CELL_GAPS.csv"),row.names=FALSE)
   all_pass <- length(missing)==0L && all(paper$validated) && peer_pass
   summary <- data.frame(scope_contracts=nrow(tasks),
