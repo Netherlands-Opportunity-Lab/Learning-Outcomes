@@ -56,7 +56,11 @@ lo_compact_count_n <- function(obj,q) {
         ifelse(g%in%c("always","almost_always","always_or_almost_always"),
           "test_language_home","other_language_home"))
   }
-  if(m=="home_language_peer_exposure")g<-v10_language(obj)
+  if(m=="home_language_peer_exposure" ||
+     (m=="peer_baseline" && q$stat[[1L]]=="test_language_share"))
+       g<-v10_language(obj)
+  if(m=="peer_baseline" && q$stat[[1L]]=="reference_share")
+       g<-v10_migration(obj,q$definition[[1L]])
   if(m%in%c("ses_national","ses_peer_exposure") ||
      (m=="peer_baseline" && q$stat[[1L]]%in%c("q1_share","q4_share")))
      tails<-rc2_tails_rank(d$SES,w)
@@ -94,6 +98,8 @@ lo_compact_count_n <- function(obj,q) {
         else eligible<-eligible&
           ((!is.na(tails$q1)&tails$q1>0)|(!is.na(tails$q4)&tails$q4>0))
       }
+      if(m=="peer_baseline" && stat%in%c("reference_share","test_language_share"))
+        eligible<-eligible&!is.na(g)
       if(m=="peer_baseline" && stat%in%c("q1_share","q4_share")) {
         t<-if(stat=="q1_share")tails$q1 else tails$q4
         eligible<-eligible&!is.na(t)
@@ -206,7 +212,7 @@ lo_compact_science_rows <- function(q,z,n,inputfp,codefp,method_id) {
   good<-is.finite(est)&is.finite(se)&se>=0&is.finite(n)&n>0
   result<-data.frame(cell_id=q$metric_key,survey=q$survey,country=q$country,
     year=q$year,domain=q$domain,module=q$module,
-    stat=q$stat,subgroup=q$group,definition=q$definition,
+    stat=q$stat,subgroup=q$group,definition=q$definition,unit=q$unit,
     peer_environment=q$peer_definition,threshold=q$threshold,
     estimate=ifelse(good,est,NA_real_),standard_error=ifelse(good,se,NA_real_),
     n_unweighted=ifelse(good,as.integer(n),NA_integer_),
