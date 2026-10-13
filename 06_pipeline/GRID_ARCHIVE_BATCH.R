@@ -17,10 +17,32 @@ lo_grid_archive_fill <- function(grid, candidates) {
     ix <- match(valid$cell_id,grid$cell_id)
     # Existing locked contracts without sample/construct specifics CANNOT
     # be filled solely by matching metric_key; exact target sample is required.
-    same_sample <- nzchar(grid$sample_id[ix]) &
-       grid$sample_id[ix]==valid$sample_id
-    if(!all(same_sample))
-      stop("GRID_ARCHIVE_HOLD: target sample identity not independently locked")
+    sample_locked <- !is.na(grid$sample_id[ix]) &
+       nzchar(grid$sample_id[ix])
+    if(any(sample_locked &
+       grid$sample_id[ix]!=valid$sample_id))
+      stop("GRID_ARCHIVE_HOLD: certified sample differs from locked sample")
+    # Historical task contracts do not contain the exact realised sample.
+    # An independent validated record can *lock* that sample once, but only
+    # with the original full target-contract SHA, source-edition SHA,
+    # weights, PV and design rules (not a metric_key-only match).
+    if(any(!sample_locked)) {
+      need <- c("target_contract_sha256","source_edition_sha256",
+                "weight_design","pv_rule","variance_rule")
+      if(!all(need%in%names(valid)) ||
+         !"target_contract_sha256"%in%names(grid))
+        stop("GRID_ARCHIVE_HOLD: independent sample/target certification absent")
+      j <- which(!sample_locked)
+      same_contract <- valid$target_contract_sha256[j] ==
+                        grid$target_contract_sha256[ix[j]]
+      source_ok <- grepl("^[a-fA-F0-9]{64}$",
+                         valid$source_edition_sha256[j])
+      rules_ok <- Reduce(`&`,lapply(c("weight_design",
+                       "pv_rule","variance_rule"),function(k)
+        !is.na(valid[[k]][j]) & nzchar(valid[[k]][j])))
+      if(anyNA(same_contract)||!all(same_contract & source_ok & rules_ok))
+        stop("GRID_ARCHIVE_HOLD: exact contract/edition/design certification mismatch")
+    }
     for(k in intersect(names(valid),names(grid)))
       grid[[k]][ix] <- valid[[k]]
     grid$status[ix] <- "SCIENTIFICALLY_VALIDATED"
