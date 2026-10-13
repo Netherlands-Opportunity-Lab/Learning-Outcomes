@@ -481,6 +481,17 @@ lo_pipeline_main <- function() {
     lo01_keys <- read_archived_keys("evidence/LO01_HISTORICAL_CANDIDATES.csv.gz")
     lo02_keys <- read_archived_keys("evidence/LO02_RETURN_20261010_CURRENT_RESULTS.csv.gz")
     blank_grid <- lo_grid_mark_archive_candidates(blank_grid,lo01_keys,lo02_keys)
+    # Optional pre-existing individually audited results, never arbitrary
+    # archived CSV records. This is the only permitted estimator fill route.
+    certified_file <- file.path(private_root,"master_reconciliation",
+                               "SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv")
+    if(file.exists(certified_file)) {
+      verified <- read.csv(certified_file,stringsAsFactors=FALSE,
+                           check.names=FALSE)
+      blank_grid <- lo_grid_archive_fill(blank_grid,verified)
+      cat("GRID_CANDIDATE_FILL: certified records=",nrow(verified),
+          "; only exact scientific matches admitted.\n",sep="")
+    }
     grid_path <- file.path(private_root,"master_reconciliation",
                            "MINIMUM_FIGURE_QUEUE","PRIVATE_MASTER_ESTIMATION_GRID.csv")
     # All estimates/SE/N deliberately missing until exact science and
