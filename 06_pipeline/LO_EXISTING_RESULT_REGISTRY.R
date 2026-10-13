@@ -43,8 +43,15 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
     z[[length(z)+1L]] <- normal(x,source)
   }
   # Bounded live LO02 SQLite, if available. Never read student tables.
-  dirs <- c(file.path(state,"..","lo02"),
-            file.path(state,"..","verified_snapshots"),
+  results_root <- normalizePath(file.path(state,"..",".."),
+                                  winslash="/",mustWork=TRUE)
+  master_root <- Sys.getenv("LO_MASTER_PROJECT_ROOT",file.path(
+     Sys.getenv("USERPROFILE",unset=path.expand("~")),
+     "Downloads","PISA_PIRLS_MASTER_PIPELINE"))
+  dirs <- c(file.path(results_root,"consolidated"),
+            file.path(results_root,"verified_snapshots"),
+            file.path(results_root,"lo02"),
+            file.path(master_root,"00_PROJECT_REGISTRY"),
             lo02_root)
   dirs <- unique(dirs[nzchar(dirs)&dir.exists(dirs)])
   dbs <- unique(unlist(lapply(dirs,function(d)
@@ -67,19 +74,23 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
       if(is.null(con))next
       tryCatch({
         for(tab in intersect(DBI::dbListTables(con),
-                    c("results","result_history","current_results"))) {
+                    c("results","result_history","current_results",
+                      "result_versions"))) {
           cols <- DBI::dbListFields(con,tab)
           required <- c("metric_key","estimate","se")
           if(!all(required%in%cols))next
           allow <- intersect(c("metric_key","estimate","se","n","n_unweighted",
             "record_version_id","result_hash","science_fingerprint",
-            "input_fingerprint","scientific_status","source_sha256"),cols)
+            "input_fingerprint","scientific_status","source_sha256",
+            "source_id","code_id","publication_status"),cols)
           quote <- function(x)as.character(DBI::dbQuoteIdentifier(con,x))
           sql <- paste0("SELECT ",paste(vapply(allow,quote,character(1)),
             collapse=",")," FROM ",quote(tab))
           x <- DBI::dbGetQuery(con,sql)
           if(nrow(x)>1000000L)stop("EVIDENCE_HOLD: oversized aggregate table")
-          z[[length(z)+1L]] <- normal(x,paste0("LIVE_LO02_",tab))
+          category <- if(tab=="result_versions")"LIVE_CONSOLIDATED_" else
+                         "LIVE_LO02_"
+          z[[length(z)+1L]] <- normal(x,paste0(category,tab))
           dbaudit[[length(dbaudit)+1L]] <- data.frame(
              database_sha256=digest::digest(file=p,algo="sha256"),
              table_name=tab,rows=nrow(x),review_status="NOT_RELEASED",
@@ -87,6 +98,53 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
         }
       },finally=DBI::dbDisconnect(con))
     }
+  # Also inspect already-checked-in canonical current/history Parquet stores,
+  # never any pupil tables. Do not create a new 89 GiB source file scan.
+  parquet_paths <- c(
+    file.path(master_root,"03_RESULTS/current/CURRENT_RESULTS.parquet"),
+    file.path(master_root,"03_RESULTS/history/RESULT_HISTORY.parquet"),
+    file.path(lo02_root,"registry_v5/CURRENT_RESULTS.parquet"),
+    file.path(lo02_root,"registry_v5/RESULT_HISTORY.parquet"))
+  parquet_paths <- parquet_paths[file.exists(parquet_paths)]
+  parquet_audit <- list()
+  for(path in parquet_paths) {
+    sz <- file.info(path)$size
+    if(!is.finite(sz)||sz>2e9) {
+      parquet_audit[[length(parquet_audit)+1L]] <- data.frame(
+         source=basename(path),status="HOLD_LARGE_SOURCE_NOT_SCANNED",
+         n_candidate=0L,stringsAsFactors=FALSE)
+      next
+    }
+    if(!requireNamespace("arrow",quietly=TRUE)) {
+      parquet_audit[[length(parquet_audit)+1L]] <- data.frame(
+         source=basename(path),status="HOLD_ARROW_NOT_INSTALLED",
+         n_candidate=0L,stringsAsFactors=FALSE)
+      next
+    }
+    obj <- tryCatch({
+      reader <- arrow::ParquetFileReader$create(path)
+      cols <- reader$GetSchema()$names
+      must <- c("metric_key","estimate","se")
+      if(!all(must%in%cols))stop("HOLD_PARQUET_METRIC_SCHEMA")
+      allowed <- intersect(c(must,"record_version_id","result_hash",
+         "input_fingerprint","science_fingerprint","scientific_status",
+         "source_sha256","n","n_unweighted"),cols)
+      as.data.frame(arrow::read_parquet(path,col_select=allowed))
+    },error=function(e)e)
+    if(inherits(obj,"error")) {
+      parquet_audit[[length(parquet_audit)+1L]] <- data.frame(
+        source=basename(path),
+        status=substr(paste0("HOLD_READ_ERROR_",conditionMessage(obj)),1,140),
+        n_candidate=0L,stringsAsFactors=FALSE)
+      next
+    }
+    if(nrow(obj)>1e6)stop("EVIDENCE_HOLD: parquet has >1m aggregate rows")
+    normalized <- normal(obj,paste0("LIVE_PARQUET_",basename(path)))
+    z[[length(z)+1L]] <- normalized
+    parquet_audit[[length(parquet_audit)+1L]] <- data.frame(
+      source=basename(path),status="READ_ONLY_CANDIDATES_NOT_VALIDATED",
+      n_candidate=nrow(normalized),stringsAsFactors=FALSE)
+  }
   evidence <- if(length(z))do.call(rbind,z) else empty
   if(any(!nzchar(evidence$metric_key)))
     stop("EVIDENCE_HOLD: empty key passed scope filter")
@@ -109,6 +167,11 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
     data.frame(database_sha256=character(),table_name=character(),
                rows=integer(),review_status=character())
   write.csv(audit,file.path(out,"PRIVATE_SQLITE_SNAPSHOT_AUDIT.csv"),row.names=FALSE)
+  parquet_summary <- if(length(parquet_audit))do.call(rbind,parquet_audit)
+     else data.frame(source=character(),status=character(),
+                     n_candidate=integer())
+  write.csv(parquet_summary,file.path(out,"PRIVATE_PARQUET_SNAPSHOT_AUDIT.csv"),
+     row.names=FALSE)
   # Legacy V8/V9 are useful evidence but contain no exact locked
   # metric_key / sampling N. Their country-wave-domain-stat matches are
   # always COARSE_CANDIDATES, not scientifically approved results.
@@ -171,6 +234,8 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
        without_archive_candidate=sum(!present),
        additional_v8_v9_coarse_candidate_keys=sum(coarse_hit & !present),
        archive_record_versions=nrow(evidence),
+       sqlite_and_parquet_records=sum(grepl("^LIVE_",evidence$source_kind)),
+       parquet_objects_seen=nrow(parquet_summary),
        candidate_rows_with_numeric_se=sum(evidence$has_estimate_and_se),
        candidate_rows_with_sample_n=sum(evidence$has_sample_n),
        approved_to_reuse=0L,approved_to_compute=0L,
