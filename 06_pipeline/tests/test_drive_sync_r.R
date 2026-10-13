@@ -94,6 +94,15 @@ jsonlite::write_json(list(local_results_root=root,
   rclone_binary=fake_exe,
   min_age_seconds=0,max_file_bytes=64*1024^2),
   cfg,auto_unbox=TRUE,pretty=TRUE)
+# Minimum-computation aggregate can be shared privately; the per-metric
+# queue must remain local and NEVER be selected automatically.
+min_dir <- file.path(root,"master_reconciliation","MINIMUM_FIGURE_QUEUE")
+dir.create(min_dir,recursive=TRUE)
+write.csv(data.frame(total_contracts=4,archived_candidate_any=3,
+          no_match_in_two_archives=1,scientific_release="NOT_GRANTED"),
+          file.path(min_dir,"MINIMUM_COMPUTE_BOUNDS.csv"),row.names=FALSE)
+write.csv(data.frame(metric_key="SENSITIVE_PRIVATE_KEY"),
+          file.path(min_dir,"PRIVATE_METRIC_REUSE_QUEUE.csv"),row.names=FALSE)
 Sys.setenv(LO_DRIVE_SYNC_RUN_ID=run_id)
 ans <- lo_drive_sync(cfg,action="publish",rclone_override=fake_exe,
                      producer_commit="TEST_ONLY")
@@ -107,6 +116,10 @@ stopifnot(
   file.exists(file.path(named,"PHASE_NLD","WINDOWS_INTEGRATION_TESTS.csv")),
   file.exists(file.path(named,"PHASE_NLD",
                         "LO02_RELEASED_PISA_CORE_GENDER","AANTALLEN.csv")))
+stopifnot(file.exists(file.path(remote_folder,"reports","minimum_figures",
+  "MINIMUM_COMPUTE_BOUNDS.csv")),
+  !file.exists(file.path(remote_folder,"reports","minimum_figures",
+    "PRIVATE_METRIC_REUSE_QUEUE.csv")))
 remote_latest <- file.path(remote_folder,"LATEST.json")
 stopifnot(file.exists(remote_latest))
 pointer <- jsonlite::fromJSON(remote_latest)
