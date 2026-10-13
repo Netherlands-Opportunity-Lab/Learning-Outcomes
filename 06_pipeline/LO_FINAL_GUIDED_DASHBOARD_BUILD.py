@@ -87,7 +87,7 @@ def figure_contract(bundle,allow_synthetic=False):
                   "worden afzonderlijk weergegeven. Geen causaal effect."),
      subtitle_en=("Descriptive; direct learning setting and whole school "
                   "are distinct. Not a causal effect."),
-     expected_series="self_below_basic;self_at_or_above_basic",
+     expected_series="total;self_below_basic;self_at_or_above_basic",
      method_id="M_PEER_BELOW_BASIC_NEW_METHOD_HOLD")
    figure["active_role"]="PRIMARY_NEW_BELOW_BASIC_PEER"
   else:
