@@ -23,7 +23,7 @@ stopifnot(length(p1$selected)==1L,length(p2$selected)==20L,
     length(p3$additional_reference)==8L,
     all(p2$selected%in%p3$selected))
 tasks<-data.frame(metric_key=c("m1","m2","m3"),
- country=c("NLD","X01","Y07"),survey=c("PISA","PIRLS","TIMSS"),
+ country=c("NLD","X01","X41"),survey=c("PISA","PIRLS","TIMSS"),
  year=c("2025","2021","2023"),domain="reading",module="core",
  stat="mean",group="total",definition="total",
  peer_definition="",threshold="",contract_figure_id="TR_MEAN_age15_reading",
