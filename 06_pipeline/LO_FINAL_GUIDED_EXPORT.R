@@ -49,8 +49,20 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out) {
     if(family=="TR_BASIC") {
       omit(i,"DERIVED_COMPLEMENT_NO_SEPARATE_CHART");next
     }
-    if(family=="EN_PERFORMANCE_PEER") {
+    new_peer <- family=="EN_PERFORMANCE_PEER" &&
+                 source$module[[i]]=="peer_below_basic" &&
+                 source$stat[[i]]=="peer_share_below_basic"
+    if(family=="EN_PERFORMANCE_PEER" && !new_peer) {
       omit(i,"OLD_HIGH_PEER_CANNOT_FILL_PRIMARY_BELOW_BASIC");next
+    }
+    if(new_peer) {
+      cert <- c("peer_denominator_verified","self_exclusion_verified",
+                "method_certification_status")
+      if(!all(cert%in%names(approved)) ||
+         any(vapply(cert,function(col)!identical(
+              as.character(approved[[col]][i]),"PASS"),logical(1L)))) {
+        omit(i,"HOLD_NEW_PEER_METHOD_DENOMINATOR_OR_SELF_EXCLUSION");next
+      }
     }
     if(family=="GP_SES_HIGH") {
       omit(i,"OPTIONAL_APPENDIX_NOT_REQUIRED_FOR_MAIN_42");next
@@ -60,7 +72,9 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out) {
       next
     }
     group<-as.character(source$group[i])
-    expected<-strsplit(f$expected_series[[1]],";",fixed=TRUE)[[1]]
+    expected<-if(new_peer)
+      c("total","self_below_basic","self_at_or_above_basic")
+      else strsplit(f$expected_series[[1]],";",fixed=TRUE)[[1]]
     if(!group%in%expected) {
       omit(i,"HOLD_EXPECTED_SERIES_MAPPING_NEEDS_METHOD_ADJUDICATION")
       next
@@ -76,7 +90,8 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out) {
     row<-data.frame(figure_id=id,country=code,
       year=as.character(source$year[i]),survey=as.character(source$survey[i]),
       domain=as.character(source$domain[i]),
-      outcome_id=as.character(source$definition[i]),
+      outcome_id=if(new_peer)"peer_share_below_basic"
+         else as.character(source$definition[i]),
       estimate=as.numeric(approved$estimate[i]),
       se=as.numeric(approved$standard_error[i]),
       n_unweighted=as.numeric(approved$n_unweighted[i]),
@@ -95,8 +110,9 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out) {
         as.character(approved$ci_low[i]) else "",
       ci_high=if("ci_high"%in%names(approved))
         as.character(approved$ci_high[i]) else "",
-      peer_denominator_verified="",
-      self_exclusion_verified="",stringsAsFactors=FALSE)
+      peer_denominator_verified=if(new_peer)"PASS" else "",
+      self_exclusion_verified=if(new_peer)"PASS" else "",
+      stringsAsFactors=FALSE)
     rec[[length(rec)+1L]]<-row
   }
   result<-if(length(rec))do.call(rbind,rec) else data.frame(
