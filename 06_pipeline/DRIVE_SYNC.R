@@ -313,6 +313,66 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
           stop("PRIVATE_REPORT_HOLD: path exposed by fixed status")
         safe <- c(safe,p)
       }
+      # Full scientific aggregate result ledgers are private, NOT GitHub
+      # release assets. These are exact producer-created file names with
+      # reviewed aggregate-only schemas; never recurse into arbitrary caches.
+      private_files <- list(
+        "PRIVATE_MASTER_GRID.csv"=c("cell_id","survey","country",
+                 "year","estimate","standard_error","n_unweighted","status"),
+        "PRIVATE_BATCH_PLAN.csv"=c("batch_id","n_cells","status"),
+        "PRIVATE_GUIDED_VALIDATED_ROWS.csv"=c("figure_id","country",
+                 "estimate","se","scientific_status"),
+        "PRIVATE_GUIDED_MAPPING_HOLDS.csv"=c("cell_id","figure_id","reason"),
+        "PRIVATE_GRID_MATCH_STATUS.csv"=c("metric_key","status",
+                 "approved_to_compute"),
+        "PRIVATE_ARCHIVE_EVIDENCE.csv"=c("metric_key","source_kind",
+                 "estimate","se","n_unweighted","scientific_status"),
+        "PRIVATE_V8_V9_CANDIDATE_MATCH.csv"=c("metric_key",
+                 "archive_v8_v9_coarse_candidate"),
+        "PRIVATE_FIXED_COMPARATOR_POINTS.csv"=c("focus_country",
+                 "point_mean","status"),
+        "PRIVATE_ACTIVE_CELL_GAPS.csv"=c("cell_id","decision"))
+      cover <- list()
+      for(rel in names(private_files)) {
+        p <- if(rel%in%c("PRIVATE_GRID_MATCH_STATUS.csv",
+                        "PRIVATE_ARCHIVE_EVIDENCE.csv",
+                        "PRIVATE_V8_V9_CANDIDATE_MATCH.csv"))
+          file.path(base,"FINAL_FIXED_PIPELINE",rel)
+        else file.path(base,rel)
+        if(!file.exists(p)) {
+          cover[[length(cover)+1L]] <- data.frame(file=rel,
+              status="MISSING_NOT_BACKED_UP",bytes=0)
+          next
+        }
+        sz <- file.info(p)$size
+        if(!is.finite(sz) || sz>min(maxbytes,64*1024^2)) {
+          cover[[length(cover)+1L]] <- data.frame(file=rel,
+              status="OVERSIZE_NOT_BACKED_UP",bytes=as.numeric(sz))
+          next
+        }
+        headers <- tryCatch(names(read.csv(p,nrows=0,
+                   check.names=FALSE)),error=function(e)character())
+        if(!all(private_files[[rel]]%in%headers) ||
+           any(grepl("(^|_)(student_id|pupil_id|respondent_id|school_id|raw_data)",
+                     headers,ignore.case=TRUE)))
+          stop("PRIVATE_REPORT_HOLD: unreviewed aggregate schema: ",rel)
+        bytes <- readBin(p,what="raw",n=as.integer(sz)+1L)
+        if(length(bytes)!=sz)stop("PRIVATE_REPORT_HOLD: aggregate changed")
+        lo_drive_text_safe(bytes,rel)
+        if(grepl("[A-Za-z]:[/\\\\]Users[/\\\\]",rawToChar(bytes),
+                 ignore.case=TRUE))
+          stop("PRIVATE_REPORT_HOLD: local private path in aggregate: ",rel)
+        safe <- c(safe,p)
+        cover[[length(cover)+1L]] <- data.frame(file=rel,
+             status="ELIGIBLE_PRIVATE_SHA_READBACK",bytes=as.numeric(sz))
+      }
+      if(length(cover)) {
+        coverage <- do.call(rbind,cover)
+        coverage$scope <- scope
+        covpath <- file.path(base,"PRIVATE_AGGREGATE_BACKUP_COVERAGE.csv")
+        write.csv(coverage,covpath,row.names=FALSE)
+        safe <- c(safe,covpath)
+      }
     }
     safe
   }
