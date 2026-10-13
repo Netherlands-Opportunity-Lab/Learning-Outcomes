@@ -296,6 +296,7 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
     safe <- character()
     for(scope in scope_names) {
       base <- file.path(root,"FIXED_PRODUCTION_V1",scope)
+      if(!dir.exists(base))next
       for(rel in c("GRID_AUDIT_SUMMARY.csv","PRODUCTION_SCOPE_STATUS.csv",
         "SCIENTIFIC_QUALITY_SUMMARY.csv","FINAL_FIXED_PIPELINE/RECONCILIATION_SUMMARY.csv",
         "SCOPE_SELECTION_SUMMARY.csv")) {
