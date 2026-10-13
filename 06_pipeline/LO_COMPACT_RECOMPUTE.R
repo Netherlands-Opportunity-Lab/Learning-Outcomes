@@ -185,6 +185,7 @@ lo_compact_low_peer <- function(obj,q) {
   weights<-cbind(des$w,vapply(seq_len(des$n),function(i)
     rc2_repweight(des,i),numeric(nrow(d))))
   f<-matrix(NA_real_,nrow=length(pv),ncol=nrow(q))
+  colnames(f)<-paste0("peer_below_basic:",q$group)
   rr<-array(NA_real_,dim=c(des$n,length(pv),nrow(q)))
   for(j in seq_along(pv)) {
     y<-rc2_num(d[[pv[[j]]]])
