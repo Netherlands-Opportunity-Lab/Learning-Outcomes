@@ -180,7 +180,7 @@ lo_compact_projection <- function(obj,q) {
   if(q$module[[1L]]!="peer_below_basic")return(lo4_projection(obj,q))
   if(!is.list(obj)||!is.data.frame(obj$data))stop("COMPACT_LOW_PEER_NO_SOURCE_DATA")
   d<-obj$data
-  pv<-pv_names(d,q$domain[[1L]])
+  pv<-lo4_pv_fields(d,q$domain[[1L]])
   unit <- if(obj$meta$survey=="PISA" && q$peer_definition[[1L]]=="direct_learning_environment")
      c("SCHOOL","PROGRAM") else if(q$peer_definition[[1L]]=="direct_learning_environment")
      c("SCHOOL","CLASS") else "SCHOOL"
@@ -244,8 +244,11 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
      file.path(Sys.getenv("USERPROFILE",unset=path.expand("~")),
                "Downloads","PISA_PIRLS_MASTER_PIPELINE"))
   index<-lo_compact_index_sources(project)
-  producer_files<-file.path(bundle,"engine",
-      c("V11.R","BACKEND.R","REPAIRS.R","EXTENSIONS.R"))
+  producer_files<-c(file.path(bundle,"engine",
+      c("V11.R","BACKEND.R","REPAIRS.R","EXTENSIONS.R","engine.R")),
+      file.path(bundle,"code",c("LO04_CACHE.R","LO04_COMMON.R")),
+      file.path(repo,"06_pipeline",
+        c("LO_COMPACT_RECOMPUTE.R","LO_COMPACT_GRID_STORE.R")))
   if(any(!file.exists(producer_files)))stop("COMPACT_PINNED_PRODUCER_FILES_MISSING")
   codefp<-digest::digest(unname(vapply(producer_files,
     function(p)digest::digest(file=p,algo="sha256"),character(1L))),
@@ -299,7 +302,9 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
           stop("CANONICAL_COUNTRY_SURVEY_YEAR_MISMATCH")
         inputfp<-projections[[1L]]
         reuse<-lo_compact_known(con,block$metric_key,inputfp,codefp,method)
-        if(all(reuse))return(list(reused=sum(reuse),rows=NULL))
+        if(all(reuse)) {
+          list(reused=sum(reuse),rows=NULL)
+        } else {
         if(!started_engine) {
           source(file.path(bundle,"engine","REPAIRS.R"),
              local=environment(),encoding="UTF-8")
@@ -312,7 +317,7 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
           scratch<-file.path(root,"science_scratch")
           lo_engine_boot(file.path(bundle,"engine"),list(root=project),scratch,
                          synthetic=FALSE)
-          started_engine<<-TRUE
+          started_engine<-TRUE
         }
         work<-block[!reuse,,drop=FALSE]
         answer<-if(work$module[[1L]]=="peer_below_basic")
@@ -321,6 +326,7 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
         n<-lo_compact_count_n(obj,work)
         list(reused=sum(reuse),
           rows=lo_compact_science_rows(work,answer,n,inputfp,codefp,method))
+        }
       },error=function(e)e)
       if(inherits(attempt,"error")) {
         z<-lo_compact_hold_rows(block,conditionMessage(attempt),
