@@ -31,7 +31,11 @@ lo_compact_open <- function(root) {
   },error=function(e){DBI::dbDisconnect(con);stop(e)})
 }
 lo_compact_close <- function(con) {
-  if(DBI::dbIsValid(con)) DBI::dbDisconnect(con)
+  if(DBI::dbIsValid(con)) {
+    # Bound SQLite WAL growth; checkpoint preserves the single canonical store.
+    try(DBI::dbGetQuery(con,"PRAGMA wal_checkpoint(TRUNCATE)"),silent=TRUE)
+    DBI::dbDisconnect(con)
+  }
   invisible(TRUE)
 }
 lo_compact_require <- function(x) {
@@ -162,6 +166,9 @@ lo_compact_export <- function(con,root) {
     error=function(e){try(close(gc2),silent=TRUE);unlink(stage2);stop(e)})
   if(file.exists(presentation) && !file.remove(presentation))stop("COMPACT_DISPLAY_EXPORT_LOCKED")
   if(!file.rename(stage2,presentation))stop("COMPACT_DISPLAY_EXPORT_RENAME_FAILED")
+  module_status<-DBI::dbGetQuery(con,
+    "SELECT survey,module,status,COUNT(*) AS n FROM grid GROUP BY survey,module,status ORDER BY survey,module,status")
+  write.csv(module_status,file.path(root,"COMPACT_MODULE_STATUS.csv"),row.names=FALSE)
   data.frame(rows=nrow(x),complete=sum(x$status=="COMPUTED_PENDING_VALIDATION"),
      holds=sum(x$status=="HOLD"),database_bytes=file.info(file.path(root,
         "COMPACT_MASTER_GRID.sqlite"))$size,
