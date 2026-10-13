@@ -1,5 +1,7 @@
 # VAST DRIE-STAPPEN PRODUCTIEPROTOCOL — LEARNING OUTCOMES
 
+> Aanvulling 13 oktober, lokale bronreview: lees voor de inhoudelijke uitvoerplanning ook §15–§16 van [het bestaande masterplan](MASTERPLAN_20261011_v2.md#15-onafhankelijke-kritische-review-en-integraal-uitvoerplan--13-oktober-2026). De drie actienamen blijven bestaan. Bronnen mogen op C:, tussenresultaten op Drive en definitieve resultaten op GitHub. De gebruikers-PPTX telt daadwerkelijk 21 slides; de 16-pagina-notitie is lokaal gevonden. Huidige productiecode is nog niet volledig uitvoerbaar; de review bevat twee lokaal gereproduceerde fouten en benodigde moduleintegratie.
+
 Vastgesteld: 13 oktober 2026 · Status: `FROZEN_EXECUTION_PLAN_v1` · leidend boven eerdere losse `next-batch`-, `execute`-, `figure-minimum-plan`- en overdrachtsprompts voor nieuwe productie. Alleen aantoonbaar foutieve implementatie en controleerbare wetenschappelijke blokkades mogen worden hersteld; wijziging van scope/onderzoeksvraag vereist een expliciete nieuwe gebruikersbeslissing plus versie.
 
 ## Waarom dit protocol bestaat

@@ -231,8 +231,8 @@ De GitHub-figuurplanning van 13 oktober meldt 64.837 actieve oorspronkelijke con
 
 ### 14.2 Bron-/versieconflicten die niet mogen verdwijnen
 
-- De in de compacte ZIP als 21-slide genoemde gebruikers-PPTX bevat fysiek **13 slides**. 21 blijft contractueel leidend, maar de werkelijk bewerkte gebruikersbron moet opnieuw exact gelokaliseerd en gepind worden; de 13-slide bron niet impliciet uitbreiden.
-- De historische notitie-PDF in de ZIP bevat **15 pagina's** tegenover een 16-pagina-productcontract. Exacte gebruikersversie / paginering / inhoud nog verifiëren.
+- **Gecorrigeerd na lokale relatie-audit op 13 oktober:** de gebruikers-PPTX bevat **21 gekoppelde slides en 48 gekoppelde grafieken**. De eerdere telling van 13 miste de niet-standaard `v8_slide*.xml`-delen. Alle 21 slide-targets bestaan; de SHA is exact de geregistreerde gebruikersbron. Zie `review_20261013/POLICY_DECK_RELATIONSHIP_AUDIT.json`. Dit is pakketcontrole, geen wetenschappelijke/visuele vrijgave.
+- **Lokaal opgelost op 13 oktober:** de zip bevat de 15-pagina-versie van 27 september. De echte notitie van 28 september staat in Downloads, heeft **16 pagina's** en SHA `be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27`. Pagina 16 is een inhoudelijke completion-update; eerdere hoofdstukken bevatten nog oude beperkingen. Match de gemelde reparaties op de oorspronkelijke resultaatversies.
 - Het startdocument verwijst naar een fysieke 07_SCOPE_LOCKS_20260929-map die niet onder die naam in de ZIP staat; STEP1-scope-lockbestanden zijn gedeeltelijk onder historie/provenance teruggevonden. Geen automatische hercreatie of conclusie dat besluiten vervallen.
 
 ### 14.3 Opslagroute: eerst de echte tientallen GB
@@ -247,6 +247,183 @@ Windows-inventaris 10–11 oktober: **95.566.093.858 bytes in 35.087 bestanden**
 
 Bij de laatste controle had private Drive **14,985 GiB vrij**, dus het PIRLS-archief past daar niet. In de bestaande lokale opruimqueue is **nul** item geautoriseerd; het historische retirement-plan markeert elk bestand HOLD. Voor het verwijderen van projectbestanden blijven de afgesproken gates gelden: correcte bronrechten, onafhankelijke off-device back-ups, SHA en cold-restore, dependency closure, expliciete toestemming en waar van toepassing ≥30 dagen quarantaine. Quarantaine op C: wint **geen** vrije C:-bytes. Geen leerlingdata of private bestandsnamen naar publieke GitHub.
 
-**Eerstvolgende concrete Windows-stap:** verifieer dat een onafhankelijke externe opslaglocatie beschikbaar is met ten minste circa **40 GB vrije ruimte**, controleer dan de ZIP-directory van het grootste PIRLS-archief read-only en maak een exacte SHA-geverifieerde herstelkopie buiten C:. Start geen oude next-batch, algemene execute of cleanup-apply.
+**Geactualiseerd opslagbesluit 13 oktober:** bronbestanden mogen op C: blijven, tussenresultaten gaan naar private Google Drive, definitieve toegestane resultaten en code naar GitHub. De eerdere eis eerst circa 40 GB externe ruimte te zoeken is daarmee geen algemene voorwaarde voor codeherstel. Voor daadwerkelijk verwijderen blijven aantoonbare herstelbaarheid en de bestaande verwijdervoorwaarden gelden. Zie het geïntegreerde uitvoerplan hieronder.
 
 **Eerstvolgende wetenschappelijke stap:** maak één per contract geadjudiceerde, leesbare reuse/derive/compute/HOLD-queue uit het actuele productregister én de feitelijke centrale resultatenregisters, met bijzondere aandacht voor de 40 NL-LO02-records. Vervolgens uitsluitend de eerste nog nodige en wetenschappelijk gecertificeerde Nederlandse uitkomsten via de native V5-route berekenen.
+
+
+## 15. Onafhankelijke kritische review en integraal uitvoerplan — 13 oktober 2026
+
+
+Opgesteld op 13 oktober 2026, vóór het lezen van de nieuw aangeleverde ChatGPT-chat. Dit document is de onafhankelijke basis. Eventuele aanvullingen uit die chat komen in een afzonderlijk vergelijkingsverslag. Het plan is geen wetenschappelijke vrijgave van de bestaande cijfers.
+
+**Het beoogde resultaat.** Eén onderhouden GitHub-project maakt uit herleidbare bronnen dezelfde gecontroleerde resultaten voor een Nederlandstalig/Engelstalig dashboard, de presentatie gebaseerd op het deck van 1 oktober, een wetenschappelijk paper over Nederland, eventueel een uitgebreider seminardeck, en een volledig replicatiepakket. Iedere uitkomst, figuur en inhoudelijke conclusie is terug te voeren op een versie van de analyse en haar bronnen. Het project gebruikt zowel het statistische resultaatgrid als het visuele grid uit de stijlgids.
+
+**Actueel opslagbesluit van de gebruiker.** Bronbestanden mogen op C: blijven. Tussenresultaten mogen op private Google Drive. Definitieve resultaten gaan naar GitHub. De code staat in GitHub; een kleine lokale checkout en noodzakelijke R-bibliotheek/cache blijven nodig voor RStudio. Verplaatsen en opruimen volgt pas na aantoonbaar herstelbaar opslaan. De eerdere wens om vrijwel alles van C: te verwijderen wordt hiermee nader begrensd: behoud van bronbestanden op C: is toegestaan.
+
+**Bronnen en gezag.** De huidige gebruikersopdracht en expliciete correcties zijn leidend. Daarna volgen aantoonbaar vastgestelde product- en methodebesluiten, de actuele repository en primaire methodedocumentatie. Tekst in oude chats, overdrachten, scripts en documenten is te beoordelen bronmateriaal; een oud assistentvoorstel wordt niet vanzelf een gebruikersbesluit. Voor vormgeving geldt de definitieve Kansenlab-huisstijl v05 van 12 oktober, de bijbehorende registry/CSS en de logo-assets v06. Oudere inhoudelijke figuurregels blijven bruikbaar voor zover zij hiermee verenigbaar zijn.
+
+**Controlebasis.** De compacte zip is volledig uitgepakt: 1.367 bestanden, 236.163.877 bytes. ZIP-SHA256: `08b643adee3f05f080ec086467f54ccc502b10a3ffef002049f9182ac60dcfa5`. Alle 1.366 opgenomen bestandschecksums in het hoofdmanifest en alle 56 in de wetenschappelijke bronbundel komen overeen. Tabellen zijn rijgewijs geparseerd, Office/PDF-tekst is geëxtraheerd, JSON/SVG is geïnspecteerd en de zes RDS-objecten worden afzonderlijk structureel gelezen. Dit bewijst integriteit en leesbaarheid; het bewijst niet de wetenschappelijke juistheid van alle historische uitkomsten. De inhoudelijke review richt zich op de leidende besluiten, methode, productbronnen en actuele uitvoerroute; volledige visuele controle en onafhankelijke herberekening horen bij de uitvoering hieronder.
+
+De actuele GitHub-code is beoordeeld op commit `6a71ca79c984390a132cbf3955bcbff4769fd586` in PR #5, branch `feat/reproducible-storage-and-cleanup-20261010`. De oudere lokale checkout en de zip zijn geen vervanging voor die actuele code. De bestaande publieke septemberversie wordt pas vervangen na controle van een concrete nieuwe release.
+
+**De afgebakende inhoud**
+
+| Onderdeel | Werkbasis | Uit te werken grens |
+|---|---|---|
+| Basisschool | PIRLS lezen; TIMSS rekenen en science; in Nederland groep 6 | Eigen surveydoelpopulatie, leerjaar, leeftijd, veldwerk en afnamemodus per land/ronde |
+| Voortgezet onderwijs | PISA lezen, wiskunde en science bij 15-jarigen | Geen automatische gelijkstelling aan alle jongeren |
+| Tijd | PIRLS 2001–2021; TIMSS hoofdreeks 2003–2023; PISA lezen/wiskunde vanaf 2003, science vanaf 2006 tot 2025 | Oudere/historische uitbreidingen afzonderlijk; SES-harmonisatie primair 2015/2018/2022/2025 |
+| Uitkomsten | Gemiddelde, aandeel onder basisniveau, hoge/advanced prestaties, P10/P50/P90 en spreiding | Survey- en domeinspecifieke grenzen; 475/550/625 bij IEA correct benoemen |
+| Groepen | Totaal, sociale achtergrond, meisjes/jongens volgens bron, thuistaal, migratieachtergrond inclusief generaties | Geen gelijkstelling van thuistaal, nationaliteit en migratie; missings apart |
+| Onderwijsomgeving | Peerblootstelling, school-/klassensortering, waar ondersteund taal-/migratiescheiding | Klas, school×programma en school onderscheiden; geen causaliteit suggereren |
+| Verdieping | SES×gender, absolute versus relatieve SES, fasevergelijkingen, gevoeligheidsanalyses | Afzonderlijke productvereisten; niet verdwijnen omdat ze buiten oude task-keys vallen |
+
+De 42 dashboardstelsels zijn ALB, ARE, AUS, AZE, BGR, BRA, CYP, CZE, DEU, DNK, ESP, FIN, FRA, GEO, HUN, IRL, ITA, JOR, KAZ, LTU, LVA, MAR, MKD, MNE, NLD, NOR, NZL, POL, PRT, QAT, SAU, SGP, SRB, SVK, SVN, SWE, TUR, TWN, USA, HKG, MAC en XKX. Dit is het vastgelegde dashboardbereik, niet de bewering dat ieder stelsel iedere meting heeft.
+
+De vastgelegde buitenlandse referentie voor Nederland bevat AUS, AUT, BEL, CAN, CHE, DEU, DNK, ESP, FIN, FRA, GBR, IRL, ISL, ITA, KOR, LUX, NOR, SWE en USA. Deze 19 volgen de geregistreerde regel OESO-lidmaatschap en BBP per hoofd in koopkrachtpariteit in 2024 **strikt boven** Tsjechië, met Nederland uitgesloten uit zijn eigen vergelijking. De registratie moet nog op het oorspronkelijke World Bank-snapshot worden aangesloten; in de compacte membership-CSV ontbreken de feitelijke BBP-waarden. Een actuele API-revisie mag de historische ledenlijst niet stil wijzigen.
+
+De unie van dashboard- en referentielanden omvat 50 stelsels. Oostenrijk, België, Canada, Zwitserland, het VK, IJsland, Zuid-Korea en Luxemburg zijn de acht extra rekenlanden buiten de dashboard-42. De Cobreros-replicaties gebruiken weer eigen 34- en 36-stelselpanels. Ook de historische internationale SES-referentie van 31 andere stelsels en de vakgebonden fasepanels blijven afzonderlijk herkenbaar. Deze panels mogen niet worden samengevoegd onder één label ‘internationaal’.
+
+Voor tijdreeksen: een vooraf afgebakend, per uitkomst en periode vast panel, gelijke landenweging en uitsluiting van het focusland uit zijn eigen referentie. Bij onvolledige deelname geen ongemerkt wisselende samenstelling. Een beschikbaar-panelvariant kan als benoemde gevoeligheidsanalyse. Op de gecombineerde benchmarklijn komen volgens het bestaande productbesluit geen SE/CI; nationale onzekerheid blijft wel zichtbaar. Een inferentiële claim over een land versus de benchmark vraagt een afzonderlijke, geldige contrastberekening.
+
+**Kritische review: de belangrijkste correcties**
+
+| Prioriteit | Vastgesteld probleem of te toetsen risico | Herstel en bewijs dat het is opgelost |
+|---|---|---|
+| P0 | De GitHub R-tests falen op Windows en Linux: nul ontbrekende peer-rijen worden gecombineerd met één statuswaarde | Lege tabellen correct maken; regressietest met nul én meerdere ontbrekende rijen; daarna de gehele relevante CI-keten |
+| P0 | `LO_FIXED_CONTROLLER.R` geeft `grid=grid` aan `lo_fixed_produce`; de functie accepteert geen grid | Eén contract voor controller/producer; een integratietest die de echte aanroep uitvoert, niet alleen R-bestanden parseert |
+| P0 | De huidige producer routeert hoofdzakelijk PISA core/gender en beperkt native productie tot NL/19; andere modules blijven HOLD | Een echte capability-matrix, moduleadapters voor alle actieve vereisten, en gridgestuurde batches die uitsluitend goedgekeurde ontbrekende taken uitvoeren |
+| P0 | Een geldige hash, task-key of statuswoord is nog geen wetenschappelijk bewijs | Identiteit én herkomst én methode én waarden toetsen; goedkeuringsbestanden koppelen aan bewijsbestanden en reviewer/versie, niet aan vrij invulbare PASS-labels |
+| P0 | De resultaatscope bevat onmeetbare combinaties en placeholders | Elke cel eindigt als gevalideerd, onderbouwd niet beschikbaar/niet vergelijkbaar, of concreet open; een onmogelijke waarde mag de release niet eindeloos blokkeren en mag nooit worden verzonnen |
+| P0 | Er is nauwelijks vrije schijfruimte; oude routes bevatten automatische opruimopties | Voor productie ruimte/RAM/buffer toetsen; geen dubbele volledige uitpakacties; oude delete/gc-routes niet via een omweg activeren |
+| P1 | Het archief meldt ten onrechte 13 in plaats van 21 slides | De presentatie-relaties leveren 21 bestaande slides en 48 gekoppelde grafieken; de afwijkende `v8_slide`-namen meenemen. Geen acht ontbrekende slides reconstrueren |
+| P1 | De oude figuurcontracten gebruiken overal een andere standaardreferentie (`OECD_HIGH_INCOME_FY2027`) | Contracten, renderer, labels en downloads aansluiten op de vastgelegde PPP2024-referentie; oude keuze als historische variant bewaren |
+| P1 | De matrix van 1 oktober heet canonical, maar bevat 37.030 placeholders op 54.768 rijen en 4.200 held-rijen | Geen vrijgave op bestandsnaam; per resultaat daadwerkelijk bewijs en broneditie vaststellen. Oude VALIDATED-labels opnieuw aan hun voorwaarden koppelen |
+| P1 | Het SES-coverage-register bevat 966 rijen zonder bruikbare coveragecijfers | Q01 werkelijk produceren: gewogen en ongewogen dekking, N, componentmissings en analysepopulatie per definitie |
+| P1 | Officiële ESCS, geharmoniseerde ESCS en boeken thuis worden in eerdere stukken soms te gemakkelijk vergeleken | Eigen construct-ID's, aparte kwartielregels en missings; harmonisatie-aannamen en gevoeligheden rapporteren |
+| P1 | Groepsgaps en P90–P10 zijn afleidbaar, hun SE niet uit losse marginale SE's | Gezamenlijke PV/replicaten of passende covariantie bewaren; Var(A−B)=Var(A)+Var(B)−2Cov(A,B) |
+| P1 | De nieuwe hoofdmaat lage-prestatiepeers ontbreekt in de oude high-peer-taken | Eigen uitkomst en keys; juiste drempel, uitsluiting van de leerling zelf, geldige noemer, surveyomgeving en gezamenlijke PV/replicatie |
+| P1 | Historische PIRLS-corevarianties, gendercodering, TIMSS-1995-populatie en TIMSS/Numeracy zijn eerder problematisch geweest | Gericht terug naar bronvariabelen/labels en cyclusmethode; reparatie van één module niet als bewijs voor alle modules gebruiken |
+| P1 | PISA/PIRLS/TIMSS en verschillende leeftijden hebben geen gemeenschappelijke ruwe vaardigheidsschaal | Geen ruwe scoreaftrek tussen surveys, geen individueel leerverlies uit opeenvolgende dwarsdoorsneden, geen causaal selectie- of peereffect |
+| P1 | Bronrevisies en ontbrekende representativiteit kunnen conclusies veranderen | Editie-lock, overlapcontrole, officiële respons-/uitsluitingswaarschuwingen, modal- versus all-target-populaties apart |
+| P2 | Huisstijlbestanden zijn deels nieuwer dan het dashboard; fonts zijn niet meegeleverd | V05-registry als bron voor tokens; fontbestanden/licenties vastleggen en embedding controleren; v06-SVG's gebruiken |
+| P2 | Sommige Leerprestaties-logo's hebben intern nog de titel Onderwijsverschillen | Metadata/accessibility-titel corrigeren zonder de vormgeving opnieuw te tekenen |
+
+Deze review omvat ook de voorgestelde aanpak zelf. Meer HOLD-registers lossen ontbrekende estimatoren niet op. Een nieuw framework of nieuwe runner is geen vooruitgang als hetzelfde wetenschappelijke probleem blijft liggen. ‘Alles opnieuw berekenen’ is evenmin het doel: eerst bestaande bewijsbare resultaten terugvinden, dan de minimale resterende berekeningen uitvoeren. De omvang van de oude contracten — 79.448 — is geen schatting van resterende rekentijd. Ook de 60.142 zonder match in twee archiefregisters zijn geen bewezen nieuwe rekentaken.
+
+**De wetenschappelijke ruggengraat: het grid**
+
+Behoud de bestaande gridmodules en maak ze daadwerkelijk sturend. Eén primitieve cel wordt bepaald door survey, land, ronde, domein, doelgroep/steekproef, groepsvariabele en niveau, SES-construct, uitkomst/drempel, peeromgeving en estimatorversie. Aan dezelfde cel hangen broneditie, input- en codehash, gewicht-/PV-/variantie-/linkingregel, aantallen, estimate/SE, covariancegroep, run-ID en bewijsstatus. Ontbrekende identiteit wordt eerst ingevuld; een match op metric_key alleen mag nooit een resultaat overnemen.
+
+Maak daarnaast een afhankelijkhedentabel: product → figuur/tabel/tekstgetal → afgeleide schatting → primitieve cel → bron. Gemiddelden, percentielen en groepen worden eenmaal berekend. Gaps, complementen, spreads en referenties worden uit gevalideerde onderliggende objecten afgeleid waar hun onzekerheid dit toelaat. Een gewijzigde bron of methode maakt alleen afhankelijke resultaten ongeldig. Versies worden toegevoegd; historische cijfers worden niet ongemerkt overschreven.
+
+De batchplanner onderscheidt hergebruik, nog te toetsen kandidaat, afleiden, ontbrekende bron, niet vergelijkbaar, gericht berekenen en niet nodig voor het actieve product. Iedere uitvoerbare batch heeft bronselectie, methode, verwachte cellen, benodigde ruimte, hervatpunt en foutafhandeling. Bij peerberekeningen moet de indeling van de leerling zelf per plausible value correct samenhangen met de uitkomst van de peers. Kleine groepen en een ongeldige/no-peer-noemer krijgen een expliciete status.
+
+**Statistische controles die vooraf worden vastgelegd**
+
+Plausible values worden per populatie-estimator gecombineerd; een gemiddelde PV per leerling vervangt die procedure niet. PISA Fay-BRR en IEA JRR worden per cyclus gecontroleerd, inclusief aantallen en schaalfactoren. Fractionele kwartielen bij discrete boekenitems verschillen van random tie-breaking in de externe replicatie. Voor een exacte replicatie worden de oorspronkelijke tie-regel, seed, imputation en herberekening onder replicaatgewichten gevolgd; alternatieven krijgen een andere methodenaam. Een vaste itemset alleen bewijst nog geen meetinvariantie over landen of jaren.
+
+Trendtoetsen volgen de relevante broneditie en linking-onzekerheid. Een gemeenschappelijke linkingcomponent mag niet ten onrechte door het aantal referentielanden worden gedeeld; eventuele annulering in gaps vereist de passende aannamen. Geen onafhankelijkheidsformule gebruiken voor afhankelijke groepscontrasten. Voor veel vergelijkingen worden primaire contrasten en families vooraf aangewezen en multipliciteit/robustheid verantwoord. Een niet-significante uitkomst betekent niet dat er geen verandering is.
+
+Kwantielen, prevalentie, SES-groepen, schooldecompositie en Theil H hebben ieder een eigen estimator en doelpopulatie. Bewaar aantallen leerlingen/scholen/klassen, gewogen dekking en relevant effectief N. Een uitsluitend op gewichten gebaseerde effectieve steekproefgrootte is geen vervanging voor de complexe steekproefvariantie. Geen uitkomstgestuurde tolerantieverruiming om externe ankers te laten ‘passen’.
+
+**Q01–Q08 als concrete werkpakketten**
+
+| Gate | Op te leveren bewijs |
+|---|---|
+| Q01 SES-dekking | Land×ronde×construct; gewogen/ongewogen N en missingness; componenten en imputatie; gelijksoortige noemers |
+| Q02 populatiekwaliteit | Doelgroep, afname/veldwerk, uitsluiting, school- en leerlingrespons; NL-waarschuwingen in alle relevante producten |
+| Q03 vier-cyclusreplicatie | Cobreros-basis 2015/2018/2022/2025, 34 stelsels, 13 gedeelde items; exacte codeversie en vooraf bepaalde toleranties |
+| Q04 twee-cyclusreplicatie | 2022/2025, 36 stelsels, 16 gedeelde items; tabellen/figuren en individuele stelselresultaten naast bron |
+| Q05 uitbreiding | Vaste parameters naar extra landen/rondes alleen na mapping, overlap, missingness en steun van de items; niet presenteren als exacte oorspronkelijke replicatie |
+| Q06 referentie | Historisch bron-snapshot, leden, periode, N en gelijke weging; focusland eruit; expliciete panel- en onzekerheidskeuze |
+| Q07 officiële SES | Naast harmonisatie ook de officiële rondegebonden maat; definities, bronrevisies en componentanalyses als robuustheid |
+| Q08 verandering | Niveaus, groepsverschillen, veranderingen en verschillen in veranderingen met juiste gezamenlijke variantie/linking; beschrijvend tenzij een causale identificatie bestaat |
+
+De meegeleverde Cobreros-workingpaper is externe literatuur, geen bewijs dat onze eigen pipeline hem reeds repliceert. Zijn conclusies over een internationaal gemiddelde mogen niet rechtstreeks de Nederlandse conclusie worden. Het Nederlandse paper moet bijvoorbeeld verschillen tussen officiële ESCS en de geharmoniseerde maat zelf aantonen, met Nederlandse onzekerheid en dekkingsanalyse.
+
+**Uitvoering in vijf samenhangende werkpakketten**
+
+| Werkpakket | Concrete werkzaamheden | Klaar wanneer |
+|---|---|---|
+| 1. Bronnen, review en scope vastzetten | Inventaris afronden; besluitconflicten oplossen; bron-/productregister; PR/head en grid vereisten vastzetten; relevante oude output terugvinden | Elke productvereiste heeft een bron, bestemming, methode/status en controle; geen onbewezen scope-uitbreiding |
+| 2. Uitvoerroute herstellen | CI-fouten en controller/producer-contract repareren; identiteit en resultaatimport sluiten; moduleadapters afmaken; RStudio-config en opslagroutes testen | Windows/Linux contracttests en synthetic end-to-end slagen; geen productie buiten gekozen grid; gecontroleerd hervatten en hergebruik bewezen |
+| 3. Resultaten produceren en onafhankelijk controleren | Eerst NL, dan referentie, dan aanvullende dashboardlanden binnen dezelfde scopes; Q01–Q08 en variantiereparaties; pilot-runtime meten | Alle actieve vereisten gevalideerd of onderbouwd onbeschikbaar; ontbrekende berekenbare resultaten niet weggelabeld; herhaalrun consistent |
+| 4. Producten uit dezelfde release bouwen | Dashboard, 21-slide-basis, optionele seminaruitbreiding, paper en technische appendix, figuurdata/downloads | Getallenpariteit tussen producten, visuele controle, toegankelijke bediening, wetenschappelijk controleerbare tekst |
+| 5. Replicatie, vrijgave en opslag afronden | Schone reconstructie, README, metadata/licenties/bronrechten, release-archief, publicatievoorstel, gecontroleerde opruimlijst | Onafhankelijke run reproduceert tabellen/figuren/tekstgetallen; definitieve GitHub-release gereed; private tussenresultaten herstelbaar op Drive |
+
+GitHub bevat de codewijzigingen en reviewbare documentatie op de bestaande featurebranch. Geen proliferatie van alternatieve runners of nieuwe grote zip-uitgaven. Bronnen en privé-inventarissen worden niet meegecommit. GitHub Actions controleert synthetische kleine voorbeelden en productcontracten; zware leerlingproductie blijft op de eigen Windows/RStudio-omgeving. Een kleine representatieve pilot bepaalt looptijd, RAM en tijdelijke schijfruimte; vooraf een totale duur beloven zou nu ongefundeerd zijn.
+
+De drie bestaande RStudio-acties blijven `fixed-audit`, `fixed-produce`, `fixed-finalize`, met één constante scope per traject (`nld_only`, `nld_plus_19`, `all_required`). Voor de uitvoering worden de bestaande `START.R`/`RUN.R`-scripts hersteld en getest, niet vervangen door een nieuwe knip-en-plakrunner. De huidige head is nog niet productierijp. Omdat START.R automatisch een branch kan ophalen, moet de uitvoerder vóór het starten aantoonbaar dezelfde gereviewde commit gebruiken en de werkelijk uitgevoerde SHA vastleggen. Een later gewijzigde head mag niet onopgemerkt een goedgekeurde run wijzigen.
+
+**Dashboard en huisstijl**
+
+GitHub Pages is passend voor het bestaande statische dashboard: R produceert vooraf gevalideerde aggregaten; de browser verzorgt selectie en visualisatie. Er is geen noodzaak om via een aparte ChatGPT-websitebouwroute te migreren. De actieve publicatiebron in de repository en de Pages-workflow zijn leidend; de archiefkopie van de oude app is referentie. Serverberekeningen in R draaien niet op Pages. Zie [GitHub Pages-documentatie](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site).
+
+Behoud de geplande landen-, leeftijds-, vak-, uitkomst- en groepskeuzes en een begrijpelijke leesroute. Toon ontbrekende/niet-vergelijkbare cijfers expliciet, met een bruikbare uitleg. Een placeholder is geen nul. Bouw figuurdownloads met dezelfde selectie, labels, precisie, broneditie en status als de grafiek; vergelijk machineleesbare output tegen het grid. Browsertests toetsen NL/EN-pariteit, toetsenbordbediening, mobiel/desktop, lange labels, downloadinhoud en alle route-/filtercombinaties die door de contracten worden toegestaan. Productieschermen bevatten geen interne runpaden of programmeertermen.
+
+Inter Semibold 600 blijft het woordmerk. Oswald Light 300 voor korte labels, Regular 400 voor lopende dashboardtekst, Medium 500 voor koppen en geselecteerde filters. Gebruik de v05-tokens voor achtergrond/tekst/Leerprestaties (#F7F5F0/#17242D/#5365A3) en de originele logo-assets v06. De merkring bepaalt niet automatisch de datakleuren. Wetenschappelijke kleurrollen uit de figuurstijlgids, zoals de Nederlandse focusserie, blijven expliciet gekoppeld aan hun betekenis. Voor slides geldt het 16:9/12-kolomsgrid met vaste marges, panelen, bron- en notenruimte; voor papertekst nemen we de documentregels, niet automatisch smalle dashboardtypografie. Controleer contrast, fontsubstitutie en export.
+
+**Presentaties en paper**
+
+De presentatie van 1 oktober met 21 gekoppelde slides en 48 gekoppelde grafieken is de inhoudelijke basis. Bouw een slide-voor-slide-mapping met huidige figuren, behouden boodschap, noodzakelijke wijziging en resultaat-ID's. Bewaar de originele versie en herstel de foutieve 13-slide-audit. Verwerk de gekozen vervanging van boven-basis door onder-basis, de SES-niveaus naast hun kloof, de optionele high-SES-figuur en lage-prestatiepeers als hoofdmaat. De oude 50-slidevariant vervangt deze presentatie niet. Een wetenschappelijk seminardeck kan dezelfde figuren aanvullen met methoden, sensitiviteit, dekking en replicatie; de lengte volgt de inhoud en het beoogde gebruik.
+
+Het paper krijgt een Nederlandse interpretatie en als werkbasis Nederlandse hoofdtekst: onderzoeksvragen en bijdrage; surveys/populaties; bronselectie; estimator en onzekerheid; nationale trends en verdeling; groepen en SES-constructies; internationale vergelijking; onderwijsomgeving; robuustheid/dekking; beperkingen en conclusie. De technische appendix specificeert iedere recode, weging, PV-/replicaatregel, drempel, panel, missingskeuze en variantieformule. Cijfers in proza komen uit dezelfde export als tabellen en figuren. Een korter beleidsverhaal en langer wetenschappelijk verhaal delen cijfers maar hoeven niet dezelfde tekst te hebben.
+
+De inhoudelijke discussie behandelt ook wat de data niet identificeren: veranderingen in groepen kunnen door samenstelling en meting ontstaan; onderwijsfasen zijn geen gevolgd cohort; schoolscheiding en peerblootstelling tonen geen oorzakelijke effecten; een kleinere kloof door achteruitgang aan de bovenkant is niet zonder meer een verbetering. Literatuur, waaronder ESB, wordt gebruikt voor context en toetsbare mechanismen, niet als vervanging voor projectresultaten.
+
+**Replicatie en FAIR op het beoogde AER-niveau**
+
+Een GitHub-map alleen voldoet niet. Lever een master-run die alle definitieve tabellen, figuren en tekstgetallen reproduceert, met README (ook PDF), softwareversies/lockfile, packagebronnen, hardware, seedbeleid, geschatte looptijd en schijfruimte, data-availability statement, toegangsstappen, licenties, checksums en resultaatmapping. Test dit vanuit een schone omgeving met een andere werkmap dan die van de auteur. Leg afwijkingen/toleranties vast. Maak een versieerbare eindrelease en een duurzaam archiverings-/DOI-voorstel; claim pas reproduceerbaarheid nadat de controle is uitgevoerd. [AEA-richtlijnen](https://www.aeaweb.org/journals/data) en [de AEA-controlepraktijk](https://www.aeaweb.org/journals/data/faq) zijn de norm, geen belofte van acceptatie door een tijdschrift.
+
+FAIR betekent hier vindbare stabiele identifiers en metadata; expliciete toegang tot openbare of beperkte bronnen; machineleesbare tabellen met woordenboek en eenheden; herbruikbare code, herkomst, versie en licenties. FAIR vereist niet dat alle leerlingdata openbaar worden. Maak definitieve toegestane aggregaten/producten publiek, houd microdata/tussenresultaten en lokale padinventarissen buiten de publieke repository. [GO FAIR](https://www.go-fair.org/fair-principles/) biedt het toetsingskader.
+
+**Downloads en gecontroleerd opruimen**
+
+De nieuwe metadata-inventaris bevat 46.020 bestanden, zonder scanerrors of overgeslagen reparsepunten. De bekende projectwerkruimten omvatten 35.292 bestanden/96,788 GB: onderzoeksbronmaster 95,566 GB; LO05-resultaten 0,961 GB; LO02-productie 0,261 GB. Daarnaast zijn 5.707 bestanden op projectnaam en 20 bestanden op R-specifieke extensie kandidaat voor verdere beoordeling. 5.001 bestanden zijn niet toegeschreven. Deze categorieën bewijzen niet dat RStudio elk bestand heeft gemaakt: brondata, scripts, branding en downloads kunnen er ook onder vallen.
+
+Vervolg: koppel paden aan scriptuitvoer, runmanifests en bronregisters; classificeer bron/code/tussenresultaat/eindresultaat/dubbel/onbekend; hash alleen relevante potentiële dubbelen stapsgewijs. Bewaar de volledige inventaris privé. Publiceer alleen samenvattingen. Een bestandsnaam of gelijke grootte is nooit genoeg om iets weg te gooien. Bronbestanden mogen op C: blijven. Drive krijgt onveranderlijke tussenresultaatobjecten met manifest en controle op upload/herstel. GitHub krijgt definitieve, rechtengecontroleerde releasebestanden en hun code.
+
+De repository schrijft voor verwijdering nog twee onafhankelijke herstelbare kopieën buiten C:, een quarantaineperiode van 30 dagen en een expliciet beoordeelde bestandslijst voor. Het huidige opslagbesluit autoriseert de bestemming, maar bewijst deze herstelbaarheid nog niet. Het uitvoerplan maakt eerst concreet welke objecten hieraan voldoen; uniek werk en onduidelijke bestanden blijven bewaard. Geen automatische verwijdering vanuit een gewone analyse- of publicatierun.
+
+**Vijf opdrachten aan Codex**
+
+1. **Rond de kritische audit en scope af.** Werk dit plan in GitHub uit tot één bron-, besluit-, product- en risicoregister. Controleer alle actieve claims tegen de zip, actuele code, primaire methoden en oorspronkelijke resultaten. Corrigeer aantoonbare eerdere fouten, inclusief de onjuiste slidetelling. Koppel iedere vereiste aan het grid en inventariseer Downloads met expliciete bewijskracht. Bewaar mijn opslagverdeling: bronnen op C:, tussenresultaten op Drive, definitieve resultaten op GitHub.
+2. **Maak de bestaande RStudio-route werkelijk uitvoerbaar.** Herstel de controller, producenten en validatie, sluit alle noodzakelijke modules aan op het grid, maak de minimale hervatbare rekenplanning en test op Windows/Linux. Behoud START.R met fixed-audit, fixed-produce en fixed-finalize. Lever pas daarna exacte geteste RStudio-instructies met commit, scope, configuratie en ruimtevereisten.
+3. **Produceer en valideer de resultaten.** Hergebruik aantoonbaar juiste bestaande resultaten, voer uitsluitend ontbrekende noodzakelijke batches uit en sluit Q01–Q08. Begin met Nederland, breid via de vastgelegde scopes uit en controleer PV's, replicatie, covariantie, SES, populatie en panels onafhankelijk. Lever één versieerbare resultaatrelease met volledige herkomst en onderbouwde beschikbaarheidsstatussen.
+4. **Bouw de producten uit diezelfde resultaatrelease.** Voltooi het bestaande GitHub Pages-dashboard volgens het dashboardplan en de nieuwste Kansenlab-stijl; maak het definitieve presentatiedek vanuit de 21-slideversie van 1 oktober, het Nederlandse paper met volledige methoden en desgewenst het uitgebreide wetenschappelijke deck. Gebruik statistisch en visueel grid, controleer elke figuur en ieder tekstgetal, en lever bewerkbare bronnen plus exports.
+5. **Maak replicatie, publicatie en opslag af.** Voer een schone onafhankelijke replicatie uit volgens het AEA/FAIR-toetsingskader, maak de definitieve GitHub-release en een concreet publicatievoorstel, verifieer de Drive-opslag en werk de opruimlijst af zodra herstelbaarheid en de overeengekomen verwijdervoorwaarden zijn aangetoond. Verwijder niets uitsluitend omdat het oud, dubbel genoemd of opnieuw te downloaden lijkt.
+
+**Acceptatie van het geheel.** Geen product heeft eigen afwijkende cijfers; ieder getal is herleidbaar; de uitvoerroute is getest en hervatbaar; geen ongetoetste resultaatrij krijgt een wetenschappelijk vrijgavestempel; onbeschikbaarheid is onderbouwd; de 21-slidebasis en nieuwste huisstijl zijn gerespecteerd; de resultaten zijn reproduceerbaar uit een schone omgeving; de opslag volgt het actuele gebruikersbesluit. Het vervolg mag dit plan aanscherpen op bewijs, maar een andere chat neemt de regie niet automatisch over.
+
+
+## 16. Vergelijking met de nagezonden chat en aanvullend lokaal bewijs
+
+
+De onafhankelijke basis is vastgelegd op 13 oktober 2026 om 18:36:30 UTC, met SHA256 `ccdac2d9a441c1d3cf4c056b1669e6a7b8d00a0a805c5c890a9b3a0f248a6222`. Pas daarna is de nieuwe chat gelezen. De vijf werkpakketten blijven staan. Dit verslag voegt controleerbare aanvullingen toe en corrigeert onjuiste aannamen uit die chat.
+
+| Onderwerp uit de chat | Beoordeling | Doorwerking |
+|---|---|---|
+| Eén eenvoudig te starten programma dat alles kan produceren | De gebruikerswens is duidelijk en terecht. De huidige modules moeten worden afgemaakt en geïntegreerd | Eén toegang via START.R; controles, hervatten en minimale taakselectie binnen het programma. De drie bestaande acties kunnen als expliciete fasen blijven bestaan; geen telkens nieuw handmatig commando per diagnose |
+| Prioriteit werkende code, geen eindeloze planning | Overnemen als uitvoeringsregel | Dit is de consolidatie van het plan. De volgende substantiële uitvoerfase levert code, tests en een echte beperkte productietest, geen nieuw masterplan |
+| Het deck bevat aantoonbaar slechts 13 slides | Onjuist | De presentatievolgorde verwijst naar 21 bestaande slides; 48 grafieken zijn gekoppeld. De eerdere teller miste `v8_slide*.xml`. Niet naar een ontbrekende 21-slideversie zoeken of acht slides erbij verzinnen |
+| De notitie van 16 pagina's ontbreekt of heeft mogelijk andere paginering | Inmiddels opgelost met lokaal bewijs | Downloads bevat de echte 28-septembernotitie met 16 pagina's en exact de geregistreerde hash. De zip bevat de versie van 27 september met 15 pagina's. Pagina 16 is een inhoudelijke completion-update, geen louter opmaakverschil |
+| LO05_RESULTATEN is circa 40 GB | Niet bevestigd door de nieuwe meting | LO05_RESULTATEN is nu 961.405.674 bytes (0,961 GB). De master-submap RUNNER is 39.150.330.148 bytes. Dit kan de verwarring verklaren, maar is geen bewezen verklaring van wat eerder zichtbaar was |
+| De compacte resultaatgrid kan klein zijn | Bevestigd met echte bronbytes, niet met fictieve waarden | De bestaande matrix is 32.166.066 bytes en 2.334.636 bytes met gzip, zonder numerieke afronding. Dit is géén meting van de toekomstige complete grid: de matrix bevat veel placeholders |
+| Scores/percentages één decimaal; SE twee decimalen; N geheel | Bruikbare presentatiekeuze | Volledige precisie blijft in de wetenschappelijke basis en reproduceerbare downloads. Alleen weergave afronden, na contrasten/CI/rangen; vermeld percentage versus procentpunt expliciet |
+| Alle oude bestanden wissen en opnieuw beginnen | Afwijzen als uitvoeringsmethode | Unieke bron-, resultaat- en variantie-informatie kan verloren gaan en onnodige herberekening veroorzaken. Het actuele directe gebruikersbesluit laat bronbestanden op C: toe |
+| Een execute-blokkade is uitsluitend technische complexiteit | Te algemeen | De gevonden aanroepfout is technisch. Onjuiste steekproefdefinities, ontbrekende bronnen of covariantie zijn inhoudelijke problemen. Het programma moet die onderscheiden en de overige geldige taken laten doorgaan |
+| Binnenkort alles snel klaar | Niet onderbouwd | Een kleine echte pilot meet capaciteit en looptijd. Programmeerwerk, benodigde bronreparatie en rekentijd apart rapporteren |
+| Harde aantallen 50 seminardias en 16 pagina's in het eindproduct | Historische bronversies zijn daadwerkelijk 50/16; niet automatisch een nieuwe omvangseis | De huidige vraag noemt het lange deck optioneel en vraagt een volledig paper. Behoud de historische inhoud en traceerbare wijzigingen; forceer het nieuwe paper niet naar precies 16 pagina's |
+
+**Aanvullend lokaal bronbewijs na de chatvergelijking.**
+
+- De PDF `PISA_PIRLS_TIMSS_FINAL_WETENSCHAPPELIJKE_NOTITIE_20260928.pdf` heeft 16 pagina's; SHA256 `be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27`.
+- De PDF `PISA_PIRLS_TIMSS_FINAL_WETENSCHAPPELIJK_DECK_20260928.pdf` heeft 50 slides; SHA256 `b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4`.
+- Pagina 16 van de notitie rapporteert 283.284 schattingsregels en 2.569 van 2.570 completiontaken, en meldt reparaties aan PIRLS-corevarianties, historisch PISA-gender, TIMSS 1995 en Numeracy. Dit is een bronclaim die op de bestaande completion-output moet worden gematcht, geen reden om de reparaties klakkeloos opnieuw uit te voeren of ongezien vrij te geven. Eerdere hoofdstukken bevatten nog oude beperkingen; die inhoudelijke inconsistentie moet worden gereconcilieerd.
+- Alle zes RDS-objecten uit de zip zijn succesvol gelezen voor structuur, tabellen en kolommen. R meldde locale-/encodingwaarschuwingen; die zijn geen validatie van de cijfers. De bestanden bevatten nuttige bestaande estimate-, PV- en diagnostiektabellen die hergebruikonderzoek ondersteunen.
+
+**Verduidelijking van de minimale opslag.** Een resultatenmatrix is slechts een deel van het replicatiepakket. Gezamenlijke replicaatschattingen/covariantiematrices, methodeparameters, herkomst, tabellen en exportassets kunnen extra ruimte vragen. Bewaar hiervan de noodzakelijke compacte voldoende informatie, met een gedocumenteerd bewaarbeleid. Een dashboarddoel van bijvoorbeeld minder dan 10 MB mag wetenschappelijk noodzakelijke informatie niet wegdrukken. Er is in deze ronde niets verwijderd en geen grote wetenschappelijke productierun gestart.
+
+**De uiteindelijke route.** Bronnen op C:, private tussenresultaten op Google Drive, definitieve toegestane resultaten en code op GitHub. Het eigen plan wordt geïntegreerd in het bestaande GitHub-masterplan. De auditfouten worden daarin gecorrigeerd; de uitvoeringsvolgorde blijft bronidentiteit → werkende geïntegreerde pipeline → gecontroleerde resultaten → producten → replicatie/vrijgave/opslag. Ruimtebeheer en het voorkomen van onnodige kopieën lopen vanaf het eerste werkpakket mee.
