@@ -2,7 +2,20 @@ source("06_pipeline/LO_EXISTING_RESULT_REGISTRY.R")
 work<-tempfile("lo_sources_");dir.create(work)
 bundle<-file.path(work,"bundle");dir.create(bundle)
 dir.create(file.path(bundle,"evidence"))
-state<-file.path(work,"LO05_RESULTATEN");dir.create(state)
+state<-file.path(work,"LO05_RESULTATEN","FIXED_PRODUCTION_V1","nld_only")
+dir.create(state,recursive=TRUE)
+consolidated<-file.path(work,"LO05_RESULTATEN","consolidated")
+dir.create(consolidated,recursive=TRUE)
+stopifnot(requireNamespace("DBI",quietly=TRUE),
+          requireNamespace("RSQLite",quietly=TRUE))
+con<-DBI::dbConnect(RSQLite::SQLite(),
+         file.path(consolidated,"RESULT_PROVENANCE.sqlite"))
+DBI::dbWriteTable(con,"result_versions",data.frame(
+ metric_key="m3",estimate="470",se="5.2",scientific_status="UNVALIDATED",
+ input_fingerprint=paste(rep("f",64),collapse=""),
+ record_version_id="consolidated_test_version",source_id="central_current",
+ source_sha256=paste(rep("a",64),collapse="")))
+DBI::dbDisconnect(con)
 write_gz <- function(x,p) {
   con<-gzfile(p,"wt")
   write.csv(x,con,row.names=FALSE)
@@ -29,13 +42,14 @@ tasks<-data.frame(metric_key=c("m1","m2","m3"),survey="PISA",
  stat=c("mean","gender_mean","mean"))
 e<-lo_existing_result_evidence(bundle,tasks,state,lo02_root="")
 stopifnot(e$summary$scope_contracts==3L,
- e$summary$keys_with_archive_candidates==2L,
- e$summary$without_archive_candidate==1L,
+ e$summary$keys_with_archive_candidates==3L,
+ e$summary$without_archive_candidate==0L,
  e$summary$approved_to_reuse==0L,
  e$summary$approved_to_compute==0L,
  e$summary$candidate_rows_with_numeric_se==1L,
  e$summary$candidate_rows_with_sample_n==0L,
- e$summary$additional_v8_v9_coarse_candidate_keys==1L)
+ e$summary$additional_v8_v9_coarse_candidate_keys==0L,
+ e$summary$sqlite_and_parquet_records>=1L)
 stopifnot(all(e$evidence$reuse_gate==
   "HOLD_REQUIRE_INDEPENDENT_SAMPLE_METHOD_INPUT_PV_N_REVIEW"))
 unlink(work,recursive=TRUE)
