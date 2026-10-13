@@ -28,6 +28,9 @@ lo_fixed_produce <- function(bundle,scope_info,tasks,out,
     native_execution="NOT_STARTED",
     scientific_release="HOLD_PENDING_INDEPENDENT_VALIDATION",
     stringsAsFactors=FALSE)
+  if(native_run &&
+     !identical(Sys.getenv("LO_FIXED_PRODUCER_ENGINE",unset="compact"),"compact"))
+    stop("LEGACY_SNAPSHOT_HEAVY_PRODUCER_DISABLED_IN_FIXED_PRODUCTION")
   # New default: bounded one-pass candidate production using the pinned V11
   # estimators. Unlike old LO05 consolidation, never clones current/history
   # Parquet snapshots or student caches. Publication remains a separate gate.
