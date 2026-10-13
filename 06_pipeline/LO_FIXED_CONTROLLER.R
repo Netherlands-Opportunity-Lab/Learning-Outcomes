@@ -54,12 +54,21 @@ lo_fixed_controller <- function(repo,bundle,
     invisible(item)
   }
   if(stage=="cleanup-plan") {
-    # Explicitly no file removal in this stage. Existing lifecycle checks
-    # require independent cloud AND additional restore, closure and approval.
-    source(file.path(repo,"06_pipeline","LOCAL_CLEANUP_GATE.R"),
+    # No file removal. Use existing candidate review, then the stronger
+    # OFF-C independent restore proof gate; a missing input is a HOLD report.
+    master <- file.path(root,"master_reconciliation")
+    review <- tryCatch(source(file.path(repo,"06_pipeline",
+       "LOCAL_CLEANUP_GATE.R"),local=environment(),encoding="UTF-8"),
+       error=function(e)e)
+    source(file.path(repo,"06_pipeline","LO_FIXED_CLEANUP_GATES.R"),
            local=environment(),encoding="UTF-8")
-    put("cleanup-plan","REVIEW_ONLY_NO_DELETE")
-    return(invisible(TRUE))
+    report <- lo_fixed_backup_cleanup_gate(master,action="plan")
+    put("cleanup-plan",
+       if(inherits(review,"error"))"HOLD_MISSING_CANDIDATE_INVENTORY"
+       else "REVIEW_ONLY_NO_DELETE",
+       if(inherits(review,"error"))conditionMessage(review)
+       else "No C-disk space freed; off-C restores required")
+    return(invisible(report))
   }
   membership <- lo_scope_write_evidence(scope_info,selected,state)
   if(stage=="audit"||!file.exists(file.path(state,"PRIVATE_MASTER_GRID.csv"))) {
