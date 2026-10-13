@@ -78,4 +78,20 @@ gens$metric_key<-paste0("g",seq_len(nrow(gens)))
 gn<-lo_compact_count_n(obj,gens)
 stopifnot(identical(as.integer(gn),c(2L,1L,1L,3L,3L)))
 cat("PASS source migration contract mapping and generation-level unweighted N\\n")
+# Migration exposure uses strictly source-labelled native peers, with
+# each focal pupil removed from her own peer denominator.
+mq<-tasks[rep(4L,2L),,drop=FALSE]
+mq$metric_key<-c("migration_peer_first","migration_peer_second")
+mq$module<-"migration_peer_exposure"
+mq$domain<-"all"
+mq$unit<-"percent"
+mq$stat<-c("first_generation_target_pct_native_peers",
+           "second_generation_target_pct_native_peers")
+mq$peer_definition<-"whole_school"
+mp<-lo_compact_migration_peers(obj,mq)
+stopifnot(identical(as.numeric(mp$estimate),c(100,100)),
+          all(mp$se==0),
+          identical(as.integer(lo_compact_count_n(obj,mq)),c(1L,1L)))
+cat("PASS valid-category migration peer exposure and exact survey N\\n")
+
 cat("PASS active minimal policy and below-basic self-excluded peer estimates, exact N and PV-N HOLD\n")
