@@ -30,13 +30,15 @@ lo_minimum_figure_queue <- function(bundle, root, expected_contracts=79448L,
   tasks$product_decision <- ifelse(tasks$figure_family=="TR_BASIC",
        "DROP_SEPARATE_VISUAL_CAN_DERIVE_COMPLEMENT",
     ifelse(tasks$figure_family=="GP_SES_HIGH","OPTIONAL_APPENDIX",
+    ifelse(tasks$figure_family=="EN_PERFORMANCE_PEER",
+      "ORIGINAL_HIGH_PEER_OPTIONAL_NEW_BELOW_BASIC_NOT_IN_LOCK",
     ifelse(tasks$figure_family %in% c("GP_SES_GAP","GP_GENDER_GAP",
                                      "DS_SPREAD","GP_MIGRATION_GAP",
                                      "GP_LANGUAGE_GAP"),
       "DERIVED_CONTRAST_REQUIRES_JOINT_VARIANCE",
     ifelse(tasks$figure_family=="EN_PERFORMANCE_PEER",
       "PRIMARY_BELOW_BASIC_OR_OPTIONAL_ADVANCED_REDEFINE_METRIC",
-      "ACTIVE_BASE_CONTRACT"))))
+      "ACTIVE_BASE_CONTRACT")))))
   # A DERIVED label never proves that the inputs or their uncertainty exist.
   tasks$minimum_action <- ifelse(tasks$archive_lo01_candidate |
                                  tasks$archive_lo02_candidate,
@@ -74,6 +76,47 @@ lo_minimum_figure_queue <- function(bundle, root, expected_contracts=79448L,
     file.path(out,"PRIVATE_METRIC_REUSE_QUEUE.csv"),row.names=FALSE)
   write.csv(count,file.path(out,"FIGURE_FAMILY_COUNTRY_MODULE_COUNTS.csv"),row.names=FALSE)
   write.csv(detailed,file.path(out,"FIGURE_FAMILY_MINIMUM_ACTION_COUNTS.csv"),row.names=FALSE)
+  # 2026-10-12 decision: the mandatory BELOW-basic peer measure is
+  # NOT an outcome in the locked high-peer contract. Each old 3-task
+  # peer-context tuple is a potential new 3-task low-peer design, NOT
+  # an already computed result and NOT automatically authorized.
+  oldpeer <- tasks[tasks$figure_family=="EN_PERFORMANCE_PEER",,drop=FALSE]
+  peer_context <- c("country","survey","year","domain","peer_definition")
+  context <- unique(oldpeer[,peer_context,drop=FALSE])
+  # Do not silently assume a valid peer base, composition or threshold
+  # is available; each proposed unit needs method/denominator checks.
+  context$proposed_primary_measure <- "peer_share_below_basic"
+  context$proposed_groups <- "total;self_below_basic;self_at_or_above_basic"
+  context$proposed_result_cells <- 3L
+  context$scientific_status <- "REQUIRES_METHOD_SOURCE_AND_REUSE_AUDIT"
+  context$approval_to_compute <- "NO"
+  write.csv(context,file.path(out,"ADDITIONAL_BELOW_BASIC_PEER_CONTEXTS.csv"),
+            row.names=FALSE)
+  active <- data.frame(
+    category=c("ORIGINAL_LOCKED","REMOVED_COMPLEMENT_DISPLAY",
+      "OPTIONAL_SES_ADVANCED","OPTIONAL_ORIGINAL_HIGH_PEERS",
+      "RETAINED_LOCKED_CONTRACTS",
+      "DERIVED_GAP_OR_SPREAD_WITH_JOINT_VARIANCE",
+      "NEW_BELOW_BASIC_PEER_DESIGN_CANDIDATES"),
+    contract_cells=c(nrow(tasks),
+       sum(tasks$figure_family=="TR_BASIC"),
+       sum(tasks$figure_family=="GP_SES_HIGH"),
+       nrow(oldpeer),
+       sum(!tasks$figure_family%in%c("TR_BASIC","GP_SES_HIGH",
+                                  "EN_PERFORMANCE_PEER")),
+       sum(tasks$figure_family%in%c("GP_SES_GAP","GP_GENDER_GAP",
+          "GP_LANGUAGE_GAP","GP_MIGRATION_GAP","DS_SPREAD")),
+       3L*nrow(context)),
+    note=c("Historical task lock unchanged",
+      "Above basic is 100%-below basic; separate display removed",
+      "Original SES high/advanced only optional appendix",
+      "Original high-peer design is NOT the new primary below-basic design",
+      "Before candidate reuse, method/uncertainty gates apply",
+      "Point contrast derivable; SE needs covariance/PV/replicate support",
+      "Additional concepts outside 79448 original tasks; NOT approved compute"),
+    stringsAsFactors=FALSE)
+  write.csv(active,file.path(out,"ACTIVE_PRODUCT_RECONCILIATION.csv"),
+            row.names=FALSE)
   summary <- data.frame(
     total_contracts=nrow(tasks),
     archived_candidate_any=sum(tasks$archive_lo01_candidate |
