@@ -29,5 +29,35 @@ stopifnot(nrow(z)==1L,z$figure_id=="TR_MEAN_age15_reading",
  z$n_unweighted==5500,z$series_id=="total")
 hold<-read.csv(file.path(out,"PRIVATE_GUIDED_MAPPING_HOLDS.csv"))
 stopifnot(hold$reason=="OLD_HIGH_PEER_CANNOT_FILL_PRIMARY_BELOW_BASIC")
+# A separately certified BELOW-basic peer result is accepted; the old
+# high-peer result remains excluded despite having numeric evidence.
+peer<-tasks[2,,drop=FALSE]
+peer$metric_key<-"NEW_PEER_BELOW_BASIC|NLD|PISA|2025|reading|direct|self_below_basic"
+peer$module<-"peer_below_basic"
+peer$stat<-"peer_share_below_basic"
+peer$group<-"self_below_basic"
+peer$definition<-"below_basic_exclude_self_direct_or_school"
+tasks2<-rbind(tasks,peer)
+approved2<-approved
+for(field in c("peer_denominator_verified","self_exclusion_verified",
+               "method_certification_status"))
+  approved2[[field]]<-""
+other<-approved2[2,,drop=FALSE]
+other$cell_id<-peer$metric_key
+other$estimate<-12.5
+other$standard_error<-1.2
+other$result_hash<-sha("e")
+for(field in c("peer_denominator_verified","self_exclusion_verified",
+               "method_certification_status"))
+  other[[field]]<-"PASS"
+approved2<-rbind(approved2,other)
+out2<-file.path(work,"out_peer")
+presult<-lo_guided_grid_export(bundle,tasks2,approved2,out2)
+stopifnot(presult$guided_focus_rows==2L,presult$mapping_holds==1L)
+result2<-read.csv(file.path(out2,"PRIVATE_GUIDED_VALIDATED_ROWS.csv"))
+low<-result2[result2$series_id=="self_below_basic",,drop=FALSE]
+stopifnot(nrow(low)==1L,low$outcome_id=="peer_share_below_basic",
+          low$self_exclusion_verified=="PASS",
+          low$peer_denominator_verified=="PASS")
 unlink(work,recursive=TRUE)
 cat("PASS validated guided export, fixed source IDs and high-peer exclusion\n")
