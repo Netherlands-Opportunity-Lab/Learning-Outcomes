@@ -202,6 +202,23 @@ lo_compact_low_peer <- function(obj,q) {
   q$ci_high<-q$estimate+1.96*q$se
   q
 }
+# Use the pinned independent demographic-wave PV/replicate implementation.
+# It already estimates generation contrasts within each replicate, not from two SEs.
+lo_compact_generations <- function(obj,q) {
+  if(any(q$module!="migration_generation") || length(unique(q$domain))!=1L)
+    stop("COMPACT_GENERATION_WRONG_SCOPE")
+  data<-demographic_wave(obj,unique(q$domain))$results
+  if(!nrow(data))stop("COMPACT_GENERATION_NO_VALID_SOURCE_GROUPS")
+  data<-data[data$family=="migration_generation",,drop=FALSE]
+  match_key<-paste(q$stat,q$group,sep="|")
+  got<-paste(data$statistic,data$group,sep="|")
+  if(anyDuplicated(got)||anyNA(match(match_key,got)))
+    stop("COMPACT_GENERATION_MISSING_OR_AMBIGUOUS_GROUP")
+  z<-data[match(match_key,got),,drop=FALSE]
+  q$estimate<-z$estimate
+  q$se<-z$se
+  q
+}
 lo_compact_projection <- function(obj,q) {
   if(q$module[[1L]]!="peer_below_basic")return(lo4_projection(obj,q))
   if(!is.list(obj)||!is.data.frame(obj$data))stop("COMPACT_LOW_PEER_NO_SOURCE_DATA")
