@@ -31,9 +31,6 @@ lo_fixed_produce <- function(bundle,scope_info,tasks,out,
   if(!native_run) {
     run_status$native_execution <- "PREVIEW_ONLY"
   } else {
-    if(!exists("lo_v5_nld_core_execute",mode="function") &&
-       scope_info$scope=="nld_only")
-      stop("PRODUCTION_HOLD: native V5 route not loaded")
     # Integrated engine is source-SHA verified before this function is called.
     engine <- file.path(bundle,"code","INTEGRATED.R")
     if(!file.exists(engine))stop("PRODUCTION_HOLD: pinned engine missing")
