@@ -30,10 +30,6 @@ lo_fixed_produce <- function(bundle,scope_info,tasks,out,
     stringsAsFactors=FALSE)
   if(!native_run) {
     run_status$native_execution <- "PREVIEW_ONLY"
-  } else if(scope_info$scope=="all_required") {
-    # The pinned full-international mode includes systems outside the locked
-    # 50. It must not be invoked to simulate a selective 50-system run.
-    run_status$native_execution <- "HOLD_NO_TESTED_ALL50_SELECTIVE_ADAPTER"
   } else {
     if(!exists("lo_v5_nld_core_execute",mode="function") &&
        scope_info$scope=="nld_only")
@@ -46,11 +42,10 @@ lo_fixed_produce <- function(bundle,scope_info,tasks,out,
     cfg_original <- get("lo_integrated_cfg",envir=e,inherits=FALSE)
     e$lo_integrated_cfg <- function(b) {
       cfg <- cfg_original(b)
-      mode <- scope_info$scope
-      cfg$run_mode <- switch(mode,nld_only="NLD_ONLY",
-                                 nld_plus_19="NLD_PLUS_OECD_PPP")
-      cfg$phases <- switch(mode,nld_only="NLD",
-                        nld_plus_19=c("NLD","OECD19"))
+      mode <- if(scope_info$scope=="nld_only")"NLD_ONLY" else
+                "NLD_PLUS_OECD_PPP"
+      cfg$run_mode <- mode
+      cfg$phases <- if(mode=="NLD_ONLY")"NLD" else c("NLD","OECD19")
       cfg$candidate_calculation <- FALSE
       cfg$gc_policy <- "report_only"
       cfg$delete_files <- FALSE
@@ -71,7 +66,10 @@ lo_fixed_produce <- function(bundle,scope_info,tasks,out,
       run_status$native_execution <- "HOLD_NATIVE_ENGINE_FAILURE"
       run_status$engine_error <- substr(conditionMessage(result),1L,400L)
     } else {
-      run_status$native_execution <- "PINNED_NATIVE_ATTEMPTED_RESULTS_REQUIRE_QA"
+      run_status$native_execution <-
+        if(scope_info$scope=="all_required")
+          "PINNED_NATIVE_NLD19_ATTEMPTED_OTHER30_NEED_SCOPED_ADAPTER"
+        else "PINNED_NATIVE_ATTEMPTED_RESULTS_REQUIRE_QA"
       if(is.list(result) && "run"%in%names(result))
         run_status$private_run_id <- basename(result$run)
     }
