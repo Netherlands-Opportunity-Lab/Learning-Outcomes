@@ -464,7 +464,18 @@ lo_pipeline_main <- function() {
     private_root <- file.path(Sys.getenv("USERPROFILE",unset=path.expand("~")),
                              "Downloads","LO05_RESULTATEN")
     lo_minimum_figure_queue(bundle,private_root)
-    cat("FIGURE_MINIMUM_PLAN_COMPLETE: no pupil calculations and no deletions.\n")
+    if(file.exists(lo_pipeline_drive_config_path())) {
+      transfer <- tryCatch({
+        lo_pipeline_drive_publish(repo,"publish")
+        "VERIFIED"
+      },error=function(e) {
+        message("FIGURE_MINIMUM_PRIVATE_DRIVE_PENDING: ",
+                conditionMessage(e))
+        "PENDING"
+      })
+    } else transfer <- "NOT_CONFIGURED"
+    cat("FIGURE_MINIMUM_PLAN_COMPLETE: private_drive=",transfer,
+        "; no pupil calculations or deletions.\n",sep="")
     return(invisible(run))
   }
   if(action=="export-existing-nld") {
