@@ -32,13 +32,15 @@ lo_minimum_figure_queue <- function(bundle, root, expected_contracts=79448L,
     ifelse(tasks$figure_family=="GP_SES_HIGH","OPTIONAL_APPENDIX",
     ifelse(tasks$figure_family=="EN_PERFORMANCE_PEER",
       "ORIGINAL_HIGH_PEER_OPTIONAL_NEW_BELOW_BASIC_NOT_IN_LOCK",
+    ifelse(tasks$figure_family=="GP_SES_BASIC",
+      "DERIVE_BELOW_BASIC_BY_SES_FROM_ABOVE_COMPLEMENT",
     ifelse(tasks$figure_family %in% c("GP_SES_GAP","GP_GENDER_GAP",
                                      "DS_SPREAD","GP_MIGRATION_GAP",
                                      "GP_LANGUAGE_GAP"),
       "DERIVED_CONTRAST_REQUIRES_JOINT_VARIANCE",
     ifelse(tasks$figure_family=="EN_PERFORMANCE_PEER",
       "PRIMARY_BELOW_BASIC_OR_OPTIONAL_ADVANCED_REDEFINE_METRIC",
-      "ACTIVE_BASE_CONTRACT")))))
+      "ACTIVE_BASE_CONTRACT"))))))
   # A DERIVED label never proves that the inputs or their uncertainty exist.
   tasks$minimum_action <- ifelse(tasks$archive_lo01_candidate |
                                  tasks$archive_lo02_candidate,
