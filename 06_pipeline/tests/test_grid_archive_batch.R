@@ -34,7 +34,7 @@ cat("PASS strict archive provenance and two-cell shared-wave batch planning\n")
 
 
 # Historical archives are candidates only; no estimates are invented.
-cand <- lo_grid_mark_archive_candidates(g,c("k1","k2"),c("k2"))
+cand <- lo_grid_mark_archive_candidates(lo_grid_from_tasks(tasks),c("k1","k2"),c("k2"))
 stopifnot(cand$status[[1]]=="ARCHIVE_CANDIDATE_FOUND_NOT_VALIDATED",
           cand$status[[2]]=="ARCHIVE_CANDIDATE_FOUND_NOT_VALIDATED",
           cand$archive_source[[2]]=="LO02_CANDIDATE",
