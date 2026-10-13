@@ -78,6 +78,22 @@ lo_minimum_figure_queue <- function(bundle, root, expected_contracts=79448L,
     file.path(out,"PRIVATE_METRIC_REUSE_QUEUE.csv"),row.names=FALSE)
   write.csv(count,file.path(out,"FIGURE_FAMILY_COUNTRY_MODULE_COUNTS.csv"),row.names=FALSE)
   write.csv(detailed,file.path(out,"FIGURE_FAMILY_MINIMUM_ACTION_COUNTS.csv"),row.names=FALSE)
+  # Exact original figure IDs (132 task-linked) remain traceable; the
+  # other 6 ranks are independently derived from validated country means.
+  perfig <- aggregate(list(n=rep(1L,nrow(tasks))),
+    tasks[c("contract_figure_id","country","survey","product_decision",
+            "minimum_action")],sum)
+  write.csv(perfig,file.path(out,"FIGURE_ID_COUNTRY_MINIMUM_ACTION_COUNTS.csv"),
+            row.names=FALSE)
+  unused <- setdiff(fig$figure_id,tasks$contract_figure_id)
+  rank <- data.frame(figure_id=unused,
+      scientific_action=ifelse(grepl("^TR_POSITION_",unused),
+        "DERIVE_COUNTRY_RANK_FROM_VALIDATED_LEVELS",
+        "HOLD_UNLINKED_FIGURE_NEEDS_REVIEW"),
+      new_pupil_calculation="NO_AUTOMATIC_CALCULATION",
+      stringsAsFactors=FALSE)
+  write.csv(rank,file.path(out,"UNLINKED_DERIVED_FIGURES.csv"),
+            row.names=FALSE)
   # 2026-10-12 decision: the mandatory BELOW-basic peer measure is
   # NOT an outcome in the locked high-peer contract. Each old 3-task
   # peer-context tuple is a potential new 3-task low-peer design, NOT
