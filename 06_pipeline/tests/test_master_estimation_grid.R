@@ -1,0 +1,19 @@
+source("06_pipeline/MASTER_ESTIMATION_GRID.R",encoding="UTF-8")
+task<-data.frame(metric_key=c("m1","m2"),survey="PISA",
+ country="NLD",year="2022",domain="reading",module=c("core","gender"),
+ stat="mean",group=c("total","girls"),definition="score",
+ peer_definition="",threshold="",stringsAsFactors=FALSE)
+g<-lo_grid_from_tasks(task)
+stopifnot(nrow(g)==2L,all(is.na(g$estimate)),all(is.na(g$standard_error)),
+ all(is.na(g$n_unweighted)),!anyDuplicated(g$cell_id),
+ identical(names(g),lo_grid_schema()))
+candidate<-data.frame(cell_id="m1",estimate=490,standard_error=3,
+ n_unweighted=1500,input_fingerprint=paste(rep("a",64),collapse=""),
+ code_fingerprint=paste(rep("b",64),collapse=""),
+ result_hash=paste(rep("c",64),collapse=""),method_version="v1",
+ sample_id="PISA_NLD_2022",status="SCIENTIFICALLY_VALIDATED")
+stopifnot(isTRUE(lo_grid_validate_fill(g,candidate)))
+candidate$status<-"COMPUTED_PENDING_VALIDATION"
+err<-try(lo_grid_validate_fill(g,candidate),silent=TRUE)
+stopifnot(inherits(err,"try-error"))
+cat("PASS grid schema, blank-first and strict scientific fill gate\n")
