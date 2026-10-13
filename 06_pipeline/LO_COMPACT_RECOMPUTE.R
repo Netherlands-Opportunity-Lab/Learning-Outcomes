@@ -299,8 +299,7 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
   producer_files<-c(file.path(bundle,"engine",
       c("V11.R","BACKEND.R","REPAIRS.R","EXTENSIONS.R","engine.R")),
       file.path(bundle,"code",c("LO04_CACHE.R","LO04_COMMON.R")),
-      file.path(repo,"06_pipeline",
-        c("LO_COMPACT_RECOMPUTE.R","LO_COMPACT_GRID_STORE.R")))
+      file.path(repo,"06_pipeline","LO_COMPACT_RECOMPUTE.R"))
   if(any(!file.exists(producer_files)))stop("COMPACT_PINNED_PRODUCER_FILES_MISSING")
   codefp<-digest::digest(unname(vapply(producer_files,
     function(p)digest::digest(file=p,algo="sha256"),character(1L))),
