@@ -323,7 +323,7 @@ lo_pipeline_main <- function() {
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
               all="FULL_INTERNATIONAL")
   if (!scope %in% names(scopes)) stop("Unknown scope: ",scope)
-  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","reference-audit","storage-audit","storage-plan","storage-dedupe","storage-migrate","storage-retirement-plan","storage-cleanup-apply","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish","provenance-audit","audit-batch","reconcile-and-plan","cleanup-stage","cleanup-restore","cleanup-finalize","next-batch","reuse-preflight","test-only","execute-nld-core","export-existing-nld")
+  actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","reference-audit","storage-audit","storage-plan","storage-dedupe","storage-migrate","storage-retirement-plan","storage-cleanup-apply","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish","provenance-audit","audit-batch","reconcile-and-plan","cleanup-stage","cleanup-restore","cleanup-finalize","next-batch","reuse-preflight","test-only","execute-nld-core","export-existing-nld","figure-minimum-plan")
   if (!action %in% actions) stop("Unknown action: ",action)
 
   stamp <- format(Sys.time(),"%Y%m%d_%H%M%S")
@@ -455,6 +455,16 @@ lo_pipeline_main <- function() {
   if(action=="provenance-audit") {
     source(file.path(repo,"06_pipeline","PROVENANCE_AUDIT.R"),
            local=environment(),encoding="UTF-8")
+    return(invisible(run))
+  }
+  if(action=="figure-minimum-plan") {
+    bundle <- lo_pipeline_science_bundle(repo)
+    source(file.path(repo,"06_pipeline","MINIMUM_FIGURE_QUEUE.R"),
+           local=environment(),encoding="UTF-8")
+    private_root <- file.path(Sys.getenv("USERPROFILE",unset=path.expand("~")),
+                             "Downloads","LO05_RESULTATEN")
+    lo_minimum_figure_queue(bundle,private_root)
+    cat("FIGURE_MINIMUM_PLAN_COMPLETE: no pupil calculations and no deletions.\n")
     return(invisible(run))
   }
   if(action=="export-existing-nld") {
