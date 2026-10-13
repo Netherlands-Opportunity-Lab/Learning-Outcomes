@@ -32,6 +32,10 @@ stopifnot(x$total_contracts==4L,x$archived_candidate_any==3L,
           is.na(x$proven_new_computations))
 out <- file.path(root,"master_reconciliation","MINIMUM_FIGURE_QUEUE")
 q <- read.csv(file.path(out,"PRIVATE_METRIC_REUSE_QUEUE.csv"))
+perfig <- read.csv(file.path(out,"FIGURE_ID_COUNTRY_MINIMUM_ACTION_COUNTS.csv"))
+ranks <- read.csv(file.path(out,"UNLINKED_DERIVED_FIGURES.csv"))
+stopifnot(sum(perfig$n)==4L,nrow(ranks)==2L,
+  all(ranks$scientific_action=="HOLD_UNLINKED_FIGURE_NEEDS_REVIEW"))
 active <- read.csv(file.path(out,"ACTIVE_PRODUCT_RECONCILIATION.csv"))
 extra <- read.csv(file.path(out,"ADDITIONAL_BELOW_BASIC_PEER_CONTEXTS.csv"))
 stopifnot(nrow(extra)==1L,extra$proposed_result_cells[[1L]]==3L,
