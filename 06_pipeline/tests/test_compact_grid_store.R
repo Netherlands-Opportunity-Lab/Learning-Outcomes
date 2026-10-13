@@ -6,7 +6,7 @@ sha<-function(c)paste(rep(c,64L),collapse="")
 make_row<-function(estimate=504.1234567890123, input=sha("a"), status="COMPUTED_PENDING_VALIDATION") {
   data.frame(cell_id="NLD|PISA|2022|reading|core|mean",survey="PISA",
     country="NLD",year="2022",domain="reading",module="core",
-    stat="mean",subgroup="total",definition="total",
+    stat="mean",subgroup="total",definition="total",unit="score_points",
     peer_environment="",threshold="",estimate=estimate,standard_error=3.123456789,
     n_unweighted=5000L,input_fingerprint=input,
     producer_fingerprint=sha("b"),method_id="TEST_PV_REPLICATE",
@@ -35,7 +35,7 @@ stopifnot(summary$rows==1L,summary$complete==1L,
   file.exists(file.path(root,"COMPACT_DASHBOARD_ROUNDED.csv.gz")))
 full<-read.csv(gzfile(file.path(root,"COMPACT_MASTER_GRID.csv.gz")))
 display<-read.csv(gzfile(file.path(root,"COMPACT_DASHBOARD_ROUNDED.csv.gz")))
-stopifnot(abs(full$estimate[1]-504.1234567890123)<1e-9,
+stopifnot(full$unit[1]=="score_points",abs(full$estimate[1]-504.1234567890123)<1e-9,
   display$estimate[1]==504.1,display$standard_error[1]==3.12,
   full$n_unweighted[1]==5000L,
   summary$full_csv_bytes < 20000)
