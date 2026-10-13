@@ -14,7 +14,7 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out) {
      anyDuplicated(figures$figure_id))
     stop("GUIDED_EXPORT_HOLD: source figure registry changed")
   if(!all(c("metric_key","contract_figure_id","country","survey",
-            "year","domain","group","stat")%in%names(tasks)) ||
+            "year","domain","group","stat","definition")%in%names(tasks)) ||
       anyDuplicated(tasks$metric_key))
     stop("GUIDED_EXPORT_HOLD: source task identity changed")
   if(!nrow(approved)) {
@@ -54,6 +54,10 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out) {
     }
     if(family=="GP_SES_HIGH") {
       omit(i,"OPTIONAL_APPENDIX_NOT_REQUIRED_FOR_MAIN_42");next
+    }
+    if(family=="GP_SES_BASIC") {
+      omit(i,"HOLD_BELOW_BASIC_BY_SES_COMPLEMENT_REQUIRES_DEFINED_UNIT_AND_CI")
+      next
     }
     group<-as.character(source$group[i])
     expected<-strsplit(f$expected_series[[1]],";",fixed=TRUE)[[1]]
