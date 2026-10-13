@@ -103,6 +103,15 @@ write.csv(data.frame(total_contracts=4,archived_candidate_any=3,
           file.path(min_dir,"MINIMUM_COMPUTE_BOUNDS.csv"),row.names=FALSE)
 write.csv(data.frame(metric_key="SENSITIVE_PRIVATE_KEY"),
           file.path(min_dir,"PRIVATE_METRIC_REUSE_QUEUE.csv"),row.names=FALSE)
+# Full metric estimation grid is allowed ONLY in the private Drive; unknown
+# raw pupil identifiers are not. Synthetic values are not a scientific release.
+fixed <- file.path(root,"FIXED_PRODUCTION_V1","nld_only")
+dir.create(fixed,recursive=TRUE)
+write.csv(data.frame(cell_id="SYNTH|NLD|PISA",survey="PISA",
+    country="NLD",year="2025",estimate=NA_real_,
+    standard_error=NA_real_,n_unweighted=NA_integer_,
+    status="ARCHIVE_CANDIDATE_FOUND_NOT_VALIDATED"),
+    file.path(fixed,"PRIVATE_MASTER_GRID.csv"),row.names=FALSE)
 Sys.setenv(LO_DRIVE_SYNC_RUN_ID=run_id)
 ans <- lo_drive_sync(cfg,action="publish",rclone_override=fake_exe,
                      producer_commit="TEST_ONLY")
@@ -120,6 +129,10 @@ stopifnot(file.exists(file.path(remote_folder,"reports","minimum_figures",
   "MINIMUM_COMPUTE_BOUNDS.csv")),
   !file.exists(file.path(remote_folder,"reports","minimum_figures",
     "PRIVATE_METRIC_REUSE_QUEUE.csv")))
+stopifnot(file.exists(file.path(remote_folder,"reports",
+      "fixed_pipeline","nld_only","PRIVATE_MASTER_GRID.csv")),
+  file.exists(file.path(remote_folder,"reports",
+      "fixed_pipeline","nld_only","PRIVATE_AGGREGATE_BACKUP_COVERAGE.csv")))
 remote_latest <- file.path(remote_folder,"LATEST.json")
 stopifnot(file.exists(remote_latest))
 pointer <- jsonlite::fromJSON(remote_latest)
