@@ -204,6 +204,15 @@ lo_compact_low_peer <- function(obj,q) {
 }
 # Use the pinned independent demographic-wave PV/replicate implementation.
 # It already estimates generation contrasts within each replicate, not from two SEs.
+# Preserve locked product identifiers, but pass the precise parent-birthplace
+# predicate to the scientific backend and include those variables in input SHA.
+lo_compact_backend_tasks <- function(q) {
+  x<-q
+  is_any<-x$definition=="MIGRATION_ANY_PARENT_ABROAD" &
+    x$module%in%c("migration","migration_binary_peer","peer_baseline")
+  x$definition[is_any]<-"nl_one_parent_abroad"
+  x
+}
 lo_compact_generations <- function(obj,q) {
   if(any(q$module!="migration_generation") || length(unique(q$domain))!=1L)
     stop("COMPACT_GENERATION_WRONG_SCOPE")
