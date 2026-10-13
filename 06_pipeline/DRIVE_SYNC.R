@@ -272,7 +272,9 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
        "ACTIVE_PRODUCT_RECONCILIATION.csv",
        "ADDITIONAL_BELOW_BASIC_PEER_CONTEXTS.csv",
        "FIGURE_ID_COUNTRY_MINIMUM_ACTION_COUNTS.csv",
-       "UNLINKED_DERIVED_FIGURES.csv")
+       "UNLINKED_DERIVED_FIGURES.csv",
+       "GRID_ARCHIVE_FILL_COUNTS.csv",
+       "GRID_BATCH_READY_COUNTS.csv")
     chosen <- file.path(base,allowed)
     chosen <- chosen[file.exists(chosen)]
     for(p in chosen) {
