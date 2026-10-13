@@ -1,0 +1,163 @@
+# Compact, single-writer result ledger. No student rows or checkpoint copies.
+# One current row per primitive scientific identity. A row is NOT a release.
+lo_compact_open <- function(root) {
+  for (p in c("DBI", "RSQLite", "digest"))
+    if (!requireNamespace(p, quietly=TRUE)) stop("Missing R package: ",p)
+  dir.create(root, recursive=TRUE, showWarnings=FALSE)
+  database <- file.path(root,"COMPACT_MASTER_GRID.sqlite")
+  con <- DBI::dbConnect(RSQLite::SQLite(),database)
+  tryCatch({
+    DBI::dbExecute(con,"PRAGMA busy_timeout=15000")
+    DBI::dbExecute(con,"PRAGMA journal_mode=WAL")
+    DBI::dbExecute(con,"PRAGMA synchronous=FULL")
+    DBI::dbExecute(con,paste0("CREATE TABLE IF NOT EXISTS grid (",
+      "cell_id TEXT PRIMARY KEY, survey TEXT NOT NULL, country TEXT NOT NULL, ",
+      "year TEXT NOT NULL, domain TEXT NOT NULL, module TEXT NOT NULL, ",
+      "stat TEXT NOT NULL, subgroup TEXT NOT NULL, definition TEXT NOT NULL, ",
+      "peer_environment TEXT NOT NULL, threshold TEXT NOT NULL, ",
+      "estimate REAL, standard_error REAL, n_unweighted INTEGER, ",
+      "input_fingerprint TEXT NOT NULL, producer_fingerprint TEXT NOT NULL, ",
+      "method_id TEXT NOT NULL, status TEXT NOT NULL, hold_reason TEXT NOT NULL)"))
+    DBI::dbExecute(con,paste0("CREATE TABLE IF NOT EXISTS batches (",
+      "batch_key TEXT PRIMARY KEY, survey TEXT NOT NULL, country TEXT NOT NULL, ",
+      "year TEXT NOT NULL, scope TEXT NOT NULL, status TEXT NOT NULL, ",
+      "n_rows INTEGER NOT NULL)"))
+    DBI::dbExecute(con,"CREATE INDEX IF NOT EXISTS grid_status ON grid(status)")
+    DBI::dbExecute(con,"CREATE INDEX IF NOT EXISTS grid_country ON grid(country,survey,year)")
+    if(!identical(DBI::dbGetQuery(con,"PRAGMA integrity_check")[[1L]][1L],"ok"))
+      stop("COMPACT_GRID_DB_CORRUPT")
+    con
+  },error=function(e){DBI::dbDisconnect(con);stop(e)})
+}
+lo_compact_close <- function(con) {
+  if(DBI::dbIsValid(con)) DBI::dbDisconnect(con)
+  invisible(TRUE)
+}
+lo_compact_require <- function(x) {
+  required <- c("cell_id","survey","country","year","domain","module",
+                "stat","subgroup","definition","peer_environment","threshold",
+                "estimate","standard_error","n_unweighted",
+                "input_fingerprint","producer_fingerprint","method_id",
+                "status","hold_reason")
+  if(!is.data.frame(x)||!length(x$cell_id)||!all(required%in%names(x))||
+     anyDuplicated(x$cell_id)||anyNA(x$cell_id)||any(!nzchar(x$cell_id)))
+    stop("COMPACT_GRID_INVALID_KEYS_OR_COLUMNS")
+  ok <- x$status=="COMPUTED_PENDING_VALIDATION"
+  if(anyNA(ok) || any(!x$status%in%c("COMPUTED_PENDING_VALIDATION","HOLD","UNAVAILABLE")))
+    stop("COMPACT_GRID_INVALID_STATUS")
+  if(any(ok)) {
+    y <- x[ok,,drop=FALSE]
+    for(k in c("estimate","standard_error","n_unweighted"))
+      if(anyNA(y[[k]])||any(!is.finite(as.numeric(y[[k]]))))
+        stop("COMPACT_GRID_MISSING_ESTIMATE_SE_OR_N")
+    if(any(as.numeric(y$standard_error)<0)||any(as.numeric(y$n_unweighted)<1)||
+       any(as.numeric(y$n_unweighted)!=floor(as.numeric(y$n_unweighted))))
+      stop("COMPACT_GRID_INVALID_SE_OR_N")
+    for(k in c("input_fingerprint","producer_fingerprint"))
+      if(any(!grepl("^[a-fA-F0-9]{64}$",y[[k]])))
+        stop("COMPACT_GRID_MISSING_FINGERPRINT")
+    if(any(!nzchar(y$method_id))||any(nzchar(y$hold_reason)))
+      stop("COMPACT_GRID_INVALID_METHOD_OR_HOLD")
+  }
+  invisible(TRUE)
+}
+lo_compact_put <- function(con,x) {
+  lo_compact_require(x)
+  names_sql <- names(DBI::dbGetQuery(con,"SELECT * FROM grid LIMIT 0"))
+  x <- x[,names_sql,drop=FALSE]
+  ix <- which(x$status=="COMPUTED_PENDING_VALIDATION")
+  if(length(ix)) {
+    for(i in ix) {
+      old <- DBI::dbGetQuery(con,
+        "SELECT input_fingerprint,producer_fingerprint,method_id,estimate,standard_error,n_unweighted,status FROM grid WHERE cell_id=?",
+        params=list(x$cell_id[[i]]))
+      if(nrow(old) && identical(old$status[[1L]],"COMPUTED_PENDING_VALIDATION") &&
+         identical(old$input_fingerprint[[1L]],x$input_fingerprint[[i]]) &&
+         identical(old$producer_fingerprint[[1L]],x$producer_fingerprint[[i]]) &&
+         identical(old$method_id[[1L]],x$method_id[[i]]) &&
+         (!identical(old$estimate[[1L]],x$estimate[[i]]) ||
+          !identical(old$standard_error[[1L]],x$standard_error[[i]]) ||
+          !identical(as.numeric(old$n_unweighted[[1L]]),as.numeric(x$n_unweighted[[i]]))))
+        stop("COMPACT_GRID_CONFLICT_IDENTICAL_SCIENCE_ID: ",x$cell_id[[i]])
+    }
+  }
+  inserted <- 0L; reused <- 0L
+  DBI::dbWithTransaction(con,{
+    sql <- paste0("INSERT INTO grid (",paste(names_sql,collapse=","),
+      ") VALUES (",paste(rep("?",length(names_sql)),collapse=","),") ",
+      "ON CONFLICT(cell_id) DO UPDATE SET ",
+      paste(sprintf("%s=excluded.%s",names_sql[-1L],names_sql[-1L]),collapse=","))
+    for(i in seq_len(nrow(x))) {
+      old <- DBI::dbGetQuery(con,
+        "SELECT input_fingerprint,producer_fingerprint,method_id,status FROM grid WHERE cell_id=?",
+        params=list(x$cell_id[[i]]))
+      if(nrow(old) && identical(old$status[[1L]],"COMPUTED_PENDING_VALIDATION") &&
+         identical(old$input_fingerprint[[1L]],x$input_fingerprint[[i]]) &&
+         identical(old$producer_fingerprint[[1L]],x$producer_fingerprint[[i]]) &&
+         identical(old$method_id[[1L]],x$method_id[[i]])) {
+        reused <- reused+1L
+        next
+      }
+      # A subsequent incomplete attempt can never erase a complete matching result.
+      if(nrow(old)&&old$status[[1L]]=="COMPUTED_PENDING_VALIDATION" &&
+         x$status[[i]]!="COMPUTED_PENDING_VALIDATION") next
+      DBI::dbExecute(con,sql,params=unname(as.list(x[i,names_sql,drop=FALSE])))
+      inserted <- inserted+1L
+    }
+  })
+  list(written=inserted,reused=reused)
+}
+lo_compact_known <- function(con,ids,input_fingerprint,producer_fingerprint,method_id) {
+  if(!length(ids))return(logical())
+  if(length(unique(ids))!=length(ids))stop("COMPACT_GRID_DUPLICATE_QUERY")
+  out<-rep(FALSE,length(ids))
+  for(i in seq_along(ids)) {
+    z<-DBI::dbGetQuery(con,
+      paste0("SELECT 1 FROM grid WHERE cell_id=? AND input_fingerprint=? ",
+        "AND producer_fingerprint=? AND method_id=? ",
+        "AND status='COMPUTED_PENDING_VALIDATION' LIMIT 1"),
+      params=list(ids[[i]],input_fingerprint,producer_fingerprint,method_id))
+    out[[i]]<-nrow(z)==1L
+  }
+  out
+}
+lo_compact_hold_rows <- function(tasks,reason,input_fp="",producer_fp="",method="UNAVAILABLE") {
+  if(!nrow(tasks))return(data.frame())
+  data.frame(cell_id=tasks$metric_key,survey=tasks$survey,country=tasks$country,
+     year=tasks$year,domain=tasks$domain,module=tasks$module,
+     stat=tasks$stat,subgroup=tasks$group,definition=tasks$definition,
+     peer_environment=tasks$peer_definition,threshold=tasks$threshold,
+     estimate=NA_real_,standard_error=NA_real_,n_unweighted=NA_integer_,
+     input_fingerprint=input_fp,producer_fingerprint=producer_fp,
+     method_id=method,status="HOLD",hold_reason=substr(reason,1L,350L),
+     stringsAsFactors=FALSE)
+}
+lo_compact_export <- function(con,root) {
+  # CSV is a compatibility export; SQLite is authoritative. No history/replicate dumps.
+  x<-DBI::dbGetQuery(con,"SELECT * FROM grid ORDER BY country,survey,year,cell_id")
+  file<-file.path(root,"COMPACT_MASTER_GRID.csv.gz")
+  stage<-paste0(file,".new")
+  if(file.exists(stage))unlink(stage)
+  gc<-gzfile(stage,"wt",compression=9)
+  tryCatch({write.csv(x,gc,row.names=FALSE,na="",digits=17);close(gc)},
+    error=function(e){try(close(gc),silent=TRUE);unlink(stage);stop(e)})
+  if(file.exists(file) && !file.remove(file))stop("COMPACT_GRID_EXPORT_LOCKED")
+  if(!file.rename(stage,file))stop("COMPACT_GRID_EXPORT_RENAME_FAILED")
+  # Display-only rounding; never round source estimates before comparisons.
+  y<-x[x$status=="COMPUTED_PENDING_VALIDATION",,drop=FALSE]
+  y$estimate<-round(y$estimate,1L)
+  y$standard_error<-round(y$standard_error,2L)
+  presentation<-file.path(root,"COMPACT_DASHBOARD_ROUNDED.csv.gz")
+  stage2<-paste0(presentation,".new")
+  if(file.exists(stage2))unlink(stage2)
+  gc2<-gzfile(stage2,"wt",compression=9)
+  tryCatch({write.csv(y,gc2,row.names=FALSE,na="");close(gc2)},
+    error=function(e){try(close(gc2),silent=TRUE);unlink(stage2);stop(e)})
+  if(file.exists(presentation) && !file.remove(presentation))stop("COMPACT_DISPLAY_EXPORT_LOCKED")
+  if(!file.rename(stage2,presentation))stop("COMPACT_DISPLAY_EXPORT_RENAME_FAILED")
+  data.frame(rows=nrow(x),complete=sum(x$status=="COMPUTED_PENDING_VALIDATION"),
+     holds=sum(x$status=="HOLD"),database_bytes=file.info(file.path(root,
+        "COMPACT_MASTER_GRID.sqlite"))$size,
+     full_csv_bytes=file.info(file)$size,
+     display_csv_bytes=file.info(presentation)$size)
+}
