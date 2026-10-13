@@ -39,3 +39,17 @@ Gecombineerde gelijk gewogen referentiegroep: **alleen puntlijn, geen SE/CI/fout
 `MASTER_ESTIMATION_GRID.R` definieert nu vast schema en fail-closed validatie voor het vullen uit bestaande archieven; `RUN.R` maakt bij de bestaande read-only `figure-minimum-plan` automatisch `PRIVATE_MASTER_ESTIMATION_GRID.csv`, uitsluitend op de lokale Windows-analyseomgeving. Alleen gezuiverde aggregaatrapporten komen op Google Drive via de bestaande allowlist; persoonlijke volledige cell-ID-rijen nooit op de publieke GitHub branch. Dit is fase 1: **nog geen gevalideerde archiefvulling**, dus het grid wordt niet onterecht als wetenschappelijk compleet gepresenteerd.
 
 Volgende implementatiefase: concrete `GRID_DERIVED_RELATIONSHIPS`, `GRID_FIGURE_DEPENDENCIES`, en archiefhergebruik-adapters koppelen aan exacte outcome/sample/construction; vervolgens geteste gedeelde-wave batchproducer. Alle output via GitHub-code en private Google Drive, geen handmatige ZIPs en geen automatische verwijdering.
+
+## Implementatie 13 oktober — archiefvulling en batchplanner
+
+`GRID_ARCHIVE_BATCH.R` bevat nu (i) `lo_grid_mark_archive_candidates` die LO01/LO02 exact op metric_key herkent maar nooit estimates/SE/N invult; (ii) `lo_grid_archive_fill` die alleen onafhankelijk `SCIENTIFICALLY_VALIDATED` verklaarde, van 64-char source-/code-/result-hashes voorziene en exact op `cell_id + sample_id` passende statistische resultaten vult; (iii) `lo_grid_batch_plan` die uitsluitend voor expliciet `COMPUTE_REQUIRED_AFTER_METHOD_GATE` goedgekeurde cellen met compleet sample-/input-/methode-/weight-/PV-/variance-design één gezamenlijke berekenbatch vormt. De batchplanner executeert geen microdata-code: de methodespecifieke batchproducer volgt na survey-gates.
+
+De bestaande GitHub-actie `figure-minimum-plan` maakt nu in één uitvoering:
+- `PRIVATE_MASTER_ESTIMATION_GRID.csv` met de volledige 79.448 historische contract-IDs, `estimate`/`SE`/`N` ontbrekend tenzij exact gevalideerd;
+- `GRID_DERIVED_RELATIONSHIPS.csv` voor contrasten/benchmarks; geen dubbele leerlingruns;
+- `GRID_ARCHIVE_FILL_COUNTS.csv` en `GRID_BATCH_READY_COUNTS.csv`, veilige samenvattingen die naar private Google Drive kunnen;
+- de eerder vastgelegde 138-figurenafdekking en nieuwe below-basic peervereisten.
+
+Als lokaal reeds een onafhankelijk gevalideerde `master_reconciliation/SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv` met volledig bewijs bestaat, gebruikt de runner die read-only; ontbreekt ze, dan blijven de archiefkandidaten kandidaat en wordt er niets gefabriceerd. De private volledige metric-key-grid wordt niet naar publieke GitHub of Google Drive geëxporteerd onder de samenvattingsallowlist.
+
+De volgende echte wetenschappelijke producerstap moet de precieze PV/replicate-methode en input-edities per survey met de batch-ID verbinden; geen algemene reken-release uit louter grid/queue-status.
