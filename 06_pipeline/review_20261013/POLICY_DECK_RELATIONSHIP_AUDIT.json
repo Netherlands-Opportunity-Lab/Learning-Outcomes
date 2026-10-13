@@ -1,0 +1,197 @@
+{
+  "file": "BELEIDSDECK_21_SLIDES_20261001.pptx",
+  "sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+  "ordered_slide_count": 21,
+  "resolved_slide_count": 21,
+  "unique_linked_charts": 48,
+  "missing_targets": [],
+  "slides": [
+    {
+      "number": 1,
+      "part": "ppt/slides/slide1.xml",
+      "title": "Nederlandse leerprestaties",
+      "chart_parts": []
+    },
+    {
+      "number": 2,
+      "part": "ppt/slides/slide2.xml",
+      "title": "Gemiddelde scores door de tijd",
+      "chart_parts": []
+    },
+    {
+      "number": 3,
+      "part": "ppt/slides/slide3.xml",
+      "title": "Verdeling: onderkant, midden en bovenkant",
+      "chart_parts": []
+    },
+    {
+      "number": 4,
+      "part": "ppt/slides/slide4.xml",
+      "title": "Gemiddelde score naar sociale achtergrond",
+      "chart_parts": []
+    },
+    {
+      "number": 5,
+      "part": "ppt/slides/slide5.xml",
+      "title": "Verschil tussen bovenste en onderste kwart SES",
+      "chart_parts": []
+    },
+    {
+      "number": 6,
+      "part": "ppt/slides/slide6.xml",
+      "title": "Aandeel op of boven het basisniveau naar SES",
+      "chart_parts": []
+    },
+    {
+      "number": 7,
+      "part": "ppt/slides/v8_slide6.xml",
+      "title": "Gemiddelde score naar trendvergelijkbare SES",
+      "chart_parts": [
+        "ppt/slides/charts/v8_chart22.xml",
+        "ppt/slides/charts/v8_chart23.xml",
+        "ppt/slides/charts/v8_chart24.xml"
+      ]
+    },
+    {
+      "number": 8,
+      "part": "ppt/slides/v8_slide7.xml",
+      "title": "Scorekloof naar trendvergelijkbare SES",
+      "chart_parts": [
+        "ppt/slides/charts/v8_chart25.xml",
+        "ppt/slides/charts/v8_chart26.xml",
+        "ppt/slides/charts/v8_chart27.xml"
+      ]
+    },
+    {
+      "number": 9,
+      "part": "ppt/slides/v8_slide8.xml",
+      "title": "Basisniveau naar trendvergelijkbare SES",
+      "chart_parts": [
+        "ppt/slides/charts/v8_chart28.xml",
+        "ppt/slides/charts/v8_chart29.xml",
+        "ppt/slides/charts/v8_chart30.xml"
+      ]
+    },
+    {
+      "number": 10,
+      "part": "ppt/slides/v8_slide9.xml",
+      "title": "Hoog vaardigheidsniveau naar sociale achtergrond",
+      "chart_parts": [
+        "ppt/slides/charts/v8_chart31.xml",
+        "ppt/slides/charts/v8_chart32.xml",
+        "ppt/slides/charts/v8_chart33.xml",
+        "ppt/slides/charts/v8_chart34.xml",
+        "ppt/slides/charts/v8_chart35.xml",
+        "ppt/slides/charts/v8_chart36.xml"
+      ]
+    },
+    {
+      "number": 11,
+      "part": "ppt/slides/slide7.xml",
+      "title": "Gemiddelde score naar geslacht",
+      "chart_parts": []
+    },
+    {
+      "number": 12,
+      "part": "ppt/slides/slide8.xml",
+      "title": "Gemiddelde score naar taalgebruik thuis",
+      "chart_parts": [
+        "ppt/slides/charts/taal20261001_chart1.xml",
+        "ppt/slides/charts/taal20261001_chart2.xml",
+        "ppt/slides/charts/taal20261001_chart3.xml"
+      ]
+    },
+    {
+      "number": 13,
+      "part": "ppt/slides/slide9.xml",
+      "title": "Gemiddelde score naar migratieachtergrond",
+      "chart_parts": [
+        "ppt/slides/charts/v8_chart43.xml",
+        "ppt/slides/charts/v8_chart44.xml",
+        "ppt/slides/charts/v8_chart45.xml"
+      ]
+    },
+    {
+      "number": 14,
+      "part": "ppt/slides/v8_slide4.xml",
+      "title": "Gemiddelde score naar migratiegeneratie",
+      "chart_parts": [
+        "ppt/slides/charts/v8_chart10.xml",
+        "ppt/slides/charts/v8_chart11.xml",
+        "ppt/slides/charts/v8_chart12.xml",
+        "ppt/slides/charts/v8_chart13.xml",
+        "ppt/slides/charts/v8_chart14.xml",
+        "ppt/slides/charts/v8_chart15.xml"
+      ]
+    },
+    {
+      "number": 15,
+      "part": "ppt/slides/v8_slide5.xml",
+      "title": "Scoreverschillen naar migratiegeneratie",
+      "chart_parts": [
+        "ppt/slides/charts/v8_chart16.xml",
+        "ppt/slides/charts/v8_chart17.xml",
+        "ppt/slides/charts/v8_chart18.xml",
+        "ppt/slides/charts/v8_chart19.xml",
+        "ppt/slides/charts/v8_chart20.xml",
+        "ppt/slides/charts/v8_chart21.xml"
+      ]
+    },
+    {
+      "number": 16,
+      "part": "ppt/slides/slide10.xml",
+      "title": "Lage-SES leerlingen: aandeel hoge-SES klasgenoten",
+      "chart_parts": [
+        "ppt/slides/charts/v8_chart1.xml",
+        "ppt/slides/charts/v8_chart2.xml",
+        "ppt/slides/charts/v8_chart3.xml"
+      ]
+    },
+    {
+      "number": 17,
+      "part": "ppt/slides/slide11.xml",
+      "title": "Hoge-SES leerlingen: aandeel lage-SES klasgenoten",
+      "chart_parts": [
+        "ppt/slides/charts/v8_chart4.xml",
+        "ppt/slides/charts/v8_chart5.xml",
+        "ppt/slides/charts/v8_chart6.xml"
+      ]
+    },
+    {
+      "number": 18,
+      "part": "ppt/slides/slide12.xml",
+      "title": "Niet-Nederlandse thuistaal: % peers met Nederlandse thuistaal",
+      "chart_parts": []
+    },
+    {
+      "number": 19,
+      "part": "ppt/slides/slide13.xml",
+      "title": "Migratiegeneraties: peers zonder migratieachtergrond",
+      "chart_parts": [
+        "ppt/slides/charts/v8_chart7.xml",
+        "ppt/slides/charts/v8_chart8.xml",
+        "ppt/slides/charts/v8_chart9.xml"
+      ]
+    },
+    {
+      "number": 20,
+      "part": "ppt/slides/v8_slide10.xml",
+      "title": "Hoogpresterende klasgenoten naar eigen vaardigheidsniveau",
+      "chart_parts": [
+        "ppt/slides/charts/v8_chart37.xml",
+        "ppt/slides/charts/v8_chart38.xml",
+        "ppt/slides/charts/v8_chart39.xml",
+        "ppt/slides/charts/v8_chart40.xml",
+        "ppt/slides/charts/v8_chart41.xml",
+        "ppt/slides/charts/v8_chart42.xml"
+      ]
+    },
+    {
+      "number": 21,
+      "part": "ppt/slides/v8_slide11.xml",
+      "title": "Dekking van de trendvergelijkbare SES-reeks",
+      "chart_parts": []
+    }
+  ],
+  "validation_scope": "Package relationship audit, not visual or scientific validation"
+}

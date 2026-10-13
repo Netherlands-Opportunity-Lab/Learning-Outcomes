@@ -1,0 +1,27 @@
+{
+  "scan_utc": "2026-10-13T18:26:39Z",
+  "files": 46020,
+  "classification": {
+    "UNATTRIBUTED": {
+      "files": 5001,
+      "bytes": 25021809395
+    },
+    "PROJECT_NAME_CANDIDATE": {
+      "files": 5707,
+      "bytes": 10610882675
+    },
+    "R_RELATED_CANDIDATE": {
+      "files": 20,
+      "bytes": 683356
+    },
+    "KNOWN_PROJECT_WORKSPACE": {
+      "files": 35292,
+      "bytes": 96788250162
+    }
+  },
+  "errors": 0,
+  "skipped_reparse_entries": 0,
+  "content_hashed": false,
+  "deleted_files": 0,
+  "limitations": "Metadata attribution only. Private inventory contains unrelated filenames; never publish it. Reparse points are not traversed."
+}
