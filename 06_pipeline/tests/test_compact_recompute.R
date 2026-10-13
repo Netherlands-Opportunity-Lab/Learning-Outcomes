@@ -56,4 +56,26 @@ stopifnot(is.na(lo_compact_count_n(obj2,q)[[2L]]))
 # Singletons have no eligible peer denominator. N cannot be fabricated.
 obj3<-obj;obj3$data$SCHOOL<-c("A","B","C","D")
 stopifnot(all(is.na(lo_compact_count_n(obj3,q))))
+# The historical any-parent ID must invoke the actual any-parent science
+# predicate, including both parent birthplace columns in its input SHA.
+contract<-tasks[4L,,drop=FALSE]
+contract$definition<-"MIGRATION_ANY_PARENT_ABROAD"
+contract$module<-"migration"
+contract$metric_key<-"immutable_original_metric_key"
+mapped<-lo_compact_backend_tasks(contract)
+stopifnot(mapped$definition=="nl_one_parent_abroad",
+          identical(mapped$metric_key,contract$metric_key),
+          contract$definition=="MIGRATION_ANY_PARENT_ABROAD")
+# Exact pooled-score observation counts for source-labelled generations.
+obj$data$DEMO_MIGRATION<-c("native","first_generation","second_generation","native")
+migration_groups<-function(obj)list(ok=TRUE,group=obj$data$DEMO_MIGRATION)
+gens<-tasks[rep(4L,5L),,drop=FALSE]
+gens$module<-"migration_generation"
+gens$stat<-c(rep("mean_score",3L),rep("mean_score_gap",2L))
+gens$group<-c("native","first_generation","second_generation",
+              "first_generation_minus_native","second_generation_minus_native")
+gens$metric_key<-paste0("g",seq_len(nrow(gens)))
+gn<-lo_compact_count_n(obj,gens)
+stopifnot(identical(as.integer(gn),c(2L,1L,1L,3L,3L)))
+cat("PASS source migration contract mapping and generation-level unweighted N\\n")
 cat("PASS active minimal policy and below-basic self-excluded peer estimates, exact N and PV-N HOLD\n")
