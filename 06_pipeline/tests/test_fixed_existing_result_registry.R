@@ -46,7 +46,7 @@ stopifnot(e$summary$scope_contracts==3L,
  e$summary$without_archive_candidate==0L,
  e$summary$approved_to_reuse==0L,
  e$summary$approved_to_compute==0L,
- e$summary$candidate_rows_with_numeric_se==1L,
+ e$summary$candidate_rows_with_numeric_se==2L,
  e$summary$candidate_rows_with_sample_n==0L,
  e$summary$additional_v8_v9_coarse_candidate_keys==0L,
  e$summary$sqlite_and_parquet_records>=1L)
