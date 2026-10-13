@@ -90,3 +90,44 @@ lo_grid_mark_archive_candidates <- function(grid,lo01_keys,lo02_keys) {
   # Never populate estimates, SE, or N from an unverified candidate.
   grid
 }
+
+
+# Independent execution certifications cannot silently convert missing files
+# into work orders. This targets ONLY source-locked empty cells with complete
+# method, PV/replicate and input/producer fingerprints.
+lo_grid_apply_compute_approvals <- function(grid,approved) {
+  mandatory <- c("cell_id","decision","certification_status",
+    "target_contract_sha256","source_edition_sha256",
+    "input_fingerprint","code_fingerprint","sample_id",
+    "method_version","weight_design","pv_rule","variance_rule")
+  if(!all(mandatory%in%names(approved)) ||
+     anyDuplicated(approved$cell_id) ||
+     any(!approved$cell_id%in%grid$cell_id))
+    stop("GRID_COMPUTE_HOLD: invalid or uncontracted execution approvals")
+  if(!nrow(approved))return(grid)
+  ix <- match(approved$cell_id,grid$cell_id)
+  if(any(approved$decision!="COMPUTE_REQUIRED" |
+     approved$certification_status!="METHOD_SAMPLE_INPUT_CERTIFIED"))
+    stop("GRID_COMPUTE_HOLD: certification must explicitly authorize computation")
+  if(any(grid$status[ix]=="SCIENTIFICALLY_VALIDATED" |
+         is.finite(suppressWarnings(as.numeric(grid$estimate[ix])))))
+    stop("GRID_COMPUTE_HOLD: refusal to overwrite available verified estimates")
+  if(any(approved$target_contract_sha256!=grid$target_contract_sha256[ix]))
+    stop("GRID_COMPUTE_HOLD: exact immutable science target hash differs")
+  for(k in c("input_fingerprint","code_fingerprint","source_edition_sha256",
+             "target_contract_sha256"))
+    if(anyNA(approved[[k]])||
+       any(!grepl("^[0-9a-fA-F]{64}$",approved[[k]])))
+      stop("GRID_COMPUTE_HOLD: invalid SHA field ",k)
+  for(k in c("sample_id","method_version","weight_design",
+             "pv_rule","variance_rule"))
+    if(anyNA(approved[[k]])||any(!nzchar(approved[[k]])))
+      stop("GRID_COMPUTE_HOLD: method or sample not certified: ",k)
+  for(k in intersect(names(approved),names(grid)))
+    if(!k%in%c("cell_id","target_contract_sha256","estimate",
+               "standard_error","n_unweighted","status","hold_reason"))
+      grid[[k]][ix] <- approved[[k]]
+  grid$status[ix] <- "COMPUTE_REQUIRED_AFTER_METHOD_GATE"
+  grid$hold_reason[ix] <- "Exact input/producer fingerprints will be rechecked at production"
+  grid
+}
