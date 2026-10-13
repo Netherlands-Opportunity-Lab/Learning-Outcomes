@@ -55,3 +55,27 @@ lo_grid_validate_fill <- function(grid, candidate) {
      stop("GRID_FILL_HOLD: scientific validation or provenance missing")
   invisible(TRUE)
 }
+
+# Derived output contract: do not treat differences as independent pupil runs.
+lo_grid_derived_contract <- function() {
+  data.frame(derived_family=c(
+    "GP_SES_GAP","GP_GENDER_GAP","GP_LANGUAGE_GAP",
+    "GP_MIGRATION_GAP","DS_SPREAD","TR_BASIC",
+    "TR_POSITION","BENCHMARK_MEAN"),
+    source_requirement=c(
+      "SES_Q4_MEAN + SES_Q1_MEAN","GIRLS_MEAN + BOYS_MEAN",
+      "LANGUAGE_REFERENCE + LANGUAGE_COMPARISON",
+      "MIGRATION_GROUP + NATIVE_GROUP",
+      "P90 + P10","BELOW_BASIC","VALIDATED_COUNTRY_MEANS",
+      "VALIDATED_SELECTED_COUNTRY_MEANS"),
+    transform=c("Q4 - Q1","GIRLS - BOYS","GROUP - REFERENCE",
+      "MIGRATION - NATIVE","P90 - P10","100 - BELOW",
+      "ORDER_BY_MEAN","EQUAL_COUNTRY_WEIGHT_EXCLUDE_FOCUS"),
+    uncertainty_gate=c(rep("JOINT_REPLICATE_PV_OR_COVARIANCE",5),
+      "TRANSFORM_COMPLEMENT_VARIANCE",
+      "RANK_PRESENTATION_NO_SE",
+      "BENCHMARK_PRESENTATION_NO_SE"),
+    automatic_pupil_recomputation="NO",
+    status="DERIVE_ONLY_WHEN_VALIDATED_SOURCES_PRESENT",
+    stringsAsFactors=FALSE)
+}
