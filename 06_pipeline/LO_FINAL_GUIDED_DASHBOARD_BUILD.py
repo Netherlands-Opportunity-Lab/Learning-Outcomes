@@ -57,7 +57,7 @@ def figure_contract(bundle,allow_synthetic=False):
  if len(ids)!=len(set(ids)):fail("duplicate figure IDs")
  output=[]
  for r in rows:
-  figure={k:r.get(k,"") for k in CONTRACT_COLS}
+  figure={k:r.get(k,"") for k in sorted(CONTRACT_COLS)}
   figure["figure_id"]=r["figure_id"]
   figure["chart_type"]="time_series"
   figure["y_axis_policy"]="dynamic"
