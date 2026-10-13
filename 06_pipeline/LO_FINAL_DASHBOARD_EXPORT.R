@@ -55,7 +55,10 @@ lo_dashboard_export_from_grid <- function(bundle,tasks,approved,out) {
     n_unweighted=approved$n_unweighted[supported],
     unit=q$unit[supported],
     variant=ifelse(q$module[supported]=="ses_harmonized",
-      "harmonized","official"),
+      "harmonized",ifelse(q$survey[supported]=="PISA","official",
+         ifelse(q$survey[supported]=="PIRLS" &
+                q$module[supported]=="gender","official",
+           ifelse(q$survey[supported]=="PIRLS","rc1","v6")))),
     sample_id=approved$sample_id[supported],
     scientific_status="SCIENTIFICALLY_VALIDATED",
     source=paste0("scientific-grid:",substr(approved$result_hash[supported],1L,12L)),
