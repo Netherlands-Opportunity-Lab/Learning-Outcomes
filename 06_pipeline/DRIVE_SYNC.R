@@ -263,8 +263,32 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
     lo_drive_text_safe(bytes,"CLOUD_QUOTA_AND_MIGRATION_LIMIT.csv")
     p
   }
+  lo_drive_minimum_reports <- function() {
+    base <- file.path(root,"master_reconciliation","MINIMUM_FIGURE_QUEUE")
+    # Aggregates only: never transmit the full private metric_key queue.
+    allowed <- c("MINIMUM_COMPUTE_BOUNDS.csv",
+       "FIGURE_FAMILY_COUNTRY_MODULE_COUNTS.csv",
+       "FIGURE_FAMILY_MINIMUM_ACTION_COUNTS.csv",
+       "ACTIVE_PRODUCT_RECONCILIATION.csv",
+       "ADDITIONAL_BELOW_BASIC_PEER_CONTEXTS.csv")
+    chosen <- file.path(base,allowed)
+    chosen <- chosen[file.exists(chosen)]
+    for(p in chosen) {
+      info <- file.info(p)
+      if(is.na(info$size)||info$size>1024^2)
+        stop("PRIVATE_REPORT_HOLD: minimum figure aggregate too large")
+      bytes <- readBin(p,what="raw",n=as.integer(info$size)+1L)
+      if(length(bytes)!=info$size)
+        stop("PRIVATE_REPORT_HOLD: minimum figure aggregate changed")
+      lo_drive_text_safe(bytes,basename(p))
+      # Avoid leaking private Windows paths in a copy to the private Drive.
+      if(grepl("[A-Za-z]:[/\\\\]Users[/\\\\]",rawToChar(bytes),ignore.case=TRUE))
+        stop("PRIVATE_REPORT_HOLD: private path in minimum figure aggregate")
+    }
+    chosen
+  }
   select_files <- function() {
-    chosen <- lo_drive_quota_report()
+    chosen <- c(lo_drive_quota_report(),lo_drive_minimum_reports())
     d <- lo_drive_pick_run()
     if(!nzchar(d)) {
       cat("Drive run publication: no completed LO05 run found.\n")
@@ -354,7 +378,10 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
         scientific_status="NOT_AUTOMATICALLY_VALIDATED",
         source=p,
         report_path=if(grepl("^runs/run_[0-9]{8}_[0-9]{6}/",relative))
-          sub("^runs/","reports/",gsub("\\\\","/",relative)) else "")
+          sub("^runs/","reports/",gsub("\\\\","/",relative))
+        else if(startsWith(relative,"master_reconciliation/MINIMUM_FIGURE_QUEUE/"))
+          paste0("reports/minimum_figures/",basename(relative))
+        else "")
     }
     if (action=="preview") {
       cat("Drive preview: ",length(records)," eligible files; no upload.\n",sep="")
