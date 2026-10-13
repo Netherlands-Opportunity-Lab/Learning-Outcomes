@@ -217,3 +217,36 @@ De oude aparte 1.735 op/over-basisniveau-productposities vervallen als grafiek (
 **Code:** [MINIMUM_FIGURE_QUEUE.R](MINIMUM_FIGURE_QUEUE.R) is een read-only GitHub-gestuurde automatische triage van alle originele contracten met hun actieve/optionele/afgeleide status en archiefkandidaten. De actie `LO_START_ACTION="figure-minimum-plan"` doet geen leerlingproductie en verwijdert niets; ze maakt privé-invoerqueue plus samenvattende familie- en extra lage-peer-requirementtabellen. Uitsluitend de expliciet veilige aggregaatsamenvattingen gaan via automatische SHA-geverifieerde Drive-upload; de persoonlijke metric_key-taskqueue niet. Geen oude wetenschappelijke release wordt daardoor automatisch goedgekeurd.
 
 **Eerstvolgende wetenschappelijke gate:** match alle actieve vereisten (inclusief nieuwe lage-peersplit) tegen validatie- en fingerprintbewijzen uit *werkelijke* centrale current/history SQLite, LO01/LO02 en V8/V9/V11/Parquet op de laptop. Markeer `COMPUTE_REQUIRED` pas bij *bewezen* ontbreken, geteste methode, correcte SE/covariantie en onderliggende bronbeschikbaarheid. Niet massaal 51.317 of 60.142 'ontbrekende' berekeningen starten.
+
+
+## 14. Bronverificatie 13 oktober — beperkte grid en prioritaire C:-opslag
+
+**Type besluit:** uitvoeringsaanvulling op het bestaande v2-masterplan. Geen wetenschappelijke freeze, geen lokale verwijdermachtiging. De op 13 oktober aangeleverde compacte ZIP is read-only geverifieerd: alle 1.366/1.366 externe SHA-256-manifestbestanden en 56/56 wetenschappelijke code-/evidencebestanden zijn correct; het ZIP slaagt de CRC-test. Dat bewijst uitsluitend integriteit van de compacte overdracht, niet de 95,6 GB Windows-projectmap.
+
+### 14.1 Productgedreven, minimale grid
+
+De grid bestaat uit de **unieke voor actieve producten benodigde wetenschappelijke resultaatidentiteiten**: survey, broneditie, wave, systeem, vak, doelpopulatie, uitkomstmaat, uitsplitsing/groepsniveau en — waar relevant — peeromgeving; per cel: estimate, N, SE/CI/covariantie, PV/designregels en volledige bron-/input-/code-/methode-/versieprovenance. Producten: gebruikersbeleidsdeck 21 slides, seminar 50 slides, notitie 16 pagina's, 138 figuren, tweetalig 42-systemen-dashboard en paper/appendix Q01–Q08. Nationale gemiddelden worden slechts één keer geproduceerd; referentiegroep, ranking en grafiekvariant zijn afleidingen zonder nieuwe leerlingrun. Geen volledige cartesische productiebatch van alle mogelijke combinaties.
+
+De GitHub-figuurplanning van 13 oktober meldt 64.837 actieve oorspronkelijke contractposities, 13.520 kandidaten in LO01/LO02, 51.317 zonder match **alleen** in die twee bronnen, en maximaal 10.410 conceptuele nieuwe posities voor peers onder basisniveau. Dit zijn **geen** tellingen van nodige nieuwe berekeningen. Eerst echte current/history SQLite, Parquet, V8/V9/V11, LO01/LO02, de 40 nieuwe NL-LO02-records en beschikbaarheid van correcte covariantie/PV per unieke contractcel afdoende toetsen. Pas dan REUSE_VALIDATED, DERIVE_VALIDATED, COMPUTE_REQUIRED, HOLD of NOT_REQUIRED toekennen. De historische matrix van 1 oktober heeft 54.768 rijen inclusief 37.030 placeholders en 4.200 HOLD-rijen, niet 54.768 vrijgegeven resultaten.
+
+### 14.2 Bron-/versieconflicten die niet mogen verdwijnen
+
+- De in de compacte ZIP als 21-slide genoemde gebruikers-PPTX bevat fysiek **13 slides**. 21 blijft contractueel leidend, maar de werkelijk bewerkte gebruikersbron moet opnieuw exact gelokaliseerd en gepind worden; de 13-slide bron niet impliciet uitbreiden.
+- De historische notitie-PDF in de ZIP bevat **15 pagina's** tegenover een 16-pagina-productcontract. Exacte gebruikersversie / paginering / inhoud nog verifiëren.
+- Het startdocument verwijst naar een fysieke 07_SCOPE_LOCKS_20260929-map die niet onder die naam in de ZIP staat; STEP1-scope-lockbestanden zijn gedeeltelijk onder historie/provenance teruggevonden. Geen automatische hercreatie of conclusie dat besluiten vervallen.
+
+### 14.3 Opslagroute: eerst de echte tientallen GB
+
+Windows-inventaris 10–11 oktober: **95.566.093.858 bytes in 35.087 bestanden**, geen live vrije-ruimtecontrole. Grootste projectonderdelen: RUNNER 39,15 GB, 29_results_resume_v11 22,82 GB, 00_PROJECT_REGISTRY 13,35 GB, 27_dashboard_multicountry_v9 8,56 GB, 20_rc2_domains 5,05 GB.
+
+**P0:** maak waar veilig ruimte via Windows Opslag/Tijdelijke bestanden, maar verwijder geen projectmappen en sluit Downloads en mogelijk waardevolle caches uit. Controleer of onafhankelijke externe opslag beschikbaar is.
+**P1:** beoordeel eerst read-only het archief RUNNER/cache_snapshots/PIRLS_CACHE_SNAPSHOT_20260920_123815.zip, **35.872.083.611 bytes**: ZIP-directory, wetenschappelijke unieke inhoud, verwijzingen vanuit producer en exacte restore-check; niet uitpakken op volle C:. Verplaats de veilige, verifieerbare bewaarversie naar onafhankelijk volume zodra de bron-/dependency-/herstelgate slaagt; geen definitieve lokale retire zonder volledige procedure.
+**P2:** vier PISA-2022 .SAV-exemplaren van **2.096.666.903 bytes per bestand** in registry en oude caches: eerst 4 exacte hashes en broneditie, vervolgens één canonieke input en technische referenties bewijzen. Gelijke bestandsomvang is geen bewijs van gelijke inhoud.
+**P3:** 2.257 SHA-identieke groepen, theoretisch 2,787 GiB extra winst, alleen gericht groeperen en na productdependency- en herstelcontrole; geen blind duplicate-delete.
+**P4:** overige oude cache- en run-snapshots uitsluitend selectief op basis van herleidbare producer, wetenschappelijke noodzaak, juridisch toegestane externe kopieën en een geteste restore. Live databases vereisen consistente snapshotprocedure.
+
+Bij de laatste controle had private Drive **14,985 GiB vrij**, dus het PIRLS-archief past daar niet. In de bestaande lokale opruimqueue is **nul** item geautoriseerd; het historische retirement-plan markeert elk bestand HOLD. Voor het verwijderen van projectbestanden blijven de afgesproken gates gelden: correcte bronrechten, onafhankelijke off-device back-ups, SHA en cold-restore, dependency closure, expliciete toestemming en waar van toepassing ≥30 dagen quarantaine. Quarantaine op C: wint **geen** vrije C:-bytes. Geen leerlingdata of private bestandsnamen naar publieke GitHub.
+
+**Eerstvolgende concrete Windows-stap:** verifieer dat een onafhankelijke externe opslaglocatie beschikbaar is met ten minste circa **40 GB vrije ruimte**, controleer dan de ZIP-directory van het grootste PIRLS-archief read-only en maak een exacte SHA-geverifieerde herstelkopie buiten C:. Start geen oude next-batch, algemene execute of cleanup-apply.
+
+**Eerstvolgende wetenschappelijke stap:** maak één per contract geadjudiceerde, leesbare reuse/derive/compute/HOLD-queue uit het actuele productregister én de feitelijke centrale resultatenregisters, met bijzondere aandacht voor de 40 NL-LO02-records. Vervolgens uitsluitend de eerste nog nodige en wetenschappelijk gecertificeerde Nederlandse uitkomsten via de native V5-route berekenen.
