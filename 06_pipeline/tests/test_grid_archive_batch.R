@@ -3,7 +3,7 @@ source("06_pipeline/GRID_ARCHIVE_BATCH.R")
 tasks <- data.frame(metric_key=c("k1","k2","k3"),
  survey="PISA",country="NLD",year="2022",domain="reading",
  module="core",stat="mean",group=c("total","girls","boys"),
- definition="score",peer_definition="",threshold="",sample="NLD_2022")
+ definition="score",peer_definition="",threshold="",unit="score_points",calculation_policy="",sample="NLD_2022")
 g <- lo_grid_from_tasks(tasks)
 sha <- function(z)paste(rep(z,64),collapse="")
 candidate <- data.frame(cell_id="k1",status="SCIENTIFICALLY_VALIDATED",
