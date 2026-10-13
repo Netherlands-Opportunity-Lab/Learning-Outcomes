@@ -1,0 +1,56 @@
+source("06_pipeline/LO_SCOPE_LOCK.R",encoding="UTF-8")
+source("06_pipeline/MASTER_ESTIMATION_GRID.R",encoding="UTF-8")
+source("06_pipeline/GRID_ARCHIVE_BATCH.R",encoding="UTF-8")
+source("06_pipeline/LO_EXISTING_RESULT_REGISTRY.R",encoding="UTF-8")
+source("06_pipeline/LO_FIXED_VALIDATION.R",encoding="UTF-8")
+source("06_pipeline/LO_FIXED_PRODUCERS.R",encoding="UTF-8")
+source("06_pipeline/LO_FINAL_DASHBOARD_EXPORT.R",encoding="UTF-8")
+work<-tempfile("lo_fixed_");dir.create(work)
+bundle<-file.path(work,"bundle");dir.create(bundle)
+common<-c(sprintf("X%02d",1:41),"NLD")
+compare<-c("NLD",sprintf("X%02d",1:11),sprintf("Y%02d",1:8))
+write.csv(data.frame(route_code=common,common42_member="True",
+   country_id=paste0("iso3:",common),
+   country_name_nl=common,country_name_en=common),
+   file.path(bundle,"COMMON42_REGISTER.csv"),row.names=FALSE)
+write.csv(data.frame(country=compare,strictly_above_czechia="TRUE"),
+   file.path(bundle,"PPP_COMPARATOR_MEMBERSHIP_v2.csv"),row.names=FALSE)
+p1<-lo_locked_scope(bundle,"nld_only")
+p2<-lo_locked_scope(bundle,"nld_plus_19")
+p3<-lo_locked_scope(bundle,"all_required")
+stopifnot(length(p1$selected)==1L,length(p2$selected)==20L,
+    length(p3$selected)==50L,
+    length(p3$additional_reference)==8L,
+    all(p2$selected%in%p3$selected))
+tasks<-data.frame(metric_key=c("m1","m2","m3"),
+ country=c("NLD","X01","Y07"),survey=c("PISA","PIRLS","TIMSS"),
+ year=c("2025","2021","2023"),domain="reading",module="core",
+ stat="mean",group="total",definition="total",
+ peer_definition="",threshold="",contract_figure_id="TR_MEAN_age15_reading",
+ unit="score_points",stringsAsFactors=FALSE)
+stopifnot(nrow(lo_scope_filter_tasks(tasks,p1))==1L,
+  nrow(lo_scope_filter_tasks(tasks,p2))==2L,
+  nrow(lo_scope_filter_tasks(tasks,p3))==3L)
+write.csv(data.frame(requirement_id=sprintf("Q%02d",1:8),
+  requirement="Evidence required"),
+  file.path(bundle,"OPEN_PAPER_REQUIREMENTS.csv"),row.names=FALSE)
+q<-lo_final_quality_gate(bundle,tasks,
+      file.path(work,"missing_approvals.csv"),file.path(work,"validation"))
+stopifnot(q$active_missing==3L,q$paper_gates_pass==0L,
+   q$scientific_freeze=="HOLD")
+candidate<-lo_fixed_produce(bundle,p3,tasks,
+      file.path(work,"production"),native_run=FALSE)
+stopifnot(candidate$native_execution=="PREVIEW_ONLY",
+ candidate$scientific_release=="HOLD_PENDING_INDEPENDENT_VALIDATION")
+write.csv(data.frame(cell_id="m1",status="SCIENTIFICALLY_VALIDATED",
+ estimate=490,standard_error=3,n_unweighted=5000,sample_id="pisa",
+ input_fingerprint=paste(rep("a",64),collapse=""),
+ code_fingerprint=paste(rep("b",64),collapse=""),
+ result_hash=paste(rep("c",64),collapse="")),
+ file.path(work,"approved.csv"),row.names=FALSE)
+approved<-read.csv(file.path(work,"approved.csv"),stringsAsFactors=FALSE)
+dash<-lo_dashboard_export_from_grid(bundle,tasks,approved,
+            file.path(work,"dashboard"))
+stopifnot(dash$mapped==1L,dash$unmapped==0L)
+unlink(work,recursive=TRUE)
+cat("PASS fixed 1/20/50 scope, scientific gates, no-compute preview and dashboard mapping\n")
