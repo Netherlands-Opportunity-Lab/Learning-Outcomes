@@ -46,7 +46,11 @@ lo_fixed_produce <- function(bundle,scope_info,tasks,out,
       run_status$native_execution<-"HOLD_COMPACT_PRODUCER_ERROR"
       run_status$engine_error<-substr(conditionMessage(attempt),1L,400L)
     } else {
-      run_status$native_execution<-"COMPACT_CANDIDATES_COMPLETE_NOT_VALIDATED"
+      run_status$native_execution<-if(attempt$complete_candidates==0L)
+         "HOLD_NO_PRODUCED_SCIENTIFIC_CELLS" else
+         if(attempt$complete_candidates<attempt$required_active_cells)
+           "COMPACT_PARTIAL_RESULTS_REQUIRE_SCIENCE_REVIEW" else
+           "COMPACT_CANDIDATES_COMPLETE_NOT_VALIDATED"
       run_status$compact_rows<-attempt$total_grid_rows
       run_status$compact_estimate_se_n<-attempt$complete_candidates
       run_status$compact_holds<-attempt$holds_this_attempt
