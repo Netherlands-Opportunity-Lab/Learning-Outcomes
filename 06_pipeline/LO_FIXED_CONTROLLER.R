@@ -143,9 +143,19 @@ lo_fixed_controller <- function(repo,bundle,
         "Full dashboard requires all_required (50 research countries, 42 UI)")
     return(invisible(q))
   }
+  # Country comparator: exact user-selected leave-focus-out equal weights.
+  # Never display a pooled benchmark standard error or a changed panel.
+  source(file.path(repo,"06_pipeline","LO_FIXED_COMPARATOR.R"),
+         local=environment(),encoding="UTF-8")
+  refcon<-gzfile(file.path(bundle,"REFERENTIE_ASSEMBLAGE.csv.gz"),"rt")
+  ref<-tryCatch(read.csv(refcon,stringsAsFactors=FALSE,
+                         colClasses="character"),finally=close(refcon))
+  approvals<-read.csv(approval,stringsAsFactors=FALSE,check.names=FALSE)
+  country_grid<-data.frame(cell_id=approvals$cell_id,
+    estimate=approvals$estimate,status=approvals$status)
+  comp<-lo_fixed_reference_grid(selected,country_grid,ref,scope_info,state)
   source(file.path(repo,"06_pipeline","LO_FINAL_DASHBOARD_EXPORT.R"),
          local=environment(),encoding="UTF-8")
-  approvals<-read.csv(approval,stringsAsFactors=FALSE,check.names=FALSE)
   dashboard_tasks<-selected[selected$country%in%scope_info$dashboard,,drop=FALSE]
   valid_rows<-approvals[approvals$cell_id%in%dashboard_tasks$metric_key,,drop=FALSE]
   mapped<-lo_dashboard_export_from_grid(bundle,dashboard_tasks,valid_rows,state)
