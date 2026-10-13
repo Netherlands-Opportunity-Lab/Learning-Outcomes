@@ -301,7 +301,7 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
   groups<-groups[order(names(groups))]
   started_engine<-FALSE
   n_units<-0L; n_new<-0L; n_reused<-0L; n_held<-0L
-  supported<-c("core","gender","ses_national","migration",
+  supported<-c("core","gender","ses_national","migration","migration_generation",
     "language_exact","language_frequency","language_frequency_binary",
     "peer_baseline","ses_peer_exposure","home_language_peer_exposure",
     "home_language_frequency_peer","migration_binary_peer",
@@ -323,7 +323,8 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
     for(indices in slices) {
       block<-subset[indices,,drop=FALSE]
       method<-paste0("OCT2026_",block$module[[1L]],"_V11_PV_REPLICATE")
-      if(!block$module[[1L]]%in%supported) {
+      if(!block$module[[1L]]%in%supported ||
+         any(grepl("Cobreros",block$definition,ignore.case=TRUE))) {
         z<-lo_compact_hold_rows(block,"METHOD_NOT_IMPLEMENTED_OR_CERTIFIED",
                producer_fp=codefp,method=method)
         lo_compact_put(con,z);n_held<-n_held+nrow(z)
@@ -363,9 +364,13 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
           started_engine<-TRUE
         }
         work<-block[!reuse,,drop=FALSE]
-        answer<-if(work$module[[1L]]=="peer_below_basic")
-           lo_compact_low_peer(obj,work)
-           else get("v10_compute",envir=.GlobalEnv)(obj,work)
+        answer<-if(work$module[[1L]]=="peer_below_basic") {
+          lo_compact_low_peer(obj,work)
+        } else if(work$module[[1L]]=="migration_generation") {
+          lo_compact_generations(obj,work)
+        } else {
+          get("v10_compute",envir=.GlobalEnv)(obj,work)
+        }
         n<-lo_compact_count_n(obj,work)
         list(reused=sum(reuse),
           rows=lo_compact_science_rows(work,answer,n,inputfp,codefp,method))
