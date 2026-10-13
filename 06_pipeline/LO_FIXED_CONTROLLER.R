@@ -125,88 +125,105 @@ lo_fixed_controller <- function(repo,bundle,
         "Only exact-fingerprint native PISA core/gender attempted; non-core holds")
     return(invisible(result))
   }
-  # Final review is strictly downstream of the grid and approvals; does not
-  # invent sample N/SE or publish a default September runtime as new data.
-  approval<-file.path(root,"master_reconciliation",
-                      "SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv")
-  q<-lo_final_quality_gate(bundle,selected,approval,state)
+  # Finalize ALWAYS constructs a private copy of the ACTIVE 42-system
+  # guided dashboard (with truthful missing-data placeholders), even if the
+  # independent scientific freeze has not passed yet.
+  approval <- file.path(root,"master_reconciliation",
+                        "SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv")
+  source(file.path(repo,"06_pipeline","LO_FINAL_GUIDED_EXPORT.R"),
+         local=environment(),encoding="UTF-8")
+  a <- if(file.exists(approval))read.csv(approval,
+                 stringsAsFactors=FALSE,check.names=FALSE) else data.frame()
+  dashboard_tasks <- selected[selected$country%in%scope_info$dashboard,
+                              ,drop=FALSE]
+  guided_approved <- if(nrow(a) && "cell_id"%in%names(a))
+    a[a$cell_id%in%dashboard_tasks$metric_key,,drop=FALSE] else data.frame()
+  map <- tryCatch(lo_guided_grid_export(bundle,dashboard_tasks,
+                             guided_approved,state),error=function(e)e)
+  if(inherits(map,"error")) {
+    put("guided-mapping","HOLD",conditionMessage(map))
+  } else {
+    validated_export <- file.path(state,"PRIVATE_GUIDED_VALIDATED_ROWS.csv")
+    if(!requireNamespace("digest",quietly=TRUE))
+      stop("FIXED_PIPELINE_HOLD: digest missing for immutable preview")
+    build_hash <- substr(digest::digest(file=validated_export,algo="sha256"),
+                         1L,18L)
+    candidate <- file.path(state,paste0("DASHBOARD_GUIDED_REVIEW_",build_hash))
+    preview_state <- if(dir.exists(candidate)) {
+      if(file.exists(file.path(candidate,"BUILD_SHA256_MANIFEST.json")))
+        "REUSED_IMMUTABLE_PRIVATE_CANDIDATE"
+      else "HOLD_PARTIAL_IMMUTABLE_CANDIDATE"
+    } else {
+      py <- Sys.getenv("LO_PYTHON","python")
+      builder <- file.path(repo,"06_pipeline",
+                           "LO_FINAL_GUIDED_DASHBOARD_BUILD.py")
+      args <- c(builder,"--repo",repo,"--bundle",bundle,
+        "--validated-grid",validated_export,"--output",candidate)
+      x <- tryCatch(suppressWarnings(system2(py,shQuote(args),
+              stdout=TRUE,stderr=TRUE)),error=function(e)e)
+      if(inherits(x,"error"))paste0("HOLD_PYTHON:",conditionMessage(x))
+      else {
+        status <- attr(x,"status")
+        if(!is.null(status) && status!=0L)
+          paste0("HOLD_BUILDER:",paste(tail(x,3L),collapse=" | "))
+        else "PRIVATE_GUIDED_CANDIDATE_BUILT"
+      }
+    }
+    write.csv(data.frame(scope=scope,rendered_source_rows=map$guided_focus_rows,
+       unmapped_validated_source_rows=map$mapping_holds,
+       preview_id=if(startsWith(preview_state,"HOLD"))"" else build_hash,
+       preview_status=preview_state,
+       public_release="NOT_AUTHORIZED"),
+       file.path(state,"GUIDED_PREVIEW_SUMMARY.csv"),row.names=FALSE)
+    put("guided-preview",preview_state,
+        paste0(map$guided_focus_rows," mapped, ",map$mapping_holds,
+               " held; public September site unchanged"))
+  }
+  # No count-based scientific release. Independent paper, covariance,
+  # data-edition and peer denominator gates remain authoritative.
+  q <- tryCatch(lo_final_quality_gate(bundle,selected,approval,state),
+                error=function(e)e)
+  if(inherits(q,"error")) {
+    put("finalize","HOLD_SCIENTIFIC_GATE_ERROR",conditionMessage(q))
+    return(invisible(q))
+  }
   if(!identical(q$scientific_freeze[[1]],
                 "ELIGIBLE_FOR_INDEPENDENT_REVIEW")) {
     put("finalize","HOLD_SCIENTIFIC_GATES",
-        paste0(q$active_missing," primitive gaps; Q gates ",
-               q$paper_gates_pass,"/8; peers ",q$primary_peer_gate))
+        paste0(q$active_missing," active grid gaps; Q01-Q08 ",
+               q$paper_gates_pass,"/8; primary peers ",
+               q$primary_peer_gate))
     return(invisible(q))
   }
-  # Assemble a NEW static candidate, not the September 28 public runtime.
   if(scope!="all_required") {
     put("finalize","SCOPE_SCIENCE_REVIEW_ELIGIBLE",
-        "Full dashboard requires all_required (50 research countries, 42 UI)")
+        "A public 42-system dashboard needs all_required research coverage")
     return(invisible(q))
   }
-  # Country comparator: exact user-selected leave-focus-out equal weights.
-  # Never display a pooled benchmark standard error or a changed panel.
-  source(file.path(repo,"06_pipeline","LO_FIXED_COMPARATOR.R"),
-         local=environment(),encoding="UTF-8")
-  refcon<-gzfile(file.path(bundle,"REFERENTIE_ASSEMBLAGE.csv.gz"),"rt")
-  ref<-tryCatch(read.csv(refcon,stringsAsFactors=FALSE,
-                         colClasses="character"),finally=close(refcon))
-  approvals<-read.csv(approval,stringsAsFactors=FALSE,check.names=FALSE)
-  country_grid<-data.frame(cell_id=approvals$cell_id,
-    estimate=approvals$estimate,status=approvals$status)
-  comp<-lo_fixed_reference_grid(selected,country_grid,ref,scope_info,state)
-  source(file.path(repo,"06_pipeline","LO_FINAL_DASHBOARD_EXPORT.R"),
-         local=environment(),encoding="UTF-8")
-  dashboard_tasks<-selected[selected$country%in%scope_info$dashboard,,drop=FALSE]
-  valid_rows<-approvals[approvals$cell_id%in%dashboard_tasks$metric_key,,drop=FALSE]
-  mapped<-lo_dashboard_export_from_grid(bundle,dashboard_tasks,valid_rows,state)
-  if(!nrow(valid_rows) || mapped$unmapped>0L) {
-    put("finalize","HOLD_DASHBOARD_MISSING_OR_UNMAPPED",
-        paste0(mapped$mapped," frontend-mapped, ",mapped$unmapped,
-               " require explicit method/visual contract"))
-    return(invisible(mapped))
-  }
-  py<-Sys.getenv("LO_PYTHON","python")
-  builder<-file.path(repo,"06_pipeline","LO_FINAL_DASHBOARD_BUILD.py")
-  candidate<-file.path(state,"DASHBOARD_REVIEW_CANDIDATE")
-  if(dir.exists(candidate)) {
-    put("finalize","HOLD_CANDIDATE_EXISTS_REVIEW_FIRST",
-        "Immutable dashboard review output already exists")
+  # Immutable candidate must be independently reviewed with an explicit
+  # SHA-pinned scientific/rights/replication/21-slide certificate.
+  certificate <- file.path(state,"PUBLIC_RELEASE_CERTIFICATION.json")
+  if(!file.exists(certificate) || inherits(map,"error") ||
+     !exists("candidate") || !dir.exists(candidate)) {
+    put("finalize","HOLD_RELEASE_CERTIFICATE_OR_GUIDED_CANDIDATE",
+        "Missing independent SHA-pinned release evidence")
     return(invisible(q))
   }
-  args<-c(builder,"--repo",repo,"--bundle",bundle,
-     "--validated-grid",file.path(state,"PRIVATE_DASHBOARD_VALIDATED_EXPORT.csv"),
-     "--output",candidate)
-  receipt<-file.path(state,"PUBLIC_RELEASE_CERTIFICATION.json")
-  payloads<-file.path(state,"APPROVED_DASHBOARD_PAYLOADS")
-  # Build the immutable candidate FIRST; its manifest SHA is then
-  # independently reviewed and signed in the publication certificate.
-  if(dir.exists(payloads))
-    args<-c(args,"--approved-payloads",payloads)
-  response<-suppressWarnings(system2(py,shQuote(args),stdout=TRUE,stderr=TRUE))
-  code<-attr(response,"status")
-  if(!is.null(code) && code!=0L) {
-    put("finalize","HOLD_DASHBOARD_BUILDER",
-       paste(tail(response,4L),collapse=" | "))
-    return(invisible(q))
+  script <- file.path(repo,"06_pipeline","LO_FINAL_GUIDED_PUBLIC_RELEASE.py")
+  args <- c(script,"--repo",repo,"--candidate",candidate,
+            "--certificate",certificate)
+  py <- Sys.getenv("LO_PYTHON","python")
+  x <- tryCatch(suppressWarnings(system2(py,shQuote(args),
+              stdout=TRUE,stderr=TRUE)),error=function(e)e)
+  if(inherits(x,"error")) {
+    put("finalize","HOLD_GUIDED_RELEASE_SCRIPT",conditionMessage(x))
+  } else {
+    status <- attr(x,"status")
+    if(!is.null(status) && status!=0L)
+      put("finalize","HOLD_GUIDED_RIGHTS_OR_QA",
+           paste(tail(x,4L),collapse=" | "))
+    else put("finalize","GUIDED_RELEASE_STAGED_NOT_DEPLOYED",
+         "Immutable SHA-pinned candidate staged for human review")
   }
-  if(file.exists(receipt)&&dir.exists(payloads)) {
-    public_script<-file.path(repo,"06_pipeline","LO_FINAL_PUBLIC_GITHUB.py")
-    push<-identical(Sys.getenv("LO_PUBLIC_GITHUB_FINAL_RELEASE"),"YES")
-    pubargs<-c(public_script,"--repo",repo,
-       "--candidate",candidate,"--certificate",receipt,
-       if(push)"--push" else character())
-    result<-suppressWarnings(system2(py,shQuote(pubargs),
-                           stdout=TRUE,stderr=TRUE))
-    rc<-attr(result,"status")
-    if(!is.null(rc)&&rc!=0L) {
-      put("finalize","HOLD_GITHUB_RIGHTS_OR_QA",
-         paste(tail(result,4L),collapse=" | "))
-      return(invisible(q))
-    }
-    put("finalize",if(push)"PUBLIC_RELEASE_PUSH_ATTEMPT_VERIFIED"
-                       else "PUBLIC_RELEASE_GIT_STAGE_READY",
-        "Static files checked against scientific/rights SHA receipts")
-  } else put("finalize","PRIVATE_DASHBOARD_PREVIEW_HOLD_RELEASE",
-       "No approved new rank/21-slide/publication receipt; 2026-09-28 unchanged")
   invisible(q)
 }
