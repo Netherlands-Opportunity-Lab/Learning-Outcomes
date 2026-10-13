@@ -109,6 +109,47 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
     data.frame(database_sha256=character(),table_name=character(),
                rows=integer(),review_status=character())
   write.csv(audit,file.path(out,"PRIVATE_SQLITE_SNAPSHOT_AUDIT.csv"),row.names=FALSE)
+  # Legacy V8/V9 are useful evidence but contain no exact locked
+  # metric_key / sampling N. Their country-wave-domain-stat matches are
+  # always COARSE_CANDIDATES, not scientifically approved results.
+  legacy_files <- c(
+    "V8_NLD_DASHBOARD_GRID_FULL.csv.gz",
+    "V9_COUNTRIES_NEW_MASTER_ROWS.csv.gz")
+  coarse <- character()
+  coarse_versions <- list()
+  for(legacy in legacy_files) {
+    p <- file.path(bundle,"evidence",legacy)
+    if(!file.exists(p))stop("EVIDENCE_HOLD: pinned V8/V9 archive missing")
+    con <- gzfile(p,"rt")
+    a <- tryCatch(read.csv(con,colClasses="character",check.names=FALSE,
+               na.strings=character(),stringsAsFactors=FALSE),
+               finally=close(con))
+    fields <- c("country","survey","year","domain","stat",
+                "estimate","se","status")
+    if(!all(fields%in%names(a)))stop("EVIDENCE_HOLD: V8/V9 schema changed")
+    a$country <- sub("^iso3:","",a$country)
+    keycols <- c("country","survey","year","domain","stat")
+    item <- function(x)do.call(paste,c(x[keycols],sep="|"))
+    a_key <- unique(item(a))
+    coarse <- union(coarse,a_key)
+    coarse_versions[[length(coarse_versions)+1L]] <- data.frame(
+       source_version=legacy,
+       archive_rows=nrow(a),
+       numeric_estimate_se=sum(is.finite(suppressWarnings(as.numeric(a$estimate))) &
+              is.finite(suppressWarnings(as.numeric(a$se)))),
+       sample_N_available=FALSE,
+       status="COARSE_CANDIDATE_NOT_SCIENTIFIC_REUSE",
+       stringsAsFactors=FALSE)
+  }
+  scoped_key <- do.call(paste,c(tasks[c(
+    "country","survey","year","domain","stat")],sep="|"))
+  coarse_hit <- scoped_key %in% coarse
+  write.csv(data.frame(metric_key=keys,archive_v8_v9_coarse_candidate=coarse_hit,
+    verified_N_and_method=FALSE,
+    decision="COARSE_MATCH_NOT_APPROVED_NO_SAMPLE_N"),
+    file.path(out,"PRIVATE_V8_V9_CANDIDATE_MATCH.csv"),row.names=FALSE)
+  write.csv(do.call(rbind,coarse_versions),
+    file.path(out,"PRIVATE_V8_V9_SOURCE_SUMMARY.csv"),row.names=FALSE)
   # One row per requested grid key; safe count summaries may leave the laptop.
   present <- keys %in% unique(evidence$metric_key)
   method <- tasks$module
@@ -117,7 +158,8 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
     archive_candidates=as.integer(tabulate(match(evidence$metric_key,keys),
                                     nbins=length(keys))),
     status=ifelse(present,"ARCHIVE_CANDIDATE_NOT_APPROVED",
-             "SEARCH_CENTRAL_V8_V9_V11_BEFORE_COMPUTE"),
+       ifelse(coarse_hit,"V8_V9_COARSE_CANDIDATE_NOT_APPROVED",
+         "SEARCH_CENTRAL_V11_AND_CURRENT_HISTORY_BEFORE_COMPUTE")),
     approved_to_compute="NO",stringsAsFactors=FALSE)
   write.csv(need,file.path(out,"PRIVATE_GRID_MATCH_STATUS.csv"),
             row.names=FALSE)
@@ -127,6 +169,7 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
   summary <- data.frame(scope_contracts=nrow(tasks),
        keys_with_archive_candidates=sum(present),
        without_archive_candidate=sum(!present),
+       additional_v8_v9_coarse_candidate_keys=sum(coarse_hit & !present),
        archive_record_versions=nrow(evidence),
        candidate_rows_with_numeric_se=sum(evidence$has_estimate_and_se),
        candidate_rows_with_sample_n=sum(evidence$has_sample_n),
