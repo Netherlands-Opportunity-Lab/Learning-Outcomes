@@ -82,6 +82,34 @@ def build(repo,bundle,grid_file,out,release=False,receipt=None,payloads=None):
         shutil.copy2(app/filename,out/filename)
     for d in ("assets","docs"):
         shutil.copytree(app/d,out/d)
+    # Add the NEW project-required direct-peer-below-basic panel ONLY to
+    # the candidate build; do not mutate the September public frontend.
+    index=out/"index.html"
+    html=index.read_text(encoding="utf-8")
+    anchor='<option value="school_sorting"'
+    if anchor not in html:fail("frontend peer option anchor changed")
+    html=html.replace(anchor,
+      '<option value="peer_exposure" data-nl="Klasgenoten onder basisniveau" '
+      'data-en="Peers below basic proficiency">Klasgenoten onder basisniveau</option>'
+      +anchor,1)
+    index.write_text(html,encoding="utf-8")
+    script=out/"assets"/"app-product.js"
+    js=script.read_text(encoding="utf-8")
+    edits=[
+      ("school_sorting:['sorting']",
+       "peer_exposure:['peer_low'],school_sorting:['sorting']"),
+      ("const labels={mean:",
+       "const labels={peer_below_basic:['Aandeel directe klasgenoten onder basisniveau (geen causaal effect)','Direct peers below basic proficiency (not a causal effect)'],mean:"),
+      ("(girl|boy|boy_minus_girl)",
+       "(girl|boy|boy_minus_girl|girl_minus_boy)"),
+      (" if(r.family==='language')return r.variant==='official';",
+       " if(r.family==='language')return r.variant==='official';"
+       "\\n  if(r.family==='peer_low')return r.variant==='science_checked';"),
+    ]
+    for old,new in edits:
+        if old not in js:fail("frontend scientific presentation anchor changed")
+        js=js.replace(old,new,1)
+    script.write_text(js,encoding="utf-8")
     data=out/"product_data";countries=data/"countries"
     countries.mkdir(parents=True)
     by_country={c:[] for c in codes}
