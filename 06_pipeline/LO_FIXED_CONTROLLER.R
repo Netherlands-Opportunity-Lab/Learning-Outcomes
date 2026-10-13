@@ -110,6 +110,17 @@ lo_fixed_controller <- function(repo,bundle,
         put("archive-fill","HOLD",conditionMessage(filled))
       else grid<-filled
     }
+    # Only independent method/source/sample/PV certificates may produce
+    # compute instructions; never infer new work merely from an empty cell.
+    compute_file <- file.path(root,"master_reconciliation",
+                             "SCIENTIFIC_COMPUTE_APPROVALS.csv")
+    if(file.exists(compute_file)) {
+      approved_compute <- read.csv(compute_file,
+           stringsAsFactors=FALSE,check.names=FALSE)
+      chosen <- approved_compute[approved_compute$cell_id%in%grid$cell_id,
+                                  ,drop=FALSE]
+      grid <- lo_grid_apply_compute_approvals(grid,chosen)
+    }
     write.csv(grid,file.path(state,"PRIVATE_MASTER_GRID.csv"),
               row.names=FALSE,na="")
     batch<-lo_grid_batch_plan(grid)
@@ -132,7 +143,17 @@ lo_fixed_controller <- function(repo,bundle,
   }
   if(stage=="produce") {
     # Stage 2 is a deliberate production action; not run during audit/final.
-    result<-lo_fixed_produce(bundle,scope_info,selected,state,native_run=TRUE)
+    # The saved grid is the authoritative minimal worklist for stage 2.
+    # A missing/invalid grid is a HOLD, not permission to run all PISA tasks.
+    saved <- file.path(state,"PRIVATE_MASTER_GRID.csv")
+    if(!file.exists(saved))
+      stop("FIXED_PRODUCE_HOLD: stage-1 grid missing")
+    grid <- read.csv(saved,stringsAsFactors=FALSE,check.names=FALSE,
+                     na.strings=character())
+    if(anyDuplicated(grid$cell_id))
+      stop("FIXED_PRODUCE_HOLD: duplicate grid cell ID")
+    result<-lo_fixed_produce(bundle,scope_info,selected,state,
+                            native_run=TRUE,grid=grid)
     put("produce",as.character(result$native_execution[[1]]),
         "Only exact-fingerprint native PISA core/gender attempted; non-core holds")
     return(invisible(result))
