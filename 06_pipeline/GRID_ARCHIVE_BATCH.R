@@ -56,3 +56,15 @@ lo_grid_batch_plan <- function(grid) {
     n_cells=vapply(batch,length,integer(1L)),
     status="READY_TO_PLAN_NOT_EXECUTED",stringsAsFactors=FALSE)
 }
+
+lo_grid_mark_archive_candidates <- function(grid,lo01_keys,lo02_keys) {
+  if(anyDuplicated(grid$cell_id))stop("GRID_ARCHIVE_HOLD: duplicated grid IDs")
+  a <- grid$cell_id %in% unique(as.character(lo01_keys))
+  b <- grid$cell_id %in% unique(as.character(lo02_keys))
+  grid$status[a|b] <- "ARCHIVE_CANDIDATE_FOUND_NOT_VALIDATED"
+  grid$archive_source[b] <- "LO02_CANDIDATE"
+  grid$archive_source[a & !b] <- "LO01_CANDIDATE"
+  grid$hold_reason[a|b] <- "Verify input, exact sample, method, PV/variance and result hash"
+  # Never populate estimates, SE, or N from an unverified candidate.
+  grid
+}
