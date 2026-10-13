@@ -342,7 +342,8 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
       attempt<-tryCatch({
         if(any(vapply(objects,inherits,logical(1L),what="error")))
           stop("ONE_OR_MORE_CANONICAL_RDS_UNREADABLE")
-        projections<-vapply(objects,function(o)lo_compact_projection(o,block),
+        science_block<-lo_compact_backend_tasks(block)
+        projections<-vapply(objects,function(o)lo_compact_projection(o,science_block),
                             character(1L))
         if(length(unique(projections))!=1L)
           stop("CONFLICTING_SCIENTIFIC_INPUT_PROJECTIONS")
@@ -373,14 +374,15 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
           started_engine<-TRUE
         }
         work<-block[!reuse,,drop=FALSE]
+        science_work<-lo_compact_backend_tasks(work)
         answer<-if(work$module[[1L]]=="peer_below_basic") {
           lo_compact_low_peer(obj,work)
         } else if(work$module[[1L]]=="migration_generation") {
           lo_compact_generations(obj,work)
         } else {
-          get("v10_compute",envir=.GlobalEnv)(obj,work)
+          get("v10_compute",envir=.GlobalEnv)(obj,science_work)
         }
-        n<-lo_compact_count_n(obj,work)
+        n<-lo_compact_count_n(obj,science_work)
         list(reused=sum(reuse),
           rows=lo_compact_science_rows(work,answer,n,inputfp,codefp,method))
         }
