@@ -1,0 +1,33 @@
+source("06_pipeline/MASTER_ESTIMATION_GRID.R")
+source("06_pipeline/LO_FINAL_GUIDED_EXPORT.R")
+Sys.setenv(LO_SYNTHETIC_GUIDED_TEST="YES")
+work<-tempfile("guided_export_");dir.create(work)
+bundle<-file.path(work,"bundle");dir.create(bundle)
+f<-data.frame(figure_id=c("TR_MEAN_age15_reading",
+ "EN_PERFORMANCE_PEER_age15_reading_direct_learning_environment"),
+ expected_series=c("total","self_below_high;self_high"),
+ survey="PISA",domain="reading",required_years="2025",
+ stringsAsFactors=FALSE)
+write.csv(f,file.path(bundle,"FIGURE_SERIES_CONTRACT_20261002.csv"),
+          row.names=FALSE)
+tasks<-data.frame(metric_key=c("a","b"),country="NLD",survey="PISA",
+ year="2025",domain="reading",module="core",stat="mean",
+ group=c("total","self_high"),definition="mean_score",
+ contract_figure_id=f$figure_id,stringsAsFactors=FALSE)
+sha<-function(x)paste(rep(x,64),collapse="")
+approved<-data.frame(cell_id=c("a","b"),status="SCIENTIFICALLY_VALIDATED",
+ estimate=c(500,35),standard_error=c(2.4,1.1),
+ n_unweighted=c(5500,5500),sample_id="NLD_PISA_2025",
+ method_version="certified",input_fingerprint=sha("a"),
+ code_fingerprint=sha("b"),result_hash=c(sha("c"),sha("d")))
+out<-file.path(work,"out")
+q<-lo_guided_grid_export(bundle,tasks,approved,out)
+stopifnot(q$validated_input_cells==2L,q$guided_focus_rows==1L,
+ q$mapping_holds==1L)
+z<-read.csv(file.path(out,"PRIVATE_GUIDED_VALIDATED_ROWS.csv"))
+stopifnot(nrow(z)==1L,z$figure_id=="TR_MEAN_age15_reading",
+ z$n_unweighted==5500,z$series_id=="total")
+hold<-read.csv(file.path(out,"PRIVATE_GUIDED_MAPPING_HOLDS.csv"))
+stopifnot(hold$reason=="OLD_HIGH_PEER_CANNOT_FILL_PRIMARY_BELOW_BASIC")
+unlink(work,recursive=TRUE)
+cat("PASS validated guided export, fixed source IDs and high-peer exclusion\n")
