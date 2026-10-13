@@ -19,6 +19,7 @@ lo_fixed_controller <- function(repo,bundle,
   if(nrow(tasks)!=79448L||anyDuplicated(tasks$metric_key))
     stop("FIXED_PIPELINE_HOLD: original 79448-key lock changed")
   selected<-lo_scope_filter_tasks(tasks,scope_info)
+  new_peer_tasks<-lo_grid_new_low_peer_tasks(selected)
   state<-file.path(root,"FIXED_PRODUCTION_V1",scope)
   dir.create(state,recursive=TRUE,showWarnings=FALSE)
   evidence_dir<-file.path(state,"FINAL_FIXED_PIPELINE")
@@ -82,6 +83,15 @@ lo_fixed_controller <- function(repo,bundle,
          audit$evidence$source_kind=="LO01_HISTORICAL_CANDIDATES"],
        audit$evidence$metric_key[
          audit$evidence$source_kind=="LO02_RETURN_20261010_CURRENT_RESULTS"])
+    # Active below-basic peer estimates are NEW science targets and remain
+    # separate from the 3 old HIGH-peer cells per context.
+    if(nrow(new_peer_tasks)) {
+      peer_grid <- lo_grid_from_tasks(new_peer_tasks)
+      peer_grid$status <- "NEW_LOW_PEER_METHOD_GATE_REQUIRED"
+      peer_grid$hold_reason <-
+         "Requires weighted PV/replicate, peer self-exclusion and source sample certification"
+      grid <- rbind(grid,peer_grid)
+    }
     # Other SQLite objects exist as unvalidated candidates. They never
     # overwrite estimate, standard error or N in the scientific grid.
     live_keys<-unique(audit$evidence$metric_key[
@@ -107,7 +117,9 @@ lo_fixed_controller <- function(repo,bundle,
               row.names=FALSE)
     row<-data.frame(scope=scope,
       selected_countries=length(scope_info$selected),
-      original_contracts=nrow(grid),
+      original_contracts=nrow(selected),
+      new_below_basic_peer_targets=nrow(new_peer_tasks),
+      total_primitive_targets=nrow(grid),
       archive_candidates=sum(grepl("CANDIDATE",grid$status)),
       validated=sum(grid$status=="SCIENTIFICALLY_VALIDATED"),
       approved_compute_batches=nrow(batch),
@@ -136,6 +148,8 @@ lo_fixed_controller <- function(repo,bundle,
                  stringsAsFactors=FALSE,check.names=FALSE) else data.frame()
   dashboard_tasks <- selected[selected$country%in%scope_info$dashboard,
                               ,drop=FALSE]
+  dashboard_tasks <- rbind(dashboard_tasks,
+    new_peer_tasks[new_peer_tasks$country%in%scope_info$dashboard,,drop=FALSE])
   guided_approved <- if(nrow(a) && "cell_id"%in%names(a))
     a[a$cell_id%in%dashboard_tasks$metric_key,,drop=FALSE] else data.frame()
   map <- tryCatch(lo_guided_grid_export(bundle,dashboard_tasks,
