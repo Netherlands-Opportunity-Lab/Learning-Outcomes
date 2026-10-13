@@ -168,9 +168,10 @@ lo_fixed_controller <- function(repo,bundle,
      "--output",candidate)
   receipt<-file.path(state,"PUBLIC_RELEASE_CERTIFICATION.json")
   payloads<-file.path(state,"APPROVED_DASHBOARD_PAYLOADS")
-  if(file.exists(receipt) && dir.exists(payloads))
-    args<-c(args,"--release","--receipt",receipt,
-           "--approved-payloads",payloads)
+  # Build the immutable candidate FIRST; its manifest SHA is then
+  # independently reviewed and signed in the publication certificate.
+  if(dir.exists(payloads))
+    args<-c(args,"--approved-payloads",payloads)
   response<-suppressWarnings(system2(py,shQuote(args),stdout=TRUE,stderr=TRUE))
   code<-attr(response,"status")
   if(!is.null(code) && code!=0L) {
