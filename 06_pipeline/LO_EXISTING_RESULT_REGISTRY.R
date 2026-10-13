@@ -52,7 +52,11 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
                recursive=TRUE,full.names=TRUE,ignore.case=TRUE)),
       use.names=FALSE))
   if(length(dbs)>100L)stop("EVIDENCE_HOLD: >100 SQLite objects; use registry inventory")
-  dbs <- dbs[is.finite(file.info(dbs)$size) & file.info(dbs)$size<2e9]
+  if(length(dbs)) {
+    # file.info(character(0)) errors on both current Windows and Linux R.
+    sizes <- file.info(dbs)$size
+    dbs <- dbs[is.finite(sizes) & sizes<2e9]
+  }
   dbaudit <- list()
   if(length(dbs) && requireNamespace("DBI",quietly=TRUE) &&
       requireNamespace("RSQLite",quietly=TRUE) &&
