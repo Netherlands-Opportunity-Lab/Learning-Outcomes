@@ -2,7 +2,7 @@ source("06_pipeline/MASTER_ESTIMATION_GRID.R",encoding="UTF-8")
 task<-data.frame(metric_key=c("m1","m2"),survey="PISA",
  country="NLD",year="2022",domain="reading",module=c("core","gender"),
  stat="mean",group=c("total","girls"),definition="score",
- peer_definition="",threshold="",stringsAsFactors=FALSE)
+ peer_definition="",threshold="",unit="score_points",calculation_policy="",stringsAsFactors=FALSE)
 g<-lo_grid_from_tasks(task)
 stopifnot(nrow(g)==2L,all(is.na(g$estimate)),all(is.na(g$standard_error)),
  all(is.na(g$n_unweighted)),!anyDuplicated(g$cell_id),
