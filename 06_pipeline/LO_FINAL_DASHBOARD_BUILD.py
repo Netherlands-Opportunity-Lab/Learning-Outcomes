@@ -59,7 +59,7 @@ def encode(rows):
             indices.append(lookup[marker])
         columns[key]={"values":values,"indices":indices}
     return {"format":"column-dictionary-v1","length":len(rows),"columns":columns}
-def build(repo,bundle,grid_file,out,release=False,receipt=None):
+def build(repo,bundle,grid_file,out,release=False,receipt=None,payloads=None):
     if out.exists():fail("candidate output exists; preserve immutable attempt")
     common=list(csv.DictReader((bundle/"COMMON42_REGISTER.csv").open(
         encoding="utf-8-sig",newline="")))
@@ -105,11 +105,35 @@ def build(repo,bundle,grid_file,out,release=False,receipt=None):
            "country_name_nl":x["country_name_nl"],
            "country_name_en":x["country_name_en"]}
            for x in dashboard],"panels":{}}
-    payloads={"metadata":meta,"ranks":[],"curated":{"slides":[]},
+    default_payloads={"metadata":meta,"ranks":[],"curated":{"slides":[]},
               "institutions":[],"quality":[]}
-    # Existing static frontend has these five explicit data-contract slots.
-    # Rank and curated products need their own approved release artifacts:
-    # an empty slot is never silently replaced by 2026-09-28 old results.
+    product_dir=payloads
+    payloads=default_payloads
+    # The 42-system site also requires reviewed cross-country ranks,
+    # quality data and the 21-slide curated register. Never borrow stale
+    # September results and call them an October scientific release.
+    if product_dir is not None:
+        if not product_dir.is_dir():fail("approved product payload directory missing")
+        checksum_file=product_dir/"APPROVED_PRODUCT_SHA256.json"
+        if not checksum_file.exists():fail("payload checksum manifest absent")
+        expected=json.loads(checksum_file.read_text(encoding="utf-8"))
+        if set(expected)!=set(payloads.keys()):
+            fail("approved product payload names mismatch")
+        for name in payloads:
+            f=product_dir/(name+".json")
+            if not f.exists() or sha(f)!=expected[name]:
+                fail("approved product SHA mismatch "+name)
+            payloads[name]=json.loads(f.read_text(encoding="utf-8"))
+    if release:
+        if product_dir is None:fail("new approved ranks and curated payloads missing")
+        if not isinstance(payloads["ranks"],list) or not payloads["ranks"]:
+            fail("validated country rank panels missing")
+        if len(payloads["curated"].get("slides",[]))!=21:
+            fail("reviewed 21-slide narrative mapping missing")
+        if not isinstance(payloads["metadata"].get("panels"),dict) or not payloads["metadata"]["panels"]:
+            fail("validated fixed comparison panels missing")
+    # Existing static frontend has five explicit data-contract slots.
+    # Empty preview slots never silently become a final scientific release.
     for name,value in payloads.items():
         (data/(name+".json")).write_text(json.dumps(value,ensure_ascii=False),
                     encoding="utf-8")
@@ -145,8 +169,10 @@ def main():
     p.add_argument("--output",type=Path,required=True)
     p.add_argument("--release",action="store_true")
     p.add_argument("--receipt",type=Path)
+    p.add_argument("--approved-payloads",type=Path)
     args=p.parse_args()
     status=build(args.repo,args.bundle,args.validated_grid,
-                 args.output,release=args.release,receipt=args.receipt)
+                 args.output,release=args.release,receipt=args.receipt,
+                 payloads=args.approved_payloads)
     print(json.dumps(status,sort_keys=True))
 if __name__=="__main__":main()
