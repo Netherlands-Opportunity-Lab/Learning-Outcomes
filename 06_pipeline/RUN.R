@@ -464,6 +464,19 @@ lo_pipeline_main <- function() {
     private_root <- file.path(Sys.getenv("USERPROFILE",unset=path.expand("~")),
                              "Downloads","LO05_RESULTATEN")
     lo_minimum_figure_queue(bundle,private_root)
+    source(file.path(repo,"06_pipeline","MASTER_ESTIMATION_GRID.R"),
+           local=environment(),encoding="UTF-8")
+    task_file <- file.path(bundle,"engine","TASKS.csv")
+    task_rows <- read.csv(task_file,stringsAsFactors=FALSE,
+                          colClasses="character",check.names=FALSE)
+    blank_grid <- lo_grid_from_tasks(task_rows)
+    grid_path <- file.path(private_root,"master_reconciliation",
+                           "MINIMUM_FIGURE_QUEUE","PRIVATE_MASTER_ESTIMATION_GRID.csv")
+    # All estimates/SE/N deliberately missing until exact science and
+    # fingerprint matching is proven; this grid NEVER goes to public GitHub.
+    write.csv(blank_grid,grid_path,row.names=FALSE,na="")
+    cat("BLANK_ESTIMATION_GRID: ",nrow(blank_grid),
+        " exact source contract cells, zero presumed validated.\n",sep="")
     if(file.exists(lo_pipeline_drive_config_path())) {
       transfer <- tryCatch({
         lo_pipeline_drive_publish(repo,"publish")
