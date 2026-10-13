@@ -213,6 +213,33 @@ lo_compact_backend_tasks <- function(q) {
   x$definition[is_any]<-"nl_one_parent_abroad"
   x
 }
+# Survey-replicated migration peer exposure; strict valid-category
+# denominator, no self-peering, direct and whole-school units kept separate.
+lo_compact_migration_peers <- function(obj,q) {
+  if(!nrow(q)||any(q$module!="migration_peer_exposure")||
+     length(unique(q$peer_definition))!=1L)stop("COMPACT_MIGRATION_PEER_SCOPE_INVALID")
+  src<-migration_groups(obj)
+  if(!isTRUE(src$ok))stop("COMPACT_MIGRATION_PEER_SOURCE: ",src$reason)
+  group<-src$group
+  units<-unit_for(obj,q$peer_definition[[1L]])
+  des<-rc2_replicate_design(obj$data,obj$meta$survey,obj$meta$year)
+  W<-cbind(des$w,vapply(seq_len(des$n),function(i)
+     rc2_repweight(des,i),numeric(nrow(obj$data))))
+  for(k in seq_len(nrow(q))) {
+    target<-switch(q$stat[[k]],
+      first_generation_target_pct_native_peers="first_generation",
+      second_generation_target_pct_native_peers="second_generation",
+      stop("COMPACT_MIGRATION_PEER_UNKNOWN_TARGET"))
+    peer<-ifelse(is.na(group),NA_real_,as.numeric(group=="native"))
+    focal<-ifelse(is.na(group),NA_real_,as.numeric(group==target))
+    est<-100*v10_peer_matrix(units,peer,focal,W)
+    if(length(est)!=des$n+1L || any(!is.finite(est)))
+      stop("COMPACT_MIGRATION_PEER_UNAVAILABLE_REPLICATES")
+    q$estimate[[k]]<-est[[1L]]
+    q$se[[k]]<-sqrt(des$factor*sum((est[-1L]-est[[1L]])^2))
+  }
+  q
+}
 lo_compact_generations <- function(obj,q) {
   if(any(q$module!="migration_generation") || length(unique(q$domain))!=1L)
     stop("COMPACT_GENERATION_WRONG_SCOPE")
