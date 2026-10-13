@@ -11,6 +11,8 @@ tasks <- data.frame(metric_key=c("a","b","c","d"),
   survey=c("PISA","PISA","PIRLS","TIMSS"),
   year=c("2022","2025","2021","2023"),
   module=c("core","gender","core","peer"),
+  domain=c("reading","reading","reading","science"),
+  peer_definition=c("","","","direct_learning_environment"),
   contract_figure_id=c("TR_MEAN_age15_reading",
   "GP_GENDER_GAP_age15_reading","TR_BASIC_age10_reading",
   "EN_PERFORMANCE_PEER_age10_science"))
@@ -30,6 +32,10 @@ stopifnot(x$total_contracts==4L,x$archived_candidate_any==3L,
           is.na(x$proven_new_computations))
 out <- file.path(root,"master_reconciliation","MINIMUM_FIGURE_QUEUE")
 q <- read.csv(file.path(out,"PRIVATE_METRIC_REUSE_QUEUE.csv"))
+active <- read.csv(file.path(out,"ACTIVE_PRODUCT_RECONCILIATION.csv"))
+extra <- read.csv(file.path(out,"ADDITIONAL_BELOW_BASIC_PEER_CONTEXTS.csv"))
+stopifnot(nrow(extra)==1L,extra$proposed_result_cells[[1L]]==3L,
+          active$contract_cells[active$category=="NEW_BELOW_BASIC_PEER_DESIGN_CANDIDATES"]==3L)
 stopifnot(all(q$approval_to_compute=="NO"),
           q$product_decision[q$metric_key=="c"]==
               "DROP_SEPARATE_VISUAL_CAN_DERIVE_COMPLEMENT",
