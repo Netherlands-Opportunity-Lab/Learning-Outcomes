@@ -233,6 +233,8 @@ lo_compact_migration_peers <- function(obj,q) {
   des<-rc2_replicate_design(obj$data,obj$meta$survey,obj$meta$year)
   W<-cbind(des$w,vapply(seq_len(des$n),function(i)
      rc2_repweight(des,i),numeric(nrow(obj$data))))
+  q$estimate<-rep(NA_real_,nrow(q))
+  q$se<-rep(NA_real_,nrow(q))
   for(k in seq_len(nrow(q))) {
     target<-switch(q$stat[[k]],
       first_generation_target_pct_native_peers="first_generation",
