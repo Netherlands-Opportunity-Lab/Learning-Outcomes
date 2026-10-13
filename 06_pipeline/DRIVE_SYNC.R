@@ -291,8 +291,34 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
     }
     chosen
   }
+  lo_drive_fixed_reports <- function() {
+    scope_names <- c("nld_only","nld_plus_19","all_required")
+    safe <- character()
+    for(scope in scope_names) {
+      base <- file.path(root,"FIXED_PRODUCTION_V1",scope)
+      for(rel in c("GRID_AUDIT_SUMMARY.csv","PRODUCTION_SCOPE_STATUS.csv",
+        "SCIENTIFIC_QUALITY_SUMMARY.csv","FINAL_FIXED_PIPELINE/RECONCILIATION_SUMMARY.csv",
+        "SCOPE_SELECTION_SUMMARY.csv")) {
+        p <- file.path(base,rel)
+        if(!file.exists(p))next
+        info <- file.info(p)
+        if(is.na(info$size) || info$size>1024^2)
+          stop("PRIVATE_REPORT_HOLD: fixed summary too large")
+        bytes <- readBin(p,what="raw",n=as.integer(info$size)+1L)
+        if(length(bytes)!=info$size)
+          stop("PRIVATE_REPORT_HOLD: fixed report changed")
+        lo_drive_text_safe(bytes,basename(p))
+        # Never pass personal local file paths through summary reports.
+        if(grepl("[A-Za-z]:[/\\\\]Users[/\\\\]",rawToChar(bytes),ignore.case=TRUE))
+          stop("PRIVATE_REPORT_HOLD: path exposed by fixed status")
+        safe <- c(safe,p)
+      }
+    }
+    safe
+  }
   select_files <- function() {
-    chosen <- c(lo_drive_quota_report(),lo_drive_minimum_reports())
+    chosen <- c(lo_drive_quota_report(),lo_drive_minimum_reports(),
+                lo_drive_fixed_reports())
     d <- lo_drive_pick_run()
     if(!nzchar(d)) {
       cat("Drive run publication: no completed LO05 run found.\n")
@@ -385,6 +411,10 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
           sub("^runs/","reports/",gsub("\\\\","/",relative))
         else if(startsWith(relative,"master_reconciliation/MINIMUM_FIGURE_QUEUE/"))
           paste0("reports/minimum_figures/",basename(relative))
+        else if(grepl("^FIXED_PRODUCTION_V1/(nld_only|nld_plus_19|all_required)/",relative)) {
+          parts <- strsplit(relative,"/",fixed=TRUE)[[1L]]
+          paste0("reports/fixed_pipeline/",parts[[2L]],"/",basename(relative))
+        }
         else "")
     }
     if (action=="preview") {
