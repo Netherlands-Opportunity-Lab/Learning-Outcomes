@@ -85,7 +85,7 @@ lo_fixed_controller <- function(repo,bundle,
     # Other SQLite objects exist as unvalidated candidates. They never
     # overwrite estimate, standard error or N in the scientific grid.
     live_keys<-unique(audit$evidence$metric_key[
-      grepl("^LIVE_LO02_",audit$evidence$source_kind)])
+      grepl("^LIVE_(LO02|CONSOLIDATED|PARQUET)_",audit$evidence$source_kind)])
     is_live<-grid$cell_id%in%live_keys &
       grid$status=="TARGET_NOT_YET_ADJUDICATED"
     grid$status[is_live]<-"LIVE_SQLITE_CANDIDATE_NOT_VALIDATED"
