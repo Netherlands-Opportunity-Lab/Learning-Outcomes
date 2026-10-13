@@ -137,9 +137,65 @@ lo_fixed_controller <- function(repo,bundle,
                q$paper_gates_pass,"/8; peers ",q$primary_peer_gate))
     return(invisible(q))
   }
-  # Even full scientific validity does not authorize publication without
-  # external data rights, reproducibility, slide parity and site QA.
-  put("finalize","HOLD_RIGHTS_PRODUCT_AND_DASHBOARD_RELEASE_QA",
-      "Next build from validated 42-system data; never silently overwrite site")
+  # Assemble a NEW static candidate, not the September 28 public runtime.
+  if(scope!="all_required") {
+    put("finalize","SCOPE_SCIENCE_REVIEW_ELIGIBLE",
+        "Full dashboard requires all_required (50 research countries, 42 UI)")
+    return(invisible(q))
+  }
+  source(file.path(repo,"06_pipeline","LO_FINAL_DASHBOARD_EXPORT.R"),
+         local=environment(),encoding="UTF-8")
+  approvals<-read.csv(approval,stringsAsFactors=FALSE,check.names=FALSE)
+  dashboard_tasks<-selected[selected$country%in%scope_info$dashboard,,drop=FALSE]
+  valid_rows<-approvals[approvals$cell_id%in%dashboard_tasks$metric_key,,drop=FALSE]
+  mapped<-lo_dashboard_export_from_grid(bundle,dashboard_tasks,valid_rows,state)
+  if(!nrow(valid_rows) || mapped$unmapped>0L) {
+    put("finalize","HOLD_DASHBOARD_MISSING_OR_UNMAPPED",
+        paste0(mapped$mapped," frontend-mapped, ",mapped$unmapped,
+               " require explicit method/visual contract"))
+    return(invisible(mapped))
+  }
+  py<-Sys.getenv("LO_PYTHON","python")
+  builder<-file.path(repo,"06_pipeline","LO_FINAL_DASHBOARD_BUILD.py")
+  candidate<-file.path(state,"DASHBOARD_REVIEW_CANDIDATE")
+  if(dir.exists(candidate)) {
+    put("finalize","HOLD_CANDIDATE_EXISTS_REVIEW_FIRST",
+        "Immutable dashboard review output already exists")
+    return(invisible(q))
+  }
+  args<-c(builder,"--repo",repo,"--bundle",bundle,
+     "--validated-grid",file.path(state,"PRIVATE_DASHBOARD_VALIDATED_EXPORT.csv"),
+     "--output",candidate)
+  receipt<-file.path(state,"PUBLIC_RELEASE_CERTIFICATION.json")
+  payloads<-file.path(state,"APPROVED_DASHBOARD_PAYLOADS")
+  if(file.exists(receipt) && dir.exists(payloads))
+    args<-c(args,"--release","--receipt",receipt,
+           "--approved-payloads",payloads)
+  response<-suppressWarnings(system2(py,shQuote(args),stdout=TRUE,stderr=TRUE))
+  code<-attr(response,"status")
+  if(!is.null(code) && code!=0L) {
+    put("finalize","HOLD_DASHBOARD_BUILDER",
+       paste(tail(response,4L),collapse=" | "))
+    return(invisible(q))
+  }
+  if(file.exists(receipt)&&dir.exists(payloads)) {
+    public_script<-file.path(repo,"06_pipeline","LO_FINAL_PUBLIC_GITHUB.py")
+    push<-identical(Sys.getenv("LO_PUBLIC_GITHUB_FINAL_RELEASE"),"YES")
+    pubargs<-c(public_script,"--repo",repo,
+       "--candidate",candidate,"--certificate",receipt,
+       if(push)"--push" else character())
+    result<-suppressWarnings(system2(py,shQuote(pubargs),
+                           stdout=TRUE,stderr=TRUE))
+    rc<-attr(result,"status")
+    if(!is.null(rc)&&rc!=0L) {
+      put("finalize","HOLD_GITHUB_RIGHTS_OR_QA",
+         paste(tail(result,4L),collapse=" | "))
+      return(invisible(q))
+    }
+    put("finalize",if(push)"PUBLIC_RELEASE_PUSH_ATTEMPT_VERIFIED"
+                       else "PUBLIC_RELEASE_GIT_STAGE_READY",
+        "Static files checked against scientific/rights SHA receipts")
+  } else put("finalize","PRIVATE_DASHBOARD_PREVIEW_HOLD_RELEASE",
+       "No approved new rank/21-slide/publication receipt; 2026-09-28 unchanged")
   invisible(q)
 }
