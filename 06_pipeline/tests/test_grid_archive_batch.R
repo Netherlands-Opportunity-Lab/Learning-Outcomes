@@ -31,3 +31,12 @@ stopifnot(nrow(batch)==1L,batch$n_cells==2L)
 g$pv_rule[[3]] <- ""
 stopifnot(inherits(try(lo_grid_batch_plan(g),silent=TRUE),"try-error"))
 cat("PASS strict archive provenance and two-cell shared-wave batch planning\n")
+
+
+# Historical archives are candidates only; no estimates are invented.
+cand <- lo_grid_mark_archive_candidates(g,c("k1","k2"),c("k2"))
+stopifnot(cand$status[[1]]=="ARCHIVE_CANDIDATE_FOUND_NOT_VALIDATED",
+          cand$status[[2]]=="ARCHIVE_CANDIDATE_FOUND_NOT_VALIDATED",
+          cand$archive_source[[2]]=="LO02_CANDIDATE",
+          all(is.na(cand$estimate)),
+          nrow(lo_grid_batch_plan(cand))==0L)
