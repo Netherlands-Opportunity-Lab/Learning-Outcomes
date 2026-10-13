@@ -16,8 +16,17 @@ write_gz(data.frame(metric_key="m2",record_version_id="newer",
  estimate="500",se="3",scientific_status="COMPUTED_PENDING_VALIDATION",
  input_fingerprint=paste(rep("a",64),collapse="")),
  file.path(bundle,"evidence","LO02_RETURN_20261010_CURRENT_RESULTS.csv.gz"))
+write_gz(data.frame(country="iso3:NLD",survey="PISA",year="2022",
+ domain="reading",stat="mean",estimate="490",se="2",
+ status="validated_candidate"),
+ file.path(bundle,"evidence","V8_NLD_DASHBOARD_GRID_FULL.csv.gz"))
+write_gz(data.frame(country="iso3:NLD",survey="PISA",year="2022",
+ domain="reading",stat="mean",estimate="490",se="2",
+ status="conditional"),
+ file.path(bundle,"evidence","V9_COUNTRIES_NEW_MASTER_ROWS.csv.gz"))
 tasks<-data.frame(metric_key=c("m1","m2","m3"),survey="PISA",
- country="NLD",year="2022",module="core")
+ country="NLD",year="2022",module="core",domain="reading",
+ stat=c("mean","gender_mean","mean"))
 e<-lo_existing_result_evidence(bundle,tasks,state,lo02_root="")
 stopifnot(e$summary$scope_contracts==3L,
  e$summary$keys_with_archive_candidates==2L,
@@ -25,7 +34,8 @@ stopifnot(e$summary$scope_contracts==3L,
  e$summary$approved_to_reuse==0L,
  e$summary$approved_to_compute==0L,
  e$summary$candidate_rows_with_numeric_se==1L,
- e$summary$candidate_rows_with_sample_n==0L)
+ e$summary$candidate_rows_with_sample_n==0L,
+ e$summary$additional_v8_v9_coarse_candidate_keys==1L)
 stopifnot(all(e$evidence$reuse_gate==
   "HOLD_REQUIRE_INDEPENDENT_SAMPLE_METHOD_INPUT_PV_N_REVIEW"))
 unlink(work,recursive=TRUE)
