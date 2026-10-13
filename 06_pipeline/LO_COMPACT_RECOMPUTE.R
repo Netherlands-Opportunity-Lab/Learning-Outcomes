@@ -69,7 +69,7 @@ lo_compact_count_n <- function(obj,q) {
   }
   if(m=="peer_baseline" && q$stat[[1L]]=="reference_share")
        g<-v10_migration(obj,q$definition[[1L]])
-  if(m=="migration_generation") {
+  if(m%in%c("migration_generation","migration_peer_exposure")) {
     mg<-migration_groups(obj)
     if(!isTRUE(mg$ok))stop(mg$reason)
     g<-mg$group
@@ -78,7 +78,7 @@ lo_compact_count_n <- function(obj,q) {
      (m=="peer_baseline" && q$stat[[1L]]%in%c("q1_share","q4_share")))
      tails<-rc2_tails_rank(d$SES,w)
   if(m%in%c("peer_below_basic","high_proficiency_peer_exposure",
-            "migration_binary_peer","home_language_peer_exposure",
+            "migration_binary_peer","migration_peer_exposure","home_language_peer_exposure",
             "home_language_frequency_peer","ses_peer_exposure"))
     u<-unit_for(obj,q$peer_definition[[1L]])
   pv_list<-if(length(pv))pv else "__NO_PV__"
@@ -90,6 +90,13 @@ lo_compact_count_n <- function(obj,q) {
       if(m=="gender") {
         eligible<-eligible&!is.na(g)&
            (if(stat=="gap")g%in%c("girl","boy") else g==group)
+      }
+      if(m=="migration_peer_exposure") {
+        desired<-switch(stat,
+          first_generation_target_pct_native_peers="first_generation",
+          second_generation_target_pct_native_peers="second_generation",
+          stop("COMPACT_N_UNKNOWN_MIGRATION_PEER_TARGET"))
+        eligible<-eligible&!is.na(g)&g==desired
       }
       if(m=="migration_generation") {
         eligible<-eligible&!is.na(g)&
@@ -339,7 +346,7 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
   supported<-c("core","gender","ses_national","migration","migration_generation",
     "language_exact","language_frequency","language_frequency_binary",
     "peer_baseline","ses_peer_exposure","home_language_peer_exposure",
-    "home_language_frequency_peer","migration_binary_peer",
+    "home_language_frequency_peer","migration_binary_peer","migration_peer_exposure",
     "high_proficiency_peer_exposure","peer_below_basic")
   for(unit_id in names(groups)) {
     if(n_units>=max_units)break
@@ -429,6 +436,8 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
           lo_compact_low_peer(obj,work)
         } else if(work$module[[1L]]=="migration_generation") {
           lo_compact_generations(obj,work)
+        } else if(work$module[[1L]]=="migration_peer_exposure") {
+          lo_compact_migration_peers(obj,work)
         } else {
           get("v10_compute",envir=.GlobalEnv)(obj,science_work)
         }
