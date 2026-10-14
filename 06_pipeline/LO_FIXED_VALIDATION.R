@@ -21,6 +21,18 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
     write.csv(required[idx,,drop=FALSE],file.path(out,"DOCUMENTED_UNAVAILABLE_EXTENSION_TARGETS.csv"),row.names=FALSE)
     req_ids<-setdiff(req_ids,unavailable_ids)
   }
+  # Use the same verified source-absence evidence as audit. Keep the complete
+  # target manifest; unavailable fields are not silently removed from balance.
+  source_unavailable_ids<-character()
+  source_absence<-file.path(dirname(approval_csv),"SOURCE_UNAVAILABLE_CELLS.csv")
+  if(file.exists(source_absence)) {
+    if(!exists("lo_source_unavailability",mode="function"))stop("SCIENTIFIC_GATE_SOURCE_ABSENCE_VERIFIER_REQUIRED")
+    checked_absence<-lo_source_unavailability(lo_grid_from_tasks(required),source_absence)
+    absent<-checked_absence[checked_absence$status=="UNAVAILABLE_VERIFIED_SOURCE_FIELD",,drop=FALSE]
+    source_unavailable_ids<-absent$cell_id
+    write.csv(absent,file.path(out,"DOCUMENTED_UNAVAILABLE_SOURCE_TARGETS.csv"),row.names=FALSE,na="")
+    req_ids<-setdiff(req_ids,source_unavailable_ids)
+  }
   approved <- data.frame()
   status <- "HOLD"
   message <- ""
@@ -35,6 +47,7 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
        anyDuplicated(approved$cell_id))
       stop("SCIENTIFIC_GATE_HOLD: invalid or duplicate approvals")
     all_approved <- approved
+    if(any(approved$cell_id%in%source_unavailable_ids))stop("SCIENTIFIC_GATE_CONTRADICTORY_SOURCE_ABSENCE")
     approved <- approved[approved$cell_id %in% req_ids,,drop=FALSE]
     if(nrow(approved)) {
       if(!exists("lo_grid_validate_fill",mode="function"))
@@ -134,6 +147,7 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
     validated_active_primitives=nrow(approved)+nrow(peer_approved),
     active_missing=length(missing)+length(peer_missing),
     documented_unavailable_extensions=length(unavailable_ids),
+    documented_unavailable_source_fields=length(source_unavailable_ids),
     new_below_basic_peer_targets=length(peer_ids),
     new_below_basic_peer_verified=length(peer_ids)-length(peer_missing),
     paper_gates_pass=sum(paper$validated),
