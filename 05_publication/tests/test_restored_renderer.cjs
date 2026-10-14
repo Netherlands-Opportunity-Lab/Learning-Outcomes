@@ -6,6 +6,11 @@ const box={document:{documentElement:{dataset:{base:''}},querySelector:()=>null}
 vm.createContext(box);vm.runInContext(code,box);
 vm.runInContext(`
 state.locale='nl';state.dict={figure:{chartAria:'{title}'}};
+state.country='NLD';state.countries=[{code:'NLD',nl:'Nederland',en:'Netherlands'}];
+if(seriesLabel({series_id:'total',series_role:'focus',country_id:'iso3:NLD'})!=='Nederland')throw Error('Focus country mislabeled as reference');
+state.locale='en';
+if(seriesLabel({series_id:'total',series_role:'focus',country_id:'iso3:NLD'})!=='Netherlands')throw Error('English focus label mismatch');
+state.locale='nl';
 const absent=[{estimate:550,year:2021,ci_low:null,ci_high:''},{estimate:540,year:2016}];
 const axis=axisDomain(absent,{unit:'score_points'});
 if(axis.lo<530)throw Error('Absent intervals incorrectly extended the axis to zero');

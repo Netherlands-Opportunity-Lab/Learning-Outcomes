@@ -541,5 +541,36 @@
     "Q01-Q08 claim checks and full scientific freeze",
     "Portable source-code bundle and clean source-to-product replication",
     "New reference/rank dashboard controls, policy deck and Netherlands paper; rights and release review"
-  ]
+  ],
+  "current_finalize_export": {
+    "verified_code_commit": "04eabc2164009fcda843f94742d43fe8334069ac",
+    "status": "ACTUAL_FINALIZE_EXPORT_PASS",
+    "export": [
+      {
+        "validated_input_cells": 1377,
+        "guided_focus_rows": 1060,
+        "mapping_holds": 0,
+        "separate_appendix_or_science_rows": 317,
+        "requires_new_below_basic_peer": "YES",
+        "publication_status": "PRIVATE_REVIEW_ONLY"
+      }
+    ],
+    "unchanged_result_database_sha256": "8fae517c7bf626e923dd5dd2e873d96e3f2b115d4b21f04f93bfe9de97041e32",
+    "language_rows": 69,
+    "no_pupil_calculation": true,
+    "primary_peer_gate": "PASS",
+    "full_scientific_freeze": false,
+    "private_candidate_only": true,
+    "browser_checks": "NL/EN desktop/mobile passed; subsequent focus-country label correction tracked as I52"
+  },
+  "actual_fixed_scope_drive_sync": {
+    "status": "REMOTE_BYTES_AND_HASHES_VERIFIED",
+    "files": 13,
+    "run_report_completeness": "FIXED_SCOPE_AGGREGATES_ONLY",
+    "manifest_id": "20261014T220818Z_c385a201a6d79b5e",
+    "sync_commit": "0a5327374590a7a56906473759c746f4ce79f0c9",
+    "scope": "nld_only",
+    "producer_commit_is_not_inferred_from_sync_commit": true,
+    "not_a_complete_raw_source_backup": true
+  }
 }
