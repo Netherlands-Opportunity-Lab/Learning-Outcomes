@@ -1,0 +1,13 @@
+{
+  "source": "03_RESULTATEN_MATRIX_20261001/AVAILABILITY_MATRIX.csv",
+  "sha256": "1f669789b29b855ef96b510afecf4c4c5043031f0b7a1cf88f512fb35b6226b9",
+  "rows": 50,
+  "legacy_common42_matching_labels": 31,
+  "eligible_countries_certified": 0,
+  "limits": [
+    "Historical availability labels only; no independent source/population/release/comparability verification.",
+    "Counts can include held or not-yet-released source editions; they are not inclusion evidence.",
+    "Eight reference countries have no rows in this common42 matrix; zero is not evidence of no participation.",
+    "Countries outside the historical union require examination too."
+  ]
+}

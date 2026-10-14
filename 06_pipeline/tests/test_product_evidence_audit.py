@@ -1,10 +1,24 @@
-import importlib.util,json,sqlite3,tempfile,unittest,csv
+import importlib.util,json,sqlite3,tempfile,unittest,csv,sys
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(root))
 spec=importlib.util.spec_from_file_location('audit',root/'PRODUCT_EVIDENCE_AUDIT.py')
 audit=importlib.util.module_from_spec(spec);spec.loader.exec_module(audit)
 
 class ProductAuditTest(unittest.TestCase):
+    def test_source_deck_does_not_approve_substantive_additions(self):
+        original=json.loads((root/'review_20261013/PRODUCT_REQUIREMENTS.json').read_text(encoding='utf-8'))
+        d=audit.apply_scope_approval(original)
+        byid={r['requirement_id']:r for r in d['requirements']}
+        self.assertEqual(byid['SCIENCE_24']['approval_items'],['A06'])
+        self.assertIn('A01',byid['POLICY_20']['approval_items'])
+        self.assertIn('A03',byid['POLICY_20']['approval_items'])
+        self.assertNotIn('S_LEGACY_PANELS',byid['POLICY_02']['additional_dependencies'])
+        self.assertFalse(d['inventory_is_user_approval'])
+        self.assertTrue(all(not r['production_authorized_by_inventory'] for r in d['requirements']))
+        self.assertTrue(all('PENDING' in r['role'] for r in d['requirements'] if r['approval_items']))
+        self.assertEqual(audit.apply_scope_approval(d),d)
+
     def test_nonfinite_and_missing_are_never_parity(self):
         for a,b in [('', ''),('NA','NA'),('nan','nan'),('inf','inf'),(None,None)]:
             self.assertFalse(audit.numeric_equal(a,b))
