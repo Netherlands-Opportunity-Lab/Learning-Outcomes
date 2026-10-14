@@ -3,8 +3,9 @@
 # Call only after independent source proof and a measured pilot exist in each
 # explicitly named block directory. Paths are private caller configuration.
 lo_certify_verified_source_blocks <- function(repo,bundle,root,block_root,
-  blocks,pilot_id,kind=c("PISA_MODERN","PISA_LEGACY","IEA","IEA_BOOKS")) {
+  blocks,pilot_id,kind=c("PISA_MODERN","PISA_LEGACY","IEA","IEA_BOOKS","PEERS_PISA","PEERS_IEA")) {
   kind<-match.arg(kind)
+  peers<-startsWith(kind,"PEERS_");pisa<-grepl("PISA",kind,fixed=TRUE)
   stopifnot(length(blocks)>1L,!anyDuplicated(blocks),pilot_id%in%blocks,
     all(grepl("^[A-Za-z0-9_]+$",blocks)))
   repo<-normalizePath(repo,winslash="/");bundle<-normalizePath(bundle,winslash="/")
@@ -19,11 +20,11 @@ for(p in c('REPAIRS.R','EXTENSIONS.R'))source(file.path(bundle,'engine',p))
 lo_exact_boot(bundle)
 old<-read.csv(file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),stringsAsFactors=FALSE,na.strings=character())
 requested<-do.call(rbind,lapply(blocks,function(b)read.csv(file.path(block_root,b,'EXACT_SELECTED_TASKS.csv'),colClasses='character',na.strings=character())))
-allowed_modules<-if(startsWith(kind,'PISA'))c('core','gender','language_exact','migration_generation','extension_performance_school')else switch(kind,IEA=c('core','gender','extension_performance_school','extension_performance_class'),IEA_BOOKS=c('ses_national','extension_ses_gender','extension_ses_school','extension_ses_class'))
+allowed_modules<-if(peers)c('peer_below_basic','high_proficiency_peer_exposure')else if(pisa)c('core','gender','language_exact','migration_generation','extension_performance_school')else switch(kind,IEA=c('core','gender','extension_performance_school','extension_performance_class'),IEA_BOOKS=c('ses_national','extension_ses_gender','extension_ses_school','extension_ses_class'))
 if(any(!requested$module%in%allowed_modules)||any(requested$country!='NLD')||anyDuplicated(requested$metric_key))stop('CERTIFICATION_UNREVIEWED_SCOPE')
 base<-read.csv(file.path(bundle,'engine/TASKS.csv'),colClasses='character',na.strings=character())
 base<-base[base$country=='NLD',];decisions<-lo_read_scope_decisions(repo)
-base<-lo_scope_active_tasks(rbind(base,lo_extension_tasks(base,decisions)),decisions)
+base<-lo_scope_active_tasks(rbind(base,lo_extension_tasks(base,decisions),lo_scoped_low_peer_tasks(base,decisions)),decisions)
 allowed<-lo_grid_from_tasks(base);want<-lo_grid_from_tasks(requested);ix<-match(want$cell_id,allowed$cell_id)
 if(anyNA(ix)||any(want$target_contract_sha256!=allowed$target_contract_sha256[ix]))stop('CERTIFICATION_TASK_NOT_EXACTLY_APPROVED')
 if(all(want$cell_id%in%old$cell_id)) {
@@ -40,7 +41,7 @@ code_sha<-lo_exact_code_sha(repo,bundle);approved<-list();all_tasks<-list();all_
 for(year in blocks) {
  out<-file.path(block_root,year)
  q<-read.csv(file.path(out,'EXACT_SELECTED_TASKS.csv'),colClasses='character',na.strings=character())
- src_survey<-if(startsWith(kind,'PISA'))'PISA'else sub('_.*$','',year);src_year<-if(startsWith(kind,'PISA'))year else sub('^[^_]+_','',year)
+ src_survey<-if(pisa)'PISA'else sub('_.*$','',year);src_year<-if(grepl('_',year,fixed=TRUE))sub('^[^_]+_','',year)else year
  stopifnot(all(q$country=='NLD'),all(paste(q$survey,q$year,sep='_')==paste(src_survey,src_year,sep='_')),!any(q$metric_key%in%old$cell_id))
  src<-jsonlite::fromJSON(file.path(out,'SOURCE_VERIFICATION.json'))
  stopifnot(src$country=='NLD',src$survey==src_survey,as.character(src$year)==src_year,
@@ -49,6 +50,7 @@ for(year in blocks) {
  obj<-readRDS(source_path)
  stopifnot(lo_exact_sha(source_path)==src$canonical_sha256,nrow(obj$data)<=budget$max_n)
  evidence<-c(file.path(out,c('SOURCE_VERIFICATION.json','INDEPENDENT_RESULTS.csv','JOINT_REFERENCE_PV_REPLICATES.rds')),list.files(out,pattern='^VERIFIER_.*[.]R$',full.names=TRUE),list.files(out,pattern='^RAW_COLUMN_PARITY[.]csv$',full.names=TRUE))
+ if(peers)evidence<-c(evidence,file.path(out,c('PV_TARGET_SAMPLE_COUNTS.csv','PARENT_SOURCE_VERIFICATION.json')))
  stopifnot(length(evidence)>=4L,all(file.exists(evidence)))
  ef<-data.frame(path=normalizePath(evidence,winslash='/'),sha256=vapply(evidence,lo_exact_sha,character(1)))
  all_evidence[[year]]<-ef
@@ -56,13 +58,18 @@ for(year in blocks) {
  for(ix in groups) {
    z<-q[ix,];a<-lo_grid_from_tasks(z);a$source_path<-source_path;a$source_edition_sha256<-src$canonical_sha256
    a$sample_id<-paste0(year,'_NLD_ALL_',nrow(obj$data),'_PUBLIC_USE_STUDENTS')
-   a$method_version<-paste0(kind,'_',z$module[1],'_RAW_DESIGN_PV_INDEPENDENT_V1')
-   a$weight_design<-if(startsWith(kind,'PISA'))'W_FSTUWT_80_REPLICATE_WEIGHTS_FAY_0.5'else if(as.integer(z$year[1])>=2015)'TOTWGT_JKZONE_JKREP_TWO_PER_ZONE_FACTOR_HALF'else 'TOTWGT_JKZONE_JKREP_ONE_PER_ZONE_FACTOR_ONE';a$pv_rule<-if(kind=='PISA_MODERN')'ALL_10_PVS_PER_DOMAIN_NO_INCOMPLETE_POOL'else if(z$domain[1]=='all')'OBSERVED_ORDINAL_BOOKS_NO_ACHIEVEMENT_IMPUTATION'else 'ALL_5_PVS_PER_DOMAIN_NO_INCOMPLETE_POOL'
-   a$variance_rule<-switch(kind,PISA_MODERN='MEAN_WITHIN_PV_BRR_1_OVER_20_PLUS_1.1_BETWEEN_PV',PISA_LEGACY='MEAN_WITHIN_PV_BRR_1_OVER_20_PLUS_1.2_BETWEEN_PV','MEAN_WITHIN_PV_CYCLE_SPECIFIC_JRR_PLUS_1.2_BETWEEN_PV');a$code_fingerprint<-code_sha
+   a$method_version<-paste0(kind,'_',z$module[1],'_RAW_DESIGN_PV_INDEPENDENT_V1',if(peers)'_PEER_PV_FRAME_N_TARGET_COUNTS_V1'else '')
+   a$weight_design<-if(pisa)'W_FSTUWT_80_REPLICATE_WEIGHTS_FAY_0.5'else if(as.integer(z$year[1])>=2015)'TOTWGT_JKZONE_JKREP_TWO_PER_ZONE_FACTOR_HALF'else 'TOTWGT_JKZONE_JKREP_ONE_PER_ZONE_FACTOR_ONE';a$pv_rule<-if(pisa&&as.integer(src_year)>=2015)'ALL_10_PVS_PER_DOMAIN_NO_INCOMPLETE_POOL'else if(z$domain[1]=='all')'OBSERVED_ORDINAL_BOOKS_NO_ACHIEVEMENT_IMPUTATION'else 'ALL_5_PVS_PER_DOMAIN_NO_INCOMPLETE_POOL'
+   a$variance_rule<-if(pisa)paste0('MEAN_WITHIN_PV_BRR_1_OVER_20_PLUS_',if(as.integer(src_year)>=2015)'1.1'else '1.2','_BETWEEN_PV')else 'MEAN_WITHIN_PV_CYCLE_SPECIFIC_JRR_PLUS_1.2_BETWEEN_PV';a$code_fingerprint<-code_sha
    a$input_fingerprint<-if(startsWith(z$module[1],'extension_'))lo_extension_projection(obj,z)else lo_compact_projection(obj,lo_compact_backend_tasks(z))
    a$covariance_group_id<-lo_exact_sha(file.path(out,'JOINT_REFERENCE_PV_REPLICATES.rds'))
    cert<-as.list(a[1,c('sample_id','method_version','weight_design','pv_rule','variance_rule','source_edition_sha256','input_fingerprint','code_fingerprint')])
    cert$status<-'METHOD_SAMPLE_INPUT_CERTIFIED';cert$cell_ids<-z$metric_key;cert$evidence_files<-ef
+   if(peers) {
+     cert$sample_count_rule<-obj$meta$sample_count_rule;cert$sample_count_evidence_path<-obj$meta$sample_count_evidence_path;cert$sample_count_evidence_sha256<-obj$meta$sample_count_evidence_sha256
+     stopifnot(identical(cert$sample_count_rule,'ANALYTIC_PEER_FRAME_WITH_SEPARATE_PV_TARGET_COUNTS'))
+     for(k in c('peer_denominator_verified','self_exclusion_verified','method_certification_status','joint_pv_replicate_status'))a[[k]]<-'PASS'
+   }
    cert$resource_budget<-list(measured_peak_scratch_bytes=budget$measured_peak_scratch_bytes,max_scratch_bytes=budget$max_scratch_bytes,evidence_path=resource,evidence_sha256=lo_exact_sha(resource))
    cp<-file.path(out,paste0('METHOD_',substr(digest::digest(z$metric_key,algo='sha256'),1,16),'.json'))
    jsonlite::write_json(cert,cp,auto_unbox=TRUE,pretty=TRUE,digits=17)
@@ -98,12 +105,13 @@ p<-read.csv(file.path(block_root,pilot_id,'MEASURED_PRODUCER_RESULTS.csv'),strin
 measurement<-jsonlite::fromJSON(file.path(block_root,pilot_id,'PRODUCER_MEASUREMENT.json'))
 stopifnot(nrow(p)==nrow(q),!anyDuplicated(p$metric_key),setequal(p$metric_key,q$metric_key),
   measurement$source_sha256==unique(pilot$source_edition_sha256))
-if(kind%in%c('IEA_BOOKS','PISA_LEGACY'))stopifnot(identical(measurement$producer_code_sha256,code_sha))
+if(peers||kind%in%c('IEA_BOOKS','PISA_LEGACY'))stopifnot(identical(measurement$producer_code_sha256,code_sha))
 rows<-do.call(rbind,lapply(seq_len(nrow(q)),function(i){j<-match(q$metric_key[i],p$metric_key);lo_compact_science_rows(q[i,,drop=FALSE],p[j,,drop=FALSE],p$n_unweighted[j],pilot$input_fingerprint[i],pilot$code_fingerprint[i],pilot$method_version[i])}))
 con<-lo_compact_open(compact);lo_compact_put(con,rows);lo_compact_close(con)
 ref<-read.csv(file.path(block_root,pilot_id,'INDEPENDENT_RESULTS.csv'),stringsAsFactors=FALSE)
 pilot_closed<-close_rows(pilot,rows,ref,c(all_evidence[[pilot_id]]$path,file.path(block_root,pilot_id,'PRODUCER_PARITY.csv')),paste0(kind,'_',pilot_id,'_SELECTED'))
-write.csv(rbind(old,pilot_closed),file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),row.names=FALSE,na='')
+bind_columns<-function(...) {xs<-list(...);cols<-unique(unlist(lapply(xs,names)));do.call(rbind,lapply(xs,function(x){for(k in setdiff(cols,names(x)))x[[k]]<-'';x[cols]}))}
+write.csv(bind_columns(old,pilot_closed),file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),row.names=FALSE,na='')
 pending<-approved[!approved$cell_id%in%pilot$cell_id,]
 write.csv(pending,file.path(master,'SCIENTIFIC_COMPUTE_APPROVALS.csv'),row.names=FALSE,na='')
 cfg<-lo_run_config('nld_only','');cfg$max_compute_units<-256L
@@ -116,9 +124,15 @@ stopifnot(first$new_candidates+first$reused_candidates==nrow(pending),first$held
 con<-lo_compact_open(compact);actual<-DBI::dbGetQuery(con,'SELECT * FROM grid');lo_compact_close(con)
 reference<-do.call(rbind,lapply(setdiff(blocks,pilot_id),function(y)read.csv(file.path(block_root,y,'INDEPENDENT_RESULTS.csv'),stringsAsFactors=FALSE)))
 rest<-close_rows(pending,actual,reference,unlist(lapply(all_evidence[setdiff(blocks,pilot_id)],function(x)x$path)),paste0(kind,'_SELECTED_CONTROLLER'))
-write.csv(rbind(old,pilot_closed,rest),file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),row.names=FALSE,na='')
+write.csv(bind_columns(old,pilot_closed,rest),file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),row.names=FALSE,na='')
 write.csv(approved,file.path(master,paste0('COMPLETED_',kind,'_APPROVALS.csv')),row.names=FALSE,na='')
 write.csv(pending[FALSE,],file.path(master,'SCIENTIFIC_COMPUTE_APPROVALS.csv'),row.names=FALSE,na='')
+if(peers) {
+ ctx<-unique(tasks[tasks$module=='peer_below_basic',c('country','survey','year','domain','peer_definition')]);ctx$scientific_status<-'PASS'
+ path<-file.path(master,'LOW_PEER_PRIMARY_GATES.csv')
+ previous<-if(file.exists(path))read.csv(path,stringsAsFactors=FALSE)else ctx[FALSE,]
+ ctx<-unique(rbind(previous,ctx));write.csv(ctx,path,row.names=FALSE)
+}
 final<-lo_fixed_controller(repo,bundle,'audit','nld_only',root)
 stopifnot(final$validated==nrow(old)+nrow(approved),final$approved_compute_batches==0L)
 jsonlite::write_json(list(status='SELECTED_SOURCE_BLOCKS_CERTIFIED',first=first,second=second,final_audit=final,

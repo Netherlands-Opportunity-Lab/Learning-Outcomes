@@ -157,6 +157,10 @@ lo_compact_export <- function(con,root,selected_ids=NULL) {
   # CSV is a compatibility export; SQLite is authoritative. No history/replicate dumps.
   x<-DBI::dbGetQuery(con,"SELECT * FROM grid ORDER BY country,survey,year,cell_id")
   if(!is.null(selected_ids))x<-x[x$cell_id%in%selected_ids,,drop=FALSE]
+  # Explicitly label the denominator of the single N. PV-varying focal-group
+  # counts live in the certified companion CSV, never in a fabricated mean N.
+  x$n_definition<-ifelse(grepl('PEER_PV_FRAME_N_TARGET_COUNTS_V1',x$method_id,fixed=TRUE),
+    'ANALYTIC_PEER_FRAME; TARGET_N_SEPARATE_FOR_EACH_PV','EXACT_VALID_OBSERVED_TARGET_OR_CONTRAST_SAMPLE')
   file<-file.path(root,"COMPACT_MASTER_GRID.csv.gz")
   stage<-paste0(file,".new")
   if(file.exists(stage))unlink(stage)

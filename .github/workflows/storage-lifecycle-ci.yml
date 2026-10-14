@@ -115,6 +115,8 @@ jobs:
         run: Rscript 06_pipeline/tests/test_compact_grid_store.R
       - name: Test low-basic peer PV denominator and minimal active figures
         run: Rscript 06_pipeline/tests/test_compact_recompute.R
+      - name: Test independent peer PV counts and self-exclusion
+        run: Rscript 06_pipeline/tests/test_peer_reference.R
       - name: Test NLD-only native V5 path with candidate suppression
         run: Rscript 06_pipeline/tests/test_v5_nld_core.R
 

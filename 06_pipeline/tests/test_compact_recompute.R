@@ -53,6 +53,21 @@ stopifnot(all(r$status=="COMPUTED_PENDING_VALIDATION"),all(r$n_unweighted>0))
 obj2<-obj
 obj2$data$PV2[[1L]]<-600
 stopifnot(is.na(lo_compact_count_n(obj2,q)[[2L]]))
+# The explicit frame-N policy retains every separate PV target count and checks
+# it against independently supplied evidence. A changed count file is rejected.
+countfile<-tempfile(fileext='.csv')
+cc<-data.frame(cell_id=rep(q$metric_key,each=2),pv=rep(1:2,3),n_frame=4L,
+ n_target=c(4,4,2,1,2,3),n_definition='ANALYTIC_PEER_FRAME_WITH_SEPARATE_PV_TARGET_COUNTS')
+write.csv(cc,countfile,row.names=FALSE)
+obj2$meta$sample_count_rule<-'ANALYTIC_PEER_FRAME_WITH_SEPARATE_PV_TARGET_COUNTS'
+obj2$meta$sample_count_evidence_path<-countfile
+obj2$meta$sample_count_evidence_sha256<-digest::digest(file=countfile,algo='sha256')
+stopifnot(identical(lo_compact_count_n(obj2,q),rep(4L,3L)))
+cc$n_target[4]<-2L;write.csv(cc,countfile,row.names=FALSE)
+stopifnot(inherits(try(lo_compact_count_n(obj2,q),silent=TRUE),'try-error'))
+obj2$meta$sample_count_evidence_sha256<-digest::digest(file=countfile,algo='sha256')
+stopifnot(inherits(try(lo_compact_count_n(obj2,q),silent=TRUE),'try-error'))
+unlink(countfile)
 # Singletons have no eligible peer denominator. N cannot be fabricated.
 obj3<-obj;obj3$data$SCHOOL<-c("A","B","C","D")
 stopifnot(all(is.na(lo_compact_count_n(obj3,q))))
@@ -78,6 +93,23 @@ gens$metric_key<-paste0("g",seq_len(nrow(gens)))
 gn<-lo_compact_count_n(obj,gens)
 stopifnot(identical(as.integer(gn),c(2L,1L,1L,3L,3L)))
 cat("PASS source migration contract mapping and generation-level unweighted N\\n")
+# A source-relative language item needs no separately observed test-language
+# identity. Missing actual required language data must still fail.
+language_obj<-obj;language_obj$meta$language_definition<-'ASSESSMENT_LANGUAGE_RELATIVE_HOME_USE'
+language_obj$meta$language_mapping_status<-'SOURCE_LABELS_AND_STUDENT_IDS_VERIFIED'
+language_obj$data$DEMO_LANGUAGE<-c('test_language_home','other_language_home','test_language_home','other_language_home')
+for(i in 1:80)language_obj$data[[paste0('RW',i)]]<-1
+lo4_pv_fields<-function(d,domain)c('PV1','PV2')
+language_q<-tasks[4,,drop=FALSE];language_q$module<-'language_exact'
+h1<-lo_compact_projection(language_obj,language_q)
+rownames(language_q)<-'98765'
+stopifnot(identical(h1,lo_compact_projection(language_obj,language_q)))
+language_obj$data$TEST_LANGUAGE<-'unused code'
+stopifnot(identical(h1,lo_compact_projection(language_obj,language_q)))
+language_obj$data$DEMO_LANGUAGE[1]<-'other_language_home'
+stopifnot(!identical(h1,lo_compact_projection(language_obj,language_q)))
+language_obj$data$DEMO_LANGUAGE<-NULL
+stopifnot(inherits(try(lo_compact_projection(language_obj,language_q),silent=TRUE),'try-error'))
 # Migration exposure uses strictly source-labelled native peers, with
 # each focal pupil removed from her own peer denominator.
 mq<-tasks[rep(4L,2L),,drop=FALSE]
@@ -95,3 +127,4 @@ stopifnot(identical(as.numeric(mp$estimate),c(100,100)),
 cat("PASS valid-category migration peer exposure and exact survey N\\n")
 
 cat("PASS active minimal policy and below-basic self-excluded peer estimates, exact N and PV-N HOLD\n")
+

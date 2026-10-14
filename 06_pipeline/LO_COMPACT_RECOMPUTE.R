@@ -1,3 +1,42 @@
+# PV-defined target groups have multiple legitimate counts. Preserve those
+# counts individually; the one database N describes the fixed analytic frame.
+# This opt-in requires independently certified counts, never a rounded mean N.
+lo_peer_sample_counts <- function(obj,q) {
+  rule<-'ANALYTIC_PEER_FRAME_WITH_SEPARATE_PV_TARGET_COUNTS'
+  if(!identical(obj$meta$sample_count_rule,rule))stop('PEER_N_RULE_NOT_CERTIFIED')
+  if(any(!q$module%in%c('peer_below_basic','high_proficiency_peer_exposure'))||
+     length(unique(q$domain))!=1L||length(unique(q$peer_definition))!=1L)stop('PEER_N_TASK_SCOPE')
+  path<-obj$meta$sample_count_evidence_path;sha<-obj$meta$sample_count_evidence_sha256
+  if(length(path)!=1L||length(sha)!=1L||!file.exists(path)||
+     !identical(digest::digest(file=path,algo='sha256'),sha))stop('PEER_N_CHANGED_COUNT_EVIDENCE')
+  expected<-read.csv(path,stringsAsFactors=FALSE)
+  columns<-c('cell_id','pv','n_frame','n_target','n_definition')
+  if(!all(columns%in%names(expected))||anyDuplicated(paste(expected$cell_id,expected$pv)))stop('PEER_N_INVALID_COUNT_EVIDENCE')
+  d<-obj$data;w<-lo_compact_weight(obj);pv<-pv_names(d,q$domain[1]);u<-as.character(unit_for(obj,q$peer_definition[1]))
+  if(!length(pv))stop('PEER_N_NO_PV')
+  counts<-list();n<-integer(nrow(q))
+  for(k in seq_len(nrow(q))) {
+    frames<-integer(length(pv))
+    for(j in seq_along(pv)) {
+      y<-as.numeric(d[[pv[j]]]);valid<-is.finite(w)&w>0&is.finite(y)&!is.na(u)&nzchar(u)
+      units<-table(u[valid]);enough<-rep(FALSE,length(u));ix<-match(u,names(units));good<-!is.na(ix)
+      enough[good]<-as.numeric(units[ix[good]])>=2L;frame<-valid&enough
+      low<-q$module[k]=='peer_below_basic'
+      cut<-if(low)thresholds_for(obj$meta$survey,q$domain[k])[['basic']]else as.numeric(q$threshold[k])
+      if(length(cut)!=1L||!is.finite(cut))stop('PEER_N_THRESHOLD')
+      target<-switch(q$group[k],total=rep(TRUE,length(y)),self_below_basic=y<cut,
+        self_at_or_above_basic=y>=cut,self_high=y>=cut,self_below_high=y<cut,stop('PEER_N_UNKNOWN_TARGET'))
+      frames[j]<-sum(frame)
+      counts[[length(counts)+1L]]<-data.frame(cell_id=q$metric_key[k],pv=j,n_frame=frames[j],n_target=sum(frame&target,na.rm=TRUE),n_definition=rule)
+    }
+    if(length(unique(frames))!=1L||frames[1]<1L)stop('PEER_N_CHANGING_OR_EMPTY_ANALYTIC_FRAME')
+    n[k]<-frames[1]
+  }
+  actual<-do.call(rbind,counts);at<-match(paste(actual$cell_id,actual$pv),paste(expected$cell_id,expected$pv))
+  if(anyNA(at)||any(as.matrix(actual[columns])!=as.matrix(expected[at,columns])))stop('PEER_N_INDEPENDENT_COUNT_MISMATCH')
+  n
+}
+
 # One source batch per survey x country x wave, one compact SQLite grid.
 # All new statistical values remain COMPUTED_PENDING_VALIDATION.
 # Source data are never copied, published or deleted by this producer.
@@ -37,6 +76,9 @@ lo_compact_count_n <- function(obj,q) {
   # appropriate focal-group label and (for peers) an actual peer denominator.
   # If different plausible values imply different N, do not fabricate one N.
   d<-obj$data;m<-q$module[[1L]];w<-lo_compact_weight(obj)
+  if(m%in%c('peer_below_basic','high_proficiency_peer_exposure') &&
+     identical(obj$meta$sample_count_rule,'ANALYTIC_PEER_FRAME_WITH_SEPARATE_PV_TARGET_COUNTS'))
+    return(lo_peer_sample_counts(obj,q))
   pv<-if(q$domain[[1L]]=="all") character() else pv_names(d,q$domain[[1L]])
   if(!length(pv)&&q$domain[[1L]]!="all")stop("COMPACT_N_MISSING_PV")
   g<-NULL;tails<-NULL;u<-NULL
@@ -267,6 +309,18 @@ lo_compact_generations <- function(obj,q) {
   q
 }
 lo_compact_projection <- function(obj,q) {
+  if(q$module[[1L]]=="language_exact" && identical(obj$meta$survey,"PISA") &&
+     identical(obj$meta$language_definition,"ASSESSMENT_LANGUAGE_RELATIVE_HOME_USE") &&
+     identical(obj$meta$language_mapping_status,"SOURCE_LABELS_AND_STUDENT_IDS_VERIFIED")) {
+    # The verified question already means home language relative to the test.
+    # The estimator uses DEMO_LANGUAGE; an unused test-language code must not
+    # block older cycles or be invented merely to satisfy a legacy projection.
+    d<-obj$data;pv<-lo4_pv_fields(d,q$domain[[1L]])
+    fields<-c("W",paste0("RW",1:80),pv,"DEMO_LANGUAGE")
+    if(!length(pv)||!all(fields%in%names(d)))stop("COMPACT_LANGUAGE_SOURCE_FIELDS_MISSING")
+    return(digest::digest(list(meta=obj$meta,task=lapply(q[c("country","survey","year","domain","definition")],function(x)sort(unique(as.character(x)))),
+      columns=lapply(d[fields],digest::digest,algo="sha256")),algo="sha256"))
+  }
   if(q$module[[1L]]!="peer_below_basic")return(lo4_projection(obj,q))
   if(!is.list(obj)||!is.data.frame(obj$data))stop("COMPACT_LOW_PEER_NO_SOURCE_DATA")
   d<-obj$data
@@ -280,6 +334,8 @@ lo_compact_projection <- function(obj,q) {
     stop("COMPACT_LOW_PEER_SOURCE_COLUMNS_MISSING")
   digest::digest(list(survey=obj$meta$survey,year=obj$meta$year,
     country=q$country[[1L]],module="peer_below_basic",
+    sample_count_rule=obj$meta$sample_count_rule,
+    sample_count_evidence_sha256=obj$meta$sample_count_evidence_sha256,
     domain=q$domain[[1L]],peer=q$peer_definition[[1L]],
     columns=vapply(fields,function(k)digest::digest(d[[k]],algo="sha256"),
       character(1L))),algo="sha256")
