@@ -1,5 +1,8 @@
 source("06_pipeline/LO_EXISTING_RESULT_REGISTRY.R")
 work<-tempfile("lo_sources_");dir.create(work)
+# Tests must never discover the user's real Downloads registry.
+old_master<-Sys.getenv("LO_MASTER_PROJECT_ROOT",unset=NA_character_)
+Sys.setenv(LO_MASTER_PROJECT_ROOT=file.path(work,"absent_master"))
 bundle<-file.path(work,"bundle");dir.create(bundle)
 dir.create(file.path(bundle,"evidence"))
 state<-file.path(work,"LO05_RESULTATEN","FIXED_PRODUCTION_V1","nld_only")
@@ -15,6 +18,10 @@ DBI::dbWriteTable(con,"result_versions",data.frame(
  input_fingerprint=paste(rep("f",64),collapse=""),
  record_version_id="consolidated_test_version",source_id="central_current",
  source_sha256=paste(rep("a",64),collapse="")))
+DBI::dbWriteTable(con,"results_v4",data.frame(
+ metric_key="m3",estimate="470",se="5.2",status="AVAILABLE_POINT",
+ input_fingerprint="V11|file-size:mtime",code_fingerprint=paste(rep("b",64),collapse=""),
+ record_version_id="historical_v4",result_hash=paste(rep("c",64),collapse=""),is_current=1L))
 DBI::dbDisconnect(con)
 write_gz <- function(x,p) {
   con<-gzfile(p,"wt")
@@ -46,11 +53,18 @@ stopifnot(e$summary$scope_contracts==3L,
  e$summary$without_archive_candidate==0L,
  e$summary$approved_to_reuse==0L,
  e$summary$approved_to_compute==0L,
- e$summary$candidate_rows_with_numeric_se==2L,
+ e$summary$candidate_rows_with_numeric_se==3L,
  e$summary$candidate_rows_with_sample_n==0L,
  e$summary$additional_v8_v9_coarse_candidate_keys==0L,
  e$summary$sqlite_and_parquet_records>=1L)
+v4<-e$evidence[e$evidence$source_kind=="LIVE_REGISTRY_results_v4",,drop=FALSE]
+stopifnot(nrow(v4)==1L,!v4$has_input_sha256,
+ v4$input_fingerprint=="NON_SHA256_SIGNATURE",
+ v4$scientific_status=="AVAILABLE_POINT",v4$is_current=="1")
 stopifnot(all(e$evidence$reuse_gate==
   "HOLD_REQUIRE_INDEPENDENT_SAMPLE_METHOD_INPUT_PV_N_REVIEW"))
 unlink(work,recursive=TRUE)
+if(is.na(old_master))Sys.unsetenv("LO_MASTER_PROJECT_ROOT") else
+  Sys.setenv(LO_MASTER_PROJECT_ROOT=old_master)
 cat("PASS bounded candidate evidence: no scientific promotion and missing N flagged\n")
+

@@ -1,0 +1,29 @@
+dependency_id,definition,gate,status
+S_TITLE,Editorial title and source identification,NO_ESTIMATE_REQUIRED,EDITORIAL_NO_CELLS
+S_DESIGN,"Population, realised sample N, weights, PVs and replicate design",Q02;Q08,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_OFFICIAL_SES,"PISA official wave-specific national ESCS: Q1/Q4 levels, tails, gaps, coverage; distinct from Cobreros",Q07,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_COVERAGE,"SES total/valid N and weighted coverage by component, edition and analysis sample",Q01,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_COBREROS_4,Author four-wave 34-system 13-item replication at pinned commit,Q03,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_COBREROS_2,Author two-wave 36-system 16-item replication at pinned commit,Q04,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_COBREROS_EXT,"Fixed parameter extension: item mapping, missingness, calibration, overlap sensitivity",Q05,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_REFERENCE,Frozen PPP2024 strict CZE panel; original numeric WDI snapshot; exact panel membership and availability per series,Q06,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_TREND,Within-survey wave changes and differences of changes with covariance/linking variance,Q08,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_HOME_SES,"IEA official Home SES levels, shares and response selection; distinct from books quartiles",Q02;Q07,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_EDITION,"Matched official publication cells across source editions, including SES historical revisions",SOURCE_EDITION_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_ABSOLUTE_SES,International absolute ESCS Q1-Q4 and original foreign31 panel; not national quartiles,LEGACY_PANEL_31_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_SES_GENDER,"SES by gender joint groups, means and within-sample contrasts",JOINT_SAMPLE_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_LANGUAGE_FREQUENCY,"Four TIMSS home test-language frequencies, levels/shares/SE; original PIRLS binary frequencies",SOURCE_LABEL_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_LANGUAGE_MIGRATION,Home versus test-language prevalence by migration generation,JOINT_DEMOGRAPHIC_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_LANGUAGE_EXACT,Exact Dutch versus other language classification; frequency is not a validated binary proxy,SOURCE_LABEL_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_LEGACY_PANELS,"Original fixed13/32 trend panels, 45-gap and 46/48/49 broad/quality cross-age panels; member lists and rank intervals",LEGACY_PANEL_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_COHORT,"Age, fieldwork timing, cohort-distance proxies, ISCED/institutional context; no linked pupil claim",POPULATION_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_SORTING_SCORE,Academic between-school/class variance shares by survey/wave/domain/sample; design uncertainty,SORTING_METHOD_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_SORTING_SES,SES-rank between-school/class variance shares; books versus ESCS; TIMSS once per sample,SORTING_METHOD_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_THEIL,"Weighted Theil H language/migration, category support and multilingual stratification",DEMOGRAPHIC_METHOD_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_REPAIRS,"Sept28 completion 283284 rows / 2569 of 2570 tasks; locate exact repairs, Korea2003 reading and residual holds",REPAIR_RECORD_PARITY_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_LOW_PEER,"NEW below-basic peer targets; self excluded total/below/above groups, direct and whole-school units",PEER_JOINT_PV_REPLICATE_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_REPLICATION,"Annotated RStudio entrypoint, pinned inputs/code/environment, README, metadata/licenses, clean-machine reproduction",FAIR_AER_REPLICATION_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_BRAND,Kansenlab v05 typography/colors with v06 vector logos; 16:9 and 12-column grid; licensed embedded fonts,VISUAL_ACCESSIBILITY_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_DASHBOARD,"42 focus choices, 50 underlying systems, NL/EN, source/method/availability, accessible filters and matching CSV/figure downloads",BROWSER_EXPORT_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_STORAGE,Raw sources may stay C; private Drive intermediates with hash readback; reviewed final GitHub outputs,STORAGE_DEPENDENCY_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS
+S_INTERPRETATION,"Dutch interpretation, nonresponse/coverage caveats, descriptive peer/sorting associations, source-specific claims",CLAIM_EVIDENCE_GATE,REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS

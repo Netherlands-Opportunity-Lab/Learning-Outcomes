@@ -23,8 +23,10 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out) {
     if(nrow(approved)) {
       if(!exists("lo_grid_validate_fill",mode="function"))
         stop("SCIENTIFIC_GATE_HOLD: missing grid validator")
-      grid <- data.frame(cell_id=req_ids)
-      lo_grid_validate_fill(grid,approved)
+      # Final acceptance uses the same exact target/source/design gate as
+      # archive fill, not the weaker schema-only validator.
+      grid <- lo_grid_from_tasks(required)
+      lo_grid_archive_fill(grid,approved)
     }
   } else {
     message <- "Independent scientific approvals file missing"
@@ -95,7 +97,8 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out) {
   peer_pass <- peer_fields_ok && peer_hash_ok && context_ok &&
                length(peer_missing)==0L
   write.csv(data.frame(cell_id=peer_missing,
-     decision=rep("HOLD_NEW_BELOW_BASIC_PEER_NOT_SCIENTIFICALLY_VALIDATED",length(peer_missing))),
+     decision=rep("HOLD_NEW_BELOW_BASIC_PEER_NOT_SCIENTIFICALLY_VALIDATED",
+                  length(peer_missing))),
      file.path(out,"PRIVATE_NEW_PEER_CELL_GAPS.csv"),row.names=FALSE)
   all_pass <- length(missing)==0L && all(paper$validated) && peer_pass
   summary <- data.frame(scope_contracts=nrow(tasks),
@@ -117,7 +120,9 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out) {
     stringsAsFactors=FALSE)
   write.csv(summary,file.path(out,"SCIENTIFIC_QUALITY_SUMMARY.csv"),row.names=FALSE)
   # Keep cell keys private; never write them to release/git folder.
-  write.csv(data.frame(cell_id=missing,decision="HOLD_NOT_VALIDATED"),
+  write.csv(data.frame(cell_id=missing,
+                      decision=rep("HOLD_NOT_VALIDATED",length(missing))),
             file.path(out,"PRIVATE_ACTIVE_CELL_GAPS.csv"),row.names=FALSE)
   invisible(summary)
 }
+
