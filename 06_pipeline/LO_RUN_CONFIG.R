@@ -76,9 +76,9 @@ lo_run_record <- function(repo,state,stage,cfg,outcome) {
   record<-list(schema_version=1L,stage=stage,outcome=outcome,
     timestamp_utc=format(Sys.time(),"%Y-%m-%dT%H:%M:%OS6Z",tz="UTC"),
     configuration=cfg,configuration_sha256=lo_run_config_hash(cfg),
-    git_commit=commit,code_sha256=setNames(vapply(code,hash_file,character(1)),basename(code)),
-    input_manifest=inputs,artifact_sha256=setNames(vapply(file.path(state,paths),hash_file,character(1)),names(paths)),
-    R_version=R.version.string,platform=R.version$platform,packages=versions,
+    git_commit=commit,code_sha256=as.list(setNames(vapply(code,hash_file,character(1)),basename(code))),
+    input_manifest=inputs,artifact_sha256=as.list(setNames(vapply(file.path(state,paths),hash_file,character(1)),names(paths))),
+    R_version=R.version.string,platform=R.version$platform,packages=as.list(versions),
     session_info=capture.output(sessionInfo()),scientific_release="NOT_IMPLIED_BY_RUN_SUCCESS")
   record$results<-results
   record$result_set_sha256<-digest::digest(results,algo="sha256")

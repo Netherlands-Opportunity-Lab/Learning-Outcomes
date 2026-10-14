@@ -32,6 +32,8 @@ id<-lo_run_record(".",state,"audit",cfg,"SYNTHETIC_TEST")
 r<-jsonlite::fromJSON(file.path(state,"RUN_RECORDS",paste0(id,".json")))
 stopifnot(identical(r$configuration_sha256,lo_run_config_hash(cfg)),
   identical(r$outcome,"SYNTHETIC_TEST"),length(r$code_sha256)>0L,
+  "LO_RUN_CONFIG.R"%in%names(r$code_sha256),"digest"%in%names(r$packages),
+  "grid"%in%names(r$artifact_sha256),
   nrow(r$results)==0L,r$scientific_release=="NOT_IMPLIED_BY_RUN_SUCCESS")
 unlink(work,recursive=TRUE)
 cat("PASS explicit config, scope intersection, changed-config invalidation and run lineage\n")

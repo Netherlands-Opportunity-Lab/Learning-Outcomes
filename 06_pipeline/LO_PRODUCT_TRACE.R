@@ -97,5 +97,5 @@ lo_fixed_input_manifest <- function(repo,bundle,root,scope) {
   cfg<-lo_run_config(scope)
   hashes<-c(hashes,run_configuration=lo_run_config_hash(cfg),
     run_config_code=digest::digest(file=file.path(repo,"06_pipeline","LO_RUN_CONFIG.R"),algo="sha256"))
-  list(scope=scope,configuration=cfg,sha256=hashes)
+  list(scope=scope,configuration=cfg,sha256=as.list(hashes))
 }
