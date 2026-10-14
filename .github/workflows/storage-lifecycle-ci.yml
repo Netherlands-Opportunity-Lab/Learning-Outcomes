@@ -72,6 +72,8 @@ jobs:
         run: Rscript 06_pipeline/tests/test_verify_pisa_core.R
       - name: Test labelled PISA source repair and independent paired verification
         run: Rscript 06_pipeline/tests/test_pisa_source_block.R
+      - name: Test proven source absence without shortening the grid
+        run: Rscript 06_pipeline/tests/test_source_unavailability.R
       - name: Test frozen equal-weight reference panel and no benchmark SE
         run: Rscript 06_pipeline/tests/test_fixed_comparator.R
       - name: Test locked archive and SQLite evidence extraction without fabricated N

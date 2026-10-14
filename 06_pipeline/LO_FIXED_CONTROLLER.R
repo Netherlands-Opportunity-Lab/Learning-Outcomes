@@ -10,7 +10,7 @@ lo_fixed_controller <- function(repo,bundle,
   for(name in c("LO_SCOPE_LOCK.R","LO_SCOPE_DECISIONS.R","LO_BALANCED_MEMBERSHIP.R",
     "LO_COUNTRY_REGISTRY.R","MASTER_ESTIMATION_GRID.R","LO_APPROVED_EXTENSIONS.R",
     "GRID_ARCHIVE_BATCH.R","LO_EXISTING_RESULT_REGISTRY.R",
-    "LO_FIXED_VALIDATION.R","LO_FIXED_PRODUCERS.R","LO_PRODUCT_TRACE.R")) {
+    "LO_FIXED_VALIDATION.R","LO_FIXED_PRODUCERS.R","LO_PRODUCT_TRACE.R","LO_SOURCE_UNAVAILABILITY.R")) {
     source(file.path(repo,"06_pipeline",name),
            local=environment(),encoding="UTF-8")
   }
@@ -153,6 +153,7 @@ lo_fixed_controller <- function(repo,bundle,
                                   ,drop=FALSE]
       grid <- lo_grid_apply_compute_approvals(grid,chosen)
     }
+    grid<-lo_source_unavailability(grid,file.path(root,"master_reconciliation","SOURCE_UNAVAILABLE_CELLS.csv"))
     write.csv(grid,file.path(state,"PRIVATE_MASTER_GRID.csv"),
               row.names=FALSE,na="")
     lo_product_trace(repo,rbind(selected,new_peer_tasks),grid,scope_decisions,state)
