@@ -125,6 +125,7 @@ lo_pisa_independent_selected <- function(raw,q) {
   if(!nrow(q)||any(q$survey!="PISA")||length(unique(q$year))!=1L||
      any(!q$module%in%c("core","gender","language_exact","migration_generation","extension_performance_school")))
     stop("PISA_INDEPENDENT_UNREVIEWED_TASK")
+  m<-if(as.integer(q$year[1])<=2012L)5L else 10L
   low<-c(reading=407.47,mathematics=420.07,science=409.54)
   high<-c(reading=625.61,mathematics=606.99,science=633.33)
   code<-c(reading="READ",mathematics="MATH",science="SCIE")
@@ -134,13 +135,13 @@ lo_pisa_independent_selected <- function(raw,q) {
   sexmap<-c(girl=lo_pisa_label_code(raw$ST004D01T,"female"),boy=lo_pisa_label_code(raw$ST004D01T,"male"))
   langmap<-c(test_language_home=lo_pisa_label_code(raw$ST022Q01TA,c("language of test","language of the test")),other_language_home=lo_pisa_label_code(raw$ST022Q01TA,"other language"))
   migmap<-c(native=lo_pisa_label_code(raw$IMMIG,c("native","native student","native students")),first_generation=lo_pisa_label_code(raw$IMMIG,c("first-generation","first-generation student","first-generation students","first generation")),second_generation=lo_pisa_label_code(raw$IMMIG,c("second-generation","second-generation student","second-generation students","second generation")))
-  full<-matrix(NA_real_,10,nrow(q),dimnames=list(NULL,q$metric_key))
-  reps<-array(NA_real_,c(80,10,nrow(q)),dimnames=list(NULL,NULL,q$metric_key));counts<-integer(nrow(q))
+  full<-matrix(NA_real_,m,nrow(q),dimnames=list(NULL,q$metric_key))
+  reps<-array(NA_real_,c(80,m,nrow(q)),dimnames=list(NULL,NULL,q$metric_key));counts<-integer(nrow(q))
   mean_w<-function(y,z){ok<-is.finite(y)&is.finite(z)&z>0;sum(y[ok]*z[ok])/sum(z[ok])}
   quant<-function(y,z,p){ok<-is.finite(y)&is.finite(z)&z>0;a<-y[ok];b<-z[ok];o<-order(a);a<-a[o];b<-b[o];a[which(cumsum(b)>=p*sum(b))[1]]}
   for(k in seq_len(nrow(q))) {
     task<-q[k,];if(!task$domain%in%names(code))stop("PISA_UNKNOWN_DOMAIN")
-    y<-as.matrix(raw[paste0("PV",1:10,code[[task$domain]])])
+    y<-as.matrix(raw[paste0("PV",seq_len(m),code[[task$domain]])])
     if(any(!is.finite(y)))stop("PISA_REFERENCE_INCOMPLETE_PVS")
     include<-rep(TRUE,nrow(raw));contrast<-NULL
     if(task$module=="gender") {
@@ -159,8 +160,8 @@ lo_pisa_independent_selected <- function(raw,q) {
     }
     include[is.na(include)]<-FALSE;if(!is.null(contrast))contrast[is.na(contrast)]<-FALSE
     counts[k]<-sum((include|if(is.null(contrast))FALSE else contrast)&w[,1]>0)
-    mat<-matrix(NA_real_,10,81)
-    for(j in 1:10)for(r in 1:81) {
+    mat<-matrix(NA_real_,m,81)
+    for(j in seq_len(m))for(r in 1:81) {
       value<-y[,j];weight<-w[,r];s<-task$stat
       if(task$module=="core" && s%in%c("total_below","total_high")) {
         cutoff<-if(s=="total_below")low[[task$domain]] else high[[task$domain]]
@@ -182,8 +183,8 @@ lo_pisa_independent_selected <- function(raw,q) {
       "; N=",counts[k],"; nonfinite PV/weight positions=",paste(which(!is.finite(mat),arr.ind=TRUE)[1,],collapse=","))
     full[,k]<-mat[,1];reps[,,k]<-t(mat[,-1])
   }
-  variance<-vapply(seq_len(nrow(q)),function(k)mean(rowSums((t(reps[,,k])-full[,k])^2)/20)+1.1*var(full[,k]),numeric(1))
+  variance<-vapply(seq_len(nrow(q)),function(k)mean(rowSums((t(reps[,,k])-full[,k])^2)/20)+(1+1/m)*var(full[,k]),numeric(1))
   list(results=data.frame(cell_id=q$metric_key,estimate=colMeans(full),standard_error=sqrt(variance),n_unweighted=counts),
-    joint=list(cell_ids=q$metric_key,full_pv=full,replicate_pv=reps,factor=1/20,pv_count=10L,
+    joint=list(cell_ids=q$metric_key,full_pv=full,replicate_pv=reps,factor=1/20,pv_count=m,
       method="Within-PV Fay-BRR plus Rubin between-PV variance; paired columns retain joint uncertainty"))
 }
