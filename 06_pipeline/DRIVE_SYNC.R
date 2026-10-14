@@ -474,7 +474,9 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
       records[[length(records)+1L]] <- list(
         path=gsub("\\\\","/",relative),sha256=hash,
         bytes=unname(as.numeric(after$size)),
-        producer_git_commit=producer_commit,
+        # Copying an older artifact does not make this sync revision its
+        # producer. Scientific provenance stays in the artifact/run records.
+        sync_git_commit=producer_commit,
         scientific_status="NOT_AUTOMATICALLY_VALIDATED",
         source=p,
         report_path=if(grepl("^runs/run_[0-9]{8}_[0-9]{6}/",relative))

@@ -7,7 +7,10 @@
   "official_database_url": "https://www.oecd.org/en/data/datasets/pisa-2025-database.html",
   "official_release_evidence_url": "https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html",
   "technical_report_status": "DRAFT_CHAPTERS_AVAILABLE_FINAL_EXPECTED_2027",
-  "local_edition_certified": false,
+  "local_edition_certified": true,
   "deck_point_is_availability_evidence": false,
-  "action": "Retain complete Dutch 2025 anchor; verify exact local source edition before reuse or compute"
+  "action": "Retain full 2025 anchor; selected results verified against raw source. ST004D01T is wholly missing for NLD; 45 exact gender-dependent targets remain unavailable.",
+  "local_edition_scope": "NLD selected public-use student fields; not all modules or a global release",
+  "local_raw_sha256": "6f6fa1e1ecce23d39183d44ec82ba05b245fe88a2416c8d8dc1b016d556fc379",
+  "local_n": 6636
 }
