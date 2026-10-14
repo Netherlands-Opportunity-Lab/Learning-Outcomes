@@ -22,6 +22,10 @@ stopifnot(identical(v$object$data$DEMO_GENDER,c('girl','boy','girl','boy')),
  identical(v$object$data$DEMO_MIGRATION,c('native','first_generation','second_generation','first_generation')))
 again<-lo_pisa_verify_source(raw_path,parent,2025,'NLD',file.path(tmp,'out'))
 stopifnot(identical(v$receipt$canonical_sha256,again$receipt$canonical_sha256))
+clean<-lo_pisa_verify_source(raw_path,NULL,2025,'NLD',file.path(tmp,'clean'))
+stopifnot(identical(clean$object$data[-1],v$object$data[-1]),
+ identical(clean$object$data$SOURCE_STUDENT_ID,as.character(v$object$data$SOURCE_STUDENT_ID)),
+ clean$receipt$parent_sha256=='NONE_DIRECT_FROM_RAW_SOURCE')
 missing_gender<-raw;missing_gender$ST004D01T[]<-NA_real_
 missing_path<-file.path(tmp,'missing_gender.sav');haven::write_sav(missing_gender,missing_path)
 unavailable<-lo_pisa_verify_source(missing_path,parent,2025,'NLD',file.path(tmp,'out'))

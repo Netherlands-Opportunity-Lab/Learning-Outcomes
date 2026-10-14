@@ -25,6 +25,16 @@ lo_pisa_country_rows <- function(path,country,fields) {
   if(nrow(raw)!=length(at)||any(raw$CNT!=country))stop("PISA_RAW_COUNTRY_ROW_SELECTION_FAILED")
   raw
 }
+lo_pisa_canonical_from_raw <- function(raw,year,country) {
+  codes<-c("READ","MATH","SCIE")
+  from<-c("W_FSTUWT",paste0("W_FSTURWT",1:80),unlist(lapply(codes,function(k)paste0("PV",1:10,k))))
+  to<-c("W",paste0("RW",1:80),unlist(lapply(codes,function(k)paste0("PV_",k,"_",1:10))))
+  if(!all(c("CNT","CNTSTUID",from)%in%names(raw))||any(raw$CNT!=country))stop("PISA_RAW_CANONICAL_FIELDS_INVALID")
+  d<-data.frame(SOURCE_STUDENT_ID=as.character(raw$CNTSTUID),stringsAsFactors=FALSE)
+  for(j in seq_along(from))d[[to[j]]]<-as.numeric(raw[[from[j]]])
+  list(data=d,meta=list(survey="PISA",year=as.integer(year),v9_country=country,
+    preparation="DIRECT_FROM_OFFICIAL_PUF_WITHOUT_LEGACY_CACHE"))
+}
 lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_dir) {
   if(!year%in%c(2015L,2018L,2022L,2025L))stop("PISA_SOURCE_CYCLE_NOT_REVIEWED")
   codes<-c("READ","MATH","SCIE")
@@ -33,7 +43,8 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
     "IMMIG","ESCS","PROGN","W_FSTUWT",paste0("W_FSTURWT",1:80),pvs)
   if(year==2025L)fields<-c(fields,"MALE")
   raw<-lo_pisa_country_rows(raw_path,country,fields)
-  obj<-readRDS(canonical_path);d<-obj$data
+  obj<-if(is.null(canonical_path))lo_pisa_canonical_from_raw(raw,year,country)else readRDS(canonical_path)
+  d<-obj$data
   if(obj$meta$survey!="PISA" || as.integer(obj$meta$year)!=year ||
      obj$meta$v9_country!=country || !"SOURCE_STUDENT_ID"%in%names(d))stop("PISA_CANONICAL_IDENTITY_MISMATCH")
   ids<-as.character(raw$CNTSTUID);target<-as.character(d$SOURCE_STUDENT_ID)
@@ -73,7 +84,7 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
   meta$language_mapping_status<-"SOURCE_LABELS_AND_STUDENT_IDS_VERIFIED"
   meta$ses_construct_id<-"OECD_OFFICIAL_ESCS"
   meta$source_country_code<-country;meta$v9_country<-country
-  meta$repair_parent_sha256<-digest::digest(file=canonical_path,algo="sha256")
+  meta$repair_parent_sha256<-if(is.null(canonical_path))"NONE_DIRECT_FROM_RAW_SOURCE"else digest::digest(file=canonical_path,algo="sha256")
   meta$repair_raw_sha256<-digest::digest(file=raw_path,algo="sha256")
   meta$language_weighted_coverage<-sum(d$W[!is.na(d$DEMO_LANGUAGE)])/sum(d$W)
   meta$demographic_definitions<-data.frame(dimension=c("GENDER","LANGUAGE","MIGRATION"),
