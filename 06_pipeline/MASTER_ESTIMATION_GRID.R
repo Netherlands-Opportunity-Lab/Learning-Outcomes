@@ -59,6 +59,7 @@ lo_grid_validate_fill <- function(grid, candidate) {
   if(!all(candidate$status=="SCIENTIFICALLY_VALIDATED") ||
      any(!is.finite(as.numeric(candidate$estimate))) ||
      any(!is.finite(as.numeric(candidate$standard_error))) ||
+     any(as.numeric(candidate$standard_error)<0) ||
      any(!is.finite(as.numeric(candidate$n_unweighted))) ||
      any(as.numeric(candidate$n_unweighted)<1) ||
      any(!grepl("^[a-fA-F0-9]{64}$",candidate$input_fingerprint)) ||
@@ -131,3 +132,4 @@ lo_grid_new_low_peer_tasks <- function(tasks) {
   for(col in setdiff(names(tasks),names(new))) new[[col]] <- ""
   new[,names(tasks),drop=FALSE]
 }
+

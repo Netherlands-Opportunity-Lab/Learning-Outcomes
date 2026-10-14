@@ -27,7 +27,7 @@ tasks<-data.frame(metric_key=c("m1","m2","m3"),
  year=c("2025","2021","2023"),domain="reading",module="core",
  stat="mean",group="total",definition="total",
  peer_definition="",threshold="",contract_figure_id="TR_MEAN_age15_reading",
- unit="score_points",stringsAsFactors=FALSE)
+ unit="score_points",calculation_policy="",stringsAsFactors=FALSE)
 stopifnot(nrow(lo_scope_filter_tasks(tasks,p1))==1L,
   nrow(lo_scope_filter_tasks(tasks,p2))==2L,
   nrow(lo_scope_filter_tasks(tasks,p3))==3L)
@@ -42,6 +42,32 @@ candidate<-lo_fixed_produce(bundle,p3,tasks,
       file.path(work,"production"),native_run=FALSE)
 stopifnot(candidate$native_execution=="PREVIEW_ONLY",
  candidate$scientific_release=="HOLD_PENDING_INDEPENDENT_VALIDATION")
+held<-lo_fixed_produce(bundle,p3,tasks,file.path(work,"held_production"),
+ native_run=TRUE,grid=lo_grid_from_tasks(tasks))
+stopifnot(held$native_execution=="HOLD_EXACT_CELL_DISPATCH_NOT_IMPLEMENTED")
+# A complete synthetic approval has zero missing rows and must still check
+# exact target/source/design identity before becoming review-eligible.
+fixture<-lo_grid_from_tasks(tasks)
+fixture$status<-"SCIENTIFICALLY_VALIDATED"
+fixture$estimate<-490;fixture$standard_error<-3;fixture$n_unweighted<-500
+fixture$sample_id<-"synthetic_sample";fixture$method_version<-"synthetic_method"
+fixture$input_fingerprint<-fixture$code_fingerprint<-fixture$result_hash<-
+ fixture$source_edition_sha256<-paste(rep("a",64),collapse="")
+fixture$weight_design<-"synthetic_weights";fixture$pv_rule<-"synthetic_PVs"
+fixture$variance_rule<-"synthetic_replicates"
+write.csv(fixture,file.path(work,"complete_approvals.csv"),row.names=FALSE)
+write.csv(data.frame(requirement_id=sprintf("Q%02d",1:8),status="PASS"),
+ file.path(work,"SCIENTIFIC_PAPER_GATES.csv"),row.names=FALSE)
+complete<-lo_final_quality_gate(bundle,tasks,file.path(work,"complete_approvals.csv"),
+ file.path(work,"complete_quality"))
+stopifnot(complete$active_missing==0L,
+ complete$scientific_freeze=="ELIGIBLE_FOR_INDEPENDENT_REVIEW",
+ complete$publication_authorized=="NO_RIGHTS_AND_REPLICATION_REVIEW_PENDING")
+fixture$target_contract_sha256[1]<-paste(rep("b",64),collapse="")
+write.csv(fixture,file.path(work,"complete_approvals.csv"),row.names=FALSE)
+stopifnot(inherits(try(lo_final_quality_gate(bundle,tasks,
+ file.path(work,"complete_approvals.csv"),file.path(work,"wrong_target")),silent=TRUE),
+ "try-error"))
 write.csv(data.frame(cell_id="m1",status="SCIENTIFICALLY_VALIDATED",
  estimate=490,standard_error=3,n_unweighted=5000,sample_id="pisa",
  input_fingerprint=paste(rep("a",64),collapse=""),
@@ -54,3 +80,4 @@ dash<-lo_dashboard_export_from_grid(bundle,tasks,approved,
 stopifnot(dash$mapped==1L,dash$unmapped==0L)
 unlink(work,recursive=TRUE)
 cat("PASS fixed 1/20/50 scope, scientific gates, no-compute preview and dashboard mapping\n")
+

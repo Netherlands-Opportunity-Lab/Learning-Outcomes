@@ -11,7 +11,8 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
     source_record=character(),estimate=character(),se=character(),
     n_unweighted=character(),input_fingerprint=character(),
     science_fingerprint=character(),source_sha256=character(),
-    scientific_status=character(),stringsAsFactors=FALSE)
+    scientific_status=character(),code_fingerprint=character(),
+    result_hash=character(),is_current=character(),stringsAsFactors=FALSE)
   normal <- function(x,source) {
     if(!nrow(x))return(empty)
     col <- function(k)if(k%in%names(x))as.character(x[[k]]) else
@@ -27,7 +28,10 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
       science_fingerprint=col("science_fingerprint"),
       source_sha256=if("evidence_source_sha256"%in%names(x))
         col("evidence_source_sha256") else col("source_sha256"),
-      scientific_status=col("scientific_status"),
+      scientific_status=if("scientific_status"%in%names(x))
+        col("scientific_status") else col("status"),
+      code_fingerprint=col("code_fingerprint"),result_hash=col("result_hash"),
+      is_current=col("is_current"),
       stringsAsFactors=FALSE)
     y <- y[!is.na(y$metric_key)&y$metric_key%in%keys,,drop=FALSE]
     y
@@ -75,21 +79,33 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
       tryCatch({
         for(tab in intersect(DBI::dbListTables(con),
                     c("results","result_history","current_results",
-                      "result_versions"))) {
+                      "result_versions","results_v4"))) {
           cols <- DBI::dbListFields(con,tab)
           required <- c("metric_key","estimate","se")
           if(!all(required%in%cols))next
           allow <- intersect(c("metric_key","estimate","se","n","n_unweighted",
             "record_version_id","result_hash","science_fingerprint",
             "input_fingerprint","scientific_status","source_sha256",
-            "source_id","code_id","publication_status"),cols)
+            "source_id","code_id","publication_status","code_fingerprint",
+            "is_current","status"),cols)
           quote <- function(x)as.character(DBI::dbQuoteIdentifier(con,x))
-          sql <- paste0("SELECT ",paste(vapply(allow,quote,character(1)),
+          # Bound before fetching; legacy input signatures can be kilobytes
+          # per row. Preserve real SHA values but do not duplicate size/mtime
+          # lists from every database backup in the in-memory evidence table.
+          n_source <- DBI::dbGetQuery(con,paste0("SELECT COUNT(*) AS n FROM ",
+             quote(tab)))$n[[1L]]
+          if(n_source>1000000L)stop("EVIDENCE_HOLD: oversized aggregate table")
+          select <- vapply(allow,function(k) {
+            if(k=="input_fingerprint") paste0("CASE WHEN length(",quote(k),
+              ")=64 THEN ",quote(k)," ELSE 'NON_SHA256_SIGNATURE' END AS ",quote(k))
+            else quote(k)
+          },character(1L))
+          sql <- paste0("SELECT ",paste(select,
             collapse=",")," FROM ",quote(tab))
           x <- DBI::dbGetQuery(con,sql)
           if(nrow(x)>1000000L)stop("EVIDENCE_HOLD: oversized aggregate table")
           category <- if(tab=="result_versions")"LIVE_CONSOLIDATED_" else
-                         "LIVE_LO02_"
+            if(tab=="results_v4")"LIVE_REGISTRY_" else "LIVE_LO02_"
           z[[length(z)+1L]] <- normal(x,paste0(category,tab))
           dbaudit[[length(dbaudit)+1L]] <- data.frame(
              database_sha256=digest::digest(file=p,algo="sha256"),
@@ -158,6 +174,9 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
     suppressWarnings(as.numeric(evidence$se))>=0
   evidence$has_sample_n <- is.finite(suppressWarnings(as.numeric(evidence$n_unweighted))) &
     suppressWarnings(as.numeric(evidence$n_unweighted))>0
+  # Nonempty size/mtime signatures are not cryptographic input identities.
+  evidence$has_input_sha256 <- !is.na(evidence$input_fingerprint) &
+    grepl("^[a-fA-F0-9]{64}$",evidence$input_fingerprint)
   evidence$reuse_gate <- "HOLD_REQUIRE_INDEPENDENT_SAMPLE_METHOD_INPUT_PV_N_REVIEW"
   out <- file.path(state,"FINAL_FIXED_PIPELINE")
   dir.create(out,recursive=TRUE,showWarnings=FALSE)
@@ -238,9 +257,11 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
        parquet_objects_seen=nrow(parquet_summary),
        candidate_rows_with_numeric_se=sum(evidence$has_estimate_and_se),
        candidate_rows_with_sample_n=sum(evidence$has_sample_n),
+       candidate_rows_with_input_sha256=sum(evidence$has_input_sha256),
        approved_to_reuse=0L,approved_to_compute=0L,
        status="AWAIT_SCIENTIFIC_IDENTITY_VALIDATION",
        stringsAsFactors=FALSE)
   write.csv(summary,file.path(out,"RECONCILIATION_SUMMARY.csv"),row.names=FALSE)
   invisible(list(summary=summary,evidence=evidence,match=need))
 }
+

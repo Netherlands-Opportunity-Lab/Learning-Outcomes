@@ -28,6 +28,19 @@ lo_fixed_produce <- function(bundle,scope_info,tasks,out,
     native_execution="NOT_STARTED",
     scientific_release="HOLD_PENDING_INDEPENDENT_VALIDATION",
     stringsAsFactors=FALSE)
+  # Critical audit: compact_run currently rebuilds todo from all tasks and
+  # does not consume grid approvals. Do not mistake a country scope for an
+  # exact certified cell worklist. Preserve the adapter for the next repair.
+  if(native_run) {
+    if(is.null(grid) || !all(c("cell_id","status")%in%names(grid)) ||
+       anyDuplicated(grid$cell_id))
+      stop("PRODUCTION_HOLD: exact grid missing or invalid")
+    run_status$native_execution <- "HOLD_EXACT_CELL_DISPATCH_NOT_IMPLEMENTED"
+    run_status$engine_error <- paste("Compact adapter does not consume certified",
+       "grid approvals; audited source/cell dispatch must be implemented first")
+    write.csv(run_status,file.path(out,"PRODUCTION_SCOPE_STATUS.csv"),row.names=FALSE)
+    return(invisible(run_status))
+  }
   if(native_run &&
      !identical(Sys.getenv("LO_FIXED_PRODUCER_ENGINE",unset="compact"),"compact"))
     stop("LEGACY_SNAPSHOT_HEAVY_PRODUCER_DISABLED_IN_FIXED_PRODUCTION")
@@ -116,3 +129,4 @@ lo_fixed_produce <- function(bundle,scope_info,tasks,out,
       "; non-native modules remain gated; no cleanup or public release.\n",sep="")
   invisible(run_status)
 }
+

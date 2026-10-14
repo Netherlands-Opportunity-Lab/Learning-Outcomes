@@ -155,7 +155,7 @@ lo_fixed_controller <- function(repo,bundle,
     result<-lo_fixed_produce(bundle,scope_info,selected,state,
                             native_run=TRUE,grid=grid)
     put("produce",as.character(result$native_execution[[1]]),
-        "Only exact-fingerprint native PISA core/gender attempted; non-core holds")
+        "Exact-cell dispatch is held until a certified scoped adapter is implemented")
     return(invisible(result))
   }
   # Finalize ALWAYS constructs a private copy of the ACTIVE 42-system
@@ -262,3 +262,4 @@ lo_fixed_controller <- function(repo,bundle,
   }
   invisible(q)
 }
+

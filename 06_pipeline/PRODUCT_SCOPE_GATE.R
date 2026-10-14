@@ -69,10 +69,15 @@ lo_product_gate <- function(bundle, output_root,
     survey=figures$survey,age=figures$age,domain=figures$domain,
     outcome=figures$outcome,release_role=figures$release_role,
     contract_reference=figures$comparison_default,
-    configured_reference="OECD_PPP_GT_CZE_2024_RECONSTRUCTED",
+    configured_reference="OECD_PPP_GT_CZE_2024_FIXED",
+    reference_source_gate=if(file.exists(file.path(dirname(product_register),
+      "review_20261013","RECOVERED_REFERENCE_SOURCE_AUDIT.json")))
+      "ORIGINAL_NUMERIC_SNAPSHOT_RECOVERED_SEE_SHA_PINNED_AUDIT_RECEIPT" else
+      "HOLD_ORIGINAL_NUMERIC_WDI_SNAPSHOT_NOT_VERIFIED",
     comparator_review=ifelse(figures$comparison_default==
-      "OECD_PPP_GT_CZE_2024_RECONSTRUCTED","ALIGNED",
+      "OECD_PPP_GT_CZE_2024_FIXED","ALIGNED",
       "REVIEW_SCOPE_DIFFERS_FROM_FIGURE_CONTRACT"),
+    scope_interpretation="HISTORICAL_CONTRACT_COUNTS_NOT_CURRENT_50_SYSTEM_WORKLIST",
     scientific_status=ifelse(figures$figure_id%in%unmapped,
       "DERIVE_RANK_ONLY_FROM_VALIDATED_COUNTRY_RESULTS",
       "NOT_RELEASED_REQUIRES_RECORD_VERSION_AND_METHOD_VALIDATION"),
@@ -179,3 +184,4 @@ lo_product_gate <- function(bundle, output_root,
   invisible(list(report_dir=dest,counts=counts,
                  positions=unmapped,open_paper=paper$requirement_id))
 }
+

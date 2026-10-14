@@ -13,6 +13,9 @@ candidate<-data.frame(cell_id="m1",estimate=490,standard_error=3,
  result_hash=paste(rep("c",64),collapse=""),method_version="v1",
  sample_id="PISA_NLD_2022",status="SCIENTIFICALLY_VALIDATED")
 stopifnot(isTRUE(lo_grid_validate_fill(g,candidate)))
+candidate$standard_error<- -3
+stopifnot(inherits(try(lo_grid_validate_fill(g,candidate),silent=TRUE),"try-error"))
+candidate$standard_error<-3
 candidate$status<-"COMPUTED_PENDING_VALIDATION"
 err<-try(lo_grid_validate_fill(g,candidate),silent=TRUE)
 stopifnot(inherits(err,"try-error"))
@@ -39,3 +42,4 @@ stopifnot(nrow(peer)==3L,
 target <- lo_grid_from_tasks(peer)
 stopifnot(all(grepl("^[0-9a-f]{64}$",target$target_contract_sha256)),
           !anyDuplicated(target$cell_id))
+
