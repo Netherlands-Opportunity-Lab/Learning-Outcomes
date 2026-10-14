@@ -70,5 +70,5 @@
     "data_scope": "Historical October archive data, visibly labelled for design QA only; not scientific release"
   },
   "ci": "See the current PR commit checks; do not infer latest-head CI from an earlier commit",
-  "scope_note": "All-module certification and complete country lists belong to original instruction 2; pending A09 excluded"
+  "scope_note": "All-module certification and complete country lists belong to original instruction 2; A09 product choice subsequently approved; country-rank product and confirmed grade-4 population recorded separately"
 }

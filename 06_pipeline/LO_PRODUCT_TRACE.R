@@ -9,8 +9,13 @@ lo_product_trace <- function(repo,tasks,grid,decisions,out) {
   for(r in defs$requirements) {
     ids<-unlist(r$approval_items)
     explicitly_chosen<-length(ids)>0L && all(vapply(ids,function(id)lo_scope_is_approved(decisions,id),logical(1)))
-    source_only<-r$product%in%c("SCIENTIFIC_SEMINAR","SCIENTIFIC_NOTE") && !explicitly_chosen
-    i<-which(fam%in%unlist(r$figure_families))
+    source_only<-(r$product%in%c("SCIENTIFIC_SEMINAR","SCIENTIFIC_NOTE") && !explicitly_chosen) ||
+      identical(r$current_scope,"HISTORICAL_SOURCE_ONLY")
+    rank_derivation<-identical(r$derivation,"BALANCED_RANK_FROM_APPROVED_RESULTS")
+    i<-if(rank_derivation && explicitly_chosen)seq_len(nrow(selected)) else
+      which(fam%in%unlist(r$figure_families))
+    if(rank_derivation && identical(r$product,"DASHBOARD_DERIVATION"))
+      i<-i[!startsWith(selected$module[i],"extension_") & fam[i]!="GP_SES_HIGH"]
     if(identical(r$scope,"NLD"))i<-i[selected$country[i]=="NLD"]
     for(k in names(r$task_filters))i<-i[selected[[k]][i]%in%unlist(r$task_filters[[k]])]
     if(source_only)i<-integer()
@@ -25,7 +30,9 @@ lo_product_trace <- function(repo,tasks,grid,decisions,out) {
       supplemental_dependencies=paste(unlist(r$additional_dependencies),collapse=";"),
       pending_choices=paste(Filter(function(a)!lo_scope_is_approved(decisions,a),
                                    unlist(r$approval_items)),collapse=";"),
-      status=if(source_only)"SOURCE_NOT_COMPUTE_ORDER" else if(length(i))
+      status=if(source_only)"SOURCE_NOT_COMPUTE_ORDER" else if(rank_derivation && !explicitly_chosen)
+        "DERIVATION_NOT_APPROVED" else if(rank_derivation)
+        "APPROVED_DERIVATION_PARENT_CANDIDATES_FINAL_SELECTION_REQUIRED" else if(length(i))
         "EXACT_CELL_LINKS_WITH_SEPARATE_SCIENCE_STATUS" else "EDITORIAL_OR_SUPPLEMENTAL_SPECIFICATION",
       stringsAsFactors=FALSE)
   }
@@ -57,6 +64,11 @@ lo_product_trace <- function(repo,tasks,grid,decisions,out) {
       "BELOW_BASIC_FROM_EXACT_UNIT_COMPLEMENT_IF_NEEDED",
       ifelse(grepl("^GP_(SES|GENDER)_GAP",l$figure_id),
         "JOINT_REPLICATE_OR_COVARIANCE_OF_LEVELS","EXACT_PRIMITIVE_OR_CERTIFIED_DERIVATION"))
+    rank_ids<-vapply(Filter(function(r)identical(r$derivation,
+      "BALANCED_RANK_FROM_APPROVED_RESULTS"),defs$requirements),
+      function(r)r$requirement_id,character(1))
+    l$derivation[l$requirement_id%in%rank_ids]<-
+      "RANK_OF_CERTIFIED_OUTCOME_OR_JOINT_GAP_WITH_FIXED_PANEL_NO_NEW_PUPIL_TASK"
   }
   write.csv(l,file.path(out,"PRIVATE_ACTIVE_PRODUCT_CELL_TRACE.csv"),row.names=FALSE,na="")
   s<-do.call(rbind,spec)
@@ -70,6 +82,7 @@ lo_fixed_input_manifest <- function(repo,bundle,root,scope) {
     pool=file.path(bundle,"PPP_COMPARATOR_MEMBERSHIP_v2.csv"),
     decisions=file.path(repo,"06_pipeline","SCOPE_APPROVALS.csv"),
     products=file.path(repo,"06_pipeline","review_20261013","PRODUCT_REQUIREMENTS.json"),
+    rank_product=file.path(repo,"06_pipeline","review_20261013","RANK_PRODUCT_CONTRACT.json"),
     extensions=file.path(repo,"06_pipeline","LO_APPROVED_EXTENSIONS.R"),
     scope_code=file.path(repo,"06_pipeline","LO_SCOPE_DECISIONS.R"),
     country_decisions=file.path(repo,"06_pipeline","COUNTRY_PRODUCTION_APPROVALS.csv"),

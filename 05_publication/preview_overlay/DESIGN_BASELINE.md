@@ -29,3 +29,7 @@ De lokale visuele controle gebruikte duidelijk gemarkeerde historische
 archiefgegevens, uitsluitend om het ontwerp te vergelijken. Dit bestand
 verklaart die oude gegevens niet opnieuw wetenschappelijk geldig. De echte
 productbuild blijft alleen de gecontroleerde nieuwe resultaatgrid lezen.
+
+Aanvullend gebruikersbesluit A09: één figuur tegelijk met jaren op de x-as; leeftijd, uitkomst, uitsplitsing en vergelijking zijn instelbaar. Rangontwikkeling mag als tijdreeks; een landenranglijst hoort uitsluitend in de wetenschappelijke paper. De oorspronkelijke vier kaarten blijven ingangen naar de figuurbouwer.
+
+Bij rangweergave bepaalt de gekozen landengroep waarbinnen landen worden gerangschikt. Alleen het hoofdland en optioneel één ander land krijgen een ranglijn; geen gemiddelde groepsrang of rang van een groepsgemiddelde. De jongere populatie is bevestigd als internationaal vierde leerjaar, dus Nederlandse groep 6.

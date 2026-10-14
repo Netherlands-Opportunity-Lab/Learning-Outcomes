@@ -57,7 +57,7 @@ De geïnspecteerde actieve frontend (`05_publication/preview_overlay/assets/app-
 
 ## Beslisblad: elk inhoudelijk extra onderdeel afzonderlijk
 
-Alle onderstaande regels staan op **WACHT OP GEBRUIKERSBESLUIT**. Een aanbeveling is geen akkoord. Besluiten kunnen worden gegeven als `A01 ja, A02 nee, ...`; een overgeslagen regel blijft uit nieuwe productie. Een ja op inhoudelijke scope is nog geen wetenschappelijke vrijgave.
+De onderstaande tabel bewaart het historische beslisblad van vóór de antwoorden. De actuele afzonderlijke besluiten staan in `SCOPE_APPROVALS.csv`. Een aanbeveling is geen akkoord. Besluiten kunnen worden gegeven als `A01 ja, A02 nee, ...`; een overgeslagen regel blijft uit nieuwe productie. Een ja op inhoudelijke scope is nog geen wetenschappelijke vrijgave.
 
 | ID | Onderdeel en herkomst | Verschil met de gekozen basis / mijn advies |
 |---|---|---|
@@ -86,3 +86,11 @@ Broncontrole, N, steekproefkwaliteit, SES-dekking, correcte gewichten/PVs/replic
 Deze alinea beschrijft het eerdere moment. De latere implementatie en echte uitvoeringsbewijzen staan in START_HIER_ACTUEEL.md en STEP1_EXECUTION_EVIDENCE_20261014.json.
 
 `PRODUCT_SCOPE_APPROVAL.py` maakt het onderscheid bij elke hergeneratie expliciet. De 247 bronkoppelingen blijven controleerbaar; hangende aanvullingen krijgen beslis-ID's en worden niet meer als verplichte nieuwe productie gelabeld. De bestaande numerieke bewijscontroles en hun uitslagen zijn niet opnieuw geïnterpreteerd als wetenschappelijke goedkeuring. De productie blijft bovendien geblokkeerd zolang exacte gecertificeerde celsturing ontbreekt. Er is geen nieuwe analyse uitgevoerd, geen site gepubliceerd en niets van C: verwijderd.
+
+## Definitief productbesluit A09 — 14 oktober 2026
+
+De gebruiker kiest rangontwikkeling van het hoofdland en eventueel één ander land als tijdreeks in het dashboard. De gekozen landengroep bepaalt het rangschikkingspanel en krijgt zelf geen ranglijn. De dashboardbouwer draait steeds om één figuur met jaren op de x-as, voor de gekozen uitkomst, leeftijd/doelpopulatie, uitsplitsing en vergelijking. Een ranglijst van landen komt uitsluitend in de wetenschappelijke paper. De vormgeving uit het archief van 1 oktober blijft leidend. De vier vraagkaarten zijn ingangen naar die ene figuur, geen opdracht voor vier gelijktijdige grafieken.
+
+A09 is hiermee inhoudelijk goedgekeurd; de oude vaste 13-/32-/45-landenpanels zijn niet opnieuw gekozen. Rangen zijn afleidingen van exact gecertificeerde uitkomsten (waaronder SES-kloven), met expliciete constante landenbasis en herleidbare oudercellen. De trace registreert kandidaat-oudercellen; de uiteindelijke selectie volgt de gekozen uitkomst en vergelijking. Dit voegt geen aparte leerlingberekeningen toe en geeft geen gegevens vrij. Een rangnummer is niet automatisch een statistisch significant verschil; score-SE's worden geen rang-SE's.
+
+Nadere gebruikersbesluiten: geen groepsrang; wel eventueel één ander land naast het hoofdland, beide gerangschikt binnen de gekozen landengroep. ‘Groep 4’ is bevestigd als internationaal vierde leerjaar, dus Nederlandse groep 6 (rond tien jaar). Alle A-besluiten zijn hiermee beantwoord. De numerieke rangafleiding en dashboardbediening zijn nog niet gebouwd. Zie `RANK_PRODUCT_CONTRACT.json`.

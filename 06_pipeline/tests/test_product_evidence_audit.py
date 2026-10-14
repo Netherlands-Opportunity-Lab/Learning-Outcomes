@@ -16,8 +16,24 @@ class ProductAuditTest(unittest.TestCase):
         self.assertNotIn('S_LEGACY_PANELS',byid['POLICY_02']['additional_dependencies'])
         self.assertFalse(d['inventory_is_user_approval'])
         self.assertTrue(all(not r['production_authorized_by_inventory'] for r in d['requirements']))
-        self.assertTrue(all('PENDING' in r['role'] for r in d['requirements'] if r['approval_items']))
+        self.assertTrue(all('PENDING' in r['role'] for r in d['requirements'] if r['approval_items'] and not r.get('direct_user_decision')))
+        ranks=[r for r in d['requirements'] if r.get('direct_user_decision')=='A09_20261014']
+        self.assertEqual(len(ranks),2)
+        self.assertTrue(all(r['approval_items']==['A09'] for r in ranks))
+        self.assertTrue(all('S_LEGACY_PANELS' not in r['additional_dependencies'] for r in ranks))
+        self.assertEqual(byid['DASH_TR_POSITION_age10_reading']['current_scope'],'HISTORICAL_SOURCE_ONLY')
         self.assertEqual(audit.apply_scope_approval(d),d)
+
+    def test_rank_group_is_universe_not_a_plotted_aggregate(self):
+        c=json.loads((root/'review_20261013/RANK_PRODUCT_CONTRACT.json').read_text(encoding='utf-8'))
+        self.assertEqual(c['dashboard']['figures_visible'],1)
+        self.assertEqual(c['dashboard']['x_axis'],'year')
+        self.assertFalse(c['dashboard']['group_rank_series'])
+        self.assertEqual(c['dashboard']['maximum_displayed_countries'],2)
+        self.assertFalse(c['dashboard']['country_ranking_table'])
+        self.assertTrue(c['paper']['country_ranking_table'])
+        self.assertFalse(c['computation']['new_pupil_tasks'])
+        self.assertEqual(c['population']['status'],'CONFIRMED_INTERNATIONAL_GRADE4_NLD_GROUP6')
 
     def test_nonfinite_and_missing_are_never_parity(self):
         for a,b in [('', ''),('NA','NA'),('nan','nan'),('inf','inf'),(None,None)]:
