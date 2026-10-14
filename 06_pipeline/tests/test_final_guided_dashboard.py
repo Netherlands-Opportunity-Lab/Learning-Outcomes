@@ -64,7 +64,7 @@ class GuidedDashboard(unittest.TestCase):
      estimate="492",se="2.4",n_unweighted="5120",sample_id="PISA_2025_NLD",
      source_id="synthetic_fixture",scientific_status="SCIENTIFICALLY_VALIDATED",
      input_fingerprint=h("a"),code_fingerprint=h("b"),result_hash=h("c"),
-     series_id="total",series_role="focus")
+     series_id="total",series_role="focus",n_definition="SYNTHETIC_ANALYTIC_FRAME")
    def write(r):
     with grid.open("w",newline="",encoding="utf-8") as f:
      w=csv.DictWriter(f,fieldnames=sorted(r))
@@ -75,6 +75,11 @@ class GuidedDashboard(unittest.TestCase):
    self.assertEqual(availability[0]["display_state"],"VALIDATED")
    r=json.loads((out/"data"/"countries"/"NLD.json").read_text())["records"][0]
    self.assertEqual(r["estimate"],492)
+   self.assertEqual(r["sample_id"],row["sample_id"])
+   self.assertEqual(r["input_fingerprint"],h("a"))
+   self.assertEqual(r["code_fingerprint"],h("b"))
+   self.assertEqual(r["result_hash"],h("c"))
+   self.assertEqual(r["n_definition"],"SYNTHETIC_ANALYTIC_FRAME")
    self.assertNotIn("ci_low",r)
    row["scientific_status"]="COMPUTED_PENDING_VALIDATION";write(row)
    with self.assertRaises(ValueError):mod.build(ROOT,bundle,work/"hold",grid,synthetic_contract=True)
@@ -88,6 +93,36 @@ class GuidedDashboard(unittest.TestCase):
   self.assertFalse(mod.figure_complete(rows,f))
   rows.extend([dict(year=2018,series_id="girl",series_role="focus"),dict(year=2022,series_id="boy",series_role="focus")])
   self.assertTrue(mod.figure_complete(rows,f))
+ def test_pisa_language_placeholder_resolution_and_construct_guard(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   b=Path(tmp);self.contracts(b)
+   path=b/"FIGURE_SERIES_CONTRACT_20261002.csv"
+   with path.open(encoding="utf-8") as f: rows=list(csv.DictReader(f))
+   for name,groups in [("LEVELS","source_valid_groups"),("GAP","source_valid_contrast")]:
+    item=dict(rows[0],figure_id=f"GP_LANGUAGE_{name}_age15_reading",expected_series=groups)
+    rows.append(item)
+   rows.append(dict(rows[0],figure_id="GP_SES_HIGH_age15_reading",expected_series="q1;q4"))
+   with path.open("w",newline="",encoding="utf-8") as f:
+    w=csv.DictWriter(f,fieldnames=sorted(mod.CONTRACT_COLS));w.writeheader();w.writerows(rows)
+   figures=mod.figure_contract(b,allow_synthetic=True,decisions={"A02":"APPROVED"})
+   self.assertFalse(any(x["figure_id"].startswith("GP_SES_HIGH_") for x in figures))
+   f=next(x for x in figures if x["figure_id"]=="GP_LANGUAGE_LEVELS_age15_reading")
+   self.assertEqual(f["expected_series"],"test_language_home;other_language_home")
+   gap=next(x for x in figures if x["figure_id"]=="GP_LANGUAGE_GAP_age15_reading")
+   self.assertEqual(gap["expected_series"],"other_minus_test")
+   row=dict(figure_id=f["figure_id"],country="NLD",year="2025",estimate="500",se="2",n_unweighted="5000",
+    sample_id="synthetic",source_id="synthetic",scientific_status="SCIENTIFICALLY_VALIDATED",
+    input_fingerprint=h("a"),code_fingerprint=h("b"),result_hash=h("c"),series_id="test_language_home",
+    outcome_id="same_as_assessment_language_vs_other")
+   grid=b/"grid.csv"
+   def save():
+    with grid.open("w",newline="",encoding="utf-8") as stream:
+     w=csv.DictWriter(stream,fieldnames=list(row));w.writeheader();w.writerow(row)
+   save();actual=mod.product_rows(grid,["NLD"],figures)
+   self.assertEqual(len(actual),1)
+   self.assertFalse(mod.figure_complete(actual,f)) # missing the other group
+   row["outcome_id"]="dutch_vs_other";save()
+   with self.assertRaisesRegex(ValueError,"language construct"):mod.product_rows(grid,["NLD"],figures)
  def test_dynamic_admission_does_not_force_rich_20_or_common42(self):
   with tempfile.TemporaryDirectory() as tmp:
    path=Path(tmp)/"countries.csv"
