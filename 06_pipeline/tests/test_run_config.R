@@ -1,0 +1,37 @@
+source("06_pipeline/LO_RUN_CONFIG.R")
+source("06_pipeline/LO_PRODUCT_TRACE.R")
+work<-tempfile("run_config_");dir.create(work)
+cfg<-lo_run_config("nld_only","")
+t<-data.frame(metric_key=c("a","b","c"),survey=c("PISA","PISA","PIRLS"),
+  year=c("2022","2018","2021"),domain="reading",module="core")
+stopifnot(nrow(lo_run_select(t,cfg))==3L)
+cfg$selection$years<-"2022"
+stopifnot(identical(lo_run_select(t,cfg)$metric_key,"a"))
+path<-file.path(work,"config.json")
+jsonlite::write_json(cfg,path,auto_unbox=TRUE)
+Sys.setenv(LO_RUN_CONFIG=path)
+stopifnot(identical(lo_run_config_hash(cfg),lo_run_config_hash(lo_run_config("nld_only"))))
+stopifnot(inherits(try(lo_run_config("all_required"),silent=TRUE),"try-error"))
+m1<-lo_fixed_input_manifest(".",work,work,"nld_only")
+cfg$selection$years<-"2018"
+jsonlite::write_json(cfg,path,auto_unbox=TRUE)
+m2<-lo_fixed_input_manifest(".",work,work,"nld_only")
+stopifnot(!identical(m1$sha256,m2$sha256))
+cfg$selection$years<-"1900"
+stopifnot(inherits(try(lo_run_select(t,cfg),silent=TRUE),"try-error"))
+cfg$selection$years<-character();cfg$selection$extra<-"bad"
+jsonlite::write_json(cfg,path,auto_unbox=TRUE)
+stopifnot(inherits(try(lo_run_config("nld_only"),silent=TRUE),"try-error"))
+cfg<-lo_run_config("nld_only","");cfg$max_compute_units<-0L
+jsonlite::write_json(cfg,path,auto_unbox=TRUE)
+stopifnot(inherits(try(lo_run_config("nld_only"),silent=TRUE),"try-error"))
+Sys.unsetenv("LO_RUN_CONFIG")
+cfg<-lo_run_config("nld_only","")
+state<-file.path(work,"state");dir.create(state)
+id<-lo_run_record(".",state,"audit",cfg,"SYNTHETIC_TEST")
+r<-jsonlite::fromJSON(file.path(state,"RUN_RECORDS",paste0(id,".json")))
+stopifnot(identical(r$configuration_sha256,lo_run_config_hash(cfg)),
+  identical(r$outcome,"SYNTHETIC_TEST"),length(r$code_sha256)>0L,
+  nrow(r$results)==0L,r$scientific_release=="NOT_IMPLIED_BY_RUN_SUCCESS")
+unlink(work,recursive=TRUE)
+cat("PASS explicit config, scope intersection, changed-config invalidation and run lineage\n")

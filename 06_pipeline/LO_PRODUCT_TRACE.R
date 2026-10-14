@@ -78,6 +78,7 @@ lo_product_trace <- function(repo,tasks,grid,decisions,out) {
 
 # A saved worklist cannot outlive changed scientific contracts or human choices.
 lo_fixed_input_manifest <- function(repo,bundle,root,scope) {
+  source(file.path(repo,"06_pipeline","LO_RUN_CONFIG.R"),local=environment())
   files<-c(tasks=file.path(bundle,"engine","TASKS.csv"),
     pool=file.path(bundle,"PPP_COMPARATOR_MEMBERSHIP_v2.csv"),
     decisions=file.path(repo,"06_pipeline","SCOPE_APPROVALS.csv"),
@@ -91,6 +92,10 @@ lo_fixed_input_manifest <- function(repo,bundle,root,scope) {
     support=file.path(root,"master_reconciliation","SOURCE_SUPPORT_CONTRACTS.csv"),
     compute=file.path(root,"master_reconciliation","SCIENTIFIC_COMPUTE_APPROVALS.csv"),
     validated=file.path(root,"master_reconciliation","SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv"))
-  list(scope=scope,sha256=vapply(files,function(p)if(file.exists(p))
-    digest::digest(file=p,algo="sha256") else "ABSENT",character(1)))
+  hashes<-vapply(files,function(p)if(file.exists(p))
+    digest::digest(file=p,algo="sha256") else "ABSENT",character(1))
+  cfg<-lo_run_config(scope)
+  hashes<-c(hashes,run_configuration=lo_run_config_hash(cfg),
+    run_config_code=digest::digest(file=file.path(repo,"06_pipeline","LO_RUN_CONFIG.R"),algo="sha256"))
+  list(scope=scope,configuration=cfg,sha256=hashes)
 }

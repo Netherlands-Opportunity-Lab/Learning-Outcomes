@@ -74,7 +74,7 @@ lo_exact_dispatch <- function(repo,bundle,scope_info,tasks,grid,out,backend=NULL
   q<-work$tasks;g<-work$grid
   dir.create(out,recursive=TRUE,showWarnings=FALSE)
   summary<-data.frame(required_active_cells=nrow(q),source_units_visited=0L,
-    new_rows_written=0L,reused_rows=0L,holds_this_attempt=0L,
+    new_rows_written=0L,reused_rows=0L,holds_this_attempt=0L,compute_units_attempted=0L,
     status="NO_APPROVED_COMPUTE_CELLS",stringsAsFactors=FALSE)
   if(!nrow(q))return(summary)
   source(file.path(repo,"06_pipeline","LO_COUNTRY_REGISTRY.R"),local=environment())
@@ -95,7 +95,6 @@ lo_exact_dispatch <- function(repo,bundle,scope_info,tasks,grid,out,backend=NULL
   groups<-split(seq_len(nrow(q)),do.call(paste,c(grouping,sep="|")))
   events<-list();started<-FALSE
   for(ix in groups) {
-    if(summary$source_units_visited>=max_units)break
     block<-q[ix,,drop=FALSE];certified<-g[ix,,drop=FALSE]
     reusable<-rep(FALSE,nrow(block))
     summary$source_units_visited<-summary$source_units_visited+1L
@@ -115,7 +114,12 @@ lo_exact_dispatch <- function(repo,bundle,scope_info,tasks,grid,out,backend=NULL
           identical(receipt$result_sha[[1]],digest::digest(current,algo="sha256"))
       },logical(1))
       summary$reused_rows<-summary$reused_rows+sum(reusable)
-      if(all(reusable))return_value<-"REUSED_EXACT_RECEIPT" else {
+      if(all(reusable) || summary$compute_units_attempted>=max_units)
+        return_value<-if(all(reusable))"REUSED_EXACT_RECEIPT" else "DEFERRED_BATCH_LIMIT"
+      else {
+        # The limit applies to missing work, not already completed blocks.
+        # Otherwise repeated bounded runs can get stuck on the first receipt.
+        summary$compute_units_attempted<-summary$compute_units_attempted+1L
         if(is.null(backend) && !started) {
           for(p in c("LO_APPROVED_EXTENSIONS.R","LO_EXACT_ESTIMATORS.R","LO_EXACT_BOOT.R","LO_SOURCE_REPAIR.R"))
             source(file.path(repo,"06_pipeline",p),local=environment())
