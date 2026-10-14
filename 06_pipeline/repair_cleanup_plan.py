@@ -1,19 +1,24 @@
 """Repair duplicate chains into disjoint stars; never delete or move a file.
 
-Only explicitly supplied project roots are considered. Current byte hashes,
-two restored off-C copies, quarantine age and human approval remain separate.
+Only explicitly supplied project roots are considered. This planner authorizes
+no deletion. Apply the latest recorded retention decision to a concrete list;
+the user's 14 October exception concerns recomputable project files only.
 """
-import argparse,csv,json,os
+import argparse,csv,json,os,re
 from pathlib import Path
 
 def norm(p):return os.path.normcase(os.path.abspath(p))
 def inside(p,roots):
-    return any(os.path.commonpath([norm(p),norm(r)])==norm(r) for r in roots)
+    for r in roots:
+        try:
+            if os.path.commonpath([norm(p),norm(r)])==norm(r):return True
+        except ValueError:continue  # Different Windows volumes cannot be ancestors.
+    return False
 def repair(rows,roots):
     groups={};excluded=0
     for r in rows:
         a,b=r['target_path'],r['keeper_path'];h=r['expected_sha256']
-        if not h or len(h)!=64 or not inside(a,roots) or not inside(b,roots):
+        if not re.fullmatch('[a-fA-F0-9]{64}',h or '') or not inside(a,roots) or not inside(b,roots):
             excluded+=1;continue
         key=(h,int(r['expected_size_bytes']))
         groups.setdefault(key,set()).update((a,b))
