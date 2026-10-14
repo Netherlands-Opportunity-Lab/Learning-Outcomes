@@ -4,6 +4,7 @@ source("06_pipeline/MASTER_ESTIMATION_GRID.R",encoding="UTF-8")
 source("06_pipeline/GRID_ARCHIVE_BATCH.R",encoding="UTF-8")
 source("06_pipeline/LO_EXISTING_RESULT_REGISTRY.R",encoding="UTF-8")
 source("06_pipeline/LO_FIXED_VALIDATION.R",encoding="UTF-8")
+source("06_pipeline/LO_SOURCE_UNAVAILABILITY.R",encoding="UTF-8")
 source("06_pipeline/LO_FIXED_PRODUCERS.R",encoding="UTF-8")
 source("06_pipeline/LO_FINAL_DASHBOARD_EXPORT.R",encoding="UTF-8")
 work<-tempfile("lo_fixed_");dir.create(work)
@@ -39,6 +40,22 @@ q<-lo_final_quality_gate(bundle,tasks,
       file.path(work,"missing_approvals.csv"),file.path(work,"validation"))
 stopifnot(q$active_missing==3L,q$paper_gates_pass==0L,
    q$scientific_freeze=="HOLD")
+# Proven absence is reported consistently in audit and finalize without
+# shrinking the original target count or granting release.
+absent<-lo_grid_from_tasks(tasks[1,,drop=FALSE])[c('cell_id','target_contract_sha256')]
+absent$reason<-'Synthetic source has no requested field'
+proof<-file.path(work,'source_absence_proof.txt');writeLines('synthetic absence',proof)
+cert<-file.path(work,'source_absence.json')
+jsonlite::write_json(list(status='SOURCE_UNAVAILABLE_VERIFIED',cells=absent,
+ evidence_files=data.frame(path=proof,sha256=digest::digest(file=proof,algo='sha256'))),cert,auto_unbox=TRUE)
+absent$evidence_path<-cert;absent$evidence_sha256<-digest::digest(file=cert,algo='sha256')
+absence_file<-file.path(work,'SOURCE_UNAVAILABLE_CELLS.csv');write.csv(absent,absence_file,row.names=FALSE)
+with_absence<-lo_final_quality_gate(bundle,tasks,file.path(work,'missing_approvals.csv'),file.path(work,'absence_validation'))
+stopifnot(with_absence$scope_contracts==3L,with_absence$active_missing==2L,
+ with_absence$documented_unavailable_source_fields==1L,with_absence$scientific_freeze=='HOLD')
+writeLines('changed evidence',proof)
+stopifnot(inherits(try(lo_final_quality_gate(bundle,tasks,file.path(work,'missing_approvals.csv'),file.path(work,'changed_absence')),silent=TRUE),'try-error'))
+unlink(absence_file)
 # A pending proposal must not force new peer estimates in the final gate.
 scope_decisions<-lo_read_scope_decisions(".")
 scope_decisions$status<-"PENDING"
