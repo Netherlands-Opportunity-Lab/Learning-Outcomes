@@ -6,6 +6,7 @@ Run from RStudio with system2(LO_PYTHON, c(script, '--bundle', ..., '--out', ...
 """
 import argparse, collections, csv, gzip, hashlib, json, math, re, sqlite3
 from pathlib import Path
+from PRODUCT_SCOPE_APPROVAL import apply_scope_approval, dependency_scope_status
 
 COMMON42=set('ALB ARE AUS AZE BGR BRA CYP CZE DEU DNK ESP FIN FRA GEO HUN IRL ITA JOR KAZ LTU LVA MAR MKD MNE NLD NOR NZL POL PRT QAT SAU SGP SRB SVK SVN SWE TUR TWN USA HKG MAC XKX'.split())
 REFERENCE=set('NLD AUS AUT BEL CAN CHE DEU DNK ESP FIN FRA GBR IRL ISL ITA KOR LUX NOR SWE USA'.split())
@@ -143,7 +144,7 @@ def validate_definitions(defs,figures):
 
 def audit(bundle,definitions,out,registry=None,verify_sources=False):
     bundle=Path(bundle);out=Path(out);out.mkdir(parents=True,exist_ok=True)
-    defs=json.loads(Path(definitions).read_text(encoding='utf-8'))
+    defs=apply_scope_approval(json.loads(Path(definitions).read_text(encoding='utf-8')))
     tasks=read_csv(bundle/'engine/TASKS.csv');figures=read_csv(bundle/'FIGURE_SERIES_CONTRACT_20261002.csv')
     links=read_csv(bundle/'PRODUCT_FIGUUR_RESULTAAT.csv.gz');scope=scopes(bundle)
     keys={t['metric_key'] for t in tasks};figids={f['figure_id'] for f in figures}
@@ -180,7 +181,7 @@ def audit(bundle,definitions,out,registry=None,verify_sources=False):
             ts=[t for t in byfig[f['figure_id']] if t['country'] in countries]
             figure_rows.append({'figure_id':f['figure_id'],'scope':label,**count(ts),
               'historical_comparator':f['comparison_default'],'requested_comparator':'OECD_PPP_GT_CZE_2024_FIXED',
-              'current_role':'COMPLEMENT_NO_SEPARATE_DEFAULT_PLOT' if fam=='TR_BASIC' else 'OPTIONAL_HIGH_PEER_NEW_LOW_PEER_REQUIRED' if fam=='EN_PERFORMANCE_PEER' else 'OPTIONAL_APPENDIX' if fam=='GP_SES_HIGH' else 'REQUIRED',
+              'current_role':'COMPLEMENT_NO_SEPARATE_DEFAULT_PLOT' if fam=='TR_BASIC' else 'PENDING_USER_APPROVAL_A01_A03' if fam=='EN_PERFORMANCE_PEER' else 'EXCLUDED_DEFAULT_OPTIONAL_NEEDS_A02' if fam=='GP_SES_HIGH' else 'HISTORICAL_SCOPE_NOT_BLANKET_APPROVAL',
               'derivation_dependencies':';'.join(DERIVED.get(fam,[])),
               'uncertainty_gate':'JOINT_PV_REPLICATE_OR_COVARIANCE' if fam in DERIVED and fam not in ('TR_BASIC','TR_POSITION') else 'COUNTRY_DESIGN_SE_REFERENCE_POINT_ONLY',
               'scientific_status':'HOLD'})
@@ -188,6 +189,8 @@ def audit(bundle,definitions,out,registry=None,verify_sources=False):
     for req in defs['requirements']:
         matched=[t for t in tasks if match_requirement(req,t)]
         req_rows.append({k:req[k] for k in ('requirement_id','product','source_locator','title','scope','role')}|count(matched)|{
+          'scope_approval':req['scope_approval'],'approval_items':';'.join(req['approval_items']),
+          'production_authorized_by_inventory':False,
           'supplemental_dependencies':';'.join(req['additional_dependencies']),
           'mapping_status':'SPECIFIED_WITH_OPEN_SUPPLEMENTAL_GATES' if req['additional_dependencies'] else 'HISTORICAL_GRID_LINKED_NOT_SCIENTIFICALLY_RELEASED'})
         matched_counts=collections.Counter(t['contract_figure_id'] for t in matched)
@@ -196,7 +199,7 @@ def audit(bundle,definitions,out,registry=None,verify_sources=False):
             dependencies.append({'requirement_id':req['requirement_id'],'dependency_id':f,'kind':'HISTORICAL_FIGURE_CONTRACT','matched_cells':matched_counts[f],
               'status':'DERIVED_RANK_DEPENDENCY' if family(f)=='TR_POSITION' else 'SCOPED_PARTIAL_OR_COMPLETE_MATCH_REQUIRES_METHOD_REVIEW'})
         for s in req['additional_dependencies']:
-            dependencies.append({'requirement_id':req['requirement_id'],'dependency_id':s,'kind':'SUPPLEMENTAL_SPECIFICATION','matched_cells':'','status':'REQUIRED_NOT_CERTIFIED'})
+            dependencies.append({'requirement_id':req['requirement_id'],'dependency_id':s,'kind':'SUPPLEMENTAL_SPECIFICATION','matched_cells':'','status':dependency_scope_status(s)})
         for t in matched:private_links.append({'requirement_id':req['requirement_id'],'cell_id':t['metric_key']})
     # Ranks need mean cells of the SAME survey/age/domain; not a seventh run.
     derived=[]
@@ -213,7 +216,7 @@ def audit(bundle,definitions,out,registry=None,verify_sources=False):
         cells=[r for r in low_cells if (req['scope']!='NLD' or r['country']=='NLD') and
           ('contract_figure_id' not in req['task_filters'] or r['historical_context_figure'] in req['task_filters']['contract_figure_id'])]
         for r in cells:private_links.append({'requirement_id':req['requirement_id'],'cell_id':r['cell_id']})
-        dependencies.append({'requirement_id':req['requirement_id'],'dependency_id':'NEW_PEER_BELOW_BASIC','kind':'NEW_GRID_CELLS','matched_cells':len(cells),'status':'TARGETS_DEFINED_NOT_VALIDATED'})
+        dependencies.append({'requirement_id':req['requirement_id'],'dependency_id':'NEW_PEER_BELOW_BASIC','kind':'NEW_GRID_CELLS','matched_cells':len(cells),'status':'PROPOSED_TARGETS_PENDING_USER_A01_NOT_VALIDATED'})
     for label,countries in scope.items():
         ts=[t for t in tasks if t['country'] in countries]
         active=[t for t in ts if family(t['contract_figure_id']) not in ('TR_BASIC','GP_SES_HIGH','EN_PERFORMANCE_PEER')]
@@ -223,7 +226,10 @@ def audit(bundle,definitions,out,registry=None,verify_sources=False):
     for label,rs in [('LO01',lo01),('LO02',lo02),('REGISTRY_V4',db)]:
         evidence_summary.append({'source':label,'rows':len(rs),'distinct_keys':len({r['metric_key'] for r in rs}),'finite_estimate_se_rows':sum(numerical_pair(r) for r in rs),'registered_status_counts':dict(collections.Counter(r.get('scientific_status',r.get('status','MISSING')) for r in rs)),'scientifically_approved_in_this_audit':0})
     summary={'schema_version':1,'audit_source_commit':defs['source_commit'],'scope_counts':scope_counts,
-      'requirements':len(req_rows),'product_counts':dict(collections.Counter(r['product'] for r in req_rows)),
+      'requirements':len(req_rows),'inventory_is_user_approval':False,
+      'scope_basis':'HISTORICAL_42_20_50_COUNTS_NOT_6x3_ELIGIBILITY_PROOF',
+      'pending_scope_requirements':sum(bool(r['approval_items']) for r in defs['requirements']),
+      'product_counts':dict(collections.Counter(r['product'] for r in req_rows)),
       'supplemental_specifications':len(defs['supplemental_requirements']),'historical_figure_contracts':len(figures),
       'historical_unique_cells':len(keys),'derived_rank_figures':sum(family(f['figure_id'])=='TR_POSITION' for f in figures),
       'evidence_sources':evidence_summary,'registry':dbinfo,

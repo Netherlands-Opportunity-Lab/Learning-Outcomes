@@ -1,12 +1,14 @@
 # Kritische audit — bron, scope, producten en bewijs
 
+**Scopecorrectie 14 oktober:** zie [de gebruikersaanvulling en het afzonderlijke beslisblad](USER_SCOPE_AMENDMENT_20261014.md). De onderstaande 247 regels zijn broninventarisatie, geen 247 door de gebruiker goedgekeurde statistieken. Nieuwe inhoud uit het wetenschappelijke deck is niet automatisch vereist. Ook lage-prestatiepeers waren een gebruikersvraag, geen definitief akkoord. De 42/20/50-landenaantallen en doelcelaantallen hieronder beschrijven de historische configuratie; zij bewijzen niet de nieuw gevraagde 6×3-inclusieregel. De machineleesbare registers onderscheiden nu expliciet hangende scopebesluiten van wetenschappelijke validatie.
+
 De kritische audit is afgerond als inventarisatie, bronreconciliatie en beoordeling van bestaand bewijs. De wetenschappelijke vrijgave is **niet** verleend. Iedere geïnventariseerde productvereiste heeft een expliciete afhankelijkheid van het historische resultaatgrid, nieuwe peer-cellen of een aanvullende specificatie. Een aanvullende specificatie is zichtbaar werk dat nog moet worden uitgewerkt; zij telt niet als een gevuld of goedgekeurd resultaat.
 
 De audit begon op commit `24f9202ed4e176ce9da8f84e34e3e2274b63a566`. Voor integratie zijn ook de inmiddels toegevoegde compacte productiescripts op `c4075497d4babe512e81f91306a718568bf54dd7` beoordeeld. Bronbestanden zijn alleen gelezen. Er is geen pupilberekening, publicatie, verhuizing of opschoning uitgevoerd.
 
 ## Wat nu aan het grid is gekoppeld
 
-`PRODUCT_REQUIREMENTS.json` bevat **247 vereisten**: alle 21 beleidsslides, 50 wetenschappelijke slides, 17 hoofdstukken en de finale update van de notitie, 138 historische dashboardfiguren, Q01–Q08, zes empirische paper-exhibits, de resultaatproductie en vijf productoverstijgende eisen. De langere wetenschappelijke presentatie blijft een optioneel product; wanneer zij wordt gemaakt, blijven haar eigen inhoudelijke vereisten behouden.
+`PRODUCT_REQUIREMENTS.json` bevat **247 bronkoppelingen**: alle 21 beleidsslides, 50 wetenschappelijke slides, 17 hoofdstukken en de finale update van de notitie, 138 historische dashboardfiguren, Q01–Q08, zes empirische paper-exhibits, de resultaatproductie en vijf productoverstijgende eisen. De langere wetenschappelijke presentatie blijft optioneel; inhoudelijke uitbreidingen vereisen afzonderlijke goedkeuring, ook wanneer dat product wordt gemaakt.
 
 - `PRODUCT_GRID_REQUIREMENTS.csv`: per vereiste de bronlocatie, scope, rol en aantallen cellen met verschillende soorten bewijs.
 - `PRODUCT_GRID_DEPENDENCIES.csv`: product → figuur of aanvullende specificatie, inclusief de nieuwe primaire peer-cellen.
@@ -16,7 +18,7 @@ De audit begon op commit `24f9202ed4e176ce9da8f84e34e3e2274b63a566`. Voor integr
 
 De volledige koppeling product → individuele cel staat lokaal in `PRIVATE_PRODUCT_CELL_LINKS.csv`. De nieuwe lage-peer-cellen staan afzonderlijk in `PRIVATE_NEW_LOW_PEER_GRID.csv`. Beide worden niet als ongetoetste bulk naar publiek GitHub gekopieerd.
 
-## Vastgestelde scope
+## Historische scope: nieuwe landenregel nog toe te passen
 
 | Scope | Stelsels | Historische cellen | Actieve historische cellen | Nieuwe lage-peer-cellen |
 |---|---:|---:|---:|---:|
@@ -24,9 +26,9 @@ De volledige koppeling product → individuele cel staat lokaal in `PRIVATE_PROD
 | Nederland + vaste referentie | 20 | 29.846 | 24.355 | 3.954 |
 | Alle benodigde stelsels | 50 | 70.633 | 57.690 | 9.198 |
 
-De oorspronkelijke **79.448 sleutels in 91 stelsels** blijven als historisch contract bestaan. Zij zijn geen juiste werkvoorraad voor het huidige dashboard. De website heeft 42 selecteerbare stelsels; acht extra stelsels zijn nodig voor de vaste referentie. De 57.690 actieve historische cellen omvatten ook historische afleidbare uitkomsten: dit is uitdrukkelijk geen aantal zelfstandige pupilberekeningen. Met de nieuwe lage-peer-cellen zijn 66.888 actieve doelcellen gespecificeerd voor de 50-systemenscope, vóór verdere aanvullende uitkomsten. Ontbrekende uitbreidingen mogen niet als nul worden geteld.
+De oorspronkelijke **79.448 sleutels in 91 stelsels** blijven als historisch contract bestaan. Zij zijn geen juiste werkvoorraad voor het huidige dashboard. De website heeft 42 selecteerbare stelsels; acht extra stelsels zijn nodig voor de vaste referentie. De 57.690 actieve historische cellen omvatten ook historische afleidbare uitkomsten: dit is uitdrukkelijk geen aantal zelfstandige pupilberekeningen. Met de voorgestelde lage-peer-cellen waren 66.888 mogelijke doelcellen gespecificeerd voor de historische 50-systemenscope, vóór verdere aanvullende uitkomsten; dit is geen goedgekeurde productiewerkvoorraad. Ontbrekende uitbreidingen mogen niet als nul worden geteld.
 
-De primaire peermaat wordt het aandeel peers onder de eigen prestatiedrempel. Historische hoge-peer-resultaten kunnen die cellen niet vullen. PISA onder niveau 2 en IEA onder intermediate 475 blijven afzonderlijke definities. De directe leeromgeving en de gehele school blijven afzonderlijke eenheden. Zelfuitsluiting en gezamenlijke PV/replicatie zijn vrijgavevoorwaarden.
+De voorgestelde nieuwe peermaat is het aandeel peers onder de eigen prestatiedrempel; dit wacht op besluit A01. Historische hoge-peer-resultaten kunnen die cellen niet vullen. PISA onder niveau 2 en IEA onder intermediate 475 blijven afzonderlijke definities. De directe leeromgeving en de gehele school blijven afzonderlijke eenheden. Zelfuitsluiting en gezamenlijke PV/replicatie zijn vrijgavevoorwaarden indien deze analyse wordt gekozen.
 
 De officiële PISA-SES, de viergolfs Cobreros-SES en boekenkwartielen zijn afzonderlijke constructen. Vooral de oorspronkelijke beleidsslides 4–6 kunnen niet uitsluitend met het bestaande PISA-harmonisatiegrid worden afgedekt. Daarom is officiële PISA-SES expliciet toegevoegd. Ook SES × gender, officiële IEA Home SES, vier taalgebruikscategorieën, absolute internationale SES, school-/klassensortering, Theil H, cohortcontext en de oude brede/kwaliteits-panels staan apart geregistreerd.
 

@@ -14,7 +14,11 @@
       "task_filters": {},
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_02",
@@ -25,13 +29,16 @@
         "TR_MEAN"
       ],
       "additional_dependencies": [
-        "S_LEGACY_PANELS",
         "S_REFERENCE"
       ],
       "task_filters": {},
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_03",
@@ -47,7 +54,11 @@
       "task_filters": {},
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_04",
@@ -67,7 +78,11 @@
       },
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_05",
@@ -87,7 +102,11 @@
       },
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_06",
@@ -107,7 +126,12 @@
       },
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false,
+      "active_presentation": "BELOW_BASIC_BY_SES_Q1_Q4"
     },
     {
       "requirement_id": "POLICY_07",
@@ -128,7 +152,11 @@
       },
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_08",
@@ -149,7 +177,11 @@
       },
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_09",
@@ -170,7 +202,12 @@
       },
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false,
+      "active_presentation": "BELOW_BASIC_BY_SES_Q1_Q4"
     },
     {
       "requirement_id": "POLICY_10",
@@ -185,8 +222,15 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_APPENDIX",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "OPTIONAL_APPENDIX",
+      "approval_items": [
+        "A02"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false,
+      "active_presentation": "EXCLUDED_FROM_DEFAULT_BY_USER; optional reinstatement needs A02"
     },
     {
       "requirement_id": "POLICY_11",
@@ -200,7 +244,11 @@
       "task_filters": {},
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_12",
@@ -217,7 +265,11 @@
       "task_filters": {},
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_13",
@@ -235,7 +287,11 @@
       },
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_14",
@@ -253,7 +309,11 @@
       },
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_15",
@@ -271,7 +331,11 @@
       },
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_16",
@@ -292,7 +356,11 @@
       },
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_17",
@@ -313,7 +381,11 @@
       },
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_18",
@@ -329,7 +401,11 @@
       "task_filters": {},
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_19",
@@ -350,7 +426,11 @@
       },
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "POLICY_20",
@@ -365,8 +445,16 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A01",
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false,
+      "active_presentation": "LOW_PEER_SWITCH_PENDING_A01; HIGH_PEER_RETENTION_PENDING_A03"
     },
     {
       "requirement_id": "POLICY_21",
@@ -380,7 +468,11 @@
       "task_filters": {},
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac"
+      "source_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_01",
@@ -393,8 +485,12 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_02",
@@ -408,8 +504,14 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_03",
@@ -422,8 +524,12 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_04",
@@ -440,8 +546,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_05",
@@ -460,8 +570,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_06",
@@ -480,8 +594,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_07",
@@ -500,8 +618,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_08",
@@ -518,8 +640,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_09",
@@ -537,8 +663,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_10",
@@ -557,8 +687,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_11",
@@ -578,8 +712,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_12",
@@ -600,8 +738,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_13",
@@ -618,8 +760,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_14",
@@ -637,8 +783,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_15",
@@ -657,8 +807,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_16",
@@ -675,8 +829,14 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A02"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_17",
@@ -689,8 +849,14 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A04"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_18",
@@ -703,8 +869,12 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_19",
@@ -717,8 +887,14 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A05"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_20",
@@ -731,8 +907,14 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A05"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_21",
@@ -746,8 +928,14 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A05"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_22",
@@ -761,8 +949,12 @@
       "additional_dependencies": [],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_23",
@@ -781,8 +973,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_24",
@@ -799,8 +995,14 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A06"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_25",
@@ -821,8 +1023,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_26",
@@ -844,8 +1050,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_27",
@@ -865,8 +1075,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_28",
@@ -883,8 +1097,14 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A07"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_29",
@@ -903,8 +1123,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_30",
@@ -923,8 +1147,12 @@
         ]
       },
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_31",
@@ -939,8 +1167,16 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_32",
@@ -953,8 +1189,16 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_33",
@@ -969,8 +1213,16 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_34",
@@ -986,8 +1238,16 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_35",
@@ -1003,8 +1263,16 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_36",
@@ -1017,8 +1285,16 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_37",
@@ -1032,8 +1308,16 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_38",
@@ -1046,8 +1330,14 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_39",
@@ -1060,8 +1350,15 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A11",
+        "A12"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_40",
@@ -1074,8 +1371,15 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A11",
+        "A12"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_41",
@@ -1088,8 +1392,15 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A11",
+        "A12"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_42",
@@ -1102,8 +1413,15 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A11",
+        "A12"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_43",
@@ -1116,8 +1434,15 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A11",
+        "A12"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_44",
@@ -1130,8 +1455,15 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A13",
+        "A14"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_45",
@@ -1145,8 +1477,17 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A11",
+        "A12",
+        "A13",
+        "A14"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_46",
@@ -1159,8 +1500,15 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A15",
+        "A16"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_47",
@@ -1173,8 +1521,15 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [
+        "A15",
+        "A16"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_48",
@@ -1187,8 +1542,12 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_49",
@@ -1201,8 +1560,12 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "SCIENCE_50",
@@ -1215,8 +1578,12 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
-      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4",
+      "historical_role": "OPTIONAL_PRODUCT_REQUIRED_CONTENT",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_01",
@@ -1230,8 +1597,12 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_02",
@@ -1245,8 +1616,14 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_03",
@@ -1259,8 +1636,12 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_04",
@@ -1275,8 +1656,12 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_05",
@@ -1293,8 +1678,12 @@
       "additional_dependencies": [],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_06",
@@ -1311,8 +1700,14 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A04"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_07",
@@ -1326,8 +1721,14 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A05"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_08",
@@ -1343,8 +1744,14 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A06"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_09",
@@ -1362,8 +1769,14 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A07"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_10",
@@ -1379,8 +1792,16 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_11",
@@ -1394,8 +1815,17 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A11",
+        "A12",
+        "A13",
+        "A14"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_12",
@@ -1408,8 +1838,15 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A15",
+        "A16"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_13",
@@ -1422,8 +1859,14 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_14",
@@ -1437,8 +1880,12 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_15",
@@ -1451,8 +1898,12 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_16",
@@ -1465,8 +1916,12 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_17",
@@ -1479,8 +1934,12 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "NOTE_FINAL_UPDATE",
@@ -1493,8 +1952,12 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27"
+      "role": "SOURCE_INVENTORY",
+      "source_sha256": "be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "Q01",
@@ -1508,7 +1971,11 @@
       "task_filters": {},
       "scope": "SOURCE_SPECIFIC",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "Q02",
@@ -1522,7 +1989,11 @@
       "task_filters": {},
       "scope": "SOURCE_SPECIFIC",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "Q03",
@@ -1536,7 +2007,11 @@
       "task_filters": {},
       "scope": "SOURCE_SPECIFIC",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "Q04",
@@ -1550,7 +2025,11 @@
       "task_filters": {},
       "scope": "SOURCE_SPECIFIC",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "Q05",
@@ -1564,7 +2043,11 @@
       "task_filters": {},
       "scope": "SOURCE_SPECIFIC",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "Q06",
@@ -1578,7 +2061,11 @@
       "task_filters": {},
       "scope": "SOURCE_SPECIFIC",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "Q07",
@@ -1592,7 +2079,11 @@
       "task_filters": {},
       "scope": "SOURCE_SPECIFIC",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "Q08",
@@ -1606,7 +2097,11 @@
       "task_filters": {},
       "scope": "SOURCE_SPECIFIC",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "PAPER_Appendix_E",
@@ -1628,7 +2123,11 @@
       "task_filters": {},
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "PAPER_E2",
@@ -1645,7 +2144,11 @@
       "task_filters": {},
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "PAPER_E3",
@@ -1665,7 +2168,11 @@
       "task_filters": {},
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "PAPER_E4",
@@ -1684,7 +2191,11 @@
       "task_filters": {},
       "scope": "NLD",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "PAPER_E5",
@@ -1703,8 +2214,14 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A02"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "PAPER_E7/Appendix_G",
@@ -1723,8 +2240,14 @@
       ],
       "task_filters": {},
       "scope": "NLD",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "PIPELINE_RESULTS",
@@ -1762,8 +2285,16 @@
       ],
       "task_filters": {},
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A01",
+        "A02",
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_MEAN_age10_reading",
@@ -1784,7 +2315,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_BELOW_age10_reading",
@@ -1805,7 +2340,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_BASIC_age10_reading",
@@ -1826,7 +2365,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "HISTORICAL_SUPERSEDED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "HISTORICAL_SUPERSEDED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_HIGH_age10_reading",
@@ -1847,7 +2390,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_POSITION_age10_reading",
@@ -1868,8 +2415,16 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_MEAN_age10_mathematics",
@@ -1890,7 +2445,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_BELOW_age10_mathematics",
@@ -1911,7 +2470,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_BASIC_age10_mathematics",
@@ -1932,7 +2495,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "HISTORICAL_SUPERSEDED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "HISTORICAL_SUPERSEDED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_HIGH_age10_mathematics",
@@ -1953,7 +2520,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_POSITION_age10_mathematics",
@@ -1974,8 +2545,16 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_MEAN_age10_science",
@@ -1996,7 +2575,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_BELOW_age10_science",
@@ -2017,7 +2600,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_BASIC_age10_science",
@@ -2038,7 +2625,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "HISTORICAL_SUPERSEDED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "HISTORICAL_SUPERSEDED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_HIGH_age10_science",
@@ -2059,7 +2650,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_POSITION_age10_science",
@@ -2080,8 +2675,16 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_MEAN_age15_reading",
@@ -2102,7 +2705,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_BELOW_age15_reading",
@@ -2123,7 +2730,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_BASIC_age15_reading",
@@ -2144,7 +2755,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "HISTORICAL_SUPERSEDED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "HISTORICAL_SUPERSEDED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_HIGH_age15_reading",
@@ -2165,7 +2780,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_POSITION_age15_reading",
@@ -2186,8 +2805,16 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_MEAN_age15_mathematics",
@@ -2208,7 +2835,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_BELOW_age15_mathematics",
@@ -2229,7 +2860,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_BASIC_age15_mathematics",
@@ -2250,7 +2885,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "HISTORICAL_SUPERSEDED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "HISTORICAL_SUPERSEDED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_HIGH_age15_mathematics",
@@ -2271,7 +2910,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_POSITION_age15_mathematics",
@@ -2292,8 +2935,16 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_MEAN_age15_science",
@@ -2314,7 +2965,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_BELOW_age15_science",
@@ -2335,7 +2990,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_BASIC_age15_science",
@@ -2356,7 +3015,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "HISTORICAL_SUPERSEDED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "HISTORICAL_SUPERSEDED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_HIGH_age15_science",
@@ -2377,7 +3040,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_TR_POSITION_age15_science",
@@ -2398,8 +3065,16 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P10_age10_reading",
@@ -2420,7 +3095,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P50_age10_reading",
@@ -2441,7 +3120,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P90_age10_reading",
@@ -2462,7 +3145,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_SPREAD_age10_reading",
@@ -2483,7 +3170,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P10_age10_mathematics",
@@ -2504,7 +3195,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P50_age10_mathematics",
@@ -2525,7 +3220,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P90_age10_mathematics",
@@ -2546,7 +3245,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_SPREAD_age10_mathematics",
@@ -2567,7 +3270,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P10_age10_science",
@@ -2588,7 +3295,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P50_age10_science",
@@ -2609,7 +3320,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P90_age10_science",
@@ -2630,7 +3345,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_SPREAD_age10_science",
@@ -2651,7 +3370,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P10_age15_reading",
@@ -2672,7 +3395,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P50_age15_reading",
@@ -2693,7 +3420,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P90_age15_reading",
@@ -2714,7 +3445,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_SPREAD_age15_reading",
@@ -2735,7 +3470,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P10_age15_mathematics",
@@ -2756,7 +3495,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P50_age15_mathematics",
@@ -2777,7 +3520,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P90_age15_mathematics",
@@ -2798,7 +3545,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_SPREAD_age15_mathematics",
@@ -2819,7 +3570,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P10_age15_science",
@@ -2840,7 +3595,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P50_age15_science",
@@ -2861,7 +3620,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_P90_age15_science",
@@ -2882,7 +3645,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_DS_SPREAD_age15_science",
@@ -2903,7 +3670,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_LEVELS_age10_reading",
@@ -2924,7 +3695,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_GAP_age10_reading",
@@ -2945,7 +3720,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_BASIC_age10_reading",
@@ -2966,7 +3745,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_HIGH_age10_reading",
@@ -2986,8 +3769,14 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "OPTIONAL_APPENDIX",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "OPTIONAL_APPENDIX",
+      "approval_items": [
+        "A02"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_GENDER_LEVELS_age10_reading",
@@ -3008,7 +3797,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_GENDER_GAP_age10_reading",
@@ -3029,7 +3822,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_LANGUAGE_LEVELS_age10_reading",
@@ -3050,7 +3847,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_LANGUAGE_GAP_age10_reading",
@@ -3071,7 +3872,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_MIGRATION_LEVELS_age10_reading",
@@ -3092,7 +3897,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_MIGRATION_GAP_age10_reading",
@@ -3113,7 +3922,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_LEVELS_age10_mathematics",
@@ -3134,7 +3947,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_GAP_age10_mathematics",
@@ -3155,7 +3972,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_BASIC_age10_mathematics",
@@ -3176,7 +3997,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_HIGH_age10_mathematics",
@@ -3196,8 +4021,14 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "OPTIONAL_APPENDIX",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "OPTIONAL_APPENDIX",
+      "approval_items": [
+        "A02"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_GENDER_LEVELS_age10_mathematics",
@@ -3218,7 +4049,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_GENDER_GAP_age10_mathematics",
@@ -3239,7 +4074,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_LANGUAGE_LEVELS_age10_mathematics",
@@ -3260,7 +4099,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_LANGUAGE_GAP_age10_mathematics",
@@ -3281,7 +4124,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_MIGRATION_LEVELS_age10_mathematics",
@@ -3302,7 +4149,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_MIGRATION_GAP_age10_mathematics",
@@ -3323,7 +4174,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_LEVELS_age10_science",
@@ -3344,7 +4199,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_GAP_age10_science",
@@ -3365,7 +4224,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_BASIC_age10_science",
@@ -3386,7 +4249,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_HIGH_age10_science",
@@ -3406,8 +4273,14 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "OPTIONAL_APPENDIX",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "OPTIONAL_APPENDIX",
+      "approval_items": [
+        "A02"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_GENDER_LEVELS_age10_science",
@@ -3428,7 +4301,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_GENDER_GAP_age10_science",
@@ -3449,7 +4326,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_LANGUAGE_LEVELS_age10_science",
@@ -3470,7 +4351,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_LANGUAGE_GAP_age10_science",
@@ -3491,7 +4376,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_MIGRATION_LEVELS_age10_science",
@@ -3512,7 +4401,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_MIGRATION_GAP_age10_science",
@@ -3533,7 +4426,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_LEVELS_age15_reading",
@@ -3554,7 +4451,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_GAP_age15_reading",
@@ -3575,7 +4476,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_BASIC_age15_reading",
@@ -3596,7 +4501,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_HIGH_age15_reading",
@@ -3616,8 +4525,14 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "OPTIONAL_APPENDIX",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "OPTIONAL_APPENDIX",
+      "approval_items": [
+        "A02"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_GENDER_LEVELS_age15_reading",
@@ -3638,7 +4553,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_GENDER_GAP_age15_reading",
@@ -3659,7 +4578,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_LANGUAGE_LEVELS_age15_reading",
@@ -3680,7 +4603,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_LANGUAGE_GAP_age15_reading",
@@ -3701,7 +4628,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_MIGRATION_LEVELS_age15_reading",
@@ -3722,7 +4653,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_MIGRATION_GAP_age15_reading",
@@ -3743,7 +4678,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_LEVELS_age15_mathematics",
@@ -3764,7 +4703,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_GAP_age15_mathematics",
@@ -3785,7 +4728,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_BASIC_age15_mathematics",
@@ -3806,7 +4753,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_HIGH_age15_mathematics",
@@ -3826,8 +4777,14 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "OPTIONAL_APPENDIX",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "OPTIONAL_APPENDIX",
+      "approval_items": [
+        "A02"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_GENDER_LEVELS_age15_mathematics",
@@ -3848,7 +4805,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_GENDER_GAP_age15_mathematics",
@@ -3869,7 +4830,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_LANGUAGE_LEVELS_age15_mathematics",
@@ -3890,7 +4855,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_LANGUAGE_GAP_age15_mathematics",
@@ -3911,7 +4880,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_MIGRATION_LEVELS_age15_mathematics",
@@ -3932,7 +4905,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_MIGRATION_GAP_age15_mathematics",
@@ -3953,7 +4930,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_LEVELS_age15_science",
@@ -3974,7 +4955,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_GAP_age15_science",
@@ -3995,7 +4980,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_BASIC_age15_science",
@@ -4016,7 +5005,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_SES_HIGH_age15_science",
@@ -4036,8 +5029,14 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "OPTIONAL_APPENDIX",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "OPTIONAL_APPENDIX",
+      "approval_items": [
+        "A02"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_GENDER_LEVELS_age15_science",
@@ -4058,7 +5057,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_GENDER_GAP_age15_science",
@@ -4079,7 +5082,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_LANGUAGE_LEVELS_age15_science",
@@ -4100,7 +5107,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_LANGUAGE_GAP_age15_science",
@@ -4121,7 +5132,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_MIGRATION_LEVELS_age15_science",
@@ -4142,7 +5157,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_GP_MIGRATION_GAP_age15_science",
@@ -4163,7 +5182,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_SES_PEER_age10_all_direct_learning_environment",
@@ -4184,7 +5207,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_LANGUAGE_PEER_age10_all_direct_learning_environment",
@@ -4205,7 +5232,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_MIGRATION_PEER_age10_all_direct_learning_environment",
@@ -4226,7 +5257,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_SES_PEER_age10_all_whole_school",
@@ -4247,7 +5282,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_LANGUAGE_PEER_age10_all_whole_school",
@@ -4268,7 +5307,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_MIGRATION_PEER_age10_all_whole_school",
@@ -4289,7 +5332,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_SES_PEER_age15_all_direct_learning_environment",
@@ -4310,7 +5357,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_LANGUAGE_PEER_age15_all_direct_learning_environment",
@@ -4331,7 +5382,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_MIGRATION_PEER_age15_all_direct_learning_environment",
@@ -4352,7 +5407,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_SES_PEER_age15_all_whole_school",
@@ -4373,7 +5432,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_LANGUAGE_PEER_age15_all_whole_school",
@@ -4394,7 +5457,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_MIGRATION_PEER_age15_all_whole_school",
@@ -4415,7 +5482,11 @@
       },
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_PERFORMANCE_PEER_age10_reading_direct_learning_environment",
@@ -4436,8 +5507,15 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A01",
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_PERFORMANCE_PEER_age10_reading_whole_school",
@@ -4458,8 +5536,15 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A01",
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_PERFORMANCE_PEER_age10_mathematics_direct_learning_environment",
@@ -4480,8 +5565,15 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A01",
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_PERFORMANCE_PEER_age10_mathematics_whole_school",
@@ -4502,8 +5594,15 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A01",
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_PERFORMANCE_PEER_age10_science_direct_learning_environment",
@@ -4524,8 +5623,15 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A01",
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_PERFORMANCE_PEER_age10_science_whole_school",
@@ -4546,8 +5652,15 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A01",
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_PERFORMANCE_PEER_age15_reading_direct_learning_environment",
@@ -4568,8 +5681,15 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A01",
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_PERFORMANCE_PEER_age15_reading_whole_school",
@@ -4590,8 +5710,15 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A01",
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_PERFORMANCE_PEER_age15_mathematics_direct_learning_environment",
@@ -4612,8 +5739,15 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A01",
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_PERFORMANCE_PEER_age15_mathematics_whole_school",
@@ -4634,8 +5768,15 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A01",
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_PERFORMANCE_PEER_age15_science_direct_learning_environment",
@@ -4656,8 +5797,15 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A01",
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "DASH_EN_PERFORMANCE_PEER_age15_science_whole_school",
@@ -4678,8 +5826,15 @@
         ]
       },
       "scope": "ALL_REQUIRED",
-      "role": "REQUIRED",
-      "source_sha256": ""
+      "role": "PENDING_SUBSTANTIVE_SCOPE_APPROVAL",
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [
+        "A01",
+        "A03"
+      ],
+      "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "PRODUCT_REPLICATION",
@@ -4693,7 +5848,11 @@
       "task_filters": {},
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "PRODUCT_BRAND",
@@ -4707,13 +5866,17 @@
       "task_filters": {},
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "PRODUCT_DASHBOARD",
       "product": "ALL_PRODUCTS",
       "source_locator": "cross-product",
-      "title": "42 focus choices, 50 underlying systems, NL/EN, source/method/availability, accessible filters and matching CSV/figure downloads",
+      "title": "Country eligibility 6x3; three production modes; configurable reference group; fixed20 exception pending",
       "figure_families": [],
       "additional_dependencies": [
         "S_DASHBOARD"
@@ -4721,7 +5884,11 @@
       "task_filters": {},
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "PRODUCT_STORAGE",
@@ -4735,7 +5902,11 @@
       "task_filters": {},
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     },
     {
       "requirement_id": "PRODUCT_INTERPRETATION",
@@ -4749,7 +5920,11 @@
       "task_filters": {},
       "scope": "ALL_REQUIRED",
       "role": "REQUIRED",
-      "source_sha256": ""
+      "source_sha256": "",
+      "historical_role": "REQUIRED",
+      "approval_items": [],
+      "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
     }
   ],
   "supplemental_requirements": [
@@ -4757,169 +5932,252 @@
       "dependency_id": "S_TITLE",
       "definition": "Editorial title and source identification",
       "gate": "NO_ESTIMATE_REQUIRED",
-      "status": "EDITORIAL_NO_CELLS"
+      "status": "EDITORIAL_NO_CELLS",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_DESIGN",
       "definition": "Population, realised sample N, weights, PVs and replicate design",
       "gate": "Q02;Q08",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_OFFICIAL_SES",
       "definition": "PISA official wave-specific national ESCS: Q1/Q4 levels, tails, gaps, coverage; distinct from Cobreros",
       "gate": "Q07",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_COVERAGE",
       "definition": "SES total/valid N and weighted coverage by component, edition and analysis sample",
       "gate": "Q01",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_COBREROS_4",
       "definition": "Author four-wave 34-system 13-item replication at pinned commit",
       "gate": "Q03",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_COBREROS_2",
       "definition": "Author two-wave 36-system 16-item replication at pinned commit",
       "gate": "Q04",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_COBREROS_EXT",
       "definition": "Fixed parameter extension: item mapping, missingness, calibration, overlap sensitivity",
       "gate": "Q05",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_REFERENCE",
       "definition": "Frozen PPP2024 strict CZE panel; original numeric WDI snapshot; exact panel membership and availability per series",
       "gate": "Q06",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_TREND",
-      "definition": "Within-survey wave changes and differences of changes with covariance/linking variance",
+      "definition": "Correct uncertainty for any retained change claim is mandatory QA; a new systematic suite of trend contrasts is not authorized by this inventory (A17)",
       "gate": "Q08",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_HOME_SES",
       "definition": "IEA official Home SES levels, shares and response selection; distinct from books quartiles",
       "gate": "Q02;Q07",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION",
+      "approval_items": [
+        "A04"
+      ],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_EDITION",
       "definition": "Matched official publication cells across source editions, including SES historical revisions",
       "gate": "SOURCE_EDITION_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_ABSOLUTE_SES",
       "definition": "International absolute ESCS Q1-Q4 and original foreign31 panel; not national quartiles",
       "gate": "LEGACY_PANEL_31_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION",
+      "approval_items": [
+        "A05"
+      ],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_SES_GENDER",
       "definition": "SES by gender joint groups, means and within-sample contrasts",
       "gate": "JOINT_SAMPLE_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION",
+      "approval_items": [
+        "A06"
+      ],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_LANGUAGE_FREQUENCY",
       "definition": "Four TIMSS home test-language frequencies, levels/shares/SE; original PIRLS binary frequencies",
       "gate": "SOURCE_LABEL_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_LANGUAGE_MIGRATION",
       "definition": "Home versus test-language prevalence by migration generation",
       "gate": "JOINT_DEMOGRAPHIC_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION",
+      "approval_items": [
+        "A07"
+      ],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_LANGUAGE_EXACT",
       "definition": "Exact Dutch versus other language classification; frequency is not a validated binary proxy",
       "gate": "SOURCE_LABEL_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_LEGACY_PANELS",
       "definition": "Original fixed13/32 trend panels, 45-gap and 46/48/49 broad/quality cross-age panels; member lists and rank intervals",
       "gate": "LEGACY_PANEL_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION",
+      "approval_items": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_COHORT",
-      "definition": "Age, fieldwork timing, cohort-distance proxies, ISCED/institutional context; no linked pupil claim",
+      "definition": "Age, fieldwork timing, cohort-distance proxies, ISCED/institutional context; no linked pupil claim; descriptive population/fieldwork disclosure remains mandatory QA without new cross-age estimands",
       "gate": "POPULATION_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION",
+      "approval_items": [
+        "A10"
+      ],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_SORTING_SCORE",
       "definition": "Academic between-school/class variance shares by survey/wave/domain/sample; design uncertainty",
       "gate": "SORTING_METHOD_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION",
+      "approval_items": [
+        "A11",
+        "A12"
+      ],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_SORTING_SES",
       "definition": "SES-rank between-school/class variance shares; books versus ESCS; TIMSS once per sample",
       "gate": "SORTING_METHOD_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION",
+      "approval_items": [
+        "A13",
+        "A14"
+      ],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_THEIL",
       "definition": "Weighted Theil H language/migration, category support and multilingual stratification",
       "gate": "DEMOGRAPHIC_METHOD_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION",
+      "approval_items": [
+        "A15",
+        "A16"
+      ],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_REPAIRS",
       "definition": "Sept28 completion 283284 rows / 2569 of 2570 tasks; locate exact repairs, Korea2003 reading and residual holds",
       "gate": "REPAIR_RECORD_PARITY_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_LOW_PEER",
       "definition": "NEW below-basic peer targets; self excluded total/below/above groups, direct and whole-school units",
       "gate": "PEER_JOINT_PV_REPLICATE_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION",
+      "approval_items": [
+        "A01"
+      ],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_REPLICATION",
       "definition": "Annotated RStudio entrypoint, pinned inputs/code/environment, README, metadata/licenses, clean-machine reproduction",
       "gate": "FAIR_AER_REPLICATION_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_BRAND",
       "definition": "Kansenlab v05 typography/colors with v06 vector logos; 16:9 and 12-column grid; licensed embedded fonts",
       "gate": "VISUAL_ACCESSIBILITY_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_DASHBOARD",
-      "definition": "42 focus choices, 50 underlying systems, NL/EN, source/method/availability, accessible filters and matching CSV/figure downloads",
+      "definition": "Three production modes; six age-domain combinations with >=3 verified cycles for country eligibility; fixed reference20 exception unresolved; user checkbox reference; equal country weights, focus excluded, membership/availability disclosed; NL/EN and exports",
       "gate": "BROWSER_EXPORT_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_STORAGE",
       "definition": "Raw sources may stay C; private Drive intermediates with hash readback; reviewed final GitHub outputs",
       "gate": "STORAGE_DEPENDENCY_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     },
     {
       "dependency_id": "S_INTERPRETATION",
       "definition": "Dutch interpretation, nonresponse/coverage caveats, descriptive peer/sorting associations, source-specific claims",
       "gate": "CLAIM_EVIDENCE_GATE",
-      "status": "REQUIRED_SPECIFICATION_NOT_YET_CERTIFIED_CELLS"
+      "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
+      "approval_items": [],
+      "production_authorized_by_inventory": false
     }
-  ]
+  ],
+  "scope_amendment": "USER_SCOPE_AMENDMENT_20261014.md",
+  "inventory_is_user_approval": false
 }

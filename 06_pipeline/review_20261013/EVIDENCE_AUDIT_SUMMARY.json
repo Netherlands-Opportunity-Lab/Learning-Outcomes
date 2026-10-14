@@ -131,5 +131,9 @@
     "No exact-key match is not evidence that computation is necessary.",
     "Supplemental specifications other than new low peers still require certified cell expansion.",
     "Cross-archive numeric differences may reflect editions/samples; no winner chosen."
-  ]
+  ],
+  "inventory_is_user_approval": false,
+  "scope_basis": "HISTORICAL_42_20_50_COUNTS_NOT_6x3_ELIGIBILITY_PROOF",
+  "pending_scope_requirements": 63,
+  "scope_amendment": "USER_SCOPE_AMENDMENT_20261014.md"
 }

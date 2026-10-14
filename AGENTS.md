@@ -4,6 +4,8 @@
 Finish the reproducible, grid-first PISA/PIRLS/TIMSS scientific pipeline, its validated products and the active bilingual 42-system guided dashboard. Work through the existing three-stage execution plan; do not introduce a new series of ad-hoc runs. Do not claim the science or public release is complete until gates actually pass.
 
 ## Authoritative project records
+The user's 14 October clarification and `06_pipeline/review_20261013/USER_SCOPE_AMENDMENT_20261014.md` override historical scope labels below. Product/source inventory is not user approval. Substantive additions A01–A17 require item-by-item human decisions; do not promote assistant proposals to approved scope. Existing 42/20/50 runtime locks are historical and do not establish the new six-combinations × three-cycles country eligibility rule. The fixed20 exception awaits the user's answer; do not invent a new final country list.
+
 Read in this order:
 1. `06_pipeline/FROZEN_3_STAGE_PRODUCTION_PLAN_20261013.md`
 2. `06_pipeline/MASTERPLAN_20261011_v2.md` (historical decisions/provenance)
@@ -46,3 +48,4 @@ The only default local Windows-RStudio actions are `fixed-audit`, `fixed-produce
 
 ## Branch ownership
 Primary development branch at handoff: `feat/reproducible-storage-and-cleanup-20261010`; draft PR #5. GitHub issue #6 stores execution evidence. Commit every substantial change and do not merge into `main` or deploy without verified scientific/publication gates.
+
