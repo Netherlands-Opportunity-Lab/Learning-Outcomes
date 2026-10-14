@@ -1,6 +1,31 @@
 # SINGLE FIXED CONTROLLER: audit -> produce -> finalize (+ separate cleanup).
 # This file deliberately never changes the pinned scientific engine or the
 # September released website. All scientific values remain local/private.
+lo_fixed_status_summary <- function(repo,state,scope) {
+  # Read only the saved audit. This is not a fresh source verification and an
+  # empty certified queue must never be presented as completed science.
+  source(file.path(repo,"06_pipeline","LO_RUN_CONFIG.R"),local=environment())
+  cfg<-lo_run_config(scope)
+  paths<-file.path(state,c("FIXED_INPUT_MANIFEST.json","PRIVATE_MASTER_GRID.csv"))
+  result<-list(audit="NOT_AVAILABLE",configuration="NOT_CHECKED",grid="NOT_CHECKED",
+    targets=NA_integer_,validated=NA_integer_,unavailable=NA_integer_,remaining=NA_integer_,
+    approved_compute_cells=NA_integer_,scientific_readiness="NOT_ESTABLISHED_BY_STATUS")
+  if(!all(file.exists(paths)))return(result)
+  manifest<-jsonlite::fromJSON(paths[1])
+  saved<-read.csv(paths[2],stringsAsFactors=FALSE,na.strings=character())
+  if(!all(c("cell_id","status")%in%names(saved))||anyDuplicated(saved$cell_id))
+    stop("FIXED_STATUS_INVALID_SAVED_GRID")
+  result$audit<-"RECORDED_COUNTS_ONLY"
+  result$configuration<-if(identical(lo_run_config_hash(cfg),manifest$sha256$run_configuration))"MATCH"else"CHANGED_REAUDIT_REQUIRED"
+  result$grid<-if(identical(digest::digest(file=paths[2],algo="sha256"),manifest$grid_sha256))"MATCH"else"CHANGED_REAUDIT_REQUIRED"
+  result$targets<-nrow(saved)
+  result$validated<-sum(saved$status=="SCIENTIFICALLY_VALIDATED")
+  result$unavailable<-sum(startsWith(saved$status,"UNAVAILABLE_"))
+  result$remaining<-result$targets-result$validated-result$unavailable
+  result$approved_compute_cells<-sum(saved$status=="COMPUTE_REQUIRED_AFTER_METHOD_GATE")
+  result
+}
+
 lo_fixed_controller <- function(repo,bundle,
   stage=c("audit","produce","finalize","cleanup-plan","status"),
   scope=c("nld_only","nld_plus_19","all_required"),
@@ -22,7 +47,18 @@ lo_fixed_controller <- function(repo,bundle,
       return(invisible(data.frame()))
     }
     x<-read.csv(status_file,stringsAsFactors=FALSE)
-    print(x,row.names=FALSE)
+    current<-lo_fixed_status_summary(repo,state,scope)
+    cat("FIXED_PIPELINE_STATUS=",current$audit,"; scope=",scope,
+      "; configuration=",current$configuration,"; saved_grid=",current$grid,"\n",sep="")
+    if(is.finite(current$targets))cat("Targets: ",current$targets,
+      "; recorded scientifically validated: ",current$validated,
+      "; documented unavailable: ",current$unavailable,
+      "; remaining: ",current$remaining,
+      "; certified compute cells: ",current$approved_compute_cells,"\n",sep="")
+    cat("Status reads saved evidence only. A zero compute queue does not mean all analyses are complete.\n")
+    if(nrow(x))print(x[!duplicated(x$stage,fromLast=TRUE),,drop=FALSE],row.names=FALSE)
+    cat("Full history retained: ",status_file,"\n",sep="")
+    attr(x,"current_audit")<-current
     return(invisible(x))
   }
   source(file.path(repo,"06_pipeline","LO_RUN_CONFIG.R"),local=environment())
