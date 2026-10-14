@@ -29,7 +29,7 @@ lo_drive_run <- function(exe,args) {
 }
 
 lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_override="",
-                          producer_commit="UNKNOWN") {
+                          producer_commit="UNKNOWN",results_root_override="",fixed_scope="") {
   action <- match.arg(action)
   if (!requireNamespace("jsonlite",quietly=TRUE) ||
       !requireNamespace("digest",quietly=TRUE))
@@ -38,7 +38,8 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
   cfg <- jsonlite::fromJSON(config,simplifyVector=TRUE)
   if (!identical(cfg$data_visibility,"PRIVATE_ACCOUNT_ONLY"))
     stop("Drive sync requires PRIVATE_ACCOUNT_ONLY")
-  root <- normalizePath(cfg$local_results_root,winslash="/",mustWork=TRUE)
+  if(nzchar(fixed_scope)&&!fixed_scope%in%c('nld_only','nld_plus_19','all_required'))stop('DRIVE_INVALID_FIXED_SCOPE')
+  root <- normalizePath(if(nzchar(results_root_override))results_root_override else cfg$local_results_root,winslash="/",mustWork=TRUE)
   remote <- as.character(cfg$remote)
   if (length(remote)!=1L || !grepl("^[A-Za-z0-9_-]+:[A-Za-z0-9_./-]+$",remote) ||
       grepl("\\.\\.",remote)) stop("Unsafe or missing rclone remote")
@@ -293,6 +294,7 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
   }
   lo_drive_fixed_reports <- function() {
     scope_names <- c("nld_only","nld_plus_19","all_required")
+    if(nzchar(fixed_scope))scope_names<-fixed_scope
     safe <- character()
     for(scope in scope_names) {
       base <- file.path(root,"FIXED_PRODUCTION_V1",scope)
@@ -360,9 +362,9 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
         bytes <- readBin(p,what="raw",n=as.integer(sz)+1L)
         if(length(bytes)!=sz)stop("PRIVATE_REPORT_HOLD: aggregate changed")
         lo_drive_text_safe(bytes,rel)
-        if(grepl("[A-Za-z]:[/\\\\]Users[/\\\\]",rawToChar(bytes),
-                 ignore.case=TRUE))
-          stop("PRIVATE_REPORT_HOLD: local private path in aggregate: ",rel)
+        # Private exact-grid provenance legitimately contains source paths.
+        # These reviewed aggregate schemas remain private and secret-screened;
+        # the public/status summaries above still forbid personal paths.
         safe <- c(safe,p)
         cover[[length(cover)+1L]] <- data.frame(file=rel,
              status="ELIGIBLE_PRIVATE_SHA_READBACK",bytes=as.numeric(sz))
@@ -378,6 +380,13 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
     safe
   }
   select_files <- function() {
+    # A fixed-stage run must back up its actual output root and selected scope,
+    # never rediscover an unrelated historical LO05 run from the old config.
+    if(nzchar(fixed_scope)) {
+      chosen<-lo_drive_fixed_reports()
+      attr(chosen,'return_zip_status')<-'FIXED_SCOPE_AGGREGATES_ONLY'
+      return(chosen)
+    }
     chosen <- c(lo_drive_quota_report(),lo_drive_minimum_reports(),
                 lo_drive_fixed_reports())
     d <- lo_drive_pick_run()

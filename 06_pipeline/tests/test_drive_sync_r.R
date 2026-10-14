@@ -207,5 +207,17 @@ unsafe <- try(lo_drive_sync(cfg,action="publish",
                             rclone_override=fake_exe),silent=TRUE)
 stopifnot(inherits(unsafe,"try-error"))
 Sys.unsetenv("LO_DRIVE_SYNC_RUN_ID")
+# A fixed-stage invocation must ignore both the legacy configured root and its
+# unsafe historical return ZIP. Upload only the explicitly selected real root.
+actual_root<-file.path(work,'ACTUAL_FIXED_RESULTS')
+actual_scope<-file.path(actual_root,'FIXED_PRODUCTION_V1','nld_only')
+dir.create(actual_scope,recursive=TRUE)
+write.csv(data.frame(total_primitive_targets=2678L,validated=1377L),file.path(actual_scope,'GRID_AUDIT_SUMMARY.csv'),row.names=FALSE)
+write.csv(data.frame(cell_id='SYNTHETIC',survey='PISA',country='NLD',year='2022',estimate=500,standard_error=2,n_unweighted=100,status='SYNTHETIC_ONLY',source_path='C:/Users/synthetic/retained/source.sav'),file.path(actual_scope,'PRIVATE_MASTER_GRID.csv'),row.names=FALSE)
+other_scope<-file.path(actual_root,'FIXED_PRODUCTION_V1','all_required');dir.create(other_scope)
+write.csv(data.frame(total_primitive_targets=999L,validated=0L),file.path(other_scope,'GRID_AUDIT_SUMMARY.csv'),row.names=FALSE)
+fixed_result<-lo_drive_sync(cfg,action='publish',rclone_override=fake_exe,
+ results_root_override=actual_root,fixed_scope='nld_only')
+stopifnot(fixed_result$selected==3L,fixed_result$uploaded==3L)
 unlink(work,recursive=TRUE)
 cat("PASS: reviewed LO05 ZIP, named private reports, verified SHA, no student/credential escape, run-ID guard\n")

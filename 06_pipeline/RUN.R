@@ -159,7 +159,7 @@ lo_pipeline_setup_drive <- function() {
   invisible(cfg)
 }
 
-lo_pipeline_drive_publish <- function(repo,action="publish") {
+lo_pipeline_drive_publish <- function(repo,action="publish",results_root="",fixed_scope="") {
   config <- lo_pipeline_drive_config_path()
   if (!file.exists(config)) {
     message("Drive sync not configured; no upload attempted.")
@@ -169,7 +169,8 @@ lo_pipeline_drive_publish <- function(repo,action="publish") {
          encoding="UTF-8")
   rc <- lo_pipeline_find_rclone()
   lo_drive_sync(config,action=action,rclone_override=rc,
-                producer_commit=lo_pipeline_git_info(repo))
+                producer_commit=lo_pipeline_git_info(repo),
+                results_root_override=results_root,fixed_scope=fixed_scope)
   invisible(TRUE)
 }
 
@@ -489,7 +490,8 @@ lo_pipeline_main <- function() {
     # already authenticated private Drive. A DNS outage does not rewind QA.
     if(requested%in%c("audit","produce","finalize") &&
        file.exists(lo_pipeline_drive_config_path())) {
-      tryCatch(lo_pipeline_drive_publish(repo,"publish"),error=function(e)
+      fixed_root<-Sys.getenv('LO_FIXED_ROOT',unset=file.path(Sys.getenv('USERPROFILE',unset=path.expand('~')),'Downloads','LO05_RESULTATEN'))
+      tryCatch(lo_pipeline_drive_publish(repo,"publish",results_root=fixed_root,fixed_scope=scope),error=function(e)
         message("FIXED_PRIVATE_SYNC_PENDING: ",conditionMessage(e)))
     }
     return(invisible(answer))

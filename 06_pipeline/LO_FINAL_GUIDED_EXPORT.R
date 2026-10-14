@@ -125,6 +125,8 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
       estimate=value,
       se=se,
       n_unweighted=as.numeric(approved$n_unweighted[i]),
+      n_definition=if(grepl('PEER_PV_FRAME_N_TARGET_COUNTS_V1',approved$method_version[i],fixed=TRUE))
+        'ANALYTIC_PEER_FRAME; TARGET_N_SEPARATE_FOR_EACH_PV'else 'EXACT_VALID_OBSERVED_TARGET_OR_CONTRAST_SAMPLE',
       scientific_status="SCIENTIFICALLY_VALIDATED",
       sample_id=as.character(approved$sample_id[i]),
       source_id=paste0("GRID:SHA256:",as.character(approved$result_hash[i])),
@@ -147,7 +149,7 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
   result<-if(length(rec))do.call(rbind,rec) else data.frame(
     figure_id=character(),country=character(),year=character(),
     survey=character(),domain=character(),outcome_id=character(),
-    estimate=numeric(),se=numeric(),n_unweighted=numeric(),
+    estimate=numeric(),se=numeric(),n_unweighted=numeric(),n_definition=character(),
     scientific_status=character(),sample_id=character(),
     source_id=character(),input_fingerprint=character(),
     code_fingerprint=character(),result_hash=character(),
