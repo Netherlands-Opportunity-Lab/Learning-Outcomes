@@ -92,7 +92,8 @@ lo_fixed_input_manifest <- function(repo,bundle,root,scope) {
     anchor=file.path(repo,"06_pipeline","review_20261013","NLD_POLICY_CORE_YEAR_ANCHOR.csv"),
     support=file.path(root,"master_reconciliation","SOURCE_SUPPORT_CONTRACTS.csv"),
     compute=file.path(root,"master_reconciliation","SCIENTIFIC_COMPUTE_APPROVALS.csv"),
-    validated=file.path(root,"master_reconciliation","SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv"))
+    validated=file.path(root,"master_reconciliation","SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv"),
+    unavailable=file.path(root,"master_reconciliation","SOURCE_UNAVAILABLE_CELLS.csv"))
   hashes<-vapply(files,function(p)if(file.exists(p))
     digest::digest(file=p,algo="sha256") else "ABSENT",character(1))
   cfg<-lo_run_config(scope)

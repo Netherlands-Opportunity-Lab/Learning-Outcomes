@@ -30,7 +30,8 @@ certify<-function(rows,label) {
  raw<-file.path(work,paste0(label,"_source.txt"));writeLines("SYNTHETIC source",raw)
  rows$source_path<-raw;rows$source_edition_sha256<-digest::digest(file=raw,algo="sha256")
  cert<-file.path(work,paste0(label,"_certificate.json"))
- jsonlite::write_json(list(status="SCIENTIFICALLY_VALIDATED",cells=rows),cert,auto_unbox=TRUE,digits=NA)
+ jsonlite::write_json(list(status="SCIENTIFICALLY_VALIDATED",cells=rows,
+   evidence_files=data.frame(path=raw,sha256=digest::digest(file=raw,algo="sha256"))),cert,auto_unbox=TRUE,digits=NA)
  rows$certification_path<-cert;rows$certification_sha256<-digest::digest(file=cert,algo="sha256")
  rows
 }

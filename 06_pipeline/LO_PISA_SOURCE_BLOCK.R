@@ -3,6 +3,12 @@
 # for the exact country row ranges. This does not select countries for a run.
 lo_pisa_label_code <- function(x,accepted) {
   labels<-attr(x,"labels");key<-tolower(trimws(names(labels)))
+  # Reviewed 2025 labels spell out the OECD parent/student birthplace rule.
+  expanded<-c(
+    "native students (at least one parent born in country of test)"="native students",
+    "second-generation students (student born in country of test but parent(s) born in another country)"="second-generation students",
+    "first-generation students (student and parent(s) born in another country"="first-generation students")
+  ix<-match(key,names(expanded));key[!is.na(ix)]<-unname(expanded[ix[!is.na(ix)]])
   found<-unique(unname(labels[key%in%accepted]))
   if(length(found)!=1L)stop("PISA_SOURCE_LABEL_NOT_UNAMBIGUOUS: ",paste(accepted,collapse="/"))
   found
@@ -25,6 +31,7 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
   pvs<-unlist(lapply(codes,function(k)paste0("PV",1:10,k)))
   fields<-c("CNTSTUID","CNTSCHID","AGE","ST004D01T","ST022Q01TA","LANGTEST_COG",
     "IMMIG","ESCS","PROGN","W_FSTUWT",paste0("W_FSTURWT",1:80),pvs)
+  if(year==2025L)fields<-c(fields,"MALE")
   raw<-lo_pisa_country_rows(raw_path,country,fields)
   obj<-readRDS(canonical_path);d<-obj$data
   if(obj$meta$survey!="PISA" || as.integer(obj$meta$year)!=year ||
@@ -58,7 +65,8 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
   if(any(!is.finite(d$W)|d$W<=0)||any(!is.finite(as.matrix(d[paste0("RW",1:80)]))) ||
      any(as.matrix(d[paste0("RW",1:80)])<0))stop("PISA_INVALID_DESIGN_WEIGHTS")
   meta<-obj$meta
-  meta$gender_variable<-"ST004D01T";meta$gender_status<-"SOURCE_VALUE_LABEL_VERIFIED"
+  meta$gender_variable<-"ST004D01T"
+  meta$gender_status<-if(any(!is.na(d$DEMO_GENDER)))"SOURCE_VALUE_LABEL_VERIFIED" else "UNAVAILABLE_NO_VALID_SOURCE_GENDER"
   meta$gender_map<-paste0(female,"=girl;",male,"=boy")
   meta$age_status<-"RAW_AGE_RESTORED_BY_EXACT_STUDENT_ID"
   meta$language_definition<-"ASSESSMENT_LANGUAGE_RELATIVE_HOME_USE"
@@ -76,14 +84,22 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
   dir.create(output_dir,recursive=TRUE,showWarnings=FALSE)
   output<-file.path(output_dir,paste0("canonical_PISA_",year,"_",country,"_verified.rds"))
   if(file.exists(output)) {
+    if(!identical(readRDS(output),obj))output<-sub("[.]rds$",paste0("_",substr(digest::digest(obj,algo="sha256"),1,16),".rds"),output)
+  }
+  if(file.exists(output)) {
     if(!identical(readRDS(output),obj))stop("PISA_REPAIR_REFUSES_CHANGED_EXISTING_OUTPUT")
   } else saveRDS(obj,output,compress=FALSE)
   write.csv(checks,file.path(output_dir,"RAW_COLUMN_PARITY.csv"),row.names=FALSE)
   receipt<-list(status="RAW_SAMPLE_AND_FIELDS_VERIFIED",survey="PISA",year=year,country=country,
     exact_pupil_set=TRUE,n=nrow(d),columns_checked=nrow(checks),
     raw_sha256=meta$repair_raw_sha256,parent_sha256=meta$repair_parent_sha256,
-    canonical_sha256=digest::digest(file=output,algo="sha256"),
+    canonical_sha256=digest::digest(file=output,algo="sha256"),canonical_filename=basename(output),
+    gender_status=meta$gender_status,
+    gender_alternative=if("MALE"%in%names(raw))list(variable="MALE",counts=as.list(table(as.numeric(raw$MALE),useNA="always")),
+      labels=as.list(attr(raw$MALE,"labels")),equivalent_to_girl_boy=FALSE,
+      reason="Female / Other is not the approved female group; do not silently substitute constructs")else NULL,
     field_mapping=c(AGE="AGE",DEMO_GENDER="ST004D01T",DEMO_LANGUAGE="ST022Q01TA",DEMO_MIGRATION="IMMIG",SES="ESCS",SCHOOL="CNTSCHID",PROGRAM="PROGN"),
+    source_value_labels=lapply(raw[c("ST004D01T","ST022Q01TA","IMMIG")],function(x)as.list(attr(x,"labels"))),
     population="All country records from the official age-target student public-use file",
     source_url=paste0("https://www.oecd.org/en/data/datasets/pisa-",year,"-database.html"),
     coverage=meta$demographic_definitions,not_certified=c("Harmonized Cobreros SES","actual classrooms","trend linking","publication rights"))
@@ -151,7 +167,8 @@ lo_pisa_independent_selected <- function(raw,q) {
       else if(s=="p90_p10")quant(value,weight,.9)-quant(value,weight,.1)
       else stop("PISA_REFERENCE_UNKNOWN_STAT")
     }
-    if(any(!is.finite(mat)))stop("PISA_REFERENCE_INCOMPLETE_ESTIMATION")
+    if(any(!is.finite(mat)))stop("PISA_REFERENCE_INCOMPLETE_ESTIMATION: ",task$metric_key,
+      "; N=",counts[k],"; nonfinite PV/weight positions=",paste(which(!is.finite(mat),arr.ind=TRUE)[1,],collapse=","))
     full[,k]<-mat[,1];reps[,,k]<-t(mat[,-1])
   }
   variance<-vapply(seq_len(nrow(q)),function(k)mean(rowSums((t(reps[,,k])-full[,k])^2)/20)+1.1*var(full[,k]),numeric(1))
