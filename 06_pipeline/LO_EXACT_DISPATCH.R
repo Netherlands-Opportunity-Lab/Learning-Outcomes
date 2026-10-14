@@ -65,6 +65,12 @@ lo_exact_verify_certificate <- function(g,q,code_sha) {
   for(i in seq_len(nrow(cert$evidence_files)))
     lo_exact_assert_sha(cert$evidence_files$path[i],cert$evidence_files$sha256[i],"METHOD_EVIDENCE")
   lo_exact_assert_sha(g$source_path[1],g$source_edition_sha256[1],"SOURCE_EDITION")
+  if(any(grepl('PEER_PV_FRAME_N_TARGET_COUNTS_V1',g$method_version,fixed=TRUE))) {
+    if(!identical(cert$sample_count_rule,'ANALYTIC_PEER_FRAME_WITH_SEPARATE_PV_TARGET_COUNTS')||
+       is.null(cert$sample_count_evidence_path)||is.null(cert$sample_count_evidence_sha256))
+      stop('EXACT_PEER_COUNT_RULE_NOT_CERTIFIED')
+    lo_exact_assert_sha(cert$sample_count_evidence_path,cert$sample_count_evidence_sha256,'PEER_COUNTS')
+  }
   invisible(TRUE)
 }
 
