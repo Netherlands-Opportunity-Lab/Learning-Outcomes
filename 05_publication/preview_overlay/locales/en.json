@@ -22,7 +22,7 @@
       "title": "Trends",
       "description": "How have learning outcomes changed?",
       "routeTitle": "How have learning outcomes changed?",
-      "routeDescription": "Follow outcomes over time, keeping the selected reference system in focus."
+      "routeDescription": "Follow outcomes over time for the selected focus country."
     },
     "distribution": {
       "title": "Distribution",
