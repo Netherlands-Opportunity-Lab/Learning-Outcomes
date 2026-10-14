@@ -91,6 +91,10 @@ jobs:
         run: Rscript 06_pipeline/tests/test_source_unavailability.R
       - name: Test raw IEA source population and JRR verification
         run: Rscript 06_pipeline/tests/test_iea_source_block.R
+      - name: Test ordinal IEA books and fractional quartiles
+        run: Rscript 06_pipeline/tests/test_iea_background.R
+      - name: Test streaming older PISA sources and five plausible values
+        run: Rscript 06_pipeline/tests/test_pisa_legacy_source.R
       - name: Test frozen equal-weight reference panel and no benchmark SE
         run: Rscript 06_pipeline/tests/test_fixed_comparator.R
       - name: Test locked archive and SQLite evidence extraction without fabricated N
