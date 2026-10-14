@@ -28,7 +28,7 @@ Repair connected code and verify the original failure; do not substitute another
 - Q01–Q08 and source/science/sample/uncertainty/rights/product gates require actual evidence before a new release.
 
 ## Products and brand
-The active frontend is `05_publication/preview_overlay/` with `.github/workflows/pages.yml`, not older `03_dashboard/app/`. Continue the existing GitHub Pages implementation. Use the edited 21-slide 20261001 policy deck; a longer scientific deck is optional and does not authorize the old 50-slide analysis scope.
+The active build location is `05_publication/preview_overlay/` with `.github/workflows/pages.yml`. The user explicitly chose the visual design from `04_DASHBOARD_BRON_20261001/03_dashboard/app` on 14 October. That design is restored in the active overlay. Preserve its four question cards, separate explorer, filters and framed chart; apply the new brand and necessary comparison controls within that layout. Do not restore the later guided-page redesign. See `05_publication/preview_overlay/DESIGN_BASELINE.md`. Use the edited 21-slide 20261001 policy deck; a longer scientific deck is optional and does not authorize the old 50-slide analysis scope.
 
 All products use one validated result version and the latest Kansenlab v05 guide/registry/CSS, v06 original logo assets and variant-B typography. Respect both statistical and visual grids. Render and inspect actual products; no unverified claims of visual QA. Paper interpretation concerns the Netherlands and must be supported by the registered results.
 

@@ -81,6 +81,8 @@ Alle onderstaande regels staan op **WACHT OP GEBRUIKERSBESLUIT**. Een aanbevelin
 
 Broncontrole, N, steekproefkwaliteit, SES-dekking, correcte gewichten/PVs/replicaties, covariantie, noodzakelijke linking-onzekerheid, versiecontrole en reproduceerbaarheid zijn kwaliteitsvoorwaarden voor de behouden analyses. Ze voegen op zichzelf geen nieuw inhoudelijk onderzoeksdoel toe en blijven nodig. Nieuwe claims over cohortontwikkeling of causaliteit volgen niet uit vergelijking van twee leeftijdsgroepen.
 
-## Technische stand na deze correctie
+## Historische technische stand direct na de scopecorrectie
+
+Deze alinea beschrijft het eerdere moment. De latere implementatie en echte uitvoeringsbewijzen staan in START_HIER_ACTUEEL.md en STEP1_EXECUTION_EVIDENCE_20261014.json.
 
 `PRODUCT_SCOPE_APPROVAL.py` maakt het onderscheid bij elke hergeneratie expliciet. De 247 bronkoppelingen blijven controleerbaar; hangende aanvullingen krijgen beslis-ID's en worden niet meer als verplichte nieuwe productie gelabeld. De bestaande numerieke bewijscontroles en hun uitslagen zijn niet opnieuw geïnterpreteerd als wetenschappelijke goedkeuring. De productie blijft bovendien geblokkeerd zolang exacte gecertificeerde celsturing ontbreekt. Er is geen nieuwe analyse uitgevoerd, geen site gepubliceerd en niets van C: verwijderd.

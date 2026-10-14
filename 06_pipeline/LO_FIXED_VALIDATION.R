@@ -42,7 +42,7 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
       # Final acceptance uses the same exact target/source/design gate as
       # archive fill, not the weaker schema-only validator.
       grid <- lo_grid_from_tasks(required)
-      lo_grid_archive_fill(grid,approved)
+      lo_grid_archive_fill(grid,approved,verify_files=TRUE)
     }
   } else {
     message <- "Independent scientific approvals file missing"
@@ -72,7 +72,15 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
   if(!is.null(scope_decisions)) {
     if(!exists("lo_scoped_low_peer_tasks",mode="function"))
       stop("SCIENTIFIC_GATE_HOLD: scope decision module missing")
-    low_peer_tasks <- lo_scoped_low_peer_tasks(tasks,scope_decisions)
+    # The controller already passes the generated low-peer tasks alongside the
+    # original high-peer contracts. Regenerating from both duplicated targets.
+    existing_low<-tasks[tasks$module=="peer_below_basic",,drop=FALSE]
+    low_peer_tasks <- lo_scoped_low_peer_tasks(
+      tasks[tasks$module!="peer_below_basic",,drop=FALSE],scope_decisions)
+    if(nrow(existing_low)) {
+      extra<-existing_low[!existing_low$metric_key%in%low_peer_tasks$metric_key,,drop=FALSE]
+      if(lo_scope_is_approved(scope_decisions,"A01"))low_peer_tasks<-rbind(low_peer_tasks,extra)
+    }
   }
   peer_ids <- low_peer_tasks$metric_key
   peer_approved <- if(nrow(all_approved))
@@ -93,7 +101,7 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
   peer_hash_ok <- !nrow(low_peer_tasks)
   if(peer_fields_ok && nrow(low_peer_tasks)) {
     target <- lo_grid_from_tasks(low_peer_tasks)
-    tested <- tryCatch(lo_grid_archive_fill(target,peer_approved),
+    tested <- tryCatch(lo_grid_archive_fill(target,peer_approved,verify_files=TRUE),
                        error=function(e)e)
     peer_hash_ok <- !inherits(tested,"error") &&
       all(tested$status=="SCIENTIFICALLY_VALIDATED")

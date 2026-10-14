@@ -26,5 +26,20 @@ req<-lo_focus_required_support(base,base[1,],"NLD",anchor)
 stopifnot(nrow(req)==18L)
 short<-base[base$year!="2015",]
 stopifnot(inherits(try(lo_focus_required_support(short,short[1,],"NLD",anchor),silent=TRUE),"try-error"))
+one<-base[1,,drop=FALSE]
+source_path<-file.path(work,"source.txt");writeLines("synthetic source",source_path)
+proof<-file.path(work,"proof.txt");writeLines("synthetic population and cycle evidence",proof)
+cert_path<-file.path(work,"cert.json")
+cert<-list(status="SOURCE_SUPPORT_VERIFIED",source_sha256=digest::digest(file=source_path,algo="sha256"),
+ country=one$country,support_keys=lo_balance_key(one),comparability_evidence="Synthetic evidence only",
+ evidence_files=data.frame(path=proof,sha256=digest::digest(file=proof,algo="sha256")))
+jsonlite::write_json(cert,cert_path,auto_unbox=TRUE)
+one$source_path<-source_path;one$source_sha256<-cert$source_sha256
+one$certificate_path<-cert_path;one$certificate_sha256<-digest::digest(file=cert_path,algo="sha256")
+one$status<-cert$status
+path<-file.path(work,"support.csv");write.csv(one,path,row.names=FALSE)
+stopifnot(nrow(lo_read_source_support(path))==1L)
+writeLines("changed evidence",proof)
+stopifnot(inherits(try(lo_read_source_support(path),silent=TRUE),"try-error"))
 unlink(work,recursive=TRUE)
 cat("PASS dynamic source scopes, discovery outside COMMON42, no rich-country exception, unshrunk focus anchor\n")

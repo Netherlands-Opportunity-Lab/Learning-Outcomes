@@ -178,3 +178,21 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
   write.csv(stats,file.path(out,"GUIDED_EXPORT_SUMMARY.csv"),row.names=FALSE)
   invisible(stats)
 }
+# Immutable previews must change when the visible frontend or reference data
+# changes, even if the scientific values remain identical.
+lo_guided_preview_fingerprint <- function(repo,bundle,state) {
+  frontend<-file.path(repo,"05_publication","preview_overlay")
+  assets<-sort(list.files(frontend,recursive=TRUE,full.names=TRUE))
+  assets<-assets[!dir.exists(assets)]
+  if(!length(assets))stop("GUIDED_PREVIEW_FRONTEND_MISSING")
+  files<-c(export=file.path(state,"PRIVATE_GUIDED_VALIDATED_ROWS.csv"),
+    decisions=file.path(repo,"06_pipeline","SCOPE_APPROVALS.csv"),
+    countries=file.path(state,"COUNTRY_SOURCE_ELIGIBILITY.csv"),
+    figures=file.path(bundle,"FIGURE_SERIES_CONTRACT_20261002.csv"),
+    builder=file.path(repo,"06_pipeline","LO_FINAL_GUIDED_DASHBOARD_BUILD.py"),
+    references=file.path(state,"BALANCED_REFERENCE_EXPORT.json"),
+    setNames(assets,paste0("frontend/",substring(assets,nchar(frontend)+2L))))
+  hashes<-vapply(files,function(p)if(file.exists(p))digest::digest(file=p,algo="sha256") else "ABSENT",character(1))
+  substr(digest::digest(hashes,algo="sha256"),1L,18L)
+}
+
