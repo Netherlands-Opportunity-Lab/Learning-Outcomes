@@ -64,8 +64,8 @@ jsonlite::write_json(cert,cert_path,auto_unbox=TRUE)
 g2$certification_sha256<-lo_exact_sha(cert_path)
 resumed_out<-file.path(work,"resume")
 r1<-lo_exact_dispatch(".",work,scope,t2,g2,resumed_out,backend,max_units=1L)
-r2<-lo_exact_dispatch(".",work,scope,t2,g2,resumed_out,backend)
-r3<-lo_exact_dispatch(".",work,scope,t2,g2,resumed_out,backend)
+r2<-lo_exact_dispatch(".",work,scope,t2,g2,resumed_out,backend,max_units=1L)
+r3<-lo_exact_dispatch(".",work,scope,t2,g2,resumed_out,backend,max_units=1L)
 stopifnot(r1$new_rows_written==1L,r1$status=="PARTIAL_CHECKPOINT",
  r2$new_rows_written==1L,r2$reused_rows==1L,r3$new_rows_written==0L,r3$reused_rows==2L)
 # Even a newly signed source byte hash does not make the wrong country valid.

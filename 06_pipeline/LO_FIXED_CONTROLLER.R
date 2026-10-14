@@ -25,6 +25,8 @@ lo_fixed_controller <- function(repo,bundle,
     print(x,row.names=FALSE)
     return(invisible(x))
   }
+  source(file.path(repo,"06_pipeline","LO_RUN_CONFIG.R"),local=environment())
+  run_config<-lo_run_config(scope)
   tasks<-read.csv(file.path(bundle,"engine","TASKS.csv"),
      colClasses="character",stringsAsFactors=FALSE,check.names=FALSE)
   if(nrow(tasks)!=79448L||anyDuplicated(tasks$metric_key))
@@ -38,6 +40,10 @@ lo_fixed_controller <- function(repo,bundle,
   selected<-lo_scope_active_tasks(selected,scope_decisions)
   extensions<-lo_extension_tasks(selected,scope_decisions)
   selected<-rbind(selected,lo_scope_active_tasks(extensions,scope_decisions))
+  chosen_ids<-lo_run_select(rbind(selected,new_peer_tasks),run_config)$metric_key
+  selected<-selected[selected$metric_key%in%chosen_ids,,drop=FALSE]
+  new_peer_tasks<-new_peer_tasks[new_peer_tasks$metric_key%in%chosen_ids,,drop=FALSE]
+  extensions<-extensions[extensions$metric_key%in%chosen_ids,,drop=FALSE]
   state<-file.path(root,"FIXED_PRODUCTION_V1",scope)
   dir.create(state,recursive=TRUE,showWarnings=FALSE)
   evidence_dir<-file.path(state,"FINAL_FIXED_PIPELINE")
@@ -47,6 +53,8 @@ lo_fixed_controller <- function(repo,bundle,
     stop("FIXED_PIPELINE_BUSY: prior lock exists; check local RStudio session")
   if(!file.create(lock))stop("Cannot create fixed production lock")
   on.exit(unlink(lock),add=TRUE)
+  run_outcome<-"FAILED_OR_INTERRUPTED"
+  on.exit(lo_run_record(repo,state,stage,run_config,run_outcome),add=TRUE)
   statusfile<-file.path(state,"FIXED_STAGE_STATUS.csv")
   old<-if(file.exists(statusfile))read.csv(statusfile,stringsAsFactors=FALSE) else
     data.frame(stage=character(),scope=character(),status=character(),
@@ -58,6 +66,7 @@ lo_fixed_controller <- function(repo,bundle,
     latest<-rbind(old,item)
     write.csv(latest,statusfile,row.names=FALSE)
     old <<- latest
+    run_outcome <<- status
     cat("FIXED_STAGE=",name," STATUS=",status,
         if(nzchar(detail))paste0(" DETAIL=",detail)else"","\n",sep="")
     invisible(item)
@@ -184,7 +193,7 @@ lo_fixed_controller <- function(repo,bundle,
     if(anyDuplicated(grid$cell_id))
       stop("FIXED_PRODUCE_HOLD: duplicate grid cell ID")
     result<-lo_fixed_produce(bundle,scope_info,rbind(selected,new_peer_tasks),state,
-                            native_run=TRUE,grid=grid)
+                            native_run=TRUE,grid=grid,max_units=run_config$max_compute_units)
     put("produce",as.character(result$native_execution[[1]]),
         "Only saved approved cells dispatched; see exact execution receipts")
     return(invisible(result))

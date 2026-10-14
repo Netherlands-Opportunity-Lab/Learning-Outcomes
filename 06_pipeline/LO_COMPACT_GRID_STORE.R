@@ -23,6 +23,9 @@ lo_compact_open <- function(root) {
       "year TEXT NOT NULL, scope TEXT NOT NULL, status TEXT NOT NULL, ",
       "n_rows INTEGER NOT NULL)"))
     if(!"unit"%in%DBI::dbListFields(con,"grid")) DBI::dbExecute(con,"ALTER TABLE grid ADD COLUMN unit TEXT NOT NULL DEFAULT ''")
+    # Keep each changed numerical result once, not a full database per run.
+    DBI::dbExecute(con,"CREATE TABLE IF NOT EXISTS result_versions AS SELECT '' AS result_version_sha256, * FROM grid WHERE 0")
+    DBI::dbExecute(con,"CREATE UNIQUE INDEX IF NOT EXISTS result_version_id ON result_versions(result_version_sha256)")
     DBI::dbExecute(con,"CREATE INDEX IF NOT EXISTS grid_status ON grid(status)")
     DBI::dbExecute(con,"CREATE INDEX IF NOT EXISTS grid_country ON grid(country,survey,year)")
     if(!identical(DBI::dbGetQuery(con,"PRAGMA integrity_check")[[1L]][1L],"ok"))
@@ -88,11 +91,20 @@ lo_compact_put <- function(con,x) {
   }
   inserted <- 0L; reused <- 0L
   DBI::dbWithTransaction(con,{
+    remember<-function(row) {
+      if(!nrow(row)||row$status[[1]]!="COMPUTED_PENDING_VALIDATION")return(invisible(NULL))
+      version<-digest::digest(row,algo="sha256")
+      cols<-c("result_version_sha256",names_sql)
+      DBI::dbExecute(con,paste0("INSERT OR IGNORE INTO result_versions (",paste(cols,collapse=","),
+        ") VALUES (",paste(rep("?",length(cols)),collapse=","),")"),
+        params=c(list(version),unname(as.list(row[1,names_sql,drop=FALSE]))))
+    }
     sql <- paste0("INSERT INTO grid (",paste(names_sql,collapse=","),
       ") VALUES (",paste(rep("?",length(names_sql)),collapse=","),") ",
       "ON CONFLICT(cell_id) DO UPDATE SET ",
       paste(sprintf("%s=excluded.%s",names_sql[-1L],names_sql[-1L]),collapse=","))
     for(i in seq_len(nrow(x))) {
+      remember(DBI::dbGetQuery(con,"SELECT * FROM grid WHERE cell_id=?",params=list(x$cell_id[[i]])))
       old <- DBI::dbGetQuery(con,
         "SELECT input_fingerprint,producer_fingerprint,method_id,status FROM grid WHERE cell_id=?",
         params=list(x$cell_id[[i]]))
@@ -109,6 +121,7 @@ lo_compact_put <- function(con,x) {
          identical(old$input_fingerprint[[1L]],x$input_fingerprint[[i]]) &&
          identical(old$producer_fingerprint[[1L]],x$producer_fingerprint[[i]])) next
       DBI::dbExecute(con,sql,params=unname(as.list(x[i,names_sql,drop=FALSE])))
+      remember(DBI::dbGetQuery(con,"SELECT * FROM grid WHERE cell_id=?",params=list(x$cell_id[[i]])))
       inserted <- inserted+1L
     }
   })
@@ -139,14 +152,20 @@ lo_compact_hold_rows <- function(tasks,reason,input_fp="",producer_fp="",method=
      method_id=method,status="HOLD",hold_reason=substr(reason,1L,350L),
      stringsAsFactors=FALSE)
 }
-lo_compact_export <- function(con,root) {
+lo_compact_export <- function(con,root,selected_ids=NULL) {
   # CSV is a compatibility export; SQLite is authoritative. No history/replicate dumps.
   x<-DBI::dbGetQuery(con,"SELECT * FROM grid ORDER BY country,survey,year,cell_id")
+  if(!is.null(selected_ids))x<-x[x$cell_id%in%selected_ids,,drop=FALSE]
   file<-file.path(root,"COMPACT_MASTER_GRID.csv.gz")
   stage<-paste0(file,".new")
   if(file.exists(stage))unlink(stage)
+  # 17 significant digits permit IEEE-754 double round-trip in open text.
+  # SQLite retains native doubles; display rounding is a separate product.
+  exact_text<-x
+  for(k in c("estimate","standard_error"))exact_text[[k]]<-
+    ifelse(is.na(x[[k]]),NA_character_,sprintf("%.17g",x[[k]]))
   gc<-gzfile(stage,"wt",compression=9)
-  tryCatch({write.csv(x,gc,row.names=FALSE,na="");close(gc)},
+  tryCatch({write.csv(exact_text,gc,row.names=FALSE,na="");close(gc)},
     error=function(e){try(close(gc),silent=TRUE);unlink(stage);stop(e)})
   if(file.exists(file) && !file.remove(file))stop("COMPACT_GRID_EXPORT_LOCKED")
   if(!file.rename(stage,file))stop("COMPACT_GRID_EXPORT_RENAME_FAILED")
@@ -156,8 +175,11 @@ lo_compact_export <- function(con,root) {
   proportions[is.na(proportions)]<-FALSE
   y$estimate[proportions]<-100*y$estimate[proportions]
   y$standard_error[proportions]<-100*y$standard_error[proportions]
-  y$estimate<-round(y$estimate,1L)
-  y$standard_error<-round(y$standard_error,2L)
+  y$unit[proportions]<-"percent"
+  display_units<-y$unit%in%c("score_points","percent")
+  y$estimate[display_units]<-round(y$estimate[display_units],1L)
+  y$standard_error[display_units]<-round(y$standard_error[display_units],2L)
+  # Unknown units retain full precision until their display rule is specified.
   presentation<-file.path(root,"COMPACT_DASHBOARD_ROUNDED.csv.gz")
   stage2<-paste0(presentation,".new")
   if(file.exists(stage2))unlink(stage2)
@@ -169,9 +191,11 @@ lo_compact_export <- function(con,root) {
   module_status<-DBI::dbGetQuery(con,
     "SELECT survey,module,status,COUNT(*) AS n FROM grid GROUP BY survey,module,status ORDER BY survey,module,status")
   write.csv(module_status,file.path(root,"COMPACT_MODULE_STATUS.csv"),row.names=FALSE)
+  DBI::dbGetQuery(con,"PRAGMA wal_checkpoint(TRUNCATE)")
   data.frame(rows=nrow(x),complete=sum(x$status=="COMPUTED_PENDING_VALIDATION"),
      holds=sum(x$status=="HOLD"),database_bytes=file.info(file.path(root,
         "COMPACT_MASTER_GRID.sqlite"))$size,
      full_csv_bytes=file.info(file)$size,
      display_csv_bytes=file.info(presentation)$size)
 }
+

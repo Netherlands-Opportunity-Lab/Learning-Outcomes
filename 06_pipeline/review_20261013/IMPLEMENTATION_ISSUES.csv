@@ -26,3 +26,8 @@ I24,products,Immutable preview identity omitted frontend and reference changes,F
 I25,execution,Finalize regenerated already present below-basic peer targets,FIXED_AND_TESTED,LO_FIXED_VALIDATION.R;test_fixed_pipeline.R;actual private finalize,
 I26,evidence,Final validation accepted schema without rechecking certificate/source files,FIXED_AND_TESTED,LO_FIXED_VALIDATION.R;changed-source rejection test,
 I27,evidence,Unverified country support was labelled SHA verified,FIXED_AND_TESTED,LO_COUNTRY_REGISTRY.R;source evidence file hashes and explicit unverified status,
+I28,execution,Bounded resume spent its limit on already completed source units,FIXED_AND_TESTED,LO_EXACT_DISPATCH.R;test_exact_dispatch.R,Reused units no longer consume compute limit
+I29,provenance,Run selections were mainly environment state and not complete retained configuration,FIXED_AND_TESTED,LO_RUN_CONFIG.R;test_run_config.R;FIXED_INPUT_MANIFEST.json,Keep actual config and per-run result-version hashes private
+I30,storage,Current-only compact rows lost earlier numerical versions on replacement,FIXED_AND_TESTED,LO_COMPACT_GRID_STORE.R;test_compact_grid_store.R,Distinct successful versions retained once; exact reruns do not duplicate
+I31,export,Text export lacked exact double roundtrip and percent display retained proportion unit,FIXED_AND_TESTED,LO_COMPACT_GRID_STORE.R;test_compact_grid_store.R,17 significant digits for scientific CSV; correct display unit; selected-cell export
+I32,documentation,Historical replication guide could start superseded broad producer,FIXED,05_publication/REPLICATION_GUIDE.md;06_pipeline/REPLICATION_CURRENT.md,Historical release remains documented separately

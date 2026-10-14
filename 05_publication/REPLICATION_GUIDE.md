@@ -1,5 +1,10 @@
 # Replication guide
 
+**Version boundary:** the instructions below reproduce the historical September release.
+For the current October development pipeline, use
+[the current replication instructions](../06_pipeline/REPLICATION_CURRENT.md).
+Do not start the historical completion script to produce the newly approved scope.
+
 This guide is for researchers who want to reproduce the results rather than download a mirror of the project's complete derived database.
 
 ## A. Freeze to reproduce
@@ -106,3 +111,4 @@ For the public Pages version, `05_publication/build_public_pages.py` intentional
 For released files, use SHA-256 where a byte-identical artefact is expected. For regenerated statistical output, use the project's validation/status logic and documented external anchors; do not infer equivalence from rounding alone.
 
 If an official source provider revises a source edition after this release, record that as a new source edition rather than silently overwriting the 28 September 2026 reproduction target.
+

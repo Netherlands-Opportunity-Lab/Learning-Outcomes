@@ -319,6 +319,17 @@ lo_pipeline_main <- function() {
   repo <- lo_pipeline_root()
   action <- tolower(lo_pipeline_arg("action", Sys.getenv("LO_ACTION","plan")))
   scope <- tolower(lo_pipeline_arg("scope",Sys.getenv("LO_SCOPE","nld_plus_19")))
+  run_config_path<-Sys.getenv("LO_RUN_CONFIG","")
+  if(nzchar(run_config_path) && startsWith(action,"fixed-")) {
+    if(!requireNamespace("jsonlite",quietly=TRUE))stop("jsonlite required for run configuration")
+    source(file.path(repo,"06_pipeline","LO_RUN_CONFIG.R"),local=environment())
+    requested_config<-jsonlite::fromJSON(run_config_path)
+    explicit_scope<-lo_pipeline_arg("scope",Sys.getenv("LO_SCOPE",""))
+    if(nzchar(explicit_scope) && !identical(explicit_scope,requested_config$scope))
+      stop("RUN_CONFIG_SCOPE_CONFLICT: clear stale LO_SCOPE or make it match the config")
+    scope<-requested_config$scope
+    lo_run_config(scope,run_config_path)
+  }
   scopes <- c(nld_only="NLD_ONLY",nld_plus_19="NLD_PLUS_OECD_PPP",
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
               all="FULL_INTERNATIONAL",all_required="SOURCE_ELIGIBLE_REQUIRED")
