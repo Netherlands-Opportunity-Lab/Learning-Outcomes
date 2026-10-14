@@ -1,10 +1,34 @@
 # Exact selected statistics with common PV/replicate pooling. No broad legacy
 # module vector is evaluated and then discarded. Contrasts use joint replicates.
+lo_exact_ses_tails <- function(obj,q,w) {
+  if(!any(grepl("Cobreros",q$definition,fixed=TRUE)))return(rc2_tails_rank(obj$data$SES,w))
+  if(!identical(obj$meta$ses_construct_id,q$definition[1]) ||
+     !identical(obj$meta$ses_quartile_protocol,"INNOVAMAT_R_REPLICATE_SEED7_SOURCE_ORDER") ||
+     is.null(obj$meta$calibration_evidence_path)||is.null(obj$meta$calibration_sha256)||
+     !file.exists(obj$meta$calibration_evidence_path)||
+     !identical(digest::digest(file=obj$meta$calibration_evidence_path,algo="sha256"),obj$meta$calibration_sha256))
+    stop("EXACT_HARMONIZED_SES_CALIBRATION_REQUIRED")
+  # Innovamat R core.R quantile_codes: random tie order with seed 7, followed
+  # by cut points recalculated for each replicate. Fractional ties belong to
+  # the separate national/books specification and must not replace this rule.
+  keep<-is.finite(obj$data$SES)&is.finite(obj$data$W)&obj$data$W>0
+  x<-obj$data$SES[keep];z<-w[keep]
+  if(!length(x)||any(!is.finite(z))||any(z<0)||sum(z)<=0)stop("EXACT_HARMONIZED_QUARTILE_EMPTY")
+  had<-exists(".Random.seed",.GlobalEnv,inherits=FALSE)
+  old<-if(had)get(".Random.seed",.GlobalEnv)else NULL
+  old_kind<-RNGkind()
+  on.exit({do.call(RNGkind,as.list(old_kind));if(had)assign(".Random.seed",old,.GlobalEnv)else if(exists(".Random.seed",.GlobalEnv,inherits=FALSE))rm(".Random.seed",envir=.GlobalEnv)},add=TRUE)
+  RNGkind("Mersenne-Twister","Inversion","Rejection");set.seed(7)
+  o<-order(x,runif(length(x)));before<-c(0,head(cumsum(z[o]),-1))/sum(z)
+  group<-integer(length(x));group[o]<-findInterval(before,c(.25,.5,.75),left.open=TRUE)
+  q1<-q4<-rep(0,length(w));q1[keep]<-as.numeric(group==0L);q4[keep]<-as.numeric(group==3L)
+  list(q1=q1,q4=q4)
+}
 lo_exact_selected_estimate <- function(obj,q) {
   d<-obj$data;m<-unique(q$module)
   if(length(m)!=1L||length(unique(q$domain))!=1L)stop("EXACT_ESTIMATOR_MIXED_BATCH")
   ext<-startsWith(m,"extension_")
-  allowed<-c("core","ses_national","gender",lo_extension_modules())
+  allowed<-c("core","ses_national","ses_harmonized","gender",lo_extension_modules())
   if(!m%in%allowed)stop("EXACT_ESTIMATOR_UNSUPPORTED_MODULE")
   fixed<-m%in%c("extension_ses_school","extension_ses_class")
   pp<-if(fixed)"__SES__" else pv_names(d,q$domain[1])
@@ -28,16 +52,25 @@ lo_exact_selected_estimate <- function(obj,q) {
       stop("EXACT_HOME_SES_GROUP_MAPPING_INVALID")
   }
   gender<-if(m%in%c("gender","extension_ses_gender"))v10_gender(obj) else NULL
-  needs_ses<-m%in%c("ses_national","extension_ses_gender","extension_ses_school","extension_ses_class")
+  needs_ses<-m%in%c("ses_national","ses_harmonized","extension_ses_gender","extension_ses_school","extension_ses_class")
   if(needs_ses && (!"SES"%in%names(d)||!any(is.finite(d$SES))))stop("EXACT_SES_MISSING")
+  if(needs_ses && any(grepl("Cobreros",q$definition,fixed=TRUE))) {
+    # Never silently substitute the canonical official ESCS column for the
+    # human-selected author-calibrated construct, including new appendices.
+    if(length(unique(q$definition))!=1L || !identical(obj$meta$ses_construct_id,q$definition[1]) ||
+       is.null(obj$meta$calibration_evidence_path) || is.null(obj$meta$calibration_sha256) ||
+       !file.exists(obj$meta$calibration_evidence_path) ||
+       !identical(digest::digest(file=obj$meta$calibration_evidence_path,algo="sha256"),obj$meta$calibration_sha256))
+      stop("EXACT_HARMONIZED_SES_CALIBRATION_REQUIRED")
+  }
   one<-function(w) {
-    tails<-if(m%in%c("ses_national","extension_ses_gender"))rc2_tails_rank(d$SES,w) else NULL
+    tails<-if(m%in%c("ses_national","ses_harmonized","extension_ses_gender"))lo_exact_ses_tails(obj,q,w) else NULL
     z<-matrix(NA_real_,length(pp),nrow(q));colnames(z)<-q$metric_key
     for(j in seq_along(pp)) {
       y<-if(fixed)rc2_num(d$SES) else rc2_num(d[[pp[j]]])
       for(k in seq_len(nrow(q))) {
         stat<-q$stat[k];group<-q$group[k];wk<-w;value<-y
-        if(m=="ses_national") {
+        if(m%in%c("ses_national","ses_harmonized")) {
           if(stat%in%c("score_gap_q4_minus_q1","basic_gap_q4_minus_q1","high_gap_q4_minus_q1")) {
             if(stat!="score_gap_q4_minus_q1") {
               cut<-as.numeric(q$threshold[k]);if(!is.finite(cut))stop("EXACT_THRESHOLD_MISSING")
@@ -106,7 +139,7 @@ lo_extension_count_n <- function(obj,q) {
       ok<-is.finite(w)&w>0&is.finite(d[[pv]])
       if(m=="extension_home_ses")ok<-ok&!is.na(d$HOME_SES_GROUP)&d$HOME_SES_GROUP==q$group[k]
       if(m=="extension_ses_gender") {
-        tails<-rc2_tails_rank(d$SES,w);tail<-sub("_.*$","",q$group[k]);sex<-sub("^q[14]_","",q$group[k])
+        tails<-lo_exact_ses_tails(obj,q,w);tail<-sub("_.*$","",q$group[k]);sex<-sub("^q[14]_","",q$group[k])
         g<-v10_gender(obj);ok<-ok&is.finite(d$SES)&tails[[tail]]>0&!is.na(g)&g==sex
       }
       if(grepl("_(school|class)$",m))ok<-ok&!is.na(d$SCHOOL)&nzchar(d$SCHOOL)
@@ -129,6 +162,7 @@ lo_exact_generations <- function(obj,q) {
       if(q$stat[k]=="mean_score")z[j,k]<-weighted_mean(y,w*as.numeric(g$group==group))
       else if(q$stat[k]=="mean_score_gap") {
         group<-sub("_minus_native$","",group)
+        group<-switch(group,first="first_generation",second="second_generation",group)
         if(!grepl("_minus_native$",q$group[k]))stop("EXACT_MIGRATION_GAP_DIRECTION_UNKNOWN")
         z[j,k]<-weighted_mean(y,w*as.numeric(g$group==group))-weighted_mean(y,w*as.numeric(g$group=="native"))
       } else stop("EXACT_MIGRATION_STAT_NOT_APPROVED")

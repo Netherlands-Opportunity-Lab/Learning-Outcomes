@@ -74,9 +74,9 @@ lo_compact_count_n <- function(obj,q) {
     if(!isTRUE(mg$ok))stop(mg$reason)
     g<-mg$group
   }
-  if(m%in%c("ses_national","ses_peer_exposure") ||
+  if(m%in%c("ses_national","ses_harmonized","ses_peer_exposure") ||
      (m=="peer_baseline" && q$stat[[1L]]%in%c("q1_share","q4_share")))
-     tails<-rc2_tails_rank(d$SES,w)
+     tails<-if(any(grepl("Cobreros",q$definition,fixed=TRUE)))lo_exact_ses_tails(obj,q,w) else rc2_tails_rank(d$SES,w)
   if(m%in%c("peer_below_basic","high_proficiency_peer_exposure",
             "migration_binary_peer","migration_peer_exposure","home_language_peer_exposure",
             "home_language_frequency_peer","ses_peer_exposure"))
@@ -102,6 +102,7 @@ lo_compact_count_n <- function(obj,q) {
         eligible<-eligible&!is.na(g)&
           if(stat=="mean_score_gap") {
             focus<-sub("_minus_native$","",group)
+            focus<-switch(focus,first="first_generation",second="second_generation",focus)
             g%in%c("native",focus)
           } else g==group
       }
@@ -118,7 +119,7 @@ lo_compact_count_n <- function(obj,q) {
         eligible<-eligible&!is.na(g)&
           (if(stat=="gap")g%in%c("always_almost","sometimes_never") else g==group)
       }
-      if(m=="ses_national") {
+      if(m%in%c("ses_national","ses_harmonized")) {
         if(is.null(tails))stop("COMPACT_N_MISSING_SES_QUARTILES")
         if(grepl("^q1_",stat))eligible<-eligible&!is.na(tails$q1)&tails$q1>0
         else if(grepl("^q4_",stat))eligible<-eligible&!is.na(tails$q4)&tails$q4>0

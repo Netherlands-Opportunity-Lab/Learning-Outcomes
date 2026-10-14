@@ -81,6 +81,11 @@ lo_run_record <- function(repo,state,stage,cfg,outcome) {
     R_version=R.version.string,platform=R.version$platform,packages=as.list(versions),
     session_info=capture.output(sessionInfo()),scientific_release="NOT_IMPLIED_BY_RUN_SUCCESS")
   record$results<-results
+  env_code<-file.path(repo,"06_pipeline","LO_ENVIRONMENT.R")
+  if(file.exists(env_code)&&file.exists(file.path(repo,"renv.lock"))) {
+    source(env_code,local=environment())
+    record$locked_environment<-lo_environment_check(repo,strict=FALSE)
+  }
   record$result_set_sha256<-digest::digest(results,algo="sha256")
   ledger<-file.path(state,"RUN_RECORDS");dir.create(ledger,showWarnings=FALSE)
   text<-jsonlite::toJSON(record,auto_unbox=TRUE,pretty=TRUE,digits=NA,null="null")

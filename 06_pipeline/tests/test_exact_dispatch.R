@@ -69,6 +69,19 @@ r3<-lo_exact_dispatch(".",work,scope,t2,g2,resumed_out,backend,max_units=1L)
 stopifnot(r1$new_rows_written==1L,r1$status=="PARTIAL_CHECKPOINT",
  r2$new_rows_written==1L,r2$reused_rows==1L,r3$new_rows_written==0L,r3$reused_rows==2L)
 # Even a newly signed source byte hash does not make the wrong country valid.
+atomic_out<-file.path(work,"atomic")
+con<-lo_compact_open(atomic_out)
+DBI::dbExecute(con,"CREATE TABLE execution_receipts (cell_id TEXT, execution_sha TEXT, result_sha TEXT, PRIMARY KEY(cell_id,execution_sha))")
+DBI::dbExecute(con,"CREATE TRIGGER injected_disk_failure BEFORE INSERT ON execution_receipts BEGIN SELECT RAISE(ABORT,'injected receipt failure'); END")
+lo_compact_close(con)
+atomic<-lo_exact_dispatch(".",work,scope,t2,g2,atomic_out,backend,max_units=1L)
+con<-lo_compact_open(atomic_out)
+stopifnot(atomic$new_rows_written==0L,atomic$holds_this_attempt==1L,
+ DBI::dbGetQuery(con,"SELECT count(*) n FROM grid")$n==0L,
+ DBI::dbGetQuery(con,"SELECT count(*) n FROM result_versions")$n==0L)
+DBI::dbExecute(con,"DROP TRIGGER injected_disk_failure");lo_compact_close(con)
+atomic_resume<-lo_exact_dispatch(".",work,scope,t2,g2,atomic_out,backend,max_units=1L)
+stopifnot(atomic_resume$new_rows_written==1L,atomic_resume$holds_this_attempt==0L)
 wrong_obj<-obj;wrong_obj$meta$v9_country<-"AUT";saveRDS(wrong_obj,src)
 g2$source_edition_sha256<-lo_exact_sha(src)
 cert$source_edition_sha256<-lo_exact_sha(src)

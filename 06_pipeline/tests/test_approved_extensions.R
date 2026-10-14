@@ -50,4 +50,26 @@ stopifnot(inherits(try(lo_exact_selected_estimate(o,q),silent=TRUE),"try-error")
 q$module<-"migration_generation";q$stat<-"mean_score_gap";q$group<-"first_generation_minus_native"
 migration_groups<-function(obj)list(ok=TRUE,group=c("native","first_generation","second_generation","first_generation"))
 stopifnot(lo_exact_generations(o,q)$estimate==300)
+q$group<-"first_minus_native"
+stopifnot(lo_exact_generations(o,q)$estimate==300)
+q$group<-"second_minus_native"
+stopifnot(lo_exact_generations(o,q)$estimate==300)
+harm<-t;harm$survey<-"PISA";harm$year<-"2025";harm$module[2]<-"ses_harmonized"
+harm$definition[2]<-"Cobreros_fourwave_13item_trend_comparable"
+hx<-lo_extension_tasks(harm,dec)
+stopifnot(all(c("extension_ses_gender","extension_ses_school","extension_ses_class")%in%hx$module))
+q$module<-"extension_ses_gender";q$stat<-"mean";q$group<-"q1_girl";q$definition<-harm$definition[2]
+stopifnot(inherits(try(lo_exact_selected_estimate(o,q),silent=TRUE),"try-error"))
+cal<-tempfile();writeLines("synthetic calibrated construct evidence",cal)
+o$meta$ses_construct_id<-q$definition
+o$meta$ses_quartile_protocol<-"INNOVAMAT_R_REPLICATE_SEED7_SOURCE_ORDER"
+o$meta$calibration_evidence_path<-cal;o$meta$calibration_sha256<-digest::digest(file=cal,algo="sha256")
+set.seed(42);before_rng<-.Random.seed
+tails<-lo_exact_ses_tails(o,q,o$data$W)
+stopifnot(identical(before_rng,.Random.seed),all(tails$q1%in%c(0,1)),all(tails$q4%in%c(0,1)))
+# Boundary equality and tied values follow the upstream left.open rule.
+set.seed(7);ord<-order(o$data$SES,runif(nrow(o$data)))
+codes<-integer(nrow(o$data));codes[ord]<-findInterval(c(0,.25,.5,.75),c(.25,.5,.75),left.open=TRUE)
+stopifnot(identical(tails$q1,as.numeric(codes==0)),identical(tails$q4,as.numeric(codes==3)))
+unlink(cal)
 cat("PASS approved extension contracts, missing-year reasons, exact low outcome and joint contrasts\n")

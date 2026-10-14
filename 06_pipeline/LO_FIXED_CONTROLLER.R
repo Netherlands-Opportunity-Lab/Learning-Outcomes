@@ -27,6 +27,10 @@ lo_fixed_controller <- function(repo,bundle,
   }
   source(file.path(repo,"06_pipeline","LO_RUN_CONFIG.R"),local=environment())
   run_config<-lo_run_config(scope)
+  if(nzchar(Sys.getenv("LO_REPRODUCE_COMMIT",""))) {
+    source(file.path(repo,"06_pipeline","LO_ENVIRONMENT.R"),local=environment())
+    lo_environment_check(repo,strict=TRUE)
+  }
   tasks<-read.csv(file.path(bundle,"engine","TASKS.csv"),
      colClasses="character",stringsAsFactors=FALSE,check.names=FALSE)
   if(nrow(tasks)!=79448L||anyDuplicated(tasks$metric_key))

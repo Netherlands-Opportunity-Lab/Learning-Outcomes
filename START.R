@@ -37,16 +37,28 @@ lo_bootstrap_main <- function() {
     grepl("Netherlands-Opportunity-Lab/Learning-Outcomes([.]git)?$",remote)
   if (!valid) stop("Git origin is not the expected Learning-Outcomes repository")
   branch <- "feat/reproducible-storage-and-cleanup-20261010"
+  reproduce<-Sys.getenv("LO_REPRODUCE_COMMIT","")
   active <- command(c("-C",repo,"branch","--show-current"))$lines
-  if (length(active)!=1L || !identical(active[[1]],branch))
+  if (!nzchar(reproduce) && (length(active)!=1L || !identical(active[[1]],branch)))
     stop("Git branch is not the expected reviewed feature branch: ",branch,
          "\nCurrent: ",paste(active,collapse=", "),
          ". No code was modified or run.")
+  if(nzchar(reproduce)) {
+    if(!grepl("^[0-9a-f]{40}$",reproduce))stop("LO_REPRODUCE_COMMIT requires the full recorded commit SHA")
+    head<-command(c("-C",repo,"rev-parse","HEAD"))$lines
+    if(!identical(head,reproduce))stop("Replication checkout is not at the recorded commit")
+    dirty<-command(c("-C",repo,"status","--porcelain","--untracked-files=no"))$lines
+    if(length(dirty))stop("Replication requires unchanged tracked code")
+    source(file.path(repo,"06_pipeline","LO_ENVIRONMENT.R"),local=environment())
+    lo_environment_check(repo,strict=TRUE)
+    message("Learning Outcomes: immutable replication; commit and environment verified.")
+  } else {
   message("Learning Outcomes: checking for safe fast-forward updates...")
   # Normal Git merge refuses to overwrite tracked local changes. Never force,
   # reset, checkout, stash, delete or merge an unexpected branch.
   pulled <- command(c("-C",repo,"pull","--ff-only","origin",branch))
   if(length(pulled$lines))cat(paste(pulled$lines,collapse="\n"),"\n")
+  }
   runner <- file.path(repo,"06_pipeline","RUN.R")
   if(!file.exists(runner))stop("Integrated runner missing after Git update")
   # Avoid resuming a stale LO_ACTION=execute or publish from a prior R session.
@@ -61,3 +73,4 @@ lo_bootstrap_main <- function() {
   invisible(TRUE)
 }
 lo_bootstrap_main()
+

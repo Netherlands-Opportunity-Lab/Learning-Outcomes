@@ -69,6 +69,17 @@ lo_grid_verify_result_artifacts <- function(rows) {
       }
     }
     cert<-jsonlite::fromJSON(rows$certification_path[i],simplifyVector=TRUE)
+    evidence<-cert$evidence_files
+    if(!is.data.frame(evidence)||!nrow(evidence)||!all(c("path","sha256")%in%names(evidence)))
+      stop("GRID_RESULT_CERTIFICATE_WITHOUT_EVIDENCE")
+    for(e in seq_len(nrow(evidence))) {
+      p<-evidence$path[e];h<-evidence$sha256[e];key<-paste(p,h)
+      if(!exists(key,checked,inherits=FALSE)) {
+        if(is.na(p)||!nzchar(p)||!file.exists(p)||!grepl("^[a-f0-9]{64}$",h)||
+           digest::digest(file=p,algo="sha256")!=h)stop("GRID_RESULT_CHANGED_EVIDENCE")
+        assign(key,TRUE,checked)
+      }
+    }
     cols<-c("cell_id","estimate","standard_error","n_unweighted","sample_id","method_version",
       "target_contract_sha256","source_edition_sha256","input_fingerprint","code_fingerprint","result_hash",
       "weight_design","pv_rule","variance_rule")

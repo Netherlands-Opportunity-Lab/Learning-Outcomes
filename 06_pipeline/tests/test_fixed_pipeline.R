@@ -86,7 +86,8 @@ source_fixture<-file.path(work,"synthetic_source.txt");writeLines("source-free t
 fixture$source_path<-source_fixture
 fixture$source_edition_sha256<-digest::digest(file=source_fixture,algo="sha256")
 cert_fixture<-file.path(work,"synthetic_result_certificate.json")
-jsonlite::write_json(list(status="SCIENTIFICALLY_VALIDATED",cells=fixture),cert_fixture,auto_unbox=TRUE,digits=16)
+jsonlite::write_json(list(status="SCIENTIFICALLY_VALIDATED",cells=fixture,
+ evidence_files=data.frame(path=source_fixture,sha256=fixture$source_edition_sha256)),cert_fixture,auto_unbox=TRUE,digits=16)
 fixture$certification_path<-cert_fixture
 fixture$certification_sha256<-digest::digest(file=cert_fixture,algo="sha256")
 write.csv(fixture,file.path(work,"complete_approvals.csv"),row.names=FALSE)

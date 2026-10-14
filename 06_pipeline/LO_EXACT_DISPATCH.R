@@ -145,7 +145,7 @@ lo_exact_dispatch <- function(repo,bundle,scope_info,tasks,grid,out,backend=NULL
         answer<-if(!is.null(backend))backend$estimate(obj,science) else {
           module<-run$module[1]
           if(module=="peer_below_basic")lo_compact_low_peer(obj,run)
-          else if(extension || module%in%c("core","ses_national","gender"))lo_exact_selected_estimate(obj,science)
+          else if(extension || module%in%c("core","ses_national","ses_harmonized","gender"))lo_exact_selected_estimate(obj,science)
           else if(module=="migration_generation")lo_exact_generations(obj,run)
           else if(module=="migration_peer_exposure")lo_compact_migration_peers(obj,run)
           else get("v10_compute",envir=.GlobalEnv)(obj,science)
@@ -154,13 +154,17 @@ lo_exact_dispatch <- function(repo,bundle,scope_info,tasks,grid,out,backend=NULL
           lo_extension_count_n(obj,science) else lo_compact_count_n(obj,science)
         rows<-lo_compact_science_rows(run,answer,n,projection,code_sha,certified$method_version[1])
         if(!setequal(rows$cell_id,run$metric_key))stop("EXACT_OUTPUT_OUTSIDE_APPROVAL")
-        lo_compact_put(con,rows)
-        for(i in which(!reusable)) {
-          current<-DBI::dbGetQuery(con,"SELECT * FROM grid WHERE cell_id=?",params=list(block$metric_key[i]))
-          if(current$status=="COMPUTED_PENDING_VALIDATION")DBI::dbExecute(con,
-            "INSERT OR REPLACE INTO execution_receipts VALUES (?,?,?)",
-            params=list(block$metric_key[i],execution[i],digest::digest(current,algo="sha256")))
-        }
+        # A result without its execution receipt must never be committed. A
+        # crash or receipt-write failure rolls back the complete source block.
+        DBI::dbWithTransaction(con,{
+          lo_compact_put(con,rows,transaction=FALSE)
+          for(i in which(!reusable)) {
+            current<-DBI::dbGetQuery(con,"SELECT * FROM grid WHERE cell_id=?",params=list(block$metric_key[i]))
+            if(current$status=="COMPUTED_PENDING_VALIDATION")DBI::dbExecute(con,
+              "INSERT OR REPLACE INTO execution_receipts VALUES (?,?,?)",
+              params=list(block$metric_key[i],execution[i],digest::digest(current,algo="sha256")))
+          }
+        })
         summary$new_rows_written<-summary$new_rows_written+sum(rows$status=="COMPUTED_PENDING_VALIDATION")
         summary$holds_this_attempt<-summary$holds_this_attempt+sum(rows$status!="COMPUTED_PENDING_VALIDATION")
         rm(obj);return_value<-"EXECUTED_EXACT_APPROVAL"

@@ -69,7 +69,7 @@ lo_compact_require <- function(x) {
   }
   invisible(TRUE)
 }
-lo_compact_put <- function(con,x) {
+lo_compact_put <- function(con,x,transaction=TRUE) {
   lo_compact_require(x)
   names_sql <- names(DBI::dbGetQuery(con,"SELECT * FROM grid LIMIT 0"))
   x <- x[,names_sql,drop=FALSE]
@@ -90,7 +90,7 @@ lo_compact_put <- function(con,x) {
     }
   }
   inserted <- 0L; reused <- 0L
-  DBI::dbWithTransaction(con,{
+  write_rows<-function() {
     remember<-function(row) {
       if(!nrow(row)||row$status[[1]]!="COMPUTED_PENDING_VALIDATION")return(invisible(NULL))
       version<-digest::digest(row,algo="sha256")
@@ -112,7 +112,7 @@ lo_compact_put <- function(con,x) {
          identical(old$input_fingerprint[[1L]],x$input_fingerprint[[i]]) &&
          identical(old$producer_fingerprint[[1L]],x$producer_fingerprint[[i]]) &&
          identical(old$method_id[[1L]],x$method_id[[i]])) {
-        reused <- reused+1L
+        reused <<- reused+1L
         next
       }
       # A subsequent incomplete attempt can never erase a complete matching result.
@@ -122,9 +122,10 @@ lo_compact_put <- function(con,x) {
          identical(old$producer_fingerprint[[1L]],x$producer_fingerprint[[i]])) next
       DBI::dbExecute(con,sql,params=unname(as.list(x[i,names_sql,drop=FALSE])))
       remember(DBI::dbGetQuery(con,"SELECT * FROM grid WHERE cell_id=?",params=list(x$cell_id[[i]])))
-      inserted <- inserted+1L
+      inserted <<- inserted+1L
     }
-  })
+  }
+  if(transaction)DBI::dbWithTransaction(con,write_rows()) else write_rows()
   list(written=inserted,reused=reused)
 }
 lo_compact_known <- function(con,ids,input_fingerprint,producer_fingerprint,method_id) {

@@ -25,14 +25,14 @@ lo_extension_tasks <- function(tasks,decisions) {
     add(core,if(level=="school")"A11" else "A12",paste0("EX_PERFORMANCE_",toupper(level)),
       paste0("extension_performance_",level),"between_variance_share","total",
       "weighted_descriptive_between_share","percent",level)
-    ses<-tasks[tasks$module=="ses_national" & tasks$stat=="q1_mean",,drop=FALSE]
+    ses<-tasks[tasks$module%in%c("ses_national","ses_harmonized") & tasks$stat=="q1_mean",,drop=FALSE]
     # SES has no achievement domain: deduplicate repeated maths/science rows.
     ses$domain<-"all"
     ses<-ses[!duplicated(ses[c("country","survey","year","definition")]),,drop=FALSE]
     add(ses,if(level=="school")"A13" else "A14",paste0("EX_SES_",toupper(level)),
       paste0("extension_ses_",level),"between_variance_share","total",ses$definition,"percent",level)
   }
-  ses<-tasks[tasks$module=="ses_national" & tasks$stat%in%c("q1_mean","q4_mean","q1_basic","q4_basic","q1_high","q4_high"),,drop=FALSE]
+  ses<-tasks[tasks$module%in%c("ses_national","ses_harmonized") & tasks$stat%in%c("q1_mean","q4_mean","q1_basic","q4_basic","q1_high","q4_high"),,drop=FALSE]
   for(gender in c("girl","boy")) {
     stat<-sub("^q[14]_","",ses$stat);stat[stat=="basic"]<-"below"
     add(ses,"A06","EX_SES_GENDER","extension_ses_gender",stat,
