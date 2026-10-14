@@ -136,7 +136,7 @@ if(peers) {
 final<-lo_fixed_controller(repo,bundle,'audit','nld_only',root)
 stopifnot(final$validated==nrow(old)+nrow(approved),final$approved_compute_batches==0L)
 jsonlite::write_json(list(status='SELECTED_SOURCE_BLOCKS_CERTIFIED',first=first,second=second,final_audit=final,
- pilot_reused_without_recalculation=nrow(pilot),previous_certified_retained=nrow(old),global_release=FALSE),file.path(block_root,'CONTROLLER_CLOSURE.json'),auto_unbox=TRUE,pretty=TRUE,digits=17)
+ pilot_reused_without_recalculation=nrow(pilot),previous_certified_retained=nrow(old),global_release=FALSE),file.path(block_root,if(peers)paste0(kind,'_CONTROLLER_CLOSURE.json')else 'CONTROLLER_CLOSURE.json'),auto_unbox=TRUE,pretty=TRUE,digits=17)
 invisible(final)
 
 

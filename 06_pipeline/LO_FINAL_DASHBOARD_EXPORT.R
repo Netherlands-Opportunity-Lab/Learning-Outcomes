@@ -45,6 +45,10 @@ lo_dashboard_export_from_grid <- function(bundle,tasks,approved,out) {
     stringsAsFactors=FALSE)
   write.csv(missing,file.path(out,"PRIVATE_DASHBOARD_UNMAPPED_STATS.csv"),
             row.names=FALSE)
+  n_rule<-if('method_version'%in%names(approved))ifelse(
+    grepl('PEER_PV_FRAME_N_TARGET_COUNTS_V1',approved$method_version,fixed=TRUE),
+    'ANALYTIC_PEER_FRAME; TARGET_N_SEPARATE_FOR_EACH_PV','EXACT_VALID_OBSERVED_TARGET_OR_CONTRAST_SAMPLE')else
+    rep('N_DEFINITION_NOT_REGISTERED',nrow(approved))
   z <- if(length(supported))data.frame(
     cell_id=approved$cell_id[supported],country=q$country[supported],
     survey=q$survey[supported],year=q$year[supported],
@@ -53,6 +57,7 @@ lo_dashboard_export_from_grid <- function(bundle,tasks,approved,out) {
     estimate=approved$estimate[supported],
     se=approved$standard_error[supported],
     n_unweighted=approved$n_unweighted[supported],
+    n_definition=n_rule[supported],
     unit=q$unit[supported],
     variant=ifelse(q$module[supported]=="ses_harmonized",
       "harmonized",ifelse(q$survey[supported]=="PISA","official",
@@ -79,3 +84,4 @@ lo_dashboard_export_from_grid <- function(bundle,tasks,approved,out) {
             row.names=FALSE)
   invisible(summary)
 }
+

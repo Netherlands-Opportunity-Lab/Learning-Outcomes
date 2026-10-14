@@ -64,6 +64,7 @@ other$target_contract_sha256<-lo_grid_from_tasks(peer)$target_contract_sha256
 other$estimate<-12.5
 other$standard_error<-1.2
 other$result_hash<-sha("e")
+other$method_version<-'SYNTHETIC_PEER_PV_FRAME_N_TARGET_COUNTS_V1'
 for(field in c("peer_denominator_verified","self_exclusion_verified",
                "method_certification_status"))
   other[[field]]<-"PASS"
@@ -80,6 +81,7 @@ low<-result2[result2$series_id=="self_below_basic",,drop=FALSE]
 stopifnot(nrow(low)==1L,low$outcome_id=="peer_share_below_basic",
           low$self_exclusion_verified=="PASS",
           low$peer_denominator_verified=="PASS")
+stopifnot(low$n_definition=='ANALYTIC_PEER_FRAME; TARGET_N_SEPARATE_FOR_EACH_PV')
 wrong<-approved2;wrong$estimate[1]<-wrong$estimate[1]+1
 stopifnot(inherits(try(lo_guided_grid_export(bundle,tasks2,wrong,file.path(work,"changed"),decisions),silent=TRUE),"try-error"))
 fake_repo<-file.path(work,"repo");dir.create(file.path(fake_repo,"05_publication","preview_overlay","assets"),recursive=TRUE)
