@@ -1,3 +1,5 @@
+> **October development:** start with [the current decision register and four remaining assignments](06_pipeline/START_HIER_ACTUEEL.md). The October work is not scientifically released. The release descriptions below document the preserved September version; they do not define the new country eligibility, optional scope or active guided frontend.
+
 # Learning Outcomes — PISA / PIRLS / TIMSS
 
 Reproducible analyses and a public research dashboard on international learning outcomes at approximately age 10 and age 15.

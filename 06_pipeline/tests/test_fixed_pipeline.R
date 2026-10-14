@@ -1,4 +1,5 @@
 source("06_pipeline/LO_SCOPE_LOCK.R",encoding="UTF-8")
+source("06_pipeline/LO_SCOPE_DECISIONS.R",encoding="UTF-8")
 source("06_pipeline/MASTER_ESTIMATION_GRID.R",encoding="UTF-8")
 source("06_pipeline/GRID_ARCHIVE_BATCH.R",encoding="UTF-8")
 source("06_pipeline/LO_EXISTING_RESULT_REGISTRY.R",encoding="UTF-8")
@@ -38,6 +39,27 @@ q<-lo_final_quality_gate(bundle,tasks,
       file.path(work,"missing_approvals.csv"),file.path(work,"validation"))
 stopifnot(q$active_missing==3L,q$paper_gates_pass==0L,
    q$scientific_freeze=="HOLD")
+# A pending proposal must not force new peer estimates in the final gate.
+scope_decisions<-lo_read_scope_decisions(".")
+scope_decisions$status<-"PENDING"
+scope_decisions$decision_date<-scope_decisions$user_evidence<-""
+oldpeer<-tasks[1L,,drop=FALSE];oldpeer$metric_key<-"synthetic_high_peer"
+oldpeer$contract_figure_id<-"EN_PERFORMANCE_PEER_age15_reading"
+oldpeer$peer_definition<-"whole_school"
+with_peer<-rbind(tasks,oldpeer)
+pending_q<-lo_final_quality_gate(bundle,with_peer,
+ file.path(work,"missing_approvals.csv"),file.path(work,"pending_peer"),scope_decisions)
+stopifnot(pending_q$new_below_basic_peer_targets==0L,
+ pending_q$active_missing==3L,
+ pending_q$primary_peer_gate=="NOT_REQUIRED_BY_CURRENT_SCOPE")
+scope_decisions$status[1L]<-"APPROVED"
+scope_decisions$decision_date[1L]<-"2026-10-14"
+scope_decisions$user_evidence[1L]<-"SYNTHETIC TEST ONLY: A01 yes"
+approved_q<-lo_final_quality_gate(bundle,with_peer,
+ file.path(work,"missing_approvals.csv"),file.path(work,"chosen_peer"),scope_decisions)
+stopifnot(approved_q$new_below_basic_peer_targets==3L,
+ approved_q$active_missing==6L,approved_q$primary_peer_gate=="HOLD",
+ approved_q$scientific_freeze=="HOLD")
 candidate<-lo_fixed_produce(bundle,p3,tasks,
       file.path(work,"production"),native_run=FALSE)
 stopifnot(candidate$native_execution=="PREVIEW_ONLY",
