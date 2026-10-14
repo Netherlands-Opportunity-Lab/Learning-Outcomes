@@ -51,7 +51,10 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
     f<-figures[map_fig[i],,drop=FALSE]
     id<-f$figure_id[[1]]
     family<-sub("_age.*$","",id)
-    if(family%in%c("TR_BASIC","TR_POSITION")) {
+    if(family=="TR_POSITION") {
+      omit(i,"RANK_REQUIRES_CERTIFIED_DERIVATION_AND_EXPLICIT_FIXED_PANEL");next
+    }
+    if(family=="TR_BASIC") {
       omit(i,"DERIVED_COMPLEMENT_NO_SEPARATE_CHART");next
     }
     new_peer <- family=="EN_PERFORMANCE_PEER" &&

@@ -43,7 +43,8 @@ lo_scoped_low_peer_tasks <- function(tasks,decisions=NULL) {
 }
 
 # This is the shared primitive scope gate used by audit, execution and export.
-# Ranks are derived/pending products, never additional pupil-level tasks.
+# A09 ranks are approved derived products, never additional pupil-level tasks.
+# Their selected certified parents and balanced panel are recorded separately.
 lo_scope_active_tasks <- function(tasks,decisions=NULL) {
   family<-sub("_age.*$","",tasks$contract_figure_id)
   keep<-!family%in%c("TR_BASIC","TR_POSITION")

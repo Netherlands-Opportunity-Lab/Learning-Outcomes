@@ -79,7 +79,13 @@ def figure_contract(bundle,allow_synthetic=False,decisions=None):
   family=r["figure_id"].split("_age",1)[0]
   figure["historical_figure_id"]=r["figure_id"]
   # Product decisions are overlays, NEVER mutate the original source lock.
-  if family in ("TR_BASIC","TR_POSITION"):
+  if family=="TR_POSITION":
+   # A09 authorizes a derived rank time series, not legacy panel values or
+   # a separate pupil-level calculation. Its contract is recorded in the
+   # product grid; publish only after the rank derivation is certified.
+   figure["active_role"]="APPROVED_DERIVATION_PENDING_CERTIFIED_EXPORT" if decisions.get("A09")=="APPROVED" else "RANK_NOT_APPROVED"
+   continue
+  if family=="TR_BASIC":
    figure["active_role"]="DERIVED_COMPLEMENT_SEPARATE_GRAPH_REMOVED"
    continue
   if family=="GP_SES_HIGH":

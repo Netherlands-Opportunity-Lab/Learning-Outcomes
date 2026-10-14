@@ -1,5 +1,7 @@
 # Kritische implementatiereview — 14 oktober 2026
 
+Aanvullend gebruikersbesluit A09: rangontwikkeling is gekozen als tijdreeks in de figuurbouwer; een landenranglijst uitsluitend in de wetenschappelijke paper. De koppeling aan oude 13-/32-/45-landenpanels is losgemaakt. Het actuele productgrid registreert exacte kandidaat-oudercellen voor de afleiding, zonder nieuwe leerlingtaken of automatische uitbreiding van appendixinhoud naar het dashboard. Regressies controleren deze scheiding en behoud bij hergeneratie. De gebruiker heeft verduidelijkt: geen groepsrang; het hoofdland en eventueel één ander land krijgen hun rang binnen een gekozen landengroep. De populatie is bevestigd als internationaal vierde leerjaar / Nederlandse groep 6. Numerieke rangafleiding en bediening zijn nog geen opgeleverd product. Zie RANK_PRODUCT_CONTRACT.json.
+
 De bestaande keten is gerepareerd op de ontwikkelbranch van PR #5. De bron-ZIP en ongewijzigde eerdere inventarisatie zijn niet opnieuw uitgepakt of uitgevoerd. De oorspronkelijke audit blijft bronbewijs; onderstaande wijzigingen betreffen de actieve uitvoering en nieuwe expliciete besluiten.
 
 ## Wat daadwerkelijk is aangepast

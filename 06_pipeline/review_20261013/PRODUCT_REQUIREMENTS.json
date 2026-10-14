@@ -2424,7 +2424,9 @@
         "A10"
       ],
       "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
-      "production_authorized_by_inventory": false
+      "production_authorized_by_inventory": false,
+      "current_scope": "HISTORICAL_SOURCE_ONLY",
+      "superseded_by": "USER_20261014_A09_DASHBOARD_RANK"
     },
     {
       "requirement_id": "DASH_TR_MEAN_age10_mathematics",
@@ -2554,7 +2556,9 @@
         "A10"
       ],
       "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
-      "production_authorized_by_inventory": false
+      "production_authorized_by_inventory": false,
+      "current_scope": "HISTORICAL_SOURCE_ONLY",
+      "superseded_by": "USER_20261014_A09_DASHBOARD_RANK"
     },
     {
       "requirement_id": "DASH_TR_MEAN_age10_science",
@@ -2684,7 +2688,9 @@
         "A10"
       ],
       "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
-      "production_authorized_by_inventory": false
+      "production_authorized_by_inventory": false,
+      "current_scope": "HISTORICAL_SOURCE_ONLY",
+      "superseded_by": "USER_20261014_A09_DASHBOARD_RANK"
     },
     {
       "requirement_id": "DASH_TR_MEAN_age15_reading",
@@ -2814,7 +2820,9 @@
         "A10"
       ],
       "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
-      "production_authorized_by_inventory": false
+      "production_authorized_by_inventory": false,
+      "current_scope": "HISTORICAL_SOURCE_ONLY",
+      "superseded_by": "USER_20261014_A09_DASHBOARD_RANK"
     },
     {
       "requirement_id": "DASH_TR_MEAN_age15_mathematics",
@@ -2944,7 +2952,9 @@
         "A10"
       ],
       "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
-      "production_authorized_by_inventory": false
+      "production_authorized_by_inventory": false,
+      "current_scope": "HISTORICAL_SOURCE_ONLY",
+      "superseded_by": "USER_20261014_A09_DASHBOARD_RANK"
     },
     {
       "requirement_id": "DASH_TR_MEAN_age15_science",
@@ -3074,7 +3084,9 @@
         "A10"
       ],
       "scope_approval": "PARTLY_OR_FULLY_PENDING_USER_APPROVAL",
-      "production_authorized_by_inventory": false
+      "production_authorized_by_inventory": false,
+      "current_scope": "HISTORICAL_SOURCE_ONLY",
+      "superseded_by": "USER_20261014_A09_DASHBOARD_RANK"
     },
     {
       "requirement_id": "DASH_DS_P10_age10_reading",
@@ -5876,7 +5888,7 @@
       "requirement_id": "PRODUCT_DASHBOARD",
       "product": "ALL_PRODUCTS",
       "source_locator": "cross-product",
-      "title": "Country eligibility 6x3; three production modes; configurable fully balanced focus-country reference; PPP20 candidate pool",
+      "title": "One figure with years on x-axis; selected outcome, age, split and comparison; balanced configurable reference; no dashboard ranking table",
       "figure_families": [],
       "additional_dependencies": [
         "S_DASHBOARD"
@@ -5924,6 +5936,50 @@
       "historical_role": "REQUIRED",
       "approval_items": [],
       "scope_approval": "SOURCE_INVENTORY_NOT_BLANKET_USER_APPROVAL",
+      "production_authorized_by_inventory": false
+    },
+    {
+      "requirement_id": "USER_20261014_A09_DASHBOARD_RANK",
+      "product": "DASHBOARD_DERIVATION",
+      "source_locator": "Direct user reply A09, 2026-10-14",
+      "title": "Country rank over years within a chosen country group; optional second country; no group rank",
+      "figure_families": [],
+      "additional_dependencies": [
+        "S_RANK_PRODUCT"
+      ],
+      "task_filters": {},
+      "scope": "ALL_REQUIRED",
+      "role": "DIRECT_USER_APPROVED_PRODUCT",
+      "historical_role": "DIRECT_USER_APPROVED_PRODUCT",
+      "approval_items": [
+        "A09"
+      ],
+      "scope_approval": "CHECK_CURRENT_SCOPE_APPROVALS_CSV",
+      "source_sha256": "",
+      "derivation": "BALANCED_RANK_FROM_APPROVED_RESULTS",
+      "direct_user_decision": "A09_20261014",
+      "production_authorized_by_inventory": false
+    },
+    {
+      "requirement_id": "USER_20261014_A09_PAPER_RANKING",
+      "product": "SCIENTIFIC_PAPER",
+      "source_locator": "Direct user reply A09, 2026-10-14",
+      "title": "Country ranking table in the scientific paper only",
+      "figure_families": [],
+      "additional_dependencies": [
+        "S_RANK_PRODUCT"
+      ],
+      "task_filters": {},
+      "scope": "ALL_REQUIRED",
+      "role": "DIRECT_USER_APPROVED_PRODUCT",
+      "historical_role": "DIRECT_USER_APPROVED_PRODUCT",
+      "approval_items": [
+        "A09"
+      ],
+      "scope_approval": "CHECK_CURRENT_SCOPE_APPROVALS_CSV",
+      "source_sha256": "",
+      "derivation": "BALANCED_RANK_FROM_APPROVED_RESULTS",
+      "direct_user_decision": "A09_20261014",
       "production_authorized_by_inventory": false
     }
   ],
@@ -6155,7 +6211,7 @@
     },
     {
       "dependency_id": "S_DASHBOARD",
-      "definition": "Dashboard 6x3 without exceptions; reference candidates cover full selected focus support including subgroups and peer units; PPP20 is a candidate pool; equal weighting, focus excluded, stable panel and exports",
+      "definition": "Three production modes; six age-domain combinations with >=3 verified cycles for country eligibility; PPP20 candidates filtered by full focus support including subgroup and peer cells; user checkbox reference; equal country weights, focus excluded, membership/availability disclosed; NL/EN and exports",
       "gate": "BROWSER_EXPORT_GATE",
       "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
       "approval_items": [],
@@ -6175,6 +6231,16 @@
       "gate": "CLAIM_EVIDENCE_GATE",
       "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
       "approval_items": [],
+      "production_authorized_by_inventory": false
+    },
+    {
+      "dependency_id": "S_RANK_PRODUCT",
+      "definition": "RANK_PRODUCT_CONTRACT.json: exact certified parent results; chosen constant country ranking universe; focus and optional second country; no group rank; direction and ties; rank-specific uncertainty",
+      "gate": "RANK_DERIVATION_CERTIFICATION",
+      "status": "APPROVED_PRODUCT_REQUIRES_DERIVATION_SPECIFICATION",
+      "approval_items": [
+        "A09"
+      ],
       "production_authorized_by_inventory": false
     }
   ],

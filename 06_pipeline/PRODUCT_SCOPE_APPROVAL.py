@@ -26,6 +26,11 @@ def apply_scope_approval(definitions):
     d['country_membership_policy'] = 'BALANCED_REFERENCE_RULE_20261014.md'
     d['inventory_is_user_approval'] = False
     for r in d['requirements']:
+        if r.get('direct_user_decision') == 'A09_20261014':
+            # Later direct decisions are not a re-approval of old slide panels.
+            if r['product']=='DASHBOARD_DERIVATION':
+                r['title']='Country rank over years within a chosen country group; optional second country; no group rank'
+            continue
         r.setdefault('historical_role', r['role'])
         # Means in the policy deck do not require producing the legacy rank panels.
         if r['requirement_id'] == 'POLICY_02':
@@ -47,8 +52,14 @@ def apply_scope_approval(definitions):
         if r['requirement_id'] == 'POLICY_20':
             r['active_presentation'] = 'LOW_PEER_SWITCH_PENDING_A01; HIGH_PEER_RETENTION_PENDING_A03'
         if r['requirement_id'] == 'PRODUCT_DASHBOARD':
-            r['title'] = 'Country eligibility 6x3; three production modes; configurable reference group; PPP20 candidates filtered by full focus support'
+            r['title'] = 'One figure with years on x-axis; selected outcome, age, split and comparison; balanced configurable reference; no dashboard ranking table'
+        if r['requirement_id'].startswith('DASH_TR_POSITION_'):
+            r['current_scope'] = 'HISTORICAL_SOURCE_ONLY'
+            r['superseded_by'] = 'USER_20261014_A09_DASHBOARD_RANK'
     for s in d['supplemental_requirements']:
+        if s['dependency_id'] == 'S_RANK_PRODUCT':
+            s['definition']='RANK_PRODUCT_CONTRACT.json: exact certified parent results; chosen constant country ranking universe; focus and optional second country; no group rank; direction and ties; rank-specific uncertainty'
+            continue
         pending = PENDING_DEPENDENCIES.get(s['dependency_id'], [])
         s['approval_items'] = pending
         s['status'] = ('PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION' if pending else
@@ -64,6 +75,27 @@ def apply_scope_approval(definitions):
                 'a new systematic suite of trend contrasts is not authorized by this inventory (A17)')
         if s['dependency_id'] == 'S_COHORT' and 'descriptive population/fieldwork disclosure' not in s['definition']:
             s['definition'] += '; descriptive population/fieldwork disclosure remains mandatory QA without new cross-age estimands'
+    # Add only the recorded product choices; actual scope still passes through
+    # SCOPE_APPROVALS.csv and source/method certification in the R trace.
+    for product, suffix, title in (
+            ('DASHBOARD_DERIVATION', 'DASHBOARD_RANK', 'Country rank over years within a chosen country group; optional second country; no group rank'),
+            ('SCIENTIFIC_PAPER', 'PAPER_RANKING', 'Country ranking table in the scientific paper only')):
+        rid = 'USER_20261014_A09_' + suffix
+        if any(r['requirement_id'] == rid for r in d['requirements']):
+            continue
+        d['requirements'].append(dict(requirement_id=rid, product=product,
+            source_locator='Direct user reply A09, 2026-10-14', title=title,
+            figure_families=[], additional_dependencies=['S_RANK_PRODUCT'],
+            task_filters={}, scope='ALL_REQUIRED', role='DIRECT_USER_APPROVED_PRODUCT',
+            historical_role='DIRECT_USER_APPROVED_PRODUCT', approval_items=['A09'],
+            scope_approval='CHECK_CURRENT_SCOPE_APPROVALS_CSV', source_sha256='',
+            derivation='BALANCED_RANK_FROM_APPROVED_RESULTS',
+            direct_user_decision='A09_20261014', production_authorized_by_inventory=False))
+    if not any(s['dependency_id']=='S_RANK_PRODUCT' for s in d['supplemental_requirements']):
+        d['supplemental_requirements'].append(dict(dependency_id='S_RANK_PRODUCT',
+            definition='RANK_PRODUCT_CONTRACT.json: exact certified parent results; chosen constant country ranking universe; focus and optional second country; no group rank; direction and ties; rank-specific uncertainty',
+            gate='RANK_DERIVATION_CERTIFICATION',status='APPROVED_PRODUCT_REQUIRES_DERIVATION_SPECIFICATION',
+            approval_items=['A09'], production_authorized_by_inventory=False))
     return d
 
 def dependency_scope_status(dependency_id):
