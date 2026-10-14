@@ -20,7 +20,7 @@ jobs:
       - name: Restore the recorded scientific environment in a clean library
         run: Rscript -e "install.packages('renv', repos='https://cloud.r-project.org'); renv::restore(project='.', lockfile='renv.lock', prompt=FALSE)"
       - name: Verify exact versions and meaningful source and dispatch tests
-        run: Rscript -e ".libPaths(c(renv::paths$library(project='.'), .libPaths())); source('06_pipeline/LO_ENVIRONMENT.R'); stopifnot(lo_environment_check('.', strict=TRUE)$all_match); source('06_pipeline/tests/test_exact_dispatch.R'); source('06_pipeline/tests/test_pisa_source_block.R'); source('06_pipeline/tests/test_iea_source_block.R')"
+        run: Rscript 06_pipeline/tests/test_locked_environment.R
   storage-tests:
     strategy:
       fail-fast: false
@@ -113,6 +113,5 @@ jobs:
         run: Rscript 06_pipeline/tests/test_compact_recompute.R
       - name: Test NLD-only native V5 path with candidate suppression
         run: Rscript 06_pipeline/tests/test_v5_nld_core.R
-
 
 
