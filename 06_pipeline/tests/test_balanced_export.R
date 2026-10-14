@@ -22,6 +22,9 @@ stopifnot(fails(lo_balanced_export(".",g,contracts[contracts$cell_id!=g$cell_id[
 out<-lo_balanced_export(".",g,contracts,scope,w)
 stopifnot(identical(out$AAA$default_members,"BBB"),identical(out$BBB$default_members,"AAA"),
  all(!out$AAA$default_points$benchmark_se_displayed))
+scope$dashboard<-"AAA";scope$reference_candidates<-c("AAA","BBB")
+out<-lo_balanced_export(".",g,contracts,scope,w)
+stopifnot(identical(names(out),"AAA"),identical(out$AAA$default_members,"BBB"))
 # No guessed scratch budget is enough to read a production source.
 stopifnot(fails(lo_production_space_check(p,w)))
 unlink(w,recursive=TRUE)

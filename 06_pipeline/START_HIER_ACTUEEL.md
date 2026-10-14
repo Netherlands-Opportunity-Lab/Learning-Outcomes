@@ -86,4 +86,6 @@ Werk [ACCEPTATIE_EN_VOORTGANG.csv](ACCEPTATIE_EN_VOORTGANG.csv) bij met werkelij
 
 ## Actuele uitvoeringsreview
 
+Na de eerste implementatiecommit is ook een echte negen-cellenproef op Nederlandse PISA-2022-data geslaagd. Circa 3,4 seconden rekentijd, 206 MB R-piekgeheugen en nul waargenomen tijdelijke bytes; dit is geen budget voor grotere batches. Een concrete importfout in leeftijd en thuistaal is op exact leerling-ID en hoofdgewicht hersteld uit de oorspronkelijke bron. De taalclassificatiedekking is nu 96,52706% in de gerepareerde kandidaat. Ook 38 oude afgeleide PISA-2022-caches zijn gecontroleerd verwijderd met behoud van opvolgers, bron en code. Totaal vrijgemaakt door beide selecties: 3.102.609.528 bytes; circa 3,17 GB vrij direct na de tweede selectie. De nul wetenschappelijke vrijgaven in de audit blijft correct: de proef is geen volledige bron-/methodecertificering.
+
 Zie [implementatie, kritische bevindingen en bewijs](review_20261013/IMPLEMENTATION_REVIEW_20261014.md), [probleemregister](review_20261013/IMPLEMENTATION_ISSUES.csv) en [Home-SES-bronnotitie](review_20261013/HOME_SES_AVAILABILITY_20261014.md). Deze stukken vullen het bestaande afgeronde bronarchief aan; ze vervangen het niet.

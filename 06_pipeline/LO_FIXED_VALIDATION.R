@@ -10,6 +10,17 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
     required<-required[required$module!="peer_below_basic",,drop=FALSE]
   }
   req_ids <- unique(required$metric_key)
+  unavailable_ids<-character()
+  if(exists("lo_extension_availability",mode="function")) {
+    unavailable<-lo_extension_availability(required)
+    unavailable<-unavailable[unavailable$status%in%c("OFFICIAL_SCALE_NOT_IN_EARLIER_CYCLE",
+      "UNAVAILABLE_HOME_QUESTIONNAIRE_NOT_ADMINISTERED"),,drop=FALSE]
+    idx<-required$module=="extension_home_ses" & paste(required$country,required$survey,required$year)%in%
+      paste(unavailable$country,unavailable$survey,unavailable$year)
+    unavailable_ids<-required$metric_key[idx]
+    write.csv(required[idx,,drop=FALSE],file.path(out,"DOCUMENTED_UNAVAILABLE_EXTENSION_TARGETS.csv"),row.names=FALSE)
+    req_ids<-setdiff(req_ids,unavailable_ids)
+  }
   approved <- data.frame()
   status <- "HOLD"
   message <- ""
@@ -114,6 +125,7 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
     active_primitive_contracts=length(req_ids)+length(peer_ids),
     validated_active_primitives=nrow(approved)+nrow(peer_approved),
     active_missing=length(missing)+length(peer_missing),
+    documented_unavailable_extensions=length(unavailable_ids),
     new_below_basic_peer_targets=length(peer_ids),
     new_below_basic_peer_verified=length(peer_ids)-length(peer_missing),
     paper_gates_pass=sum(paper$validated),
