@@ -7,7 +7,7 @@ lo_fixed_controller <- function(repo,bundle,
   root=file.path(Sys.getenv("USERPROFILE",unset=path.expand("~")),
                  "Downloads","LO05_RESULTATEN")) {
   stage<-match.arg(stage);scope<-match.arg(scope)
-  for(name in c("LO_SCOPE_LOCK.R","MASTER_ESTIMATION_GRID.R",
+  for(name in c("LO_SCOPE_LOCK.R","LO_SCOPE_DECISIONS.R","MASTER_ESTIMATION_GRID.R",
     "GRID_ARCHIVE_BATCH.R","LO_EXISTING_RESULT_REGISTRY.R",
     "LO_FIXED_VALIDATION.R","LO_FIXED_PRODUCERS.R")) {
     source(file.path(repo,"06_pipeline",name),
@@ -19,7 +19,8 @@ lo_fixed_controller <- function(repo,bundle,
   if(nrow(tasks)!=79448L||anyDuplicated(tasks$metric_key))
     stop("FIXED_PIPELINE_HOLD: original 79448-key lock changed")
   selected<-lo_scope_filter_tasks(tasks,scope_info)
-  new_peer_tasks<-lo_grid_new_low_peer_tasks(selected)
+  scope_decisions<-lo_read_scope_decisions(repo)
+  new_peer_tasks<-lo_scoped_low_peer_tasks(selected,scope_decisions)
   state<-file.path(root,"FIXED_PRODUCTION_V1",scope)
   dir.create(state,recursive=TRUE,showWarnings=FALSE)
   evidence_dir<-file.path(state,"FINAL_FIXED_PIPELINE")
@@ -83,8 +84,8 @@ lo_fixed_controller <- function(repo,bundle,
          audit$evidence$source_kind=="LO01_HISTORICAL_CANDIDATES"],
        audit$evidence$metric_key[
          audit$evidence$source_kind=="LO02_RETURN_20261010_CURRENT_RESULTS"])
-    # Active below-basic peer estimates are NEW science targets and remain
-    # separate from the 3 old HIGH-peer cells per context.
+    # Only an explicit human A01 decision creates new below-basic targets.
+    # They remain separate from old HIGH-peer cells and need method evidence.
     if(nrow(new_peer_tasks)) {
       peer_grid <- lo_grid_from_tasks(new_peer_tasks)
       peer_grid$status <- "NEW_LOW_PEER_METHOD_GATE_REQUIRED"
@@ -216,7 +217,8 @@ lo_fixed_controller <- function(repo,bundle,
   }
   # No count-based scientific release. Independent paper, covariance,
   # data-edition and peer denominator gates remain authoritative.
-  q <- tryCatch(lo_final_quality_gate(bundle,selected,approval,state),
+  q <- tryCatch(lo_final_quality_gate(bundle,selected,approval,state,
+                                     scope_decisions=scope_decisions),
                 error=function(e)e)
   if(inherits(q,"error")) {
     put("finalize","HOLD_SCIENTIFIC_GATE_ERROR",conditionMessage(q))

@@ -1,108 +1,72 @@
-# VAST DRIE-STAPPEN PRODUCTIEPROTOCOL — LEARNING OUTCOMES
+# Vast protocol: drie R-fasen binnen vier resterende werkopdrachten
 
-> Aanvulling 13 oktober, lokale bronreview: lees voor de inhoudelijke uitvoerplanning ook §15–§16 van [het bestaande masterplan](MASTERPLAN_20261011_v2.md#15-onafhankelijke-kritische-review-en-integraal-uitvoerplan--13-oktober-2026). De drie actienamen blijven bestaan. Bronnen mogen op C:, tussenresultaten op Drive en definitieve resultaten op GitHub. De gebruikers-PPTX telt daadwerkelijk 21 slides; de 16-pagina-notitie is lokaal gevonden. Huidige productiecode is nog niet volledig uitvoerbaar; de review bevat twee lokaal gereproduceerde fouten en benodigde moduleintegratie.
+Actuele versie: 14 oktober 2026. Dit is een correctie van het protocol van 13 oktober; die versie blijft in Git-history bewaard. Lees eerst [START_HIER_ACTUEEL.md](START_HIER_ACTUEEL.md). De **drie actienamen blijven gelijk**. De oude verplichte 42/50-landenaantallen, lage-peeruitbreiding en verplichte 50-slideproductie zijn vervangen door de latere gebruikersbesluiten.
 
-Vastgesteld: 13 oktober 2026 · Status: `FROZEN_EXECUTION_PLAN_v1` · leidend boven eerdere losse `next-batch`-, `execute`-, `figure-minimum-plan`- en overdrachtsprompts voor nieuwe productie. Alleen aantoonbaar foutieve implementatie en controleerbare wetenschappelijke blokkades mogen worden hersteld; wijziging van scope/onderzoeksvraag vereist een expliciete nieuwe gebruikersbeslissing plus versie.
+## Configuratie vóór uitvoering
 
-## Waarom dit protocol bestaat
+Gebruik één kleine checkout van de gecontroleerde code en één expliciete configuratie voor bronlocaties, private Drive, tijdelijke werkruimte en scope. Kies `nld_only`, `nld_plus_19` of `all_required` volgens het actuele besluitregister. Deze namen zijn geen certificaat van 1/20/50 dashboardleden. Houd LO_SCOPE binnen dezelfde uitvoering gelijk. Een nieuwe scope krijgt een eigen ledger en hergebruikt passende bestaande bewijsstukken.
 
-Eerdere runs leverden steeds diagnoses op zonder gesloten wetenschappelijke keten. Het probleem is niet primair R-rekentijd, maar de **ontkoppeling van resultaatidentiteit, lokale cache, wetenschappelijke correctheid, figuureis, release en dashboard**. Daarom zijn dit voortaan één workflow met drie opeenvolgende uitvoeringscommando's per gebruikersgekozen scope, één ledger en verboden onbedoelde zijpaden. Een stap mag een gedetailleerde `HOLD` opleveren; hij mag nooit `PASS` veinzen.
+De grote bronbestanden mogen op C: blijven; tussenresultaten gaan naar private Drive, definitieve gecontroleerde producten naar GitHub. Meet voldoende piekruimte vóór echte productie. De oude compacte producent blijft geblokkeerd totdat exacte gecertificeerde celsturing is geïmplementeerd. De nieuwe A01-scopecontrole heft deze afzonderlijke blokkade niet op.
 
-## Definitieve scope
+## Fase 1 — fixed-audit
 
-| Gebruikersscope | `LO_SCOPE` | Unieke landen/systemen | Inclusief |
-|---|---|---:|---|
-| Nederland | `nld_only` | 1 | NLD |
-| Nederland plus vaste referentie | `nld_plus_19` | 20 | NLD + exact 19 buitenlandse referentielanden |
-| Alle voor producten vereiste landen | `all_required` | 50 | COMMON42 (42 dashboardkeuzes) ∪ exact 19 buitenlandse referenties + NLD |
+Hoort bij [opdracht 1](VIER_RESTERENDE_OPDRACHTEN_20261014.md#1-maak-de-gekozen-scope-en-de-volledige-productieketen-uitvoerbaar).
 
-De 42 dashboardlanden zijn **geen** onderverzameling van de vergelijkingsgroep: 8 comparatorlanden ontbreken uit COMMON42 (AUT, BEL, CAN, CHE, GBR, ISL, KOR, LUX). Comparator = gelijke landenweging, vast panel per serie/jaar, focusland uit eigen lijn, geen SE/CI/foutbalk op samengestelde referentielijn. Landresultaten behouden design-SE's. De verouderde 91-landen FULL modus mag geen all50-rekenproxy zijn.
+- Verifieer gewijzigde bronnen en relevante bewijsstukken; herhaal geen ongewijzigde SHA-bewezen inventarisaties.
+- Gebruik het actuele productregister en de expliciete A-besluiten. Historische keys, figuren en bronpresentaties zijn geen vereiste rekenvoorraad.
+- Bouw exacte celidentiteiten en afleidingsrelaties met geverifieerde populatie-, bron-, methode- en onzekerheidsidentiteit.
+- Inventariseer/reconcilieer werkelijke hergebruikskandidaten. Vul alleen wetenschappelijk gecertificeerde waarden.
+- Maak per cel REUSE_VERIFIED / DERIVE / COMPUTE_REQUIRED / UNAVAILABLE / HOLD met bewijs en herstelactie. Definieer nieuwe lage-peertaken uitsluitend als A01 is goedgekeurd; de oude hoge-peercellen blijven andere uitkomsten.
+- Certificeer dashboardinclusie met 6×3 en referentiegeschiktheid met volledig hoofdlandanker plus gezamenlijke groeps-/compositiedekking. Geen vaste eindtellingen afdwingen.
+- Maak de minimale goedgekeurde batchvoorraad en een hervatbare ledger. Toets echte bronadapter en runtime-routing; een helper alleen is geen integratie.
 
-## Stap 1 van 3 — `fixed-audit`: één grid, volledige hergebruiksketen, minimale tekortlijst
+Exit: exact geadjudiceerd grid, uitvoerbare goedgekeurde batches, werkruimte en bron-/methodebewijs. Geen nieuwe leerlingberekening of publicatie. Een inhoudelijk open A-besluit blokkeert alleen de betrokken uitbreiding.
 
-Verplicht, ook bij later uit te voeren grotere scope, maar herhaalt bewijsgeldige eerdere checks niet.
-1. Verifieer gepinde oktober-2026 bundel SHA en bron-manifest (56/56), originele 79.448 metric_keys, 138 figuureisen, 300 referentieseries, 21-slide bronregister, Q01–Q08.
-2. Filter **uitsluitend** gekozen scope, fixeer land×survey×wave×vak×exacte populatie×sample×outcome×uitsplitsing×SES-construct×peerniveau×methode×variantie. Voeg aparte nieuwe below-basic-peer-uitkomsten toe; eerdere high-peer zijn andere resultaten, nooit ongemerkt hergebruiken.
-3. Eén *mastergrid*: `cell_id, survey, country, year, sample_id, population_id, outcome_id, subgroup, method_version, threshold, PV/design/weights, N, estimate, SE, result/input/code hashes, status, bron`. De afgeleide gaps/rang/100%-complementen zijn aparte dependency nodes met joint PV/replicate covariance (waar relevant), niet automatisch nieuwe pupilreads.
-4. Bekijk op identieke bron/samplespecificatie: LO01/LO02/V8/V9/V11, centrale current/history SQLite en Parquet, eigen recente Windows-snapshots. Vergelijk numerieke velden **met aanwezige** SE en N; hashverschil ≠ statistisch conflict; gelijke metric_key ≠ wetenschappelijk hergebruik. Onduidelijke lineage `HOLD`.
-5. Vul bestaande uitkomsten uitsluitend na controle van broneditie, doelpopulatie, steekproef, gewichten, plausible values, definitie, code en numerieke parity; log provenance. Archiveer geen ingebeelde N's of CI's. De 40 nieuwe NL-LO02-resultaten zonder run_id blijven kandidaat tot exact snapshotverschil plus producentbewijs.
-6. Productgedreven triage: `REUSE_VERIFIED`, `DERIVE`, `COMPUTE_REQUIRED` (alleen als ontbreken bewezen, methode getoetst), `UNAVAILABLE_REVIEW`, `HOLD_PROVENANCE`, `OPTIONAL`. Maak minimal compute batchplan op `survey×country×wave×sample×input fingerprint×method×design`.
-7. Reproduceerbare ledger + SHA'd rapporten en veilige (geen microdata) samenvattingen automatisch op **private Google Drive**, zelfde configuratie gebruiken; netwerkstoring = `SYNC_PENDING` en volledig lokaal resultaat intact.
+## Fase 2 — fixed-produce
 
-Exit: exact per-metric grid, numeraire keep/compute/derive/HOLD-tellingen, selectievolledigheid, bron/versiecontroledossier. Geen nieuwe leerlingberekeningen; geen local delete; geen wetenschappelijke of publieke release. Bij `HOLD` blijft dit dezelfde Stap 1 (script fixen, NIET een nieuwe stap 0 bedenken).
+Hoort bij [opdracht 2](VIER_RESTERENDE_OPDRACHTEN_20261014.md#2-produceer-en-valideer-alle-gekozen-resultaten).
 
-## Stap 2 van 3 — `fixed-produce`: álle aantoonbaar ontbrekende GOEDGEKEURDE cellen
+- Consumeer uitsluitend het gepinde fase-1-grid en de bijbehorende input-/methodecertificaten.
+- Voer alleen gekozen, aantoonbaar nog ontbrekende cellen uit met de juiste survey/golf/PV/replicatie en exacte steekproef.
+- Geen adapter mag intern een bredere taaklijst reconstrueren of een optionele maat verplicht maken.
+- Hergebruik gelijke geldige fingerprints; hervat per checkpoint, begrens geheugen/tijdelijke ruimte en open gedeelde bronnen doelmatig.
+- Bewaar N, estimate, geldige SE/covariantie, definities, bron-, code- en resultaathashes met echte logs.
+- Synchroniseer toegestane tussenresultaten en herstelbewijs naar private Drive. Een mislukte sync laat het geldige lokale resultaat intact en krijgt SYNC_PENDING.
+- Herstel fouten gericht; ga door met onafhankelijk uitvoerbare batches. Geen technisch succes omzetten in automatische wetenschappelijke vrijgave.
 
-1. Lees uitsluitend bevroren Stap-1 grid en taak-goedkeuringen; geen impliciete compute op basis van `NA`, een uitgekeerde archiefkandidaat of een ontbrekende filenaam.
-2. Gebruik gecertificeerde, SHA-gepinde wetenschappelijke methodes; test specifieke survey/wave/data-editie, steekproeven, sampling weights, plausible values, replicate weights/Fay/BRR/JRR, scorekoppeling en peerzelfuitsluiting; keurt `Cobreros` trend-SES los van wave-specifieke ESCS.
-3. Eerste gecertificeerde baan: LO02 V5 PISA core/gender NLD en OECD19, per exact task input/science-fingerprint reuse. Geen kandidaat-V11 achteraf als 'vrijgegeven' markeren.
-4. Tweede baan: bestaande LO04/V11 adapters voor PIRLS/TIMSS, SES/migratie/taal/peers, **uitsluitend na** onafhankelijke per-module codeSHA-, Windows- en methodecertificaten; nieuwe bronversies/ontbrekende golf = explicit HOLD. Cobreros, speciale migratie- en nieuwe below-basic-peers blijven HOLD zonder afzonderlijke echte methodecertificatie. Batching: één canonieke bronopen per country×survey×wave en gezamenlijk geteste PV/replicates, checkpoint per metric_key.
-5. Uitvoering is hervatbaar en idempotent, no double compute if identical original input/science hashes; sla schatting, correcte SE, N, covariance/PV state, CI waar verantwoord, broneditie, code/data SHA en geanonimiseerde softwareversie op.
-6. Upload afgeronde toegestane tussenaggregaten + betrouwbare herstelkopieën naar private Drive met SHA readback; GitHub bevat enkel code en publiek-veilige statussen, **geen** microdata/ongevalideerde bulkresultaten.
-7. Bij selectieve onmogelijkheid: method+land+golf+oorzaak in `HOLD`-ledger; uitsluitend die cellen niet produceren. Voortgaan met onafhankelijk uitvoerbare batches, geen batch van 60.142 missende archivekeys als één massarun.
+Exit: alle gekozen haalbare cellen gevalideerd en noodzakelijke bron-/methode-/Q01–Q08-controles onderbouwd; werkelijk onbeschikbare cellen afzonderlijk verantwoord. Onopgelost benodigd bewijs is geen voltooide productie.
 
-Exit: alle haalbare gecertificeerde primitive cellen ingevuld, exacte reproduceerbare `HOLD` voor restant; alle actieve figuurafhankelijkheden en onzekerheden gecontroleerd. **Een succesvolle technische run is geen wetenschappelijke release**.
+## Fase 3 — fixed-finalize
 
-## Stap 3 van 3 — `fixed-finalize`: wetenschappelijke freeze → producten → website
+Productbouw hoort bij opdracht 3; onafhankelijke replicatie en publicatie bij opdracht 4 in [de vier resterende opdrachten](VIER_RESTERENDE_OPDRACHTEN_20261014.md).
 
-1. Alle resultaten onafhankelijk wetenschappelijk controleren: officiële OECD/IEA benchmarks, correcte PV/replicate SE, trendlink-/covariantie, cohort-/SES-/migratie-/taal-/peerverschillen, Q01–Q08; pin per-cell bron/provenance/certificaat. `PASS`/documented `UNAVAILABLE` per noodzakelijk contract, niet enkel count.
-2. Kies één wetenschappelijke SHA-frozen analysebasis. Geen stap3 bij ontbrekend wetenschappelijk bewijs. Historical Sep28 public release blijft beschermd.
-3. Materieel opleveren: 21-slide gebruikersbeleidsdeck (leidend), 50-slide wetenschappelijk seminar, 16-pagina notitie, figurenpakket incl 138 historische contracten en nieuwe primary below-basic peer, paper en appendices, 42-system bilingual dashboard. Slides/figuren gebruiken exact dezelfde result IDs en bewezen covariance, geen losse cijfers.
-4. Maak *werkelijke actieve* guided dashboard uit `05_publication/preview_overlay` (NIET alleen verouderde `03_dashboard/app`). Pinned `FIGURE_SERIES_CONTRACT_20261002.csv` → 132 actieve figuurpanelen (6 aparte redundante complementpanels vervallen), inclusief 12 peerpanelen met nieuwe below-basic-betekenis. Bereken onbekende waarden niet in browser. Voor elk (country,figure): `VALIDATED` of onafhankelijk gemotiveerd `UNAVAILABLE`; geen geheimzinnige lege grafieken.
-5. NL/EN × 42 × trends/distribution/gaps/environment deeplinks; vaste vergelijkingspanels; gelijkgewogen benchmark zonder foutband; één paneel; bron- en methodedisclosures; toegankelijkheid, iPhone/mobiel, downloadbare getoonde aggregaten, full fingerprinted release-manifest en smoke op echte website.
-6. Rechtenreview: OECD/IEA licenties. Alleen toelaatbare definitieve geaggregeerde cijfers/visualisaties/artifacten op **publiek GitHub**; bruto pupilgegevens en volledige restricted bulkmasters niet publiek, ook niet indirect via distributies. Publieke statussen/labels mogen geen ongereviewde schattingen bevatten.
-7. Onafhankelijk certificeer per bronmanifest/site: `scientific_status`, `rights_status`, `Q01_Q08`, `all50_research_scope`, `dashboard42`, `slides21`, `replication`, `static_site_QA`, `peer_below_basic_definition`; alle `PASS`, SHA-pinned naar exacte nieuwe site en code. Nieuwe guided release wordt immutable op GitHub **feature branch** geënsceneerd; deployment uitsluitend na CI, review en merge naar gepinde main Pages-release. Oude site niet autonoom vervangen.
-8. Archief/backup van data/code/manifests; hersteltests onafhankelijk uitvoeren. Audit van iedere figuur, bronnummer, paperclaim en slide tegen exact mastergrid.
+- Certificeer één immutable resultaatbasis, Q01–Q08, rechten, bron-/methodeherkomst en alle gekozen productafhankelijkheden.
+- Bouw werkelijk het 21-slide beleidsdeck, de paper, resultaatfiguren en het actieve dashboard; een langer wetenschappelijk deck alleen als gekozen en zonder onbesliste inhoudelijke uitbreiding.
+- Integreer dynamische landenregistratie en echte referentievinkjes in preview_overlay. Geen per-golf wisselende landen, hoofdland in eigen gemiddelde of referentie-SE/CI.
+- Gebruik laatste huisstijl en controleer werkelijke renders, Nederlandse interpretatie, NL/EN-, bron- en exportpariteit.
+- Een private technische preview kan vóór wetenschappelijke afronding bestaan, maar blijft als onvrijgegeven preview herkenbaar; zij telt niet als eindproduct.
+- Reproduceer schoon uit gedocumenteerde bronnen/omgeving, zonder verborgen oude caches. Voeg FAIR metadata, licentie/toegangsroute, hashes, citatie en runtime-instructies toe.
+- Maak een concrete releasekandidaat. Publiceer alleen na de bestaande vrijgavevoorwaarden en toepasselijke autorisatie. Controleer de werkelijke Pages-site na deployment; bewaar historische release en rollback.
 
-Exit: wetenschappelijke freeze, complete uitkomsten/Productregisters en onafhankelijke reproducibility, sitesmoke en publicatiebewijs — of een concrete, blijvend traceerbare `HOLD` met exact ontbrekend contract.
+Exit: aantoonbaar reproduceerbare resultaten, echte producten en gevalideerde publicatie, of exact benoemde externe/besluitafhankelijkheid. Een nieuw plan, lege grafiek of groene CI vervangt deze bewijzen niet.
 
-## Afzonderlijk afgeschermde fase: C:-schijf
+## Eén RStudio-ingang, geen nieuwe runner
 
-Is **GEEN vierde wetenschappelijke run**. `fixed-cleanup-plan` is uitsluitend review. De bestaande `LOCAL_CLEANUP_GATE.R`, `LOCAL_QUARANTINE.R` en `LO_FIXED_CLEANUP_GATES.R` beoordelen uitsluitend R-geproduceerde, aantoonbaar redundante bestanden onder geverifieerde projectroot. Originele leerlingbronnen, code, huidige/historische registers, figuur- en productmaster, persoonlijke downloads zijn uitgesloten. Vóór mogelijke quarantaine: actuele file-SHA, SHA-readback van private Google Drive backup, **tweede onafhankelijk buiten C: terugleesbare/restorable backup**, exacte productdependency-closure en persoonlijke per-SHA toestemming. Quarantaine >=30 dagen; expliciete tweede per-SHA goedkeuring voor definitief verwijderen. Verplaatsen binnen C: wint **0 bytes**. Geen automatische delete, ook niet na wetenschappelijke PASS; gebruiker kan deze fase uitstellen zonder wetenschappelijke productie stil te zetten.
-
-## Beheersregels, uitdrukkelijk bevroren
-
-- **Geen** nieuwe stapnamen, ad-hoc `next-batch`, script per onduidelijkheid, stille scope-uitbreiding, nieuwe klant-run om alleen te informeren, of herhaald produceren van reeds fingerprint-identieke resultaten.
-- Alle methodische wijzigingen krijgen één los gedocumenteerde `FIX/BLOCKER` in stage-ledger met bron, reden, impacted IDs, wijziging hash en CI; run hervat vanaf juiste stap zonder startover.
-- Geen aannames over resultaten op persoonlijke C: vanuit uitsluitend GitHub/Drive. Codesynthetische CI ≠ echte lokale wetenschappelijke validatie.
-- Bestaande wetenschappelijke/geografische scope en bronrondes worden gehandhaafd. Alleen gebruiker kan de onderzoeksdoelen/scopes veranderen; bugs oplossen is toegestaan zonder hernieuwde goedkeuring.
-- De drie **enige** reguliere RStudio-acties zijn `fixed-audit`, `fixed-produce`, `fixed-finalize`; `fixed-status` is een alleen-lezen voortgangsweergave, `fixed-cleanup-plan` is los en optioneel.
-- **Publicatie of fysiek wissen** is high impact en mag uitsluitend na de hierboven exact omschreven SHA-receipts en expliciete rechten-/gebruikersautorisatie.
-
-## De drie vaste RStudio-commando's (zelfde repo/scope; eenmaal per fase)
+Onderstaand schema beschrijft de vaste acties. Geef de gebruiker pas een kopieerbaar lokaal commando wanneer repo/configuratie, werkruimte en relevante CI zijn gecontroleerd; raad geen lokaal checkoutpad.
 
 ```r
-repo <- file.path(Sys.getenv("USERPROFILE"),"Downloads","Learning-Outcomes-Git-20261010")
-Sys.setenv(LO_REPO_ROOT=repo,LO_SCOPE="nld_only",LO_START_ACTION="fixed-audit")
-source(file.path(repo,"START.R"),encoding="UTF-8")
-```
-
-```r
+# repo bevat het werkelijk gecontroleerde lokale checkoutpad.
+Sys.setenv(LO_REPO_ROOT=repo, LO_SCOPE="nld_only", LO_START_ACTION="fixed-audit")
+source(file.path(repo, "START.R"), encoding="UTF-8")
+# Later, met dezelfde repo/configuratie/scope en de vereiste fasebewijzen:
 Sys.setenv(LO_START_ACTION="fixed-produce")
-source(file.path(repo,"START.R"),encoding="UTF-8")
-```
-
-```r
+source(file.path(repo, "START.R"), encoding="UTF-8")
 Sys.setenv(LO_START_ACTION="fixed-finalize")
-source(file.path(repo,"START.R"),encoding="UTF-8")
+source(file.path(repo, "START.R"), encoding="UTF-8")
 ```
 
-Zet vóór Stap 1 `LO_SCOPE="nld_plus_19"` of `LO_SCOPE="all_required"` voor de grotere scope; houd die exact gelijk in Stap 2 en 3. Niet eerst de brede run draaien om een klein NL-probleem te diagnosticeren. Elke volgende stap vereist het bijbehorende bewijs uit de vorige en mag bij een `HOLD` uitsluitend relevante code/gates herstellen, niet andere onderzoeksbeslissingen nemen.
+`fixed-status` is alleen-lezen. `fixed-cleanup-plan` is een afzonderlijke reviewactie, geen vierde wetenschappelijke fase en geen toestemming tot wissen. Volg de bestaande dependency-, back-up-, herstel-, quarantaine- en gebruikersvoorwaarden uit het actuele startdocument. Plan noodzakelijke werkruimte in opdracht 1, rond brede opslagafsluiting af in opdracht 4.
 
-## Scriptregister (alle uitvoeringen via `START.R` / `RUN.R`)
+## Huidige implementatiegrens
 
-| Fase | Script | Verantwoordelijkheid |
-|---|---|---|
-| 1 | `LO_SCOPE_LOCK.R` | 1/20/50 controle, 42 dashboard, 19 vergelijkingslanden |
-| 1 | `MINIMUM_FIGURE_QUEUE.R`, `MASTER_ESTIMATION_GRID.R`, `GRID_ARCHIVE_BATCH.R` | alle originele contracten, mastergrid, afgeleide statistieken en batchdifferentiatie |
-| 1 | `LO_EXISTING_RESULT_REGISTRY.R`, `RESULT_EXACT_COMPARE.R`, `EXISTING_LO02_EXPORT.R` | LO01/LO02/V8/V9/V11/current/history exact-scientific reuse en cache snapshotparity (legacy onderdelen beperkt tot huidige bron/kolommen) |
-| 2 | `LO_FIXED_PRODUCERS.R`, `V5_NLD_CORE_ONLY.R` | pinned native NLD/OECD19 PISA core/gender fingerprint productie |
-| 2 | `LO04_EXTENDED_EXECUTION.R` (pinned bundle), methodcertificaten | PIRLS/TIMSS/SES/peers pas na independent tests en auditable source matches |
-| 2 | `LO_FIXED_COMPARATOR.R` | vaste gelijke-landengewichten, focus uitgesloten, zonder benchmark SE |
-| 3 | `LO_FIXED_VALIDATION.R` | full grid, Q01–Q08, nieuwe low peers, wetenschappelijke freeze |
-| 3 | `LO_FINAL_GUIDED_EXPORT.R`, `LO_FINAL_GUIDED_DASHBOARD_BUILD.py` | echte 42-landen guided data/interface i.p.v. oude legacyapp |
-| 3 | `LO_FINAL_GUIDED_PUBLIC_RELEASE.py` | SHA-pinned rechten/21 slides/science/github stage |
-| apart | `LOCAL_CLEANUP_GATE.R`, `LO_FIXED_CLEANUP_GATES.R`, `LOCAL_QUARANTINE.R` | derde onafhankelijke restore, quarantine en deletion alleen opt-in |
-| alle | `DRIVE_SYNC.R`, `GITHUB_STATUS.R`, `RUN.R` | private immutable SHA backups, zonder microdata, vaste runner en audit |
-
-**Geldige status op 13 oktober:** technische code deels geïmplementeerd; PISA V5 core/gender native bekend; historische grafiekmaster en LO01/LO02 kandidaten bekend; *niet* alle andere modules wetenschappelijk gecertificeerd; definitieve gevalideerde 50-landen-grid/42-landen-dashboard/paper Q01–Q08 **niet** bereikt. Een script dat '0 errors' meldt is geen productvrijgave.
+De bronnenaudit en synthetische balansfuncties zijn beschikbaar. De A01-controle is aangesloten op audit, compacte taakopbouw en finale kwaliteitstoets. Echte broncertificering, dynamische scope in alle legacy-adapters, exacte celsturing, referentievinkjes en nieuwe gevalideerde producten zijn nog resterend werk. Zie [ACCEPTATIE_EN_VOORTGANG.csv](ACCEPTATIE_EN_VOORTGANG.csv) voor bewijs per onderdeel. De autorisatie van overige A-uitbreidingen vereist ook samenhangende celcontracten, adapters en tests; alleen een statusveld wijzigen is onvoldoende.

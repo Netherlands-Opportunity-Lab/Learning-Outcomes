@@ -96,10 +96,11 @@ lo_grid_derived_contract <- function() {
 }
 
 
-# User-approved primary below-basic peer outcome is absent from the original
+# Proposed below-basic peer outcome is absent from the original
 # 79,448 high-peer contracts. Create 3 new, separately identifiable primitive
 # targets per exact peer environment/country/survey/wave/subject; never reuse
-# the old high-peer estimates as if they were under-basic peers.
+# the old high-peer estimates as if they were under-basic peers. This is a
+# contract-definition helper, not approval. Runtime uses LO_SCOPE_DECISIONS.R.
 lo_grid_new_low_peer_tasks <- function(tasks) {
   req <- c("metric_key","country","survey","year","domain",
            "contract_figure_id","peer_definition")

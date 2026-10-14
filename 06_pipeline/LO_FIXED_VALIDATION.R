@@ -1,5 +1,6 @@
 # Final scientific acceptance: no automatic promotion from old source/metric.
-lo_final_quality_gate <- function(bundle, tasks, approval_csv, out) {
+lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
+                                  scope_decisions=NULL) {
   dir.create(out,recursive=TRUE,showWarnings=FALSE)
   family <- sub("_age.*$","",tasks$contract_figure_id)
   active <- !(family %in% c("TR_BASIC","GP_SES_HIGH","EN_PERFORMANCE_PEER"))
@@ -48,12 +49,16 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out) {
     received$requirement_id[received$status=="PASS"]
   write.csv(paper[,c("requirement_id","requirement","validated")],
       file.path(out,"PAPER_Q01_Q08_GATES.csv"),row.names=FALSE)
-  # Each newly required BELOW-basic peer target has its own certified
+  # A01 scope approval must precede any BELOW-basic peer requirement.
+  # Each approved target still needs its own certified
   # weighted PV/replicate result, sample N and proof of self exclusion.
   # Original HIGH-peer cells never satisfy this requirement.
-  if(!exists("lo_grid_new_low_peer_tasks",mode="function"))
-    stop("SCIENTIFIC_GATE_HOLD: new peer target contract module missing")
-  low_peer_tasks <- lo_grid_new_low_peer_tasks(tasks)
+  low_peer_tasks <- tasks[FALSE,,drop=FALSE]
+  if(!is.null(scope_decisions)) {
+    if(!exists("lo_scoped_low_peer_tasks",mode="function"))
+      stop("SCIENTIFIC_GATE_HOLD: scope decision module missing")
+    low_peer_tasks <- lo_scoped_low_peer_tasks(tasks,scope_decisions)
+  }
   peer_ids <- low_peer_tasks$metric_key
   peer_approved <- if(nrow(all_approved))
      all_approved[all_approved$cell_id%in%peer_ids,,drop=FALSE]
@@ -109,7 +114,8 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out) {
     new_below_basic_peer_verified=length(peer_ids)-length(peer_missing),
     paper_gates_pass=sum(paper$validated),
     paper_gates_required=8L,
-    primary_peer_gate=if(peer_pass)"PASS" else "HOLD",
+    primary_peer_gate=if(!length(peer_ids))"NOT_REQUIRED_BY_CURRENT_SCOPE"
+                     else if(peer_pass)"PASS" else "HOLD",
     scientific_freeze=if(all_pass)"ELIGIBLE_FOR_INDEPENDENT_REVIEW" else "HOLD",
     publication_authorized="NO_RIGHTS_AND_REPLICATION_REVIEW_PENDING",
     reason=if(all_pass)"Independent reviewer and rights gate pending" else

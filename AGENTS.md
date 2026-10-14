@@ -1,51 +1,46 @@
-# AGENTS.md — Learning Outcomes / PISA-PIRLS-TIMSS
+# AGENTS.md — Learning Outcomes / PISA–PIRLS–TIMSS
 
-## Mission
-Finish the reproducible, grid-first PISA/PIRLS/TIMSS scientific pipeline, its validated products and the active bilingual 42-system guided dashboard. Work through the existing three-stage execution plan; do not introduce a new series of ad-hoc runs. Do not claim the science or public release is complete until gates actually pass.
+## Mission and first read
+Finish the reproducible, grid-first research pipeline, its validated products and the existing bilingual guided dashboard. Read `06_pipeline/START_HIER_ACTUEEL.md` first, then `VIER_RESTERENDE_OPDRACHTEN_20261014.md`, `ACCEPTATIE_EN_VOORTGANG.csv`, `SCOPE_APPROVALS.csv` and the linked source/product evidence. Check changes since the last verified audit; do not repeat unchanged full inventories or unpack the source ZIP again.
 
-## Authoritative project records
-The user's 14 October clarification and `06_pipeline/review_20261013/USER_SCOPE_AMENDMENT_20261014.md` override historical scope labels below. Product/source inventory is not user approval. Substantive additions A01–A17 require item-by-item human decisions; do not promote assistant proposals to approved scope. Existing 42/20/50 runtime locks are historical and do not establish the new six-combinations × three-cycles country eligibility rule. The fixed20 exception is resolved by `06_pipeline/review_20261013/BALANCED_REFERENCE_RULE_20261014.md`: no dashboard exception to 6x3; reference candidates need full focus-country support, including subgroups and peer units. The PPP20 is a candidate pool, not guaranteed membership. Use `LO_BALANCED_MEMBERSHIP.R` for the new checks; old locks/comparators are historical fixtures, not eligibility evidence.
+The latest direct human instruction prevails over this file, older plans, source documents, slides and assistant proposals. The 247 mapped product/source records are not 247 approved statistics. Keep historical source identity; correct active implementations. Record new decisions with date, direct evidence and affected product/cell IDs. Substantive additions A01–A17 require item-by-item decisions; pending, deferred and rejected items create no required production.
 
-Read in this order:
-1. `06_pipeline/FROZEN_3_STAGE_PRODUCTION_PLAN_20261013.md`
-2. `06_pipeline/MASTERPLAN_20261011_v2.md` (historical decisions/provenance)
-3. `06_pipeline/MASTER_GRID_DESIGN_20261013.md`
-4. `06_pipeline/SCIENCE_AUDIT_20261010.md` and `06_pipeline/MINIMUM_FIGURE_COMPUTATIONS_20261013.md`
-5. `06_pipeline/RUN.R`, `START.R`, and all `06_pipeline/LO_*.R`, `06_pipeline/LO_*.py`, `06_pipeline/GRID_*.R`
-6. `05_publication/preview_overlay/` and `.github/workflows/pages.yml` — actual deployed guided-dashboard frontend. Do not confuse with older `03_dashboard/app/`.
+## Current country and comparison rules
+- Dashboard admission: at least three distinct verified comparable cycles in each of six age-domain combinations. No exception for the PPP20 candidate pool.
+- Three user-facing production modes: `nld_only`, `nld_plus_19` (legacy name for the rich candidate pool), `all_required` (rich pool plus other eligible countries). Do not force 19/20/42/50 as certified membership or silently expand to all 91 historical systems.
+- The Dutch default requires the complete age/domain/year anchor from the 21-slide policy deck. Deck year labels, including 2025, are not proof of released data.
+- Other focus countries require full matching support; gender, SES, language, migration and class/school composition must also balance across all series compared together. No silent period/group truncation, annual membership changes or regional/population substitution.
+- Use `LO_BALANCED_MEMBERSHIP.R` with certified source mappings. Old `LO_SCOPE_LOCK.R` and `LO_FIXED_COMPARATOR.R` are historical fixtures, not evidence of current eligibility; replace their runtime dependencies before production/release.
+- User checkboxes must form the actual reference average from eligible countries; equal weights, focus excluded, restore default. No benchmark SE/CI. Individual country results retain appropriate uncertainty.
 
-## Historical candidate execution scopes (not final eligibility)
-- `nld_only`: Netherlands (1)
-- `nld_plus_19`: Netherlands and 19 fixed PPP comparator countries (20)
-- `all_required`: union of COMMON42 dashboard systems and fixed comparison countries (50 unique systems), of which 42 are shown as dashboard choices.
+## Execution and completion
+Keep the existing `START.R` / `RUN.R` entry point and `fixed-audit` → `fixed-produce` → `fixed-finalize` protocol, unchanged LO_SCOPE within a run. Four remaining chat instructions organize the work; they do not create a fourth scientific runner. `fixed-status` is read-only; `fixed-cleanup-plan` is separate. No broad legacy execute/next-batch shortcuts.
 
-Keep the fixed comparator country panel; equal country weights, omit focus if in panel; never show combined reference-line SE/CI. Individual country estimates retain design-based SE where appropriate.
+Repair connected code and verify the original failure; do not substitute another plan or HOLD label for implementation. Continue independent work if a real human decision or unavailable external source prevents one part. Finish possible repository work and relevant Windows/Linux CI before asking for a necessary concrete RStudio action. No claim of scientific completion from synthetic CI alone.
 
-## Locked task stages
-The only default local Windows-RStudio actions are `fixed-audit`, `fixed-produce`, `fixed-finalize` with unchanged `LO_SCOPE` within an execution. `fixed-status` is read-only and `fixed-cleanup-plan` is separately optional. Do NOT run `next-batch`, broad legacy `execute` or fully international compute as shortcuts. Repair the scripts underlying the stages if their tests or scientific gates fail; resume rather than inventing a new protocol.
+## Grid, source and scope integrity
+- Exact primitive identity includes survey, country, wave, age/population, sample, domain, outcome, group, SES/peer definition, threshold, unit, source edition, method, weights/PVs/variance and provenance hashes.
+- Preserve historical 79,448 keys and 138 figure contracts as provenance, not a mandatory workload. Type 3 separate complement is dropped; SES below-basic replaces old types 12/13; SES/gender gaps are derived with joint variance.
+- Use `LO_SCOPE_DECISIONS.R` for A01 before creating low-peer tasks or requiring them in final QA. Its builder is only a proposed contract, never user approval. All other A decisions also need coherent product-grid/adapter changes before execution.
+- Existing candidates are not validated by filenames, timestamps, metadata labels or a matching metric key. Require verified source edition, population/sample, N, estimate, uncertainty, method/design, hashes and numerical parity.
+- Preserve official ESCS vs Cobreros vs books, PISA level 2 vs IEA 475, and direct learning environment vs whole school. Peer self-exclusion and correct PV/replicate denominators are required for chosen peer analyses.
+- Derived gaps, complements, ranks and equal-country means have explicit dependency records. Do not infer covariance from marginal SEs or causal/cohort effects from repeated cross sections.
+- Q01–Q08 and source/science/sample/uncertainty/rights/product gates require actual evidence before a new release.
 
-## Grid and scientific validity
-- One canonical primitive cell per exact survey × country × wave × age/population × sample × outcome × subgroup × domain × SES/peer construct × method/input/variance edition; preserve immutable original source identity and SHA.
-- Existing historical 79,448 metric keys and 138 figure contracts remain intact; 6 ranks are derived. The new BELOW-basic peer outcomes are additional cells and are NOT the historical high-peer estimates.
-- Archive candidates in LO01/LO02/V8/V9/V11, SQLite/Parquet are not automatically validated. Require independently verified sample, N, estimate, SE, full source/code/input hashes, weights/PVs/replicate design, method/threshold definition and numerical parity before reuse/release.
-- Keep gaps, complements, country ranks and benchmark point means as explicit derived dependencies; joint variance/covariance when required.
-- PISA below level 2 and IEA below intermediate 475 are not interchangeable. Direct learning peers must be self-excluded, with whole-school robustness distinct; no causal peer-effect claims. Historical score trends must respect linking uncertainty and comparability rules.
-- All Q01–Q08, science/source/sample/SE/privacy/rights/figure/deck/paper/dashboard gates must pass before any new scientific or public freeze.
+## Products and brand
+The active frontend is `05_publication/preview_overlay/` with `.github/workflows/pages.yml`, not older `03_dashboard/app/`. Continue the existing GitHub Pages implementation. Use the edited 21-slide 20261001 policy deck; a longer scientific deck is optional and does not authorize the old 50-slide analysis scope.
 
-## Computing and privacy
-- Large pupil-data production runs remain on user's own Windows computer in RStudio; GitHub CI and Codex cloud use only synthetic, source-free fixtures.
-- Never upload OECD/IEA restricted microdata, raw student/school rows, local personal paths, secrets or unvalidated bulk data to public GitHub. Private Google Drive `Learning-Outcomes-Private` stores reviewed intermediate aggregate reports/backups using SHA256 readback when allowed.
-- Do not delete or move files from the user's C: disk automatically. Removal requires explicit user approval, complete product dependency closure, two independently restorable verified off-C backups, a >=30-day quarantine, fresh SHA checks and distinct final approval. Same-C moves do not free space.
-- Do not overwrite the locked 28 September scientific publication or current GitHub Pages website. New public assets require reviewed rights, scientific SHA freeze and independent CI/browser QA.
+All products use one validated result version and the latest Kansenlab v05 guide/registry/CSS, v06 original logo assets and variant-B typography. Respect both statistical and visual grids. Render and inspect actual products; no unverified claims of visual QA. Paper interpretation concerns the Netherlands and must be supported by the registered results.
 
-## Engineering behavior
-- Begin with repository-wide inventory and failing CI job logs, then reproduce and fix root cause. Prefer implementing entire connected changes and comprehensive synthetic/integration tests in one batch, not one script per chat message.
-- Never label a plan as an implemented science producer. Current native LO02 v5 PISA core/gender lane is limited and must obey exact per-metric fingerprint selection; unsupported PISA/PIRLS/TIMSS modules remain explicit HOLD until fully certified.
-- Maintain deterministic, resumable, idempotent stages, a single authoritative run ledger, and proof of progress. Do not repeat already SHA-proven checks.
-- Before asking the user for any action, complete all possible repository modifications and both Linux/Windows CI. Ask for exactly one concrete local action only if it is necessary for data-only validation/production.
-- Treat missing permissions, scientific evidence, credentials, or deployment approvals as HOLD. Never fabricate pass receipts, N, SE, charts or source-data availability.
-- Report what changed, relevant commit/PR/check links, actual Windows/Linux test statuses, scientific blockers and exactly the next action.
+## Storage, privacy and release
+- User's Windows RStudio runs real pupil-data production; CI uses source-free synthetic fixtures.
+- Source data may remain on C:, permitted intermediates belong on private Google Drive, released code/products/aggregates on GitHub. Keep a small checkout and bounded temporary workspace.
+- Check free space and peak workspace before real runs. No full-history cache copies on the nearly full C: disk. Verify Drive uploads by readback and restoration, not connectivity or quota alone.
+- Never publish restricted microdata, student/school records, credentials, private inventories/user paths or unvalidated bulk.
+- Existing deletion procedure: exact dependency closure, fresh SHA checks, two independently restorable off-C copies, >=30-day quarantine and explicit concrete user approval before irreversible deletion. Same-C moves free no space. Do not remove entire LO05/master folders on the strength of an inventory.
+- Preserve the September release. Stage new reviewed artifacts on the feature branch; do not merge/deploy before scientific, rights, replication and product QA gates and applicable publication authorization. Prepare a concrete reviewable release before any necessary approval question.
+- End each task with actual evidence, commit/PR/test links, unresolved dependencies and next action. Update the canonical registers rather than creating competing handoff plans.
 
-## Branch ownership
-Primary development branch at handoff: `feat/reproducible-storage-and-cleanup-20261010`; draft PR #5. GitHub issue #6 stores execution evidence. Commit every substantial change and do not merge into `main` or deploy without verified scientific/publication gates.
+## Branch
+Development branch: `feat/reproducible-storage-and-cleanup-20261010`; draft PR #5; issue #6 contains historical execution evidence. Verify current head before writing. Commit substantial changes without overwriting concurrent work.
 

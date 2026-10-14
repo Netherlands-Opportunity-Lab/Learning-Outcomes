@@ -309,6 +309,9 @@ lo_compact_science_rows <- function(q,z,n,inputfp,codefp,method_id) {
 lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
                            max_units=Inf) {
   if(!dir.exists(bundle)||!dir.exists(repo))stop("COMPACT_BUNDLE_OR_REPO_ABSENT")
+  source(file.path(repo,"06_pipeline","LO_SCOPE_DECISIONS.R"),
+         local=environment(),encoding="UTF-8")
+  scope_decisions<-lo_read_scope_decisions(repo)
   source(file.path(repo,"06_pipeline","LO_COMPACT_GRID_STORE.R"),
          local=environment(),encoding="UTF-8")
   source(file.path(bundle,"code","LO04_COMMON.R"),
@@ -318,7 +321,7 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
   if(!all(tasks$country%in%scope_info$selected))
     stop("COMPACT_SCOPE_ESCAPED_LOCKED_COUNTRY_SET")
   core<-lo_compact_active_tasks(tasks)
-  extra<-lo_grid_new_low_peer_tasks(tasks)
+  extra<-lo_scoped_low_peer_tasks(tasks,scope_decisions)
   todo<-rbind(core,extra)
   if(anyDuplicated(todo$metric_key))stop("COMPACT_NEW_PEER_COLLISION")
   root<-file.path(output_root,"FIXED_PRODUCTION_V1",scope_info$scope,"compact")
@@ -479,3 +482,4 @@ lo_compact_run <- function(bundle,repo,scope_info,tasks,output_root,
   write.csv(summary,file.path(root,"COMPACT_RUN_STATUS.csv"),row.names=FALSE)
   summary
 }
+

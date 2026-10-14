@@ -1,5 +1,7 @@
 # PISA/PIRLS/TIMSS — integraal masterplan en besluitregister
 
+> **Historical plan — superseded for execution on 14 October 2026.** Read [START_HIER_ACTUEEL.md](START_HIER_ACTUEEL.md) and the four assignments first. This text remains provenance, not a separate next-action list. Fixed 42/50 output counts, mandatory low peers, automatic scientific-deck expansion and older publish/next-batch instructions no longer govern new production. The three R phase names remain in the updated frozen protocol.
+
 Versie 2.0 — 11 oktober 2026. Status: leidend **uitvoeringsplan**, geen wetenschappelijke resultaatvrijgave. Project: Learning Outcomes. Dit document bundelt de oudere afspraken en het actuele bewijs. Nieuwe expliciete gebruikersbesluiten hebben voorrang boven oudere technische prototypes; de numerieke freeze van 28 september 2026 blijft onaangetast totdat een nieuwe freeze alle controles doorstaat.
 
 ## 1. Bestuursbesluit: weg uit de auditlus
@@ -445,4 +447,5 @@ Deze sectie registreert **uitgevoerde codewijzigingen**, geen wetenschappelijke 
 ## 18. Afgeronde kritische bron-, scope- en bewijsaudit (13 oktober 2026)
 
 De actuele audit staat in [AUDIT_CLOSURE_20261013.md](review_20261013/AUDIT_CLOSURE_20261013.md), met 247 productvereisten, expliciete gridafhankelijkheden en SHA-gecontroleerde bronpariteit. De originele PPP-2024-snapshot is teruggevonden en de strikte 19-landenreferentie numeriek bevestigd. De 50-systemenscope omvat 70.633 historische cellen en 9.198 afzonderlijke nieuwe lage-peer-cellen. Een exact archiefmatch is geen vrijgave: 19.050 huidige cellen hebben kandidaten; 11.192 hebben tevens bronhash- en schatting/SE-pariteit; nul zijn door deze audit zelfstandig wetenschappelijk gecertificeerd. Aanvullende inhoudelijke eisen en Q01–Q08 blijven zichtbaar. De compacte producer blijft behouden maar de vaste productiestap blokkeert zolang de adapter de goedgekeurde individuele gridcellen niet consumeert. Geen brede pupilrun, verwijdering of publieke productrelease is uitgevoerd.
+
 
