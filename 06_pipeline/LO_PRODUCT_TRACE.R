@@ -81,6 +81,7 @@ lo_fixed_input_manifest <- function(repo,bundle,root,scope) {
   source(file.path(repo,"06_pipeline","LO_RUN_CONFIG.R"),local=environment())
   files<-c(tasks=file.path(bundle,"engine","TASKS.csv"),
     pool=file.path(bundle,"PPP_COMPARATOR_MEMBERSHIP_v2.csv"),
+    environment=file.path(repo,"renv.lock"),
     decisions=file.path(repo,"06_pipeline","SCOPE_APPROVALS.csv"),
     products=file.path(repo,"06_pipeline","review_20261013","PRODUCT_REQUIREMENTS.json"),
     rank_product=file.path(repo,"06_pipeline","review_20261013","RANK_PRODUCT_CONTRACT.json"),
