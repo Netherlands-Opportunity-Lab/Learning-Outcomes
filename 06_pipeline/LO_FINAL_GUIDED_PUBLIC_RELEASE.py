@@ -10,8 +10,8 @@ from pathlib import Path
 BAD_EXT={".sav",".zsav",".dta",".rdata",".rds",".rda",".sqlite",
  ".db",".parquet",".sas7bdat",".xls",".xlsx",".zip",".gz"}
 REQUIRED_CERT={k:"PASS" for k in ("scientific_status","rights_status",
- "Q01_Q08","all50_research_scope","dashboard42","slides21",
- "replication","static_site_QA","peer_below_basic_definition")}
+ "Q01_Q08","approved_research_scope","dashboard_6x3","full_focus_balance","slides21",
+ "replication","static_site_QA","scope_decisions")}
 def fail(s):raise ValueError("GUIDED_PUBLIC_RELEASE_HOLD: "+s)
 def sha(p):
  h=hashlib.sha256()
@@ -37,11 +37,15 @@ def verify(site,cert_file):
  if not entries:fail("empty verified candidate manifest")
  included=set()
  for entry in entries:
+  if not isinstance(entry.get("path"),str) or "\\" in entry["path"] or ":" in entry["path"]:
+   fail("manifest paths must use repository-relative forward slashes")
   rel=Path(entry["path"])
   if rel.is_absolute() or ".." in rel.parts or rel.as_posix() in included:
    fail("unsafe or duplicate manifest path")
   included.add(rel.as_posix())
   path=site/rel
+  if not path.resolve().is_relative_to(site.resolve()) or path.is_symlink():
+   fail("manifest file escapes candidate directory")
   if not path.is_file() or path.suffix.lower() in BAD_EXT:
    fail("missing or forbidden public file "+rel.as_posix())
   if path.stat().st_size!=int(entry["bytes"]) or sha(path)!=entry["sha256"]:
@@ -56,21 +60,37 @@ def verify(site,cert_file):
   fail("guided runtime contract incomplete")
  countries=json.loads((site/"data/common42.json").read_text(encoding="utf-8"))
  ids=[r["code"] for r in countries]
- if len(ids)!=42 or len(set(ids))!=42 or "NLD" not in ids:
-  fail("42-system country register invalid")
+ if not ids or len(set(ids))!=len(ids) or any(not re.fullmatch("[A-Z0-9]{3}",c) for c in ids):
+  fail("dynamic country register invalid")
+ if sorted(ids)!=sorted(cert.get("eligible_countries",[])):fail("country evidence differs from build")
  fig=json.loads((site/"data/figure_registry.json").read_text())["figures"]
  ids_fig=[f["figure_id"] for f in fig]
- if len(ids_fig)!=132 or len(set(ids_fig))!=132:
-  fail("active 132-of-138 figure overlay contract changed")
+ if not ids_fig or len(set(ids_fig))!=len(ids_fig):fail("duplicate or empty approved figures")
+ if sorted(ids_fig)!=sorted(cert.get("approved_figure_ids",[])):fail("figure scope differs from certificate")
  if any(f["figure_id"].startswith("TR_BASIC") for f in fig):
   fail("obsolete complementary graph still exposed")
- if any(f["figure_id"].startswith("EN_PERFORMANCE_PEER") and
+ if any(f.get("active_role")=="PRIMARY_NEW_BELOW_BASIC_PEER" and
     (f["outcome"]!="peer_share_below_basic" or
      f["method_id"]!="M_PEER_BELOW_BASIC_NEW_METHOD_HOLD") for f in fig):
   fail("old high-peer method presented as below-basic")
  qa=json.loads((site/"GUIDED_QA.json").read_text(encoding="utf-8"))
- if qa["system_count"]!=42 or qa["active_figures"]!=132:
+ if qa["system_count"]!=len(ids) or qa["active_figures"]!=len(ids_fig):
   fail("candidate figure count or country scope changed")
+ for field in ("country_registry_sha256","scope_decisions_sha256","scientific_source_sha256","figure_contract_sha256","balanced_references_sha256"):
+  if not re.fullmatch("[a-f0-9]{64}",qa.get(field,"")) or qa[field]!=cert.get(field):fail("missing exact "+field)
+ balance_path=site/"data"/"balanced_references.json"
+ if not balance_path.is_file() or sha(balance_path)!=qa["balanced_references_sha256"]:fail("balanced reference export missing or changed")
+ balance=json.loads(balance_path.read_text(encoding="utf-8"))
+ if balance.get("policy")!="FULL_FOCUS_SUPPORT_6x3" or set(balance.get("focuses",{}))!=set(ids):fail("focus balance coverage differs from country scope")
+ for focus,record in balance["focuses"].items():
+  members=record.get("default_members",[])
+  if isinstance(members,str):members=[members]
+  options=record.get("options",[])
+  eligible={o["country"] for o in options if o["eligible"]}
+  if focus in members or len(set(members))!=len(members) or not set(members)<=eligible:fail("ineligible default reference members")
+  if not record.get("required_keys") or record.get("country_weights")!="EQUAL_PER_COUNTRY":fail("empty or invalid full-focus reference contract")
+  for point in record.get("default_points",[]):
+   if set(point["members"].split(";"))!=set(members) or point["n_countries"]!=len(members) or point["benchmark_se_displayed"]:fail("changing or invalid reference panel")
  if qa["availability_counts"].get("PLACEHOLDER",0)>0:
   fail("unreviewed incomplete figures must be resolved or documented unavailable")
  for c in ids:
@@ -80,7 +100,7 @@ def verify(site,cert_file):
    fail("missing country or scientific availability "+c)
   data=json.loads(rec.read_text(encoding="utf-8"))
   av=json.loads(ava.read_text(encoding="utf-8"))["figures"]
-  if len(av)!=132 or {v["figure_id"] for v in av}!=set(ids_fig):
+  if len(av)!=len(ids_fig) or {v["figure_id"] for v in av}!=set(ids_fig):
    fail("missing figure availability decisions "+c)
   if any(v["display_state"] not in ("VALIDATED","UNAVAILABLE")
           for v in av):fail("unreviewed figure availability "+c)
@@ -95,9 +115,9 @@ def verify(site,cert_file):
     if not (site/lang/"country"/country/question/"index.html").is_file():
      fail("incomplete bilingual deep routes")
  return {"candidate_manifest_sha256":sha(manifest_file),
-   "systems":42,"active_figures":132,
+   "systems":len(ids),"active_figures":len(ids_fig),
    "scientific_rows":qa["scientific_data_rows"],
-   "release_gate":"PASS_SIGNED_BUT_NOT_DEPLOYED"}
+   "release_gate":"PASS_REVIEW_CERTIFICATE_NOT_DEPLOYED"}
 def stage(repo,site,certificate):
  verified=verify(site,certificate)
  rid=verified["candidate_manifest_sha256"][:20]

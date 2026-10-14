@@ -1,0 +1,37 @@
+{
+  "source": "Innovamat-Research-Lab/pisa_2025",
+  "url": "https://github.com/Innovamat-Research-Lab/pisa_2025",
+  "commit": "1da4b26097e84e732973af672355a1c3103d5d33",
+  "paper_url": "https://www.innovamat.com/wp-content/uploads/2026/09/PISA2025_WP.pdf",
+  "paper_version": "Revised 23 September 2026",
+  "user_instruction_date": "2026-10-14",
+  "role": "PISA_SES_METHOD_REFERENCE_NOT_BLANKET_ANALYSIS_APPROVAL",
+  "main_protocols": [
+    {
+      "years": [
+        2022,
+        2025
+      ],
+      "systems": 36,
+      "common_items": 16
+    },
+    {
+      "years": [
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "systems": 34,
+      "common_items": 13
+    }
+  ],
+  "implementation": "R_requested",
+  "replication_warning": "Current R and Python specifications differ; match explicit protocol and panel, not just language or file date",
+  "not_authorized_by_link": [
+    "Latin American extension",
+    "OECD35 recalibration as replacement of author34",
+    "extra country rank panels",
+    "all repository robustness tables"
+  ]
+}

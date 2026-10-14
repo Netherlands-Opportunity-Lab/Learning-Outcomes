@@ -3,8 +3,12 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
                                   scope_decisions=NULL) {
   dir.create(out,recursive=TRUE,showWarnings=FALSE)
   family <- sub("_age.*$","",tasks$contract_figure_id)
-  active <- !(family %in% c("TR_BASIC","GP_SES_HIGH","EN_PERFORMANCE_PEER"))
+  active <- !(family %in% c("TR_BASIC","TR_POSITION","GP_SES_HIGH","EN_PERFORMANCE_PEER"))
   required <- tasks[active,,drop=FALSE]
+  if(!is.null(scope_decisions)) {
+    required<-lo_scope_active_tasks(tasks,scope_decisions)
+    required<-required[required$module!="peer_below_basic",,drop=FALSE]
+  }
   req_ids <- unique(required$metric_key)
   approved <- data.frame()
   status <- "HOLD"

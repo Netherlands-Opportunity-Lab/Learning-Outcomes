@@ -50,6 +50,16 @@ jobs:
         run: Rscript 06_pipeline/tests/test_balanced_membership.R
       - name: Test explicit human decisions before adding optional science targets
         run: Rscript 06_pipeline/tests/test_scope_decisions.R
+      - name: Test approved-cell dispatch, resume, stale input and idempotence
+        run: Rscript 06_pipeline/tests/test_exact_dispatch.R
+      - name: Test dynamic source eligibility beyond historical country lists
+        run: Rscript 06_pipeline/tests/test_country_registry.R
+      - name: Test certified balance adapter and full-focus export
+        run: Rscript 06_pipeline/tests/test_balanced_export.R
+      - name: Test exact guided export and pending scope exclusion
+        run: Rscript 06_pipeline/tests/test_final_guided_export.R
+      - name: Test approved extension contracts and exact selected estimators
+        run: Rscript 06_pipeline/tests/test_approved_extensions.R
       - name: Test frozen equal-weight reference panel and no benchmark SE
         run: Rscript 06_pipeline/tests/test_fixed_comparator.R
       - name: Test locked archive and SQLite evidence extraction without fabricated N

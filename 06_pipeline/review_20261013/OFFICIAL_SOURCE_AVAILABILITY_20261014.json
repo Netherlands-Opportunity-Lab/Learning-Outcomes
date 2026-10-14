@@ -1,0 +1,13 @@
+{
+  "checked_date": "2026-10-14",
+  "survey": "PISA",
+  "cycle": 2025,
+  "availability": "OFFICIAL_PUBLIC_USE_DATABASE_PUBLISHED",
+  "release_date": "2026-09-08",
+  "official_database_url": "https://www.oecd.org/en/data/datasets/pisa-2025-database.html",
+  "official_release_evidence_url": "https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html",
+  "technical_report_status": "DRAFT_CHAPTERS_AVAILABLE_FINAL_EXPECTED_2027",
+  "local_edition_certified": false,
+  "deck_point_is_availability_evidence": false,
+  "action": "Retain complete Dutch 2025 anchor; verify exact local source edition before reuse or compute"
+}
