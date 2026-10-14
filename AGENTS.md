@@ -4,7 +4,7 @@
 Finish the reproducible, grid-first PISA/PIRLS/TIMSS scientific pipeline, its validated products and the active bilingual 42-system guided dashboard. Work through the existing three-stage execution plan; do not introduce a new series of ad-hoc runs. Do not claim the science or public release is complete until gates actually pass.
 
 ## Authoritative project records
-The user's 14 October clarification and `06_pipeline/review_20261013/USER_SCOPE_AMENDMENT_20261014.md` override historical scope labels below. Product/source inventory is not user approval. Substantive additions A01–A17 require item-by-item human decisions; do not promote assistant proposals to approved scope. Existing 42/20/50 runtime locks are historical and do not establish the new six-combinations × three-cycles country eligibility rule. The fixed20 exception awaits the user's answer; do not invent a new final country list.
+The user's 14 October clarification and `06_pipeline/review_20261013/USER_SCOPE_AMENDMENT_20261014.md` override historical scope labels below. Product/source inventory is not user approval. Substantive additions A01–A17 require item-by-item human decisions; do not promote assistant proposals to approved scope. Existing 42/20/50 runtime locks are historical and do not establish the new six-combinations × three-cycles country eligibility rule. The fixed20 exception is resolved by `06_pipeline/review_20261013/BALANCED_REFERENCE_RULE_20261014.md`: no dashboard exception to 6x3; reference candidates need full focus-country support, including subgroups and peer units. The PPP20 is a candidate pool, not guaranteed membership. Use `LO_BALANCED_MEMBERSHIP.R` for the new checks; old locks/comparators are historical fixtures, not eligibility evidence.
 
 Read in this order:
 1. `06_pipeline/FROZEN_3_STAGE_PRODUCTION_PLAN_20261013.md`
@@ -14,7 +14,7 @@ Read in this order:
 5. `06_pipeline/RUN.R`, `START.R`, and all `06_pipeline/LO_*.R`, `06_pipeline/LO_*.py`, `06_pipeline/GRID_*.R`
 6. `05_publication/preview_overlay/` and `.github/workflows/pages.yml` — actual deployed guided-dashboard frontend. Do not confuse with older `03_dashboard/app/`.
 
-## Locked execution scopes
+## Historical candidate execution scopes (not final eligibility)
 - `nld_only`: Netherlands (1)
 - `nld_plus_19`: Netherlands and 19 fixed PPP comparator countries (20)
 - `all_required`: union of COMMON42 dashboard systems and fixed comparison countries (50 unique systems), of which 42 are shown as dashboard choices.
