@@ -13,7 +13,7 @@ lo_exact_producer_files <- function(repo,bundle) c(
   file.path(bundle,"engine",c("V11.R","BACKEND.R","REPAIRS.R","EXTENSIONS.R","engine.R","store.R")),
   file.path(bundle,"code",c("LO04_CACHE.R","LO04_COMMON.R")),
   file.path(repo,"06_pipeline",c("LO_COMPACT_RECOMPUTE.R","LO_EXACT_DISPATCH.R","LO_PRODUCTION_SPACE.R",
-    "LO_EXACT_ESTIMATORS.R","LO_APPROVED_EXTENSIONS.R","LO_SCOPE_DECISIONS.R")))
+    "LO_EXACT_ESTIMATORS.R","LO_APPROVED_EXTENSIONS.R","LO_SCOPE_DECISIONS.R","LO_EXACT_BOOT.R","LO_SOURCE_REPAIR.R")))
 lo_exact_code_sha <- function(repo,bundle) digest::digest(
   unname(vapply(lo_exact_producer_files(repo,bundle),lo_exact_sha,character(1))),algo="sha256")
 
@@ -117,13 +117,11 @@ lo_exact_dispatch <- function(repo,bundle,scope_info,tasks,grid,out,backend=NULL
       summary$reused_rows<-summary$reused_rows+sum(reusable)
       if(all(reusable))return_value<-"REUSED_EXACT_RECEIPT" else {
         if(is.null(backend) && !started) {
-          for(p in c("LO_APPROVED_EXTENSIONS.R","LO_EXACT_ESTIMATORS.R"))
+          for(p in c("LO_APPROVED_EXTENSIONS.R","LO_EXACT_ESTIMATORS.R","LO_EXACT_BOOT.R","LO_SOURCE_REPAIR.R"))
             source(file.path(repo,"06_pipeline",p),local=environment())
           for(p in c("LO04_COMMON.R","LO04_CACHE.R"))source(file.path(bundle,"code",p),local=environment())
           for(p in c("REPAIRS.R","EXTENSIONS.R","store.R","engine.R"))source(file.path(bundle,"engine",p),local=environment())
-          project<-Sys.getenv("LO_MASTER_PROJECT_ROOT",unset="")
-          if(!nzchar(project))stop("EXACT_MASTER_SOURCE_ROOT_REQUIRED")
-          lo_engine_boot(file.path(bundle,"engine"),list(root=project),file.path(out,"science_scratch"),synthetic=FALSE)
+          lo_exact_boot(bundle)
           started<-TRUE
         }
         if(is.null(backend)) {
@@ -144,7 +142,7 @@ lo_exact_dispatch <- function(repo,bundle,scope_info,tasks,grid,out,backend=NULL
           module<-run$module[1]
           if(module=="peer_below_basic")lo_compact_low_peer(obj,run)
           else if(extension || module%in%c("core","ses_national","gender"))lo_exact_selected_estimate(obj,science)
-          else if(module=="migration_generation")lo_compact_generations(obj,run)
+          else if(module=="migration_generation")lo_exact_generations(obj,run)
           else if(module=="migration_peer_exposure")lo_compact_migration_peers(obj,run)
           else get("v10_compute",envir=.GlobalEnv)(obj,science)
         }

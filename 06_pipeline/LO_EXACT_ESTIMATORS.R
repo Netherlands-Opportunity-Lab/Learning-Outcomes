@@ -57,6 +57,7 @@ lo_exact_selected_estimate <- function(obj,q) {
         }
         if(m=="gender") {
           if(stat=="gap") {
+            if(group!="girls_minus_boys" || q$definition[k]!="gender")stop("EXACT_GENDER_GAP_DIRECTION_UNKNOWN")
             z[j,k]<-weighted_mean(y,w*as.numeric(gender=="girl"))-weighted_mean(y,w*as.numeric(gender=="boy"));next
           }
           wk<-w*as.numeric(gender==group)
@@ -114,4 +115,24 @@ lo_extension_count_n <- function(obj,q) {
     },integer(1))
     if(!length(ns)||length(unique(ns))!=1L)NA_integer_ else ns[1]
   },integer(1))
+}
+
+lo_exact_generations <- function(obj,q) {
+  g<-migration_groups(obj)
+  if(!isTRUE(g$ok))stop("EXACT_MIGRATION_GENERATION_MAPPING_REQUIRED")
+  pp<-pv_names(obj$data,q$domain[1])
+  if(!length(pp))stop("EXACT_MIGRATION_PV_MISSING")
+  one<-function(w) {
+    z<-matrix(NA_real_,length(pp),nrow(q));colnames(z)<-q$metric_key
+    for(j in seq_along(pp))for(k in seq_len(nrow(q))) {
+      y<-rc2_num(obj$data[[pp[j]]]);group<-q$group[k]
+      if(q$stat[k]=="mean_score")z[j,k]<-weighted_mean(y,w*as.numeric(g$group==group))
+      else if(q$stat[k]=="mean_score_gap") {
+        group<-sub("_minus_native$","",group)
+        if(!grepl("_minus_native$",q$group[k]))stop("EXACT_MIGRATION_GAP_DIRECTION_UNKNOWN")
+        z[j,k]<-weighted_mean(y,w*as.numeric(g$group==group))-weighted_mean(y,w*as.numeric(g$group=="native"))
+      } else stop("EXACT_MIGRATION_STAT_NOT_APPROVED")
+    };z
+  }
+  a<-v10_pool(obj,one);q$estimate<-a$estimate;q$se<-a$se;q
 }

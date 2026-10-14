@@ -33,7 +33,10 @@ lo_balance_result_adapter <- function(grid,contracts) {
 }
 
 lo_balanced_export <- function(repo,grid,contracts,scope_info,out) {
-  expected<-grid$cell_id[grid$country%in%scope_info$dashboard]
+  # Proven absent constructs are disclosed, not fabricated or mapped to other
+  # variables. Every actually required focus cell must still be mapped.
+  absent<-grepl("^UNAVAILABLE_",grid$status)
+  expected<-grid$cell_id[grid$country%in%scope_info$dashboard & !absent]
   if(any(!expected%in%contracts$cell_id))
     stop("BALANCE_FOCUS_CONTRACT_MAPPING_INCOMPLETE: do not shrink focus to available rows")
   x<-lo_balance_result_adapter(grid,contracts)
@@ -47,7 +50,9 @@ lo_balanced_export <- function(repo,grid,contracts,scope_info,out) {
     # view change does not silently cut these requirements to its current tab.
     compare<-x[x$country==focus,,drop=FALSE]
     required<-lo_focus_required_support(core,compare,focus,anchor)
-    options<-lo_dashboard_reference_options(x,required,scope_info$dashboard,focus)
+    candidates<-scope_info$reference_candidates
+    if(is.null(candidates))candidates<-scope_info$dashboard
+    options<-lo_dashboard_reference_options(x,required,candidates,focus)
     selected<-intersect(scope_info$comparator,options$country[options$eligible])
     points<-if(length(selected))lo_dashboard_reference_points(x,required,selected,focus)$points else data.frame()
     products[[focus]]<-list(focus=focus,required_keys=sort(lo_balance_key(required)),
@@ -56,7 +61,23 @@ lo_balanced_export <- function(repo,grid,contracts,scope_info,out) {
       focus_excluded=TRUE,country_weights="EQUAL_PER_COUNTRY",benchmark_uncertainty=FALSE)
   }
   jsonlite::write_json(list(schema_version=1L,policy="FULL_FOCUS_SUPPORT_6x3",
-    grid_sha256=digest::digest(grid,algo="sha256"),focuses=products),
+    grid_sha256=digest::digest(grid,algo="sha256"),focuses=products,
+    unavailable_cells=grid[absent,intersect(c("cell_id","country","survey","year","hold_reason"),names(grid)),drop=FALSE]),
     file.path(out,"BALANCED_REFERENCE_EXPORT.json"),auto_unbox=TRUE,pretty=TRUE,na="null")
   invisible(products)
+}
+
+# NL-only may read pre-existing certified foreign aggregates. It never creates
+# foreign compute tasks. The full exact contract and artifact checks still apply.
+lo_reference_only_grid <- function(tasks,approved,scope_info,decisions) {
+  countries<-setdiff(scope_info$reference_candidates,scope_info$selected)
+  source<-tasks[tasks$country%in%countries,,drop=FALSE]
+  additions<-lo_scoped_low_peer_tasks(source,decisions)
+  source<-lo_scope_active_tasks(source,decisions)
+  source<-rbind(source,additions,lo_extension_tasks(source,decisions))
+  source<-source[source$metric_key%in%approved$cell_id,,drop=FALSE]
+  grid<-lo_grid_from_tasks(source)
+  if(!nrow(grid))return(grid)
+  a<-approved[approved$cell_id%in%grid$cell_id,,drop=FALSE]
+  lo_grid_archive_fill(grid,a,verify_files=TRUE)
 }

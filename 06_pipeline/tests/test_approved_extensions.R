@@ -33,7 +33,7 @@ o<-list(meta=list(survey="PISA",year=2022),data=data.frame(W=1,PV1=c(300,500,600
 q<-t[1,,drop=FALSE];q$survey<-"PISA";q$module<-"core";q$stat<-"total_below";q$threshold<-"407.47"
 a<-lo_exact_selected_estimate(o,q)
 stopifnot(a$estimate==.25,is.finite(a$se),a$se>0)
-q$module<-"gender";q$stat<-"gap";q$threshold<-""
+q$module<-"gender";q$stat<-"gap";q$threshold<-"";q$group<-"girls_minus_boys";q$definition<-"gender"
 a<-lo_exact_selected_estimate(o,q)
 stopifnot(a$estimate== -150,is.finite(a$se),a$se>0)
 q$module<-"ses_national";q$stat<-"score_gap_q4_minus_q1"
@@ -47,4 +47,7 @@ q$module<-"extension_performance_class";q$stat<-"between_variance_share"
 stopifnot(inherits(try(lo_exact_selected_estimate(o,q),silent=TRUE),"try-error"))
 q$module<-"extension_home_ses";q$stat<-"mean"
 stopifnot(inherits(try(lo_exact_selected_estimate(o,q),silent=TRUE),"try-error"))
+q$module<-"migration_generation";q$stat<-"mean_score_gap";q$group<-"first_generation_minus_native"
+migration_groups<-function(obj)list(ok=TRUE,group=c("native","first_generation","second_generation","first_generation"))
+stopifnot(lo_exact_generations(o,q)$estimate==300)
 cat("PASS approved extension contracts, missing-year reasons, exact low outcome and joint contrasts\n")

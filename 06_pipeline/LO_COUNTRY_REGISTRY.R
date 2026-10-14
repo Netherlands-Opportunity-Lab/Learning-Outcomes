@@ -67,7 +67,7 @@ lo_runtime_scope <- function(bundle,tasks,scope,source_support) {
   list(scope=scope,selected=sort(unique(selected)),dashboard=sort(intersect(selected,eligible)),
     comparator=rich,foreign_reference=setdiff(rich,"NLD"),
     additional_reference=setdiff(rich,eligible),countries=countries,cycle_detail=admission$detail,
-    source_support=source_support,membership_policy="FULL_FOCUS_SUPPORT_6x3")
+    source_support=source_support,reference_candidates=sort(eligible),membership_policy="FULL_FOCUS_SUPPORT_6x3")
 }
 
 lo_country_production_approval <- function(repo,countries) {

@@ -10,10 +10,13 @@ I08,method,Generic core lacked below-basic but existing EXTENSIONS wrapper alrea
 I09,method,SES legacy routine calculated unselected outputs,FIXED,LO_EXACT_ESTIMATORS.R,Joint parent reuse needs certified covariance artifact
 I10,source,Home SES conflated with older home resources,FIXED_CONTRACT,HOME_SES_AVAILABILITY_20261014.md,Check country response and source mapping for available waves
 I11,storage,Conflicting keep-delete graph and nonproject candidates,FIXED_PLANNER,repair_cleanup_plan.py;tests/test_cleanup_graph.py,Any further deletion requires exact retained dependencies
-I12,storage,Nearly full C prevents large runs,PARTIAL,Verified duplicate removal 2096666903 bytes; real small Drive restoration,Measure per-batch scratch and additional necessary cleanup
+I12,storage,Nearly full C prevents large runs,BOUNDED_PILOT_AND_SELECTIVE_CLEANUP_DONE,3102609528 bytes removed; real small Drive restoration; nine-cell pilot 0 temporary bytes and 205651968 peak R memory,Scale measured budgets only to certified source batch sizes
 I13,storage,Cache-named archive includes nonproject material,PROTECTED_FROM_DELETE,Private ZIP central-directory inspection,Identify and repair original overbroad packaging producer before any new snapshot
 I14,science,Archive candidates lack full sample method and uncertainty proof,OPEN,Actual fixed-audit 2526 targets and 518 candidates; zero science certificates,Targeted reconciliation and certification
 I15,scope,Unapproved optional content was included by old slide scope,FIXED,SCOPE_APPROVALS.csv;LO_APPROVED_EXTENSIONS.R,A09 rank decision remains open
 I16,products,Appendix extensions have no old dashboard figure IDs,IMPLEMENTED_SEPARATE_EXPORT,PRIVATE_APPROVED_EXTENSION_ROWS.csv,Build actual appendix products in product stage
 I17,execution,Missing grid auto-triggered another audit,FIXED,LO_FIXED_CONTROLLER.R,No auto-audit or broad fallback
 I18,storage,Space check was mistaken for hard temporary quota,OPEN_MEASUREMENT,LO_PRODUCTION_SPACE.R,Measured budget gate is implemented; OS-enforced quota is not
+I19,execution,Legacy backend startup inventoried broad source and cache folders,FIXED,LO_EXACT_BOOT.R;tests/test_exact_boot.R,Keep bootstrap restricted to pinned statistical functions
+I20,windows,UTF8 source failed under inherited unsupported C.UTF8 locale,FIXED_REAL_PILOT,LO_EXACT_BOOT.R,Latest Windows Linux CI
+I21,source,NLD PISA2022 canonical lost AGE and all home language classifications,FIXED_FOR_VERIFIED_NLD_2022_SOURCE,LO_SOURCE_REPAIR.R;tests/test_source_repair.R;actual source ID and weight reconciliation,Propagate only through new source hashes; other waves need separate label checks

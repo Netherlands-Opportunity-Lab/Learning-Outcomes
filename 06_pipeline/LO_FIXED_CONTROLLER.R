@@ -195,6 +195,11 @@ lo_fixed_controller <- function(repo,bundle,
     source(file.path(repo,"06_pipeline","LO_EXACT_DISPATCH.R"),local=environment())
     source(file.path(repo,"06_pipeline","LO_BALANCED_EXPORT.R"),local=environment())
     g<-read.csv(file.path(state,"PRIVATE_MASTER_GRID.csv"),stringsAsFactors=FALSE,na.strings=character())
+    reference_file<-file.path(root,"master_reconciliation","SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv")
+    if(file.exists(reference_file)) {
+      a_ref<-read.csv(reference_file,stringsAsFactors=FALSE,na.strings=character())
+      g<-rbind(g,lo_reference_only_grid(tasks,a_ref,scope_info,scope_decisions))
+    }
     bc<-read.csv(balance_contract_path,colClasses="character",na.strings=character())
     balance_export<-lo_balanced_export(repo,g,bc,scope_info,state)
   }
