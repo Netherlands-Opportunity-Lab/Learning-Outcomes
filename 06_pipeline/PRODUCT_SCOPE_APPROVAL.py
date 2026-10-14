@@ -23,6 +23,7 @@ PENDING_FAMILIES = {'GP_SES_HIGH': ['A02'], 'EN_PERFORMANCE_PEER': ['A03']}
 def apply_scope_approval(definitions):
     d = deepcopy(definitions)
     d['scope_amendment'] = 'USER_SCOPE_AMENDMENT_20261014.md'
+    d['country_membership_policy'] = 'BALANCED_REFERENCE_RULE_20261014.md'
     d['inventory_is_user_approval'] = False
     for r in d['requirements']:
         r.setdefault('historical_role', r['role'])
@@ -46,7 +47,7 @@ def apply_scope_approval(definitions):
         if r['requirement_id'] == 'POLICY_20':
             r['active_presentation'] = 'LOW_PEER_SWITCH_PENDING_A01; HIGH_PEER_RETENTION_PENDING_A03'
         if r['requirement_id'] == 'PRODUCT_DASHBOARD':
-            r['title'] = 'Country eligibility 6x3; three production modes; configurable reference group; fixed20 exception pending'
+            r['title'] = 'Country eligibility 6x3; three production modes; configurable reference group; PPP20 candidates filtered by full focus support'
     for s in d['supplemental_requirements']:
         pending = PENDING_DEPENDENCIES.get(s['dependency_id'], [])
         s['approval_items'] = pending
@@ -56,7 +57,7 @@ def apply_scope_approval(definitions):
         s['production_authorized_by_inventory'] = False
         if s['dependency_id'] == 'S_DASHBOARD':
             s['definition'] = ('Three production modes; six age-domain combinations with >=3 verified cycles '
-                'for country eligibility; fixed reference20 exception unresolved; user checkbox reference; '
+                'for country eligibility; PPP20 candidates filtered by full focus support including subgroup and peer cells; user checkbox reference; '
                 'equal country weights, focus excluded, membership/availability disclosed; NL/EN and exports')
         if s['dependency_id'] == 'S_TREND':
             s['definition'] = ('Correct uncertainty for any retained change claim is mandatory QA; '

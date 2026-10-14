@@ -46,6 +46,8 @@ jobs:
         run: Rscript 06_pipeline/tests/test_grid_archive_batch.R
       - name: Test fixed 1/20/50 production scopes, QA gates and dashboard mapping
         run: Rscript 06_pipeline/tests/test_fixed_pipeline.R
+      - name: Test balanced country eligibility and joint subgroup references
+        run: Rscript 06_pipeline/tests/test_balanced_membership.R
       - name: Test frozen equal-weight reference panel and no benchmark SE
         run: Rscript 06_pipeline/tests/test_fixed_comparator.R
       - name: Test locked archive and SQLite evidence extraction without fabricated N
@@ -68,3 +70,4 @@ jobs:
         run: Rscript 06_pipeline/tests/test_compact_recompute.R
       - name: Test NLD-only native V5 path with candidate suppression
         run: Rscript 06_pipeline/tests/test_v5_nld_core.R
+

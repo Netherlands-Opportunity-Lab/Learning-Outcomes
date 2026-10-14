@@ -5876,7 +5876,7 @@
       "requirement_id": "PRODUCT_DASHBOARD",
       "product": "ALL_PRODUCTS",
       "source_locator": "cross-product",
-      "title": "Country eligibility 6x3; three production modes; configurable reference group; fixed20 exception pending",
+      "title": "Country eligibility 6x3; three production modes; configurable fully balanced focus-country reference; PPP20 candidate pool",
       "figure_families": [],
       "additional_dependencies": [
         "S_DASHBOARD"
@@ -6155,7 +6155,7 @@
     },
     {
       "dependency_id": "S_DASHBOARD",
-      "definition": "Three production modes; six age-domain combinations with >=3 verified cycles for country eligibility; fixed reference20 exception unresolved; user checkbox reference; equal country weights, focus excluded, membership/availability disclosed; NL/EN and exports",
+      "definition": "Dashboard 6x3 without exceptions; reference candidates cover full selected focus support including subgroups and peer units; PPP20 is a candidate pool; equal weighting, focus excluded, stable panel and exports",
       "gate": "BROWSER_EXPORT_GATE",
       "status": "QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED",
       "approval_items": [],
@@ -6179,5 +6179,6 @@
     }
   ],
   "scope_amendment": "USER_SCOPE_AMENDMENT_20261014.md",
-  "inventory_is_user_approval": false
+  "inventory_is_user_approval": false,
+  "country_membership_policy": "BALANCED_REFERENCE_RULE_20261014.md"
 }

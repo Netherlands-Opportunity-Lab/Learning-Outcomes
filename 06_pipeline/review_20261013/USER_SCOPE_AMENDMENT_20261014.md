@@ -1,5 +1,7 @@
 # Gebruikerskeuzes, landenregel en afzonderlijke goedkeuring — 14 oktober 2026
 
+**Nader gebruikersbesluit:** [de definitieve balansregel](BALANCED_REFERENCE_RULE_20261014.md) vervangt de open vraag over de 20 kandidaten en specificeert balans voor alle groeps- en compositiereeksen.
+
 Deze aanvulling corrigeert de scope-uitleg van de audit van 13 oktober. Rechtstreekse gebruikerskeuzes gaan vóór bronpresentaties, historische registers en voorstellen van de assistent. De 247 gekoppelde regels zijn een **inventarisatie van broninhoud en afhankelijkheden**, geen 247 goedgekeurde statistieken. Ook het produceren van een langer wetenschappelijk deck is geen toestemming om alle analyses uit een ouder deck opnieuw uit te voeren.
 
 ## Teruggevonden handmatige keuzes
@@ -33,19 +35,19 @@ Dit betekent zes keer ten minste drie; niet drie golven in totaal en niet noodza
 
 De hercontrole van de oude `AVAILABILITY_MATRIX.csv` geeft 31 van de 42 met minstens drie als AVAILABLE/VALIDATED **gelabelde** golven per combinatie. Elf halen dat niet in dit register: ALB, BRA, CYP, JOR, KAZ, MAC, MKD, MNE, SRB, TUR, XKX. Dit is historische labeldekking, geen nieuwe wetenschappelijke validatie of definitieve uitsluitingslijst. Acht van de vaste PPP20 staan helemaal niet in die matrix. Alle kandidaatlanden moeten uit bron-/deelnamebewijs worden beoordeeld; alleen de oude 42 filteren zou opnieuw een scopefout zijn.
 
-Nog open: blijven de vaste 20 ook behouden als een ervan de 6×3-regel niet haalt? Die vraag is expliciet aan de gebruiker voorgelegd. De bestaande 20 blijven bewaard zolang het antwoord ontbreekt; een nieuwe definitieve lijst of verandering van de runtime-lock wordt niet gesuggereerd. De 42 en 50 zijn historische aantallen, geen vast te houden uitkomst van de nieuwe selectie.
+Besloten op 14 oktober: ook de rijke kandidaten moeten voor dashboardtoelating aan 6×3 voldoen. Referentietoelating vereist daarnaast volledige dekking van het hoofdland; voor de Nederlandse standaard zijn de 21 slides het jaaranker. Onvolledige kandidaten vallen uit de referentie. De 20 is een kandidatenpool; 19/20/42/50 zijn geen af te dwingen uitkomsten.
 
 ## Drie productiekeuzes en dashboardreferentie
 
 | Instelling | Betekenis |
 |---|---|
 | `nld_only` | Alleen Nederlandse primaire resultaten produceren. Voor een buitenlandse referentielijn zijn daarnaast reeds gevalideerde buitenlandse aggregaten nodig; anders toont de publicatie die lijn niet. |
-| `nld_plus_19` | Nederland plus de vaste 19 buitenlandse referentielanden, onder voorbehoud van het open inclusiebesluit. |
+| `nld_plus_19` | Nederland plus de 19 buitenlandse rijke kandidaten; daadwerkelijke referentietoelating wordt afzonderlijk op balans getoetst. |
 | `all_required` | Unie van de vaste 20 en de overige landen die de brononderbouwde inclusieregel halen. Geen dubbele landen, geen stilzwijgende uitbreiding naar alle 91 historische stelsels. |
 
 De vaste groep is de eerder vastgelegde OESO-PPP2024-groep: bbp per inwoner in koopkrachtpariteit strikt boven Tsjechië, volgens het gepinde bronbestand. Dit is niet automatisch de Wereldbankcategorie “high income”. De 20 codes zijn NLD AUS AUT BEL CAN CHE DEU DNK ESP FIN FRA GBR IRL ISL ITA KOR LUX NOR SWE USA.
 
-Voor ieder focusland in deze 20 is de standaardselectie de overige 19. Het dashboard moet een toegankelijk vak **Referentiegroep samenstellen** krijgen met landvinkjes en **Herstel standaardgroep**. Een eigen selectie bepaalt daadwerkelijk het groepsgemiddelde; zij mag niet alleen losse landenlijnen toevoegen. Het focusland wordt altijd uitgesloten. Landen tellen gelijk mee. Geen SE/CI rond het samengestelde referentiegemiddelde; individuele landschattingen behouden hun geldige onzekerheid.
+Voor een toegelaten focusland uit deze kandidaten is de standaardselectie het volledig passende deel van de overige rijke kandidaten; dit kan minder dan 19 zijn. Het dashboard moet een toegankelijk vak **Referentiegroep samenstellen** krijgen met landvinkjes en **Herstel standaardgroep**. Een eigen selectie bepaalt daadwerkelijk het groepsgemiddelde; zij mag niet alleen losse landenlijnen toevoegen. Het focusland wordt altijd uitgesloten. Landen tellen gelijk mee. Geen SE/CI rond het samengestelde referentiegemiddelde; individuele landschattingen behouden hun geldige onzekerheid.
 
 De gekozen groep en feitelijke datadekking zijn afzonderlijke gegevens. Ontbrekende landen worden niet stilzwijgend vervangen of per meetgolf weggelaten. Een vaste volledige referentielijn wordt alleen getoond waar het volledige panel wordt gedragen. Een kleiner constant panel of kortere periode kan expliciet worden gekozen en krijgt een eigen label en lidmaatschap. Export en deelbare URL bewaren selectie, focusland, periode, definities en resultaatversie. Alleen gevalideerde landelijke aggregaten worden gecombineerd; er worden geen leerlinggegevens in de browser berekend.
 
