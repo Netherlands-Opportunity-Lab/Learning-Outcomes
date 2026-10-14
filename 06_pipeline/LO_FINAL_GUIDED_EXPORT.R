@@ -77,6 +77,9 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
     if(family=="GP_SES_HIGH" && !allowed("A02")) {
       omit(i,"OPTIONAL_APPENDIX_NOT_REQUIRED_FOR_MAIN_42");next
     }
+    if(family=="GP_SES_HIGH") {
+      omit(i,"APPROVED_APPENDIX_OR_SCIENCE_EXTENSION_SEPARATE_EXPORT");next
+    }
     value<-as.numeric(approved$estimate[i]);se<-as.numeric(approved$standard_error[i])
     low<-if("ci_low"%in%names(approved))as.character(approved$ci_low[i]) else ""
     high<-if("ci_high"%in%names(approved))as.character(approved$ci_high[i]) else ""
@@ -105,6 +108,17 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
     expected<-if(new_peer)
       c("total","self_below_basic","self_at_or_above_basic")
       else strsplit(f$expected_series[[1]],";",fixed=TRUE)[[1]]
+    # The pinned contract intentionally leaves language groups source-specific.
+    # Resolve only the certified PISA home-versus-assessment-language construct;
+    # IEA frequency categories and Dutch-versus-other are different constructs.
+    if(f$survey[[1]]=="PISA" && source$module[i]=="language_exact" &&
+       source$definition[i]=="same_as_assessment_language_vs_other") {
+      if(family=="GP_LANGUAGE_LEVELS" && source$stat[i]=="mean" &&
+         identical(expected,"source_valid_groups"))
+        expected<-c("test_language_home","other_language_home")
+      if(family=="GP_LANGUAGE_GAP" && source$stat[i]=="gap" &&
+         identical(expected,"source_valid_contrast"))expected<-"other_minus_test"
+    }
     if(!group%in%expected) {
       omit(i,"HOLD_EXPECTED_SERIES_MAPPING_NEEDS_METHOD_ADJUDICATION")
       next
@@ -117,6 +131,11 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
     if(!grepl("^[A-Z0-9]{3}$",code)) {
       omit(i,"HOLD_INVALID_COUNTRY_CODE");next
     }
+    language_labels_nl<-c(test_language_home="Thuis dezelfde taal als de toets",
+      other_language_home="Thuis een andere taal",other_minus_test="Andere thuistaal minus toetstaal")
+    language_labels_en<-c(test_language_home="Home language matches assessment",
+      other_language_home="Other home language",other_minus_test="Other home language minus assessment language")
+    language_row<-source$module[i]=="language_exact" && group%in%names(language_labels_nl)
     row<-data.frame(figure_id=id,country=code,
       year=as.character(source$year[i]),survey=as.character(source$survey[i]),
       domain=as.character(source$domain[i]),
@@ -136,7 +155,8 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
         transform="BELOW_BASIC_COMPLEMENT_V1",source_unit=source$unit[i],target_unit=f$unit,
         estimate=value,se=se,ci_low=low,ci_high=high),algo="sha256") else as.character(approved$result_hash[i]),
       series_id=group,series_role="focus",
-      series_label_nl=group,series_label_en=group,
+      series_label_nl=if(language_row)unname(language_labels_nl[group])else group,
+      series_label_en=if(language_row)unname(language_labels_en[group])else group,
       split_group=group,
       comparison_fixed_panel_pass="",
       comparison_method="",comparator_n="",
@@ -170,14 +190,15 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
             row.names=FALSE,na="")
   # Preserve approved appendix/science results with exact parent IDs and full
   # provenance; dashboard figure contracts cannot silently rename these rows.
-  ext<-startsWith(source$module,"extension_")
+  ext<-startsWith(source$module,"extension_") | grepl("^GP_SES_HIGH_age",source$contract_figure_id)
   appendix<-cbind(source[ext,,drop=FALSE],approved[ext,setdiff(names(approved),names(source)),drop=FALSE])
   write.csv(appendix,file.path(out,"PRIVATE_APPROVED_EXTENSION_ROWS.csv"),row.names=FALSE,na="")
   write.csv(skipped,file.path(out,"PRIVATE_GUIDED_MAPPING_HOLDS.csv"),
             row.names=FALSE)
   stats<-data.frame(validated_input_cells=nrow(approved),
     guided_focus_rows=nrow(result),
-    mapping_holds=nrow(skipped),
+    mapping_holds=sum(skipped$reason!="APPROVED_APPENDIX_OR_SCIENCE_EXTENSION_SEPARATE_EXPORT"),
+    separate_appendix_or_science_rows=sum(skipped$reason=="APPROVED_APPENDIX_OR_SCIENCE_EXTENSION_SEPARATE_EXPORT"),
     requires_new_below_basic_peer=if(!is.null(scope_decisions) && lo_scope_is_approved(scope_decisions,"A01"))"YES" else "NO",
     publication_status="PRIVATE_REVIEW_ONLY",stringsAsFactors=FALSE)
   write.csv(stats,file.path(out,"GUIDED_EXPORT_SUMMARY.csv"),row.names=FALSE)

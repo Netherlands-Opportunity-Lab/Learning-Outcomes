@@ -89,8 +89,9 @@ def figure_contract(bundle,allow_synthetic=False,decisions=None):
    figure["active_role"]="DERIVED_COMPLEMENT_SEPARATE_GRAPH_REMOVED"
    continue
   if family=="GP_SES_HIGH":
-   if decisions.get("A02")!="APPROVED":continue
-   figure["active_role"]="OPTIONAL_APPENDIX"
+   # A02 authorizes the appendix only, not an extra dashboard choice.
+   # Numeric rows remain in the separately certified appendix export.
+   continue
   elif family=="EN_PERFORMANCE_PEER":
    if decisions.get("A01")!="APPROVED":
     if decisions.get("A03")=="APPROVED":
@@ -121,6 +122,14 @@ def figure_contract(bundle,allow_synthetic=False,decisions=None):
    figure["active_role"]="REQUIRED_OR_EXISTING_SECONDARY"
   if family=="GP_SES_BASIC":
    figure.update(outcome="below_basic_by_ses",label_nl="Onder basisniveau naar SES",label_en="Below basic by SES",measure_label_nl="Aandeel onder basisniveau",measure_label_en="Share below basic")
+  # The historical source_valid_* placeholders are not literal group names.
+  # Only PISA's independently certified binary assessment-language construct
+  # has one stable mapping here; do not coerce IEA frequency categories.
+  if figure["survey"]=="PISA":
+   if family=="GP_LANGUAGE_LEVELS" and figure["expected_series"]=="source_valid_groups":
+    figure["expected_series"]="test_language_home;other_language_home"
+   elif family=="GP_LANGUAGE_GAP" and figure["expected_series"]=="source_valid_contrast":
+    figure["expected_series"]="other_minus_test"
   # Only documented vocabulary, with no fabricated science values.
   output.append(figure)
  return output
@@ -137,6 +146,10 @@ def product_rows(path,countries,figures):
   f=figures[fid]
   if r["scientific_status"]!="SCIENTIFICALLY_VALIDATED":
    fail("unreviewed numeric row for "+fid)
+  if f["survey"]=="PISA" and fid.split("_age",1)[0] in ("GP_LANGUAGE_LEVELS","GP_LANGUAGE_GAP"):
+   if (r.get("outcome_id")!="same_as_assessment_language_vs_other" or
+       r["series_id"] not in f["expected_series"].split(";")):
+    fail("PISA language construct or group mismatch")
   if f["active_role"]=="PRIMARY_NEW_BELOW_BASIC_PEER" and (
     r.get("outcome_id","")!="peer_share_below_basic" or
     not r.get("peer_denominator_verified","").upper()=="PASS" or
@@ -177,6 +190,9 @@ def product_rows(path,countries,figures):
      series_label_en=r.get("series_label_en",r["series_id"]),
      split_group=r.get("split_group",r["series_id"]),
      source_id=r["source_id"],method_id=f["method_id"],
+     sample_id=r["sample_id"],input_fingerprint=r["input_fingerprint"],
+     code_fingerprint=r["code_fingerprint"],result_hash=r["result_hash"],
+     n_definition=r.get("n_definition") or "N_DEFINITION_NOT_REGISTERED",
      quality_status="SCIENTIFICALLY_VALIDATED",
      availability_status="VALIDATED")
   if role=="focus":

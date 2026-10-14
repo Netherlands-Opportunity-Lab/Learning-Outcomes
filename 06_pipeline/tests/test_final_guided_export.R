@@ -94,6 +94,40 @@ h2<-lo_guided_preview_fingerprint(fake_repo,bundle,out2)
 stopifnot(h1!=h2)
 writeLines("changed reference",file.path(out2,"BALANCED_REFERENCE_EXPORT.json"))
 stopifnot(h2!=lo_guided_preview_fingerprint(fake_repo,bundle,out2))
+# Source-specific placeholders resolve only to the certified PISA construct.
+lf<-f[c(1,1),,drop=FALSE];lf$figure_id<-c("GP_LANGUAGE_LEVELS_age15_reading","GP_LANGUAGE_GAP_age15_reading")
+lf$expected_series<-c("source_valid_groups","source_valid_contrast")
+write.csv(lf,file.path(bundle,"FIGURE_SERIES_CONTRACT_20261002.csv"),row.names=FALSE)
+lt<-tasks[rep(1,4),,drop=FALSE];lt$metric_key<-paste0("lang",1:4)
+lt$module<-"language_exact";lt$stat<-c("mean","mean","gap","mean")
+lt$group<-c("test_language_home","other_language_home","other_minus_test","test_language_home")
+lt$definition<-c(rep("same_as_assessment_language_vs_other",3),"unverified_dutch_vs_other")
+lt$contract_figure_id<-lf$figure_id[c(1,1,2,1)]
+la<-approved[rep(1,4),,drop=FALSE];la$cell_id<-lt$metric_key
+la$target_contract_sha256<-lo_grid_from_tasks(lt)$target_contract_sha256
+la$estimate<-c(500,480,-20,500);la<-certify(la,"language")
+language_out<-file.path(work,"language")
+language_result<-lo_guided_grid_export(bundle,lt,la,language_out)
+stopifnot(language_result$guided_focus_rows==3L,language_result$mapping_holds==1L)
+language_rows<-read.csv(file.path(language_out,"PRIVATE_GUIDED_VALIDATED_ROWS.csv"))
+stopifnot(identical(language_rows$series_id,lt$group[1:3]),
+ identical(as.numeric(language_rows$estimate),c(500,480,-20)),
+ all(language_rows$outcome_id=="same_as_assessment_language_vs_other"))
+language_holds<-read.csv(file.path(language_out,"PRIVATE_GUIDED_MAPPING_HOLDS.csv"))
+stopifnot(language_holds$cell_id=="lang4")
+# An approved appendix statistic remains available in its separate export,
+# without appearing as a dashboard choice or a missing-method hold.
+af<-f[1,,drop=FALSE];af$figure_id<-"GP_SES_HIGH_age15_reading";af$expected_series<-"q1"
+write.csv(af,file.path(bundle,"FIGURE_SERIES_CONTRACT_20261002.csv"),row.names=FALSE)
+at<-tasks[1,,drop=FALSE];at$metric_key<-"appendix_high";at$contract_figure_id<-af$figure_id
+at$module<-"ses_national";at$stat<-"q1_high";at$group<-"q1"
+aa<-approved[1,,drop=FALSE];aa$cell_id<-at$metric_key
+aa$target_contract_sha256<-lo_grid_from_tasks(at)$target_contract_sha256;aa<-certify(aa,"appendix")
+appendix_out<-file.path(work,"appendix")
+appendix_result<-lo_guided_grid_export(bundle,at,aa,appendix_out,lo_read_scope_decisions("."))
+stopifnot(appendix_result$guided_focus_rows==0L,appendix_result$mapping_holds==0L,
+ appendix_result$separate_appendix_or_science_rows==1L,
+ nrow(read.csv(file.path(appendix_out,"PRIVATE_APPROVED_EXTENSION_ROWS.csv")))==1L)
 unlink(work,recursive=TRUE)
 cat("PASS validated guided export, fixed source IDs and high-peer exclusion\n")
 
