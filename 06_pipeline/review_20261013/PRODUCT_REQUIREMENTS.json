@@ -5942,7 +5942,7 @@
       "requirement_id": "USER_20261014_A09_DASHBOARD_RANK",
       "product": "DASHBOARD_DERIVATION",
       "source_locator": "Direct user reply A09, 2026-10-14",
-      "title": "Country rank over years within a chosen country group; optional second country; no group rank",
+      "title": "Country rank over years relative to the selected international reference group; optional second country; reference group not plotted",
       "figure_families": [],
       "additional_dependencies": [
         "S_RANK_PRODUCT"
@@ -6235,7 +6235,7 @@
     },
     {
       "dependency_id": "S_RANK_PRODUCT",
-      "definition": "RANK_PRODUCT_CONTRACT.json: exact certified parent results; chosen constant country ranking universe; focus and optional second country; no group rank; direction and ties; rank-specific uncertainty",
+      "definition": "RANK_PRODUCT_CONTRACT.json: exact certified parent results; selected international reference group as constant rank basis; focus excluded from its own reference group; focus and optional second country plotted; no group line or group rank; direction and ties; rank-specific uncertainty",
       "gate": "RANK_DERIVATION_CERTIFICATION",
       "status": "APPROVED_PRODUCT_REQUIRES_DERIVATION_SPECIFICATION",
       "approval_items": [

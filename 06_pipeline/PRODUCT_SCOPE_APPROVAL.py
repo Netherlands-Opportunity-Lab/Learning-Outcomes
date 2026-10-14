@@ -29,7 +29,7 @@ def apply_scope_approval(definitions):
         if r.get('direct_user_decision') == 'A09_20261014':
             # Later direct decisions are not a re-approval of old slide panels.
             if r['product']=='DASHBOARD_DERIVATION':
-                r['title']='Country rank over years within a chosen country group; optional second country; no group rank'
+                r['title']='Country rank over years relative to the selected international reference group; optional second country; reference group not plotted'
             continue
         r.setdefault('historical_role', r['role'])
         # Means in the policy deck do not require producing the legacy rank panels.
@@ -58,7 +58,7 @@ def apply_scope_approval(definitions):
             r['superseded_by'] = 'USER_20261014_A09_DASHBOARD_RANK'
     for s in d['supplemental_requirements']:
         if s['dependency_id'] == 'S_RANK_PRODUCT':
-            s['definition']='RANK_PRODUCT_CONTRACT.json: exact certified parent results; chosen constant country ranking universe; focus and optional second country; no group rank; direction and ties; rank-specific uncertainty'
+            s['definition']='RANK_PRODUCT_CONTRACT.json: exact certified parent results; selected international reference group as constant rank basis; focus excluded from its own reference group; focus and optional second country plotted; no group line or group rank; direction and ties; rank-specific uncertainty'
             continue
         pending = PENDING_DEPENDENCIES.get(s['dependency_id'], [])
         s['approval_items'] = pending
@@ -78,7 +78,7 @@ def apply_scope_approval(definitions):
     # Add only the recorded product choices; actual scope still passes through
     # SCOPE_APPROVALS.csv and source/method certification in the R trace.
     for product, suffix, title in (
-            ('DASHBOARD_DERIVATION', 'DASHBOARD_RANK', 'Country rank over years within a chosen country group; optional second country; no group rank'),
+            ('DASHBOARD_DERIVATION', 'DASHBOARD_RANK', 'Country rank over years relative to the selected international reference group; optional second country; reference group not plotted'),
             ('SCIENTIFIC_PAPER', 'PAPER_RANKING', 'Country ranking table in the scientific paper only')):
         rid = 'USER_20261014_A09_' + suffix
         if any(r['requirement_id'] == rid for r in d['requirements']):
@@ -93,7 +93,7 @@ def apply_scope_approval(definitions):
             direct_user_decision='A09_20261014', production_authorized_by_inventory=False))
     if not any(s['dependency_id']=='S_RANK_PRODUCT' for s in d['supplemental_requirements']):
         d['supplemental_requirements'].append(dict(dependency_id='S_RANK_PRODUCT',
-            definition='RANK_PRODUCT_CONTRACT.json: exact certified parent results; chosen constant country ranking universe; focus and optional second country; no group rank; direction and ties; rank-specific uncertainty',
+            definition='RANK_PRODUCT_CONTRACT.json: exact certified parent results; selected international reference group as constant rank basis; focus excluded from its own reference group; focus and optional second country plotted; no group line or group rank; direction and ties; rank-specific uncertainty',
             gate='RANK_DERIVATION_CERTIFICATION',status='APPROVED_PRODUCT_REQUIRES_DERIVATION_SPECIFICATION',
             approval_items=['A09'], production_authorized_by_inventory=False))
     return d
