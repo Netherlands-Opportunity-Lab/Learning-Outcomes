@@ -134,6 +134,37 @@ approved<-read.csv(file.path(work,"approved.csv"),stringsAsFactors=FALSE)
 dash<-lo_dashboard_export_from_grid(bundle,tasks,approved,
             file.path(work,"dashboard"))
 stopifnot(dash$mapped==1L,dash$unmapped==0L)
+# Status must distinguish an empty approved queue from unfinished science,
+# detect a changed selection/grid, and never mutate the audit or history.
+source("06_pipeline/LO_FIXED_CONTROLLER.R",encoding="UTF-8")
+source("06_pipeline/LO_RUN_CONFIG.R",encoding="UTF-8")
+status_state<-file.path(work,"read_only_status");dir.create(status_state)
+status_grid<-data.frame(cell_id=c("done","absent","pending"),status=c(
+  "SCIENTIFICALLY_VALIDATED","UNAVAILABLE_VERIFIED_SOURCE_FIELDS","TARGET_NOT_YET_ADJUDICATED"))
+status_grid_path<-file.path(status_state,"PRIVATE_MASTER_GRID.csv")
+write.csv(status_grid,status_grid_path,row.names=FALSE)
+status_cfg<-lo_run_config("nld_only","")
+config_path<-file.path(work,"status_config.json")
+jsonlite::write_json(status_cfg,config_path,auto_unbox=TRUE)
+prior_config<-Sys.getenv("LO_RUN_CONFIG",unset=NA_character_);Sys.setenv(LO_RUN_CONFIG=config_path)
+jsonlite::write_json(list(configuration=status_cfg,
+  sha256=list(run_configuration=lo_run_config_hash(status_cfg)),
+  grid_sha256=digest::digest(file=status_grid_path,algo="sha256")),
+  file.path(status_state,"FIXED_INPUT_MANIFEST.json"),auto_unbox=TRUE)
+status_paths<-list.files(status_state,full.names=TRUE)
+before_status<-vapply(status_paths,function(p)digest::digest(file=p,algo="sha256"),character(1))
+current_status<-lo_fixed_status_summary(".",status_state,"nld_only")
+stopifnot(current_status$targets==3L,current_status$validated==1L,
+ current_status$unavailable==1L,current_status$remaining==1L,current_status$approved_compute_cells==0L,
+ current_status$configuration=="MATCH",current_status$grid=="MATCH",
+ current_status$scientific_readiness=="NOT_ESTABLISHED_BY_STATUS",
+ identical(status_paths,list.files(status_state,full.names=TRUE)),
+ identical(before_status,vapply(status_paths,function(p)digest::digest(file=p,algo="sha256"),character(1))))
+status_cfg$selection$years<-"2022";jsonlite::write_json(status_cfg,config_path,auto_unbox=TRUE)
+stopifnot(lo_fixed_status_summary(".",status_state,"nld_only")$configuration=="CHANGED_REAUDIT_REQUIRED")
+status_grid$status[3]<-"SCIENTIFICALLY_VALIDATED";write.csv(status_grid,status_grid_path,row.names=FALSE)
+stopifnot(lo_fixed_status_summary(".",status_state,"nld_only")$grid=="CHANGED_REAUDIT_REQUIRED")
+if(is.na(prior_config))Sys.unsetenv("LO_RUN_CONFIG")else Sys.setenv(LO_RUN_CONFIG=prior_config)
 unlink(work,recursive=TRUE)
 cat("PASS fixed 1/20/50 scope, scientific gates, no-compute preview and dashboard mapping\n")
 
