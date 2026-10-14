@@ -6,12 +6,15 @@ lo_grid_schema <- function() c("cell_id","survey","country","year","age",
  "peer_target_group","peer_own_group","method_version","weight_design",
  "pv_rule","variance_rule","linking_rule","n_unweighted","n_effective",
  "estimate","standard_error","covariance_group_id","target_contract_sha256","source_edition_sha256","input_fingerprint",
- "code_fingerprint","result_hash","archive_source","status","hold_reason")
+ "code_fingerprint","result_hash","archive_source","status","hold_reason",
+ "source_path","certification_path","certification_sha256")
 lo_grid_from_tasks <- function(tasks) {
  required <- c("metric_key","survey","country","year","domain","module",
                "stat","group","definition","peer_definition","threshold")
  if(!all(required%in%names(tasks)) || anyDuplicated(tasks$metric_key))
    stop("GRID_CONTRACT_HOLD: invalid original task identities")
+ if(!nrow(tasks))return(as.data.frame(setNames(rep(list(character()),
+   length(lo_grid_schema())),lo_grid_schema()),stringsAsFactors=FALSE))
  field <- function(x)if(x%in%names(tasks)) as.character(tasks[[x]]) else
     rep("",nrow(tasks))
  if(!requireNamespace("digest",quietly=TRUE))
@@ -42,6 +45,7 @@ lo_grid_from_tasks <- function(tasks) {
     input_fingerprint="",code_fingerprint="",result_hash="",
     archive_source="",status="TARGET_NOT_YET_ADJUDICATED",
     hold_reason="Exact sample/construct/method identity and results must be checked",
+    source_path="",certification_path="",certification_sha256="",
     stringsAsFactors=FALSE)
  if(nrow(z)!=nrow(tasks)||anyDuplicated(z$cell_id))
     stop("GRID_INTEGRITY_HOLD")

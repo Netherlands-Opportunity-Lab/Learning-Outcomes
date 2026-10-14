@@ -42,7 +42,12 @@ lo_balance_validated <- function(available) {
 }
 
 lo_dashboard_eligibility <- function(available,candidates) {
-  x <- lo_balance_validated(available)
+  lo_support_eligibility(lo_balance_validated(available),candidates)
+}
+
+# Shared combinatorial rule; callers must verify either source or result evidence.
+lo_support_eligibility <- function(x,candidates) {
+  lo_balance_key(x)
   x <- x[x$outcome=="mean_score" & x$split_dimension=="none" &
     x$split_group=="total" & x$peer_definition=="none",,drop=FALSE]
   domains <- c("reading","mathematics","science")

@@ -321,10 +321,16 @@ lo_pipeline_main <- function() {
   scope <- tolower(lo_pipeline_arg("scope",Sys.getenv("LO_SCOPE","nld_plus_19")))
   scopes <- c(nld_only="NLD_ONLY",nld_plus_19="NLD_PLUS_OECD_PPP",
               reference_19="OECD_PPP_ONLY",other="OTHER_INTERNATIONAL",
-              all="FULL_INTERNATIONAL",all_required="FIXED_REQUIRED_50")
+              all="FULL_INTERNATIONAL",all_required="SOURCE_ELIGIBLE_REQUIRED")
   if (!scope %in% names(scopes)) stop("Unknown scope: ",scope)
   actions <- c("plan","execute","replicate","vendor","vendor-push","check-contract","reference-audit","storage-audit","storage-plan","storage-dedupe","storage-migrate","storage-retirement-plan","storage-cleanup-apply","inventory","migrate","maintain","status","publish","watch","setup-drive","status-publish","provenance-audit","audit-batch","reconcile-and-plan","cleanup-stage","cleanup-restore","cleanup-finalize","next-batch","reuse-preflight","test-only","execute-nld-core","export-existing-nld","figure-minimum-plan","fixed-audit","fixed-produce","fixed-finalize","fixed-cleanup-plan","fixed-status")
   if (!action %in% actions) stop("Unknown action: ",action)
+
+  # Status must not create runner logs, discover bundles or trigger Drive sync.
+  if(action=="fixed-status") {
+    source(file.path(repo,"06_pipeline","LO_FIXED_CONTROLLER.R"),local=environment())
+    return(invisible(lo_fixed_controller(repo,"",stage="status",scope=scope)))
+  }
 
   stamp <- format(Sys.time(),"%Y%m%d_%H%M%S")
   output <- Sys.getenv("LO_RUN_OUTPUT", file.path(Sys.getenv("USERPROFILE",unset=path.expand("~")),"Downloads","LO05_RESULTATEN","runner_logs"))

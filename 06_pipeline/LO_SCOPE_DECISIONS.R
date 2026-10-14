@@ -41,3 +41,21 @@ lo_scoped_low_peer_tasks <- function(tasks,decisions=NULL) {
   # A scope yes permits specifying targets, never automatic compute/release.
   lo_grid_new_low_peer_tasks(tasks)
 }
+
+# This is the shared primitive scope gate used by audit, execution and export.
+# Ranks are derived/pending products, never additional pupil-level tasks.
+lo_scope_active_tasks <- function(tasks,decisions=NULL) {
+  family<-sub("_age.*$","",tasks$contract_figure_id)
+  keep<-!family%in%c("TR_BASIC","TR_POSITION")
+  keep[family=="GP_SES_HIGH"]<-lo_scope_is_approved(decisions,"A02")
+  low<-tasks$module=="peer_below_basic"
+  keep[family=="EN_PERFORMANCE_PEER" & low]<-lo_scope_is_approved(decisions,"A01")
+  keep[family=="EN_PERFORMANCE_PEER" & !low]<-lo_scope_is_approved(decisions,"A03")
+  extension_ids<-c(extension_home_ses="A04",extension_ses_gender="A06",
+    extension_performance_school="A11",extension_performance_class="A12",
+    extension_ses_school="A13",extension_ses_class="A14")
+  for(m in names(extension_ids))keep[tasks$module==m]<-lo_scope_is_approved(decisions,extension_ids[[m]])
+  keep[tasks$module=="extension_ses_gender" & tasks$stat=="high"]<-
+    lo_scope_is_approved(decisions,"A06") && lo_scope_is_approved(decisions,"A02")
+  tasks[keep,,drop=FALSE]
+}

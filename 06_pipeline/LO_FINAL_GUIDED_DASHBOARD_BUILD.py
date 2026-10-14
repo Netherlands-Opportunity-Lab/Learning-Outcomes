@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the ACTIVE bilingual guided 42-system dashboard from the pinned
+"""Build the active bilingual guided source-eligible dashboard from the pinned
 138-figure contract and independently validated aggregate product rows.
 
 This module does not read student records, does not borrow September numeric
@@ -38,17 +38,30 @@ def numeric(value,col):
  except (TypeError,ValueError):fail("invalid "+col)
  if not math.isfinite(x):fail("nonfinite "+col)
  return x
-def country_contract(bundle):
- cols, rows=readcsv(bundle/"COMMON42_REGISTER.csv")
- need={"route_code","country_id","country_name_nl","country_name_en","common42_member"}
- if not need <= cols:fail("invalid 42-system contract")
- members=[r for r in rows if r["common42_member"].upper()=="TRUE"]
- ids=[r["route_code"] for r in members]
- if len(ids)!=42 or len(set(ids))!=42 or "NLD" not in ids or any(
-    not re.fullmatch("[A-Z0-9]{3}",code) for code in ids):
-  fail("dashboard42 system membership changed")
- return members
-def figure_contract(bundle,allow_synthetic=False):
+def country_contract(bundle,registry=None,allow_synthetic=False):
+ if registry is None:
+  if not allow_synthetic:fail("certified dynamic country registry required")
+  cols,rows=readcsv(bundle/"COMMON42_REGISTER.csv")
+  return [r for r in rows if r["common42_member"].upper()=="TRUE"]
+ cols,rows=readcsv(registry)
+ need={"country","dashboard_eligible","selected_for_production","country_name_nl","country_name_en","eligibility_basis"}
+ if not need<=cols:fail("dynamic country registry schema")
+ members=[r for r in rows if r["dashboard_eligible"].upper()=="TRUE" and r["selected_for_production"].upper()=="TRUE"]
+ ids=[r["country"] for r in members]
+ if len(set(ids))!=len(ids) or any(not re.fullmatch("[A-Z0-9]{3}",c) for c in ids):fail("invalid country registry identities")
+ if any(r["eligibility_basis"]!="SHA_VERIFIED_SOURCE_SUPPORT" for r in members):fail("uncertified source eligibility")
+ return [dict(r,route_code=r["country"],country_id="iso3:"+r["country"]) for r in members]
+def read_scope_decisions(path):
+ if path is None:return {}
+ cols,rows=readcsv(path)
+ if not {"approval_id","status","decision_date","user_evidence"}<=cols:fail("scope decision schema")
+ if len(rows)!=17 or {r["approval_id"] for r in rows}!={f"A{i:02d}" for i in range(1,18)}:fail("scope decision IDs")
+ for r in rows:
+  if r["status"] not in ("APPROVED","REJECTED","DEFERRED","PENDING"):fail("scope decision status")
+  if r["status"]!="PENDING" and (not r["decision_date"] or not r["user_evidence"]):fail("human decision evidence missing")
+ return {r["approval_id"]:r["status"] for r in rows}
+def figure_contract(bundle,allow_synthetic=False,decisions=None):
+ decisions=decisions or {}
  cols,rows=readcsv(bundle/"FIGURE_SERIES_CONTRACT_20261002.csv")
  if not CONTRACT_COLS <= cols or (
      not allow_synthetic and len(rows)!=138):
@@ -66,12 +79,20 @@ def figure_contract(bundle,allow_synthetic=False):
   family=r["figure_id"].split("_age",1)[0]
   figure["historical_figure_id"]=r["figure_id"]
   # Product decisions are overlays, NEVER mutate the original source lock.
-  if family=="TR_BASIC":
+  if family in ("TR_BASIC","TR_POSITION"):
    figure["active_role"]="DERIVED_COMPLEMENT_SEPARATE_GRAPH_REMOVED"
    continue
   if family=="GP_SES_HIGH":
+   if decisions.get("A02")!="APPROVED":continue
    figure["active_role"]="OPTIONAL_APPENDIX"
   elif family=="EN_PERFORMANCE_PEER":
+   if decisions.get("A01")!="APPROVED":
+    if decisions.get("A03")=="APPROVED":
+     figure["active_role"]="APPROVED_HIGH_PEER";output.append(figure)
+    continue
+   if decisions.get("A03")=="APPROVED":
+    high=dict(figure,figure_id=r["figure_id"].replace("EN_PERFORMANCE_PEER_","EN_PERFORMANCE_PEER_HIGH_",1),active_role="APPROVED_HIGH_PEER")
+    output.append(high)
    # Existing figure IDs keep their linkage, but the new mandatory metric
    # is peer share BELOW basic; old high-peer estimates cannot fill them.
    figure.update(outcome="peer_share_below_basic",
@@ -92,6 +113,8 @@ def figure_contract(bundle,allow_synthetic=False):
    figure["active_role"]="PRIMARY_NEW_BELOW_BASIC_PEER"
   else:
    figure["active_role"]="REQUIRED_OR_EXISTING_SECONDARY"
+  if family=="GP_SES_BASIC":
+   figure.update(outcome="below_basic_by_ses",label_nl="Onder basisniveau naar SES",label_en="Below basic by SES",measure_label_nl="Aandeel onder basisniveau",measure_label_en="Share below basic")
   # Only documented vocabulary, with no fabricated science values.
   output.append(figure)
  return output
@@ -104,7 +127,7 @@ def product_rows(path,countries,figures):
  for r in rows:
   fid=r["figure_id"];country=r["country"]
   if fid not in figures or country not in countries:
-   fail("result outside active figure or 42-system contract")
+   fail("result outside active figure or dynamic country contract")
   f=figures[fid]
   if r["scientific_status"]!="SCIENTIFICALLY_VALIDATED":
    fail("unreviewed numeric row for "+fid)
@@ -132,7 +155,7 @@ def product_rows(path,countries,figures):
   role=r.get("series_role","focus") or "focus"
   if role not in ("focus","comparator"):
    fail("unexpected series role")
-  # No SE/CI drawn on the combined 19-country comparator (only points).
+  # No SE/CI drawn on the combined eligible-country comparator (only points).
   if role=="comparator":
    if r.get("comparison_fixed_panel_pass","").upper()!="PASS":
     fail("comparator not drawn from exact fixed panel")
@@ -159,8 +182,8 @@ def product_rows(path,countries,figures):
     if not low<=estimate<=high:fail("CI excludes point estimate")
     val.update(ci_low=low,ci_high=high)
   else:
-   val["comparator_n"]=int(numeric(r.get("comparator_n","19"),"comparator_n"))
-   if val["comparator_n"] not in (19,20):fail("comparator count invalid")
+   val["comparator_n"]=int(numeric(r.get("comparator_n",""),"comparator_n"))
+   if val["comparator_n"] <1:fail("comparator count invalid")
   out.append(val)
  return out
 def reviewed_unavailable(path,countries,figures):
@@ -180,15 +203,21 @@ def reviewed_unavailable(path,countries,figures):
    fail("private path in public unavailability reason")
   seen[k]=r
  return seen
+def figure_complete(current,figure):
+ required={x for x in figure["required_years"].split(";") if x}
+ groups={x for x in figure["expected_series"].split(";") if x}
+ pairs={(str(row["year"]),row["series_id"]) for row in current if row["series_role"]=="focus"}
+ return bool(required) and bool(groups) and {(y,g) for y in required for g in groups}.issubset(pairs)
+
 def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
-          unavailable_review=None):
+          unavailable_review=None,country_registry=None,scope_decisions=None,balance_export=None):
  if destination.exists():fail("immutable candidate path already exists")
  source=repo/"05_publication"/"preview_overlay"
  for rel in ("index.html","assets/app-shell.js","assets/styles.css",
              "locales/nl.json","locales/en.json"):
   if not (source/rel).is_file():fail("guided source missing "+rel)
- countries=country_contract(bundle)
- figures=figure_contract(bundle,synthetic_contract)
+ countries=country_contract(bundle,country_registry,synthetic_contract)
+ figures=figure_contract(bundle,synthetic_contract,read_scope_decisions(scope_decisions))
  if not figures:fail("no active figure contracts")
  ids={x["route_code"] for x in countries}
  numeric_rows=product_rows(scientific_rows,ids,figures)
@@ -205,6 +234,8 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
   {"code":r["route_code"],"nl":r["country_name_nl"],
    "en":r["country_name_en"]} for r in countries],ensure_ascii=False),
   encoding="utf-8")
+ if balance_export is not None:
+  shutil.copyfile(balance_export,destination/"data"/"balanced_references.json")
  (destination/"data"/"figure_registry.json").write_text(
   json.dumps({"figures":figures},ensure_ascii=False),encoding="utf-8")
  method_ids=sorted({f["method_id"] for f in figures})
@@ -233,8 +264,8 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
    required=set(x for x in f["required_years"].split(";") if x)
    roles=set(row["series_id"] for row in current if row["series_role"]=="focus")
    expected={x for x in f["expected_series"].split(";") if x}
-   fully=bool(current) and required.issubset(years) and (
-     not expected or expected.issubset(roles))
+   present_pairs={(str(row["year"]),row["series_id"]) for row in current if row["series_role"]=="focus"}
+   fully=figure_complete(current,f)
    reviewed=unavailable.get((country,f["figure_id"]))
    if reviewed and current:
     fail("cannot mark a figure unavailable while releasing numeric rows")
@@ -268,6 +299,11 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
  summary={"scientific_data_rows":len(numeric_rows),"system_count":len(ids),
    "active_figures":len(figures),
    "availability_counts":dict(sorted(availability_states.items())),
+   "scientific_source_sha256":sha(scientific_rows) if scientific_rows else "NO_DATA",
+   "figure_contract_sha256":sha(bundle/"FIGURE_SERIES_CONTRACT_20261002.csv"),
+   "balanced_references_sha256":sha(balance_export) if balance_export else "MISSING",
+   "country_registry_sha256":sha(country_registry) if country_registry else "SYNTHETIC_ONLY",
+   "scope_decisions_sha256":sha(scope_decisions) if scope_decisions else "PENDING_DEFAULT",
    "release_status":"PRIVATE_GUIDED_CANDIDATE_NOT_PUBLIC"}
  (destination/"GUIDED_QA.json").write_text(json.dumps(summary,indent=2),
                                           encoding="utf-8")
@@ -288,8 +324,12 @@ def main():
  p.add_argument("--output",type=Path,required=True)
  p.add_argument("--validated-grid",type=Path)
  p.add_argument("--reviewed-unavailable",type=Path)
+ p.add_argument("--country-registry",type=Path,required=True)
+ p.add_argument("--scope-decisions",type=Path,required=True)
+ p.add_argument("--balanced-references",type=Path)
  args=p.parse_args()
  print(json.dumps(build(args.repo,args.bundle,args.output,
                    args.validated_grid,
-                   unavailable_review=args.reviewed_unavailable),sort_keys=True))
+                   unavailable_review=args.reviewed_unavailable,country_registry=args.country_registry,
+                   scope_decisions=args.scope_decisions,balance_export=args.balanced_references),sort_keys=True))
 if __name__=="__main__":main()

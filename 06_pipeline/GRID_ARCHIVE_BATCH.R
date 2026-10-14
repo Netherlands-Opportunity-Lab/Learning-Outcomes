@@ -1,7 +1,7 @@
 # Archive-first grid fill and batch scheduling: read only, no pupil calculations.
 # Archive evidence must contain scientific validation, exact sample/method and
 # SHA identities. Candidate keys alone NEVER authorize reuse.
-lo_grid_archive_fill <- function(grid, candidates) {
+lo_grid_archive_fill <- function(grid, candidates,verify_files=FALSE) {
   if(!exists("lo_grid_validate_fill",mode="function"))
     stop("GRID_MODULE_HOLD: source MASTER_ESTIMATION_GRID.R")
   required <- c("cell_id","status","estimate","standard_error","n_unweighted",
@@ -14,6 +14,7 @@ lo_grid_archive_fill <- function(grid, candidates) {
   valid <- candidates[candidates$status=="SCIENTIFICALLY_VALIDATED",,drop=FALSE]
   if(nrow(valid)) {
     lo_grid_validate_fill(grid,valid)
+    if(verify_files)lo_grid_verify_result_artifacts(valid)
     ix <- match(valid$cell_id,grid$cell_id)
     # Existing locked contracts without sample/construct specifics CANNOT
     # be filled solely by matching metric_key; exact target sample is required.
@@ -49,6 +50,36 @@ lo_grid_archive_fill <- function(grid, candidates) {
     grid$hold_reason[ix] <- ""
   }
   grid
+}
+
+# Production reuse needs real pinned artifacts, not 64-character placeholders.
+# The private approval certificate binds exact result values to the source,
+# method and target. Source-free unit fixtures use the schema-only gate.
+lo_grid_verify_result_artifacts <- function(rows) {
+  fields<-c("source_path","source_edition_sha256","certification_path","certification_sha256")
+  if(!all(fields%in%names(rows)))stop("GRID_RESULT_ARTIFACTS_REQUIRED")
+  checked<-new.env(parent=emptyenv())
+  for(i in seq_len(nrow(rows))) {
+    for(pair in list(c("source_path","source_edition_sha256"),c("certification_path","certification_sha256"))) {
+      p<-rows[[pair[1]]][i];h<-rows[[pair[2]]][i];key<-paste(p,h)
+      if(!exists(key,checked,inherits=FALSE)) {
+        if(is.na(p)||!nzchar(p)||!file.exists(p)||!grepl("^[a-f0-9]{64}$",h)||
+           digest::digest(file=p,algo="sha256")!=h)stop("GRID_RESULT_CHANGED_ARTIFACT")
+        assign(key,TRUE,checked)
+      }
+    }
+    cert<-jsonlite::fromJSON(rows$certification_path[i],simplifyVector=TRUE)
+    cols<-c("cell_id","estimate","standard_error","n_unweighted","sample_id","method_version",
+      "target_contract_sha256","source_edition_sha256","input_fingerprint","code_fingerprint","result_hash",
+      "weight_design","pv_rule","variance_rule")
+    if(!identical(cert$status,"SCIENTIFICALLY_VALIDATED")||!all(cols%in%names(cert$cells)) ||
+       anyDuplicated(cert$cells$cell_id))stop("GRID_RESULT_CERTIFICATE_INVALID")
+    j<-match(rows$cell_id[i],cert$cells$cell_id)
+    if(is.na(j))stop("GRID_RESULT_CERTIFICATE_UNKNOWN_CELL")
+    for(k in cols)if(!identical(as.character(rows[[k]][i]),as.character(cert$cells[[k]][j])))
+      stop("GRID_RESULT_CERTIFICATE_CHANGED_VALUE_",k)
+  }
+  invisible(TRUE)
 }
 
 # One ordered batch per stable survey/country/year/sample/source/method
@@ -98,6 +129,7 @@ lo_grid_mark_archive_candidates <- function(grid,lo01_keys,lo02_keys) {
 lo_grid_apply_compute_approvals <- function(grid,approved) {
   mandatory <- c("cell_id","decision","certification_status",
     "target_contract_sha256","source_edition_sha256",
+    "source_path","certification_path","certification_sha256",
     "input_fingerprint","code_fingerprint","sample_id",
     "method_version","weight_design","pv_rule","variance_rule")
   if(!all(mandatory%in%names(approved)) ||
@@ -106,6 +138,8 @@ lo_grid_apply_compute_approvals <- function(grid,approved) {
     stop("GRID_COMPUTE_HOLD: invalid or uncontracted execution approvals")
   if(!nrow(approved))return(grid)
   ix <- match(approved$cell_id,grid$cell_id)
+  if(any(grepl("^UNAVAILABLE_",grid$status[ix])))
+    stop("GRID_COMPUTE_HOLD: documented unavailable source cannot become a compute order")
   if(any(approved$decision!="COMPUTE_REQUIRED" |
      approved$certification_status!="METHOD_SAMPLE_INPUT_CERTIFIED"))
     stop("GRID_COMPUTE_HOLD: certification must explicitly authorize computation")
@@ -115,12 +149,12 @@ lo_grid_apply_compute_approvals <- function(grid,approved) {
   if(any(approved$target_contract_sha256!=grid$target_contract_sha256[ix]))
     stop("GRID_COMPUTE_HOLD: exact immutable science target hash differs")
   for(k in c("input_fingerprint","code_fingerprint","source_edition_sha256",
-             "target_contract_sha256"))
+             "target_contract_sha256","certification_sha256"))
     if(anyNA(approved[[k]])||
        any(!grepl("^[0-9a-fA-F]{64}$",approved[[k]])))
       stop("GRID_COMPUTE_HOLD: invalid SHA field ",k)
   for(k in c("sample_id","method_version","weight_design",
-             "pv_rule","variance_rule"))
+             "pv_rule","variance_rule","source_path","certification_path"))
     if(anyNA(approved[[k]])||any(!nzchar(approved[[k]])))
       stop("GRID_COMPUTE_HOLD: method or sample not certified: ",k)
   for(k in intersect(names(approved),names(grid)))
@@ -131,3 +165,4 @@ lo_grid_apply_compute_approvals <- function(grid,approved) {
   grid$hold_reason[ix] <- "Exact input/producer fingerprints will be rechecked at production"
   grid
 }
+

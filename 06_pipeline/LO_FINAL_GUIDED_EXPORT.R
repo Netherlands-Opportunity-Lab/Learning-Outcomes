@@ -1,7 +1,7 @@
 # Build a GUIDED-frontend figure-product candidate from independently
 # validated primitive estimates. Source task and figure IDs remain immutable.
 # Old high-peer results cannot fill new primary below-basic peer graphs.
-lo_guided_grid_export <- function(bundle,tasks,approved,out) {
+lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL) {
   if(!exists("lo_grid_validate_fill",mode="function"))
     stop("GUIDED_EXPORT_HOLD: load MASTER_ESTIMATION_GRID.R")
   dir.create(out,recursive=TRUE,showWarnings=FALSE)
@@ -27,7 +27,9 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out) {
       method_version=character(),status=character())
   }
   if(nrow(approved)) {
-    lo_grid_validate_fill(data.frame(cell_id=tasks$metric_key),approved)
+    if(!exists("lo_grid_archive_fill",mode="function"))stop("GUIDED_EXPORT_EXACT_ARCHIVE_GATE_REQUIRED")
+    lo_grid_archive_fill(lo_grid_from_tasks(tasks),approved,
+      verify_files=TRUE)
   }
   matched <- match(approved$cell_id,tasks$metric_key)
   if(anyNA(matched))stop("GUIDED_EXPORT_HOLD: unknown science cell")
@@ -41,18 +43,23 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out) {
   }
   for(i in seq_len(nrow(approved))) {
     if(is.na(map_fig[[i]])) {
+      if(startsWith(source$module[i],"extension_")) {
+        omit(i,"APPROVED_APPENDIX_OR_SCIENCE_EXTENSION_SEPARATE_EXPORT");next
+      }
       omit(i,"NO_EXACT_FIGURE_CONTRACT_OR_DERIVED_RANK");next
     }
     f<-figures[map_fig[i],,drop=FALSE]
     id<-f$figure_id[[1]]
     family<-sub("_age.*$","",id)
-    if(family=="TR_BASIC") {
+    if(family%in%c("TR_BASIC","TR_POSITION")) {
       omit(i,"DERIVED_COMPLEMENT_NO_SEPARATE_CHART");next
     }
     new_peer <- family=="EN_PERFORMANCE_PEER" &&
                  source$module[[i]]=="peer_below_basic" &&
                  source$stat[[i]]=="peer_share_below_basic"
-    if(family=="EN_PERFORMANCE_PEER" && !new_peer) {
+    allowed <- function(id)exists("lo_scope_is_approved",mode="function") && lo_scope_is_approved(scope_decisions,id)
+    if(new_peer && !allowed("A01")) { omit(i,"PENDING_A01");next }
+    if(family=="EN_PERFORMANCE_PEER" && !new_peer && !allowed("A03")) {
       omit(i,"OLD_HIGH_PEER_CANNOT_FILL_PRIMARY_BELOW_BASIC");next
     }
     if(new_peer) {
@@ -64,13 +71,33 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out) {
         omit(i,"HOLD_NEW_PEER_METHOD_DENOMINATOR_OR_SELF_EXCLUSION");next
       }
     }
-    if(family=="GP_SES_HIGH") {
+    if(family=="GP_SES_HIGH" && !allowed("A02")) {
       omit(i,"OPTIONAL_APPENDIX_NOT_REQUIRED_FOR_MAIN_42");next
     }
+    value<-as.numeric(approved$estimate[i]);se<-as.numeric(approved$standard_error[i])
+    low<-if("ci_low"%in%names(approved))as.character(approved$ci_low[i]) else ""
+    high<-if("ci_high"%in%names(approved))as.character(approved$ci_high[i]) else ""
+    derived<-FALSE
     if(family=="GP_SES_BASIC") {
-      omit(i,"HOLD_BELOW_BASIC_BY_SES_COMPLEMENT_REQUIRES_DEFINED_UNIT_AND_CI")
-      next
+      unit<-source$unit[i];stat<-source$stat[i]
+      # Historical base_share is >=basic. Do not infer a unit from its value.
+      if(!unit%in%c("proportion","percent") || !stat%in%c("base_share","below_share","q1_basic","q4_basic")) {
+        omit(i,"BELOW_BASIC_EXACT_UNIT_OR_STAT_NOT_RECOGNIZED");next
+      }
+      cap<-if(unit=="proportion")1 else 100
+      if(value<0||value>cap)stop("GUIDED_EXPORT_INVALID_SHARE_RANGE")
+      if(stat%in%c("base_share","q1_basic","q4_basic")) {
+        value<-cap-value;derived<-TRUE
+        if(nzchar(low)&&nzchar(high)) { oldlow<-low;low<-as.character(cap-as.numeric(high));high<-as.character(cap-as.numeric(oldlow)) }
+      }
+      scale<-if(f$unit=="percent" && unit=="proportion")100 else if(f$unit==unit)1 else NA_real_
+      if(!is.finite(scale))stop("GUIDED_EXPORT_UNIT_CONVERSION_NOT_SPECIFIED")
+      value<-value*scale;se<-se*scale
+      if(nzchar(low))low<-as.character(as.numeric(low)*scale)
+      if(nzchar(high))high<-as.character(as.numeric(high)*scale)
     }
+    if(family=="EN_PERFORMANCE_PEER" && !new_peer && allowed("A01"))
+      id<-sub("^EN_PERFORMANCE_PEER_","EN_PERFORMANCE_PEER_HIGH_",id)
     group<-as.character(source$group[i])
     expected<-if(new_peer)
       c("total","self_below_basic","self_at_or_above_basic")
@@ -91,25 +118,24 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out) {
       year=as.character(source$year[i]),survey=as.character(source$survey[i]),
       domain=as.character(source$domain[i]),
       outcome_id=if(new_peer)"peer_share_below_basic"
-         else as.character(source$definition[i]),
-      estimate=as.numeric(approved$estimate[i]),
-      se=as.numeric(approved$standard_error[i]),
+         else if(family=="GP_SES_BASIC")"below_basic_by_ses" else as.character(source$definition[i]),
+      estimate=value,
+      se=se,
       n_unweighted=as.numeric(approved$n_unweighted[i]),
       scientific_status="SCIENTIFICALLY_VALIDATED",
       sample_id=as.character(approved$sample_id[i]),
       source_id=paste0("GRID:SHA256:",as.character(approved$result_hash[i])),
       input_fingerprint=as.character(approved$input_fingerprint[i]),
       code_fingerprint=as.character(approved$code_fingerprint[i]),
-      result_hash=as.character(approved$result_hash[i]),
+      result_hash=if(derived)digest::digest(list(parent=as.character(approved$result_hash[i]),
+        transform="BELOW_BASIC_COMPLEMENT_V1",source_unit=source$unit[i],target_unit=f$unit,
+        estimate=value,se=se,ci_low=low,ci_high=high),algo="sha256") else as.character(approved$result_hash[i]),
       series_id=group,series_role="focus",
       series_label_nl=group,series_label_en=group,
       split_group=group,
       comparison_fixed_panel_pass="",
       comparison_method="",comparator_n="",
-      ci_low=if("ci_low"%in%names(approved))
-        as.character(approved$ci_low[i]) else "",
-      ci_high=if("ci_high"%in%names(approved))
-        as.character(approved$ci_high[i]) else "",
+      ci_low=low,ci_high=high,
       peer_denominator_verified=if(new_peer)"PASS" else "",
       self_exclusion_verified=if(new_peer)"PASS" else "",
       stringsAsFactors=FALSE)
@@ -137,12 +163,17 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out) {
                 country=character(),reason=character())
   write.csv(result,file.path(out,"PRIVATE_GUIDED_VALIDATED_ROWS.csv"),
             row.names=FALSE,na="")
+  # Preserve approved appendix/science results with exact parent IDs and full
+  # provenance; dashboard figure contracts cannot silently rename these rows.
+  ext<-startsWith(source$module,"extension_")
+  appendix<-cbind(source[ext,,drop=FALSE],approved[ext,setdiff(names(approved),names(source)),drop=FALSE])
+  write.csv(appendix,file.path(out,"PRIVATE_APPROVED_EXTENSION_ROWS.csv"),row.names=FALSE,na="")
   write.csv(skipped,file.path(out,"PRIVATE_GUIDED_MAPPING_HOLDS.csv"),
             row.names=FALSE)
   stats<-data.frame(validated_input_cells=nrow(approved),
     guided_focus_rows=nrow(result),
     mapping_holds=nrow(skipped),
-    requires_new_below_basic_peer="YES",
+    requires_new_below_basic_peer=if(!is.null(scope_decisions) && lo_scope_is_approved(scope_decisions,"A01"))"YES" else "NO",
     publication_status="PRIVATE_REVIEW_ONLY",stringsAsFactors=FALSE)
   write.csv(stats,file.path(out,"GUIDED_EXPORT_SUMMARY.csv"),row.names=FALSE)
   invisible(stats)

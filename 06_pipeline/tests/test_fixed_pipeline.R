@@ -63,10 +63,11 @@ stopifnot(approved_q$new_below_basic_peer_targets==3L,
 candidate<-lo_fixed_produce(bundle,p3,tasks,
       file.path(work,"production"),native_run=FALSE)
 stopifnot(candidate$native_execution=="PREVIEW_ONLY",
- candidate$scientific_release=="HOLD_PENDING_INDEPENDENT_VALIDATION")
+ candidate$scientific_release=="NOT_AUTOMATICALLY_VALIDATED")
+Sys.setenv(LO_REPO_ROOT=normalizePath("."))
 held<-lo_fixed_produce(bundle,p3,tasks,file.path(work,"held_production"),
  native_run=TRUE,grid=lo_grid_from_tasks(tasks))
-stopifnot(held$native_execution=="HOLD_EXACT_CELL_DISPATCH_NOT_IMPLEMENTED")
+stopifnot(held$native_execution=="NO_APPROVED_COMPUTE_CELLS")
 # A complete synthetic approval has zero missing rows and must still check
 # exact target/source/design identity before becoming review-eligible.
 fixture<-lo_grid_from_tasks(tasks)

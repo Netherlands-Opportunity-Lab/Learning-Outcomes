@@ -42,7 +42,7 @@ class GuidedDashboard(unittest.TestCase):
    out=work/"candidate"
    summary=mod.build(ROOT,bundle,out,synthetic_contract=True)
    self.assertEqual(summary["system_count"],42)
-   self.assertEqual(summary["active_figures"],2)
+   self.assertEqual(summary["active_figures"],1)
    self.assertEqual(summary["scientific_data_rows"],0)
    self.assertTrue((out/"nl"/"country"/"NLD"/"trends"/"index.html").exists())
    self.assertTrue((out/"en"/"country"/"X00"/"environment"/"index.html").exists())
@@ -50,7 +50,7 @@ class GuidedDashboard(unittest.TestCase):
    self.assertTrue((out/"data"/"figure_registry.json").is_file())
    figs=json.loads((out/"data"/"figure_registry.json").read_text())["figures"]
    self.assertEqual([f["outcome"] for f in figs if "PEER" in f["figure_id"]],
-                    ["peer_share_below_basic"])
+                    [])
    self.assertNotIn("TR_BASIC_age15_reading",[f["figure_id"] for f in figs])
    avail=json.loads((out/"data"/"availability"/"NLD.json").read_text())
    self.assertTrue(all(x["display_state"]=="PLACEHOLDER" for x in avail["figures"]))
@@ -82,4 +82,18 @@ class GuidedDashboard(unittest.TestCase):
       figure_id="EN_PERFORMANCE_PEER_age15_reading_direct_learning_environment")
    write(row)
    with self.assertRaises(ValueError):mod.build(ROOT,bundle,work/"peerhold",grid,synthetic_contract=True)
+ def test_joint_year_group_hole_does_not_pass_marginal_coverage(self):
+  f=dict(required_years="2018;2022",expected_series="boy;girl")
+  rows=[dict(year=2018,series_id="boy",series_role="focus"),dict(year=2022,series_id="girl",series_role="focus")]
+  self.assertFalse(mod.figure_complete(rows,f))
+  rows.extend([dict(year=2018,series_id="girl",series_role="focus"),dict(year=2022,series_id="boy",series_role="focus")])
+  self.assertTrue(mod.figure_complete(rows,f))
+ def test_dynamic_admission_does_not_force_rich_20_or_common42(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   path=Path(tmp)/"countries.csv"
+   rows=[dict(country=c,dashboard_eligible=ok,selected_for_production="TRUE",country_name_nl=c,country_name_en=c,eligibility_basis="SHA_VERIFIED_SOURCE_SUPPORT") for c,ok in [("NLD","TRUE"),("Z99","TRUE"),("AUT","FALSE")]]
+   with path.open("w",newline="",encoding="utf-8") as f:
+    w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
+   self.assertEqual([r["route_code"] for r in mod.country_contract(Path(tmp),path)],["NLD","Z99"])
 if __name__=="__main__":unittest.main()
+
