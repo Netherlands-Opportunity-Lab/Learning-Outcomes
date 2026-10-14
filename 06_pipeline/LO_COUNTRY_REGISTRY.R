@@ -32,6 +32,14 @@ lo_read_source_support <- function(path) {
        !lo_balance_key(row)%in%cert$support_keys ||
        is.null(cert$comparability_evidence) || !nzchar(cert$comparability_evidence))
       stop("SOURCE_SUPPORT_CERTIFICATE_MISMATCH")
+    if(!is.data.frame(cert$evidence_files) || !nrow(cert$evidence_files) ||
+       !all(c("path","sha256")%in%names(cert$evidence_files)))
+      stop("SOURCE_SUPPORT_EVIDENCE_REQUIRED")
+    for(j in seq_len(nrow(cert$evidence_files))) {
+      p<-cert$evidence_files$path[j];h<-cert$evidence_files$sha256[j]
+      if(!file.exists(p)||!grepl("^[a-f0-9]{64}$",h)||
+         digest::digest(file=p,algo="sha256")!=h)stop("SOURCE_SUPPORT_EVIDENCE_CHANGED")
+    }
   }
   if(anyDuplicated(paste(verified$country,lo_balance_key(verified))))
     stop("SOURCE_SUPPORT_DUPLICATE_EDITION")
@@ -63,7 +71,9 @@ lo_runtime_scope <- function(bundle,tasks,scope,source_support) {
       if(col%in%names(labels))countries[[col]][!is.na(idx)]<-labels[[col]][idx[!is.na(idx)]]
     }
   }
-  countries$eligibility_basis<-"SHA_VERIFIED_SOURCE_SUPPORT"
+  countries$eligibility_basis<-ifelse(countries$country%in%eligible,
+    "SHA_VERIFIED_SOURCE_SUPPORT",ifelse(countries$country%in%source_support$country,
+    "VERIFIED_SUPPORT_INCOMPLETE", "SOURCE_SUPPORT_NOT_YET_VERIFIED"))
   list(scope=scope,selected=sort(unique(selected)),dashboard=sort(intersect(selected,eligible)),
     comparator=rich,foreign_reference=setdiff(rich,"NLD"),
     additional_reference=setdiff(rich,eligible),countries=countries,cycle_detail=admission$detail,

@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-14",
+  "source_scope": "NLD PISA 2022; selected nine core cells only",
+  "raw_validation": {
+    "pupils": 5046,
+    "exact_id_set": true,
+    "weights": 81,
+    "plausible_value_columns": 30,
+    "column_checks": 111
+  },
+  "independent_parity": {
+    "cells": 9,
+    "max_estimate_abs_diff": 3.41060513164848e-13,
+    "max_se_abs_diff": 1.94955163124177e-13,
+    "tolerance": 1e-09
+  },
+  "controller": {
+    "first_new": 9,
+    "second_new": 0,
+    "second_reused": 9,
+    "subsequent_audit_certified": 9,
+    "remaining_authorized_compute_batches": 0,
+    "private_finalize": "EXECUTED; full scientific release correctly withheld"
+  },
+  "remaining_step2": {
+    "active_gaps": 2373,
+    "documented_unavailable_home_ses": 144,
+    "full_country_and_group_coverage": "NOT_YET_CERTIFIED",
+    "Q01_Q08_pass": 0,
+    "full_scientific_release": false
+  },
+  "storage": {
+    "bytes_freed": 4239990211,
+    "drive_restored_files": 28,
+    "restored_database_rows": 9,
+    "restored_execution_receipts": 9,
+    "sqlite_integrity": "ok",
+    "full_source_backup_claimed": false,
+    "free_bytes_after_latest_selection": 2772025344,
+    "latest_selection_files": 39,
+    "latest_selection_bytes": 1137380683,
+    "drive_archive_sha256": "51d736c66399619a20e0058a277ec69a9d760c8065cc2ea4776ebe2de65d8186"
+  },
+  "visual_qa": {
+    "errors": [],
+    "screens": [],
+    "home": {
+      "cards": 4,
+      "bodyFont": "Oswald, \"Arial Narrow\", sans-serif",
+      "wordmarkFont": "Inter, Arial, sans-serif",
+      "oswald": true,
+      "inter": true,
+      "overflow": false
+    },
+    "explorer": {
+      "visible": true,
+      "chart": true,
+      "status": "Gevalideerde resultaten."
+    },
+    "english": {
+      "lang": "en",
+      "logo": "block",
+      "hiddenLogo": "none"
+    },
+    "mobile": {
+      "overflow": false,
+      "body": 390,
+      "viewport": 390
+    },
+    "data_scope": "Historical October archive data, visibly labelled for design QA only; not scientific release"
+  },
+  "ci": "See the current PR commit checks; do not infer latest-head CI from an earlier commit",
+  "scope_note": "All-module certification and complete country lists belong to original instruction 2; pending A09 excluded"
+}

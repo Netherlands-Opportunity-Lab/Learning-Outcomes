@@ -81,6 +81,16 @@ stopifnot(nrow(low)==1L,low$outcome_id=="peer_share_below_basic",
           low$peer_denominator_verified=="PASS")
 wrong<-approved2;wrong$estimate[1]<-wrong$estimate[1]+1
 stopifnot(inherits(try(lo_guided_grid_export(bundle,tasks2,wrong,file.path(work,"changed"),decisions),silent=TRUE),"try-error"))
+fake_repo<-file.path(work,"repo");dir.create(file.path(fake_repo,"05_publication","preview_overlay","assets"),recursive=TRUE)
+dir.create(file.path(fake_repo,"06_pipeline"))
+css<-file.path(fake_repo,"05_publication","preview_overlay","assets","styles.css")
+writeLines("body {color: black}",css)
+h1<-lo_guided_preview_fingerprint(fake_repo,bundle,out2)
+writeLines("body {color: blue}",css)
+h2<-lo_guided_preview_fingerprint(fake_repo,bundle,out2)
+stopifnot(h1!=h2)
+writeLines("changed reference",file.path(out2,"BALANCED_REFERENCE_EXPORT.json"))
+stopifnot(h2!=lo_guided_preview_fingerprint(fake_repo,bundle,out2))
 unlink(work,recursive=TRUE)
 cat("PASS validated guided export, fixed source IDs and high-peer exclusion\n")
 

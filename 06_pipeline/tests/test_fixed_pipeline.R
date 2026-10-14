@@ -60,6 +60,10 @@ approved_q<-lo_final_quality_gate(bundle,with_peer,
 stopifnot(approved_q$new_below_basic_peer_targets==3L,
  approved_q$active_missing==6L,approved_q$primary_peer_gate=="HOLD",
  approved_q$scientific_freeze=="HOLD")
+expanded<-rbind(with_peer,lo_scoped_low_peer_tasks(with_peer,scope_decisions))
+expanded_q<-lo_final_quality_gate(bundle,expanded,
+ file.path(work,"missing_approvals.csv"),file.path(work,"expanded_peer"),scope_decisions)
+stopifnot(expanded_q$new_below_basic_peer_targets==3L,expanded_q$active_missing==6L)
 candidate<-lo_fixed_produce(bundle,p3,tasks,
       file.path(work,"production"),native_run=FALSE)
 stopifnot(candidate$native_execution=="PREVIEW_ONLY",
@@ -78,6 +82,13 @@ fixture$input_fingerprint<-fixture$code_fingerprint<-fixture$result_hash<-
  fixture$source_edition_sha256<-paste(rep("a",64),collapse="")
 fixture$weight_design<-"synthetic_weights";fixture$pv_rule<-"synthetic_PVs"
 fixture$variance_rule<-"synthetic_replicates"
+source_fixture<-file.path(work,"synthetic_source.txt");writeLines("source-free test",source_fixture)
+fixture$source_path<-source_fixture
+fixture$source_edition_sha256<-digest::digest(file=source_fixture,algo="sha256")
+cert_fixture<-file.path(work,"synthetic_result_certificate.json")
+jsonlite::write_json(list(status="SCIENTIFICALLY_VALIDATED",cells=fixture),cert_fixture,auto_unbox=TRUE,digits=16)
+fixture$certification_path<-cert_fixture
+fixture$certification_sha256<-digest::digest(file=cert_fixture,algo="sha256")
 write.csv(fixture,file.path(work,"complete_approvals.csv"),row.names=FALSE)
 write.csv(data.frame(requirement_id=sprintf("Q%02d",1:8),status="PASS"),
  file.path(work,"SCIENTIFIC_PAPER_GATES.csv"),row.names=FALSE)
@@ -86,6 +97,10 @@ complete<-lo_final_quality_gate(bundle,tasks,file.path(work,"complete_approvals.
 stopifnot(complete$active_missing==0L,
  complete$scientific_freeze=="ELIGIBLE_FOR_INDEPENDENT_REVIEW",
  complete$publication_authorized=="NO_RIGHTS_AND_REPLICATION_REVIEW_PENDING")
+writeLines("changed source",source_fixture)
+stopifnot(inherits(try(lo_final_quality_gate(bundle,tasks,
+ file.path(work,"complete_approvals.csv"),file.path(work,"changed_source")),silent=TRUE),"try-error"))
+writeLines("source-free test",source_fixture)
 fixture$target_contract_sha256[1]<-paste(rep("b",64),collapse="")
 write.csv(fixture,file.path(work,"complete_approvals.csv"),row.names=FALSE)
 stopifnot(inherits(try(lo_final_quality_gate(bundle,tasks,

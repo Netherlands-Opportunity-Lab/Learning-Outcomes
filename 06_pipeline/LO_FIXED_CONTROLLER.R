@@ -226,12 +226,7 @@ lo_fixed_controller <- function(repo,bundle,
     validated_export <- file.path(state,"PRIVATE_GUIDED_VALIDATED_ROWS.csv")
     if(!requireNamespace("digest",quietly=TRUE))
       stop("FIXED_PIPELINE_HOLD: digest missing for immutable preview")
-    build_hash <- substr(digest::digest(list(
-      export=digest::digest(file=validated_export,algo="sha256"),
-      decisions=digest::digest(file=file.path(repo,"06_pipeline","SCOPE_APPROVALS.csv"),algo="sha256"),
-      countries=digest::digest(file=file.path(state,"COUNTRY_SOURCE_ELIGIBILITY.csv"),algo="sha256"),
-      builder=digest::digest(file=file.path(repo,"06_pipeline","LO_FINAL_GUIDED_DASHBOARD_BUILD.py"),algo="sha256")),algo="sha256"),
-                         1L,18L)
+    build_hash <- lo_guided_preview_fingerprint(repo,bundle,state)
     candidate <- file.path(state,paste0("DASHBOARD_GUIDED_REVIEW_",build_hash))
     preview_state <- if(dir.exists(candidate)) {
       if(file.exists(file.path(candidate,"BUILD_SHA256_MANIFEST.json")))
