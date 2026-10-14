@@ -1,0 +1,23 @@
+source('06_pipeline/LO_IEA_SOURCE_BLOCK.R')
+tmp<-tempfile('iea_');dir.create(tmp)
+raw<-data.frame(IDCNTRY=528,IDSTUD=1:8,IDSCHOOL=rep(1:4,each=2),IDCLASS=rep(1:4,each=2),
+ IDPOP=1,IDGRADE=4,TOTWGT=1,JKZONE=rep(1:2,each=4),JKREP=rep(c(0,0,1,1),2))
+raw$ITSEX<-haven::labelled(rep(c(1,2),4),c(Girl=1,Boy=2))
+for(j in 1:5)raw[[paste0('ASRREA0',j)]]<-c(300,400,500,600,400,500,600,700)+j
+path<-file.path(tmp,'raw.sav');haven::write_sav(raw,path)
+v<-lo_iea_prepare_nld(path,'PIRLS',2016,file.path(tmp,'out'))
+stopifnot(v$receipt$n==8,v$receipt$jk_zones==2,v$object$meta$class_identity=='ACTUAL_CLASS_NESTED_WITHIN_SCHOOL')
+q<-data.frame(metric_key=c('mean','gap'),survey='PIRLS',year=2016,domain='reading',module=c('core','gender'),stat=c('mean','gap'),group=c('total','girls_minus_boys'),threshold='')
+a<-lo_iea_independent_selected(raw,q)
+stopifnot(a$results$estimate[1]==503,a$results$estimate[2]==-100,all(a$results$n_unweighted==8),
+ a$joint$factor==.5,dim(a$joint$replicate_pv)[1]==4)
+q$year<-2011;b<-lo_iea_independent_selected(raw,q)
+stopifnot(b$joint$factor==1,dim(b$joint$replicate_pv)[1]==2)
+bad<-raw;bad$IDGRADE[1]<-5;haven::write_sav(bad,path)
+stopifnot(inherits(try(lo_iea_prepare_nld(path,'PIRLS',2016,file.path(tmp,'bad')),silent=TRUE),'try-error'))
+delayed<-lo_iea_prepare_nld(path,'PIRLS',2021,file.path(tmp,'delayed'))
+stopifnot(delayed$receipt$grade5_n==1,delayed$receipt$n==8)
+bad<-raw;bad$IDSTUD[1]<-2;haven::write_sav(bad,path)
+stopifnot(inherits(try(lo_iea_prepare_nld(path,'PIRLS',2016,file.path(tmp,'bad')),silent=TRUE),'try-error'))
+unlink(tmp,recursive=TRUE)
+cat('PASS source-only IEA preparation, grade/population guards, paired JRR and PV pooling\n')
