@@ -32,23 +32,31 @@ lo_pisa_value_counts <- function(x) {
   data.frame(value=ifelse(is.na(names(t)),'NA',names(t)),n=as.integer(t))
 }
 lo_pisa_source_gender <- function(raw) {
-  # The 2025 official recode uses ST004D01D; the public-use file can retain an
-  # empty ST004D01T plus a collapsed MALE. A collapsed Female/Other category
-  # cannot silently become girls. A labelled Male category remains usable.
-  for(k in intersect(c('ST004D01D','ST004D01T'),names(raw))) {
+  # User's selected standard: ST004D01T, Female=1 / Male=2. Check labels AND
+  # observations. Older ST004 and the documented D recode are explicit fallbacks,
+  # never a row-wise imputation. ST430 is not used as a substitute construct.
+  chosen<-NULL; audit<-list()
+  for(k in intersect(c('ST004D01T','ST004','ST004D01D'),names(raw))) {
     female<-lo_pisa_label_code(raw[[k]],'female');male<-lo_pisa_label_code(raw[[k]],'male')
+    if(k%in%c('ST004D01T','ST004') && !identical(as.numeric(c(female,male)),c(1,2)))
+      stop('PISA_STANDARD_GENDER_CODE_CONFLICT: ',k)
     v<-c('girl','boy')[match(as.numeric(raw[[k]]),c(female,male))]
-    if(any(!is.na(v)))return(list(values=v,variable=k,status='SOURCE_VALUE_LABEL_VERIFIED',
-      map=paste0(female,'=girl;',male,'=boy')))
+    audit[[k]]<-list(girls=sum(v=='girl',na.rm=TRUE),boys=sum(v=='boy',na.rm=TRUE),
+      unresolved=sum(is.na(v)),counts=lo_pisa_value_counts(raw[[k]]))
+    if(!is.null(chosen) && any(!is.na(v)&!is.na(chosen$values)&v!=chosen$values))
+      stop('PISA_GENDER_FIELDS_CONFLICT: ',chosen$variable,' / ',k)
+    if(is.null(chosen) && any(!is.na(v)))chosen<-list(values=v,variable=k,
+      status='SOURCE_VALUE_LABEL_VERIFIED',map=paste0(female,'=girl;',male,'=boy'))
   }
+  if(!is.null(chosen)) {chosen$audit<-audit;return(chosen)}
   if('MALE'%in%names(raw)) {
     male<-lo_pisa_label_code(raw$MALE,'male')
     v<-ifelse(!is.na(raw$MALE)&as.numeric(raw$MALE)==male,'boy',NA_character_)
     if(any(!is.na(v)))return(list(values=v,variable='MALE',
-      status='PARTIAL_SOURCE_GENDER_GIRL_UNRESOLVED',map=paste0(male,'=boy;other codes not assigned to girls')))
+      status='PARTIAL_SOURCE_GENDER_GIRL_UNRESOLVED',map=paste0(male,'=boy;other codes not assigned to girls'),audit=audit))
   }
   list(values=rep(NA_character_,nrow(raw)),variable='NONE_VERIFIED',
-    status='UNRESOLVED_SOURCE_GENDER_MAPPING',map='No verified mapping')
+    status='UNRESOLVED_SOURCE_GENDER_MAPPING',map='No verified mapping',audit=audit)
 }
 lo_pisa_canonical_from_raw <- function(raw,year,country) {
   codes<-c("READ","MATH","SCIE")
@@ -65,7 +73,7 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
   codes<-c("READ","MATH","SCIE")
   pvs<-unlist(lapply(codes,function(k)paste0("PV",1:10,k)))
   header<-haven::read_sav(raw_path,n_max=0)
-  gender_fields<-intersect(c('ST004D01D','ST004D01T','MALE'),names(header))
+  gender_fields<-intersect(c('ST004D01T','ST004','ST004D01D','MALE'),names(header))
   fields<-c("CNTSTUID","CNTSCHID","AGE",gender_fields,"ST022Q01TA","LANGTEST_COG",
     "IMMIG","ESCS","PROGN","W_FSTUWT",paste0("W_FSTURWT",1:80),pvs)
   raw<-lo_pisa_country_rows(raw_path,country,fields)
@@ -130,7 +138,7 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
     exact_pupil_set=TRUE,n=nrow(d),columns_checked=nrow(checks),
     raw_sha256=meta$repair_raw_sha256,parent_sha256=meta$repair_parent_sha256,
     canonical_sha256=digest::digest(file=output,algo="sha256"),canonical_filename=basename(output),
-    gender_status=meta$gender_status,
+    gender_status=meta$gender_status,gender_field_audit=gender$audit,
     gender_alternative=if("MALE"%in%names(raw))list(variable="MALE",counts=lo_pisa_value_counts(raw$MALE),
       labels=as.list(attr(raw$MALE,"labels")),equivalent_to_girl_boy=FALSE,
       reason="Female / Other is not the approved female group; do not silently substitute constructs")else NULL,
@@ -157,10 +165,16 @@ lo_pisa_independent_selected <- function(raw,q) {
   w<-as.matrix(raw[c("W_FSTUWT",paste0("W_FSTURWT",1:80))])
   if(any(!is.finite(w))||any(w<0)||any(colSums(w)<=0))stop("PISA_REFERENCE_INVALID_WEIGHTS")
   sex<-rep(NA_real_,nrow(raw));sexmap<-c(girl=-1,boy=-2)
-  for(field in intersect(c('ST004D01D','ST004D01T'),names(raw))) {
+  selected_gender<-FALSE
+  for(field in intersect(c('ST004D01T','ST004','ST004D01D'),names(raw))) {
     values<-as.numeric(raw[[field]])
     mapping<-c(girl=lo_pisa_label_code(raw[[field]],'female'),boy=lo_pisa_label_code(raw[[field]],'male'))
-    if(any(values%in%mapping)) {sex<-values;sexmap<-mapping;break}
+    if(field%in%c('ST004D01T','ST004') && !identical(as.numeric(mapping),c(1,2)))
+      stop('PISA_REFERENCE_STANDARD_GENDER_CODE_CONFLICT')
+    if(selected_gender) {
+      previous<-match(sex,sexmap);current<-match(values,mapping)
+      if(any(!is.na(previous)&!is.na(current)&previous!=current))stop('PISA_REFERENCE_GENDER_FIELDS_CONFLICT')
+    } else if(any(values%in%mapping)) {sex<-values;sexmap<-mapping;selected_gender<-TRUE}
   }
   if(all(is.na(sex))&&'MALE'%in%names(raw)) {
     male_code<-lo_pisa_label_code(raw$MALE,'male')

@@ -17,6 +17,22 @@ lo_grid_from_tasks <- function(tasks) {
    length(lo_grid_schema())),lo_grid_schema()),stringsAsFactors=FALSE))
  field <- function(x)if(x%in%names(tasks)) as.character(tasks[[x]]) else
     rep("",nrow(tasks))
+ # These contracts contain grade-4 IEA and age-15 PISA only. This is the
+ # target population, not each pupil's observed age (delayed testing differs).
+ expected_age <- ifelse(tasks$survey=="PISA","age15","age10")
+ if(any(!tasks$survey%in%c("PISA","PIRLS","TIMSS")))
+   stop("GRID_POPULATION_UNKNOWN_SURVEY")
+ age <- field("age"); supplied <- !is.na(age)&nzchar(age)
+ normalized_age <- ifelse(grepl("^age",age),age,paste0("age",age))
+ if(any(supplied & normalized_age!=expected_age))stop("GRID_POPULATION_AGE_CONFLICT")
+ figures <- field("contract_figure_id")
+ has_age <- !is.na(figures)&grepl("_age[0-9]+",figures)
+ figure_age <- sub(".*_(age[0-9]+).*","\\1",figures)
+ if(any(has_age & figure_age!=expected_age))stop("GRID_POPULATION_FIGURE_CONFLICT")
+ population <- field("population")
+ expected_population <- ifelse(tasks$survey=="PISA","PISA_15_YEAR_OLD_TARGET","IEA_INTERNATIONAL_GRADE_4")
+ supplied <- !is.na(population)&nzchar(population)
+ if(any(supplied & population!=expected_population))stop("GRID_POPULATION_CONTRACT_CONFLICT")
  if(!requireNamespace("digest",quietly=TRUE))
     stop("GRID_CONTRACT_HOLD: digest missing")
  signature_columns <- c("metric_key","country","survey","year","domain",
@@ -31,9 +47,9 @@ lo_grid_from_tasks <- function(tasks) {
     digest::digest(value,algo="sha256",serialize=FALSE),
     character(1L),USE.NAMES=FALSE)
  z <- data.frame(cell_id=field("metric_key"),survey=field("survey"),
-    country=field("country"),year=field("year"),age=field("age"),
+    country=field("country"),year=field("year"),age=expected_age,
     domain=field("domain"),sample_id=field("sample"),
-    population_id=field("population"),subgroup_variable=field("module"),
+    population_id=expected_population,subgroup_variable=field("module"),
     subgroup_level=field("group"),outcome_id=field("definition"),
     statistic=field("stat"),ses_construct_id="",
     threshold_id=field("threshold"),peer_environment=field("peer_definition"),

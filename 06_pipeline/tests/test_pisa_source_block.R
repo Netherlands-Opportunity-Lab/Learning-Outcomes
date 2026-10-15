@@ -35,12 +35,24 @@ stopifnot(unavailable$receipt$gender_status=='PARTIAL_SOURCE_GENDER_GIRL_UNRESOL
 modern<-missing_gender
 modern$ST004D01D<-haven::labelled(c(1,2,3,99),c(Female=1,Male=2,Other=3,'No response'=99))
 stopifnot(identical(lo_pisa_source_gender(modern)$values,c('girl','boy',NA,NA)))
+alias<-raw;alias$ST004<-alias$ST004D01T;alias$ST004D01T<-NULL
+stopifnot(lo_pisa_source_gender(alias)$variable=='ST004',
+ identical(lo_pisa_source_gender(alias)$values,c('girl','boy','girl','boy')))
+both<-raw;both$ST004D01D<-raw$ST004D01T
+stopifnot(lo_pisa_source_gender(both)$variable=='ST004D01T')
+both$ST004D01D[1]<-2
+stopifnot(inherits(try(lo_pisa_source_gender(both),silent=TRUE),'try-error'))
+mixed<-raw;mixed$ST004D01T<-haven::labelled(c(1,2,3,99),c(Female=1,Male=2,Other=3,'No response'=99))
+stopifnot(identical(lo_pisa_source_gender(mixed)$values,c('girl','boy',NA,NA)),
+ lo_pisa_source_gender(mixed)$audit$ST004D01T$unresolved==2L)
 counts<-lo_pisa_value_counts(c(0,1,NA))
 stopifnot(identical(counts$value,c('0','1','NA')),all(counts$n==1L))
 q<-data.frame(metric_key=c('m','p','g','mig'),survey='PISA',year='2025',country='NLD',domain='reading',
  module=c('core','core','gender','migration_generation'),stat=c('mean','p90_p10','gap','mean_score_gap'),
  group=c('total','total','girls_minus_boys','first_minus_native'),threshold='',definition='')
 a<-lo_pisa_independent_selected(raw,q)
+stopifnot(identical(a,lo_pisa_independent_selected(alias,q)),
+ inherits(try(lo_pisa_independent_selected(both,q),silent=TRUE),'try-error'))
 stopifnot(a$results$estimate[1]==530.5,a$results$estimate[2]==400,
  a$results$estimate[3]== -150,a$results$estimate[4]==300,
  identical(a$results$n_unweighted,c(4L,4L,4L,3L)),all(a$results$standard_error>=0),a$results$standard_error[1]>0)

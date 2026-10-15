@@ -7,6 +7,12 @@ g<-lo_grid_from_tasks(task)
 stopifnot(nrow(g)==2L,all(is.na(g$estimate)),all(is.na(g$standard_error)),
  all(is.na(g$n_unweighted)),!anyDuplicated(g$cell_id),
  identical(names(g),lo_grid_schema()))
+stopifnot(all(g$age=='age15'),all(g$population_id=='PISA_15_YEAR_OLD_TARGET'))
+primary<-transform(task,survey='PIRLS')
+stopifnot(all(lo_grid_from_tasks(primary)$population_id=='IEA_INTERNATIONAL_GRADE_4'),
+ all(lo_grid_from_tasks(primary)$age=='age10'))
+stopifnot(inherits(try(lo_grid_from_tasks(transform(task,age='10')),silent=TRUE),'try-error'))
+stopifnot(inherits(try(lo_grid_from_tasks(transform(task,contract_figure_id='TR_MEAN_age10_reading')),silent=TRUE),'try-error'))
 candidate<-data.frame(cell_id="m1",estimate=490,standard_error=3,
  n_unweighted=1500,input_fingerprint=paste(rep("a",64),collapse=""),
  code_fingerprint=paste(rep("b",64),collapse=""),
