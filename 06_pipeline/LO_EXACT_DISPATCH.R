@@ -154,6 +154,9 @@ lo_exact_dispatch <- function(repo,bundle,scope_info,tasks,grid,out,backend=NULL
           else if(extension || module%in%c("core","ses_national","ses_harmonized","gender"))lo_exact_selected_estimate(obj,science)
           else if(module=="migration_generation")lo_exact_generations(obj,run)
           else if(module=="migration_peer_exposure")lo_compact_migration_peers(obj,run)
+          else if(module=="ses_peer_exposure" ||
+                  (module=="peer_baseline"&&all(science$stat%in%c("q1_share","q4_share"))))
+            lo_exact_ses_composition(obj,science)
           else get("v10_compute",envir=.GlobalEnv)(obj,science)
         }
         n<-if(!is.null(backend))backend$count(obj,science) else if(extension)

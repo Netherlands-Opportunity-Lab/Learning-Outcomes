@@ -126,5 +126,14 @@ stopifnot(identical(as.numeric(mp$estimate),c(100,100)),
           identical(as.integer(lo_compact_count_n(obj,mq)),c(1L,1L)))
 cat("PASS valid-category migration peer exposure and exact survey N\\n")
 
+# A missing SES pupil cannot provide a valid peer denominator to an otherwise
+# singleton focal pupil. National baseline N also excludes missing SES.
+so<-obj;so$data$SES<-c(1,NA,1,2)
+rc2_tails_rank<-function(x,w)list(q1=as.numeric(!is.na(x)&x==1),q4=as.numeric(!is.na(x)&x==2))
+sq<-mq[1,,drop=FALSE];sq$module<-'ses_peer_exposure';sq$stat<-'q1_target_pct_q4_peers'
+stopifnot(lo_compact_count_n(so,sq)==1L)
+sq$module<-'peer_baseline';sq$stat<-'q1_share'
+stopifnot(lo_compact_count_n(so,sq)==3L)
+
 cat("PASS active minimal policy and below-basic self-excluded peer estimates, exact N and PV-N HOLD\n")
 

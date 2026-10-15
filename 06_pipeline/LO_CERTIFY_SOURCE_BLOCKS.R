@@ -3,7 +3,7 @@
 # Call only after independent source proof and a measured pilot exist in each
 # explicitly named block directory. Paths are private caller configuration.
 lo_certify_verified_source_blocks <- function(repo,bundle,root,block_root,
-  blocks,pilot_id,kind=c("PISA_MODERN","PISA_LEGACY","IEA","IEA_BOOKS","PEERS_PISA","PEERS_IEA")) {
+  blocks,pilot_id,kind=c("PISA_MODERN","PISA_LEGACY","PISA_SES","IEA","IEA_BOOKS","PEERS_PISA","PEERS_IEA")) {
   kind<-match.arg(kind)
   peers<-startsWith(kind,"PEERS_");pisa<-grepl("PISA",kind,fixed=TRUE)
   stopifnot(length(blocks)>1L,!anyDuplicated(blocks),pilot_id%in%blocks,
@@ -20,8 +20,9 @@ for(p in c('REPAIRS.R','EXTENSIONS.R'))source(file.path(bundle,'engine',p))
 lo_exact_boot(bundle)
 old<-read.csv(file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),stringsAsFactors=FALSE,na.strings=character())
 requested<-do.call(rbind,lapply(blocks,function(b)read.csv(file.path(block_root,b,'EXACT_SELECTED_TASKS.csv'),colClasses='character',na.strings=character())))
-allowed_modules<-if(peers)c('peer_below_basic','high_proficiency_peer_exposure')else if(pisa)c('core','gender','language_exact','migration_generation','extension_performance_school')else switch(kind,IEA=c('core','gender','extension_performance_school','extension_performance_class'),IEA_BOOKS=c('ses_national','extension_ses_gender','extension_ses_school','extension_ses_class'))
+allowed_modules<-if(peers)c('peer_below_basic','high_proficiency_peer_exposure')else if(kind=='PISA_SES')c('ses_harmonized','extension_ses_gender','extension_ses_school','ses_peer_exposure','peer_baseline')else if(pisa)c('core','gender','language_exact','migration_generation','extension_performance_school')else switch(kind,IEA=c('core','gender','extension_performance_school','extension_performance_class'),IEA_BOOKS=c('ses_national','extension_ses_gender','extension_ses_school','extension_ses_class'))
 if(any(!requested$module%in%allowed_modules)||any(requested$country!='NLD')||anyDuplicated(requested$metric_key))stop('CERTIFICATION_UNREVIEWED_SCOPE')
+if(kind=='PISA_SES'&&any(requested$definition!='Cobreros_fourwave_13item_trend_comparable'))stop('CERTIFICATION_WRONG_SES_CONSTRUCT')
 base<-read.csv(file.path(bundle,'engine/TASKS.csv'),colClasses='character',na.strings=character())
 base<-base[base$country=='NLD',];decisions<-lo_read_scope_decisions(repo)
 base<-lo_scope_active_tasks(rbind(base,lo_extension_tasks(base,decisions),lo_scoped_low_peer_tasks(base,decisions)),decisions)
@@ -51,6 +52,10 @@ for(year in blocks) {
  stopifnot(lo_exact_sha(source_path)==src$canonical_sha256,nrow(obj$data)<=budget$max_n)
  evidence<-c(file.path(out,c('SOURCE_VERIFICATION.json','INDEPENDENT_RESULTS.csv','JOINT_REFERENCE_PV_REPLICATES.rds')),list.files(out,pattern='^VERIFIER_.*[.]R$',full.names=TRUE),list.files(out,pattern='^RAW_COLUMN_PARITY[.]csv$',full.names=TRUE))
  if(peers)evidence<-c(evidence,file.path(out,c('PV_TARGET_SAMPLE_COUNTS.csv','PARENT_SOURCE_VERIFICATION.json')))
+ if(kind=='PISA_SES') {
+   lo_exact_assert_sha(obj$meta$calibration_evidence_path,obj$meta$calibration_sha256,'CALIBRATION')
+   evidence<-c(evidence,obj$meta$calibration_evidence_path,file.path(out,'PARENT_SOURCE_VERIFICATION.json'))
+ }
  stopifnot(length(evidence)>=4L,all(file.exists(evidence)))
  ef<-data.frame(path=normalizePath(evidence,winslash='/'),sha256=vapply(evidence,lo_exact_sha,character(1)))
  all_evidence[[year]]<-ef
@@ -105,7 +110,7 @@ p<-read.csv(file.path(block_root,pilot_id,'MEASURED_PRODUCER_RESULTS.csv'),strin
 measurement<-jsonlite::fromJSON(file.path(block_root,pilot_id,'PRODUCER_MEASUREMENT.json'))
 stopifnot(nrow(p)==nrow(q),!anyDuplicated(p$metric_key),setequal(p$metric_key,q$metric_key),
   measurement$source_sha256==unique(pilot$source_edition_sha256))
-if(peers||kind%in%c('IEA_BOOKS','PISA_LEGACY'))stopifnot(identical(measurement$producer_code_sha256,code_sha))
+if(peers||kind%in%c('IEA_BOOKS','PISA_LEGACY','PISA_SES'))stopifnot(identical(measurement$producer_code_sha256,code_sha))
 rows<-do.call(rbind,lapply(seq_len(nrow(q)),function(i){j<-match(q$metric_key[i],p$metric_key);lo_compact_science_rows(q[i,,drop=FALSE],p[j,,drop=FALSE],p$n_unweighted[j],pilot$input_fingerprint[i],pilot$code_fingerprint[i],pilot$method_version[i])}))
 con<-lo_compact_open(compact);lo_compact_put(con,rows);lo_compact_close(con)
 ref<-read.csv(file.path(block_root,pilot_id,'INDEPENDENT_RESULTS.csv'),stringsAsFactors=FALSE)

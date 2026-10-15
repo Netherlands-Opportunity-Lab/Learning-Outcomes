@@ -172,7 +172,7 @@ lo_compact_count_n <- function(obj,q) {
         eligible<-eligible&!is.na(g)
       if(m=="peer_baseline" && stat%in%c("q1_share","q4_share")) {
         t<-if(stat=="q1_share")tails$q1 else tails$q4
-        eligible<-eligible&!is.na(t)
+        eligible<-eligible&is.finite(d$SES)&!is.na(t)
       }
       if(m=="peer_below_basic") {
         cut<-thresholds_for(obj$meta$survey,q$domain[[1L]])[["basic"]]
@@ -200,6 +200,7 @@ lo_compact_count_n <- function(obj,q) {
         # Require at least one OTHER pupil with valid peer classification.
         peer_ok<-is.finite(w)&w>0&is.finite(y)&!is.na(u)&nzchar(as.character(u))
         if(!is.null(g))peer_ok<-peer_ok&!is.na(g)
+        if(m=="ses_peer_exposure")peer_ok<-peer_ok&is.finite(d$SES)
         grp<-as.character(u)
         counts<-table(grp[peer_ok])
         possible<-rep(FALSE,length(grp))
