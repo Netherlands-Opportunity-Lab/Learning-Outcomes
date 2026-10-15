@@ -29,6 +29,11 @@ lo_github_results_build <- function(repo,root,scope) {
   out<-d[keep]
   out$n_definition<-ifelse(out$module%in%c('peer_below_basic','high_proficiency_peer_exposure'),
     'ANALYTIC_PEER_FRAME_WITH_SEPARATE_PV_TARGET_COUNTS','EXACT_ANALYTIC_SAMPLE_FOR_CELL')
+  out$reproduction_entrypoint<-'06_pipeline/LO_FIXED_PRODUCERS.R::lo_fixed_produce'
+  if('derivation_receipts'%in%DBI::dbListTables(con)) {
+    derived_ids<-DBI::dbGetQuery(con,'SELECT cell_id FROM derivation_receipts')$cell_id
+    out$reproduction_entrypoint[out$cell_id%in%derived_ids]<-'06_pipeline/LO_DERIVE_POPULATION_BASELINES.R::lo_derive_population_baselines'
+  }
   extra<-c('sample_id','population_id','weight_design','pv_rule','variance_rule','linking_rule','target_contract_sha256','source_edition_sha256','result_hash','certification_sha256','peer_denominator_verified','self_exclusion_verified','joint_pv_replicate_status')
   for(k in extra)if(k%in%names(a))out[[k]]<-a[[k]]
   out$status<-'SCIENTIFICALLY_VALIDATED_RESEARCH_REVIEW'
@@ -90,6 +95,7 @@ lo_github_results_build <- function(repo,root,scope) {
     configuration_sha256=lo_run_config_hash(cfg),validated_rows=nrow(out),target_rows=nrow(grid),
     status_counts=as.list(table(grid$status)),publication_status='RESEARCH_REVIEW_NOT_PRODUCT_RELEASE',
     raw_or_pupil_data_included=FALSE,producer_identity='Per-cell producer_fingerprint and linked historical run records; export checkout is not producer identity',
+    historical_producer_code='06_pipeline/archive_or_superseded/LO05_CODE_LOCK_20261010/SOURCE_CODE_ORIGINAL_VS_PUBLIC_SHA256.csv',
     files=data.frame(file=artifacts,sha256=unname(vapply(file.path(stage,artifacts),function(p)digest::digest(file=p,algo='sha256'),character(1))),bytes=file.info(file.path(stage,artifacts))$size,row.names=NULL))
   safe(manifest);jsonlite::write_json(manifest,file.path(stage,'manifest.json'),auto_unbox=TRUE,pretty=TRUE,digits=NA)
   writeLines(c('# Certified aggregate research snapshot',

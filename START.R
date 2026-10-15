@@ -72,22 +72,34 @@ lo_bootstrap_main <- function() {
     head<-command(c('-C',repo,'rev-parse','HEAD'))$lines
     prior<-Sys.getenv('LO_REPRODUCE_COMMIT','')
     prior_action<-Sys.getenv('LO_ACTION','')
-    on.exit({if(nzchar(prior))Sys.setenv(LO_REPRODUCE_COMMIT=prior)else Sys.unsetenv('LO_REPRODUCE_COMMIT');Sys.setenv(LO_ACTION=prior_action)},add=TRUE)
-    Sys.setenv(LO_REPRODUCE_COMMIT=head,LO_REPO_ROOT=repo)
+    prior_drive<-Sys.getenv('LO_DEFER_PRIVATE_DRIVE','')
+    on.exit({if(nzchar(prior))Sys.setenv(LO_REPRODUCE_COMMIT=prior)else Sys.unsetenv('LO_REPRODUCE_COMMIT');Sys.setenv(LO_ACTION=prior_action,LO_DEFER_PRIVATE_DRIVE=prior_drive)},add=TRUE)
+    Sys.setenv(LO_REPRODUCE_COMMIT=head,LO_REPO_ROOT=repo,LO_DEFER_PRIVATE_DRIVE='1')
+    source(file.path(repo,'06_pipeline/LO_RUN_CONFIG.R'),local=environment())
+    config_path<-Sys.getenv('LO_RUN_CONFIG','')
+    scope<-if(nzchar(config_path))jsonlite::fromJSON(config_path)$scope else Sys.getenv('LO_SCOPE','nld_only')
+    root<-Sys.getenv('LO_FIXED_ROOT',file.path(home,'Downloads','LO05_RESULTATEN'))
     for(stage in c('fixed-audit','fixed-produce','fixed-status')) {
       Sys.setenv(LO_ACTION=stage)
       source(runner,local=new.env(parent=.GlobalEnv),encoding='UTF-8')
     }
     if(Sys.getenv('LO_GITHUB_RESULTS',if(nzchar(reproduce))'off'else'review')=='review') {
       source(file.path(repo,'06_pipeline/LO_GITHUB_RESULTS.R'),local=environment())
-      source(file.path(repo,'06_pipeline/LO_RUN_CONFIG.R'),local=environment())
-      config_path<-Sys.getenv('LO_RUN_CONFIG','')
-      scope<-if(nzchar(config_path))jsonlite::fromJSON(config_path)$scope else Sys.getenv('LO_SCOPE','nld_only')
-      root<-Sys.getenv('LO_FIXED_ROOT',file.path(home,'Downloads','LO05_RESULTATEN'))
       tryCatch(lo_github_results_deposit(repo,root,scope),error=function(e) {
         message('GITHUB_RESULTS_PENDING: ',conditionMessage(e))
         stop('Numerical work is retained locally; GitHub result deposit is not yet verified. Repeat after resolving the reported Git issue.',call.=FALSE)
       })
+    }
+    # One private backup after the whole sequence, never a slow Drive transfer
+    # between audit and production or before the GitHub result deposit.
+    private_sync<-new.env(parent=.GlobalEnv)
+    prior_functions<-getOption('lo.pipeline.functions_only')
+    options(lo.pipeline.functions_only=TRUE)
+    tryCatch(source(runner,local=private_sync,encoding='UTF-8'),finally=options(lo.pipeline.functions_only=prior_functions))
+    if(file.exists(private_sync$lo_pipeline_drive_config_path())) {
+      message('Private Drive: verifying the completed run once; GitHub result deposit has already been attempted.')
+      tryCatch(private_sync$lo_pipeline_drive_publish(repo,'publish',results_root=root,fixed_scope=scope),
+        error=function(e)message('FIXED_PRIVATE_SYNC_PENDING: ',conditionMessage(e)))
     }
     cat('Approved results are durable. Repeating this command resumes only missing approved calculations.\n')
     return(invisible(TRUE))

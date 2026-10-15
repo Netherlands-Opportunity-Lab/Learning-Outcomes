@@ -49,6 +49,7 @@
   "publication_status": "RESEARCH_REVIEW_NOT_PRODUCT_RELEASE",
   "raw_or_pupil_data_included": false,
   "producer_identity": "Per-cell producer_fingerprint and linked historical run records; export checkout is not producer identity",
+  "historical_producer_code": "06_pipeline/archive_or_superseded/LO05_CODE_LOCK_20261010/SOURCE_CODE_ORIGINAL_VS_PUBLIC_SHA256.csv",
   "files": [
     {
       "file": "derivations.csv",
@@ -67,8 +68,8 @@
     },
     {
       "file": "results.csv",
-      "sha256": "e579c87c973371709fd75bb51dd1fd1da4a864c5bdbddfe0ce36ea97721011ad",
-      "bytes": 2497855
+      "sha256": "6b417e760aa6b9861094924e251740c413e8c274767b81369a1c5715b253504f",
+      "bytes": 2625730
     },
     {
       "file": "run_provenance.json",
@@ -77,7 +78,7 @@
     },
     {
       "file": "scripts.csv",
-      "sha256": "1594ad4e936974296bf7d84cad73b1a0fa9c10b660b37578764e962280a862b7",
+      "sha256": "10bd41481ddeb0cfc9f38a3918c3819311f2b37faecfc7869e1b98c35076dfdf",
       "bytes": 1144
     },
     {
