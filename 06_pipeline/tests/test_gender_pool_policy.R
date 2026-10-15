@@ -22,3 +22,6 @@ bad<-raw;bad$ST004D01T[1]<-1;expect_error(lo_gender_pool_object(obj,bad,pooled))
 stopifnot(lo_gender_display(pooled$metric_key[1],'girl')=='Meisjes + other')
 unlink(tmp,recursive=TRUE)
 cat('PASS pooled gender identity, labels, exact-field priority, pupil/weight matching, guarded estimation and idempotence\n')
+
+encoded_counts<-jsonlite::fromJSON(jsonlite::toJSON(mapped$meta$gender_counts,auto_unbox=TRUE))
+stopifnot(identical(sort(names(encoded_counts)),sort(c('boy','girl','missing'))),encoded_counts$missing==1L)
