@@ -4,6 +4,8 @@ This is an executable development pipeline, not a completed scientific replicati
 
 ## One configuration, three existing stages
 
+The ordinary `START.R` action `produce-approved` now fast-forwards the reviewed branch once, freezes one code commit across audit/produce/status, then deposits the certified aggregate review snapshot and sanitized provenance on that same GitHub branch. It never force-pushes or deploys Pages. Explicit `LO_REPRODUCE_COMMIT` keeps historical reproduction immutable. See [the result-deposit contract and measured runtime](review_20261013/GITHUB_RESULTS_AND_RUNTIME_20261015.md). `GITHUB_RESULTS_VERIFIED` confirms remote branch identity; `GITHUB_RESULTS_PENDING` means local results are safe but the upload has not completed. `LO_GITHUB_RESULTS=off` explicitly opts out of the deposit.
+
 Copy `RUN_CONFIG.example.json` to a private local file and set `LO_RUN_CONFIG` to that file's absolute path. Its fields are:
 
 | Field | Meaning |

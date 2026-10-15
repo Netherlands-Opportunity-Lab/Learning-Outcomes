@@ -145,7 +145,7 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
       allowed <- intersect(c(must,"record_version_id","result_hash",
          "input_fingerprint","science_fingerprint","scientific_status",
          "source_sha256","n","n_unweighted"),cols)
-      as.data.frame(arrow::read_parquet(path,col_select=allowed))
+      as.data.frame(arrow::read_parquet(path,col_select=tidyselect::all_of(allowed)))
     },error=function(e)e)
     if(inherits(obj,"error")) {
       parquet_audit[[length(parquet_audit)+1L]] <- data.frame(
