@@ -1,0 +1,75 @@
+{
+  "status": "ACTUAL_GIT_BLOBS_AND_REMOTE_HEAD_VERIFIED",
+  "timestamp_utc": "2026-10-15T11:28:56.486822+00:00",
+  "result_commit": "117550e373d0c3fa04225c30ffaaa9665b0c1b10",
+  "remote_head_matches": true,
+  "validated_rows": 2373,
+  "target_rows": 2678,
+  "status_counts": {
+    "HOLD_SOURCE_MAPPING_REVIEW": 24,
+    "SCIENTIFICALLY_VALIDATED": 2373,
+    "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE": 144,
+    "UNAVAILABLE_VERIFIED_SOURCE_FIELD": 137
+  },
+  "verified_files": [
+    {
+      "file": "derivations.csv",
+      "sha256": "7464c8e8b1978922b1c21ea3519742dcc2872721ce9b74ae17ef515d4fe7c420",
+      "bytes": 22112
+    },
+    {
+      "file": "execution_receipts.csv",
+      "sha256": "117b3ca9a88a43c0ab68983e4f4e6bbed0210ccb5127afd464b32d55bbe6c2cf",
+      "bytes": 504206
+    },
+    {
+      "file": "result_run_links.csv",
+      "sha256": "eb813a36db83928ce1e932d6b7e5ad4a7086b9759c831063a00d3e9981ec1c5f",
+      "bytes": 616248
+    },
+    {
+      "file": "results.csv",
+      "sha256": "6b417e760aa6b9861094924e251740c413e8c274767b81369a1c5715b253504f",
+      "bytes": 2625730
+    },
+    {
+      "file": "run_provenance.json",
+      "sha256": "e7662dd53792cbdb9f93bfb6a6e6147387fdfabae914026b3d9fda6a1387f3f2",
+      "bytes": 109543
+    },
+    {
+      "file": "scripts.csv",
+      "sha256": "10bd41481ddeb0cfc9f38a3918c3819311f2b37faecfc7869e1b98c35076dfdf",
+      "bytes": 1144
+    },
+    {
+      "file": "target_status.csv",
+      "sha256": "8630043d646d995808a5b3c6a91e68795507d9209e2ca1d68cc8cf9ada88e526",
+      "bytes": 416934
+    }
+  ],
+  "public_snapshot_bytes": 4300920,
+  "archived_R_files_verified": 24,
+  "original_byte_identical_code_copies": 21,
+  "private_sources_or_pupil_records_included": false,
+  "full_clean_portable_replication_complete": false,
+  "entrypoint_test": {
+    "status": "FULL_GIT_BOUND_ENTRYPOINT_AND_IDENTICAL_DEPOSIT_PASS",
+    "elapsed_seconds": 422.2276,
+    "result_commit": "117550e373d0c3fa04225c30ffaaa9665b0c1b10",
+    "second_deposit_changed": false,
+    "timestamp_utc": "2026-10-15T11:33:16Z"
+  },
+  "code_test_commit": "d2d6350961286188d601a88fa7299c746574bace",
+  "github_actions_success": [
+    38727234282,
+    38727234253,
+    38727234262
+  ],
+  "private_drive_report_sync": {
+    "status": "13_FILES_READBACK_VERIFIED",
+    "manifest": "20261015T113234Z_72d8dea7bc851c2e",
+    "completeness": "FIXED_SCOPE_AGGREGATES_ONLY",
+    "full_evidence_restore": "Separately verified for the unchanged 2373-result scientific snapshot; see REMAINING_CHECKS_CLOSURE_20261015.json"
+  }
+}
