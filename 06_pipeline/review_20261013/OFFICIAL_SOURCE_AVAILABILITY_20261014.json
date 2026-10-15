@@ -9,7 +9,7 @@
   "technical_report_status": "DRAFT_CHAPTERS_AVAILABLE_FINAL_EXPECTED_2027",
   "local_edition_certified": true,
   "deck_point_is_availability_evidence": false,
-  "action": "Retain complete 2025 anchor. Three boy means independently certified from MALE=1. Correct prior 45-target unavailability claim: 24 girl-dependent targets require source mapping review; 18 boy-SES targets await SES calibration.",
+  "action": "Retain complete 2025 anchor. Three boy means independently certified from MALE=1. Correct prior 45-target unavailability claim: 24 girl-dependent targets require source mapping review; 18 boy-SES targets now independently certified with the chosen calibration.",
   "local_edition_scope": "NLD selected public-use student fields; not all modules or a global release",
   "local_raw_sha256": "6f6fa1e1ecce23d39183d44ec82ba05b245fe88a2416c8d8dc1b016d556fc379",
   "local_n": 6636,
@@ -29,5 +29,30 @@
   "official_gender_tables_url": "https://stat.link/68stqn",
   "official_gender_tables_sha256": "7b0641d2dd791daef27ca1616c2f997a8262b685c622f112d9a2e28a878b05a3",
   "official_codebook_url": "https://webfs.oecd.org/pisa2022/2025/PISA2025_Codebook.xlsx",
-  "official_recoding_url": "https://webfs.oecd.org/pisa2022/2025/PISA_recoding_2025.zip"
+  "official_recoding_url": "https://webfs.oecd.org/pisa2022/2025/PISA_recoding_2025.zip",
+  "current_public_download_check": {
+    "status": "CURRENT_PUBLIC_DOWNLOAD_SIZE_AND_ZIP_CRC_MATCH_LOCAL",
+    "url": "https://webfs.oecd.org/pisa2022/2025/CY09_MS_STU_PUF.zip",
+    "remote_last_modified": "Mon, 24 Aug 2026 13:04:09 GMT",
+    "remote_etag": "\"814a1cdc933dd1:0\"",
+    "archive_entry": "CY09_MS_STU_PUF.sav",
+    "raw_bytes": 2168666883,
+    "zip_crc32": "8ce13fd4",
+    "compression_method": 9,
+    "header_bytes": 0,
+    "header_sha256": null,
+    "header_comparison": "NOT_PERFORMED_UNSUPPORTED_ZIP_COMPRESSION",
+    "bytes_downloaded": 156,
+    "full_zip_downloaded": false,
+    "full_remote_sha256_claimed": false,
+    "conclusion": "The currently linked student PUF has the same raw length and ZIP CRC as the retained file. No evidence that re-downloading it adds a girls variable. CRC is an integrity check, not a cryptographic comparison of all remote bytes."
+  },
+  "gender_resolution": {
+    "ordinary_redownload_recommended": false,
+    "public_codebook_fields": "ST004D01T and MALE in student file; no ST004D01D or separate FEMALE field found in any of the seven codebook sheets",
+    "official_code": "pisa-2025/STU_CommonFiles.do: boy uses ST004D01D categories 1 and 2 and excludes 3; boy_c instead combines categories 1 and 3",
+    "needed": "Documented access to the uncollapsed student gender field ST004D01D or an equivalent authoritative pupil-keyed correction; national/OECD provider confirmation is not yet obtained",
+    "not_inferred": "Do not infer individual gender from scores or combine Female / Other into girls",
+    "technical_report_access": "Official technical-report ZIP returned HTTP403; no access circumvention attempted"
+  }
 }
