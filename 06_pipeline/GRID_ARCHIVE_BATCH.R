@@ -44,12 +44,27 @@ lo_grid_archive_fill <- function(grid, candidates,verify_files=FALSE) {
       if(anyNA(same_contract)||!all(same_contract & source_ok & rules_ok))
         stop("GRID_ARCHIVE_HOLD: exact contract/edition/design certification mismatch")
     }
-    for(k in intersect(names(valid),names(grid)))
+    lo_grid_check_population_metadata(grid,valid,ix)
+    for(k in setdiff(intersect(names(valid),names(grid)),c("age","population_id")))
       grid[[k]][ix] <- valid[[k]]
     grid$status[ix] <- "SCIENTIFICALLY_VALIDATED"
     grid$hold_reason[ix] <- ""
   }
   grid
+}
+
+# Older numerical certificates omitted these descriptive contract fields.
+# Keep the explicit target population; a nonblank contradiction is an error.
+# The immutable numerical certificate and result hashes are never rewritten.
+lo_grid_check_population_metadata <- function(grid,rows,ix) {
+  for(k in intersect(c("age","population_id"),names(rows))) {
+    value<-as.character(rows[[k]])
+    present<-!is.na(value)&nzchar(value)
+    if(k=="age")value[present]<-sub("^([0-9]+)$","age\\1",value[present])
+    if(any(present & (is.na(grid[[k]][ix]) | value!=grid[[k]][ix])))
+      stop("GRID_POPULATION_CERTIFICATE_CONFLICT: ",k)
+  }
+  invisible(TRUE)
 }
 
 # Production reuse needs real pinned artifacts, not 64-character placeholders.
@@ -174,7 +189,8 @@ lo_grid_apply_compute_approvals <- function(grid,approved) {
              "pv_rule","variance_rule","source_path","certification_path"))
     if(anyNA(approved[[k]])||any(!nzchar(approved[[k]])))
       stop("GRID_COMPUTE_HOLD: method or sample not certified: ",k)
-  for(k in intersect(names(approved),names(grid)))
+  lo_grid_check_population_metadata(grid,approved,ix)
+  for(k in setdiff(intersect(names(approved),names(grid)),c("age","population_id")))
     if(!k%in%c("cell_id","target_contract_sha256","estimate",
                "standard_error","n_unweighted","status","hold_reason"))
       grid[[k]][ix] <- approved[[k]]

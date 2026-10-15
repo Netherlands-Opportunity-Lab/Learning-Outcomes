@@ -20,12 +20,13 @@ a<-data.frame(cell_id=d$cell_id,estimate=d$estimate,standard_error=d$standard_er
 jsonlite::write_json(list(status='SCIENTIFICALLY_VALIDATED',cells=a,evidence_files=data.frame(path=source_file,sha256=a$source_edition_sha256)),cert_file,auto_unbox=TRUE,digits=NA)
 a$certification_sha256<-digest::digest(file=cert_file,algo='sha256')
 write.csv(a,file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),row.names=FALSE)
-write.csv(data.frame(cell_id=c(d$cell_id,'unresolved'),status=c('SCIENTIFICALLY_VALIDATED','HOLD_SOURCE_MAPPING_REVIEW')),file.path(state,'PRIVATE_MASTER_GRID.csv'),row.names=FALSE)
+write.csv(data.frame(cell_id=c(d$cell_id,'unresolved'),status=c('SCIENTIFICALLY_VALIDATED','HOLD_SOURCE_MAPPING_REVIEW'),age='age15',population_id='PISA_15_YEAR_OLD_TARGET'),file.path(state,'PRIVATE_MASTER_GRID.csv'),row.names=FALSE)
 out<-lo_github_results_build(normalizePath('.'),root,'nld_only')
 result<-read.csv(file.path(out,'results.csv'))
 stopifnot(nrow(result)==1L,identical(result$estimate,d$estimate),identical(result$standard_error,d$standard_error),
  !any(c('private_extra','source_path','certification_path')%in%names(result)),
- nrow(read.csv(file.path(out,'target_status.csv')))==2L)
+ nrow(read.csv(file.path(out,'target_status.csv')))==2L,
+ result$age=='age15',result$population_id=='PISA_15_YEAR_OLD_TARGET')
 files<-list.files(out,full.names=TRUE);hashes<-vapply(files,function(p)digest::digest(file=p,algo='sha256'),character(1))
 lo_github_results_build(normalizePath('.'),root,'nld_only')
 stopifnot(identical(hashes,vapply(files,function(p)digest::digest(file=p,algo='sha256'),character(1))))

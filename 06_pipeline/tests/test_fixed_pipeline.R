@@ -28,7 +28,7 @@ tasks<-data.frame(metric_key=c("m1","m2","m3"),
  country=c("NLD","X01","X41"),survey=c("PISA","PIRLS","TIMSS"),
  year=c("2025","2021","2023"),domain="reading",module="core",
  stat="mean",group="total",definition="total",
- peer_definition="",threshold="",contract_figure_id="TR_MEAN_age15_reading",
+ peer_definition="",threshold="",contract_figure_id=c("TR_MEAN_age15_reading","TR_MEAN_age10_reading","TR_MEAN_age10_reading"),
  unit="score_points",calculation_policy="",stringsAsFactors=FALSE)
 stopifnot(nrow(lo_scope_filter_tasks(tasks,p1))==1L,
   nrow(lo_scope_filter_tasks(tasks,p2))==2L,

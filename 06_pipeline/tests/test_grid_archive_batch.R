@@ -14,6 +14,12 @@ candidate <- data.frame(cell_id="k1",status="SCIENTIFICALLY_VALIDATED",
 filled <- lo_grid_archive_fill(g,candidate)
 stopifnot(filled$status[[1]]=="SCIENTIFICALLY_VALIDATED",
  is.na(filled$estimate[[2]]),filled$estimate[[1]]==490)
+legacy<-candidate;legacy$age<-NA_character_;legacy$population_id<-''
+metadata<-lo_grid_archive_fill(g,legacy)
+stopifnot(metadata$age[1]=='age15',metadata$population_id[1]=='PISA_15_YEAR_OLD_TARGET',
+ identical(metadata$result_hash,filled$result_hash),identical(metadata$estimate,filled$estimate))
+legacy$age<-'age10'
+stopifnot(inherits(try(lo_grid_archive_fill(g,legacy),silent=TRUE),'try-error'))
 candidate$sample_id <- "UNRELATED_SAMPLE"
 stopifnot(inherits(try(lo_grid_archive_fill(g,candidate),silent=TRUE),"try-error"))
 candidate$sample_id <- "NLD_2022"
@@ -40,3 +46,4 @@ stopifnot(cand$status[[1]]=="ARCHIVE_CANDIDATE_FOUND_NOT_VALIDATED",
           cand$archive_source[[2]]=="LO02_CANDIDATE",
           all(is.na(cand$estimate)),
           nrow(lo_grid_batch_plan(cand))==0L)
+

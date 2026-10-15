@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-10-15T10:50:14Z",
+  "checked_utc": "2026-10-15T12:01:15Z",
   "country": "NLD",
   "year": 2025,
   "n": 6636,
@@ -60,5 +60,31 @@
         }
       ]
     }
-  ]
+  ],
+  "resolver": {
+    "variable": "MALE",
+    "status": "PARTIAL_SOURCE_GENDER_GIRL_UNRESOLVED",
+    "map": "1=boy;other codes not assigned to girls",
+    "girls": 0,
+    "boys": 3397,
+    "unresolved": 3239,
+    "field_audit": {
+      "ST004D01T": {
+        "girls": 0,
+        "boys": 0,
+        "unresolved": 6636,
+        "counts": [
+          {
+            "value": "99",
+            "n": 6636
+          },
+          {
+            "value": "NA",
+            "n": 0
+          }
+        ]
+      }
+    }
+  },
+  "resolver_code_sha256": "ac1d56eb86b5c1cc665c0209e4856bee5d0dcf6d1197548ac83a9fda6d2552e5"
 }

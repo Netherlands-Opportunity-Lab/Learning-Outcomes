@@ -36,6 +36,12 @@ lo_github_results_build <- function(repo,root,scope) {
   }
   extra<-c('sample_id','population_id','weight_design','pv_rule','variance_rule','linking_rule','target_contract_sha256','source_edition_sha256','result_hash','certification_sha256','peer_denominator_verified','self_exclusion_verified','joint_pv_replicate_status')
   for(k in extra)if(k%in%names(a))out[[k]]<-a[[k]]
+  # Population is audited contract metadata; legacy certificates left it blank.
+  for(k in c('age','population_id')) {
+    value<-grid[[k]][match(out$cell_id,grid$cell_id)]
+    if(length(value)!=nrow(out)||anyNA(value)||any(!nzchar(value)))stop('RESULT_SYNC_POPULATION_MISSING')
+    out[[k]]<-value
+  }
   out$status<-'SCIENTIFICALLY_VALIDATED_RESEARCH_REVIEW'
   out<-out[order(out$cell_id),,drop=FALSE]
   status<-grid[order(grid$cell_id),c('cell_id','status')]
