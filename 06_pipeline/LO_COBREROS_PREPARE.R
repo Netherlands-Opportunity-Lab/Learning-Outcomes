@@ -14,6 +14,8 @@ if(startsWith(out,paste0(author,'/')))stop('COBREROS_OUTPUT_MUST_BE_SEPARATE_FRO
 git<-Sys.which('git');if(!nzchar(git))stop('COBREROS_GIT_REQUIRED')
 head <- trimws(system2(git,shQuote(c('-C',author,'rev-parse','HEAD')),stdout=TRUE))
 stopifnot(head=='1da4b26097e84e732973af672355a1c3103d5d33')
+changed<-system2(git,shQuote(c('-C',author,'status','--porcelain','--untracked-files=no')),stdout=TRUE)
+if(length(changed))stop('COBREROS_PINNED_AUTHOR_CHECKOUT_MODIFIED')
 inputs <- file.path(author,'data/extract',paste0('stu_',c(2015,2018,2022,2025),'.parquet'))
 sources <- file.path(author,'code/r/R',c('core.R','irt.R','kernels.cpp'))
 hashes <- data.frame(path=c(inputs,sources),sha256=vapply(c(inputs,sources),function(p)digest::digest(file=p,algo='sha256'),character(1)))
