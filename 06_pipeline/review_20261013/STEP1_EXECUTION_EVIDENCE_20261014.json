@@ -1,32 +1,31 @@
 {
   "schema_version": 2,
   "date": "2026-10-15",
-  "recorded_utc": "2026-10-15T09:46:04.781297+00:00",
+  "recorded_utc": "2026-10-15T10:43:39.859993+00:00",
   "source_scope": "NLD only; exact selected multi-survey primitives; not full science or a public release",
   "current": {
     "target_cells": 2678,
-    "scientifically_validated_cells": 1626,
+    "scientifically_validated_cells": 2373,
     "status_counts": {
-      "SCIENTIFICALLY_VALIDATED": 1626,
-      "ARCHIVE_CANDIDATE_FOUND_NOT_VALIDATED": 132,
-      "TARGET_NOT_YET_ADJUDICATED": 745,
-      "UNAVAILABLE_VERIFIED_SOURCE_FIELD": 7,
+      "SCIENTIFICALLY_VALIDATED": 2373,
+      "UNAVAILABLE_VERIFIED_SOURCE_FIELD": 137,
       "HOLD_SOURCE_MAPPING_REVIEW": 24,
       "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE": 144
     },
     "approved_compute_batches": 0,
-    "active_uncertified_cells": 901,
+    "active_uncertified_cells": 24,
     "documented_unavailable_home_ses": 144,
-    "documented_unavailable_other_source_fields": 7,
+    "documented_unavailable_other_source_fields": 137,
     "peer_cells_certified": 400,
     "primary_below_basic_peer_cells": 240,
     "high_peer_cells": 160,
-    "execution_receipts": 1359,
-    "archived_numerical_versions": 1617,
+    "execution_receipts": 1940,
+    "archived_numerical_versions": 2364,
     "original_nine_current_cells_predate_version_table": true,
     "unapproved_or_deferred_expansions_computed": 0,
     "full_scientific_release": false,
-    "source_mapping_review_cells": 24
+    "source_mapping_review_cells": 24,
+    "derivation_receipts": 80
   },
   "independent_validation": {
     "estimate_and_se_tolerance": 1e-09,
@@ -395,6 +394,92 @@
         "previous_certified_retained": 1380,
         "global_release": false
       }
+    },
+    "background_iea": {
+      "status": "SELECTED_SOURCE_BLOCKS_CERTIFIED",
+      "first": [
+        {
+          "scope": "nld_only",
+          "selected_contracts": 2678,
+          "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+          "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+          "approved_cells": 349,
+          "new_candidates": 349,
+          "reused_candidates": 0,
+          "held_cells": 0
+        }
+      ],
+      "second": [
+        {
+          "scope": "nld_only",
+          "selected_contracts": 2678,
+          "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+          "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+          "approved_cells": 349,
+          "new_candidates": 0,
+          "reused_candidates": 349,
+          "held_cells": 0
+        }
+      ],
+      "final_audit": [
+        {
+          "scope": "nld_only",
+          "selected_countries": 1,
+          "original_contracts": 2438,
+          "new_below_basic_peer_targets": 240,
+          "total_primitive_targets": 2678,
+          "archive_candidates": 0,
+          "validated": 2107,
+          "approved_compute_batches": 0,
+          "scientific_status": "NOT_RELEASED"
+        }
+      ],
+      "pilot_reused_without_recalculation": 52,
+      "previous_certified_retained": 1706,
+      "global_release": false
+    },
+    "background_pisa": {
+      "status": "SELECTED_SOURCE_BLOCKS_CERTIFIED",
+      "first": [
+        {
+          "scope": "nld_only",
+          "selected_contracts": 2678,
+          "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+          "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+          "approved_cells": 232,
+          "new_candidates": 232,
+          "reused_candidates": 0,
+          "held_cells": 0
+        }
+      ],
+      "second": [
+        {
+          "scope": "nld_only",
+          "selected_contracts": 2678,
+          "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+          "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+          "approved_cells": 232,
+          "new_candidates": 0,
+          "reused_candidates": 232,
+          "held_cells": 0
+        }
+      ],
+      "final_audit": [
+        {
+          "scope": "nld_only",
+          "selected_countries": 1,
+          "original_contracts": 2438,
+          "new_below_basic_peer_targets": 240,
+          "total_primitive_targets": 2678,
+          "archive_candidates": 0,
+          "validated": 2373,
+          "approved_compute_batches": 0,
+          "scientific_status": "NOT_RELEASED"
+        }
+      ],
+      "pilot_reused_without_recalculation": 34,
+      "previous_certified_retained": 2107,
+      "global_release": false
     }
   },
   "source_admission": {
@@ -457,11 +542,11 @@
   },
   "scientific_gate": {
     "scope_contracts": 2678,
-    "active_primitive_contracts": 2527,
-    "validated_active_primitives": 1626,
-    "active_missing": 901,
+    "active_primitive_contracts": 2397,
+    "validated_active_primitives": 2373,
+    "active_missing": 24,
     "documented_unavailable_extensions": 144,
-    "documented_unavailable_source_fields": 7,
+    "documented_unavailable_source_fields": 137,
     "new_below_basic_peer_targets": 240,
     "new_below_basic_peer_verified": 240,
     "paper_gates_pass": 0,
@@ -479,24 +564,28 @@
     "complete_project_folders_removed": 0,
     "current_C_free_bytes": 50961137664,
     "result_bytes": {
-      "COMPACT_DASHBOARD_ROUNDED.csv.gz": 56245,
-      "COMPACT_MASTER_GRID.csv.gz": 85599,
-      "COMPACT_MASTER_GRID.sqlite": 2961408,
-      "COMPACT_MODULE_STATUS.csv": 2024
+      "COMPACT_DASHBOARD_ROUNDED.csv.gz": 101179,
+      "COMPACT_MASTER_GRID.csv.gz": 142742,
+      "COMPACT_MASTER_GRID.sqlite": 4481024,
+      "COMPACT_MODULE_STATUS.csv": 3373,
+      "EXACT_DISPATCH_SUMMARY.csv": 198
     },
     "private_evidence_restore": {
       "status": "PASS_REAL_PRIVATE_DRIVE_RESTORE",
-      "archive_sha256": "5d212f2605337a16f704b2bef14deba372465e69e46fd8e4ff4b9e2e8cdb27a2",
-      "archive_bytes": 9104642,
-      "files_verified": 1062,
-      "database_rows": 1377,
-      "execution_receipts": 1158,
-      "archived_numerical_versions": 1368,
+      "archive_sha256": "ca7a57489b11e967494dcc185e20dfb49541f21321790d472a5059ec2c0c7128",
+      "archive_bytes": 19854844,
+      "files_verified": 1903,
+      "counts": {
+        "grid": 2373,
+        "execution_receipts": 1940,
+        "result_versions": 2364,
+        "derivation_receipts": 80
+      },
+      "database_rows": 2373,
       "original_nine_current_cells_predate_version_table": true,
       "sqlite_integrity": "ok",
       "full_source_backup_claimed": false,
-      "owner_only_permission_verified": true,
-      "snapshot_date": "2026-10-14; covers historical 1377 rows; does not yet include three later boy results"
+      "owner_only_permission_verified": true
     },
     "full_source_backup_claimed": false,
     "new_20261015_deletion": {
@@ -554,6 +643,28 @@
       "peak_R_bytes": 233254912,
       "measured_peak_scratch_bytes": 0,
       "max_scratch_bytes": 67108864
+    },
+    "background_iea": {
+      "status": "BACKGROUND_PRODUCER_PARITY_PASS",
+      "n": 4515,
+      "cells": 52,
+      "seconds": 61.03,
+      "peak_R_bytes": 201293824,
+      "source_sha256": "829ede46ec4f10f2caf09cca2f40caa2f5b586a8632fc473b639b17869cd974c",
+      "producer_code_sha256": "ad286fa91437b42ed2a55fd8d94de6a4f4e16634033bf3b1adcac9c07f382f29",
+      "max_estimate_diff": 5.115907697472721e-13,
+      "max_se_diff": 6.598070281775235e-14
+    },
+    "background_pisa": {
+      "status": "BACKGROUND_PRODUCER_PARITY_PASS",
+      "n": 6636,
+      "cells": 34,
+      "seconds": 25.16,
+      "peak_R_bytes": 210849792,
+      "source_sha256": "c365631eaf896f4aaca61d6329b61f01fe0c0cff5ef129b0d66fafa9611e5c2b",
+      "producer_code_sha256": "ad286fa91437b42ed2a55fd8d94de6a4f4e16634033bf3b1adcac9c07f382f29",
+      "max_estimate_diff": 5.115907697472721e-13,
+      "max_se_diff": 5.329070518200751e-15
     }
   },
   "precision": {
@@ -566,12 +677,12 @@
     "audit_commit": "5ba49912ef1d13afe428ad628fcb5e34e2d3f1e1",
     "subsequent_sync_fix": "ae34ed5e554e66ef97d3a4f12f3e00733334b58e",
     "run_provenance": "Earlier staging runs use named code hashes; actual Git-checkout audit also records Git commit; no fabricated Git identity",
-    "drive_correction": "Historical automatic sync selected an older run. Fixed root/scope override is implemented and tested; independent current 1377-cell package actually restored.",
-    "latest_local_finalize_commit": "1d8366d6faefedaf8a9ac0299d502cda75b21014"
+    "drive_correction": "Current 2373-cell private package actually restored; every file hash and reopened database checked. No full raw-source backup claim.",
+    "latest_local_finalize_commit": "9d79d974448ce50692be2f830eae59f880b510a2"
   },
   "ci": {
-    "source_code_commit": "1d8366d6faefedaf8a9ac0299d502cda75b21014",
-    "windows_linux_contract_run": 38690520425,
+    "source_code_commit": "9d79d974448ce50692be2f830eae59f880b510a2",
+    "windows_linux_contract_run": 38720043182,
     "status": "PASS",
     "clean_locked_R_version": "4.6.1",
     "locked_packages": 41,
@@ -630,30 +741,27 @@
     }
   },
   "remaining": [
-    "901 exact NLD targets without complete independent certification, including 24 girl-source mapping questions and remaining language/migration/background compositions; calibration and 246 chosen SES targets now certified",
+    "24 exact PISA2025 girl-dependent targets require an authoritative uncollapsed source field; all other selected NLD primitives are certified or specifically proven unavailable",
     "Complete foreign-country and joint subgroup support plus explicit country approval",
     "Q01-Q08 claim checks and full scientific freeze",
     "Portable source-code bundle and clean source-to-product replication",
     "New reference/rank dashboard controls, policy deck and Netherlands paper; rights and release review"
   ],
   "current_finalize_export": {
-    "verified_code_commit": "1d8366d6faefedaf8a9ac0299d502cda75b21014",
     "status": "ACTUAL_FINALIZE_EXPORT_PASS",
     "export": [
       {
-        "validated_input_cells": 1626,
-        "guided_focus_rows": 1155,
+        "validated_input_cells": 2373,
+        "guided_focus_rows": 1893,
         "mapping_holds": 0,
-        "separate_appendix_or_science_rows": 471,
+        "separate_appendix_or_science_rows": 480,
         "requires_new_below_basic_peer": "YES",
         "publication_status": "PRIVATE_REVIEW_ONLY"
       }
     ],
-    "unchanged_result_database_sha256": "89fc2a9045314394b3937ccb5b7f3e943f254aae8ed54c010e8c70143ad1b847",
-    "language_rows": 69,
-    "no_pupil_calculation": true,
-    "full_scientific_freeze": false,
-    "private_candidate_only": true
+    "verified_code_commit": "9d79d974448ce50692be2f830eae59f880b510a2",
+    "unchanged_result_database_sha256": "464b0cebc9b3a47137fb770e28ed41d79ae0e5205e6ab7fdff21bcbb12a06185",
+    "no_pupil_calculation": true
   },
   "actual_fixed_scope_drive_sync": {
     "status": "REMOTE_BYTES_AND_HASHES_VERIFIED",
@@ -704,5 +812,23 @@
     },
     "new_certified_NLD_cells": 246,
     "uncertainty": "conditional on fitted SES construct"
+  },
+  "remaining_checks_closure": "review_20261013/REMAINING_CHECKS_CLOSURE_20261015.json",
+  "private_drive_restore_current": {
+    "status": "PASS_REAL_PRIVATE_DRIVE_RESTORE",
+    "archive_sha256": "ca7a57489b11e967494dcc185e20dfb49541f21321790d472a5059ec2c0c7128",
+    "archive_bytes": 19854844,
+    "files_verified": 1903,
+    "counts": {
+      "grid": 2373,
+      "execution_receipts": 1940,
+      "result_versions": 2364,
+      "derivation_receipts": 80
+    },
+    "database_rows": 2373,
+    "original_nine_current_cells_predate_version_table": true,
+    "sqlite_integrity": "ok",
+    "full_source_backup_claimed": false,
+    "owner_only_permission_verified": true
   }
 }

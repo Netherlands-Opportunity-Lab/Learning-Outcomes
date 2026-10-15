@@ -5,7 +5,7 @@ Direct gebruikersbesluit 14 oktober: toevoegen in de appendix, consistente defin
 | Onderzoek / jaren uit Nederlands anker | Status officiële Home-SES | Consequentie |
 |---|---|---|
 | PIRLS 2001, 2006, 2011, 2016 | De nieuwe Home-SES-schaal is in PIRLS 2021 geïntroduceerd. Oudere Home Resources is een ander construct. | Geen officiële Home-SES-trend terugvullen. Eventuele reconstructie zou een afzonderlijk gevalideerde harmonisatie vereisen. |
-| PIRLS 2021 | Gepubliceerd; Nederland is opgenomen. Het IEA-rapport vermeldt voor Nederland 47,7% respons op de SES-schaal. | Bronvariabelen, gewogen respons, selectiviteit en noemers eerst controleren; beschikbaarheid is geen representativiteitsbewijs. |
+| PIRLS 2021 | Officiële ASDHSES uit de Nederlandse ouderbron is op exacte leerling-ID's gekoppeld: 1.019 hoger, 875 midden, 137 lager, 2.282 ontbrekend; totaal 4.313. Gewogen dekking 47,7027%, overeenkomstig de gepubliceerde 47,7%. | Negen appendixcellen onafhankelijk gecontroleerd en gecertificeerd. Rapporteer conditioneel op waargenomen SES, met responsnoemer; selectiviteit is hiermee niet opgelost. |
 | TIMSS 2003, 2007, 2011, 2015, 2019 | Eerdere publicaties gebruiken Home Resources for Learning; de moderne Home-SES-definitie wordt niet als dezelfde lange reeks behandeld. | Geen automatische substitutie of doorlopende trend. |
 | TIMSS 2023, Nederland | Oudervragenlijst niet afgenomen. | Home-SES ontbreekt; niet berekenen of imputeren uit een andere maat. |
 

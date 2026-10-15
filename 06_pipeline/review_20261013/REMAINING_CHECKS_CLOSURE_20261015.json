@@ -1,0 +1,328 @@
+{
+  "date": "2026-10-15",
+  "scope": "NLD exact approved grid only",
+  "production_commit": "e6dd3fca254b5085dd50f65e6c130108b312ad2e",
+  "export_commit": "9d79d974448ce50692be2f830eae59f880b510a2",
+  "starting_uncertified": 901,
+  "newly_certified_cells": 747,
+  "new_pupil_estimates": 667,
+  "derived_from_certified_core_without_pupil_recalculation": 80,
+  "new_proven_source_absence": 130,
+  "remaining_source_mapping_review": 24,
+  "target_cells": 2678,
+  "validated": 2373,
+  "unavailable": 281,
+  "status_counts": {
+    "SCIENTIFICALLY_VALIDATED": 2373,
+    "UNAVAILABLE_VERIFIED_SOURCE_FIELD": 137,
+    "HOLD_SOURCE_MAPPING_REVIEW": 24,
+    "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE": 144
+  },
+  "controller_closures": {
+    "background_iea": {
+      "status": "SELECTED_SOURCE_BLOCKS_CERTIFIED",
+      "first": [
+        {
+          "scope": "nld_only",
+          "selected_contracts": 2678,
+          "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+          "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+          "approved_cells": 349,
+          "new_candidates": 349,
+          "reused_candidates": 0,
+          "held_cells": 0
+        }
+      ],
+      "second": [
+        {
+          "scope": "nld_only",
+          "selected_contracts": 2678,
+          "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+          "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+          "approved_cells": 349,
+          "new_candidates": 0,
+          "reused_candidates": 349,
+          "held_cells": 0
+        }
+      ],
+      "final_audit": [
+        {
+          "scope": "nld_only",
+          "selected_countries": 1,
+          "original_contracts": 2438,
+          "new_below_basic_peer_targets": 240,
+          "total_primitive_targets": 2678,
+          "archive_candidates": 0,
+          "validated": 2107,
+          "approved_compute_batches": 0,
+          "scientific_status": "NOT_RELEASED"
+        }
+      ],
+      "pilot_reused_without_recalculation": 52,
+      "previous_certified_retained": 1706,
+      "global_release": false
+    },
+    "background_pisa": {
+      "status": "SELECTED_SOURCE_BLOCKS_CERTIFIED",
+      "first": [
+        {
+          "scope": "nld_only",
+          "selected_contracts": 2678,
+          "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+          "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+          "approved_cells": 232,
+          "new_candidates": 232,
+          "reused_candidates": 0,
+          "held_cells": 0
+        }
+      ],
+      "second": [
+        {
+          "scope": "nld_only",
+          "selected_contracts": 2678,
+          "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+          "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+          "approved_cells": 232,
+          "new_candidates": 0,
+          "reused_candidates": 232,
+          "held_cells": 0
+        }
+      ],
+      "final_audit": [
+        {
+          "scope": "nld_only",
+          "selected_countries": 1,
+          "original_contracts": 2438,
+          "new_below_basic_peer_targets": 240,
+          "total_primitive_targets": 2678,
+          "archive_candidates": 0,
+          "validated": 2373,
+          "approved_compute_batches": 0,
+          "scientific_status": "NOT_RELEASED"
+        }
+      ],
+      "pilot_reused_without_recalculation": 34,
+      "previous_certified_retained": 2107,
+      "global_release": false
+    }
+  },
+  "source_closure": {
+    "status": "PASS",
+    "blocks": [
+      {
+        "block": "PIRLS_2001",
+        "n": 4112,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "e34628578cccea97794f70e8e332caa2ce5b84685a30343bd6b4403048b4d7db"
+      },
+      {
+        "block": "PIRLS_2006",
+        "n": 4156,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "62912f2ead1f7e009c379a9212de15aaec869def79e2aab32d603cf673c543b3"
+      },
+      {
+        "block": "PIRLS_2011",
+        "n": 3995,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "5a0f7e4af09e176bff51599b3745bc60aa43c366e3f842894942058134b15879"
+      },
+      {
+        "block": "PIRLS_2016",
+        "n": 4206,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "dffc25639ad37c1860deab264f4368b44f242c15d44cf74a4025282713b97331"
+      },
+      {
+        "block": "PIRLS_2021",
+        "n": 4313,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "56fc6074cc0a54f6e6f9e4e6493ae779cedefa9b581feedcd7ba489c2276296e"
+      },
+      {
+        "block": "TIMSS_2003",
+        "n": 2937,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "67be35b30dc9e19cea592557b7b01db8aad6226977dbd4dd16dbfca0b55bb40e"
+      },
+      {
+        "block": "TIMSS_2007",
+        "n": 3349,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "8f1b27efe0fe335b977eb464513020373601209f67f8ddf94fd6a13d3fc6b5ed"
+      },
+      {
+        "block": "TIMSS_2011",
+        "n": 3229,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "0f394d5971117036fc7e2fa1814bacf8f510ecc6795fc0d63946a95cef3291b4"
+      },
+      {
+        "block": "TIMSS_2015",
+        "n": 4515,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "829ede46ec4f10f2caf09cca2f40caa2f5b586a8632fc473b639b17869cd974c"
+      },
+      {
+        "block": "TIMSS_2019",
+        "n": 3355,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "3e35560ed63baa989d158cae8c4c1cfba1cbd8bc94b2b3e3f31ec03327a19aee"
+      },
+      {
+        "block": "TIMSS_2023",
+        "n": 3555,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "2a622e793170d693a96188d836d6006270f767bd942d225549532171e98eae46"
+      },
+      {
+        "block": "PISA_2003",
+        "n": 3992,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "ca4ea6da65346fc435aa456ff18d90d828fccfda17552d3a2e9d914ef5d01341"
+      },
+      {
+        "block": "PISA_2006",
+        "n": 4871,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "bede3f100616ac476604dd2a800f80d264a7cf0591b5c5fe636afead41af0519"
+      },
+      {
+        "block": "PISA_2009",
+        "n": 4760,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "4783b32fc8bbc6ea9f149b7c090de273dcb75ae651c17325b1c55cceea7ace47"
+      },
+      {
+        "block": "PISA_2012",
+        "n": 4460,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "5459ef7cdc0a2e825f6a8085e2a1d004d3d32bf88712652f1e1a54e31fc4270e"
+      },
+      {
+        "block": "PISA_2015",
+        "n": 5385,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "2f6634dcedf5acb34a0cb34832192a4db066c831acf36461af8571816667cc87"
+      },
+      {
+        "block": "PISA_2018",
+        "n": 4765,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "3b8d7c876e241c876909f650caaf2fd155cb797f852531781aee98a412440721"
+      },
+      {
+        "block": "PISA_2022",
+        "n": 5046,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "a56fdb8400b3d078c1e4d9e149c5f0adbcbccce46d0d5b0861e1b607c4b817f3"
+      },
+      {
+        "block": "PISA_2025",
+        "n": 6636,
+        "raw_edition_matches_verified_parent": true,
+        "canonical_sha256": "c365631eaf896f4aaca61d6329b61f01fe0c0cff5ef129b0d66fafa9611e5c2b"
+      }
+    ],
+    "table_encoding_correction": "RAW_MAPPING_PROOF valid_counts used as.list(table(useNA=always)); unnamed NA entries can serialize as positional keys. The explicit CSV uses value=MISSING; these positional keys are not data codes. All estimators use the correctly mapped canonical vectors.",
+    "home_ses_population": "PIRLS 2021 official Home SES is conditional on observed home-questionnaire SES. Report response coverage and do not equate complete-case estimates with unbiased national effects.",
+    "pisa2025_parent_definition": "BICT_P1/BICT_P2 denote parent or guardian 1/2, not specifically biological mother/father. First/second generation retains the certified official IMMIG construct."
+  },
+  "measured_pilots": {
+    "background_iea": {
+      "status": "BACKGROUND_PRODUCER_PARITY_PASS",
+      "n": 4515,
+      "cells": 52,
+      "seconds": 61.03,
+      "peak_R_bytes": 201293824,
+      "source_sha256": "829ede46ec4f10f2caf09cca2f40caa2f5b586a8632fc473b639b17869cd974c",
+      "producer_code_sha256": "ad286fa91437b42ed2a55fd8d94de6a4f4e16634033bf3b1adcac9c07f382f29",
+      "max_estimate_diff": 5.115907697472721e-13,
+      "max_se_diff": 6.598070281775235e-14
+    },
+    "background_pisa": {
+      "status": "BACKGROUND_PRODUCER_PARITY_PASS",
+      "n": 6636,
+      "cells": 34,
+      "seconds": 25.16,
+      "peak_R_bytes": 210849792,
+      "source_sha256": "c365631eaf896f4aaca61d6329b61f01fe0c0cff5ef129b0d66fafa9611e5c2b",
+      "producer_code_sha256": "ad286fa91437b42ed2a55fd8d94de6a4f4e16634033bf3b1adcac9c07f382f29",
+      "max_estimate_diff": 5.115907697472721e-13,
+      "max_se_diff": 5.329070518200751e-15
+    }
+  },
+  "home_ses_2021": {
+    "n_total": 4313,
+    "n_valid": 2031,
+    "n_missing": 2282,
+    "weighted_valid_share": 0.477027110658865,
+    "interpretation": "Conditional on observed official Home SES; selective response is a substantive limitation. Do not splice older Home Resources into the series."
+  },
+  "storage": {
+    "sqlite_bytes": 4481024,
+    "current_rows": 2373,
+    "execution_receipts": 1940,
+    "derivation_receipts": 80,
+    "numerical_versions": 2364,
+    "scientific_csv_gzip_bytes": 142742,
+    "display_csv_gzip_bytes": 101179
+  },
+  "finalize": {
+    "status": "ACTUAL_FINALIZE_EXPORT_PASS",
+    "export": [
+      {
+        "validated_input_cells": 2373,
+        "guided_focus_rows": 1893,
+        "mapping_holds": 0,
+        "separate_appendix_or_science_rows": 480,
+        "requires_new_below_basic_peer": "YES",
+        "publication_status": "PRIVATE_REVIEW_ONLY"
+      }
+    ],
+    "quality": [
+      {
+        "scope_contracts": 2678,
+        "active_primitive_contracts": 2397,
+        "validated_active_primitives": 2373,
+        "active_missing": 24,
+        "documented_unavailable_extensions": 144,
+        "documented_unavailable_source_fields": 137,
+        "new_below_basic_peer_targets": 240,
+        "new_below_basic_peer_verified": 240,
+        "paper_gates_pass": 0,
+        "paper_gates_required": 8,
+        "primary_peer_gate": "PASS",
+        "scientific_freeze": "HOLD",
+        "publication_authorized": "NO_RIGHTS_AND_REPLICATION_REVIEW_PENDING",
+        "reason": ";ACTIVE_GRID_GAPS;Q01_Q08_OPEN"
+      }
+    ],
+    "unchanged_result_database_sha256": "464b0cebc9b3a47137fb770e28ed41d79ae0e5205e6ab7fdff21bcbb12a06185",
+    "no_pupil_calculation": true
+  },
+  "not_claimed": [
+    "All 24 PISA2025 girl-dependent results resolved",
+    "Foreign-country production or admission approved",
+    "Paper Q01-Q08 complete",
+    "Public product release",
+    "Complete portable external AEA replication"
+  ],
+  "private_drive_restore": {
+    "status": "PASS_REAL_PRIVATE_DRIVE_RESTORE",
+    "archive_sha256": "ca7a57489b11e967494dcc185e20dfb49541f21321790d472a5059ec2c0c7128",
+    "archive_bytes": 19854844,
+    "files_verified": 1903,
+    "counts": {
+      "grid": 2373,
+      "execution_receipts": 1940,
+      "result_versions": 2364,
+      "derivation_receipts": 80
+    },
+    "database_rows": 2373,
+    "original_nine_current_cells_predate_version_table": true,
+    "sqlite_integrity": "ok",
+    "full_source_backup_claimed": false,
+    "owner_only_permission_verified": true
+  }
+}
