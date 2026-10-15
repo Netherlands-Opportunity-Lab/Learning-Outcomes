@@ -1,0 +1,3 @@
+# Preserve the exact committed bytes on Windows and Linux. Historical hashes
+# cover both LF and CRLF source editions; never normalize them on checkout/add.
+* -text

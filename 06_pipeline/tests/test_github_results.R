@@ -16,7 +16,7 @@ cert_file<-file.path(root,'private_certificate.json')
 a<-data.frame(cell_id=d$cell_id,estimate=d$estimate,standard_error=d$standard_error,n_unweighted=d$n_unweighted,
  sample_id='NLD_TEST',method_version='test',target_contract_sha256=sha('c'),source_edition_sha256=digest::digest(file=source_file,algo='sha256'),
  input_fingerprint=sha('a'),code_fingerprint=sha('b'),result_hash=sha('d'),weight_design='FAY_80',pv_rule='ALL_PV',variance_rule='WITHIN_PLUS_BETWEEN',
- status='SCIENTIFICALLY_VALIDATED',source_path=source_file,certification_path=cert_file,private_extra='C:/Users/private/secret')
+ status='SCIENTIFICALLY_VALIDATED',source_path=source_file,certification_path=cert_file,private_extra=source_file)
 jsonlite::write_json(list(status='SCIENTIFICALLY_VALIDATED',cells=a,evidence_files=data.frame(path=source_file,sha256=a$source_edition_sha256)),cert_file,auto_unbox=TRUE,digits=NA)
 a$certification_sha256<-digest::digest(file=cert_file,algo='sha256')
 write.csv(a,file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),row.names=FALSE)

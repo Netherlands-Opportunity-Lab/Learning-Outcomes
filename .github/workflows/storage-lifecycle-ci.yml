@@ -3,6 +3,10 @@ on:
   pull_request:
     paths:
       - "06_pipeline/**"
+      - "START.R"
+      - ".gitattributes"
+      - "04_results/review/**"
+      - "scripts/validate_result_snapshots.py"
       - ".github/workflows/storage-lifecycle-ci.yml"
   workflow_dispatch:
 jobs:
@@ -34,6 +38,10 @@ jobs:
           python-version: "3.12"
       - name: Test local storage and private Drive sync (no credentials)
         run: python -m unittest discover -s 06_pipeline/tests -v
+      - name: Verify historical manifest bytes and repository boundaries on both platforms
+        run: python scripts/validate_repository.py
+      - name: Verify committed aggregate and producer-code manifests
+        run: python scripts/validate_result_snapshots.py
   r-entrypoint-parse:
     strategy:
       fail-fast: false

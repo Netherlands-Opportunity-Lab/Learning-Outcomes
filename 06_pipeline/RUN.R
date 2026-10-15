@@ -489,6 +489,7 @@ lo_pipeline_main <- function() {
     # Aggregate summaries (never student-level records) may go to the
     # already authenticated private Drive. A DNS outage does not rewind QA.
     if(requested%in%c("audit","produce","finalize") &&
+       Sys.getenv('LO_DEFER_PRIVATE_DRIVE','')!='1' &&
        file.exists(lo_pipeline_drive_config_path())) {
       fixed_root<-Sys.getenv('LO_FIXED_ROOT',unset=file.path(Sys.getenv('USERPROFILE',unset=path.expand('~')),'Downloads','LO05_RESULTATEN'))
       tryCatch(lo_pipeline_drive_publish(repo,"publish",results_root=fixed_root,fixed_scope=scope),error=function(e)

@@ -4,6 +4,8 @@ Het directe gebruikersbesluit is dat RStudio de versiebeheerste scripts uit GitH
 
 `START.R` met `LO_START_ACTION=produce-approved` haalt vóór een gewone run een veilige fast-forward op. Daarna worden audit, productie en status op één vaste commit uitgevoerd. Pas na die fasen plaatst `LO_GITHUB_RESULTS.R` de gecertificeerde nationale aggregaten onder `04_results/review/<scope>/` terug op dezelfde branch. Expliciete `LO_REPRODUCE_COMMIT` behoudt de gekozen historische versie en slaat de update over. Geen force-push, automatische merge of overschrijving van lokale code. Bij mislukte upload blijven berekeningen en een voorbereide kopie behouden; de runner meldt dat GitHub nog niet bijgewerkt is.
 
+Een gewone samengestelde run voert de private Drive-overdracht eenmaal na de GitHub-depositie uit. De eerdere twee overdrachten tussen audit/productie en na productie veroorzaakten onnodige wachttijd. Historische replicatie met expliciete commit deponeert standaard niet naar GitHub; daarvoor is een expliciete keuze `LO_GITHUB_RESULTS=review` vereist. Exacte manifestbytes zijn met `.gitattributes` beschermd tegen automatische CRLF/LF-omzetting.
+
 De reviewmap bevat:
 
 - `results.csv`: waarden, SE, N, exacte celidentiteit en bron/input/producer/resultaat/certificaathashes, zonder afronding van wetenschappelijke invoer.
@@ -14,6 +16,8 @@ De reviewmap bevat:
 - `manifest.json`: aantal cellen, status, configuratie en SHA256 per bestand.
 
 De volledige private runrecords, leerlingbestanden, schoolrecords en lokale paden worden niet naar GitHub gekopieerd. De gecertificeerde resultaatwaarden worden wel opgenomen; de private bron-/replicatiebewijzen blijven herstelbaar op Drive. De afzonderlijke productvrijgave blijft herkenbaar als nog niet verleend.
+
+Ook de 24 onderliggende historische R-bestanden zijn onder `06_pipeline/archive_or_superseded/LO05_CODE_LOCK_20261010/` beschikbaar, met een manifest van originele en eventuele privacybewerkte hashes. De actieve runner blijft de gecontroleerde originele lokale bundle gebruiken; dit codearchief geeft geen vrijbrief voor de oude brede launchers en vervangt niet de nog vereiste schone externe replicatie.
 
 ## Rekentijd en omvang
 
