@@ -108,6 +108,20 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
     expected<-if(new_peer)
       c("total","self_below_basic","self_at_or_above_basic")
       else strsplit(f$expected_series[[1]],";",fixed=TRUE)[[1]]
+    years<-strsplit(f$required_years[[1]],";",fixed=TRUE)[[1]]
+    # Resolve the historical '2025 if SES; ...' prose only for the explicitly
+    # chosen four-wave construct. National shares are contextual baselines,
+    # not peer exposure or another target group; keep their exact source IDs.
+    ses_context<-f$survey[[1]]=="PISA" && family=="EN_SES_PEER" &&
+      source$definition[i]=="Cobreros_fourwave_13item_trend_comparable"
+    if(ses_context) {
+      years<-c("2015","2018","2022","2025")
+      expected<-c("q1_target_pct_q4_peers","q4_target_pct_q1_peers",
+                  "population_q1_share","population_q4_share")
+      if(source$module[i]=="peer_baseline" && source$group[i]=="total" &&
+         source$stat[i]%in%c("q1_share","q4_share"))
+        group<-paste0("population_",source$stat[i])
+    }
     # The pinned contract intentionally leaves language groups source-specific.
     # Resolve only the certified PISA home-versus-assessment-language construct;
     # IEA frequency categories and Dutch-versus-other are different constructs.
@@ -123,8 +137,7 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
       omit(i,"HOLD_EXPECTED_SERIES_MAPPING_NEEDS_METHOD_ADJUDICATION")
       next
     }
-    if(!as.character(source$year[i])%in%
-         strsplit(f$required_years[[1]],";",fixed=TRUE)[[1]]) {
+    if(!as.character(source$year[i])%in%years) {
       omit(i,"HOLD_SURVEY_YEAR_NOT_IN_FIGURE_CONTRACT");next
     }
     code<-as.character(source$country[i])
@@ -136,6 +149,14 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
     language_labels_en<-c(test_language_home="Home language matches assessment",
       other_language_home="Other home language",other_minus_test="Other home language minus assessment language")
     language_row<-source$module[i]=="language_exact" && group%in%names(language_labels_nl)
+    ses_labels_nl<-c(q1_target_pct_q4_peers="Aandeel Q4-peers van Q1-leerlingen",
+      q4_target_pct_q1_peers="Aandeel Q1-peers van Q4-leerlingen",
+      population_q1_share="Landelijk aandeel Q1 (referentie voor samenstelling)",
+      population_q4_share="Landelijk aandeel Q4 (referentie voor samenstelling)")
+    ses_labels_en<-c(q1_target_pct_q4_peers="Share of Q4 peers among Q1 pupils",
+      q4_target_pct_q1_peers="Share of Q1 peers among Q4 pupils",
+      population_q1_share="National Q1 share (composition baseline)",
+      population_q4_share="National Q4 share (composition baseline)")
     row<-data.frame(figure_id=id,country=code,
       year=as.character(source$year[i]),survey=as.character(source$survey[i]),
       domain=as.character(source$domain[i]),
@@ -155,8 +176,8 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
         transform="BELOW_BASIC_COMPLEMENT_V1",source_unit=source$unit[i],target_unit=f$unit,
         estimate=value,se=se,ci_low=low,ci_high=high),algo="sha256") else as.character(approved$result_hash[i]),
       series_id=group,series_role="focus",
-      series_label_nl=if(language_row)unname(language_labels_nl[group])else group,
-      series_label_en=if(language_row)unname(language_labels_en[group])else group,
+      series_label_nl=if(language_row)unname(language_labels_nl[group])else if(ses_context)unname(ses_labels_nl[group])else group,
+      series_label_en=if(language_row)unname(language_labels_en[group])else if(ses_context)unname(ses_labels_en[group])else group,
       split_group=group,
       comparison_fixed_panel_pass="",
       comparison_method="",comparator_n="",
