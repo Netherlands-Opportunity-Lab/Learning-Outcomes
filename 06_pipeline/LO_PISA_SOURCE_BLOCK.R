@@ -204,6 +204,18 @@ lo_pisa_independent_selected <- function(raw,q) {
       if(any(!is.na(previous)&!is.na(current)&previous!=current))stop('PISA_REFERENCE_GENDER_FIELDS_CONFLICT')
     } else if(any(values%in%mapping)) {sex<-values;sexmap<-mapping;selected_gender<-TRUE}
   }
+  pooled_contract<-grepl('FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015',q$calculation_policy,fixed=TRUE)
+  if(any(pooled_contract)) {
+    if(any(sex==sexmap[['girl']],na.rm=TRUE)||!'MALE'%in%names(raw))stop('PISA_REFERENCE_POOL_NOT_APPLICABLE')
+    labels<-attr(raw$MALE,'labels');label_names<-tolower(trimws(names(labels)))
+    if(sum(label_names=='female / other')!=1L||sum(label_names=='male')!=1L||
+       unname(labels[label_names=='female / other'])!=0||unname(labels[label_names=='male'])!=1)
+      stop('PISA_REFERENCE_POOL_LABELS')
+    dependent<-(q$module=='gender'&q$group%in%c('girl','girls_minus_boys'))
+    if(any(dependent!=pooled_contract))stop('PISA_REFERENCE_POOL_CONTRACT')
+    sex<-ifelse(as.numeric(raw$MALE)==0,sexmap[['girl']],
+      ifelse(as.numeric(raw$MALE)==1,sexmap[['boy']],NA_real_))
+  }
   if(all(is.na(sex))&&'MALE'%in%names(raw)) {
     male_code<-lo_pisa_label_code(raw$MALE,'male')
     sex[!is.na(raw$MALE)&as.numeric(raw$MALE)==male_code]<-sexmap[['boy']]

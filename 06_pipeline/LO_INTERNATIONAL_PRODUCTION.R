@@ -2,7 +2,7 @@
 # All statistics use the existing exact producers. Reference implementations
 # remain separate; each successful source/family block is a durable checkpoint.
 lo_international_measure <- function(repo,bundle,obj,q,out) {
-  for(f in c('LO_EXACT_BOOT.R','LO_EXACT_ESTIMATORS.R','LO_EXACT_DISPATCH.R','LO_COMPACT_RECOMPUTE.R','LO_APPROVED_EXTENSIONS.R','LO_SOURCE_REPAIR.R'))source(file.path(repo,'06_pipeline',f))
+  for(f in c('LO_EXACT_BOOT.R','LO_EXACT_ESTIMATORS.R','LO_EXACT_DISPATCH.R','LO_COMPACT_RECOMPUTE.R','LO_APPROVED_EXTENSIONS.R','LO_SOURCE_REPAIR.R','LO_GENDER_POOL_POLICY.R'))source(file.path(repo,'06_pipeline',f))
   for(f in c('LO04_COMMON.R','LO04_CACHE.R'))source(file.path(bundle,'code',f))
   for(f in c('REPAIRS.R','EXTENSIONS.R'))source(file.path(bundle,'engine',f))
   lo_exact_boot(bundle)
@@ -56,7 +56,7 @@ lo_international_measure <- function(repo,bundle,obj,q,out) {
 }
 
 lo_international_produce <- function(repo,bundle,root,scope='all_required',countries=NULL,context_ids=NULL,families_keep=NULL) {
-  for(f in c('LO_ATOMIC_CHECKPOINT.R','LO_COUNTRY_REGISTRY.R','LO_COUNTRY_TASKS.R','LO_BALANCED_MEMBERSHIP.R',
+  for(f in c('LO_ATOMIC_CHECKPOINT.R','LO_COUNTRY_REGISTRY.R','LO_COUNTRY_TASKS.R','LO_BALANCED_MEMBERSHIP.R','LO_GENDER_POOL_POLICY.R','LO_REMOTE_CHECKPOINT.R',
     'MASTER_ESTIMATION_GRID.R','LO_SCOPE_DECISIONS.R','LO_APPROVED_EXTENSIONS.R','LO_CERTIFY_SOURCE_BLOCKS.R',
     'LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PISA_LEGACY_SOURCE.R','LO_PEER_REFERENCE.R',
     'LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_RUN_CONFIG.R'))source(file.path(repo,'06_pipeline',f))
@@ -67,16 +67,25 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
   info<-lo_runtime_scope(bundle,base,scope,support);lo_country_production_approval(repo,info$selected,info$dashboard)
   t<-lo_country_base_tasks(base,info);dec<-lo_read_scope_decisions(repo)
   t<-lo_scope_active_tasks(rbind(t,lo_extension_tasks(t,dec),lo_scoped_low_peer_tasks(t,dec)),dec)
+  t<-lo_gender_pool_tasks(t,support)
   cfg<-lo_run_config(scope);t<-lo_run_select(t,cfg)
   if(!is.null(countries))t<-t[t$country%in%countries,]
   # NLD is already certified in the shared registry; source-specific unresolved
   # cells remain governed by its explicit source-unavailability evidence.
-  t<-t[t$country!='NLD',]
+  t<-t[t$country!='NLD'|lo_gender_pooled(t),]
+  # Back up prior sealed results before any new calculations; retry pending
+  # transfers on resume without recomputing their scientific blocks.
+  lo_remote_checkpoint(repo,root)
   source(file.path(repo,'06_pipeline/LO_INTERNATIONAL_WORKLIST.R'))
   audited_path<-file.path(root,'FIXED_PRODUCTION_V1',scope,'PRIVATE_MASTER_GRID.csv')
   if(!file.exists(audited_path))stop('INTERNATIONAL_WORKLIST_AUDIT_REQUIRED')
-  worklist<-lo_international_worklist(t,read.csv(audited_path,colClasses='character',na.strings=character()))
+  audited<-read.csv(audited_path,colClasses='character',na.strings=character())
+  worklist<-lo_international_worklist(t,audited)
   t<-worklist$tasks
+  # Audit has already verified these exact certificates and input identities.
+  # Avoid source loading and SES preparation when all selected cells are done.
+  t<-t[!t$metric_key%in%audited$cell_id[audited$status=='SCIENTIFICALLY_VALIDATED'],,drop=FALSE]
+  if(!nrow(t))return(invisible(list(certified_new=0L,repairs=list())))
   partitions<-list();indices<-list()
   for(f in list.files(file.path(international,'raw_partitions'),pattern='_PARTITIONS.json$',full.names=TRUE)) {
     x<-jsonlite::fromJSON(f);partitions[[x$raw_path]]<-x
@@ -105,7 +114,13 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
   if(!is.null(context_ids))contexts<-contexts[paste(contexts$country,contexts$survey,contexts$year,sep='_')%in%context_ids,]
   for(i in seq_len(nrow(contexts))) {
     ctx<-contexts[i,];country<-ctx$country;s<-ctx$survey;y<-as.integer(ctx$year);id<-paste(country,s,y,sep='_')
-    parent<-file.path(international,'sources',id);srcfile<-file.path(parent,'SOURCE_VERIFICATION.json')
+    parent<-file.path(international,'sources',id)
+    if(country=='NLD') {
+      origin<-unique(support$source_path[support$country==country&support$survey==s&as.integer(support$year)==y])
+      if(length(origin)!=1L)stop('NLD_SOURCE_IDENTITY_AMBIGUOUS')
+      parent<-dirname(origin)
+    }
+    srcfile<-file.path(parent,'SOURCE_VERIFICATION.json')
     if(!file.exists(srcfile))stop('INTERNATIONAL_SOURCE_CHECKPOINT_MISSING: ',id)
     src<-jsonlite::fromJSON(srcfile);canonical<-file.path(parent,src$canonical_filename)
     stopifnot(digest::digest(file=canonical,algo='sha256')==src$canonical_sha256)
@@ -118,6 +133,11 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
     families<-if(s=='PISA')c('PISA_CORE','BACKGROUND_PISA','PEERS_PISA',if(y>=2015)'PISA_SES')else c('IEA','IEA_BOOKS','BACKGROUND_IEA','PEERS_IEA')
     if(!is.null(families_keep))families<-intersect(families,families_keep)
     raw<-NULL
+    if(any(lo_gender_pooled(q0))) {
+      reg<-partitions[[r$raw_path]]
+      if(is.null(reg))stop('GENDER_POOL_VERIFIED_PARTITION_REQUIRED')
+      raw<-lo_pisa_country_rows(r$raw_path,r$source_country,reg$fields)
+    }
     source(file.path(repo,'06_pipeline/LO_CERTIFY_BASELINES.R'))
     lo_certify_population_baselines(repo,root,scope,q0)
     for(family in families)tryCatch((function() {
@@ -142,9 +162,11 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
       q<-q[!missing_domain,]
       # Missing labels cannot be reconstructed from a pooled Female/Other code.
       if(s=='PISA') {
+        pool_available<-any(lo_gender_pooled(q))
         has_girl<-any(obj$data$DEMO_GENDER=='girl',na.rm=TRUE);has_boy<-any(obj$data$DEMO_GENDER=='boy',na.rm=TRUE)
         missing_sex<-(q$module=='gender'&((!has_girl&q$group%in%c('girl','girls_minus_boys'))|(!has_boy&q$group%in%c('boy','girls_minus_boys'))))|
           (q$module=='extension_ses_gender'&((!has_girl&grepl('_girl$',q$group))|(!has_boy&grepl('_boy$',q$group))))
+        missing_sex<-missing_sex & !lo_gender_pooled(q)
         if(any(missing_sex))lo_international_absence(repo,root,q[missing_sex,],'No separately identifiable requested gender in verified source; pooled Female/Other is not Female',srcfile,'SOURCE_MAPPING_REVIEW_REQUIRED')
         q<-q[!missing_sex,]
       }
@@ -152,7 +174,7 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
       group_id<-paste(q$module,q$domain,q$definition,q$peer_definition,q$threshold,sep='|')
       take<-head(unique(group_id),cfg$max_compute_units-units);q<-q[group_id%in%take,]
       outroot<-file.path(international,'blocks',family);out<-file.path(outroot,id);dir.create(out,recursive=TRUE,showWarnings=FALSE)
-      science_obj<-obj;peers<-startsWith(family,'PEERS_')
+      science_obj<-lo_gender_pool_object(obj,raw,q);peers<-startsWith(family,'PEERS_')
       if(s=='PISA') {
         numeric_country<-unique(manifest$source_country[manifest$country==country&manifest$survey!='PISA'])
         numeric_country<-numeric_country[!numeric_country%in%'5784'];stopifnot(length(numeric_country)==1L)
@@ -182,7 +204,7 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
         science_obj$meta$calibration_evidence_path<-ses$certificate_path;science_obj$meta$calibration_sha256<-digest::digest(file=ses$certificate_path,algo='sha256')
       }
       if(!nrow(q))return(invisible(NULL))
-      verifier_files<-c('LO_INTERNATIONAL_PRODUCTION.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PEER_REFERENCE.R','LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_INTERNATIONAL_SES.R')
+      verifier_files<-c('LO_INTERNATIONAL_PRODUCTION.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PEER_REFERENCE.R','LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_INTERNATIONAL_SES.R','LO_GENDER_POOL_POLICY.R')
       key<-digest::digest(list(q=q,parent=src$canonical_sha256,object=digest::digest(science_obj,algo='sha256'),reference=vapply(file.path(repo,'06_pipeline',verifier_files),function(p)digest::digest(file=p,algo='sha256'),character(1))),algo='sha256')
       block_id<-paste0(id,'_',substr(key,1,16));out<-file.path(outroot,block_id);dir.create(out,recursive=TRUE,showWarnings=FALSE)
       if(startsWith(family,'BACKGROUND_'))file.copy(bg$proof,file.path(out,basename(bg$proof)),overwrite=FALSE)
@@ -213,7 +235,14 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
         }
         output<-file.path(out,paste0('canonical_',id,'_',substr(digest::digest(science_obj,algo='sha256'),1,16),'.rds'))
         if(!file.exists(output))saveRDS(science_obj,output,compress='gzip')
-        current<-src;current$canonical_filename<-basename(output);current$canonical_sha256<-digest::digest(file=output,algo='sha256')
+        current<-src
+        if(any(lo_gender_pooled(q))) {
+          current$gender_policy<-science_obj$meta$gender_policy
+          current$gender_definition<-science_obj$meta$gender_definition
+          current$gender_label_nl<-science_obj$meta$gender_label_nl
+          current$gender_counts<-science_obj$meta$gender_counts
+        }
+        current$canonical_filename<-basename(output);current$canonical_sha256<-digest::digest(file=output,algo='sha256')
         jsonlite::write_json(current,file.path(out,'SOURCE_VERIFICATION.json'),pretty=TRUE,auto_unbox=TRUE,digits=17)
         file.copy(srcfile,file.path(out,'PARENT_SOURCE_VERIFICATION.json'),overwrite=TRUE)
         write.csv(q,file.path(out,'EXACT_SELECTED_TASKS.csv'),row.names=FALSE,na='')
@@ -232,7 +261,9 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
       units<<-units+length(unique(paste(q$module,q$domain,q$definition,q$peer_definition,q$threshold,sep='|')))
       completed<<-completed+nrow(q);cat('INTERNATIONAL_CERTIFIED',id,family,nrow(q),'total_new',completed,'\n');flush.console()
       if(family%in%c('IEA','PISA_CORE'))lo_certify_population_baselines(repo,root,scope,q0)
+      lo_remote_checkpoint(repo,root)
     })(),error=function(e) {
+      if(grepl('REMOTE_CHECKPOINT|PRIVATE_DRIVE_SYNC_PENDING',conditionMessage(e)))stop(e)
       failures[[length(failures)+1L]]<<-data.frame(country=country,survey=s,year=y,family=family,reason=conditionMessage(e))
       lo_atomic_csv(do.call(rbind,failures),file.path(international,'PRODUCTION_REPAIRS_REQUIRED.csv'))
       cat('INTERNATIONAL_REPAIR_REQUIRED',id,family,conditionMessage(e),'\n');flush.console()

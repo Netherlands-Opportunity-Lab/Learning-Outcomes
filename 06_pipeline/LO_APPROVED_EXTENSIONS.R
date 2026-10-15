@@ -66,5 +66,9 @@ lo_extension_availability <- function(tasks) {
   x$evidence_url<-ifelse(x$survey=="PIRLS","https://files.eric.ed.gov/fulltext/ED676159.pdf",
     "https://timssandpirls.bc.edu/timss2019/methods/pdf/T19_MP_Ch16-AppA-context-scales-grade-4.pdf")
   x$evidence_url[absent]<-"https://files.eric.ed.gov/fulltext/ED679640.pdf"
+  us_home<-x$country=='USA'&((x$survey=='TIMSS'&x$year=='2023')|(x$survey=='PIRLS'&x$year=='2021'))
+  x$status[us_home]<-'UNAVAILABLE_HOME_QUESTIONNAIRE_NOT_ADMINISTERED'
+  x$reason[us_home]<-'NCES technical notes: United States did not administer the parent/home questionnaire; national add-on or restricted-use files cannot recover uncollected responses'
+  x$evidence_url[us_home]<-ifelse(x$survey[us_home]=='TIMSS','https://nces.ed.gov/timss/technotes-2023.asp','https://nces.ed.gov/surveys/pirls/pirls2021/technotes.asp')
   x
 }

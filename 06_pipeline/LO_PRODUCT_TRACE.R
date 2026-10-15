@@ -86,6 +86,7 @@ lo_fixed_input_manifest <- function(repo,bundle,root,scope) {
     products=file.path(repo,"06_pipeline","review_20261013","PRODUCT_REQUIREMENTS.json"),
     rank_product=file.path(repo,"06_pipeline","review_20261013","RANK_PRODUCT_CONTRACT.json"),
     extensions=file.path(repo,"06_pipeline","LO_APPROVED_EXTENSIONS.R"),
+    gender_policy=file.path(repo,"06_pipeline","LO_GENDER_POOL_POLICY.R"),
     scope_code=file.path(repo,"06_pipeline","LO_SCOPE_DECISIONS.R"),
     country_decisions=file.path(repo,"06_pipeline","COUNTRY_PRODUCTION_APPROVALS.csv"),
     country_code=file.path(repo,"06_pipeline","LO_COUNTRY_REGISTRY.R"),

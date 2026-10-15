@@ -171,6 +171,8 @@ lo_exact_ses_composition <- function(obj,q) {
 }
 
 lo_exact_selected_estimate <- function(obj,q) {
+  if(exists("lo_gender_pool_guard",mode="function"))lo_gender_pool_guard(obj,q)
+  else if(any(grepl("FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",q$metric_key,fixed=TRUE)))stop("GENDER_POOL_POLICY_NOT_LOADED")
   d<-obj$data;m<-unique(q$module)
   if(length(m)!=1L||length(unique(q$domain))!=1L)stop("EXACT_ESTIMATOR_MIXED_BATCH")
   ext<-startsWith(m,"extension_")

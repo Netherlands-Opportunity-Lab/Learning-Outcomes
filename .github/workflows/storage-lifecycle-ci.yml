@@ -110,6 +110,10 @@ jobs:
         run: Rscript 06_pipeline/tests/test_source_checkpoint_reuse.R
       - name: Test exact international worklist and proven absence exclusions
         run: Rscript 06_pipeline/tests/test_international_worklist.R
+      - name: Test approved pooled gender identities and mapping
+        run: Rscript 06_pipeline/tests/test_gender_pool_policy.R
+      - name: Test private incremental checkpoint recovery
+        run: Rscript 06_pipeline/tests/test_remote_checkpoint.R
       - name: Test balanced individual country rank derivation
         run: Rscript 06_pipeline/tests/test_country_ranks.R
       - name: Test selected SES composition and missing peer denominators
