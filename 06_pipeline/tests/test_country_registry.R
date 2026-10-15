@@ -20,6 +20,8 @@ y<-lo_runtime_scope(work,tasks,"all_required",missing)
 stopifnot(!"AUT"%in%y$selected,!"AUT"%in%y$dashboard)
 stopifnot(isTRUE(lo_country_production_approval(".","NLD")),
  inherits(try(lo_country_production_approval(".",c("NLD","AUT")),silent=TRUE),"try-error"))
+stopifnot(isTRUE(lo_country_production_approval(".",c("NLD","AUT"),c("NLD","AUT"))),
+ inherits(try(lo_country_production_approval(".",c("NLD","X98"),c("NLD","AUT")),silent=TRUE),"try-error"))
 # A selected graph/zoom cannot shrink the full focus core.
 anchor<-unique(base[base$country=="NLD",c("survey","age_group","domain")]);anchor$years<-"2015;2018;2022"
 req<-lo_focus_required_support(base,base[1,],"NLD",anchor)

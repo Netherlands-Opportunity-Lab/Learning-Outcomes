@@ -33,7 +33,7 @@ lo_fixed_controller <- function(repo,bundle,
     Sys.getenv("USERPROFILE",unset=path.expand("~")),"Downloads","LO05_RESULTATEN"))) {
   stage<-match.arg(stage);scope<-match.arg(scope)
   for(name in c("LO_SCOPE_LOCK.R","LO_SCOPE_DECISIONS.R","LO_BALANCED_MEMBERSHIP.R",
-    "LO_COUNTRY_REGISTRY.R","MASTER_ESTIMATION_GRID.R","LO_APPROVED_EXTENSIONS.R",
+    "LO_COUNTRY_REGISTRY.R","LO_COUNTRY_TASKS.R","MASTER_ESTIMATION_GRID.R","LO_APPROVED_EXTENSIONS.R",
     "GRID_ARCHIVE_BATCH.R","LO_EXISTING_RESULT_REGISTRY.R",
     "LO_FIXED_VALIDATION.R","LO_FIXED_PRODUCERS.R","LO_PRODUCT_TRACE.R","LO_SOURCE_UNAVAILABILITY.R")) {
     source(file.path(repo,"06_pipeline",name),
@@ -74,7 +74,7 @@ lo_fixed_controller <- function(repo,bundle,
   source_support<-lo_read_source_support(file.path(root,"master_reconciliation",
                                             "SOURCE_SUPPORT_CONTRACTS.csv"))
   scope_info<-lo_runtime_scope(bundle,tasks,scope,source_support)
-  selected<-lo_scope_filter_tasks(tasks,scope_info)
+  selected<-lo_country_base_tasks(tasks,scope_info)
   scope_decisions<-lo_read_scope_decisions(repo)
   new_peer_tasks<-lo_scoped_low_peer_tasks(selected,scope_decisions)
   selected<-lo_scope_active_tasks(selected,scope_decisions)

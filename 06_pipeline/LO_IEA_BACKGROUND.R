@@ -13,8 +13,9 @@ lo_iea_books <- function(x) {
     stop('IEA_BOOKS_CATEGORY_LABELS_NOT_VERIFIED')
   a<-as.numeric(x);a[!a%in%1:5]<-NA_real_;a
 }
-lo_iea_prepare_books <- function(path,survey,year,output_dir) {
-  v<-lo_iea_prepare_nld(path,survey,year,output_dir)
+lo_iea_prepare_books <- function(path,survey,year,output_dir,country='NLD',country_code=528L,
+                                 allowed_grades=4L,population_note=NULL,population_evidence=NULL) {
+  v<-lo_iea_prepare_country(path,survey,year,output_dir,country,country_code,allowed_grades,population_note,population_evidence)
   field<-lo_iea_books_variable(survey,year)
   b<-haven::read_sav(path,col_select=tidyselect::all_of(c('IDSTUD',field)))
   if(!identical(as.numeric(b$IDSTUD),as.numeric(v$raw$IDSTUD)))stop('IEA_BOOKS_SOURCE_ROW_MISMATCH')
@@ -22,7 +23,7 @@ lo_iea_prepare_books <- function(path,survey,year,output_dir) {
   v$object$meta$ses_construct_id<-'books_ordinal'
   v$object$meta$ses_variable<-field
   v$object$meta$ses_quartile_protocol<-'NATIONAL_WEIGHTED_FRACTIONAL_TIES_RECALCULATED_PER_REPLICATE'
-  output<-file.path(output_dir,paste0('canonical_',survey,'_',year,'_NLD_books_',substr(digest::digest(v$object,algo='sha256'),1,16),'.rds'))
+  output<-file.path(output_dir,paste0('canonical_',survey,'_',year,'_',country,'_books_',substr(digest::digest(v$object,algo='sha256'),1,16),'.rds'))
   if(!file.exists(output))saveRDS(v$object,output,compress=FALSE)
   else if(!identical(readRDS(output),v$object))stop('IEA_CHANGED_BOOKS_CANONICAL')
   v$path<-normalizePath(output,winslash='/');v$receipt$canonical_filename<-basename(output)

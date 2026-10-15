@@ -6,6 +6,12 @@ lo_iea_label_code <- function(x,labels) {
   unname(a[i])
 }
 lo_iea_prepare_nld <- function(path,survey,year,output_dir) {
+  lo_iea_prepare_country(path,survey,year,output_dir,'NLD',528L)
+}
+lo_iea_prepare_country <- function(path,survey,year,output_dir,country,country_code,
+                                   allowed_grades=4L,population_note=NULL,population_evidence=NULL) {
+  if(length(country)!=1L||!grepl('^[A-Z]{3}$',country)||
+     length(country_code)!=1L||!is.finite(country_code))stop('IEA_COUNTRY_CONTRACT_INVALID')
   if(!survey%in%c("PIRLS","TIMSS")||!year%in%if(survey=="PIRLS")c(2001,2006,2011,2016,2021)else c(2003,2007,2011,2015,2019,2023))
     stop("IEA_UNREVIEWED_CYCLE")
   codes<-if(survey=="PIRLS")c(READ="ASRREA")else c(MATH="ASMMAT",SCIE="ASSSCI")
@@ -15,9 +21,12 @@ lo_iea_prepare_nld <- function(path,survey,year,output_dir) {
   if(!all(fields%in%names(header)))stop("IEA_REQUIRED_RAW_FIELDS_MISSING")
   raw<-haven::read_sav(path,col_select=tidyselect::all_of(fields))
   if(anyNA(raw[c('IDCNTRY','IDSTUD','IDSCHOOL','IDCLASS','IDPOP','IDGRADE')])||
-     anyDuplicated(raw[c('IDCNTRY','IDSTUD')])||any(raw$IDCNTRY!=528)||any(raw$IDPOP!=1))stop("IEA_NLD_POPULATION_IDENTITY_FAILED")
-  delayed<-survey=="PIRLS"&&year==2021L
-  grades<-if(delayed)c(4,5)else 4
+     anyDuplicated(raw[c('IDCNTRY','IDSTUD')])||any(raw$IDCNTRY!=country_code)||any(raw$IDPOP!=1))stop("IEA_COUNTRY_POPULATION_IDENTITY_FAILED")
+  delayed<-country=='NLD'&&survey=="PIRLS"&&year==2021L
+  grades<-if(delayed)c(4,5)else allowed_grades
+  if(!identical(grades,4L)&&!delayed&&
+     (is.null(population_note)||is.null(population_evidence)||!nzchar(population_evidence)))
+    stop('IEA_NONSTANDARD_GRADE_EVIDENCE_REQUIRED')
   if(any(!raw$IDGRADE%in%grades))stop("IEA_GRADE_OUTSIDE_REVIEWED_POPULATION")
   if(any(!is.finite(raw$TOTWGT)|raw$TOTWGT<=0)||any(!raw$JKREP%in%c(0,1))||
      anyNA(raw$JKZONE)||any(raw$JKZONE<1)||any(!is.finite(as.matrix(raw[pv]))))stop("IEA_INCOMPLETE_PV_OR_DESIGN")
@@ -32,15 +41,17 @@ lo_iea_prepare_nld <- function(path,survey,year,output_dir) {
   for(k in names(codes))for(j in 1:5)d[[paste0('PV_',k,'_',j)]]<-as.numeric(raw[[paste0(codes[[k]],sprintf('%02d',j))]])
   note<-if(delayed)'Official fourth-grade cohort, including respondents assessed after the summer in fifth grade; no post-hoc grade exclusion'else 'Official fourth-grade national public-use student sample'
   evidence<-if(delayed)'https://www.expertisecentrumnederlands.nl/pirls-2021-resultaten/download/PIRLS-2021_Rapportage.pdf#page=13'else 'https://www.iea.nl/data-tools/repository'
-  meta<-list(survey=survey,year=as.integer(year),v9_country='NLD',source_country_code=528L,
+  if(!is.null(population_note))note<-population_note
+  if(!is.null(population_evidence))evidence<-population_evidence
+  meta<-list(survey=survey,year=as.integer(year),v9_country=country,source_country_code=country_code,
     preparation='DIRECT_FROM_OFFICIAL_PUF_WITHOUT_LEGACY_CACHE',class_identity='ACTUAL_CLASS_NESTED_WITHIN_SCHOOL',
     gender_variable='ITSEX',gender_status='SOURCE_VALUE_LABEL_VERIFIED',population=note,population_evidence=evidence,
     repair_raw_sha256=digest::digest(file=path,algo='sha256'))
   obj<-list(data=d,meta=meta);dir.create(output_dir,recursive=TRUE,showWarnings=FALSE)
-  output<-file.path(output_dir,paste0('canonical_',survey,'_',year,'_NLD_',substr(digest::digest(obj,algo='sha256'),1,16),'.rds'))
+  output<-file.path(output_dir,paste0('canonical_',survey,'_',year,'_',country,'_',substr(digest::digest(obj,algo='sha256'),1,16),'.rds'))
   if(!file.exists(output))saveRDS(obj,output,compress=FALSE)
   else if(!identical(readRDS(output),obj))stop('IEA_CHANGED_CANONICAL_OUTPUT')
-  receipt<-list(status='RAW_SAMPLE_AND_FIELDS_VERIFIED',survey=survey,year=year,country='NLD',n=nrow(d),
+  receipt<-list(status='RAW_SAMPLE_AND_FIELDS_VERIFIED',survey=survey,year=year,country=country,n=nrow(d),
     raw_sha256=meta$repair_raw_sha256,canonical_filename=basename(output),canonical_sha256=digest::digest(file=output,algo='sha256'),
     all_source_records_retained=TRUE,grade4_n=sum(d$GRADE==4),grade5_n=sum(d$GRADE==5),population=note,population_evidence=evidence,
     gender_weighted_coverage=sum(d$W[!is.na(d$GENDER)])/sum(d$W),jk_zones=length(zones),

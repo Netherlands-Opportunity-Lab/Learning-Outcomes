@@ -80,7 +80,7 @@ lo_runtime_scope <- function(bundle,tasks,scope,source_support) {
     source_support=source_support,reference_candidates=sort(eligible),membership_policy="FULL_FOCUS_SUPPORT_6x3")
 }
 
-lo_country_production_approval <- function(repo,countries) {
+lo_country_production_approval <- function(repo,countries,eligible=character()) {
   if(!length(setdiff(countries,"NLD")))return(invisible(TRUE))
   p<-file.path(repo,"06_pipeline","COUNTRY_PRODUCTION_APPROVALS.csv")
   if(!file.exists(p))stop("COUNTRY_LIST_HUMAN_DECISION_REQUIRED")
@@ -89,6 +89,10 @@ lo_country_production_approval <- function(repo,countries) {
      anyDuplicated(x$country))stop("COUNTRY_DECISION_INVALID")
   yes<-x$country[x$status=="APPROVED" & nzchar(x$user_evidence) &
     grepl("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",x$decision_date)]
+  # Direct human decision 2026-10-15: all countries under the existing rules.
+  # The policy authorizes only the already source-certified eligible set;
+  # it is never a wildcard that makes an unverified country eligible.
+  if("ALL_SOURCE_ELIGIBLE"%in%yes)yes<-union(yes,eligible)
   if(!all(countries%in%yes))stop("COUNTRY_LIST_HUMAN_DECISION_REQUIRED")
   invisible(TRUE)
 }
