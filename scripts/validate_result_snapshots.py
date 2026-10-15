@@ -43,3 +43,31 @@ if code_manifest.exists():
         assert target.is_relative_to(archive.resolve()), "Code path escapes archive"
         assert hashlib.sha256(target.read_bytes()).hexdigest() == row["git_copy_sha256"], target.name
 print(f"PASS {len(snapshots)} certified result snapshot(s), exact bytes and archived producer code")
+
+# Coverage must describe the actual committed result set, not an older audit.
+coverage = ROOT / '06_pipeline/review_20261013/grid_coverage'
+if (coverage / 'manifest.json').exists():
+    manifest = json.loads((coverage / 'manifest.json').read_text(encoding='utf-8'))
+    assert hashlib.sha256((ROOT / 'scripts/report_grid_coverage.py').read_bytes()).hexdigest() == manifest['generator_sha256']
+    for name, expected in manifest['output_files'].items():
+        target = (coverage / name).resolve()
+        assert target.parent == coverage.resolve()
+        assert hashlib.sha256(target.read_bytes()).hexdigest() == expected, name
+    cells = rows(coverage / 'EXACT_CELL_COVERAGE.csv')
+    statuses = rows(ROOT / '04_results/review' / manifest['scope'] / 'target_status.csv')
+    assert len(cells) == len({r['cell_id'] for r in cells}) == manifest['targets']
+    assert {r['cell_id']: r['status'] for r in cells} == {r['cell_id']: r['status'] for r in statuses}
+    by_id = {r['cell_id']: r for r in cells}
+    for row in cells:
+        assert row['age'] == ('age15' if row['survey'] == 'PISA' else 'age10')
+        assert row['population_id'] and row['product_requirements']
+    for row in rows(ROOT / '04_results/review' / manifest['scope'] / 'results.csv'):
+        for key in ('age', 'population_id', 'result_hash', 'input_fingerprint', 'source_edition_sha256'):
+            assert row[key] == by_id[row['cell_id']][key], key
+    for name in ('BY_WAVE', 'BY_FAMILY', 'BY_EXACT_COMBINATION'):
+        table = rows(coverage / (name + '.csv'))
+        assert sum(int(r['targets']) for r in table) == len(cells)
+        for key, count in manifest['counts'].items():
+            assert sum(int(r[key]) for r in table) == count
+    assert len(rows(coverage / 'MISSING_CELLS.csv')) == manifest['counts']['unavailable'] + manifest['counts']['unresolved']
+    print('PASS exact coverage, all population fields, product trace and current result fingerprints')
