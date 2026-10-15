@@ -1,6 +1,7 @@
 # SINGLE FIXED CONTROLLER: audit -> produce -> finalize (+ separate cleanup).
 # This file deliberately never changes the pinned scientific engine or the
 # September released website. All scientific values remain local/private.
+lo_fixed_remaining_targets <- function(status) sum(status!='SCIENTIFICALLY_VALIDATED' & !startsWith(status,'UNAVAILABLE_'))
 lo_fixed_status_summary <- function(repo,state,scope) {
   # Read only the saved audit. This is not a fresh source verification and an
   # empty certified queue must never be presented as completed science.
@@ -162,7 +163,8 @@ lo_fixed_controller <- function(repo,bundle,
     # Refresh the saved exact grid from durable block certificates before the
     # existing dispatcher/status/export path inspects it. Zero queued cells
     # must not hide unfinished or unavailable international targets.
-    international_changed<-TRUE
+    after_international<-lo_fixed_input_manifest(repo,bundle,root,scope)
+    international_changed<-!identical(current$sha256,after_international$sha256)
   }
   membership <- lo_runtime_scope_evidence(scope_info,state)
   if(stage=="audit"||international_changed) {
@@ -273,8 +275,8 @@ lo_fixed_controller <- function(repo,bundle,
     lo_scope_result_reuse(repo,root,scope,grid)
     result<-lo_fixed_produce(bundle,scope_info,rbind(selected,new_peer_tasks),state,
                             native_run=TRUE,grid=grid,max_units=run_config$max_compute_units)
-    if(international_changed) {
-      remaining<-sum(!grid$status%in%c('SCIENTIFICALLY_VALIDATED','UNAVAILABLE_VERIFIED_SOURCE_FIELD'))
+    if(exists('international_result',inherits=FALSE)) {
+      remaining<-lo_fixed_remaining_targets(grid$status)
       put('produce',if(remaining)'PRODUCED_WITH_EXPLICIT_REMAINING_TARGETS'else'ALL_SELECTED_TARGETS_ACCOUNTED_FOR',
         paste(international_result$certified_new,'new independently certified international cells;',remaining,'remaining targets;',length(international_result$repairs),'repair records. Publication gates remain separate.'))
     }else put("produce",as.character(result$native_execution[[1]]),

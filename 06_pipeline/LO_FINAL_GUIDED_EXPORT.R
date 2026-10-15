@@ -2,6 +2,8 @@
 # validated primitive estimates. Source task and figure IDs remain immutable.
 # Old high-peer results cannot fill new primary below-basic peer graphs.
 lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL) {
+  if(any(grepl('FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015',tasks$metric_key,fixed=TRUE))&&
+     !exists('lo_gender_display',mode='function'))stop('GUIDED_EXPORT_GENDER_LABEL_POLICY_REQUIRED')
   if(!exists("lo_grid_validate_fill",mode="function"))
     stop("GUIDED_EXPORT_HOLD: load MASTER_ESTIMATION_GRID.R")
   dir.create(out,recursive=TRUE,showWarnings=FALSE)
@@ -242,6 +244,10 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
   # provenance; dashboard figure contracts cannot silently rename these rows.
   ext<-startsWith(source$module,"extension_") | grepl("^GP_SES_HIGH_age",source$contract_figure_id)
   appendix<-cbind(source[ext,,drop=FALSE],approved[ext,setdiff(names(approved),names(source)),drop=FALSE])
+  if(exists('lo_gender_display',mode='function')) {
+    appendix$group_label_nl<-lo_gender_display(appendix$metric_key,appendix$group,'nl')
+    appendix$group_label_en<-lo_gender_display(appendix$metric_key,appendix$group,'en')
+  }
   write.csv(appendix,file.path(out,"PRIVATE_APPROVED_EXTENSION_ROWS.csv"),row.names=FALSE,na="")
   write.csv(skipped,file.path(out,"PRIVATE_GUIDED_MAPPING_HOLDS.csv"),
             row.names=FALSE)

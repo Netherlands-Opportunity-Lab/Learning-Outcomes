@@ -94,6 +94,10 @@ lo_bootstrap_main <- function() {
       Sys.setenv(LO_ACTION=stage)
       source(runner,local=new.env(parent=.GlobalEnv),encoding='UTF-8')
     }
+    # Sealed blocks were transferred during production. Commit the final run
+    # records as well, including settings, code and exact result-version links.
+    source(file.path(repo,'06_pipeline/LO_REMOTE_CHECKPOINT.R'),local=environment())
+    lo_remote_checkpoint(repo,root)
     if(Sys.getenv('LO_GITHUB_RESULTS',if(nzchar(reproduce))'off'else'review')=='review') {
       source(file.path(repo,'06_pipeline/LO_GITHUB_RESULTS.R'),local=environment())
       tryCatch(lo_github_results_deposit(repo,root,scope),error=function(e) {
@@ -101,8 +105,8 @@ lo_bootstrap_main <- function() {
         stop('Numerical work is retained locally; GitHub result deposit is not yet verified. Repeat after resolving the reported Git issue.',call.=FALSE)
       })
     }
-    # One private backup after the whole sequence, never a slow Drive transfer
-    # between audit and production or before the GitHub result deposit.
+    # One final human-readable report sync; scientific block checkpoints have
+    # already been transferred and restored during the calculation sequence.
     private_sync<-new.env(parent=.GlobalEnv)
     prior_functions<-getOption('lo.pipeline.functions_only')
     options(lo.pipeline.functions_only=TRUE)
