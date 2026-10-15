@@ -1,30 +1,32 @@
 {
   "schema_version": 2,
-  "date": "2026-10-14",
-  "recorded_utc": "2026-10-14T21:50:48.696636+00:00",
+  "date": "2026-10-15",
+  "recorded_utc": "2026-10-15T05:25:53.127784+00:00",
   "source_scope": "NLD only; exact selected multi-survey primitives; not full science or a public release",
   "current": {
     "target_cells": 2678,
-    "scientifically_validated_cells": 1377,
+    "scientifically_validated_cells": 1380,
     "status_counts": {
-      "SCIENTIFICALLY_VALIDATED": 1377,
+      "SCIENTIFICALLY_VALIDATED": 1380,
       "ARCHIVE_CANDIDATE_FOUND_NOT_VALIDATED": 232,
-      "TARGET_NOT_YET_ADJUDICATED": 873,
-      "UNAVAILABLE_VERIFIED_SOURCE_FIELD": 52,
+      "TARGET_NOT_YET_ADJUDICATED": 891,
+      "UNAVAILABLE_VERIFIED_SOURCE_FIELD": 7,
+      "HOLD_SOURCE_MAPPING_REVIEW": 24,
       "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE": 144
     },
     "approved_compute_batches": 0,
-    "active_uncertified_cells": 1105,
+    "active_uncertified_cells": 1147,
     "documented_unavailable_home_ses": 144,
-    "documented_unavailable_other_source_fields": 52,
+    "documented_unavailable_other_source_fields": 7,
     "peer_cells_certified": 400,
     "primary_below_basic_peer_cells": 240,
     "high_peer_cells": 160,
-    "execution_receipts": 1158,
-    "archived_numerical_versions": 1368,
+    "execution_receipts": 1161,
+    "archived_numerical_versions": 1371,
     "original_nine_current_cells_predate_version_table": true,
     "unapproved_or_deferred_expansions_computed": 0,
-    "full_scientific_release": false
+    "full_scientific_release": false,
+    "source_mapping_review_cells": 24
   },
   "independent_validation": {
     "estimate_and_se_tolerance": 1e-09,
@@ -309,6 +311,44 @@
         "previous_certified_retained": 1207,
         "global_release": false
       }
+    },
+    "pisa2025_gender_source_correction": {
+      "sha256": "d97be27b10fcd45a1c09ba3628a49a9e425370492ddd76bc1bdb61785b106440",
+      "receipt": {
+        "status": "BOYS_VERIFIED_GIRLS_MAPPING_UNRESOLVED",
+        "closed": {
+          "closed": 3,
+          "remaining": 0
+        },
+        "again": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 3,
+            "new_candidates": 0,
+            "reused_candidates": 3,
+            "held_cells": 0
+          }
+        ],
+        "final_audit": [
+          {
+            "scope": "nld_only",
+            "selected_countries": 1,
+            "original_contracts": 2438,
+            "new_below_basic_peer_targets": 240,
+            "total_primitive_targets": 2678,
+            "archive_candidates": 232,
+            "validated": 1380,
+            "approved_compute_batches": 0,
+            "scientific_status": "NOT_RELEASED"
+          }
+        ],
+        "unresolved_gender_targets": 24,
+        "raw_sha256": "6f6fa1e1ecce23d39183d44ec82ba05b245fe88a2416c8d8dc1b016d556fc379",
+        "global_release": false
+      }
     }
   },
   "source_admission": {
@@ -370,31 +410,31 @@
     ]
   },
   "scientific_gate": {
-    "scope_contracts": "2678",
-    "active_primitive_contracts": "2482",
-    "validated_active_primitives": "1377",
-    "active_missing": "1105",
-    "documented_unavailable_extensions": "144",
-    "documented_unavailable_source_fields": "52",
-    "new_below_basic_peer_targets": "240",
-    "new_below_basic_peer_verified": "240",
-    "paper_gates_pass": "0",
-    "paper_gates_required": "8",
+    "scope_contracts": 2678,
+    "active_primitive_contracts": 2527,
+    "validated_active_primitives": 1380,
+    "active_missing": 1147,
+    "documented_unavailable_extensions": 144,
+    "documented_unavailable_source_fields": 7,
+    "new_below_basic_peer_targets": 240,
+    "new_below_basic_peer_verified": 240,
+    "paper_gates_pass": 0,
+    "paper_gates_required": 8,
     "primary_peer_gate": "PASS",
     "scientific_freeze": "HOLD",
     "publication_authorized": "NO_RIGHTS_AND_REPLICATION_REVIEW_PENDING",
     "reason": ";ACTIVE_GRID_GAPS;Q01_Q08_OPEN"
   },
   "storage": {
-    "physical_bytes_freed": 16475670096,
-    "targeted_removed_bytes": 5274447249,
+    "physical_bytes_freed": 26008379325,
+    "targeted_removed_bytes": 14807156478,
     "deduplicated_source_bytes": 11201222847,
     "deduplicated_source_paths_preserved": 6,
     "complete_project_folders_removed": 0,
-    "current_C_free_bytes": 13683818496,
+    "current_C_free_bytes": 20475031552,
     "result_bytes": {
-      "COMPACT_DASHBOARD_ROUNDED.csv.gz": 46499,
-      "COMPACT_MASTER_GRID.csv.gz": 71193,
+      "COMPACT_DASHBOARD_ROUNDED.csv.gz": 46762,
+      "COMPACT_MASTER_GRID.csv.gz": 71517,
       "COMPACT_MASTER_GRID.sqlite": 2490368,
       "COMPACT_MODULE_STATUS.csv": 1720
     },
@@ -409,9 +449,16 @@
       "original_nine_current_cells_predate_version_table": true,
       "sqlite_integrity": "ok",
       "full_source_backup_claimed": false,
-      "owner_only_permission_verified": true
+      "owner_only_permission_verified": true,
+      "snapshot_date": "2026-10-14; covers historical 1377 rows; does not yet include three later boy results"
     },
-    "full_source_backup_claimed": false
+    "full_source_backup_claimed": false,
+    "new_20261015_deletion": {
+      "files": 367,
+      "bytes": 9532709229,
+      "free_bytes_after": 20501639168,
+      "receipt_scope": "Exact reviewed recomputable foreign PISA caches; unique source/result/evidence files retained"
+    }
   },
   "measured_pilots": {
     "modern_pisa": {
@@ -473,14 +520,15 @@
     "audit_commit": "5ba49912ef1d13afe428ad628fcb5e34e2d3f1e1",
     "subsequent_sync_fix": "ae34ed5e554e66ef97d3a4f12f3e00733334b58e",
     "run_provenance": "Earlier staging runs use named code hashes; actual Git-checkout audit also records Git commit; no fabricated Git identity",
-    "drive_correction": "Historical automatic sync selected an older run. Fixed root/scope override is implemented and tested; independent current 1377-cell package actually restored."
+    "drive_correction": "Historical automatic sync selected an older run. Fixed root/scope override is implemented and tested; independent current 1377-cell package actually restored.",
+    "latest_local_finalize_commit": "dc900a0f28c8e536660efe8042c20d3ce6309f56"
   },
   "ci": {
-    "source_code_commit": "5ba49912ef1d13afe428ad628fcb5e34e2d3f1e1",
-    "windows_linux_contract_run": 38640408704,
+    "source_code_commit": "4197b3d8c75994498789761c5491b6320e4cacd5",
+    "windows_linux_contract_run": 38684607670,
     "status": "PASS",
     "clean_locked_R_version": "4.6.1",
-    "locked_packages": 35,
+    "locked_packages": 36,
     "latest_changes": "Follow latest PR commit checks; do not infer them from an earlier commit"
   },
   "visual_qa": {
@@ -536,32 +584,32 @@
     }
   },
   "remaining": [
-    "1105 exact NLD targets without complete independent certification, including Cobreros calibration and remaining language/migration/SES compositions",
+    "1147 exact NLD targets without complete independent certification, including 24 girl-source mapping questions, chosen Cobreros calibration and remaining language/migration/SES compositions",
     "Complete foreign-country and joint subgroup support plus explicit country approval",
     "Q01-Q08 claim checks and full scientific freeze",
     "Portable source-code bundle and clean source-to-product replication",
     "New reference/rank dashboard controls, policy deck and Netherlands paper; rights and release review"
   ],
   "current_finalize_export": {
-    "verified_code_commit": "04eabc2164009fcda843f94742d43fe8334069ac",
+    "verified_code_commit": "dc900a0f28c8e536660efe8042c20d3ce6309f56",
     "status": "ACTUAL_FINALIZE_EXPORT_PASS",
     "export": [
       {
-        "validated_input_cells": 1377,
-        "guided_focus_rows": 1060,
+        "validated_input_cells": 1380,
+        "guided_focus_rows": 1063,
         "mapping_holds": 0,
         "separate_appendix_or_science_rows": 317,
         "requires_new_below_basic_peer": "YES",
         "publication_status": "PRIVATE_REVIEW_ONLY"
       }
     ],
-    "unchanged_result_database_sha256": "8fae517c7bf626e923dd5dd2e873d96e3f2b115d4b21f04f93bfe9de97041e32",
+    "unchanged_result_database_sha256": "3955664eadaec35fda65f7084679fe6acd87a589a4a977f00b5b75daf44a1cea",
     "language_rows": 69,
     "no_pupil_calculation": true,
     "primary_peer_gate": "PASS",
     "full_scientific_freeze": false,
     "private_candidate_only": true,
-    "browser_checks": "NL/EN desktop/mobile passed; subsequent focus-country label correction tracked as I52"
+    "browser_checks": "Earlier same-renderer layout tested on NL/EN desktop/mobile; data-only 1380-cell export independently checked"
   },
   "actual_fixed_scope_drive_sync": {
     "status": "REMOTE_BYTES_AND_HASHES_VERIFIED",
@@ -572,5 +620,22 @@
     "scope": "nld_only",
     "producer_commit_is_not_inferred_from_sync_commit": true,
     "not_a_complete_raw_source_backup": true
+  },
+  "abrupt_process_termination": {
+    "test": "06_pipeline/tests/crash_resume_check.py",
+    "verified_commit": "4197b3d8c75994498789761c5491b6320e4cacd5",
+    "windows_job": 116256487405,
+    "linux_job": 116256487009,
+    "status": "PASS_BOTH_PLATFORMS",
+    "scenarios": [
+      "Kill during second estimate",
+      "Kill inside second uncommitted SQLite transaction"
+    ],
+    "committed_cell_retained": true,
+    "only_incomplete_block_recalculated": true,
+    "third_run_new_calculations": 0,
+    "concurrent_writer_rejected": true,
+    "sqlite_integrity": "ok",
+    "run_metadata_written_before_computation": true
   }
 }

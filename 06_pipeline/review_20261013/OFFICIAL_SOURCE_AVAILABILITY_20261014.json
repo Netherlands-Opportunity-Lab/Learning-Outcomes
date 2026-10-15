@@ -1,5 +1,5 @@
 {
-  "checked_date": "2026-10-14",
+  "checked_date": "2026-10-15",
   "survey": "PISA",
   "cycle": 2025,
   "availability": "OFFICIAL_PUBLIC_USE_DATABASE_PUBLISHED",
@@ -9,8 +9,25 @@
   "technical_report_status": "DRAFT_CHAPTERS_AVAILABLE_FINAL_EXPECTED_2027",
   "local_edition_certified": true,
   "deck_point_is_availability_evidence": false,
-  "action": "Retain full 2025 anchor; selected results verified against raw source. ST004D01T is wholly missing for NLD; 45 exact gender-dependent targets remain unavailable.",
+  "action": "Retain complete 2025 anchor. Three boy means independently certified from MALE=1. Correct prior 45-target unavailability claim: 24 girl-dependent targets require source mapping review; 18 boy-SES targets await SES calibration.",
   "local_edition_scope": "NLD selected public-use student fields; not all modules or a global release",
   "local_raw_sha256": "6f6fa1e1ecce23d39183d44ec82ba05b245fe88a2416c8d8dc1b016d556fc379",
-  "local_n": 6636
+  "local_n": 6636,
+  "gender_source": {
+    "ST004D01T": {
+      "99": 6636
+    },
+    "MALE": {
+      "0_Female_or_Other": 3237,
+      "1_Male": 3397,
+      "99_missing": 2
+    },
+    "ST004D01D": "Absent in this local edition; used by official recode",
+    "boy_official_table_parity": "PASS at 5.1e-6 absolute estimate/SE tolerance",
+    "female_or_other_as_girls": "REJECTED: all three domain means differ by more than 0.01 points"
+  },
+  "official_gender_tables_url": "https://stat.link/68stqn",
+  "official_gender_tables_sha256": "7b0641d2dd791daef27ca1616c2f997a8262b685c622f112d9a2e28a878b05a3",
+  "official_codebook_url": "https://webfs.oecd.org/pisa2022/2025/PISA2025_Codebook.xlsx",
+  "official_recoding_url": "https://webfs.oecd.org/pisa2022/2025/PISA_recoding_2025.zip"
 }
