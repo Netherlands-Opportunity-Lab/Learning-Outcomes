@@ -68,6 +68,7 @@ lo_international_sources <- function(repo,root,manifest_path) {
       if(!length(pv)||any(!is.finite(as.matrix(check_obj$data[pv]))))stop('INTERNATIONAL_INCOMPLETE_PVS')
       rm(check_obj)
       domains<-if(s=='PIRLS')'reading'else if(s=='TIMSS')c('mathematics','science')else if(y==2003)c('reading','mathematics')else c('reading','mathematics','science')
+      if(s=='PISA'&&!is.null(src$verified_domains))domains<-src$verified_domains
       x<-support[rep(1L,length(domains)),];x$country<-country;x$survey<-s;x$year<-as.character(y)
       x$age_group<-if(s=='PISA')'age15'else'age10';x$domain<-domains
       x$definition_id<-paste0(s,'_DOMAIN_MEAN');x$population_comparison_id<-if(s=='PISA')'PISA_AGE_TARGET_PUBLIC_USE'else paste0(s,'_GRADE4_COHORT_MAIN_WAVE')

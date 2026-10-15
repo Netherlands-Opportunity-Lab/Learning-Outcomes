@@ -62,8 +62,10 @@ lo_github_results_build <- function(repo,root,scope) {
     write.table(x,p,sep=',',row.names=FALSE,col.names=TRUE,quote=TRUE,na='',eol='\n',fileEncoding='UTF-8')
   }
   write_csv(out,'results.csv');write_csv(status,'target_status.csv')
-  receipts<-DBI::dbGetQuery(con,'SELECT cell_id,execution_sha,result_sha FROM execution_receipts ORDER BY cell_id,execution_sha')
+  receipts<-if('execution_receipts'%in%DBI::dbListTables(con))DBI::dbGetQuery(con,'SELECT cell_id,execution_sha,result_sha FROM execution_receipts ORDER BY cell_id,execution_sha')else data.frame(cell_id=character(),execution_sha=character(),result_sha=character())
   write_csv(receipts[receipts$cell_id%in%selected,,drop=FALSE],'execution_receipts.csv')
+  measured<-if('measured_execution_receipts'%in%DBI::dbListTables(con))DBI::dbGetQuery(con,'SELECT cell_id,execution_sha,result_sha FROM measured_execution_receipts ORDER BY cell_id,execution_sha')else data.frame(cell_id=character(),execution_sha=character(),result_sha=character())
+  write_csv(measured[measured$cell_id%in%selected,,drop=FALSE],'measured_execution_receipts.csv')
   if('derivation_receipts'%in%DBI::dbListTables(con)) {
     parents<-DBI::dbGetQuery(con,'SELECT * FROM derivation_receipts ORDER BY cell_id')
     write_csv(parents[parents$cell_id%in%selected,,drop=FALSE],'derivations.csv')
@@ -95,6 +97,10 @@ lo_github_results_build <- function(repo,root,scope) {
   scripts<-data.frame(role=c('entrypoint','dispatch','core_and_peer_production','approved_extensions','SES_calibration','background_verification','SES_verification','baseline_derivation','product_export'),
     script=c('START.R','06_pipeline/LO_COMPACT_RECOMPUTE.R','06_pipeline/LO_COMPACT_RECOMPUTE.R','06_pipeline/LO_EXACT_ESTIMATORS.R','06_pipeline/LO_COBREROS_PREPARE.R','06_pipeline/LO_BACKGROUND_REFERENCE.R','06_pipeline/LO_SES_REFERENCE.R','06_pipeline/LO_DERIVE_POPULATION_BASELINES.R','06_pipeline/LO_FINAL_GUIDED_EXPORT.R'))
   scripts$export_checkout_sha256<-vapply(file.path(repo,scripts$script),function(p)digest::digest(file=p,algo='sha256'),character(1))
+  international<-data.frame(role=c('international_source_verification','international_exact_production','frozen_SES_application','international_background_mapping'),
+    script=paste0('06_pipeline/',c('LO_INTERNATIONAL_SOURCES.R','LO_INTERNATIONAL_PRODUCTION.R','LO_INTERNATIONAL_SES.R','LO_INTERNATIONAL_BACKGROUND.R')))
+  international$export_checkout_sha256<-vapply(file.path(repo,international$script),function(p)digest::digest(file=p,algo='sha256'),character(1))
+  scripts<-rbind(scripts,international)
   write_csv(scripts,'scripts.csv')
   artifacts<-sort(setdiff(list.files(stage),c('manifest.json','README.md')))
   manifest<-list(schema_version=1L,scope=scope,configuration=cfg,audited_input_sha256=audited$sha256,
@@ -109,7 +115,7 @@ lo_github_results_build <- function(repo,root,scope) {
     '`results.csv` contains exact cell identities, estimates, standard errors, N and source/input/producer/result/certificate fingerprints. Full numeric precision is retained.',
     '`target_status.csv` retains unavailable and unresolved targets. Only certified values enter results.csv.',
     '`scripts.csv` identifies producer and verifier roles; its hashes describe the export checkout. Historical producer file hashes and settings are in run_provenance.json, linked by result_run_links.csv. A later audit can observe older results; an observation is not a new calculation.',
-    '`execution_receipts.csv` links actual exact executions to result hashes; measured pilot results may lack a controller receipt. `derivations.csv` records exact parent cells.',
+    '`execution_receipts.csv` links dispatcher executions to result hashes. `measured_execution_receipts.csv` separately identifies real measured producer executions; older pilot results can predate this receipt table. `derivations.csv` records exact parent cells.',
     'Values are national aggregates, with no pupil or school records, local paths or credentials. Certificates and joint replicate evidence remain in the verified private archive.',
     'This development-branch research snapshot is not a product release or a claim that country admission, the paper, rights review or full external replication is complete.'),file.path(stage,'README.md'),useBytes=TRUE)
   invisible(stage)

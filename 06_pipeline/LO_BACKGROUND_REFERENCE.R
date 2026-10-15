@@ -64,9 +64,10 @@ lo_background_reference <- function(obj,q) {
    if(ispeer) {
     ok<-eligible&!is.na(unit)&nzchar(unit)&is.finite(peer)&is.finite(target)&w>0
     fraction<-rep(NA_real_,nrow(d))
-    for(ix in split(which(ok),unit[ok])) {
-     den<-sum(w[ix])-w[ix];fraction[ix]<-ifelse(den>0,(sum(w[ix]*peer[ix])-w[ix]*peer[ix])/den,NA_real_)
-    }
+    mass<-rowsum(cbind(weight=w[ok],positive=w[ok]*peer[ok]),unit[ok],reorder=FALSE)
+    totals<-mass[match(unit[ok],rownames(mass)),,drop=FALSE]
+    den<-totals[,1]-w[ok]
+    fraction[ok]<-ifelse(den>0,(totals[,2]-w[ok]*peer[ok])/den,NA_real_)
     value<-100*wm(fraction,w*target);eligible<-is.finite(fraction)&target>0
    }
    A[j,r]<-value

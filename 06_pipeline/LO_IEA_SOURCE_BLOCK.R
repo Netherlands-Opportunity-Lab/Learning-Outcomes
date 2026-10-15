@@ -31,7 +31,10 @@ lo_iea_prepare_country <- function(path,survey,year,output_dir,country,country_c
   if(any(!is.finite(raw$TOTWGT)|raw$TOTWGT<=0)||any(!raw$JKREP%in%c(0,1))||
      anyNA(raw$JKZONE)||any(raw$JKZONE<1)||any(!is.finite(as.matrix(raw[pv]))))stop("IEA_INCOMPLETE_PV_OR_DESIGN")
   zones<-split(as.numeric(raw$JKREP),as.numeric(raw$JKZONE))
-  if(any(!vapply(zones,function(z)setequal(z,c(0,1)),logical(1))))stop("IEA_INCOMPLETE_JK_ZONE_PAIR")
+  # The complete official respondent file can have an empty replicate half
+  # after nonresponse. Apply its supplied JKZONE/JKREP weights unchanged; do
+  # not drop these pupils, invent a partner, or reject the entire national wave.
+  incomplete_zones<-names(zones)[!vapply(zones,function(z)setequal(z,c(0,1)),logical(1))]
   female<-lo_iea_label_code(raw$ITSEX,c('girl','female'));male<-lo_iea_label_code(raw$ITSEX,c('boy','male'))
   d<-data.frame(SOURCE_STUDENT_ID=as.character(raw$IDSTUD),STUDENT=as.character(raw$IDSTUD),
     SCHOOL=as.character(raw$IDSCHOOL),CLASS=as.character(raw$IDCLASS),GRADE=as.numeric(raw$IDGRADE),
@@ -55,6 +58,7 @@ lo_iea_prepare_country <- function(path,survey,year,output_dir,country,country_c
     raw_sha256=meta$repair_raw_sha256,canonical_filename=basename(output),canonical_sha256=digest::digest(file=output,algo='sha256'),
     all_source_records_retained=TRUE,grade4_n=sum(d$GRADE==4),grade5_n=sum(d$GRADE==5),population=note,population_evidence=evidence,
     gender_weighted_coverage=sum(d$W[!is.na(d$GENDER)])/sum(d$W),jk_zones=length(zones),
+    official_zones_with_one_observed_half=incomplete_zones,
     replicate_scheme=if(year>=2015)'TWO_PER_ZONE_FACTOR_HALF'else 'JKREP_ONE_PER_ZONE_FACTOR_ONE',
     pv_count=5L,not_certified=c('SES','language','migration','peer methods','cross-country comparability','publication release'))
   jsonlite::write_json(receipt,file.path(output_dir,'SOURCE_VERIFICATION.json'),pretty=TRUE,auto_unbox=TRUE,digits=17)

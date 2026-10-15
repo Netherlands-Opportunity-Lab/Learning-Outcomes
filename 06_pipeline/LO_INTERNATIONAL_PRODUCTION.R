@@ -57,7 +57,8 @@ lo_international_measure <- function(repo,bundle,obj,q,out) {
 lo_international_produce <- function(repo,bundle,root,scope='all_required',countries=NULL,context_ids=NULL,families_keep=NULL) {
   for(f in c('LO_ATOMIC_CHECKPOINT.R','LO_COUNTRY_REGISTRY.R','LO_COUNTRY_TASKS.R','LO_BALANCED_MEMBERSHIP.R',
     'MASTER_ESTIMATION_GRID.R','LO_SCOPE_DECISIONS.R','LO_APPROVED_EXTENSIONS.R','LO_CERTIFY_SOURCE_BLOCKS.R',
-    'LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PISA_LEGACY_SOURCE.R','LO_PEER_REFERENCE.R'))source(file.path(repo,'06_pipeline',f))
+    'LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PISA_LEGACY_SOURCE.R','LO_PEER_REFERENCE.R',
+    'LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_RUN_CONFIG.R'))source(file.path(repo,'06_pipeline',f))
   master<-file.path(root,'master_reconciliation');international<-file.path(root,'international')
   manifest<-read.csv(file.path(international,'SOURCE_RUN_MANIFEST.csv'),colClasses='character',na.strings=character())
   support<-lo_read_source_support(file.path(master,'SOURCE_SUPPORT_CONTRACTS.csv'))
@@ -65,6 +66,7 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
   info<-lo_runtime_scope(bundle,base,scope,support);lo_country_production_approval(repo,info$selected,info$dashboard)
   t<-lo_country_base_tasks(base,info);dec<-lo_read_scope_decisions(repo)
   t<-lo_scope_active_tasks(rbind(t,lo_extension_tasks(t,dec),lo_scoped_low_peer_tasks(t,dec)),dec)
+  cfg<-lo_run_config(scope);t<-lo_run_select(t,cfg)
   if(!is.null(countries))t<-t[t$country%in%countries,]
   # NLD is already certified in the shared registry; source-specific unresolved
   # cells remain governed by its explicit source-unavailability evidence.
@@ -77,7 +79,14 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
     x<-jsonlite::fromJSON(f);indices[[x$raw_path]]<-x
   }
   previous<-options(lo.pisa.partitions=partitions,lo.pisa.byte_indices=indices);on.exit(options(previous),add=TRUE)
-  contexts<-unique(t[c('country','survey','year')]);failures<-list();completed<-0L
+  home<-read.csv(file.path(international,'HOME_SOURCE_MANIFEST.csv'),colClasses='character',na.strings=character())
+  ses<-NULL
+  if(is.null(families_keep)||'PISA_SES'%in%families_keep) {
+    source(file.path(repo,'06_pipeline/LO_INTERNATIONAL_SES.R'))
+    author<-Sys.getenv('LO_COBREROS_ROOT','');if(!nzchar(author))stop('LO_COBREROS_ROOT_REQUIRED')
+    ses<-lo_prepare_international_ses(repo,author,root,partitions,info$selected)
+  }
+  contexts<-unique(t[c('country','survey','year')]);failures<-list();completed<-0L;units<-0L
   if(!is.null(context_ids))contexts<-contexts[paste(contexts$country,contexts$survey,contexts$year,sep='_')%in%context_ids,]
   for(i in seq_len(nrow(contexts))) {
     ctx<-contexts[i,];country<-ctx$country;s<-ctx$survey;y<-as.integer(ctx$year);id<-paste(country,s,y,sep='_')
@@ -86,32 +95,82 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
     src<-jsonlite::fromJSON(srcfile);canonical<-file.path(parent,src$canonical_filename)
     stopifnot(digest::digest(file=canonical,algo='sha256')==src$canonical_sha256)
     obj<-readRDS(canonical);q0<-t[t$country==country&t$survey==s&as.integer(t$year)==y,]
+    if(s=='PISA') {
+      unavailable_class<-q0$module%in%c('extension_performance_class','extension_ses_class')
+      if(any(unavailable_class))lo_international_absence(repo,root,q0[unavailable_class,],'PISA public-use sample has no comparable sampled actual-class identifier; school programme is not an actual classroom',srcfile)
+    }
     r<-manifest[manifest$country==country&manifest$survey==s&as.integer(manifest$year)==y,];stopifnot(nrow(r)==1L)
-    families<-if(s=='PISA')c('PISA_CORE','PEERS_PISA')else c('IEA','IEA_BOOKS','PEERS_IEA')
+    families<-if(s=='PISA')c('PISA_CORE','BACKGROUND_PISA','PEERS_PISA',if(y>=2015)'PISA_SES')else c('IEA','IEA_BOOKS','BACKGROUND_IEA','PEERS_IEA')
     if(!is.null(families_keep))families<-intersect(families,families_keep)
     raw<-NULL
+    source(file.path(repo,'06_pipeline/LO_CERTIFY_BASELINES.R'))
+    lo_certify_population_baselines(repo,root,scope,q0)
     for(family in families)tryCatch((function() {
+      if(units>=cfg$max_compute_units)return(invisible(NULL))
       modules<-switch(family,PISA_CORE=c('core','gender','language_exact','migration_generation','extension_performance_school'),
         IEA=c('core','gender','extension_performance_school','extension_performance_class'),
         IEA_BOOKS=c('ses_national','extension_ses_gender','extension_ses_school','extension_ses_class'),
+        PISA_SES=c('ses_harmonized','extension_ses_gender','extension_ses_school','ses_peer_exposure','peer_baseline'),
+        BACKGROUND_PISA=c('migration','migration_binary_peer','migration_peer_exposure','home_language_peer_exposure','peer_baseline'),
+        BACKGROUND_IEA=c('migration','migration_generation','migration_binary_peer','migration_peer_exposure','language_frequency_binary','home_language_frequency_peer','ses_peer_exposure','peer_baseline','extension_home_ses'),
         c('peer_below_basic','high_proficiency_peer_exposure'))
       old<-read.csv(file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),colClasses='character',na.strings=character())
       q<-q0[q0$module%in%modules&!q0$metric_key%in%old$cell_id,];if(!nrow(q))return(invisible(NULL))
+      if(family=='BACKGROUND_PISA')q<-q[q$definition!='Cobreros_fourwave_13item_trend_comparable',]
+      if(family=='PISA_SES')q<-q[q$definition=='Cobreros_fourwave_13item_trend_comparable',]
+      missing_domain<-rep(FALSE,nrow(q))
+      for(domain in intersect(c('reading','mathematics','science'),unique(q$domain))) {
+        code<-switch(domain,reading='READ',mathematics='MATH',science='SCIE')
+        if(!paste0('PV_',code,'_1')%in%names(obj$data))missing_domain<-missing_domain|q$domain==domain
+      }
+      if(any(missing_domain))lo_international_absence(repo,root,q[missing_domain,],'Domain absent or officially invalid in this source edition',srcfile)
+      q<-q[!missing_domain,]
       # Missing labels cannot be reconstructed from a pooled Female/Other code.
       if(s=='PISA') {
         has_girl<-any(obj$data$DEMO_GENDER=='girl',na.rm=TRUE);has_boy<-any(obj$data$DEMO_GENDER=='boy',na.rm=TRUE)
-        q<-q[!(q$module=='gender'&((!has_girl&q$group%in%c('girl','girls_minus_boys'))|(!has_boy&q$group%in%c('boy','girls_minus_boys')))),]
+        missing_sex<-(q$module=='gender'&((!has_girl&q$group%in%c('girl','girls_minus_boys'))|(!has_boy&q$group%in%c('boy','girls_minus_boys'))))|
+          (q$module=='extension_ses_gender'&((!has_girl&grepl('_girl$',q$group))|(!has_boy&grepl('_boy$',q$group))))
+        if(any(missing_sex))lo_international_absence(repo,root,q[missing_sex,],'No separately identifiable requested gender in verified source; pooled Female/Other is not Female',srcfile,'SOURCE_MAPPING_REVIEW_REQUIRED')
+        q<-q[!missing_sex,]
       }
       if(!nrow(q))return(invisible(NULL))
+      group_id<-paste(q$module,q$domain,q$definition,q$peer_definition,q$threshold,sep='|')
+      take<-head(unique(group_id),cfg$max_compute_units-units);q<-q[group_id%in%take,]
       outroot<-file.path(international,'blocks',family);out<-file.path(outroot,id);dir.create(out,recursive=TRUE,showWarnings=FALSE)
       science_obj<-obj;peers<-startsWith(family,'PEERS_')
-      if(peers&&s=='PISA') {
+      if(s=='PISA') {
         numeric_country<-unique(manifest$source_country[manifest$country==country&manifest$survey!='PISA'])
         numeric_country<-numeric_country[!numeric_country%in%'5784'];stopifnot(length(numeric_country)==1L)
         program<-as.character(science_obj$data$PROGRAM)
         science_obj$data$PROGRAM[!is.na(program)&!grepl(paste0('^0*',as.integer(numeric_country),'[0-9]+$'),program)]<-NA
+        if(!any(!is.na(science_obj$data$PROGRAM)&nzchar(science_obj$data$PROGRAM))) {
+          no_program<-q$peer_definition=='direct_learning_environment'
+          if(any(no_program))lo_international_absence(repo,root,q[no_program,],'No valid national programme identifier for the selected school-programme peer environment',srcfile)
+          q<-q[!no_program,]
+        }
       }
-      key<-digest::digest(list(q=q,parent=src$canonical_sha256,reference=vapply(file.path(repo,'06_pipeline',c('LO_INTERNATIONAL_PRODUCTION.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PEER_REFERENCE.R')),function(p)digest::digest(file=p,algo='sha256'),character(1))),algo='sha256')
+      if(startsWith(family,'BACKGROUND_')) {
+        h<-home[home$country==country&home$survey==s&home$year==y,]
+        hp<-if(nrow(h)==1L)h$path else ''
+        if(nzchar(hp))stopifnot(digest::digest(file=hp,algo='sha256')==h$sha256)
+        bg<-lo_international_background(repo,science_obj,q,r,out,hp);science_obj<-bg$object;q<-bg$tasks
+        if(!is.null(bg$absent))for(reason in unique(bg$absent$absence_reason))lo_international_absence(repo,root,bg$absent[bg$absent$absence_reason==reason,],reason,c(srcfile,bg$proof))
+      }
+      if(family=='PISA_SES') {
+        sx<-ses$files[ses$files$country==country&ses$files$year==y,];stopifnot(nrow(sx)==1L,digest::digest(file=sx$path,algo='sha256')==sx$sha256)
+        scores<-readRDS(sx$path);ids<-as.character(scores$cntstuid)
+        stopifnot(!anyDuplicated(ids),setequal(ids,science_obj$data$SOURCE_STUDENT_ID))
+        science_obj$data<-science_obj$data[match(ids,science_obj$data$SOURCE_STUDENT_ID),];rownames(science_obj$data)<-NULL
+        stopifnot(identical(as.numeric(science_obj$data$W),as.numeric(scores$w_fstuwt)))
+        science_obj$data$SES<-scores$SES;science_obj$meta$ses_construct_id<-'Cobreros_fourwave_13item_trend_comparable'
+        science_obj$meta$ses_quartile_protocol<-'INNOVAMAT_R_REPLICATE_SEED7_SOURCE_ORDER'
+        science_obj$meta$calibration_evidence_path<-ses$certificate_path;science_obj$meta$calibration_sha256<-digest::digest(file=ses$certificate_path,algo='sha256')
+      }
+      if(!nrow(q))return(invisible(NULL))
+      verifier_files<-c('LO_INTERNATIONAL_PRODUCTION.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PEER_REFERENCE.R','LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_INTERNATIONAL_SES.R')
+      key<-digest::digest(list(q=q,parent=src$canonical_sha256,object=digest::digest(science_obj,algo='sha256'),reference=vapply(file.path(repo,'06_pipeline',verifier_files),function(p)digest::digest(file=p,algo='sha256'),character(1))),algo='sha256')
+      block_id<-paste0(id,'_',substr(key,1,16));out<-file.path(outroot,block_id);dir.create(out,recursive=TRUE,showWarnings=FALSE)
+      if(startsWith(family,'BACKGROUND_'))file.copy(bg$proof,file.path(out,basename(bg$proof)),overwrite=FALSE)
       seal<-file.path(out,'REFERENCE_HASH_MANIFEST.json')
       if(file.exists(seal)) {
         saved<-jsonlite::fromJSON(seal)
@@ -127,7 +186,9 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
           science_obj$meta$sample_count_evidence_path<-normalizePath(count_path,winslash='/')
           science_obj$meta$sample_count_evidence_sha256<-digest::digest(file=count_path,algo='sha256')
           science_obj$meta$verified_parent_canonical_sha256<-src$canonical_sha256
-        }else {
+        }else if(startsWith(family,'BACKGROUND_'))a<-lo_background_reference(science_obj,q)
+        else if(family=='PISA_SES')a<-lo_pisa_ses_reference(science_obj,q)
+        else {
           if(is.null(raw)) {
             if(s!='PISA')raw<<-haven::read_sav(r$raw_path)else if(y>=2015) {
               reg<-partitions[[r$raw_path]];raw<<-lo_pisa_country_rows(r$raw_path,r$source_country,reg$fields)
@@ -136,14 +197,14 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
           a<-if(s=='PISA')lo_pisa_independent_selected(raw,q)else if(family=='IEA_BOOKS')lo_iea_independent_books(raw,q)else lo_iea_independent_selected(raw,q)
         }
         output<-file.path(out,paste0('canonical_',id,'_',substr(digest::digest(science_obj,algo='sha256'),1,16),'.rds'))
-        if(!file.exists(output))saveRDS(science_obj,output,compress=FALSE)
+        if(!file.exists(output))saveRDS(science_obj,output,compress='gzip')
         current<-src;current$canonical_filename<-basename(output);current$canonical_sha256<-digest::digest(file=output,algo='sha256')
         jsonlite::write_json(current,file.path(out,'SOURCE_VERIFICATION.json'),pretty=TRUE,auto_unbox=TRUE,digits=17)
         file.copy(srcfile,file.path(out,'PARENT_SOURCE_VERIFICATION.json'),overwrite=TRUE)
         write.csv(q,file.path(out,'EXACT_SELECTED_TASKS.csv'),row.names=FALSE,na='')
         write.csv(a$results,file.path(out,'INDEPENDENT_RESULTS.csv'),row.names=FALSE)
         saveRDS(a$joint,file.path(out,'JOINT_REFERENCE_PV_REPLICATES.rds'),compress='gzip')
-        for(f in c('LO_INTERNATIONAL_PRODUCTION.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PEER_REFERENCE.R')) {
+        for(f in verifier_files) {
           p<-file.path(repo,'06_pipeline',f);file.copy(p,file.path(out,paste0('VERIFIER_',substr(digest::digest(file=p,algo='sha256'),1,16),'.R')),overwrite=TRUE)
         }
         files<-list.files(out,full.names=TRUE)
@@ -152,8 +213,10 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
       cat('INTERNATIONAL_PRODUCER',id,family,nrow(q),'\n');flush.console()
       lo_international_measure(repo,bundle,science_obj,q,out)
       kind<-if(family=='PISA_CORE')if(y>=2015)'PISA_MODERN'else'PISA_LEGACY'else family
-      lo_certify_verified_source_blocks(repo,bundle,root,outroot,id,id,kind,scope=scope,defer_audit=TRUE,verified_support=support)
+      lo_certify_verified_source_blocks(repo,bundle,root,outroot,block_id,block_id,kind,scope=scope,defer_audit=TRUE,verified_support=support)
+      units<<-units+length(unique(paste(q$module,q$domain,q$definition,q$peer_definition,q$threshold,sep='|')))
       completed<<-completed+nrow(q);cat('INTERNATIONAL_CERTIFIED',id,family,nrow(q),'total_new',completed,'\n');flush.console()
+      if(family%in%c('IEA','PISA_CORE'))lo_certify_population_baselines(repo,root,scope,q0)
     })(),error=function(e) {
       failures[[length(failures)+1L]]<<-data.frame(country=country,survey=s,year=y,family=family,reason=conditionMessage(e))
       lo_atomic_csv(do.call(rbind,failures),file.path(international,'PRODUCTION_REPAIRS_REQUIRED.csv'))

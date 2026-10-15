@@ -28,7 +28,7 @@ base<-read.csv(file.path(bundle,'engine/TASKS.csv'),colClasses='character',na.st
 support<-if(is.null(verified_support))lo_read_source_support(file.path(master,'SOURCE_SUPPORT_CONTRACTS.csv'))else verified_support
 info<-lo_runtime_scope(bundle,base,scope,support)
 lo_country_production_approval(repo,unique(requested$country),info$dashboard)
-base<-lo_country_base_tasks(base,info);decisions<-lo_read_scope_decisions(repo)
+base<-lo_country_base_tasks(base,info);base<-base[base$country%in%unique(requested$country),];decisions<-lo_read_scope_decisions(repo)
 base<-lo_scope_active_tasks(rbind(base,lo_extension_tasks(base,decisions),lo_scoped_low_peer_tasks(base,decisions)),decisions)
 allowed<-lo_grid_from_tasks(base);want<-lo_grid_from_tasks(requested);ix<-match(want$cell_id,allowed$cell_id)
 if(anyNA(ix)||any(want$target_contract_sha256!=allowed$target_contract_sha256[ix]))stop('CERTIFICATION_TASK_NOT_EXACTLY_APPROVED')
@@ -129,9 +129,21 @@ stopifnot(nrow(p)==nrow(q),!anyDuplicated(p$metric_key),setequal(p$metric_key,q$
   measurement$source_sha256==unique(pilot$source_edition_sha256))
 stopifnot(identical(measurement$producer_code_sha256,code_sha))
 rows<-do.call(rbind,lapply(seq_len(nrow(q)),function(i){j<-match(q$metric_key[i],p$metric_key);lo_compact_science_rows(q[i,,drop=FALSE],p[j,,drop=FALSE],p$n_unweighted[j],pilot$input_fingerprint[i],pilot$code_fingerprint[i],pilot$method_version[i])}))
-con<-lo_compact_open(compact);lo_compact_put(con,rows);lo_compact_close(con)
+con<-lo_compact_open(compact)
+DBI::dbExecute(con,'CREATE TABLE IF NOT EXISTS measured_execution_receipts (cell_id TEXT NOT NULL, execution_sha TEXT NOT NULL, result_sha TEXT NOT NULL, PRIMARY KEY(cell_id,execution_sha))')
+# These are real measured executions, separately identified from dispatcher
+# executions. Commit result rows and measurement identities together.
+measurement_sha<-lo_exact_sha(file.path(block_root,pilot_id,'PRODUCER_MEASUREMENT.json'))
+DBI::dbWithTransaction(con,{
+  lo_compact_put(con,rows,transaction=FALSE)
+  for(i in seq_len(nrow(rows))) {
+    current<-DBI::dbGetQuery(con,'SELECT * FROM grid WHERE cell_id=?',params=list(rows$cell_id[i]))
+    DBI::dbExecute(con,'INSERT OR IGNORE INTO measured_execution_receipts VALUES (?,?,?)',params=list(rows$cell_id[i],measurement_sha,digest::digest(current,algo='sha256')))
+  }
+})
+lo_compact_close(con)
 ref<-read.csv(file.path(block_root,pilot_id,'INDEPENDENT_RESULTS.csv'),stringsAsFactors=FALSE)
-pilot_closed<-close_rows(pilot,rows,ref,c(all_evidence[[pilot_id]]$path,file.path(block_root,pilot_id,'PRODUCER_PARITY.csv')),paste0(kind,'_',pilot_id,'_SELECTED'))
+pilot_closed<-close_rows(pilot,rows,ref,c(all_evidence[[pilot_id]]$path,file.path(block_root,pilot_id,c('PRODUCER_PARITY.csv','PRODUCER_MEASUREMENT.json','MEASURED_PRODUCER_RESULTS.csv'))),paste0(kind,'_',pilot_id,'_SELECTED'))
 bind_columns<-function(...) {xs<-list(...);cols<-unique(unlist(lapply(xs,names)));do.call(rbind,lapply(xs,function(x){for(k in setdiff(cols,names(x)))x[[k]]<-'';x[cols]}))}
 combined<-bind_columns(old,pilot_closed)
 # The science registry is a durable checkpoint: replace only after a complete write.

@@ -41,12 +41,10 @@ lo_peer_independent_reference <- function(obj,q) {
         self_at_or_above_basic=1-indicator,self_high=indicator,self_below_high=1-indicator,
         stop('PEER_REFERENCE_UNKNOWN_FOCAL_GROUP'))
       # Build each unit's peer means, subtracting each pupil's contribution.
-      fraction<-matrix(NA_real_,nrow(w),ncol(w))
-      for(ix in split(seq_along(u),u)) {
-        numer<-matrix(colSums(w[ix,,drop=FALSE]*indicator[ix]),length(ix),ncol(w),byrow=TRUE)-w[ix,,drop=FALSE]*indicator[ix]
-        denom<-matrix(colSums(w[ix,,drop=FALSE]),length(ix),ncol(w),byrow=TRUE)-w[ix,,drop=FALSE]
-        fraction[ix,]<-ifelse(denom>0,numer/denom,NA_real_)
-      }
+      total<-rowsum(w,u,reorder=FALSE);positive<-rowsum(w*indicator,u,reorder=FALSE)
+      at<-match(u,rownames(total));denom<-total[at,,drop=FALSE]-w
+      numer<-positive[at,,drop=FALSE]-w*indicator
+      fraction<-ifelse(denom>0,numer/denom,NA_real_)
       eligible<-is.finite(fraction);weighted_target<-w*target
       values<-100*colSums(ifelse(eligible,fraction*weighted_target,0))/colSums(ifelse(eligible,weighted_target,0))
       if(any(!is.finite(values)))stop('PEER_REFERENCE_EMPTY_REPLICATE_OR_TARGET: ',z$metric_key)
