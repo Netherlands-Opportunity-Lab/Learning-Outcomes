@@ -69,6 +69,10 @@ lo_fixed_controller <- function(repo,bundle,
   master_lock<-lo_process_lock(file.path(root,'master_reconciliation','.SCIENTIFIC_MASTER_WRITER.lck'))
   on.exit(lo_process_unlock(master_lock),add=TRUE)
   international_manifest<-file.path(root,'international','SOURCE_RUN_MANIFEST.csv')
+  if(scope!='nld_only'&&stage=='audit'&&!file.exists(international_manifest)&&nzchar(Sys.getenv('LO_SOURCE_BINDINGS',''))) {
+    source(file.path(repo,'06_pipeline/LO_SOURCE_BINDINGS.R'),local=environment())
+    lo_bind_international_sources(repo,root,Sys.getenv('LO_SOURCE_BINDINGS'))
+  }
   if(scope!='nld_only'&&stage=='audit'&&file.exists(international_manifest)) {
     source(file.path(repo,'06_pipeline/LO_INTERNATIONAL_SOURCES.R'),local=environment())
     lo_international_sources(repo,root,international_manifest)
@@ -142,6 +146,16 @@ lo_fixed_controller <- function(repo,bundle,
   }
   international_changed<-FALSE
   if(scope!='nld_only'&&stage=='produce'&&file.exists(international_manifest)) {
+    # The international source adapter is a producer too: validate the saved
+    # worklist BEFORE it can read/compute cells, not only before final dispatch.
+    manifest_path<-file.path(state,'FIXED_INPUT_MANIFEST.json')
+    if(!file.exists(manifest_path))stop('FIXED_AUDIT_REQUIRED')
+    recorded<-jsonlite::fromJSON(manifest_path,simplifyVector=TRUE)
+    current<-lo_fixed_input_manifest(repo,bundle,root,scope)
+    if(!identical(recorded$scope,current$scope)||
+       !identical(as.character(unlist(recorded$sha256)),as.character(unlist(current$sha256)))||
+       digest::digest(file=file.path(state,'PRIVATE_MASTER_GRID.csv'),algo='sha256')!=recorded$grid_sha256)
+      stop('FIXED_AUDIT_INPUT_CHANGED: rerun bounded fixed-audit')
     source(file.path(repo,'06_pipeline/LO_INTERNATIONAL_PRODUCTION.R'),local=environment())
     international_result<-lo_international_produce(repo,bundle,root,scope)
     # Refresh the saved exact grid from durable block certificates before the
@@ -271,6 +285,7 @@ lo_fixed_controller <- function(repo,bundle,
   if(file.exists(balance_contract_path)) {
     source(file.path(repo,"06_pipeline","LO_EXACT_DISPATCH.R"),local=environment())
     source(file.path(repo,"06_pipeline","LO_BALANCED_EXPORT.R"),local=environment())
+    source(file.path(repo,"06_pipeline","LO_BALANCED_VIEWS.R"),local=environment())
     g<-read.csv(file.path(state,"PRIVATE_MASTER_GRID.csv"),stringsAsFactors=FALSE,na.strings=character())
     reference_file<-file.path(root,"master_reconciliation","SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv")
     if(file.exists(reference_file)) {
@@ -278,7 +293,7 @@ lo_fixed_controller <- function(repo,bundle,
       g<-rbind(g,lo_reference_only_grid(tasks,a_ref,scope_info,scope_decisions))
     }
     bc<-read.csv(balance_contract_path,colClasses="character",na.strings=character())
-    balance_export<-lo_balanced_export(repo,g,bc,scope_info,state)
+    balance_export<-lo_balanced_view_export(repo,g,bc,rbind(selected,new_peer_tasks),scope_info,state)
   }
   # Finalize constructs a private copy of the dynamically eligible
   # guided dashboard (with truthful missing-data placeholders), even if the

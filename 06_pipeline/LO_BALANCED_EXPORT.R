@@ -71,7 +71,8 @@ lo_balanced_export <- function(repo,grid,contracts,scope_info,out) {
 # foreign compute tasks. The full exact contract and artifact checks still apply.
 lo_reference_only_grid <- function(tasks,approved,scope_info,decisions) {
   countries<-setdiff(scope_info$reference_candidates,scope_info$selected)
-  source<-tasks[tasks$country%in%countries,,drop=FALSE]
+  reference_scope<-scope_info;reference_scope$selected<-countries
+  source<-lo_country_base_tasks(tasks,reference_scope)
   additions<-lo_scoped_low_peer_tasks(source,decisions)
   source<-lo_scope_active_tasks(source,decisions)
   source<-rbind(source,additions,lo_extension_tasks(source,decisions))

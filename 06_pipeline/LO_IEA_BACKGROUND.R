@@ -65,6 +65,8 @@ lo_iea_independent_books <- function(raw,q) {
     W[ix,i+1]<-W[ix,1]*ifelse(raw$JKREP[ix]==spec$keep[i],2,0)
   }
   tails<-lapply(seq_len(ncol(W)),function(i)lo_iea_reference_tails(x,W[,i]))
+  weighted_tails<-lapply(c('q1','q4'),function(tail)W*do.call(cbind,lapply(tails,`[[`,tail)))
+  names(weighted_tails)<-c('q1','q4')
   sex<-as.numeric(raw$ITSEX);female<-lo_iea_label_code(raw$ITSEX,c('girl','female'));male<-lo_iea_label_code(raw$ITSEX,c('boy','male'))
   full<-matrix(NA_real_,5,nrow(q),dimnames=list(NULL,q$metric_key))
   reps<-array(NA_real_,c(nrow(spec),5,nrow(q)),dimnames=list(NULL,NULL,q$metric_key));ns<-integer(nrow(q))
@@ -84,13 +86,27 @@ lo_iea_independent_books <- function(raw,q) {
     tail<-if(z$module=='extension_ses_gender')sub('_.*$','',z$group)else sub('_.*$','',z$stat)
     if(!fixed)eligible<-eligible & sx>0 & if(gap)(tails[[1]]$q1>0|tails[[1]]$q4>0)else tails[[1]][[tail]]>0
     ns[k]<-sum(eligible)
+    cluster<-if(fixed)if(z$module=='extension_ses_school')as.character(raw$IDSCHOOL)else paste(raw$IDSCHOOL,raw$IDCLASS,sep='::')else NULL
     M<-matrix(NA_real_,5,ncol(W))
-    for(j in 1:5)for(r in seq_len(ncol(W))) {
+    if(!fixed) {
+      # All selected PV/replicate means in one matrix operation. These are the
+      # same independently built fractional quartiles and official weights.
+      means<-function(values,weights)sweep(crossprod(values,weights),2,colSums(weights),'/')
+      if(gap)M<-means(Y,weighted_tails$q4)-means(Y,weighted_tails$q1)else {
+        stat<-sub('^q[14]_','',z$stat)
+        values<-Y
+        if(stat%in%c('basic','high','below')) {
+          cut<-as.numeric(z$threshold);stopifnot(cut%in%c(475,625))
+          values<-if(stat=='below')1*(Y<cut)else 1*(Y>=cut)
+        }else if(stat!='mean')stop('IEA_BOOKS_STAT_NOT_REVIEWED')
+        M<-means(values,weighted_tails[[tail]]*sx)
+      }
+    }else for(j in 1L)for(r in seq_len(ncol(W))) {
       y<-Y[,j];w<-W[,r];s<-z$stat
       if(fixed) {
-        unit<-if(z$module=='extension_ses_school')as.character(raw$IDSCHOOL)else paste(raw$IDSCHOOL,raw$IDCLASS,sep='::')
+        unit<-cluster
         ok<-is.finite(y)&w>0;y<-y[ok];w<-w[ok];unit<-unit[ok]
-        mu<-sum(w*y)/sum(w);sw<-tapply(w,unit,sum);sy<-tapply(w*y,unit,sum)
+        mu<-sum(w*y)/sum(w);sw<-as.numeric(rowsum(w,unit,reorder=FALSE));sy<-as.numeric(rowsum(w*y,unit,reorder=FALSE))
         M[j,r]<-100*sum(sw*(sy/sw-mu)^2)/sum(w*(y-mu)^2)
       }else if(gap)M[j,r]<-wm(y,w*tails[[r]]$q4)-wm(y,w*tails[[r]]$q1)
       else {
@@ -102,6 +118,7 @@ lo_iea_independent_books <- function(raw,q) {
         M[j,r]<-wm(y,w*tails[[r]][[tail]]*sx)
       }
     }
+    if(fixed)M[2:5,]<-rep(M[1,],each=4L)
     if(any(!is.finite(M)))stop('IEA_BOOKS_NONFINITE_RESULT: ',z$metric_key)
     full[,k]<-M[,1];reps[,,k]<-t(M[,-1,drop=FALSE])
   }
