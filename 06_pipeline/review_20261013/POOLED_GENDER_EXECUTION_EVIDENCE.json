@@ -68,5 +68,64 @@
         "max_se_difference": 6.572520305780927e-14
       }
     }
+  },
+  "controller_certification": {
+    "status": "POOLED_24_CERTIFIED_AND_EXISTING_CONTROLLER_RESUME_VERIFIED",
+    "measurement": {
+      "core": {
+        "status": "EXACT_SELECTED_PRODUCER_PARITY_PASS",
+        "n": 6636,
+        "cells": 6,
+        "seconds": 2.5199999999999996,
+        "source_sha256": "bbfaede677423b43b2f5204e7b85bc79ed7c6d442f4d1c21f472ed216a86e637",
+        "producer_code_sha256": "91b99d49a917dd2449f070c7082ded8473083efb49f54bd881bf158d216e1fcf",
+        "new_cells": 6,
+        "reused_cells": 0,
+        "max_estimate_difference": 1.7053025658242404e-13,
+        "max_se_difference": 3.9968028886505635e-15
+      },
+      "ses": {
+        "status": "EXACT_SELECTED_PRODUCER_PARITY_PASS",
+        "n": 6636,
+        "cells": 18,
+        "seconds": 10.77,
+        "source_sha256": "532f6fcffd092611825d4dd835c32c06bb27fda18d9bd98184bc14c9028b2eb6",
+        "producer_code_sha256": "91b99d49a917dd2449f070c7082ded8473083efb49f54bd881bf158d216e1fcf",
+        "new_cells": 18,
+        "reused_cells": 0,
+        "max_estimate_difference": 2.2737367544323206e-13,
+        "max_se_difference": 6.572520305780927e-14
+      }
+    },
+    "audit": [
+      {
+        "scope": "nld_only",
+        "selected_countries": 1,
+        "original_contracts": 2438,
+        "new_below_basic_peer_targets": 240,
+        "total_primitive_targets": 2678,
+        "archive_candidates": 0,
+        "validated": 2397,
+        "approved_compute_batches": 0,
+        "scientific_status": "NOT_RELEASED"
+      }
+    ],
+    "resumed": [
+      {
+        "scope": "nld_only",
+        "selected_contracts": 2678,
+        "native_execution": "NO_APPROVED_COMPUTE_CELLS",
+        "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+        "approved_cells": 0,
+        "new_candidates": 0,
+        "reused_candidates": 0,
+        "held_cells": 0
+      }
+    ],
+    "certified_pooled_cells": 24,
+    "nld_certified": 2397,
+    "nld_documented_unavailable": 281,
+    "nld_remaining": 0,
+    "global_release": false
   }
 }

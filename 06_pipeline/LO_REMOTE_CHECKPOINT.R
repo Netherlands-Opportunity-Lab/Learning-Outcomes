@@ -3,6 +3,10 @@
 # Git mutations during an immutable run. Results, certificates and joint
 # aggregate PV/replicate evidence are recoverable before the next block starts.
 lo_remote_checkpoint <- function(repo,root,config=Sys.getenv('LO_DRIVE_SYNC_CONFIG',''),transfer=NULL) {
+  tryCatch(lo_remote_checkpoint_impl(repo,root,config,transfer),error=function(e)
+    stop('REMOTE_CHECKPOINT_PENDING: ',conditionMessage(e),call.=FALSE))
+}
+lo_remote_checkpoint_impl <- function(repo,root,config,transfer) {
   source(file.path(repo,'06_pipeline/LO_ATOMIC_CHECKPOINT.R'),local=environment())
   source(file.path(repo,'06_pipeline/LO_PROCESS_LOCK.R'),local=environment())
   source(file.path(repo,'06_pipeline/DRIVE_SYNC.R'),local=environment())
@@ -30,7 +34,11 @@ lo_remote_checkpoint <- function(repo,root,config=Sys.getenv('LO_DRIVE_SYNC_CONF
   index<-if(file.exists(index_path))readRDS(index_path)else list(schema_version=1L,remote=cfg$remote,keys=character(),packages=list())
   if(!identical(index$remote,cfg$remote))stop('REMOTE_CHECKPOINT_DESTINATION_CHANGED')
   missing<-!keys%in%index$keys
-  if(!any(missing))return(invisible(list(cells=nrow(all),new=0L,packages=length(index$packages))))
+  run_paths<-unlist(lapply(c('nld_only','nld_plus_19','all_required'),function(scope)
+    list.files(file.path(root,'FIXED_PRODUCTION_V1',scope,'RUN_RECORDS'),pattern='[.]json$',full.names=TRUE)),use.names=FALSE)
+  run_hashes<-vapply(run_paths,hash,character(1))
+  run_new<-!run_hashes%in%index$run_record_sha256
+  if(!any(missing)&&!any(run_new))return(invisible(list(cells=nrow(all),new=0L,packages=length(index$packages))))
   selected<-all[missing,,drop=FALSE]
   # Traverse only evidence explicitly bound to a certified result. Certificates
   # can reference method certificates, which in turn reference joint evidence.
@@ -64,6 +72,9 @@ lo_remote_checkpoint <- function(repo,root,config=Sys.getenv('LO_DRIVE_SYNC_CONF
     invisible(NULL)
   }
   for(i in which(!duplicated(selected$certification_path)))add(selected$certification_path[i],selected$certification_sha256[i])
+  # Run records bind the actual Git commit, configuration, code/package hashes
+  # and cell result versions. Back up new provenance even if no values changed.
+  for(i in which(run_new))add(run_paths[i],run_hashes[i])
   members<-do.call(rbind,members)
   package<-list(schema_version=1L,kind='CERTIFIED_AGGREGATES_AND_JOINT_EVIDENCE',
     raw_or_canonical_pupils=FALSE,results=selected,result_keys=keys[missing],members=members,files=files,
@@ -89,6 +100,7 @@ lo_remote_checkpoint <- function(repo,root,config=Sys.getenv('LO_DRIVE_SYNC_CONF
     files=nrow(members),restore='DOWNLOADED_RESULTS_AND_ALL_MEMBER_BYTES_VERIFIED',
     verified_utc=format(Sys.time(),'%Y-%m-%dT%H:%M:%SZ',tz='UTC'))
   index$keys<-c(index$keys,keys[missing]);index$packages[[sha]]<-record
+  index$run_record_sha256<-unique(c(index$run_record_sha256,run_hashes[run_new]))
   pointer<-tempfile('index_',tmpdir=stage,fileext='.json');pointer_back<-tempfile('index_readback_',tmpdir=stage)
   on.exit(unlink(c(pointer,pointer_back)),add=TRUE)
   jsonlite::write_json(list(schema_version=1L,certified_cell_versions=length(index$keys),packages=index$packages),pointer,auto_unbox=TRUE,pretty=TRUE)

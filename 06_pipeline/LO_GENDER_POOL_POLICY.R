@@ -5,7 +5,10 @@ lo_gender_dependent <- function(q) {
   (q$module=='gender' & q$group%in%c('girl','girls_minus_boys')) |
     (q$module=='extension_ses_gender' & grepl('_girl$',q$group))
 }
-lo_gender_pooled <- function(q) grepl(lo_gender_pool_id(),q$calculation_policy,fixed=TRUE)
+lo_gender_pooled <- function(q) {
+  if(!'calculation_policy'%in%names(q))return(rep(FALSE,nrow(q)))
+  grepl(lo_gender_pool_id(),q$calculation_policy,fixed=TRUE)
+}
 lo_gender_pool_tasks <- function(tasks,support) {
   contexts<-unique(support[support$survey=='PISA' & as.integer(support$year)>=2015,
     c('country','survey','year','source_path','source_sha256')])
@@ -66,6 +69,7 @@ lo_gender_pool_object <- function(obj,raw,q) {
 lo_gender_pool_guard <- function(obj,q) {
   dependent<-lo_gender_dependent(q)
   marked<-lo_gender_pooled(q)
+  if(any(grepl(lo_gender_pool_id(),q$metric_key,fixed=TRUE)!=marked))stop('GENDER_POOL_KEY_POLICY_MISMATCH')
   object_pool<-identical(obj$meta$gender_policy,lo_gender_pool_id())
   if(any(marked&!dependent)||any(dependent & marked!=object_pool))stop('GENDER_POOL_TASK_OBJECT_MISMATCH')
   invisible(TRUE)

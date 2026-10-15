@@ -36,4 +36,7 @@ stopifnot(identical(r$configuration_sha256,lo_run_config_hash(cfg)),
   "grid"%in%names(r$artifact_sha256),
   nrow(r$results)==0L,r$scientific_release=="NOT_IMPLIED_BY_RUN_SUCCESS")
 unlink(work,recursive=TRUE)
+source('06_pipeline/LO_FIXED_CONTROLLER.R')
+stopifnot(lo_fixed_remaining_targets(c('SCIENTIFICALLY_VALIDATED','UNAVAILABLE_VERIFIED_SOURCE_FIELD',
+  'UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE','HOLD_SOURCE_MAPPING_REVIEW','TARGET_NOT_YET_ADJUDICATED'))==2L)
 cat("PASS explicit config, scope intersection, changed-config invalidation and run lineage\n")
