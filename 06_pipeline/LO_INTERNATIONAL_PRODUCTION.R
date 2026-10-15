@@ -23,7 +23,8 @@ lo_international_measure <- function(repo,bundle,obj,q,out) {
     module<-s$module[1];science<-lo_compact_backend_tasks(s)
     a<-if(module=='peer_below_basic')lo_compact_low_peer(obj,s)else
       if(startsWith(module,'extension_')||module%in%c('core','ses_national','ses_harmonized','gender'))lo_exact_selected_estimate(obj,science)else
-      if(module=='migration_generation')lo_exact_generations(obj,s)else
+      if(module%in%c('migration','migration_generation','language_exact','language_frequency_binary',
+        'migration_binary_peer','home_language_peer_exposure','home_language_frequency_peer'))lo_exact_background_linear(obj,science)else
       if(module=='migration_peer_exposure')lo_compact_migration_peers(obj,s)else
       if(module=='ses_peer_exposure'||(module=='peer_baseline'&&all(science$stat%in%c('q1_share','q4_share'))))lo_exact_ses_composition(obj,science)else v10_compute(obj,science)
     a$n_unweighted<-if(startsWith(module,'extension_'))lo_extension_count_n(obj,science)else lo_compact_count_n(obj,science)
@@ -71,6 +72,11 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
   # NLD is already certified in the shared registry; source-specific unresolved
   # cells remain governed by its explicit source-unavailability evidence.
   t<-t[t$country!='NLD',]
+  source(file.path(repo,'06_pipeline/LO_INTERNATIONAL_WORKLIST.R'))
+  audited_path<-file.path(root,'FIXED_PRODUCTION_V1',scope,'PRIVATE_MASTER_GRID.csv')
+  if(!file.exists(audited_path))stop('INTERNATIONAL_WORKLIST_AUDIT_REQUIRED')
+  worklist<-lo_international_worklist(t,read.csv(audited_path,colClasses='character',na.strings=character()))
+  t<-worklist$tasks
   partitions<-list();indices<-list()
   for(f in list.files(file.path(international,'raw_partitions'),pattern='_PARTITIONS.json$',full.names=TRUE)) {
     x<-jsonlite::fromJSON(f);partitions[[x$raw_path]]<-x

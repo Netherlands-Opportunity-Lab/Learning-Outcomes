@@ -1,6 +1,36 @@
 # Audit-stage library. Reads only explicitly configured, hash-pinned public-use
 # sources. No analysis estimates, downloads, countries or source substitutions
 # are inferred from filenames. Manifest paths and extracts remain private.
+lo_international_cached_support <- function(existing,expected,receipt_path,contract_path) {
+  if(!nrow(existing))return(FALSE)
+  cols<-unique(c(lo_balance_columns(),'country','source_path','source_sha256','status'))
+  at<-match(lo_balance_key(expected),lo_balance_key(existing))
+  if(nrow(existing)!=nrow(expected)||anyNA(at)||anyDuplicated(lo_balance_key(existing))||
+     !identical(as.list(existing[at,cols]),as.list(expected[cols])))
+    stop('INTERNATIONAL_CACHED_SUPPORT_CONTRACT_CHANGED')
+  paths<-unique(existing$certificate_path);hashes<-unique(existing$certificate_sha256)
+  sha<-function(p)digest::digest(file=p,algo='sha256')
+  if(length(paths)!=1L||length(hashes)!=1L||!file.exists(paths)||sha(paths)!=hashes)
+    stop('INTERNATIONAL_CACHED_SUPPORT_CERTIFICATE_CHANGED')
+  cert<-jsonlite::fromJSON(paths)
+  if(!identical(cert$status,'SOURCE_SUPPORT_VERIFIED')||
+     !identical(cert$country,expected$country[1])||
+     !identical(cert$source_sha256,expected$source_sha256[1])||
+     !setequal(cert$support_keys,lo_balance_key(expected))||
+     is.null(cert$comparability_evidence)||!nzchar(cert$comparability_evidence)||
+     !is.data.frame(cert$evidence_files)||!nrow(cert$evidence_files)||
+     !all(c('path','sha256')%in%names(cert$evidence_files)))
+    stop('INTERNATIONAL_CACHED_SUPPORT_CERTIFICATE_INVALID')
+  if(!all(normalizePath(c(receipt_path,contract_path),winslash='/')%in%cert$evidence_files$path))
+    stop('INTERNATIONAL_CACHED_SUPPORT_SOURCE_EVIDENCE_MISSING')
+  for(i in seq_len(nrow(cert$evidence_files))) {
+    p<-cert$evidence_files$path[i];h<-cert$evidence_files$sha256[i]
+    if(!file.exists(p)||!grepl('^[a-f0-9]{64}$',h)||sha(p)!=h)
+      stop('INTERNATIONAL_CACHED_SUPPORT_EVIDENCE_CHANGED')
+  }
+  TRUE
+}
+
 lo_international_sources <- function(repo,root,manifest_path) {
   for(f in c('LO_ATOMIC_CHECKPOINT.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R',
              'LO_PISA_SOURCE_BLOCK.R','LO_PISA_LEGACY_SOURCE.R','LO_BALANCED_MEMBERSHIP.R'))source(file.path(repo,'06_pipeline',f))
@@ -20,6 +50,9 @@ lo_international_sources <- function(repo,root,manifest_path) {
   previous<-options(lo.pisa.row_indices=row_indices,lo.pisa.byte_indices=byte_indices,lo.pisa.partitions=partitions)
   on.exit(options(previous),add=TRUE)
   errors<-list();checked_hashes<-new.env(parent=emptyenv())
+  # The partition stage has just rehashed these exact raw files and every
+  # retained partition. Reuse that in-memory proof within this invocation only.
+  for(p in names(partitions))assign(p,partitions[[p]]$raw_sha256,checked_hashes)
   for(i in seq_len(nrow(manifest))) {
     r<-manifest[i,];s<-r$survey;y<-as.integer(r$year);country<-r$country
     if(country=='NLD')next
@@ -37,7 +70,7 @@ lo_international_sources <- function(repo,root,manifest_path) {
       if(file.exists(receipt_path)) {
         src<-jsonlite::fromJSON(receipt_path)
         canonical<-file.path(block,src$canonical_filename)
-        if(src$country!=country||src$raw_sha256!=r$raw_sha256||digest::digest(file=canonical,algo='sha256')!=src$canonical_sha256)
+        if(src$country!=country||src$survey!=s||as.integer(src$year)!=y||src$raw_sha256!=r$raw_sha256||digest::digest(file=canonical,algo='sha256')!=src$canonical_sha256)
           stop('INTERNATIONAL_SOURCE_CHECKPOINT_CHANGED')
       }else {
         cat('VERIFY_COUNTRY_SOURCE',id,'\n');flush.console()
@@ -64,9 +97,6 @@ lo_international_sources <- function(repo,root,manifest_path) {
         if(!length(pv)||any(!is.finite(as.matrix(v$object$data[pv]))))stop('INTERNATIONAL_INCOMPLETE_PVS')
         rm(v);gc(FALSE)
       }
-      check_obj<-readRDS(canonical);pv<-grep('^PV_',names(check_obj$data),value=TRUE)
-      if(!length(pv)||any(!is.finite(as.matrix(check_obj$data[pv]))))stop('INTERNATIONAL_INCOMPLETE_PVS')
-      rm(check_obj)
       domains<-if(s=='PIRLS')'reading'else if(s=='TIMSS')c('mathematics','science')else if(y==2003)c('reading','mathematics')else c('reading','mathematics','science')
       if(s=='PISA'&&!is.null(src$verified_domains))domains<-src$verified_domains
       x<-support[rep(1L,length(domains)),];x$country<-country;x$survey<-s;x$year<-as.character(y)
@@ -74,6 +104,17 @@ lo_international_sources <- function(repo,root,manifest_path) {
       x$definition_id<-paste0(s,'_DOMAIN_MEAN');x$population_comparison_id<-if(s=='PISA')'PISA_AGE_TARGET_PUBLIC_USE'else paste0(s,'_GRADE4_COHORT_MAIN_WAVE')
       x$method_comparison_id<-paste0(s,'_LINKED_DOMAIN_SCALE');x$source_path<-normalizePath(canonical,winslash='/')
       x$source_sha256<-src$canonical_sha256;x$status<-'SOURCE_SUPPORT_VERIFIED'
+      prior<-support[support$country==country&support$survey==s&support$year==y,,drop=FALSE]
+      # Raw bytes, the complete input contract and canonical bytes were checked
+      # above. Reuse the original immutable PV/population proof only after all
+      # its evidence hashes have been checked; do not rewrite 525 certificates
+      # and the full support CSV on every interrupted-run restart.
+      if(lo_international_cached_support(prior,x,receipt_path,contract_path)) {
+        cat('REUSE_SOURCE_CHECKPOINT',id,src$n,'\n');flush.console();next
+      }
+      check_obj<-readRDS(canonical);pv<-grep('^PV_',names(check_obj$data),value=TRUE)
+      if(!length(pv)||any(!is.finite(as.matrix(check_obj$data[pv]))))stop('INTERNATIONAL_INCOMPLETE_PVS')
+      rm(check_obj)
       code_files<-file.path(repo,'06_pipeline',c('LO_INTERNATIONAL_SOURCES.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PISA_LEGACY_SOURCE.R'))
       frozen<-vapply(code_files,function(f){p<-file.path(block,paste0('VERIFIER_',substr(digest::digest(file=f,algo='sha256'),1,16),'.R'));if(!file.exists(p))stopifnot(file.copy(f,p));p},character(1))
       ef<-normalizePath(c(receipt_path,contract_path,frozen),winslash='/');cert_path<-file.path(block,'SOURCE_SUPPORT_CERTIFICATE.json')

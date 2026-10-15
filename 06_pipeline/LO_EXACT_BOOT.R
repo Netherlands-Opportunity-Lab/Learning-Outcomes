@@ -21,6 +21,12 @@ lo_exact_boot <- function(bundle) {
   }
   assign("rc2_pool_engine_v8",get("rc2_pool",.GlobalEnv),.GlobalEnv)
   eval(parse(text=get("V10_BACKEND_FUNCTIONS",.GlobalEnv)),.GlobalEnv)
+  if(exists('lo_exact_peer_share',mode='function'))
+    assign('peer_share',lo_exact_peer_share,.GlobalEnv)
+  if(exists('lo_exact_categorical_peer',mode='function'))
+    assign('v10_peer',lo_exact_categorical_peer,.GlobalEnv)
+  if(exists('lo_exact_peer_matrix',mode='function'))
+    assign('v10_peer_matrix',lo_exact_peer_matrix,.GlobalEnv)
   if(exists("lo_exact_language_groups",mode="function"))
     assign("language_groups",lo_exact_language_groups,.GlobalEnv)
   if(exists(".lo36_original_compute",.GlobalEnv,inherits=FALSE))

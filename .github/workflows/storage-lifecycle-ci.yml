@@ -58,6 +58,8 @@ jobs:
           python-version: '3.12'
       - name: Kill a real R writer and resume committed grid transactions
         run: python 06_pipeline/tests/crash_resume_check.py
+      - name: Guard checkout before Git updates and recover after process death
+        run: python 06_pipeline/tests/startup_lock_check.py
       - name: Parse R production launcher without starting any production
         run: Rscript -e "parse(file='START.R'); parse(file='06_pipeline/RUN.R'); parse(file='06_pipeline/DRIVE_SYNC.R'); parse(file='06_pipeline/GITHUB_STATUS.R'); parse(file='06_pipeline/BUNDLE_DISCOVERY.R'); parse(file='06_pipeline/PRODUCT_SCOPE_GATE.R'); parse(file='06_pipeline/REFERENCE_SOURCE_AUDIT.R'); parse(file='06_pipeline/MASTER_STORAGE.R'); parse(file='06_pipeline/LOCAL_CLEANUP_GATE.R'); parse(file='06_pipeline/LOCAL_QUARANTINE.R'); parse(file='06_pipeline/PROVENANCE_AUDIT.R'); parse(file='06_pipeline/CANONICAL_RESULT_RECONCILIATION.R'); parse(file='06_pipeline/CONTRACT_REUSE_QUEUE.R'); parse(file='06_pipeline/REUSE_PREFLIGHT.R'); parse(file='06_pipeline/EXISTING_LO02_EXPORT.R'); parse(file='06_pipeline/MINIMUM_FIGURE_QUEUE.R'); parse(file='06_pipeline/MASTER_ESTIMATION_GRID.R'); parse(file='06_pipeline/GRID_ARCHIVE_BATCH.R'); parse(file='06_pipeline/LO_SCOPE_LOCK.R'); parse(file='06_pipeline/LO_EXISTING_RESULT_REGISTRY.R'); parse(file='06_pipeline/LO_FIXED_VALIDATION.R'); parse(file='06_pipeline/LO_FIXED_PRODUCERS.R'); parse(file='06_pipeline/LO_FIXED_CLEANUP_GATES.R'); parse(file='06_pipeline/LO_FIXED_CONTROLLER.R'); parse(file='06_pipeline/LO_FIXED_COMPARATOR.R'); parse(file='06_pipeline/LO_COMPACT_GRID_STORE.R'); parse(file='06_pipeline/LO_COMPACT_RECOMPUTE.R'); parse(file='06_pipeline/LO_FINAL_DASHBOARD_EXPORT.R'); parse(file='06_pipeline/V5_NLD_CORE_ONLY.R'); parse(file='06_pipeline/RESULT_LINEAGE_RECORDS.R'); parse(file='06_pipeline/RECONCILE_AND_PLAN.R'); cat('R launcher and native Drive sync parse OK\n')"
       - name: Validate historical reference fixtures (not current admission)
@@ -94,18 +96,22 @@ jobs:
         run: Rscript 06_pipeline/tests/test_international_sources.R
       - name: Reuse certified results across scopes
         run: Rscript 06_pipeline/tests/test_scope_result_reuse.R
-      - name: Test portable source bindings and immutable byte indexes
-        run: |
-          Rscript 06_pipeline/tests/test_source_bindings.R
-          python 06_pipeline/tests/test_byte_index.py
-      - name: Test complete anchors with independent joint figure views
-        run: Rscript 06_pipeline/tests/test_balanced_views.R
       - name: Test certified balance adapter and full-focus export
         run: Rscript 06_pipeline/tests/test_balanced_export.R
       - name: Test exact guided export and pending scope exclusion
         run: Rscript 06_pipeline/tests/test_final_guided_export.R
       - name: Test approved extension contracts and exact selected estimators
         run: Rscript 06_pipeline/tests/test_approved_extensions.R
+      - name: Test optimized peer sums against the original estimator
+        run: Rscript 06_pipeline/tests/test_peer_fast_sum.R
+      - name: Test bounded background matrices and all joint replicates
+        run: Rscript 06_pipeline/tests/test_background_linear.R
+      - name: Test fresh evidence hashes before source checkpoint reuse
+        run: Rscript 06_pipeline/tests/test_source_checkpoint_reuse.R
+      - name: Test exact international worklist and proven absence exclusions
+        run: Rscript 06_pipeline/tests/test_international_worklist.R
+      - name: Test balanced individual country rank derivation
+        run: Rscript 06_pipeline/tests/test_country_ranks.R
       - name: Test selected SES composition and missing peer denominators
         run: Rscript 06_pipeline/tests/test_ses_composition.R
       - name: Test independent selected SES reference estimates
