@@ -1,0 +1,11 @@
+{
+  "status": "REAL_GRID_METADATA_REPAIR_WITHOUT_NUMERICAL_RECOMPUTATION",
+  "target_rows": 2678,
+  "validated": 2373,
+  "unchanged_columns": ["cell_id", "status", "estimate", "standard_error", "n_unweighted", "input_fingerprint", "code_fingerprint", "result_hash", "certification_sha256", "target_contract_sha256"],
+  "all_ages_and_populations_present": true,
+  "second_deposit_changed": false,
+  "result_commit": "9d1f352f1fd23fae541938a190ced8391ce8b73b",
+  "elapsed_seconds": 460.1745,
+  "grid_sha256": "f6bfea7576022007951af1ee59900b68847ec4dd45d5531edafb83ee6cc7b8c2"
+}

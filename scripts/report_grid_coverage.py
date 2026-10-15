@@ -71,12 +71,18 @@ def build(state, output):
         trace[row["cell_id"]].add(row["requirement_id"])
     if ids - trace.keys():
         raise ValueError("Active grid cells without product trace")
-    columns = ["cell_id", "country", "survey", "year", "age", "population_id",
+    counts = collections.Counter(category(row) for row in grid)
+    # This explanatory review covers the full NLD audit of 15 October 2026.
+    # Reject changed science before writing anything with outdated prose.
+    if {r['country'] for r in grid} != {'NLD'} or dict(counts) != {
+            'validated': 2373, 'unavailable': 281, 'unresolved': 24}:
+        raise ValueError('Coverage changed: update the reviewed explanations before publishing')
+    columns = ["cell_id", "country", "survey", "year", "age", "population_id", "sample_id",
                "domain", "subgroup_variable", "subgroup_level", "statistic",
                "outcome_id", "threshold_id", "peer_environment", "status",
                "hold_reason", "target_contract_sha256", "source_edition_sha256",
                "method_version", "weight_design", "pv_rule", "variance_rule",
-               "input_fingerprint", "code_fingerprint", "result_hash"]
+               "input_fingerprint", "code_fingerprint", "result_hash", "certification_sha256"]
     cells = [dict({k: row[k] for k in columns},
                   product_requirements=";".join(sorted(trace[row["cell_id"]])))
              for row in sorted(grid, key=lambda x: x["cell_id"])]
@@ -102,12 +108,6 @@ def build(state, output):
     # Requirement links are traceability, not proof that a source slide's title
     # is true. Rank rows point to possible parents, not completed derivations.
     write(output / "REQUIREMENT_COVERAGE.csv", requirements, list(requirements[0]))
-    counts = collections.Counter(category(row) for row in grid)
-    # The explanatory review below is specific to this full NLD audit, not a
-    # template for arbitrary scopes. Refuse stale prose after changed science.
-    if {r['country'] for r in grid} != {'NLD'} or dict(counts) != {
-            'validated': 2373, 'unavailable': 281, 'unresolved': 24}:
-        raise ValueError('Coverage changed: update the reviewed explanations before publishing')
     manifest = dict(schema_version=1, scope="nld_only", countries_in_grid=sorted({r["country"] for r in grid}),
         targets=len(grid), counts=dict(counts), orphan_cells=0, complete_international_dashboard=False,
         evidence="SAVED_AUDITED_GRID_NOT_A_NEW_SCIENTIFIC_CERTIFICATION",
@@ -118,7 +118,7 @@ def build(state, output):
     text = ["# Resultatengrid: volledige dekking en ontbrekende uitkomsten", "",
         "Dit overzicht is gegenereerd uit het opgeslagen auditgrid. Het telt exacte doelcellen, geen figuren, leerlingen of afzonderlijke R-runs. "
         "De actuele scope is **nld_only**. Productkoppelingen bewijzen herkomst; zij bewijzen niet automatisch een oude slidetitel of paperclaim.", "",
-        f"**{len(grid):,} doelcellen; {counts['validated']:,} gecontroleerde uitkomsten; {counts['unavailable']:,} gedocumenteerd onbeschikbaar; {counts['unresolved']:,} open.** "
+        f"**{len(grid)} doelcellen; {counts['validated']} gecontroleerde uitkomsten; {counts['unavailable']} gedocumenteerd onbeschikbaar; {counts['unresolved']} open.** "
         "Alle doelcellen hebben een productkoppeling. Het volledige internationale dashboard is nog niet gevuld.", "",
         "## Jaren, populaties en domeinen", "",
         "| Bron | Populatie | Domein | Gekozen golven |", "|---|---|---|---|"]
@@ -128,7 +128,8 @@ def build(state, output):
             core[(row["survey"], row["domain"])].add(int(row["year"]))
     for (survey, domain), years in sorted(core.items()):
         population = "15-jarigen" if survey == "PISA" else "internationaal vierde leerjaar / Nederlandse groep 6, circa 10 jaar"
-        text.append(f"| {survey} | {population} | {domain} | {', '.join(map(str, sorted(years)))} |")
+        label = {'reading': 'lezen', 'mathematics': 'wiskunde', 'science': 'natuurwetenschappen'}[domain]
+        text.append(f"| {survey} | {population} | {label} | {', '.join(map(str, sorted(years)))} |")
     text += ["", "Dit zijn meetgolven, geen jaarlijkse metingen. De 40 domein-jaarcombinaties volgen het vastgelegde Nederlandse anker uit het 21-slide-deck. "
         "Andere historische golven zijn niet automatisch gekozen. Een afwezig jaar buiten dit anker is dus geen bewezen ontbrekende bron. "
         "PISA-wiskunde/lezen beginnen in dit contract in 2003, science in 2006. PIRLS 2021 omvat de officieel vertraagd afgenomen cohort; age10 is een populatieaanduiding, geen exacte individuele leeftijd.", "",
