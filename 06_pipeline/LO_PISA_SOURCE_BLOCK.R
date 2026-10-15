@@ -13,7 +13,7 @@ lo_pisa_label_code <- function(x,accepted) {
   if(length(found)!=1L)stop("PISA_SOURCE_LABEL_NOT_UNAMBIGUOUS: ",paste(accepted,collapse="/"))
   found
 }
-lo_pisa_country_rows <- function(path,country,fields) {
+lo_pisa_country_rows <- function(path,country,fields,user_na=FALSE) {
   header<-haven::read_sav(path,n_max=0)
   if(!all(c("CNT",fields)%in%names(header)))stop("PISA_REQUIRED_RAW_FIELDS_MISSING")
   selector<-as.character(haven::read_sav(path,col_select="CNT")$CNT)
@@ -21,9 +21,34 @@ lo_pisa_country_rows <- function(path,country,fields) {
   if(!length(at))stop("PISA_COUNTRY_NOT_IN_RAW_SOURCE")
   blocks<-split(at,cumsum(c(TRUE,diff(at)!=1L)))
   raw<-do.call(rbind,lapply(blocks,function(i)haven::read_sav(path,
-    col_select=tidyselect::all_of(unique(c("CNT",fields))),skip=min(i)-1L,n_max=length(i))))
+    col_select=tidyselect::all_of(unique(c("CNT",fields))),skip=min(i)-1L,n_max=length(i),user_na=user_na)))
   if(nrow(raw)!=length(at)||any(raw$CNT!=country))stop("PISA_RAW_COUNTRY_ROW_SELECTION_FAILED")
   raw
+}
+lo_pisa_value_counts <- function(x) {
+  # Named JSON lists lose an NA category name (it became a fictitious code 3).
+  # Explicit records preserve actual missingness and original numeric codes.
+  t<-table(as.character(as.numeric(x)),useNA='always')
+  data.frame(value=ifelse(is.na(names(t)),'NA',names(t)),n=as.integer(t))
+}
+lo_pisa_source_gender <- function(raw) {
+  # The 2025 official recode uses ST004D01D; the public-use file can retain an
+  # empty ST004D01T plus a collapsed MALE. A collapsed Female/Other category
+  # cannot silently become girls. A labelled Male category remains usable.
+  for(k in intersect(c('ST004D01D','ST004D01T'),names(raw))) {
+    female<-lo_pisa_label_code(raw[[k]],'female');male<-lo_pisa_label_code(raw[[k]],'male')
+    v<-c('girl','boy')[match(as.numeric(raw[[k]]),c(female,male))]
+    if(any(!is.na(v)))return(list(values=v,variable=k,status='SOURCE_VALUE_LABEL_VERIFIED',
+      map=paste0(female,'=girl;',male,'=boy')))
+  }
+  if('MALE'%in%names(raw)) {
+    male<-lo_pisa_label_code(raw$MALE,'male')
+    v<-ifelse(!is.na(raw$MALE)&as.numeric(raw$MALE)==male,'boy',NA_character_)
+    if(any(!is.na(v)))return(list(values=v,variable='MALE',
+      status='PARTIAL_SOURCE_GENDER_GIRL_UNRESOLVED',map=paste0(male,'=boy;other codes not assigned to girls')))
+  }
+  list(values=rep(NA_character_,nrow(raw)),variable='NONE_VERIFIED',
+    status='UNRESOLVED_SOURCE_GENDER_MAPPING',map='No verified mapping')
 }
 lo_pisa_canonical_from_raw <- function(raw,year,country) {
   codes<-c("READ","MATH","SCIE")
@@ -39,9 +64,10 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
   if(!year%in%c(2015L,2018L,2022L,2025L))stop("PISA_SOURCE_CYCLE_NOT_REVIEWED")
   codes<-c("READ","MATH","SCIE")
   pvs<-unlist(lapply(codes,function(k)paste0("PV",1:10,k)))
-  fields<-c("CNTSTUID","CNTSCHID","AGE","ST004D01T","ST022Q01TA","LANGTEST_COG",
+  header<-haven::read_sav(raw_path,n_max=0)
+  gender_fields<-intersect(c('ST004D01D','ST004D01T','MALE'),names(header))
+  fields<-c("CNTSTUID","CNTSCHID","AGE",gender_fields,"ST022Q01TA","LANGTEST_COG",
     "IMMIG","ESCS","PROGN","W_FSTUWT",paste0("W_FSTURWT",1:80),pvs)
-  if(year==2025L)fields<-c(fields,"MALE")
   raw<-lo_pisa_country_rows(raw_path,country,fields)
   obj<-if(is.null(canonical_path))lo_pisa_canonical_from_raw(raw,year,country)else readRDS(canonical_path)
   d<-obj$data
@@ -57,8 +83,7 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
   for(j in seq_along(canonical))checks$equal[j]<-canonical[j]%in%names(d) &&
     identical(as.numeric(d[[canonical[j]]]),as.numeric(raw[[original[j]]]))
   if(!all(checks$equal))stop("PISA_RAW_WEIGHT_OR_PV_MISMATCH")
-  female<-lo_pisa_label_code(raw$ST004D01T,"female")
-  male<-lo_pisa_label_code(raw$ST004D01T,"male")
+  gender<-lo_pisa_source_gender(raw)
   same<-lo_pisa_label_code(raw$ST022Q01TA,c("language of test","language of the test"))
   other<-lo_pisa_label_code(raw$ST022Q01TA,"other language")
   native<-lo_pisa_label_code(raw$IMMIG,c("native","native student","native students"))
@@ -67,7 +92,7 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
   decode<-function(x,values,labels)labels[match(as.numeric(x),values)]
   # Restore fields from the original labelled variables, never from unchecked
   # numeric conventions or a stale success flag in the legacy cache.
-  d$AGE<-as.numeric(raw$AGE);d$DEMO_GENDER<-decode(raw$ST004D01T,c(female,male),c("girl","boy"))
+  d$AGE<-as.numeric(raw$AGE);d$DEMO_GENDER<-gender$values
   d$GENDER<-d$DEMO_GENDER
   d$DEMO_LANGUAGE<-decode(raw$ST022Q01TA,c(same,other),c("test_language_home","other_language_home"))
   d$DEMO_MIGRATION<-decode(raw$IMMIG,c(native,second,first),c("native","second_generation","first_generation"))
@@ -76,9 +101,9 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
   if(any(!is.finite(d$W)|d$W<=0)||any(!is.finite(as.matrix(d[paste0("RW",1:80)]))) ||
      any(as.matrix(d[paste0("RW",1:80)])<0))stop("PISA_INVALID_DESIGN_WEIGHTS")
   meta<-obj$meta
-  meta$gender_variable<-"ST004D01T"
-  meta$gender_status<-if(any(!is.na(d$DEMO_GENDER)))"SOURCE_VALUE_LABEL_VERIFIED" else "UNAVAILABLE_NO_VALID_SOURCE_GENDER"
-  meta$gender_map<-paste0(female,"=girl;",male,"=boy")
+  meta$gender_variable<-gender$variable
+  meta$gender_status<-gender$status
+  meta$gender_map<-gender$map
   meta$age_status<-"RAW_AGE_RESTORED_BY_EXACT_STUDENT_ID"
   meta$language_definition<-"ASSESSMENT_LANGUAGE_RELATIVE_HOME_USE"
   meta$language_mapping_status<-"SOURCE_LABELS_AND_STUDENT_IDS_VERIFIED"
@@ -88,7 +113,7 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
   meta$repair_raw_sha256<-digest::digest(file=raw_path,algo="sha256")
   meta$language_weighted_coverage<-sum(d$W[!is.na(d$DEMO_LANGUAGE)])/sum(d$W)
   meta$demographic_definitions<-data.frame(dimension=c("GENDER","LANGUAGE","MIGRATION"),
-    variable=c("ST004D01T","ST022Q01TA","IMMIG"),
+    variable=c(gender$variable,"ST022Q01TA","IMMIG"),
     definition=c("Source-labelled gender","Home relative to assessment language","OECD native/second/first generation"),
     weighted_coverage=vapply(d[c("DEMO_GENDER","DEMO_LANGUAGE","DEMO_MIGRATION")],function(x)sum(d$W[!is.na(x)])/sum(d$W),numeric(1)))
   obj<-list(data=d,meta=meta)
@@ -106,11 +131,11 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
     raw_sha256=meta$repair_raw_sha256,parent_sha256=meta$repair_parent_sha256,
     canonical_sha256=digest::digest(file=output,algo="sha256"),canonical_filename=basename(output),
     gender_status=meta$gender_status,
-    gender_alternative=if("MALE"%in%names(raw))list(variable="MALE",counts=as.list(table(as.numeric(raw$MALE),useNA="always")),
+    gender_alternative=if("MALE"%in%names(raw))list(variable="MALE",counts=lo_pisa_value_counts(raw$MALE),
       labels=as.list(attr(raw$MALE,"labels")),equivalent_to_girl_boy=FALSE,
       reason="Female / Other is not the approved female group; do not silently substitute constructs")else NULL,
-    field_mapping=c(AGE="AGE",DEMO_GENDER="ST004D01T",DEMO_LANGUAGE="ST022Q01TA",DEMO_MIGRATION="IMMIG",SES="ESCS",SCHOOL="CNTSCHID",PROGRAM="PROGN"),
-    source_value_labels=lapply(raw[c("ST004D01T","ST022Q01TA","IMMIG")],function(x)as.list(attr(x,"labels"))),
+    field_mapping=c(AGE="AGE",DEMO_GENDER=gender$variable,DEMO_LANGUAGE="ST022Q01TA",DEMO_MIGRATION="IMMIG",SES="ESCS",SCHOOL="CNTSCHID",PROGRAM="PROGN"),
+    source_value_labels=lapply(raw[c(gender_fields,"ST022Q01TA","IMMIG")],function(x)as.list(attr(x,"labels"))),
     population="All country records from the official age-target student public-use file",
     source_url=paste0("https://www.oecd.org/en/data/datasets/pisa-",year,"-database.html"),
     coverage=meta$demographic_definitions,not_certified=c("Harmonized Cobreros SES","actual classrooms","trend linking","publication rights"))

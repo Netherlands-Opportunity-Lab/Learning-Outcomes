@@ -29,9 +29,14 @@ stopifnot(identical(clean$object$data[-1],v$object$data[-1]),
 missing_gender<-raw;missing_gender$ST004D01T[]<-NA_real_
 missing_path<-file.path(tmp,'missing_gender.sav');haven::write_sav(missing_gender,missing_path)
 unavailable<-lo_pisa_verify_source(missing_path,parent,2025,'NLD',file.path(tmp,'out'))
-stopifnot(unavailable$receipt$gender_status=='UNAVAILABLE_NO_VALID_SOURCE_GENDER',
- all(is.na(unavailable$object$data$DEMO_GENDER)),file.exists(v$path),v$path!=unavailable$path,
+stopifnot(unavailable$receipt$gender_status=='PARTIAL_SOURCE_GENDER_GIRL_UNRESOLVED',
+ identical(unavailable$object$data$DEMO_GENDER,c(NA,'boy',NA,'boy')),file.exists(v$path),v$path!=unavailable$path,
  !unavailable$receipt$gender_alternative$equivalent_to_girl_boy)
+modern<-missing_gender
+modern$ST004D01D<-haven::labelled(c(1,2,3,99),c(Female=1,Male=2,Other=3,'No response'=99))
+stopifnot(identical(lo_pisa_source_gender(modern)$values,c('girl','boy',NA,NA)))
+counts<-lo_pisa_value_counts(c(0,1,NA))
+stopifnot(identical(counts$value,c('0','1','NA')),all(counts$n==1L))
 q<-data.frame(metric_key=c('m','p','g','mig'),survey='PISA',year='2025',country='NLD',domain='reading',
  module=c('core','core','gender','migration_generation'),stat=c('mean','p90_p10','gap','mean_score_gap'),
  group=c('total','total','girls_minus_boys','first_minus_native'),threshold='',definition='')

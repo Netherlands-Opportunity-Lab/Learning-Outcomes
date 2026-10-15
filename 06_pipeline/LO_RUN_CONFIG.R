@@ -90,6 +90,10 @@ lo_run_record <- function(repo,state,stage,cfg,outcome) {
   ledger<-file.path(state,"RUN_RECORDS");dir.create(ledger,showWarnings=FALSE)
   text<-jsonlite::toJSON(record,auto_unbox=TRUE,pretty=TRUE,digits=NA,null="null")
   id<-digest::digest(text,algo="sha256",serialize=FALSE)
-  writeLines(text,file.path(ledger,paste0(id,".json")),useBytes=TRUE)
+  target<-file.path(ledger,paste0(id,".json"))
+  tmp<-tempfile('run_record_',tmpdir=ledger,fileext='.tmp')
+  on.exit(unlink(tmp),add=TRUE)
+  writeLines(text,tmp,useBytes=TRUE)
+  if(!file.rename(tmp,target))stop('RUN_RECORD_ATOMIC_COMMIT_FAILED')
   invisible(id)
 }

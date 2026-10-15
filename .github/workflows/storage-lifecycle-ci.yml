@@ -44,7 +44,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: r-lib/actions/setup-r@v2
       - name: Install minimal R JSON dependency
-        run: Rscript -e "install.packages(c('jsonlite','digest','zip','DBI','RSQLite','haven'), repos='https://cloud.r-project.org')"
+        run: Rscript -e "install.packages(c('jsonlite','digest','zip','DBI','RSQLite','haven','filelock'), repos='https://cloud.r-project.org')"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Kill a real R writer and resume committed grid transactions
+        run: python 06_pipeline/tests/crash_resume_check.py
       - name: Parse R production launcher without starting any production
         run: Rscript -e "parse(file='START.R'); parse(file='06_pipeline/RUN.R'); parse(file='06_pipeline/DRIVE_SYNC.R'); parse(file='06_pipeline/GITHUB_STATUS.R'); parse(file='06_pipeline/BUNDLE_DISCOVERY.R'); parse(file='06_pipeline/PRODUCT_SCOPE_GATE.R'); parse(file='06_pipeline/REFERENCE_SOURCE_AUDIT.R'); parse(file='06_pipeline/MASTER_STORAGE.R'); parse(file='06_pipeline/LOCAL_CLEANUP_GATE.R'); parse(file='06_pipeline/LOCAL_QUARANTINE.R'); parse(file='06_pipeline/PROVENANCE_AUDIT.R'); parse(file='06_pipeline/CANONICAL_RESULT_RECONCILIATION.R'); parse(file='06_pipeline/CONTRACT_REUSE_QUEUE.R'); parse(file='06_pipeline/REUSE_PREFLIGHT.R'); parse(file='06_pipeline/EXISTING_LO02_EXPORT.R'); parse(file='06_pipeline/MINIMUM_FIGURE_QUEUE.R'); parse(file='06_pipeline/MASTER_ESTIMATION_GRID.R'); parse(file='06_pipeline/GRID_ARCHIVE_BATCH.R'); parse(file='06_pipeline/LO_SCOPE_LOCK.R'); parse(file='06_pipeline/LO_EXISTING_RESULT_REGISTRY.R'); parse(file='06_pipeline/LO_FIXED_VALIDATION.R'); parse(file='06_pipeline/LO_FIXED_PRODUCERS.R'); parse(file='06_pipeline/LO_FIXED_CLEANUP_GATES.R'); parse(file='06_pipeline/LO_FIXED_CONTROLLER.R'); parse(file='06_pipeline/LO_FIXED_COMPARATOR.R'); parse(file='06_pipeline/LO_COMPACT_GRID_STORE.R'); parse(file='06_pipeline/LO_COMPACT_RECOMPUTE.R'); parse(file='06_pipeline/LO_FINAL_DASHBOARD_EXPORT.R'); parse(file='06_pipeline/V5_NLD_CORE_ONLY.R'); parse(file='06_pipeline/RESULT_LINEAGE_RECORDS.R'); parse(file='06_pipeline/RECONCILE_AND_PLAN.R'); cat('R launcher and native Drive sync parse OK\n')"
       - name: Validate historical reference fixtures (not current admission)
