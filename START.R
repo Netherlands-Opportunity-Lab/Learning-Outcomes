@@ -37,6 +37,17 @@ lo_bootstrap_main <- function() {
     grepl("Netherlands-Opportunity-Lab/Learning-Outcomes([.]git)?$",remote)
   if (!valid) stop("Git origin is not the expected Learning-Outcomes repository")
   branch <- "feat/reproducible-storage-and-cleanup-20261010"
+  action <- Sys.getenv("LO_START_ACTION",unset="storage-audit")
+  if(!nzchar(action))action<-"storage-audit"
+  if(action!='fixed-status') {
+    source(file.path(repo,'06_pipeline/LO_PROCESS_LOCK.R'),local=environment())
+    common<-command(c('-C',repo,'rev-parse','--git-common-dir'))$lines
+    if(length(common)!=1L)stop('BOOTSTRAP_GIT_DIRECTORY_UNKNOWN')
+    if(!grepl('^(/|[A-Za-z]:[/\\\\])',common))common<-file.path(repo,common)
+    root<-Sys.getenv('LO_FIXED_ROOT',file.path(home,'Downloads','LO05_RESULTATEN'))
+    bootstrap_lock<-lo_startup_lock(common,root)
+    on.exit(lo_process_unlock(bootstrap_lock),add=TRUE)
+  }
   reproduce<-Sys.getenv("LO_REPRODUCE_COMMIT","")
   active <- command(c("-C",repo,"branch","--show-current"))$lines
   if (!nzchar(reproduce) && (length(active)!=1L || !identical(active[[1]],branch)))
@@ -52,7 +63,7 @@ lo_bootstrap_main <- function() {
     source(file.path(repo,"06_pipeline","LO_ENVIRONMENT.R"),local=environment())
     lo_environment_check(repo,strict=TRUE)
     message("Learning Outcomes: immutable replication; commit and environment verified.")
-  } else {
+  } else if(action!='fixed-status') {
   message("Learning Outcomes: checking for safe fast-forward updates...")
   # Normal Git merge refuses to overwrite tracked local changes. Never force,
   # reset, checkout, stash, delete or merge an unexpected branch.

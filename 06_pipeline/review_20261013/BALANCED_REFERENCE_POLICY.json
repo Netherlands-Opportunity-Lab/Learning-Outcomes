@@ -36,7 +36,9 @@
     "selector": "06_pipeline/LO_BALANCED_MEMBERSHIP.R",
     "real_source_adapter": "PENDING_CERTIFIED_SOURCE_MAPPING",
     "dashboard_ui": "PENDING_IMPLEMENTATION",
-    "eligible_country_list": "NOT_YET_CERTIFIED"
+    "eligible_country_list": "DYNAMIC_SOURCE_ADMISSION_VERIFIED_RESULTS_AND_VIEW_SUPPORT_PENDING",
+    "source_admission_evidence": "international/PREPARATION_EVIDENCE.json",
+    "view_selector": "06_pipeline/LO_BALANCED_VIEWS.R"
   },
-  "substantive_approvals_A01_A17": "UNCHANGED_PENDING"
+  "substantive_approvals_A01_A17": "INDIVIDUALLY_DECIDED_SEE_SCOPE_APPROVALS_CSV"
 }

@@ -1,0 +1,118 @@
+{
+  "checked_utc": "2026-10-15T12:01:15Z",
+  "country": "NLD",
+  "year": 2025,
+  "n": 6636,
+  "source_sha256": "6f6fa1e1ecce23d39183d44ec82ba05b245fe88a2416c8d8dc1b016d556fc379",
+  "absent": [
+    "ST004D01D",
+    "ST004",
+    "ST430Q01DA",
+    "FEMALE"
+  ],
+  "fields": [
+    {
+      "variable": "ST004D01T",
+      "label": "Students' gender from sampling data (Female/Male)",
+      "labels": {
+        "Female": 1,
+        "Male": 2,
+        "valid skip (filter rule)": 95,
+        "system missing": 96,
+        "not administered/not applicable": 97,
+        "invalid": 98,
+        "no response": 99
+      },
+      "counts": [
+        {
+          "value": "99",
+          "n": 6636
+        },
+        {
+          "value": "NA",
+          "n": 0
+        }
+      ]
+    },
+    {
+      "variable": "MALE",
+      "label": "Students' gender from sampling data (Male/Other)",
+      "labels": {
+        "Female / Other": 0,
+        "Male": 1,
+        "valid skip (filter rule)": 95,
+        "system missing": 96,
+        "not administered/not applicable": 97,
+        "invalid": 98,
+        "no response": 99
+      },
+      "counts": [
+        {
+          "value": "0",
+          "n": 3237
+        },
+        {
+          "value": "1",
+          "n": 3397
+        },
+        {
+          "value": "99",
+          "n": 2
+        },
+        {
+          "value": "NA",
+          "n": 0
+        }
+      ]
+    }
+  ],
+  "resolver": {
+    "variable": "MALE",
+    "status": "PARTIAL_SOURCE_GENDER_GIRL_UNRESOLVED",
+    "map": "1=boy;other codes not assigned to girls",
+    "girls": 0,
+    "boys": 3397,
+    "unresolved": 3239,
+    "field_audit": {
+      "ST004D01T": {
+        "girls": 0,
+        "boys": 0,
+        "unresolved": 6636,
+        "counts": [
+          {
+            "value": "99",
+            "n": 6636
+          },
+          {
+            "value": "NA",
+            "n": 0
+          }
+        ]
+      }
+    }
+  },
+  "resolver_code_sha256": "ac1d56eb86b5c1cc665c0209e4856bee5d0dcf6d1197548ac83a9fda6d2552e5",
+  "online_codebook_review": {
+    "url": "https://webfs.oecd.org/pisa2022/2025/PISA2025_Codebook.xlsx",
+    "sha256": "d527a3e75f4c2b49c9810728bea78381683ac98ddb28d40cc7d3824086473b1c",
+    "sheets_searched": {
+      "STU": 11279,
+      "COG": 16859,
+      "LDW": 2863,
+      "SCH": 5880,
+      "TCH": 5893,
+      "STU_TT": 2187,
+      "COG_PROCESS": 9547
+    },
+    "conclusion": "No separate student ST004D01D or FEMALE field found; teacher gender and national sampling strata are not pupil gender"
+  },
+  "access_review": {
+    "reviewed_utc": "2026-10-15T17:24:00.190243+00:00",
+    "IDB_Analyzer": "Correct survey/PV analysis; no recovery of absent individual categories documented",
+    "NCES_restricted_use": "US data; not a Dutch licence route",
+    "Dutch_route": "https://www.pisa-nederland.nl/contact/",
+    "Dutch_access_guaranteed": false,
+    "external_message_sent": false,
+    "user_choice_to_redefine_girls": "NOT_GIVEN; user requested review of IDB and restricted-data claims"
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "checked_utc": "2026-10-15T17:24:00.190243+00:00",
+  "status": "PASS_REAL_ESTIMATE_SE_N_AND_JOINT_REPLICATES",
+  "platform": "Windows; R 4.6.1; 16 GiB installed RAM",
+  "tolerance": 1e-09,
+  "benchmark_scope": "Exact producer only; not total pipeline runtime",
+  "same_host_non_randomized_timing": true,
+  "full_production_complete": false,
+  "matrix": {
+    "ARE_PIRLS2021_CORE": {
+      "cells": 12,
+      "pupils": 27448,
+      "seconds": 24.34,
+      "estimate_max": 4.547473508864641e-13,
+      "SE_max": 8.326672684688674e-15,
+      "joint_max": 7.105427357601002e-15
+    },
+    "ARE_PIRLS2021_BOOKS": {
+      "cells": 21,
+      "pupils": 27448,
+      "seconds": 46.93000000000001,
+      "estimate_max": 6.252776074688882e-13,
+      "SE_max": 3.277378368693462e-13,
+      "joint_max": 1.7053025658242404e-12
+    },
+    "NLD_PISA2018": {
+      "cells": 33,
+      "pupils": 4765,
+      "seconds": 6.25,
+      "estimate_max": 6.821210263296962e-13,
+      "SE_max": 2.0650148258027912e-13,
+      "joint_max": 3.865352482534945e-12
+    },
+    "NLD_TIMSS2023_BOOKS": {
+      "cells": 40,
+      "pupils": 3555,
+      "seconds": 9.810000000000002,
+      "estimate_max": 5.684341886080801e-13,
+      "SE_max": 2.4558133304708463e-13,
+      "joint_max": 2.5011104298755527e-12
+    }
+  },
+  "background": {
+    "ARE_PIRLS2021_BACKGROUND": {
+      "cells": 24,
+      "pupils": 27448,
+      "seconds": 71.25,
+      "estimate_max": 4.774847184307873e-12,
+      "SE_max": 1.119992987241858e-12,
+      "joint_max": 1.0970779840135947e-11
+    },
+    "NLD_PISA2022_BACKGROUND": {
+      "cells": 30,
+      "pupils": 5046,
+      "seconds": 2.7299999999999898,
+      "estimate_max": 1.3429257705865894e-12,
+      "SE_max": 1.3677947663381929e-12,
+      "joint_max": 7.332801033044234e-12
+    },
+    "NLD_PISA2022_PEERS": {
+      "cells": 30,
+      "pupils": 5046,
+      "seconds": 14.89,
+      "estimate_max": 4.973799150320701e-14,
+      "SE_max": 4.218847493575595e-15,
+      "joint_max": 2.842170943040401e-14
+    },
+    "NLD_PIRLS2021_PEERS": {
+      "cells": 10,
+      "pupils": 4313,
+      "seconds": 4.549999999999997,
+      "estimate_max": 4.973799150320701e-14,
+      "SE_max": 5.773159728050814e-15,
+      "joint_max": 1.0658141036401503e-14
+    }
+  },
+  "saved_support": {
+    "existing_source_certificates_reverified": 525,
+    "exact_foreign_targets": 74933,
+    "saved_grid_dispatchable": 71674,
+    "saved_grid_excluded": 3259,
+    "note": "Read-only equality and evidence hash verification; raw/canonical hashes are additionally checked at the production audit entry point"
+  },
+  "prior_timing": {
+    "ARE_PIRLS2021_BACKGROUND": {
+      "cells": 24,
+      "pupils": 27448,
+      "seconds": 92.67999999999999,
+      "estimate_max": 1.0857093002414331e-11,
+      "SE_max": 3.8324898810060404e-13,
+      "joint_max": 1.3585577107733116e-11
+    },
+    "NLD_PISA2022_BACKGROUND": {
+      "cells": 30,
+      "pupils": 5046,
+      "seconds": 12.530000000000001,
+      "estimate_max": 5.115907697472721e-13,
+      "SE_max": 5.329070518200751e-15,
+      "joint_max": 1.4210854715202004e-14
+    },
+    "NLD_PISA2022_PEERS": {
+      "cells": 30,
+      "pupils": 5046,
+      "seconds": 19.379999999999995,
+      "estimate_max": 4.973799150320701e-14,
+      "SE_max": 4.218847493575595e-15,
+      "joint_max": 2.842170943040401e-14
+    },
+    "NLD_PIRLS2021_PEERS": {
+      "cells": 10,
+      "pupils": 4313,
+      "seconds": 6.570000000000007,
+      "estimate_max": 4.973799150320701e-14,
+      "SE_max": 5.773159728050814e-15,
+      "joint_max": 1.0658141036401503e-14
+    }
+  },
+  "source_code_sha256": {
+    "LO_EXACT_ESTIMATORS.R": "60f07d62c2ec9da250d17d0909c0eec06300af2fcee4f2d41734092df23a4e82",
+    "LO_EXACT_BOOT.R": "254e7c3275700399d25d4c19259e64b12b1420efc1cffe41e4936f943b1ce1a4",
+    "LO_INTERNATIONAL_PRODUCTION.R": "d82eec2971e4f4dc7b913c34b75a313be7d9caf936c8c878059435700f29604b",
+    "LO_INTERNATIONAL_WORKLIST.R": "0a38e46944170de59200bd715c83a8a1d031380f02927f28befea43411beeb83",
+    "LO_INTERNATIONAL_SOURCES.R": "c323b38f44813f0e2fe748fae72722b9c4947a7473a804054309efef4c529407",
+    "LO_PROCESS_LOCK.R": "8927d01d46b1cc5fe86090babc87ceebf99364e5327147e772e2aa14ce1a3f67"
+  },
+  "tests": {
+    "source_free_windows": "PASS",
+    "bootstrap_competitor_and_process_death": "PASS",
+    "crash_during_estimate_and_transaction": "PASS",
+    "identical_rerun": "zero new rows in crash fixtures",
+    "linux_current_commit": "CI_PENDING"
+  },
+  "test_code_sha256": {
+    "verify_real_matrix_producer.R": "05db07923a046fa4522c9b08458eeae29bc65fa35ae5d1396b0b820a26f36834",
+    "verify_real_background_producer.R": "be4f6f335e82dfced85051fc4fc6a7e475e0926e99343e440fac79fa2e7debcd",
+    "startup_lock_check.py": "0e77151187f069f6165b25af36ef9de0077d95809fcfdff1c2d7017727a3bd76",
+    "startup_lock_fixture.R": "5d93df2fc9ac047d35db2e62e45d48b5d2f0fff1926ca2658a9728630d47d1f7"
+  }
+}

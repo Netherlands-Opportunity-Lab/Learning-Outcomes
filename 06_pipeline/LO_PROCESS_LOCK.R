@@ -15,3 +15,14 @@ lo_process_unlock <- function(handle) {
   if(!is.null(handle))filelock::unlock(handle)
   invisible(NULL)
 }
+
+# Protect the checkout before Git can update code that an active R worker may
+# load lazily. The master probe also detects workers started before this guard.
+lo_startup_lock <- function(git_common_dir,root) {
+  held<-lo_process_lock(file.path(git_common_dir,'LO_ACTIVE_RUN.lck'))
+  success<-FALSE
+  on.exit(if(!success)lo_process_unlock(held),add=TRUE)
+  probe<-lo_process_lock(file.path(root,'master_reconciliation','.SCIENTIFIC_MASTER_WRITER.lck'))
+  lo_process_unlock(probe)
+  success<-TRUE;held
+}
