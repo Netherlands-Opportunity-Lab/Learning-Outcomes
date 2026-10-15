@@ -310,6 +310,26 @@ lo_compact_generations <- function(obj,q) {
   q
 }
 lo_compact_projection <- function(obj,q) {
+  # Background cells depend only on the fields their estimators actually use.
+  # Legacy projections required irrelevant TEST_LANGUAGE/SES columns and failed
+  # to fingerprint parent birthplace for the reference-population baseline.
+  m<-q$module[[1L]]
+  if(m%in%c('migration','migration_generation','migration_binary_peer','migration_peer_exposure',
+      'language_frequency_binary','home_language_frequency_peer','home_language_peer_exposure','ses_peer_exposure','peer_baseline')&&
+      identical(obj$meta$background_mapping_status,'RAW_LABELS_AND_EXACT_IDS_VERIFIED')) {
+    d<-obj$data;fields<-c('W',grep('^RW[0-9]+$',names(d),value=TRUE),intersect(c('JKZONE','JKREP'),names(d)))
+    if(q$domain[1]!='all')fields<-c(fields,lo4_pv_fields(d,q$domain[1]))
+    if(m%in%c('migration','migration_binary_peer')||m=='peer_baseline'&&q$stat[1]=='reference_share')fields<-c(fields,'MOTHER_BORN_HERE','FATHER_BORN_HERE')
+    if(m%in%c('migration_generation','migration_peer_exposure'))fields<-c(fields,'DEMO_MIGRATION')
+    if(grepl('language',m)||m=='peer_baseline'&&q$stat[1]=='test_language_share')fields<-c(fields,'DEMO_LANGUAGE')
+    if(m=='ses_peer_exposure'||m=='peer_baseline'&&q$stat[1]%in%c('q1_share','q4_share'))fields<-c(fields,'SES')
+    if(m%in%c('migration_binary_peer','migration_peer_exposure','home_language_frequency_peer','home_language_peer_exposure','ses_peer_exposure')) {
+      fields<-c(fields,'SCHOOL');if(q$peer_definition[1]=='direct_learning_environment')fields<-c(fields,if(obj$meta$survey=='PISA')'PROGRAM'else'CLASS')
+    }
+    fields<-unique(fields);if(!all(fields%in%names(d)))stop('BACKGROUND_PROJECTION_MISSING_USED_FIELD')
+    return(digest::digest(list(meta=obj$meta,task=lapply(q[c('country','survey','year','domain','module','definition','peer_definition','stat')],function(z)sort(unique(z))),
+      columns=lapply(d[fields],digest::digest,algo='sha256')),algo='sha256'))
+  }
   if(q$module[[1L]]=="language_exact" && identical(obj$meta$survey,"PISA") &&
      identical(obj$meta$language_definition,"ASSESSMENT_LANGUAGE_RELATIVE_HOME_USE") &&
      identical(obj$meta$language_mapping_status,"SOURCE_LABELS_AND_STUDENT_IDS_VERIFIED")) {
