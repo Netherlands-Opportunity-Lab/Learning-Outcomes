@@ -88,12 +88,14 @@ lo_fixed_controller <- function(repo,bundle,
   dir.create(state,recursive=TRUE,showWarnings=FALSE)
   evidence_dir<-file.path(state,"FINAL_FIXED_PIPELINE")
   dir.create(evidence_dir,recursive=TRUE,showWarnings=FALSE)
-  lock<-file.path(state,"FIXED_PRODUCTION_OPERATION.lock")
-  if(file.exists(lock))
-    stop("FIXED_PIPELINE_BUSY: prior lock exists; check local RStudio session")
-  if(!file.create(lock))stop("Cannot create fixed production lock")
-  on.exit(unlink(lock),add=TRUE)
+  source(file.path(repo,"06_pipeline","LO_PROCESS_LOCK.R"),local=environment())
+  lock<-lo_process_lock(file.path(state,".FIXED_PRODUCTION_WRITER.lck"),
+    file.path(state,"FIXED_PRODUCTION_OPERATION.lock"))
+  on.exit(lo_process_unlock(lock),add=TRUE)
   run_outcome<-"FAILED_OR_INTERRUPTED"
+  # Persist settings and code identity before computation. A hard process kill
+  # skips on.exit; completed SQLite receipts can still be linked to this run.
+  lo_run_record(repo,state,stage,run_config,"STARTED_CHECKPOINTS_DURABLE")
   on.exit(lo_run_record(repo,state,stage,run_config,run_outcome),add=TRUE)
   statusfile<-file.path(state,"FIXED_STAGE_STATUS.csv")
   old<-if(file.exists(statusfile))read.csv(statusfile,stringsAsFactors=FALSE) else

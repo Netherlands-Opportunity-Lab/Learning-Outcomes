@@ -16,6 +16,12 @@ bad<-g;bad$target_contract_sha256[1]<-'changed'
 stopifnot(inherits(try(lo_source_unavailability(bad,path),silent=TRUE),'try-error'))
 bad<-g;bad$status[1]<-'SCIENTIFICALLY_VALIDATED'
 stopifnot(inherits(try(lo_source_unavailability(bad,path),silent=TRUE),'try-error'))
+x$classification<-'SOURCE_MAPPING_REVIEW_REQUIRED'
+jsonlite::write_json(list(status=x$classification,cells=x[c('cell_id','target_contract_sha256','reason')],
+ evidence_files=data.frame(path=proof,sha256=digest::digest(file=proof,algo='sha256'))),cert,auto_unbox=TRUE)
+x$evidence_sha256<-digest::digest(file=cert,algo='sha256');write.csv(x,path,row.names=FALSE)
+review<-lo_source_unavailability(g,path)
+stopifnot(review$status[1]=='HOLD_SOURCE_MAPPING_REVIEW',!startsWith(review$status[1],'UNAVAILABLE'))
 writeLines('Changed source evidence',proof)
 stopifnot(inherits(try(lo_source_unavailability(g,path),silent=TRUE),'try-error'))
 unlink(tmp,recursive=TRUE)

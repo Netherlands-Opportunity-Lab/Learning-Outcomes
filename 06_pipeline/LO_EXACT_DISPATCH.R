@@ -13,7 +13,7 @@ lo_exact_producer_files <- function(repo,bundle) c(
   file.path(bundle,"engine",c("V11.R","BACKEND.R","REPAIRS.R","EXTENSIONS.R","engine.R","store.R")),
   file.path(bundle,"code",c("LO04_CACHE.R","LO04_COMMON.R")),
   file.path(repo,"06_pipeline",c("LO_COMPACT_RECOMPUTE.R","LO_EXACT_DISPATCH.R","LO_PRODUCTION_SPACE.R",
-    "LO_EXACT_ESTIMATORS.R","LO_APPROVED_EXTENSIONS.R","LO_SCOPE_DECISIONS.R","LO_EXACT_BOOT.R","LO_SOURCE_REPAIR.R")))
+    "LO_EXACT_ESTIMATORS.R","LO_APPROVED_EXTENSIONS.R","LO_SCOPE_DECISIONS.R","LO_EXACT_BOOT.R","LO_SOURCE_REPAIR.R","LO_PROCESS_LOCK.R")))
 lo_exact_code_sha <- function(repo,bundle) digest::digest(
   unname(vapply(lo_exact_producer_files(repo,bundle),lo_exact_sha,character(1))),algo="sha256")
 
@@ -87,9 +87,9 @@ lo_exact_dispatch <- function(repo,bundle,scope_info,tasks,grid,out,backend=NULL
   lo_country_production_approval(repo,unique(q$country))
   # Tests inject a source-free backend; normal callers always use pinned code.
   code_sha<-if(is.null(backend))lo_exact_code_sha(repo,bundle) else backend$code_sha
-  lock<-file.path(out,".EXACT_WRITER")
-  if(!dir.create(lock,showWarnings=FALSE))stop("EXACT_WRITER_ALREADY_ACTIVE")
-  on.exit(unlink(lock,recursive=TRUE),add=TRUE)
+  source(file.path(repo,"06_pipeline","LO_PROCESS_LOCK.R"),local=environment())
+  lock<-lo_process_lock(file.path(out,".EXACT_WRITER.lck"),file.path(out,".EXACT_WRITER"))
+  on.exit(lo_process_unlock(lock),add=TRUE)
   con<-lo_compact_open(out);on.exit(lo_compact_close(con),add=TRUE)
   DBI::dbExecute(con,paste0("CREATE TABLE IF NOT EXISTS execution_receipts (",
     "cell_id TEXT NOT NULL, execution_sha TEXT NOT NULL, result_sha TEXT NOT NULL, ",

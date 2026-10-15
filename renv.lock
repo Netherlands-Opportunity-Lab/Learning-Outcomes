@@ -87,6 +87,12 @@
       "Source": "Repository",
       "Repository": "CRAN"
     },
+    "filelock": {
+      "Package": "filelock",
+      "Version": "1.0.3",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
     "forcats": {
       "Package": "forcats",
       "Version": "1.0.1",

@@ -7,12 +7,16 @@ lo_source_unavailability <- function(grid, path) {
   if(!all(required%in%names(x))||anyDuplicated(x$cell_id)||any(!nzchar(as.matrix(x[required]))))
     stop("SOURCE_UNAVAILABILITY_INVALID_REGISTRY")
   x<-x[x$cell_id%in%grid$cell_id,,drop=FALSE]
+  if(!'classification'%in%names(x))x$classification<-'SOURCE_UNAVAILABLE_VERIFIED'
+  x$classification[!nzchar(x$classification)]<-'SOURCE_UNAVAILABLE_VERIFIED'
+  if(any(!x$classification%in%c('SOURCE_UNAVAILABLE_VERIFIED','SOURCE_MAPPING_REVIEW_REQUIRED')))
+    stop('SOURCE_REVIEW_UNKNOWN_CLASSIFICATION')
   for(p in unique(x$evidence_path)) {
     z<-x[x$evidence_path==p,,drop=FALSE]
     if(length(unique(z$evidence_sha256))!=1L||!file.exists(p)||
        digest::digest(file=p,algo="sha256")!=z$evidence_sha256[1])stop("SOURCE_UNAVAILABILITY_EVIDENCE_CHANGED")
     cert<-jsonlite::fromJSON(p)
-    if(!identical(cert$status,"SOURCE_UNAVAILABLE_VERIFIED")||!is.data.frame(cert$cells)||
+    if(length(unique(z$classification))!=1L||!identical(cert$status,z$classification[1])||!is.data.frame(cert$cells)||
        !all(c("cell_id","target_contract_sha256","reason")%in%names(cert$cells))||
        !is.data.frame(cert$evidence_files)||!nrow(cert$evidence_files))stop("SOURCE_UNAVAILABILITY_CERTIFICATE_INVALID")
     for(j in seq_len(nrow(cert$evidence_files))) {
@@ -28,7 +32,8 @@ lo_source_unavailability <- function(grid, path) {
   if(any(x$target_contract_sha256!=grid$target_contract_sha256[i]))stop("SOURCE_UNAVAILABILITY_TARGET_CHANGED")
   if(any(grid$status[i]%in%c("SCIENTIFICALLY_VALIDATED","COMPUTE_REQUIRED","COMPUTE_REQUIRED_AFTER_METHOD_GATE")))
     stop("SOURCE_UNAVAILABILITY_CONFLICT_WITH_APPROVAL")
-  grid$status[i]<-"UNAVAILABLE_VERIFIED_SOURCE_FIELD"
+  grid$status[i]<-ifelse(x$classification=='SOURCE_MAPPING_REVIEW_REQUIRED',
+    'HOLD_SOURCE_MAPPING_REVIEW','UNAVAILABLE_VERIFIED_SOURCE_FIELD')
   grid$hold_reason[i]<-x$reason
   grid
 }
