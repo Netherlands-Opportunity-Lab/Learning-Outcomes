@@ -215,6 +215,22 @@ lo_pisa_independent_selected <- function(raw,q) {
   reps<-array(NA_real_,c(80,m,nrow(q)),dimnames=list(NULL,NULL,q$metric_key));counts<-integer(nrow(q))
   mean_w<-function(y,z){ok<-is.finite(y)&is.finite(z)&z>0;sum(y[ok]*z[ok])/sum(z[ok])}
   quant<-function(y,z,p){ok<-is.finite(y)&is.finite(z)&z>0;a<-y[ok];b<-z[ok];o<-order(a);a<-a[o];b<-b[o];a[which(cumsum(b)>=p*sum(b))[1]]}
+  quantile_cache<-new.env(parent=emptyenv())
+  selected_quantiles<-function(domain,Y) {
+    if(exists(domain,quantile_cache,inherits=FALSE))return(get(domain,quantile_cache))
+    stats<-unique(q$stat[q$domain==domain&q$stat%in%c('p10','p50','p90','p90_p10')])
+    probs<-sort(unique(unlist(lapply(stats,function(s)if(s=='p90_p10')c(.1,.9)else as.numeric(sub('p','',s))/100))))
+    answer<-setNames(lapply(probs,function(p)matrix(NA_real_,m,81)),as.character(probs))
+    for(j in seq_len(m)) {
+      order_y<-order(Y[,j])
+      for(r in 1:81) {
+        o<-order_y[w[order_y,r]>0];weight<-w[o,r];cumulative<-cumsum(weight)
+        for(p in probs)answer[[as.character(p)]][j,r]<-Y[o[which(cumulative>=p*sum(weight))[1]],j]
+      }
+    }
+    result<-setNames(lapply(stats,function(s)if(s=='p90_p10')answer[['0.9']]-answer[['0.1']]else answer[[as.character(as.numeric(sub('p','',s))/100)]]),stats)
+    assign(domain,result,quantile_cache);result
+  }
   for(k in seq_len(nrow(q))) {
     task<-q[k,];if(!task$domain%in%names(code))stop("PISA_UNKNOWN_DOMAIN")
     y<-as.matrix(raw[paste0("PV",seq_len(m),code[[task$domain]])])
@@ -236,8 +252,20 @@ lo_pisa_independent_selected <- function(raw,q) {
     }
     include[is.na(include)]<-FALSE;if(!is.null(contrast))contrast[is.na(contrast)]<-FALSE
     counts[k]<-sum((include|if(is.null(contrast))FALSE else contrast)&w[,1]>0)
+    cluster<-if(task$module=='extension_performance_school')as.character(raw$CNTSCHID)else NULL
     mat<-matrix(NA_real_,m,81)
-    for(j in seq_len(m))for(r in 1:81) {
+    linear<-task$module!='extension_performance_school'&&task$stat%in%c('mean','mean_score','gap','mean_score_gap','total_below','total_high')
+    if(linear) {
+      values<-y
+      if(task$module=='core'&&task$stat%in%c('total_below','total_high')) {
+        cutoff<-if(task$stat=='total_below')low[[task$domain]]else high[[task$domain]]
+        if(!identical(as.numeric(task$threshold),cutoff))stop('PISA_REFERENCE_THRESHOLD_MISMATCH')
+        values<-if(task$stat=='total_below')1*(y<cutoff)else 1*(y>=cutoff)
+      }
+      means<-function(group){weights<-w*group;sweep(crossprod(values,weights),2,colSums(weights),'/')}
+      mat<-means(include);if(!is.null(contrast))mat<-mat-means(contrast)
+    }else if(task$stat%in%c('p10','p50','p90','p90_p10'))mat<-selected_quantiles(task$domain,y)[[task$stat]]
+    else for(j in seq_len(m))for(r in 1:81) {
       value<-y[,j];weight<-w[,r];s<-task$stat
       if(task$module=="core" && s%in%c("total_below","total_high")) {
         cutoff<-if(s=="total_below")low[[task$domain]] else high[[task$domain]]
@@ -246,8 +274,8 @@ lo_pisa_independent_selected <- function(raw,q) {
       }
       mat[j,r]<-if(task$module=="extension_performance_school") {
         if(s!="between_variance_share")stop("PISA_REFERENCE_UNKNOWN_SCHOOL_STAT")
-        ok<-!is.na(raw$CNTSCHID)&weight>0;v<-value[ok];wt<-weight[ok];school<-as.character(raw$CNTSCHID[ok])
-        mu<-sum(v*wt)/sum(wt);sw<-tapply(wt,school,sum);sy<-tapply(wt*v,school,sum)
+        ok<-!is.na(cluster)&weight>0;v<-value[ok];wt<-weight[ok];school<-cluster[ok]
+        mu<-sum(v*wt)/sum(wt);sw<-as.numeric(rowsum(wt,school,reorder=FALSE));sy<-as.numeric(rowsum(wt*v,school,reorder=FALSE))
         100*sum(sw*(sy/sw-mu)^2)/sum(wt*(v-mu)^2)
       } else if(!is.null(contrast))mean_w(value,weight*include)-mean_w(value,weight*contrast)
       else if(s%in%c("mean","mean_score","total_below","total_high"))mean_w(value,weight*include)

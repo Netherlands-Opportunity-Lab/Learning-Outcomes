@@ -85,6 +85,22 @@ lo_iea_independent_selected <- function(raw,q) {
   reps<-array(NA_real_,c(nrow(spec),5,nrow(q)),dimnames=list(NULL,NULL,q$metric_key));ns<-integer(nrow(q))
   wm<-function(y,w){ok<-is.finite(y)&is.finite(w)&w>0;sum(y[ok]*w[ok])/sum(w[ok])}
   quant<-function(y,w,p){ok<-is.finite(y)&w>0;o<-order(y[ok]);v<-y[ok][o];z<-w[ok][o];v[which(cumsum(z)>=p*sum(z))[1]]}
+  quantile_cache<-new.env(parent=emptyenv())
+  selected_quantiles<-function(domain,Y) {
+    if(exists(domain,quantile_cache,inherits=FALSE))return(get(domain,quantile_cache))
+    stats<-unique(q$stat[q$domain==domain&q$stat%in%c('p10','p50','p90','p90_p10')])
+    probs<-sort(unique(unlist(lapply(stats,function(s)if(s=='p90_p10')c(.1,.9)else as.numeric(sub('p','',s))/100))))
+    answer<-setNames(lapply(probs,function(p)matrix(NA_real_,5,ncol(W))),as.character(probs))
+    for(j in 1:5) {
+      order_y<-order(Y[,j])
+      for(r in seq_len(ncol(W))) {
+        o<-order_y[W[order_y,r]>0];weight<-W[o,r];cumulative<-cumsum(weight)
+        for(p in probs)answer[[as.character(p)]][j,r]<-Y[o[which(cumulative>=p*sum(weight))[1]],j]
+      }
+    }
+    result<-setNames(lapply(stats,function(s)if(s=='p90_p10')answer[['0.9']]-answer[['0.1']]else answer[[as.character(as.numeric(sub('p','',s))/100)]]),stats)
+    assign(domain,result,quantile_cache);result
+  }
   for(k in seq_len(nrow(q))) {
     z<-q[k,];prefix<-switch(z$domain,reading='ASRREA',mathematics='ASMMAT',science='ASSSCI',stop('IEA_UNKNOWN_DOMAIN'))
     y<-as.matrix(raw[paste0(prefix,sprintf('%02d',1:5))]);if(any(!is.finite(y)))stop('IEA_INCOMPLETE_PVS')
@@ -95,8 +111,21 @@ lo_iea_independent_selected <- function(raw,q) {
     }
     a[is.na(a)]<-FALSE;if(!is.null(b))b[is.na(b)]<-FALSE
     ns[k]<-sum(a|if(is.null(b))FALSE else b)
+    cluster<-if(grepl('^extension_performance_',z$module))
+      if(z$module=='extension_performance_school')as.character(raw$IDSCHOOL)else paste(raw$IDSCHOOL,raw$IDCLASS,sep='::')else NULL
     m<-matrix(NA_real_,5,ncol(W))
-    for(j in 1:5)for(r in seq_len(ncol(W))) {
+    linear<-z$module%in%c('core','gender')&&z$stat%in%c('mean','gap','total_below','total_high')
+    if(linear) {
+      values<-y
+      if(z$stat%in%c('total_below','total_high')) {
+        threshold<-if(z$stat=='total_below')475 else 625
+        if(as.numeric(z$threshold)!=threshold)stop('IEA_UNREVIEWED_THRESHOLD')
+        values<-if(z$stat=='total_below')1*(y<threshold)else 1*(y>=threshold)
+      }
+      means<-function(group){weights<-W*group;sweep(crossprod(values,weights),2,colSums(weights),'/')}
+      m<-means(a);if(!is.null(b))m<-m-means(b)
+    }else if(z$stat%in%c('p10','p50','p90','p90_p10'))m<-selected_quantiles(z$domain,y)[[z$stat]]
+    else for(j in 1:5)for(r in seq_len(ncol(W))) {
       v<-y[,j];w<-W[,r];s<-z$stat
       if(s%in%c('total_below','total_high')) {
         threshold<-if(s=='total_below')475 else 625
@@ -105,8 +134,8 @@ lo_iea_independent_selected <- function(raw,q) {
       }
       m[j,r]<-if(grepl('^extension_performance_',z$module)) {
         stopifnot(s=='between_variance_share')
-        unit<-if(z$module=='extension_performance_school')as.character(raw$IDSCHOOL)else paste(raw$IDSCHOOL,raw$IDCLASS,sep='::')
-        mu<-sum(w*v)/sum(w);sw<-tapply(w,unit,sum);sy<-tapply(w*v,unit,sum);ok<-sw>0
+        unit<-cluster
+        mu<-sum(w*v)/sum(w);sw<-as.numeric(rowsum(w,unit,reorder=FALSE));sy<-as.numeric(rowsum(w*v,unit,reorder=FALSE));ok<-sw>0
         100*sum(sw[ok]*(sy[ok]/sw[ok]-mu)^2)/sum(w*(v-mu)^2)
       }else if(!is.null(b))wm(v,w*a)-wm(v,w*b)
       else if(s%in%c('mean','total_below','total_high'))wm(v,w*a)

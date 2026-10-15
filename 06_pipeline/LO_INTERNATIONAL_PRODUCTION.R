@@ -87,6 +87,15 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
     ses<-lo_prepare_international_ses(repo,author,root,partitions,info$selected)
   }
   contexts<-unique(t[c('country','survey','year')]);failures<-list();completed<-0L;units<-0L
+  repairs_path<-file.path(international,'PRODUCTION_REPAIRS_REQUIRED.csv')
+  if(file.exists(repairs_path)) {
+    history<-file.path(international,'repair_history');dir.create(history,showWarnings=FALSE)
+    previous<-file.path(history,paste0(digest::digest(file=repairs_path,algo='sha256'),'.csv'))
+    if(!file.exists(previous))stopifnot(file.copy(repairs_path,previous))
+  }
+  # This is the error log of this attempt. Historical errors remain immutable;
+  # absence of a current error never counts as a completed scientific cell.
+  lo_atomic_csv(data.frame(country=character(),survey=character(),year=integer(),family=character(),reason=character()),repairs_path)
   if(!is.null(context_ids))contexts<-contexts[paste(contexts$country,contexts$survey,contexts$year,sep='_')%in%context_ids,]
   for(i in seq_len(nrow(contexts))) {
     ctx<-contexts[i,];country<-ctx$country;s<-ctx$survey;y<-as.integer(ctx$year);id<-paste(country,s,y,sep='_')

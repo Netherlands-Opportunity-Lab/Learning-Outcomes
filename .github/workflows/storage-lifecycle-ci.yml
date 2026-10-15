@@ -94,6 +94,12 @@ jobs:
         run: Rscript 06_pipeline/tests/test_international_sources.R
       - name: Reuse certified results across scopes
         run: Rscript 06_pipeline/tests/test_scope_result_reuse.R
+      - name: Test portable source bindings and immutable byte indexes
+        run: |
+          Rscript 06_pipeline/tests/test_source_bindings.R
+          python 06_pipeline/tests/test_byte_index.py
+      - name: Test complete anchors with independent joint figure views
+        run: Rscript 06_pipeline/tests/test_balanced_views.R
       - name: Test certified balance adapter and full-focus export
         run: Rscript 06_pipeline/tests/test_balanced_export.R
       - name: Test exact guided export and pending scope exclusion

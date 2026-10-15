@@ -108,6 +108,13 @@ lo_exact_selected_estimate <- function(obj,q) {
     z<-matrix(NA_real_,length(pp),nrow(q));colnames(z)<-q$metric_key
     for(j in seq_along(pp)) {
       y<-if(fixed)rc2_num(d$SES) else rc2_num(d[[pp[j]]])
+      quantile_stats<-intersect(q$stat,c('p10','p50','p90','p90_p10'))
+      quantile_values<-NULL
+      if(length(quantile_stats)) {
+        if(m!='core')stop('EXACT_QUANTILE_GROUP_NOT_REVIEWED')
+        probs<-sort(unique(unlist(lapply(quantile_stats,function(s)if(s=='p90_p10')c(.1,.9)else as.numeric(sub('p','',s))/100))))
+        quantile_values<-setNames(v10_weighted_quantile(y,w,probs),as.character(probs))
+      }
       for(k in seq_len(nrow(q))) {
         stat<-q$stat[k];group<-q$group[k];wk<-w;value<-y
         if(m%in%c("ses_national","ses_harmonized")) {
@@ -147,8 +154,8 @@ lo_exact_selected_estimate <- function(obj,q) {
           value<-if(stat%in%c("below","total_below"))as.numeric(y<cut) else as.numeric(y>=cut)
           z[j,k]<-weighted_mean(value,wk)
         } else z[j,k]<-switch(stat,mean=weighted_mean(value,wk),
-          p10=v10_weighted_quantile(value,wk,.1),p50=v10_weighted_quantile(value,wk,.5),
-          p90=v10_weighted_quantile(value,wk,.9),p90_p10=diff(v10_weighted_quantile(value,wk,c(.1,.9))),
+          p10=quantile_values[['0.1']],p50=quantile_values[['0.5']],
+          p90=quantile_values[['0.9']],p90_p10=unname(quantile_values[['0.9']]-quantile_values[['0.1']]),
           stop("EXACT_SELECTED_STAT_UNSUPPORTED: ",stat))
       }
     };z
