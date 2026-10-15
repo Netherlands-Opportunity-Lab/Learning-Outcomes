@@ -109,13 +109,42 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
       c("total","self_below_basic","self_at_or_above_basic")
       else strsplit(f$expected_series[[1]],";",fixed=TRUE)[[1]]
     years<-strsplit(f$required_years[[1]],";",fixed=TRUE)[[1]]
+    # The historical shared IEA figure is two source-specific series. Never
+    # collide PIRLS and TIMSS observations with the same calendar year.
+    if(f$survey[[1]]=="PIRLS_TIMSS" && source$survey[i]%in%c("PIRLS","TIMSS")) {
+      id<-paste0(id,"_",source$survey[i]);f$survey<-source$survey[i]
+      years<-if(f$survey=="PIRLS")c("2001","2006","2011","2016","2021")else c("2003","2007","2011","2015","2019","2023")
+    }
+    if(family%in%c("GP_MIGRATION_LEVELS","GP_MIGRATION_GAP","EN_MIGRATION_PEER")) {
+      binary<-source$definition[i]%in%c("MIGRATION_ANY_PARENT_ABROAD","MIGRATION_BOTH_PARENTS_ABROAD")
+      if(binary)id<-paste0(id,"_",sub("^MIGRATION_","",source$definition[i]))
+      if(family=="GP_MIGRATION_LEVELS")expected<-if(binary)c("reference","migration")else c("native","first_generation","second_generation")
+      if(family=="GP_MIGRATION_GAP")expected<-if(binary)"migration_minus_reference"else c("first_minus_native","second_minus_native")
+      if(family=="EN_MIGRATION_PEER") {
+        expected<-if(binary)c("migration_target_pct_reference_peers","population_reference_share")else c("first_generation_target_pct_native_peers","second_generation_target_pct_native_peers")
+        if(source$module[i]=="migration_binary_peer")group<-source$stat[i]
+        if(source$module[i]=="peer_baseline"&&source$stat[i]=="reference_share")group<-"population_reference_share"
+      }
+    }
+    if(family=="EN_LANGUAGE_PEER") {
+      expected<-c(if(f$survey=="PISA")"other_language_target_pct_test_language_home_peers"else"less_often_target_pct_always_almost_peers","population_test_language_share")
+      group<-if(source$module[i]=="peer_baseline"&&source$stat[i]=="test_language_share")"population_test_language_share"else source$stat[i]
+    }
+    if(f$survey=="PISA"&&family%in%c("EN_LANGUAGE_PEER","EN_MIGRATION_PEER"))years<-c("2003","2006","2009","2012","2015","2018","2022","2025")
+    if(family=="EN_PERFORMANCE_PEER"&&!new_peer&&source$module[i]=="peer_baseline"&&source$stat[i]=="high_share") {
+      group<-"population_high_share";expected<-c(expected,group)
+    }
+    if(f$survey%in%c("PIRLS","TIMSS")&&source$module[i]=="language_frequency_binary"&&source$definition[i]=="frequency_always_almost_vs_sometimes_never") {
+      if(family=="GP_LANGUAGE_LEVELS")expected<-c("always_almost","sometimes_never")
+      if(family=="GP_LANGUAGE_GAP")expected<-"sometimes_never_minus_always_almost"
+    }
     # Resolve the historical '2025 if SES; ...' prose only for the explicitly
     # chosen four-wave construct. National shares are contextual baselines,
     # not peer exposure or another target group; keep their exact source IDs.
-    ses_context<-f$survey[[1]]=="PISA" && family=="EN_SES_PEER" &&
-      source$definition[i]=="Cobreros_fourwave_13item_trend_comparable"
+    ses_context<-family=="EN_SES_PEER" && ((f$survey[[1]]=="PISA"&&source$definition[i]=="Cobreros_fourwave_13item_trend_comparable")||
+      (f$survey[[1]]%in%c("PIRLS","TIMSS")&&source$definition[i]=="books5_fractional"))
     if(ses_context) {
-      years<-c("2015","2018","2022","2025")
+      if(f$survey[[1]]=="PISA")years<-c("2015","2018","2022","2025")
       expected<-c("q1_target_pct_q4_peers","q4_target_pct_q1_peers",
                   "population_q1_share","population_q4_share")
       if(source$module[i]=="peer_baseline" && source$group[i]=="total" &&

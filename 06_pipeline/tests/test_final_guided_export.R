@@ -147,6 +147,16 @@ sr<-read.csv(file.path(so,"PRIVATE_GUIDED_VALIDATED_ROWS.csv"))
 stopifnot(sx$mapping_holds==0L,nrow(sr)==3L,
  identical(sr$series_id,c(st$stat[1],"population_q1_share","population_q4_share")),
  identical(sr$estimate,sa$estimate),identical(sr$result_hash,sa$result_hash))
+mf<-sf;mf$figure_id<-"EN_MIGRATION_PEER_age10_all_whole_school";mf$survey<-"PIRLS_TIMSS"
+mf$expected_series<-"source_valid_target/reference_groups";mf$required_years<-"PIRLS:2001;2006;2011;2016;2021 | TIMSS:2003;2007;2011;2015;2019;2023"
+write.csv(mf,file.path(bundle,"FIGURE_SERIES_CONTRACT_20261002.csv"),row.names=FALSE)
+mt<-st[rep(1,4),];mt$metric_key<-paste0('migration_context',1:4);mt$survey<-c('PIRLS','PIRLS','TIMSS','TIMSS');mt$year<-'2011'
+mt$contract_figure_id<-mf$figure_id;mt$module<-'peer_baseline';mt$stat<-'reference_share';mt$group<-'total'
+mt$definition<-rep(c('MIGRATION_ANY_PARENT_ABROAD','MIGRATION_BOTH_PARENTS_ABROAD'),2)
+ma<-approved[rep(1,4),];ma$cell_id<-mt$metric_key;ma$target_contract_sha256<-lo_grid_from_tasks(mt)$target_contract_sha256;ma<-certify(ma,'migration_context')
+mo<-file.path(work,'migration_context');mx<-lo_guided_grid_export(bundle,mt,ma,mo)
+mr<-read.csv(file.path(mo,'PRIVATE_GUIDED_VALIDATED_ROWS.csv'))
+stopifnot(mx$mapping_holds==0L,nrow(mr)==4L,length(unique(mr$figure_id))==4L,all(mr$series_id=='population_reference_share'),identical(mr$outcome_id,mt$definition))
 unlink(work,recursive=TRUE)
 cat("PASS validated guided export, fixed source IDs and high-peer exclusion\n")
 
