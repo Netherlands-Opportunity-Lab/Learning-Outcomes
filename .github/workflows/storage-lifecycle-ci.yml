@@ -84,6 +84,10 @@ jobs:
         run: Rscript 06_pipeline/tests/test_final_guided_export.R
       - name: Test approved extension contracts and exact selected estimators
         run: Rscript 06_pipeline/tests/test_approved_extensions.R
+      - name: Test selected SES composition and missing peer denominators
+        run: Rscript 06_pipeline/tests/test_ses_composition.R
+      - name: Test independent selected SES reference estimates
+        run: Rscript 06_pipeline/tests/test_ses_reference.R
       - name: Test function-only boot without legacy inventory or raw fallback
         run: Rscript 06_pipeline/tests/test_exact_boot.R
       - name: Test source-label and ID-checked demographic repair

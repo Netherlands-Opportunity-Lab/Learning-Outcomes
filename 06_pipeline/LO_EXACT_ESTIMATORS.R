@@ -24,6 +24,46 @@ lo_exact_ses_tails <- function(obj,q,w) {
   q1<-q4<-rep(0,length(w));q1[keep]<-as.numeric(group==0L);q4[keep]<-as.numeric(group==3L)
   list(q1=q1,q4=q4)
 }
+# Both SES composition and its country baseline must use the chosen calibrated
+# quartiles. The legacy generic producer otherwise silently used fractional
+# national quartiles even for a Cobreros contract.
+lo_exact_ses_composition <- function(obj,q) {
+  m<-unique(q$module)
+  if(length(m)!=1L||!m%in%c('ses_peer_exposure','peer_baseline')||
+     any(q$domain!='all')||length(unique(q$definition))!=1L||
+     length(unique(q$peer_definition))!=1L)stop('EXACT_SES_COMPOSITION_SCOPE')
+  allowed<-if(m=='peer_baseline')c('q1_share','q4_share') else
+    c('q1_target_pct_q4_peers','q4_target_pct_q1_peers')
+  if(any(!q$stat%in%allowed))stop('EXACT_SES_COMPOSITION_STAT')
+  d<-obj$data
+  unit<-if(m=='ses_peer_exposure')as.character(unit_for(obj,q$peer_definition[1]))else NULL
+  one<-function(w) {
+    tails<-lo_exact_ses_tails(obj,q,w)
+    valid<-is.finite(d$SES)&is.finite(w)&w>0
+    for(k in names(tails))tails[[k]][!valid]<-NA_real_
+    z<-matrix(NA_real_,1,nrow(q),dimnames=list(NULL,q$metric_key))
+    for(k in seq_len(nrow(q))) {
+      if(m=='peer_baseline') {
+        z[1,k]<-100*weighted_mean(tails[[sub('_share$','',q$stat[k])]],w)
+      } else {
+        target<-if(q$stat[k]=='q1_target_pct_q4_peers')tails$q1 else tails$q4
+        peer<-if(q$stat[k]=='q1_target_pct_q4_peers')tails$q4 else tails$q1
+        # Retain the established 30-valid-observation estimator condition.
+        ok<-valid&!is.na(unit)&nzchar(unit)&is.finite(target)&is.finite(peer)
+        if(sum(ok)<30L)stop('EXACT_SES_PEER_INSUFFICIENT_VALID_FRAME')
+        total<-rowsum(w[ok],unit[ok],reorder=FALSE)
+        mass<-rowsum(w[ok]*peer[ok],unit[ok],reorder=FALSE)
+        at<-match(unit[ok],rownames(total))
+        denom<-total[at,1]-w[ok]
+        fraction<-ifelse(denom>0,(mass[at,1]-w[ok]*peer[ok])/denom,NA_real_)
+        z[1,k]<-100*weighted_mean(fraction,w[ok]*target[ok])
+      }
+    }
+    z
+  }
+  a<-v10_pool(obj,one);q$estimate<-as.numeric(a$estimate);q$se<-as.numeric(a$se);q
+}
+
 lo_exact_selected_estimate <- function(obj,q) {
   d<-obj$data;m<-unique(q$module)
   if(length(m)!=1L||length(unique(q$domain))!=1L)stop("EXACT_ESTIMATOR_MIXED_BATCH")
