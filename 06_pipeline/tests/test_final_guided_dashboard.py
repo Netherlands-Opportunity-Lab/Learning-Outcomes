@@ -154,5 +154,28 @@ class GuidedDashboard(unittest.TestCase):
    save();self.assertEqual(len(mod.product_rows(grid,["NLD"],figures)),1)
    row["outcome_id"]="official_ESCS";save()
    with self.assertRaisesRegex(ValueError,"SES peer construct"):mod.product_rows(grid,["NLD"],figures)
+ def test_iea_sources_and_migration_definitions_do_not_collide(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   b=Path(tmp);self.contracts(b);path=b/"FIGURE_SERIES_CONTRACT_20261002.csv"
+   with path.open(encoding="utf-8") as f:base=list(csv.DictReader(f))[0]
+   item=dict(base,figure_id="EN_MIGRATION_PEER_age10_all_whole_school",survey="PIRLS_TIMSS",domain="all",
+     expected_series="source_valid_target/reference_groups",required_years="PIRLS:2001;2006;2011;2016;2021 | TIMSS:2003;2007;2011;2015;2019;2023")
+   with path.open("w",newline="",encoding="utf-8") as f:
+    w=csv.DictWriter(f,fieldnames=sorted(mod.CONTRACT_COLS));w.writeheader();w.writerow(item)
+   figures=mod.figure_contract(b,allow_synthetic=True)
+   self.assertEqual(len(figures),6);self.assertEqual(len({f['figure_id'] for f in figures}),6)
+   f=next(x for x in figures if x['figure_id'].endswith('_PIRLS_ANY_PARENT_ABROAD'))
+   self.assertEqual(f['survey'],'PIRLS');self.assertEqual(f['required_years'],'2001;2006;2011;2016;2021')
+   row=dict(figure_id=f['figure_id'],country='NLD',year='2001',survey='PIRLS',domain='all',estimate='60',se='2',n_unweighted='400',
+    sample_id='synthetic',source_id='synthetic',scientific_status='SCIENTIFICALLY_VALIDATED',input_fingerprint=h('a'),code_fingerprint=h('b'),result_hash=h('c'),
+    series_id='population_reference_share',outcome_id='MIGRATION_ANY_PARENT_ABROAD')
+   grid=b/'grid.csv'
+   def save():
+    with grid.open('w',newline='',encoding='utf-8') as stream:
+     w=csv.DictWriter(stream,fieldnames=list(row));w.writeheader();w.writerow(row)
+   save();self.assertEqual(len(mod.product_rows(grid,['NLD'],figures)),1)
+   self.assertFalse(mod.figure_complete(mod.product_rows(grid,['NLD'],figures),f))
+   row['outcome_id']='MIGRATION_BOTH_PARENTS_ABROAD';save()
+   with self.assertRaisesRegex(ValueError,'migration source construct'):mod.product_rows(grid,['NLD'],figures)
 if __name__=="__main__":unittest.main()
 

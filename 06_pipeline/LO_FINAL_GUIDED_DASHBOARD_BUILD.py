@@ -98,7 +98,8 @@ def figure_contract(bundle,allow_synthetic=False,decisions=None):
      figure["active_role"]="APPROVED_HIGH_PEER";output.append(figure)
     continue
    if decisions.get("A03")=="APPROVED":
-    high=dict(figure,figure_id=r["figure_id"].replace("EN_PERFORMANCE_PEER_","EN_PERFORMANCE_PEER_HIGH_",1),active_role="APPROVED_HIGH_PEER")
+    high=dict(figure,figure_id=r["figure_id"].replace("EN_PERFORMANCE_PEER_","EN_PERFORMANCE_PEER_HIGH_",1),active_role="APPROVED_HIGH_PEER",
+      expected_series="self_below_high;self_high;population_high_share")
     output.append(high)
    # Existing figure IDs keep their linkage, but the new mandatory metric
    # is peer share BELOW basic; old high-peer estimates cannot fill them.
@@ -136,7 +137,36 @@ def figure_contract(bundle,allow_synthetic=False,decisions=None):
     figure["expected_series"]="other_minus_test"
   # Only documented vocabulary, with no fabricated science values.
   output.append(figure)
- return output
+ # Expand ambiguous historical source placeholders into exact source/construct
+ # contracts. This never removes a required year because observations are absent.
+ exact=[]
+ for f in output:
+  family=f["figure_id"].split("_age",1)[0]
+  sources=("PIRLS","TIMSS") if f["survey"]=="PIRLS_TIMSS" else (f["survey"],)
+  for survey in sources:
+   z=dict(f)
+   if f["survey"]=="PIRLS_TIMSS":
+    z.update(figure_id=f["figure_id"]+"_"+survey,survey=survey,
+      required_years="2001;2006;2011;2016;2021" if survey=="PIRLS" else "2003;2007;2011;2015;2019;2023")
+   if family=="EN_SES_PEER":
+    z["expected_series"]="q1_target_pct_q4_peers;q4_target_pct_q1_peers;population_q1_share;population_q4_share"
+   if family=="EN_LANGUAGE_PEER":
+    z["expected_series"]=("other_language_target_pct_test_language_home_peers" if survey=="PISA" else "less_often_target_pct_always_almost_peers")+";population_test_language_share"
+   if survey=="PISA" and family in ("EN_LANGUAGE_PEER","EN_MIGRATION_PEER"):
+    z["required_years"]="2003;2006;2009;2012;2015;2018;2022;2025"
+   if survey in ("PIRLS","TIMSS"):
+    if family=="GP_LANGUAGE_LEVELS":z["expected_series"]="always_almost;sometimes_never"
+    if family=="GP_LANGUAGE_GAP":z["expected_series"]="sometimes_never_minus_always_almost"
+   if family in ("GP_MIGRATION_LEVELS","GP_MIGRATION_GAP","EN_MIGRATION_PEER"):
+    z["expected_series"]={"GP_MIGRATION_LEVELS":"native;first_generation;second_generation","GP_MIGRATION_GAP":"first_minus_native;second_minus_native","EN_MIGRATION_PEER":"first_generation_target_pct_native_peers;second_generation_target_pct_native_peers"}[family]
+    z["outcome_construct"]="MIGRATION_GENERATION_SOURCE_LABELLED"
+    for definition,label in (("ANY_PARENT_ABROAD","ten minste één ouder buiten het land geboren"),("BOTH_PARENTS_ABROAD","beide ouders buiten het land geboren")):
+     b=dict(z,figure_id=z["figure_id"]+"_"+definition,outcome_construct="MIGRATION_"+definition,
+       expected_series={"GP_MIGRATION_LEVELS":"reference;migration","GP_MIGRATION_GAP":"migration_minus_reference","EN_MIGRATION_PEER":"migration_target_pct_reference_peers;population_reference_share"}[family])
+     b["label_nl"]=z.get("label_nl","")+" — "+label
+     exact.append(b)
+   exact.append(z)
+ return exact
 def product_rows(path,countries,figures):
  if path is None:return []
  cols,rows=readcsv(path)
@@ -148,6 +178,18 @@ def product_rows(path,countries,figures):
   if fid not in figures or country not in countries:
    fail("result outside active figure or dynamic country contract")
   f=figures[fid]
+  family=fid.split("_age",1)[0]
+  if family in ("GP_MIGRATION_LEVELS","GP_MIGRATION_GAP","EN_MIGRATION_PEER") and (
+      r.get("outcome_id")!=f.get("outcome_construct") or r["series_id"] not in f["expected_series"].split(";")):
+   fail("migration source construct or group mismatch")
+  if family=="EN_LANGUAGE_PEER" and (
+      r.get("outcome_id") not in (("home_language_peer_exposure","same_as_assessment_language_vs_other") if f["survey"]=="PISA" else ("frequency_always_almost_vs_sometimes_never",)) or
+      r["series_id"] not in f["expected_series"].split(";")):
+   fail("home language peer construct mismatch")
+  if f["survey"] in ("PIRLS","TIMSS") and family in ("GP_LANGUAGE_LEVELS","GP_LANGUAGE_GAP","EN_SES_PEER"):
+   expected_construct="books5_fractional" if family=="EN_SES_PEER" else "frequency_always_almost_vs_sometimes_never"
+   if r.get("outcome_id")!=expected_construct or r["series_id"] not in f["expected_series"].split(";"):
+    fail("IEA source construct or group mismatch")
   if f["survey"]=="PISA" and fid.split("_age",1)[0]=="EN_SES_PEER":
    if (r.get("outcome_id")!="Cobreros_fourwave_13item_trend_comparable" or
        r["series_id"] not in f["expected_series"].split(";")):
