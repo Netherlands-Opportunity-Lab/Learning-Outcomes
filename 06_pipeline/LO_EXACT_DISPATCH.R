@@ -13,7 +13,7 @@ lo_exact_producer_files <- function(repo,bundle) c(
   file.path(bundle,"engine",c("V11.R","BACKEND.R","REPAIRS.R","EXTENSIONS.R","engine.R","store.R")),
   file.path(bundle,"code",c("LO04_CACHE.R","LO04_COMMON.R")),
   file.path(repo,"06_pipeline",c("LO_COMPACT_RECOMPUTE.R","LO_EXACT_DISPATCH.R","LO_PRODUCTION_SPACE.R",
-    "LO_EXACT_ESTIMATORS.R","LO_APPROVED_EXTENSIONS.R","LO_SCOPE_DECISIONS.R","LO_EXACT_BOOT.R","LO_SOURCE_REPAIR.R","LO_PROCESS_LOCK.R")))
+    "LO_EXACT_ESTIMATORS.R","LO_APPROVED_EXTENSIONS.R","LO_SCOPE_DECISIONS.R","LO_EXACT_BOOT.R","LO_SOURCE_REPAIR.R","LO_PROCESS_LOCK.R","LO_GENDER_POOL_POLICY.R")))
 lo_exact_code_sha <- function(repo,bundle) digest::digest(
   unname(vapply(lo_exact_producer_files(repo,bundle),lo_exact_sha,character(1))),algo="sha256")
 
@@ -127,7 +127,7 @@ lo_exact_dispatch <- function(repo,bundle,scope_info,tasks,grid,out,backend=NULL
         # Otherwise repeated bounded runs can get stuck on the first receipt.
         summary$compute_units_attempted<-summary$compute_units_attempted+1L
         if(is.null(backend) && !started) {
-          for(p in c("LO_APPROVED_EXTENSIONS.R","LO_EXACT_ESTIMATORS.R","LO_EXACT_BOOT.R","LO_SOURCE_REPAIR.R"))
+          for(p in c("LO_APPROVED_EXTENSIONS.R","LO_EXACT_ESTIMATORS.R","LO_EXACT_BOOT.R","LO_SOURCE_REPAIR.R","LO_GENDER_POOL_POLICY.R"))
             source(file.path(repo,"06_pipeline",p),local=environment())
           for(p in c("LO04_COMMON.R","LO04_CACHE.R"))source(file.path(bundle,"code",p),local=environment())
           for(p in c("REPAIRS.R","EXTENSIONS.R","store.R","engine.R"))source(file.path(bundle,"engine",p),local=environment())

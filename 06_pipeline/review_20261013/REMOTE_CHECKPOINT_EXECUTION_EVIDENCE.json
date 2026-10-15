@@ -1,0 +1,11 @@
+{
+  "status": "PRIVATE_DRIVE_REAL_READBACK_AND_MEMBER_RESTORE_PASS",
+  "cells": 3410,
+  "bytes": 14855728,
+  "files": 2570,
+  "package_sha256": "46a78d6c40ce8380ee81ab0a1a9b865b99b8b0eaa8eeac2f40503522a2fcf4dd",
+  "restore": "DOWNLOADED_RESULTS_AND_ALL_MEMBER_BYTES_VERIFIED",
+  "verified_utc": "2026-10-15T20:27:40Z",
+  "identical_second_new_cells": 0,
+  "raw_sources_included": false
+}

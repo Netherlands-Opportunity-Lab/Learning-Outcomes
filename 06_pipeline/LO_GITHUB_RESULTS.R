@@ -27,6 +27,10 @@ lo_github_results_build <- function(repo,root,scope) {
   # Explicit allowlist: adding columns to a private registry cannot expose them.
   keep<-c('cell_id','survey','country','year','domain','module','stat','subgroup','definition','unit','peer_environment','threshold','estimate','standard_error','n_unweighted','input_fingerprint','producer_fingerprint','method_id')
   out<-d[keep]
+  source(file.path(repo,'06_pipeline/LO_GENDER_POOL_POLICY.R'),local=environment())
+  out$subgroup_label_nl<-lo_gender_display(out$cell_id,out$subgroup,'nl')
+  out$subgroup_label_en<-lo_gender_display(out$cell_id,out$subgroup,'en')
+  out$gender_definition<-ifelse(grepl(lo_gender_pool_id(),out$cell_id,fixed=TRUE),'FEMALE_OR_OTHER_VS_MALE','SOURCE_DEFINED_NO_POOLING')
   out$n_definition<-ifelse(out$module%in%c('peer_below_basic','high_proficiency_peer_exposure'),
     'ANALYTIC_PEER_FRAME_WITH_SEPARATE_PV_TARGET_COUNTS','EXACT_ANALYTIC_SAMPLE_FOR_CELL')
   out$reproduction_entrypoint<-'06_pipeline/LO_FIXED_PRODUCERS.R::lo_fixed_produce'

@@ -33,7 +33,7 @@ lo_fixed_controller <- function(repo,bundle,
     Sys.getenv("USERPROFILE",unset=path.expand("~")),"Downloads","LO05_RESULTATEN"))) {
   stage<-match.arg(stage);scope<-match.arg(scope)
   for(name in c("LO_SCOPE_LOCK.R","LO_SCOPE_DECISIONS.R","LO_BALANCED_MEMBERSHIP.R",
-    "LO_COUNTRY_REGISTRY.R","LO_COUNTRY_TASKS.R","MASTER_ESTIMATION_GRID.R","LO_APPROVED_EXTENSIONS.R",
+    "LO_COUNTRY_REGISTRY.R","LO_COUNTRY_TASKS.R","LO_GENDER_POOL_POLICY.R","MASTER_ESTIMATION_GRID.R","LO_APPROVED_EXTENSIONS.R",
     "GRID_ARCHIVE_BATCH.R","LO_EXISTING_RESULT_REGISTRY.R",
     "LO_FIXED_VALIDATION.R","LO_FIXED_PRODUCERS.R","LO_PRODUCT_TRACE.R","LO_SOURCE_UNAVAILABILITY.R")) {
     source(file.path(repo,"06_pipeline",name),
@@ -92,7 +92,8 @@ lo_fixed_controller <- function(repo,bundle,
   scope_decisions<-lo_read_scope_decisions(repo)
   new_peer_tasks<-lo_scoped_low_peer_tasks(selected,scope_decisions)
   selected<-lo_scope_active_tasks(selected,scope_decisions)
-  extensions<-lo_extension_tasks(selected,scope_decisions)
+  extensions<-lo_gender_pool_tasks(lo_extension_tasks(selected,scope_decisions),source_support)
+  selected<-lo_gender_pool_tasks(selected,source_support)
   selected<-rbind(selected,lo_scope_active_tasks(extensions,scope_decisions))
   chosen_ids<-lo_run_select(rbind(selected,new_peer_tasks),run_config)$metric_key
   selected<-selected[selected$metric_key%in%chosen_ids,,drop=FALSE]
@@ -145,7 +146,7 @@ lo_fixed_controller <- function(repo,bundle,
     return(invisible(report))
   }
   international_changed<-FALSE
-  if(scope!='nld_only'&&stage=='produce'&&file.exists(international_manifest)) {
+  if(stage=='produce'&&file.exists(international_manifest)) {
     # The international source adapter is a producer too: validate the saved
     # worklist BEFORE it can read/compute cells, not only before final dispatch.
     manifest_path<-file.path(state,'FIXED_INPUT_MANIFEST.json')
