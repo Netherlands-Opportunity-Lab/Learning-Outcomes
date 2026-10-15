@@ -1,28 +1,28 @@
 {
   "schema_version": 2,
   "date": "2026-10-15",
-  "recorded_utc": "2026-10-15T05:25:53.127784+00:00",
+  "recorded_utc": "2026-10-15T09:46:04.781297+00:00",
   "source_scope": "NLD only; exact selected multi-survey primitives; not full science or a public release",
   "current": {
     "target_cells": 2678,
-    "scientifically_validated_cells": 1380,
+    "scientifically_validated_cells": 1626,
     "status_counts": {
-      "SCIENTIFICALLY_VALIDATED": 1380,
-      "ARCHIVE_CANDIDATE_FOUND_NOT_VALIDATED": 232,
-      "TARGET_NOT_YET_ADJUDICATED": 891,
+      "SCIENTIFICALLY_VALIDATED": 1626,
+      "ARCHIVE_CANDIDATE_FOUND_NOT_VALIDATED": 132,
+      "TARGET_NOT_YET_ADJUDICATED": 745,
       "UNAVAILABLE_VERIFIED_SOURCE_FIELD": 7,
       "HOLD_SOURCE_MAPPING_REVIEW": 24,
       "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE": 144
     },
     "approved_compute_batches": 0,
-    "active_uncertified_cells": 1147,
+    "active_uncertified_cells": 901,
     "documented_unavailable_home_ses": 144,
     "documented_unavailable_other_source_fields": 7,
     "peer_cells_certified": 400,
     "primary_below_basic_peer_cells": 240,
     "high_peer_cells": 160,
-    "execution_receipts": 1161,
-    "archived_numerical_versions": 1371,
+    "execution_receipts": 1359,
+    "archived_numerical_versions": 1617,
     "original_nine_current_cells_predate_version_table": true,
     "unapproved_or_deferred_expansions_computed": 0,
     "full_scientific_release": false,
@@ -349,6 +349,52 @@
         "raw_sha256": "6f6fa1e1ecce23d39183d44ec82ba05b245fe88a2416c8d8dc1b016d556fc379",
         "global_release": false
       }
+    },
+    "chosen_cobreros_ses": {
+      "sha256": "e9c877ea6b4e8c6e8c7e65d7464ce973d9795a38111781735872606b9acce6ab",
+      "receipt": {
+        "status": "SELECTED_SOURCE_BLOCKS_CERTIFIED",
+        "first": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 198,
+            "new_candidates": 198,
+            "reused_candidates": 0,
+            "held_cells": 0
+          }
+        ],
+        "second": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 198,
+            "new_candidates": 0,
+            "reused_candidates": 198,
+            "held_cells": 0
+          }
+        ],
+        "final_audit": [
+          {
+            "scope": "nld_only",
+            "selected_countries": 1,
+            "original_contracts": 2438,
+            "new_below_basic_peer_targets": 240,
+            "total_primitive_targets": 2678,
+            "archive_candidates": 132,
+            "validated": 1626,
+            "approved_compute_batches": 0,
+            "scientific_status": "NOT_RELEASED"
+          }
+        ],
+        "pilot_reused_without_recalculation": 48,
+        "previous_certified_retained": 1380,
+        "global_release": false
+      }
     }
   },
   "source_admission": {
@@ -412,8 +458,8 @@
   "scientific_gate": {
     "scope_contracts": 2678,
     "active_primitive_contracts": 2527,
-    "validated_active_primitives": 1380,
-    "active_missing": 1147,
+    "validated_active_primitives": 1626,
+    "active_missing": 901,
     "documented_unavailable_extensions": 144,
     "documented_unavailable_source_fields": 7,
     "new_below_basic_peer_targets": 240,
@@ -431,12 +477,12 @@
     "deduplicated_source_bytes": 11201222847,
     "deduplicated_source_paths_preserved": 6,
     "complete_project_folders_removed": 0,
-    "current_C_free_bytes": 20475031552,
+    "current_C_free_bytes": 50961137664,
     "result_bytes": {
-      "COMPACT_DASHBOARD_ROUNDED.csv.gz": 46762,
-      "COMPACT_MASTER_GRID.csv.gz": 71517,
-      "COMPACT_MASTER_GRID.sqlite": 2490368,
-      "COMPACT_MODULE_STATUS.csv": 1720
+      "COMPACT_DASHBOARD_ROUNDED.csv.gz": 56245,
+      "COMPACT_MASTER_GRID.csv.gz": 85599,
+      "COMPACT_MASTER_GRID.sqlite": 2961408,
+      "COMPACT_MODULE_STATUS.csv": 2024
     },
     "private_evidence_restore": {
       "status": "PASS_REAL_PRIVATE_DRIVE_RESTORE",
@@ -521,14 +567,14 @@
     "subsequent_sync_fix": "ae34ed5e554e66ef97d3a4f12f3e00733334b58e",
     "run_provenance": "Earlier staging runs use named code hashes; actual Git-checkout audit also records Git commit; no fabricated Git identity",
     "drive_correction": "Historical automatic sync selected an older run. Fixed root/scope override is implemented and tested; independent current 1377-cell package actually restored.",
-    "latest_local_finalize_commit": "dc900a0f28c8e536660efe8042c20d3ce6309f56"
+    "latest_local_finalize_commit": "1d8366d6faefedaf8a9ac0299d502cda75b21014"
   },
   "ci": {
-    "source_code_commit": "4197b3d8c75994498789761c5491b6320e4cacd5",
-    "windows_linux_contract_run": 38684607670,
+    "source_code_commit": "1d8366d6faefedaf8a9ac0299d502cda75b21014",
+    "windows_linux_contract_run": 38690520425,
     "status": "PASS",
     "clean_locked_R_version": "4.6.1",
-    "locked_packages": 36,
+    "locked_packages": 41,
     "latest_changes": "Follow latest PR commit checks; do not infer them from an earlier commit"
   },
   "visual_qa": {
@@ -584,32 +630,30 @@
     }
   },
   "remaining": [
-    "1147 exact NLD targets without complete independent certification, including 24 girl-source mapping questions, chosen Cobreros calibration and remaining language/migration/SES compositions",
+    "901 exact NLD targets without complete independent certification, including 24 girl-source mapping questions and remaining language/migration/background compositions; calibration and 246 chosen SES targets now certified",
     "Complete foreign-country and joint subgroup support plus explicit country approval",
     "Q01-Q08 claim checks and full scientific freeze",
     "Portable source-code bundle and clean source-to-product replication",
     "New reference/rank dashboard controls, policy deck and Netherlands paper; rights and release review"
   ],
   "current_finalize_export": {
-    "verified_code_commit": "dc900a0f28c8e536660efe8042c20d3ce6309f56",
+    "verified_code_commit": "1d8366d6faefedaf8a9ac0299d502cda75b21014",
     "status": "ACTUAL_FINALIZE_EXPORT_PASS",
     "export": [
       {
-        "validated_input_cells": 1380,
-        "guided_focus_rows": 1063,
+        "validated_input_cells": 1626,
+        "guided_focus_rows": 1155,
         "mapping_holds": 0,
-        "separate_appendix_or_science_rows": 317,
+        "separate_appendix_or_science_rows": 471,
         "requires_new_below_basic_peer": "YES",
         "publication_status": "PRIVATE_REVIEW_ONLY"
       }
     ],
-    "unchanged_result_database_sha256": "3955664eadaec35fda65f7084679fe6acd87a589a4a977f00b5b75daf44a1cea",
+    "unchanged_result_database_sha256": "89fc2a9045314394b3937ccb5b7f3e943f254aae8ed54c010e8c70143ad1b847",
     "language_rows": 69,
     "no_pupil_calculation": true,
-    "primary_peer_gate": "PASS",
     "full_scientific_freeze": false,
-    "private_candidate_only": true,
-    "browser_checks": "Earlier same-renderer layout tested on NL/EN desktop/mobile; data-only 1380-cell export independently checked"
+    "private_candidate_only": true
   },
   "actual_fixed_scope_drive_sync": {
     "status": "REMOTE_BYTES_AND_HASHES_VERIFIED",
@@ -637,5 +681,28 @@
     "concurrent_writer_rejected": true,
     "sqlite_integrity": "ok",
     "run_metadata_written_before_computation": true
+  },
+  "chosen_calibration": {
+    "author_commit": "1da4b26097e84e732973af672355a1c3103d5d33",
+    "country_count": 34,
+    "n": 1079563,
+    "raw_input_waves_verified": [
+      2015,
+      2018,
+      2022,
+      2025
+    ],
+    "max_parameter_difference_lt": 1e-10,
+    "public_adapter_reproduction": {
+      "status": "PUBLIC_ADAPTER_REPRODUCTION_AND_RESUME_PASS",
+      "output_identical": true,
+      "second_run_no_output_rewrite": true,
+      "first_seconds": 112.19000000000001,
+      "second_seconds": 3.230000000000004,
+      "output_sha256": "12f88e6623e91e119fb4251fb285505e50cb9fd1cce87e535fda1b04c933429c",
+      "model_refit_avoided_using_verified_upstream_fingerprint": true
+    },
+    "new_certified_NLD_cells": 246,
+    "uncertainty": "conditional on fitted SES construct"
   }
 }
