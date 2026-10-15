@@ -88,6 +88,10 @@ jobs:
         run: Rscript 06_pipeline/tests/test_environment.R
       - name: Test dynamic source eligibility beyond historical country lists
         run: Rscript 06_pipeline/tests/test_country_registry.R
+      - name: Test approved country expansion without historical whitelist
+        run: Rscript 06_pipeline/tests/test_country_tasks.R
+      - name: Test international source identity and atomic checkpoints
+        run: Rscript 06_pipeline/tests/test_international_sources.R
       - name: Test certified balance adapter and full-focus export
         run: Rscript 06_pipeline/tests/test_balanced_export.R
       - name: Test exact guided export and pending scope exclusion

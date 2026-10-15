@@ -23,6 +23,23 @@ lo_pisa_fixed_country_rows <- function(path,dictionary,country,fields,chunk_rows
   ix<-match(unique(c('CNT',fields)),dictionary$name);if(anyNA(ix))stop('PISA_SAS_REQUIRED_COLUMN_MISSING')
   spec<-dictionary[ix,];selector<-spec[spec$name=='CNT',]
   con<-file(path,'rt');on.exit(close(con));parts<-list();scanned<-0L
+  index<-getOption('lo.pisa.byte_indices',list())[[normalizePath(path,winslash='/')]]
+  if(!is.null(index)) {
+    if(!identical(index$raw_sha256,if(exists('lo_pisa_source_sha',mode='function'))lo_pisa_source_sha(path)else digest::digest(file=path,algo='sha256'))||
+       file.info(path)$size!=index$bytes)stop('PISA_BYTE_INDEX_SOURCE_CHANGED')
+    close(con);con<-file(path,'rb')
+    selected<-index$blocks[index$blocks$country==country,,drop=FALSE]
+    if(!nrow(selected))stop('PISA_COUNTRY_ABSENT_FROM_TEXT_SOURCE')
+    for(i in seq_len(nrow(selected))) {
+      seek(con,where=selected$byte_offset[i],origin='start')
+      lines<-readLines(con,n=selected$rows[i],warn=FALSE)
+      if(length(lines)!=selected$rows[i]||any(trimws(substr(lines,selector$start,selector$end))!=country)||
+         any(nchar(lines,type='bytes')<max(spec$end)))stop('PISA_BYTE_INDEX_ROW_MISMATCH')
+      values<-lapply(seq_len(nrow(spec)),function(j)trimws(substr(lines,spec$start[j],spec$end[j])))
+      names(values)<-spec$name;parts[[length(parts)+1L]]<-as.data.frame(values,stringsAsFactors=FALSE)
+    }
+    x<-do.call(rbind,parts);attr(x,'source_rows_scanned')<-sum(index$blocks$rows);return(x)
+  }
   repeat {
     lines<-readLines(con,n=chunk_rows,warn=FALSE);if(!length(lines))break
     scanned<-scanned+length(lines);chosen<-trimws(substr(lines,selector$start,selector$end))==country
@@ -35,7 +52,7 @@ lo_pisa_fixed_country_rows <- function(path,dictionary,country,fields,chunk_rows
   x<-do.call(rbind,parts);attr(x,'source_rows_scanned')<-scanned;x
 }
 lo_pisa_prepare_legacy <- function(path,control,year,country,output_dir) {
-  if(country!='NLD'||!year%in%c(2003,2006,2009,2012))stop('PISA_LEGACY_COUNTRY_CYCLE_NOT_REVIEWED')
+  if(length(country)!=1L||!grepl('^[A-Z]{3}$',country)||!year%in%c(2003,2006,2009,2012))stop('PISA_LEGACY_COUNTRY_CYCLE_NOT_REVIEWED')
   sex<-if(year==2003)'ST03Q01'else 'ST04Q01'
   language<-switch(as.character(year),'2003'='ST16Q01','2006'='ST12Q01','2009'='ST19Q01','2012'='ST25Q01')
   code<-if(year==2003)c('READ','MATH')else c('READ','MATH','SCIE')
@@ -85,13 +102,13 @@ lo_pisa_prepare_legacy <- function(path,control,year,country,output_dir) {
     preparation='STREAMED_OFFICIAL_FIXED_WIDTH_WITH_SAS_DICTIONARY',gender_variable=sex,gender_status='SOURCE_VALUE_LABEL_VERIFIED',
     language_definition='ASSESSMENT_LANGUAGE_RELATIVE_HOME_USE',language_mapping_status='SOURCE_LABELS_AND_STUDENT_IDS_VERIFIED',
     ses_construct_id='OECD_OFFICIAL_ESCS',migration_mapping_note=migration_note,
-    repair_raw_sha256=digest::digest(file=path,algo='sha256'),control_sha256=digest::digest(file=control,algo='sha256')))
+    repair_raw_sha256=if(exists('lo_pisa_source_sha',mode='function'))lo_pisa_source_sha(path)else digest::digest(file=path,algo='sha256'),control_sha256=digest::digest(file=control,algo='sha256')))
   dir.create(output_dir,recursive=TRUE,showWarnings=FALSE)
   out<-file.path(output_dir,paste0('canonical_PISA_',year,'_',country,'_',substr(digest::digest(obj,algo='sha256'),1,16),'.rds'))
   if(!file.exists(out))saveRDS(obj,out,compress=FALSE)else stopifnot(identical(readRDS(out),obj))
   receipt<-list(status='RAW_SAMPLE_AND_FIELDS_VERIFIED',survey='PISA',year=year,country=country,n=nrow(d),source_rows_scanned=scanned,
     raw_sha256=obj$meta$repair_raw_sha256,control_sha256=obj$meta$control_sha256,canonical_filename=basename(out),canonical_sha256=digest::digest(file=out,algo='sha256'),
-    population='All NLD records in the official PISA age-target public-use student file',pv_count=5L,
+    population=paste('All',country,'records in the official PISA age-target public-use student file'),pv_count=5L,
     source_url=paste0('https://www.oecd.org/en/data/datasets/pisa-',year,'-database.html'),migration_note=migration_note,
     source_labels=list(gender=as.list(gender_labels),language=as.list(language_labels),migration=as.list(mig_labels)),
     not_certified=c('Harmonized SES','actual classrooms','trend linking','release'))

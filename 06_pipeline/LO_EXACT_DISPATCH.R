@@ -84,7 +84,7 @@ lo_exact_dispatch <- function(repo,bundle,scope_info,tasks,grid,out,backend=NULL
     status="NO_APPROVED_COMPUTE_CELLS",stringsAsFactors=FALSE)
   if(!nrow(q))return(summary)
   source(file.path(repo,"06_pipeline","LO_COUNTRY_REGISTRY.R"),local=environment())
-  lo_country_production_approval(repo,unique(q$country))
+  lo_country_production_approval(repo,unique(q$country),scope_info$dashboard)
   # Tests inject a source-free backend; normal callers always use pinned code.
   code_sha<-if(is.null(backend))lo_exact_code_sha(repo,bundle) else backend$code_sha
   source(file.path(repo,"06_pipeline","LO_PROCESS_LOCK.R"),local=environment())

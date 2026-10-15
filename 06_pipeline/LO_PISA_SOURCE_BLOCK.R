@@ -1,6 +1,18 @@
 # Bounded source verification for the modern PISA public-use student files.
 # Only the country selector is read globally; all scientific fields are read
 # for the exact country row ranges. This does not select countries for a run.
+lo_pisa_source_sha <- local({
+  cache<-new.env(parent=emptyenv())
+  function(path) {
+    key<-normalizePath(path,winslash='/');info<-file.info(path)
+    signature<-list(size=info$size,mtime=as.numeric(info$mtime),ctime=as.numeric(info$ctime))
+    if(exists(key,cache,inherits=FALSE)) {
+      old<-get(key,cache);if(identical(old$signature,signature))return(old$sha256)
+    }
+    value<-digest::digest(file=path,algo='sha256')
+    assign(key,list(signature=signature,sha256=value),cache);value
+  }
+})
 lo_pisa_label_code <- function(x,accepted) {
   labels<-attr(x,"labels");key<-tolower(trimws(names(labels)))
   # Reviewed 2025 labels spell out the OECD parent/student birthplace rule.
@@ -14,9 +26,24 @@ lo_pisa_label_code <- function(x,accepted) {
   found
 }
 lo_pisa_country_rows <- function(path,country,fields,user_na=FALSE) {
+  partitions<-getOption('lo.pisa.partitions',list())[[normalizePath(path,winslash='/')]]
+  if(!is.null(partitions)&&!user_na) {
+    at<-which(partitions$files$country==country)
+    if(length(at)!=1L||partitions$raw_sha256!=lo_pisa_source_sha(path))stop('PISA_PARTITION_SOURCE_CHANGED')
+    f<-partitions$files[at,]
+    if(!file.exists(f$path)||digest::digest(file=f$path,algo='sha256')!=f$sha256)stop('PISA_PARTITION_CHANGED')
+    raw<-readRDS(f$path)
+    if(nrow(raw)!=f$n||any(raw$CNT!=country)||!all(c('CNT',fields)%in%names(raw)))stop('PISA_PARTITION_IDENTITY_FAILED')
+    return(raw[unique(c('CNT',fields))])
+  }
   header<-haven::read_sav(path,n_max=0)
   if(!all(c("CNT",fields)%in%names(header)))stop("PISA_REQUIRED_RAW_FIELDS_MISSING")
-  selector<-as.character(haven::read_sav(path,col_select="CNT")$CNT)
+  index<-getOption('lo.pisa.row_indices',list())[[normalizePath(path,winslash='/')]]
+  if(is.null(index))selector<-as.character(haven::read_sav(path,col_select="CNT")$CNT)else {
+    if(!identical(index$raw_sha256,lo_pisa_source_sha(path))||
+       length(index$selector)!=index$n||anyNA(index$selector))stop('PISA_ROW_INDEX_SOURCE_CHANGED')
+    selector<-index$selector
+  }
   at<-which(selector==country)
   if(!length(at))stop("PISA_COUNTRY_NOT_IN_RAW_SOURCE")
   blocks<-split(at,cumsum(c(TRUE,diff(at)!=1L)))
@@ -72,8 +99,9 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
   if(!year%in%c(2015L,2018L,2022L,2025L))stop("PISA_SOURCE_CYCLE_NOT_REVIEWED")
   codes<-c("READ","MATH","SCIE")
   pvs<-unlist(lapply(codes,function(k)paste0("PV",1:10,k)))
-  header<-haven::read_sav(raw_path,n_max=0)
-  gender_fields<-intersect(c('ST004D01T','ST004','ST004D01D','MALE'),names(header))
+  partition<-getOption('lo.pisa.partitions',list())[[normalizePath(raw_path,winslash='/')]]
+  header_names<-if(is.null(partition))names(haven::read_sav(raw_path,n_max=0))else partition$fields
+  gender_fields<-intersect(c('ST004D01T','ST004','ST004D01D','MALE'),header_names)
   fields<-c("CNTSTUID","CNTSCHID","AGE",gender_fields,"ST022Q01TA","LANGTEST_COG",
     "IMMIG","ESCS","PROGN","W_FSTUWT",paste0("W_FSTURWT",1:80),pvs)
   raw<-lo_pisa_country_rows(raw_path,country,fields)
@@ -118,7 +146,7 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
   meta$ses_construct_id<-"OECD_OFFICIAL_ESCS"
   meta$source_country_code<-country;meta$v9_country<-country
   meta$repair_parent_sha256<-if(is.null(canonical_path))"NONE_DIRECT_FROM_RAW_SOURCE"else digest::digest(file=canonical_path,algo="sha256")
-  meta$repair_raw_sha256<-digest::digest(file=raw_path,algo="sha256")
+  meta$repair_raw_sha256<-lo_pisa_source_sha(raw_path)
   meta$language_weighted_coverage<-sum(d$W[!is.na(d$DEMO_LANGUAGE)])/sum(d$W)
   meta$demographic_definitions<-data.frame(dimension=c("GENDER","LANGUAGE","MIGRATION"),
     variable=c(gender$variable,"ST022Q01TA","IMMIG"),
