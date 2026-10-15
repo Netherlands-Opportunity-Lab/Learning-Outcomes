@@ -1,0 +1,64 @@
+{
+  "checked_utc": "2026-10-15T10:50:14Z",
+  "country": "NLD",
+  "year": 2025,
+  "n": 6636,
+  "source_sha256": "6f6fa1e1ecce23d39183d44ec82ba05b245fe88a2416c8d8dc1b016d556fc379",
+  "absent": ["ST004D01D", "ST004", "ST430Q01DA", "FEMALE"],
+  "fields": [
+    {
+      "variable": "ST004D01T",
+      "label": "Students' gender from sampling data (Female/Male)",
+      "labels": {
+        "Female": 1,
+        "Male": 2,
+        "valid skip (filter rule)": 95,
+        "system missing": 96,
+        "not administered/not applicable": 97,
+        "invalid": 98,
+        "no response": 99
+      },
+      "counts": [
+        {
+          "value": "99",
+          "n": 6636
+        },
+        {
+          "value": "NA",
+          "n": 0
+        }
+      ]
+    },
+    {
+      "variable": "MALE",
+      "label": "Students' gender from sampling data (Male/Other)",
+      "labels": {
+        "Female / Other": 0,
+        "Male": 1,
+        "valid skip (filter rule)": 95,
+        "system missing": 96,
+        "not administered/not applicable": 97,
+        "invalid": 98,
+        "no response": 99
+      },
+      "counts": [
+        {
+          "value": "0",
+          "n": 3237
+        },
+        {
+          "value": "1",
+          "n": 3397
+        },
+        {
+          "value": "99",
+          "n": 2
+        },
+        {
+          "value": "NA",
+          "n": 0
+        }
+      ]
+    }
+  ]
+}

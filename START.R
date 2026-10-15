@@ -65,6 +65,33 @@ lo_bootstrap_main <- function() {
   # Set LO_START_ACTION explicitly only when the user chooses another stage.
   action <- Sys.getenv("LO_START_ACTION",unset="storage-audit")
   if(!nzchar(action)) action <- "storage-audit"
+  if(action=='produce-approved') {
+    # Update once above, then freeze all stages to one reviewed checkout. The
+    # aggregate deposit happens after the stages so its commit cannot move the
+    # producer checkout halfway through an immutable run.
+    head<-command(c('-C',repo,'rev-parse','HEAD'))$lines
+    prior<-Sys.getenv('LO_REPRODUCE_COMMIT','')
+    prior_action<-Sys.getenv('LO_ACTION','')
+    on.exit({if(nzchar(prior))Sys.setenv(LO_REPRODUCE_COMMIT=prior)else Sys.unsetenv('LO_REPRODUCE_COMMIT');Sys.setenv(LO_ACTION=prior_action)},add=TRUE)
+    Sys.setenv(LO_REPRODUCE_COMMIT=head,LO_REPO_ROOT=repo)
+    for(stage in c('fixed-audit','fixed-produce','fixed-status')) {
+      Sys.setenv(LO_ACTION=stage)
+      source(runner,local=new.env(parent=.GlobalEnv),encoding='UTF-8')
+    }
+    if(Sys.getenv('LO_GITHUB_RESULTS',if(nzchar(reproduce))'off'else'review')=='review') {
+      source(file.path(repo,'06_pipeline/LO_GITHUB_RESULTS.R'),local=environment())
+      source(file.path(repo,'06_pipeline/LO_RUN_CONFIG.R'),local=environment())
+      config_path<-Sys.getenv('LO_RUN_CONFIG','')
+      scope<-if(nzchar(config_path))jsonlite::fromJSON(config_path)$scope else Sys.getenv('LO_SCOPE','nld_only')
+      root<-Sys.getenv('LO_FIXED_ROOT',file.path(home,'Downloads','LO05_RESULTATEN'))
+      tryCatch(lo_github_results_deposit(repo,root,scope),error=function(e) {
+        message('GITHUB_RESULTS_PENDING: ',conditionMessage(e))
+        stop('Numerical work is retained locally; GitHub result deposit is not yet verified. Repeat after resolving the reported Git issue.',call.=FALSE)
+      })
+    }
+    cat('Approved results are durable. Repeating this command resumes only missing approved calculations.\n')
+    return(invisible(TRUE))
+  }
   Sys.setenv(LO_ACTION=action)
   message("One-entry R runner: ",action)
   Sys.setenv(LO_REPO_ROOT=repo)

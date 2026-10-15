@@ -74,6 +74,8 @@ jobs:
         run: Rscript 06_pipeline/tests/test_exact_dispatch.R
       - name: Test explicit run configuration and recorded provenance
         run: Rscript 06_pipeline/tests/test_run_config.R
+      - name: Test certified aggregate GitHub export and private-field exclusion
+        run: Rscript 06_pipeline/tests/test_github_results.R
       - name: Test immutable environment verification
         run: Rscript 06_pipeline/tests/test_environment.R
       - name: Test dynamic source eligibility beyond historical country lists

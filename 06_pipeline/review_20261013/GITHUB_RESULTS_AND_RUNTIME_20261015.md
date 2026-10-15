@@ -1,0 +1,36 @@
+# GitHub, resultaatversies en rekentijd — 15 oktober 2026
+
+Het directe gebruikersbesluit is dat RStudio de versiebeheerste scripts uit GitHub ophaalt en de resultaatwaarden, instellingen en fingerprints terugplaatst. Dit wordt uitgevoerd op de bestaande ontwikkelbranch en PR #5. Het is geen opdracht om het dashboard te deployen of ontbrekend wetenschappelijk bewijs te vervangen.
+
+`START.R` met `LO_START_ACTION=produce-approved` haalt vóór een gewone run een veilige fast-forward op. Daarna worden audit, productie en status op één vaste commit uitgevoerd. Pas na die fasen plaatst `LO_GITHUB_RESULTS.R` de gecertificeerde nationale aggregaten onder `04_results/review/<scope>/` terug op dezelfde branch. Expliciete `LO_REPRODUCE_COMMIT` behoudt de gekozen historische versie en slaat de update over. Geen force-push, automatische merge of overschrijving van lokale code. Bij mislukte upload blijven berekeningen en een voorbereide kopie behouden; de runner meldt dat GitHub nog niet bijgewerkt is.
+
+De reviewmap bevat:
+
+- `results.csv`: waarden, SE, N, exacte celidentiteit en bron/input/producer/resultaat/certificaathashes, zonder afronding van wetenschappelijke invoer.
+- `target_status.csv`: ook de aantoonbaar ontbrekende en onopgeloste doelen.
+- `scripts.csv`: rollen van producenten, controlecode en exportcode. De bestandsversie op exportmoment is uitdrukkelijk niet de oorspronkelijke producentversie.
+- `run_provenance.json` en `result_run_links.csv`: koppeling aan historische codecommits, pakketversies, instellingen en resultaatversies. Herhaalde waarnemingen van dezelfde resultaatversie worden niet steeds opnieuw gekopieerd.
+- `execution_receipts.csv` en `derivations.csv`: daadwerkelijke berekenreceipts en exacte oudercellen van afleidingen. Een hergebruikt gemeten proefresultaat krijgt geen verzonnen controllerreceipt.
+- `manifest.json`: aantal cellen, status, configuratie en SHA256 per bestand.
+
+De volledige private runrecords, leerlingbestanden, schoolrecords en lokale paden worden niet naar GitHub gekopieerd. De gecertificeerde resultaatwaarden worden wel opgenomen; de private bron-/replicatiebewijzen blijven herstelbaar op Drive. De afzonderlijke productvrijgave blijft herkenbaar als nog niet verleend.
+
+## Rekentijd en omvang
+
+De 2.373 beschikbare Nederlandse cellen zijn al berekend en gecontroleerd. Een identieke herhaling berekent nul nieuwe cellen; audit, bestandscontrole en upload kosten wel tijd. De eerder geplakte run controleerde circa zes minuten en besteedde daarnaast tijd aan Drive. Dit is geen tijdmeting van nieuwe leerlingberekeningen.
+
+Gemeten proefblokken: oude PISA 57 cellen/21,81 s; moderne PISA 48/65,19 s; IEA 24/33,96 s; boeken 40/32,04 s; prestatiepeers PISA 30/31,38 s en IEA 20/15,80 s; achtergrond PISA 34/25,16 s en IEA 52/61,03 s; gekozen SES 48/45,20 s. Dit betreft de producer op voorbereide bronnen. De orde van grootte voor 2.373 vergelijkbare cellen is circa 15–60 minuten uitsluitend schatten. Reserveer voorlopig 1–3 uur voor een Nederlandse herberekening inclusief bronlezen, certificaatcontrole en voorbereiding, zonder nieuwe downloads. Dit is een planningsmarge uit proefmetingen, geen gemeten volledige koude run of garantie.
+
+De huidige compacte wetenschappelijke gzip-CSV is 142.742 bytes, de presentatie-export 101.179 bytes, SQLite met numerieke historie 4.481.024 bytes en het private bewijsarchief 19.854.844 bytes. De leesbare GitHub-CSV en herkomsttabellen zijn groter dan gzip; de GitHub-manifesten meten hun werkelijke bytes. Dubbele afronding bespaart geen ruimte in native doubles: alle 17 significante cijfers blijven beschikbaar.
+
+Voor twintig landen met ongeveer dezelfde hoeveelheid uitkomsten is alleen de compacte resultatentabel ruwweg 20 × 143 kB ≈ 2,9 MB. Dat is een schaalvoorbeeld, geen toelating van twintig landen en geen raming van bronbestanden of gezamenlijke replicatiebewijzen. Definitieve internationale rekentijd vereist de goedgekeurde landenlijst, aantallen bronrecords/golven en benodigde cellen; die wordt niet uit de bestandsomvang afgeleid.
+
+## Gender en steekproefmethode
+
+De PISA-2025-vragenlijst bevat ST430 met drie antwoordopties. Een vragenlijst is geen bewijs dat een veld ook in iedere public-use editie aanwezig en gevuld is. In de oorspronkelijke NLD-bron is ST004D01T daadwerkelijk 99 voor alle 6.636 leerlingen, ondanks de labels 1=Female/2=Male. ST004D01D, ST004, ST430Q01DA en FEMALE ontbreken. MALE=1 identificeert 3.397 jongens; MALE=0 omvat 3.237 Female / Other; twee records hebben 99. Het bronbestand is opnieuw gecontroleerd, inclusief SHA256; zie `PISA2025_USER_GENDER_FIELDS_RECHECK.json`. Publicaties over 2022 bewijzen geen Nederlandse beschikbaarheid in 2025. De 24 onopgeloste doelen blijven ongewijzigd.
+
+De huidige PISA-producent gebruikt W_FSTUWT, alle 80 replicatiegewichten, Fay-BRR-factor 1/20 en alle vijf of tien cyclusgebonden plausible values. Schattingen worden per PV en replicaat gemaakt; de totale variantie combineert gemiddelde steekproefvariantie met (1+1/M) maal tussen-PV-variantie. PIRLS/TIMSS gebruiken hun eigen cyclusgebonden JRR-ontwerp. Dit is reeds onafhankelijk gecontroleerd. Gewogen percentages en peeruitkomsten gebruiken hun exacte gevalideerde noemers.
+
+`BIFIEsurvey` en `intsvy` ondersteunen analyses met surveygewichten/PV's. Zij kunnen nuttig zijn als aanvullende controle, maar een pakketkeuze vervangt geen controle van bronlabels, ontwerpinstellingen, missings, drempels en de specifieke peer-/SES-definities. Een overstap van de gevalideerde producent is voor dit doel niet nodig.
+
+Bronnen: [PISA-2025-vragenlijst, p. 6](https://www.oecd.org/content/dam/oecd/en/data/datasets/pisa/pisa-2025-datasets/questionnaires/STUDENT%20QUESTIONNAIRE%20PISA%202025.pdf), [OESO analysemethode](https://www.oecd.org/en/about/programmes/pisa/how-to-prepare-and-analyse-the-pisa-database.html), [BIFIEsurvey-documentatie](https://search.r-project.org/CRAN/refmans/BIFIEsurvey/html/BIFIE.data.html), [intsvy-documentatie](https://search.r-project.org/CRAN/refmans/intsvy/html/intsvy.log.pv.html).
