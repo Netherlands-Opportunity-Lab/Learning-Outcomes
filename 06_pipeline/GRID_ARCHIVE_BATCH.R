@@ -59,6 +59,7 @@ lo_grid_verify_result_artifacts <- function(rows) {
   fields<-c("source_path","source_edition_sha256","certification_path","certification_sha256")
   if(!all(fields%in%names(rows)))stop("GRID_RESULT_ARTIFACTS_REQUIRED")
   checked<-new.env(parent=emptyenv())
+  certificates<-new.env(parent=emptyenv())
   for(i in seq_len(nrow(rows))) {
     for(pair in list(c("source_path","source_edition_sha256"),c("certification_path","certification_sha256"))) {
       p<-rows[[pair[1]]][i];h<-rows[[pair[2]]][i];key<-paste(p,h)
@@ -68,7 +69,12 @@ lo_grid_verify_result_artifacts <- function(rows) {
         assign(key,TRUE,checked)
       }
     }
-    cert<-jsonlite::fromJSON(rows$certification_path[i],simplifyVector=TRUE)
+    cert_key<-paste(rows$certification_path[i],rows$certification_sha256[i])
+    if(exists(cert_key,certificates,inherits=FALSE))cert<-get(cert_key,certificates,inherits=FALSE)
+    else {
+      cert<-jsonlite::fromJSON(rows$certification_path[i],simplifyVector=TRUE)
+      assign(cert_key,cert,certificates)
+    }
     evidence<-cert$evidence_files
     if(!is.data.frame(evidence)||!nrow(evidence)||!all(c("path","sha256")%in%names(evidence)))
       stop("GRID_RESULT_CERTIFICATE_WITHOUT_EVIDENCE")

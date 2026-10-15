@@ -44,6 +44,10 @@ a<-lo_pisa_independent_selected(raw,q)
 stopifnot(a$results$estimate[1]==530.5,a$results$estimate[2]==400,
  a$results$estimate[3]== -150,a$results$estimate[4]==300,
  identical(a$results$n_unweighted,c(4L,4L,4L,3L)),all(a$results$standard_error>=0),a$results$standard_error[1]>0)
+boy_task<-transform(q[3,,drop=FALSE],stat='mean',group='boy')
+boy_ref<-lo_pisa_independent_selected(missing_gender,boy_task)
+stopifnot(boy_ref$results$n_unweighted==2L,boy_ref$results$estimate==605.5)
+stopifnot(inherits(try(lo_pisa_independent_selected(missing_gender,q[3,,drop=FALSE]),silent=TRUE),'try-error'))
 bad<-obj;bad$data$RW1[1]<-99;saveRDS(bad,parent)
 stopifnot(inherits(try(lo_pisa_verify_source(raw_path,parent,2025,'NLD',file.path(tmp,'bad')),silent=TRUE),'try-error'))
 bad<-obj;bad$data$SOURCE_STUDENT_ID[1]<-999;saveRDS(bad,parent)

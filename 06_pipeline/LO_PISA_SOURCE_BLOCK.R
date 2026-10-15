@@ -156,8 +156,17 @@ lo_pisa_independent_selected <- function(raw,q) {
   code<-c(reading="READ",mathematics="MATH",science="SCIE")
   w<-as.matrix(raw[c("W_FSTUWT",paste0("W_FSTURWT",1:80))])
   if(any(!is.finite(w))||any(w<0)||any(colSums(w)<=0))stop("PISA_REFERENCE_INVALID_WEIGHTS")
-  sex<-as.numeric(raw$ST004D01T);language<-as.numeric(raw$ST022Q01TA);mig<-as.numeric(raw$IMMIG)
-  sexmap<-c(girl=lo_pisa_label_code(raw$ST004D01T,"female"),boy=lo_pisa_label_code(raw$ST004D01T,"male"))
+  sex<-rep(NA_real_,nrow(raw));sexmap<-c(girl=-1,boy=-2)
+  for(field in intersect(c('ST004D01D','ST004D01T'),names(raw))) {
+    values<-as.numeric(raw[[field]])
+    mapping<-c(girl=lo_pisa_label_code(raw[[field]],'female'),boy=lo_pisa_label_code(raw[[field]],'male'))
+    if(any(values%in%mapping)) {sex<-values;sexmap<-mapping;break}
+  }
+  if(all(is.na(sex))&&'MALE'%in%names(raw)) {
+    male_code<-lo_pisa_label_code(raw$MALE,'male')
+    sex[!is.na(raw$MALE)&as.numeric(raw$MALE)==male_code]<-sexmap[['boy']]
+  }
+  language<-as.numeric(raw$ST022Q01TA);mig<-as.numeric(raw$IMMIG)
   langmap<-c(test_language_home=lo_pisa_label_code(raw$ST022Q01TA,c("language of test","language of the test")),other_language_home=lo_pisa_label_code(raw$ST022Q01TA,"other language"))
   migmap<-c(native=lo_pisa_label_code(raw$IMMIG,c("native","native student","native students")),first_generation=lo_pisa_label_code(raw$IMMIG,c("first-generation","first-generation student","first-generation students","first generation")),second_generation=lo_pisa_label_code(raw$IMMIG,c("second-generation","second-generation student","second-generation students","second generation")))
   full<-matrix(NA_real_,m,nrow(q),dimnames=list(NULL,q$metric_key))
