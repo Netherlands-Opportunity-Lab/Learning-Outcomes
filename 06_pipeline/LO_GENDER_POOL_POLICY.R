@@ -63,7 +63,9 @@ lo_gender_pool_object <- function(obj,raw,q) {
   obj$meta$gender_label_en<-'Girls + other'
   obj$meta$gender_variable<-'MALE'
   obj$meta$gender_map<-'0=Female / Other;1=Male;all other codes missing'
-  obj$meta$gender_counts<-as.list(table(obj$data$DEMO_GENDER,useNA='ifany'))
+  counts<-table(obj$data$DEMO_GENDER,useNA='ifany')
+  names(counts)[is.na(names(counts))]<-'missing'
+  obj$meta$gender_counts<-as.list(counts)
   obj
 }
 lo_gender_pool_guard <- function(obj,q) {

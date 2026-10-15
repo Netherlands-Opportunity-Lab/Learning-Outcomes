@@ -1,0 +1,14 @@
+{
+  "status": "IMMUTABLE_RECEIPT_COUNT_LABEL_CORRECTION",
+  "affected": "Initial NLD PISA 2025 pooled core and SES SOURCE_VERIFICATION.json diagnostic gender_counts",
+  "original_json_key": "3",
+  "correct_label": "missing",
+  "count": 2,
+  "female_or_other": 3237,
+  "male": 3397,
+  "source_codes": "MALE 0 Female / Other; 1 Male; other values missing",
+  "reason": "R table NA name was serialized as its positional JSON key; no source category 3 was observed or estimated",
+  "estimates_SE_N_changed": false,
+  "original_certified_bytes_preserved": true,
+  "implementation": "LO_GENDER_POOL_POLICY.R writes explicit missing label before JSON serialization"
+}
