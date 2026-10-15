@@ -66,6 +66,13 @@ for(year in blocks) {
    a$method_version<-paste0(kind,'_',z$module[1],'_RAW_DESIGN_PV_INDEPENDENT_V1',if(peers)'_PEER_PV_FRAME_N_TARGET_COUNTS_V1'else '')
    a$weight_design<-if(pisa)'W_FSTUWT_80_REPLICATE_WEIGHTS_FAY_0.5'else if(as.integer(z$year[1])>=2015)'TOTWGT_JKZONE_JKREP_TWO_PER_ZONE_FACTOR_HALF'else 'TOTWGT_JKZONE_JKREP_ONE_PER_ZONE_FACTOR_ONE';a$pv_rule<-if(pisa&&as.integer(src_year)>=2015)'ALL_10_PVS_PER_DOMAIN_NO_INCOMPLETE_POOL'else if(z$domain[1]=='all')'OBSERVED_ORDINAL_BOOKS_NO_ACHIEVEMENT_IMPUTATION'else 'ALL_5_PVS_PER_DOMAIN_NO_INCOMPLETE_POOL'
    a$variance_rule<-if(pisa)paste0('MEAN_WITHIN_PV_BRR_1_OVER_20_PLUS_',if(as.integer(src_year)>=2015)'1.1'else '1.2','_BETWEEN_PV')else 'MEAN_WITHIN_PV_CYCLE_SPECIFIC_JRR_PLUS_1.2_BETWEEN_PV';a$code_fingerprint<-code_sha
+   if(kind=='PISA_SES') {
+     a$variance_rule<-paste0(a$variance_rule,'_CONDITIONAL_ON_FITTED_SES')
+     if(z$domain[1]=='all') {
+       a$pv_rule<-'OBSERVED_CALIBRATED_SES_NO_ACHIEVEMENT_PV'
+       a$variance_rule<-'FAY_BRR_1_OVER_20_CONDITIONAL_ON_FITTED_SES'
+     }
+   }
    a$input_fingerprint<-if(startsWith(z$module[1],'extension_'))lo_extension_projection(obj,z)else lo_compact_projection(obj,lo_compact_backend_tasks(z))
    a$covariance_group_id<-lo_exact_sha(file.path(out,'JOINT_REFERENCE_PV_REPLICATES.rds'))
    cert<-as.list(a[1,c('sample_id','method_version','weight_design','pv_rule','variance_rule','source_edition_sha256','input_fingerprint','code_fingerprint')])
