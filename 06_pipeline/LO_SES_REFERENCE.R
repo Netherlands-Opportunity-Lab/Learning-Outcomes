@@ -53,8 +53,8 @@ lo_pisa_ses_reference <- function(obj,q) {
       w<-W[,r];y<-Y[,j];g<-codes[,r]
       if(task$module=='extension_ses_school') {
         ok<-good&!is.na(unit)&nzchar(unit)&w>0;wt<-w[ok];v<-y[ok];u<-unit[ok]
-        groups<-split(seq_along(v),u);avg<-wm(v,wt)
-        between<-sum(vapply(groups,function(ix)sum(wt[ix])*(wm(v[ix],wt[ix])-avg)^2,numeric(1)))
+        avg<-wm(v,wt);mass<-rowsum(cbind(weight=wt,value=wt*v),u,reorder=FALSE)
+        between<-sum(mass[,1]*(mass[,2]/mass[,1]-avg)^2)
         a[j,r]<-100*between/sum(wt*(v-avg)^2)
       }else if(task$module=='peer_baseline') {
         if(!task$stat%in%c('q1_share','q4_share'))stop('SES_REFERENCE_BASELINE_STAT')
@@ -62,10 +62,9 @@ lo_pisa_ses_reference <- function(obj,q) {
       }else if(task$module=='ses_peer_exposure') {
         valid<-good&!is.na(unit)&nzchar(unit)&w>0;peer<-if(wanted==0L)3L else 0L
         share<-rep(NA_real_,n)
-        for(ix in split(which(valid),unit[valid])) {
-          total<-sum(w[ix]);mass<-sum(w[ix]*(g[ix]==peer));den<-total-w[ix]
-          share[ix]<-ifelse(den>0,(mass-w[ix]*(g[ix]==peer))/den,NA_real_)
-        }
+        mass<-rowsum(cbind(weight=w[valid],positive=w[valid]*(g[valid]==peer)),unit[valid],reorder=FALSE)
+        total<-mass[match(unit[valid],rownames(mass)),,drop=FALSE];den<-total[,1]-w[valid]
+        share[valid]<-ifelse(den>0,(total[,2]-w[valid]*(g[valid]==peer))/den,NA_real_)
         a[j,r]<-100*wm(share,w*as.numeric(g==wanted))
       }else if(gap) a[j,r]<-wm(y,w*as.numeric(g==3L))-wm(y,w*as.numeric(g==0L))
       else {

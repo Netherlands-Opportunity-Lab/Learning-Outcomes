@@ -63,6 +63,16 @@ lo_fixed_controller <- function(repo,bundle,
   }
   source(file.path(repo,"06_pipeline","LO_RUN_CONFIG.R"),local=environment())
   run_config<-lo_run_config(scope)
+  # Every scope writes the same scientific registry. One OS-owned lock prevents
+  # an NLD run and an international run from overwriting each other's commits.
+  source(file.path(repo,'06_pipeline/LO_PROCESS_LOCK.R'),local=environment())
+  master_lock<-lo_process_lock(file.path(root,'master_reconciliation','.SCIENTIFIC_MASTER_WRITER.lck'))
+  on.exit(lo_process_unlock(master_lock),add=TRUE)
+  international_manifest<-file.path(root,'international','SOURCE_RUN_MANIFEST.csv')
+  if(scope!='nld_only'&&stage=='audit'&&file.exists(international_manifest)) {
+    source(file.path(repo,'06_pipeline/LO_INTERNATIONAL_SOURCES.R'),local=environment())
+    lo_international_sources(repo,root,international_manifest)
+  }
   if(nzchar(Sys.getenv("LO_REPRODUCE_COMMIT",""))) {
     source(file.path(repo,"06_pipeline","LO_ENVIRONMENT.R"),local=environment())
     lo_environment_check(repo,strict=TRUE)
@@ -130,8 +140,17 @@ lo_fixed_controller <- function(repo,bundle,
        else "No C-disk space freed; off-C restores required")
     return(invisible(report))
   }
+  international_changed<-FALSE
+  if(scope!='nld_only'&&stage=='produce'&&file.exists(international_manifest)) {
+    source(file.path(repo,'06_pipeline/LO_INTERNATIONAL_PRODUCTION.R'),local=environment())
+    international_result<-lo_international_produce(repo,bundle,root,scope)
+    # Refresh the saved exact grid from durable block certificates before the
+    # existing dispatcher/status/export path inspects it. Zero queued cells
+    # must not hide unfinished or unavailable international targets.
+    international_changed<-TRUE
+  }
   membership <- lo_runtime_scope_evidence(scope_info,state)
-  if(stage=="audit") {
+  if(stage=="audit"||international_changed) {
     audit<-lo_existing_result_evidence(bundle,selected,state,
        lo02_root=Sys.getenv("LO02_ROOT",
           file.path(Sys.getenv("USERPROFILE",unset=path.expand("~")),
@@ -235,9 +254,15 @@ lo_fixed_controller <- function(repo,bundle,
                      na.strings=character())
     if(anyDuplicated(grid$cell_id))
       stop("FIXED_PRODUCE_HOLD: duplicate grid cell ID")
+    source(file.path(repo,'06_pipeline/LO_SCOPE_RESULT_REUSE.R'),local=environment())
+    lo_scope_result_reuse(repo,root,scope,grid)
     result<-lo_fixed_produce(bundle,scope_info,rbind(selected,new_peer_tasks),state,
                             native_run=TRUE,grid=grid,max_units=run_config$max_compute_units)
-    put("produce",as.character(result$native_execution[[1]]),
+    if(international_changed) {
+      remaining<-sum(!grid$status%in%c('SCIENTIFICALLY_VALIDATED','UNAVAILABLE_VERIFIED_SOURCE_FIELD'))
+      put('produce',if(remaining)'PRODUCED_WITH_EXPLICIT_REMAINING_TARGETS'else'ALL_SELECTED_TARGETS_ACCOUNTED_FOR',
+        paste(international_result$certified_new,'new independently certified international cells;',remaining,'remaining targets;',length(international_result$repairs),'repair records. Publication gates remain separate.'))
+    }else put("produce",as.character(result$native_execution[[1]]),
         "Only saved approved cells dispatched; see exact execution receipts")
     return(invisible(result))
   }

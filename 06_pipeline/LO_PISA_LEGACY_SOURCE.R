@@ -56,6 +56,10 @@ lo_pisa_prepare_legacy <- function(path,control,year,country,output_dir) {
   sex<-if(year==2003)'ST03Q01'else 'ST04Q01'
   language<-switch(as.character(year),'2003'='ST16Q01','2006'='ST12Q01','2009'='ST19Q01','2012'='ST25Q01')
   code<-if(year==2003)c('READ','MATH')else c('READ','MATH','SCIE')
+  # OECD/NCES invalidated USA reading in 2006 after a booklet printing error.
+  # Mathematics and science remain valid; sentinel reading values must neither
+  # enter estimates nor discard the other two domains.
+  if(country=='USA'&&year==2006)code<-c('MATH','SCIE')
   pv<-unlist(lapply(code,function(k)paste0('PV',1:5,k)))
   fields<-c('SCHOOLID','STIDSTD','AGE','PROGN','IMMIG','ESCS',sex,language,'W_FSTUWT',paste0('W_FSTR',1:80),pv,if(year==2003)paste0('ST15Q0',1:3))
   dictionary<-lo_pisa_sas_columns(control);raw<-lo_pisa_fixed_country_rows(path,dictionary,country,fields)
@@ -110,6 +114,8 @@ lo_pisa_prepare_legacy <- function(path,control,year,country,output_dir) {
     raw_sha256=obj$meta$repair_raw_sha256,control_sha256=obj$meta$control_sha256,canonical_filename=basename(out),canonical_sha256=digest::digest(file=out,algo='sha256'),
     population=paste('All',country,'records in the official PISA age-target public-use student file'),pv_count=5L,
     source_url=paste0('https://www.oecd.org/en/data/datasets/pisa-',year,'-database.html'),migration_note=migration_note,
+    verified_domains=names(c(reading='READ',mathematics='MATH',science='SCIE'))[c('READ','MATH','SCIE')%in%code],
+    invalid_domain_evidence=if(country=='USA'&&year==2006)'https://nces.ed.gov/whatsnew/commissioner/remarks2007/12_4_2007.asp'else NULL,
     source_labels=list(gender=as.list(gender_labels),language=as.list(language_labels),migration=as.list(mig_labels)),
     not_certified=c('Harmonized SES','actual classrooms','trend linking','release'))
   jsonlite::write_json(receipt,file.path(output_dir,'SOURCE_VERIFICATION.json'),auto_unbox=TRUE,pretty=TRUE,digits=17)
