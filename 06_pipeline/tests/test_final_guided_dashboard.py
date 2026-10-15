@@ -130,5 +130,29 @@ class GuidedDashboard(unittest.TestCase):
    with path.open("w",newline="",encoding="utf-8") as f:
     w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
    self.assertEqual([r["route_code"] for r in mod.country_contract(Path(tmp),path)],["NLD","Z99"])
+ def test_ses_context_keeps_2025_and_distinguishes_national_baselines(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   b=Path(tmp);self.contracts(b)
+   path=b/"FIGURE_SERIES_CONTRACT_20261002.csv"
+   with path.open(encoding="utf-8") as f:rows=list(csv.DictReader(f))
+   item=dict(rows[0],figure_id="EN_SES_PEER_age15_all_whole_school",domain="all",
+    expected_series="q1_target_pct_q4_peers;q4_target_pct_q1_peers",
+    required_years="2015;2018;2022;2025 if SES; all PISA waves for language/migration where valid")
+   with path.open("w",newline="",encoding="utf-8") as f:
+    w=csv.DictWriter(f,fieldnames=sorted(mod.CONTRACT_COLS));w.writeheader();w.writerow(item)
+   figures=mod.figure_contract(b,allow_synthetic=True)
+   self.assertEqual(figures[0]["required_years"],"2015;2018;2022;2025")
+   self.assertIn("population_q1_share",figures[0]["expected_series"].split(";"))
+   row=dict(figure_id=item["figure_id"],country="NLD",year="2025",estimate="25.1",se="0.1",n_unweighted="5000",
+    sample_id="synthetic",source_id="synthetic",scientific_status="SCIENTIFICALLY_VALIDATED",
+    input_fingerprint=h("a"),code_fingerprint=h("b"),result_hash=h("c"),series_id="population_q1_share",
+    outcome_id="Cobreros_fourwave_13item_trend_comparable")
+   grid=b/"grid.csv"
+   def save():
+    with grid.open("w",newline="",encoding="utf-8") as f:
+     w=csv.DictWriter(f,fieldnames=list(row));w.writeheader();w.writerow(row)
+   save();self.assertEqual(len(mod.product_rows(grid,["NLD"],figures)),1)
+   row["outcome_id"]="official_ESCS";save()
+   with self.assertRaisesRegex(ValueError,"SES peer construct"):mod.product_rows(grid,["NLD"],figures)
 if __name__=="__main__":unittest.main()
 

@@ -126,6 +126,10 @@ def figure_contract(bundle,allow_synthetic=False,decisions=None):
   # Only PISA's independently certified binary assessment-language construct
   # has one stable mapping here; do not coerce IEA frequency categories.
   if figure["survey"]=="PISA":
+   if family=="EN_SES_PEER":
+    figure["required_years"]="2015;2018;2022;2025"
+    figure["expected_series"]="q1_target_pct_q4_peers;q4_target_pct_q1_peers;population_q1_share;population_q4_share"
+    figure["method_id"]="COBREROS_FOURWAVE_13ITEM_PEERS_AND_NATIONAL_BASELINES"
    if family=="GP_LANGUAGE_LEVELS" and figure["expected_series"]=="source_valid_groups":
     figure["expected_series"]="test_language_home;other_language_home"
    elif family=="GP_LANGUAGE_GAP" and figure["expected_series"]=="source_valid_contrast":
@@ -144,6 +148,10 @@ def product_rows(path,countries,figures):
   if fid not in figures or country not in countries:
    fail("result outside active figure or dynamic country contract")
   f=figures[fid]
+  if f["survey"]=="PISA" and fid.split("_age",1)[0]=="EN_SES_PEER":
+   if (r.get("outcome_id")!="Cobreros_fourwave_13item_trend_comparable" or
+       r["series_id"] not in f["expected_series"].split(";")):
+    fail("PISA SES peer construct or contextual baseline mismatch")
   if r["scientific_status"]!="SCIENTIFICALLY_VALIDATED":
    fail("unreviewed numeric row for "+fid)
   if f["survey"]=="PISA" and fid.split("_age",1)[0] in ("GP_LANGUAGE_LEVELS","GP_LANGUAGE_GAP"):

@@ -128,6 +128,25 @@ appendix_result<-lo_guided_grid_export(bundle,at,aa,appendix_out,lo_read_scope_d
 stopifnot(appendix_result$guided_focus_rows==0L,appendix_result$mapping_holds==0L,
  appendix_result$separate_appendix_or_science_rows==1L,
  nrow(read.csv(file.path(appendix_out,"PRIVATE_APPROVED_EXTENSION_ROWS.csv")))==1L)
+sf<-f[1,,drop=FALSE];sf$figure_id<-"EN_SES_PEER_age15_all_whole_school"
+sf$domain<-"all";sf$expected_series<-"q1_target_pct_q4_peers;q4_target_pct_q1_peers"
+sf$required_years<-"2015;2018;2022;2025 if SES; all PISA waves for language/migration where valid"
+write.csv(sf,file.path(bundle,"FIGURE_SERIES_CONTRACT_20261002.csv"),row.names=FALSE)
+st<-tasks[rep(1,3),,drop=FALSE];st$metric_key<-paste0('ses_context',1:3)
+st$contract_figure_id<-sf$figure_id;st$domain<-"all";st$unit<-"percent"
+st$definition<-"Cobreros_fourwave_13item_trend_comparable"
+st$module<-c("ses_peer_exposure",rep("peer_baseline",2))
+st$stat<-c("q1_target_pct_q4_peers","q1_share","q4_share")
+st$group<-c(st$stat[1],"total","total")
+sa<-approved[rep(1,3),,drop=FALSE];sa$cell_id<-st$metric_key
+sa$estimate<-c(12,24.9,25.1)
+sa$target_contract_sha256<-lo_grid_from_tasks(st)$target_contract_sha256
+sa<-certify(sa,"ses_context");so<-file.path(work,"ses_context")
+sx<-lo_guided_grid_export(bundle,st,sa,so)
+sr<-read.csv(file.path(so,"PRIVATE_GUIDED_VALIDATED_ROWS.csv"))
+stopifnot(sx$mapping_holds==0L,nrow(sr)==3L,
+ identical(sr$series_id,c(st$stat[1],"population_q1_share","population_q4_share")),
+ identical(sr$estimate,sa$estimate),identical(sr$result_hash,sa$result_hash))
 unlink(work,recursive=TRUE)
 cat("PASS validated guided export, fixed source IDs and high-peer exclusion\n")
 
