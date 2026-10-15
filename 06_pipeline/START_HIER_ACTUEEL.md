@@ -8,6 +8,8 @@ Bijgewerkt: 15 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproduc
 
 Aanvulling 15 oktober: RStudio haalt scripts vóór een gewone `produce-approved`-run uit GitHub en deponeert daarna gecertificeerde nationale resultaatwaarden, instellingen, berekenreceipts en fingerprints in `04_results/review/<scope>/` op dezelfde ontwikkelbranch. De uitvoeringscommit blijft binnen de run vast. Zie [GitHub-resultaatbeheer, gendercontrole en gemeten rekentijd](review_20261013/GITHUB_RESULTS_AND_RUNTIME_20261015.md). Dit is een onderzoeksversie met open doelen zichtbaar, geen dashboarddeploy of definitieve productvrijgave.
 
+De volledige route is daadwerkelijk uitgevoerd: 422,23 seconden inclusief één gecontroleerde private Drive-overdracht. De tweede identieke GitHub-depositie maakte geen nieuwe commit. Alle openbare resultaatmanifesten en 24 historische R-codekopieën zijn vanuit Git-blobs geverifieerd; Windows/Linux-checks zijn groen. Zie [het uitvoerings- en depositiebewijs](review_20261013/GITHUB_RESULT_DEPOSIT_PROOF_20261015.json). De resultaat-CSV telt 2.625.730 bytes; het openbare resultaat-/herkomstpakket 4.300.920 bytes.
+
 1. De laatste rechtstreekse gebruikersinstructies, daarna dit besluitregister.
 2. [De vier resterende opdrachten](VIER_RESTERENDE_OPDRACHTEN_20261014.md) en [acceptatie/voortgang](ACCEPTATIE_EN_VOORTGANG.csv).
 3. [Afzonderlijke inhoudelijke besluiten A01–A17](SCOPE_APPROVALS.csv), met toelichting in [de scopecorrectie](review_20261013/USER_SCOPE_AMENDMENT_20261014.md).
