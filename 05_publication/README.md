@@ -1,4 +1,56 @@
-# 05 — Public publication layer
+# 05 — Dashboardcode, resultaten en publicatie
+
+Bijgewerkt: 16 oktober 2026. De nieuwe vijfkeuze-interface staat op de
+ontwikkelbranch van [PR #5](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/pull/5).
+Code op GitHub en een lokale preview betekenen nog geen nieuwe openbare release.
+
+## Actieve code en uitleg
+
+| Onderdeel | Bestand of map |
+|---|---|
+| Actuele besluiten en voortgang | [START_HIER_ACTUEEL.md](../06_pipeline/START_HIER_ACTUEEL.md) |
+| Vijf keuzes, figuren en huisstijl | [Dashboarduitwerking](preview_overlay/DASHBOARD_UITWERKING_20261015.md) |
+| HTML, CSS, JavaScript, originele logo's en fonts | [preview_overlay](preview_overlay/) |
+| Goedgekeurde R-cellen naar productregels | [LO_FINAL_GUIDED_EXPORT.R](../06_pipeline/LO_FINAL_GUIDED_EXPORT.R) |
+| Volledige passende landen en groepen | [LO_BALANCED_VIEWS.R](../06_pipeline/LO_BALANCED_VIEWS.R) |
+| Statische website bouwen uit gecontroleerde export | [LO_FINAL_GUIDED_DASHBOARD_BUILD.py](../06_pipeline/LO_FINAL_GUIDED_DASHBOARD_BUILD.py) |
+| Onafhankelijke vrijgavecontrole en staging | [LO_FINAL_GUIDED_PUBLIC_RELEASE.py](../06_pipeline/LO_FINAL_GUIDED_PUBLIC_RELEASE.py) |
+| Exacte kandidaat voorbereiden voor Pages | [prepare_verified_pages.py](prepare_verified_pages.py) |
+| GitHub Pages-publicatie | [pages.yml](../.github/workflows/pages.yml) |
+| Windows/Linux- en browserbewijs | [Dashboardacceptatie](../06_pipeline/review_20261013/DASHBOARD_UI_ACCEPTANCE_20261015.json) |
+
+## Van RStudio naar de openbare website
+
+1. De bestaande goedgekeurde productie maakt de statistieken. De bestaande
+   `fixed-finalize`-fase exporteert gecertificeerde resultaten en balansbewijs
+   en bouwt hiermee een nieuwe kandidaat. Dit is geen tweede analyseketen.
+2. De kandidaat bevat openbare aggregaten, beschikbaarheidsmeldingen,
+   figuurdefinities, referentiebewijs en een SHA-256-manifest. Ontbrekende
+   resultaten blijven zichtbaar; een preview is geen wetenschappelijke vrijgave.
+3. De vrijgavecontrole toetst de kandidaat tegen het onafhankelijke certificaat,
+   inclusief wetenschappelijke, scope-, rechten-, replicatie- en productcontroles.
+   Een geslaagde kandidaat wordt opgeslagen onder
+   `verified_guided_candidates/<candidate-id>/`.
+4. Na review en de toepasselijke publicatiegoedkeuring worden de benodigde
+   wijzigingen via PR #5 overgenomen. De handmatige GitHub Actions-workflow
+   `publish-verified-dashboard-pages` krijgt het exacte candidate-ID van 20
+   hexadecimale tekens. Zij controleert en publiceert uitsluitend die bestanden.
+
+GitHub bewaart de code, versies en toegestane resultaten. GitHub Pages serveert
+de gebouwde website. De URL `127.0.0.1` is alleen een lokale preview op de
+computer waarop de previewserver draait. ChatGPT Pages en Sites zijn voor deze
+GitHub-route niet nodig.
+
+De browser schat geen nieuwe statistieken uit leerlingdata. Hij kan wel de
+expliciet gekozen referentiegemiddelden en puntrangen afleiden uit complete,
+gecertificeerde landenreeksen, met vaste leden en geregistreerde oudercellen.
+De oorspronkelijke septemberrelease hieronder had een andere runtime en blijft
+als historische release beschreven; haar beperkingen zijn geen beschrijving
+van de nieuwe figuurbouwer.
+
+---
+
+# Historische septemberrelease — bewaard als bewijs
 
 This directory is the definitive public product layer for the frozen PISA/PIRLS/TIMSS dashboard. It does not replace the scientific source under `03_dashboard/`; it builds from the canonical renderer and precomputed frozen aggregates.
 
@@ -31,4 +83,4 @@ The browser does not compute estimates, SEs, CIs, ranks, panels or scientific ag
 
 ## Hosting
 
-`.github/workflows/pages.yml` is manual-only. A merge does not trigger a deployment. Deployment from `main` requires an explicit workflow dispatch and confirmation.
+The September runtime remains historical evidence. The current manual publication workflow is described above; it now requires an independently certified October candidate ID. A merge alone does not deploy a website.
