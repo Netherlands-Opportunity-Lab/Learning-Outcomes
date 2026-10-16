@@ -1,3 +1,15 @@
+# Actueel ontwerpbesluit — 15 oktober 2026
+
+De gebruiker heeft nu expliciet één rustige figuurbouwer met vijf hoofdkeuzes gevraagd. Dit vervangt de verplichte aparte startpagina, zichtbare vier vraagkaarten en losse leeftijd/domeinknoppen uit het onderstaande historische besluit. De visuele basis van 1 oktober blijft: warme achtergrond, horizontale filters, ruime witte figuur, rustige omlijning en responsieve opbouw. De vier vragen zijn uitklapbare snelkoppelingen.
+
+Huisstijl: Kansenlab 1.1.0 van 15 oktober; originele SVG met letteromtrekken, leerling/boek/wereldbol, accent #4D52BF, analytische kleuren afzonderlijk. Zie BRAND_RELEASE.json voor exacte ZIP- en assethashes. Bestaande gelicentieerde lokaal ingebedde Oswald-webfonts blijven beschikbaar; de nieuwe logo’s zijn fontonafhankelijk. Dit is een bewuste voortzetting van de bestaande webfontimplementatie, niet een opnieuw getekend logo.
+
+Uitwerking, acceptatie en toevoer van resultaten: DASHBOARD_UITWERKING_20261015.md.
+
+---
+
+## Historisch ontwerpbesluit (behouden als herkomst)
+
 # Dashboardbasis: archief van 1 oktober
 
 De gebruiker heeft op 14 oktober 2026 expliciet de versie uit

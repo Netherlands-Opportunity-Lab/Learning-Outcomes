@@ -81,8 +81,17 @@ def verify(site,cert_file):
  balance_path=site/"data"/"balanced_references.json"
  if not balance_path.is_file() or sha(balance_path)!=qa["balanced_references_sha256"]:fail("balanced reference export missing or changed")
  balance=json.loads(balance_path.read_text(encoding="utf-8"))
- if balance.get("policy")!="FULL_FOCUS_SUPPORT_6x3" or set(balance.get("focuses",{}))!=set(ids):fail("focus balance coverage differs from country scope")
- for focus,record in balance["focuses"].items():
+ if balance.get("schema_version")==2:
+  if balance.get("policy")!="FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3":fail("unknown per-view reference policy")
+  records=balance.get("views",[])
+  if not isinstance(records,list) or {v.get("focus") for v in records}!=set(ids):fail("focus view coverage differs from country scope")
+  if any(not v.get("view_cell_ids") for v in records):fail("exact view-to-figure binding missing")
+  if not (site/"data/explorer_references.json").is_file():fail("interactive reference contract missing")
+  iterator=[(v["focus"],v) for v in records]
+ else:
+  if balance.get("policy")!="FULL_FOCUS_SUPPORT_6x3" or set(balance.get("focuses",{}))!=set(ids):fail("focus balance coverage differs from country scope")
+  iterator=list(balance["focuses"].items())
+ for focus,record in iterator:
   members=record.get("default_members",[])
   if isinstance(members,str):members=[members]
   options=record.get("options",[])

@@ -25,7 +25,7 @@ lo_balance_one_view <- function(available,grid,view,focus_core_ids,candidates,ri
   if(length(missing))return(list(focus=focus,view_id=view$view_id,
     status=if(any(missing%in%focus_core_ids))'FOCUS_CORE_INCOMPLETE'else'FOCUS_VIEW_INCOMPLETE',
     missing_cells=grid[match(missing,grid$cell_id),intersect(c('cell_id','status','hold_reason'),names(grid)),drop=FALSE],
-    default_members=character(),default_points=data.frame(),required_cell_ids=ids))
+    default_members=character(),default_points=data.frame(),required_cell_ids=ids,view_cell_ids=view$cell_ids))
   core<-available[match(focus_core_ids,available$cell_id),,drop=FALSE]
   comparison<-available[match(view$cell_ids,available$cell_id),,drop=FALSE]
   required<-lo_focus_required_support(core,comparison,focus,nld_anchor)
@@ -35,7 +35,7 @@ lo_balance_one_view <- function(available,grid,view,focus_core_ids,candidates,ri
   # Anchor rows gate membership but are not additional plotted series.
   if(nrow(points))points<-points[points$balance_key%in%lo_balance_key(comparison),,drop=FALSE]
   list(focus=focus,view_id=view$view_id,status=if(length(selected))'BALANCED_REFERENCE_AVAILABLE'else'NO_ELIGIBLE_REFERENCE',
-    required_cell_ids=ids,required_keys=sort(lo_balance_key(required)),options=options,
+    required_cell_ids=ids,view_cell_ids=view$cell_ids,required_keys=sort(lo_balance_key(required)),options=options,
     default_members=selected,default_points=points,focus_excluded=TRUE,
     country_weights='EQUAL_PER_COUNTRY',benchmark_uncertainty=FALSE)
 }

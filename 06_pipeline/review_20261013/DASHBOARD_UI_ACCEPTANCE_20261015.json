@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-10-16T01:04:48.120748+00:00",
+  "human_decision": "2026-10-15: five main choices, one figure, final Kansenlab brand; original approved figure list remains binding",
+  "status": "FRONTEND_AND_EXPORT_INTEGRATION_VERIFIED_PENDING_FINAL_SCIENTIFIC_DATA",
+  "scientific_completion_claimed": false,
+  "public_deployment_performed": false,
+  "code_sha256": {
+    "05_publication/preview_overlay/assets/app-shell.js": "92e7677b25c93daf2cb5df9eadabcaea0877767dee584eee2acde8fd5e496634",
+    "05_publication/preview_overlay/assets/explorer.mjs": "7498a098375d723040975c70fbdc10b4d638988b1be36be86f19f0d005fb2ad4",
+    "05_publication/preview_overlay/assets/styles.css": "6a65c4d0b5222bb5b023b948f938e06c2a507f7207d418b1f4de8ec75c7c9a0b",
+    "05_publication/preview_overlay/index.html": "53612eaca5669191a876dc742bab096735f4c850710212f90a7edf5a0f4ebe9d",
+    "06_pipeline/LO_FINAL_GUIDED_EXPORT.R": "7595ca7d26673e8e1833e7f179f87cfb0792064de24957c8f37dcae501cbf27c",
+    "06_pipeline/LO_BALANCED_VIEWS.R": "dd9ff503d8009b90aaa8383dfce37cb3988d63d1ed88e11052f96e51ebcea03c",
+    "06_pipeline/LO_FINAL_GUIDED_DASHBOARD_BUILD.py": "42fe20303fbcd0528c20b7f6c85667cd272f77359031f3736cc13f659bd8ca39",
+    "06_pipeline/LO_FINAL_GUIDED_PUBLIC_RELEASE.py": "86ca5fccf3253b1b3a64bc74de397dfa32a79eb519d5df84162e27b4ef572d56",
+    "05_publication/prepare_verified_pages.py": "17155cfba3a38c6dade6e2908a3089a25badd757a3f9128b61d7b55bb1ee0b98"
+  },
+  "design_source": "05_publication/preview_overlay/assets/brand/BRAND_RELEASE.json",
+  "private_preview": {
+    "manifest_sha256": "36a20c1313a2dfb0a5cbc59662d796769ccce366fc9306ec46ca23b8f6ec1cde",
+    "manifest_files_verified": 370,
+    "qa": {
+      "scientific_data_rows": 1893,
+      "system_count": 34,
+      "active_figures": 174,
+      "availability_counts": {
+        "PLACEHOLDER": 5791,
+        "VALIDATED": 125
+      },
+      "scientific_source_sha256": "ac2ec8cbf956212eea610b577d6ef9519554adf67bbb7cf1fdbd8617f1c537bf",
+      "figure_contract_sha256": "467feecd2fee7db8472669603d87d65163cf32fa4172941c3e779681baaf4ffe",
+      "balanced_references_sha256": "MISSING",
+      "country_registry_sha256": "fa497c2525ee05badd2b1c7759375e4becdbe32649a78c5ea6ad29af98a616af",
+      "scope_decisions_sha256": "b8149f28d4c287120bf6259b6e10bfd9cff5622b889962aa9014c2802fd5cb5f",
+      "release_status": "PRIVATE_GUIDED_CANDIDATE_NOT_PUBLIC"
+    },
+    "source_description": "Existing Dutch certified product export; not the completed all_required run",
+    "synthetic_records_in_final_preview": false
+  },
+  "browser_checks": {
+    "NL_EN_and_selection_url": "PASS",
+    "five_controls": "PASS",
+    "mobile_viewport": "390x844; document width 375, scroll width 375; five choices",
+    "missing_result_and_pending_balance_messages": "PASS",
+    "reference_checkboxes_and_restore_defaults": "PASS; separate visibly labelled synthetic fixture",
+    "rank_focus_plus_one_country_no_group_line_no_CI": "PASS; separate visibly labelled synthetic fixture",
+    "dialog_escape_and_focus_return": "PASS",
+    "console_errors": "NONE_OBSERVED",
+    "svg_download": "PASS; actual downloaded SVG parsed and visually inspected; 10 synthetic records, original embedded logo and embedded fonts",
+    "svg_download_sha256": "3f82158bcd0d66c6fa1f5917e484fd6f82b0914a4aa8e78738891d2314753fc8",
+    "screenshots": {
+      "05_publication/preview_overlay/qa/desktop_20261016.png": "17d2ca315ef3b08d92cc7bf05229bdd25f45f0a51a17cdc910db11c91bf0a09c",
+      "05_publication/preview_overlay/qa/mobile_20261016.png": "c7e65d7d1ba134a12337b88c3c3ebf028ad1142bcfb31034484dc65c28e6b750"
+    }
+  },
+  "local_tests": {
+    "node_test_explorer_with_real_174_figure_contracts": "PASS; every active contract uniquely reachable",
+    "node_test_restored_renderer": "PASS; missing values, uncertainty and immutable SVG export",
+    "python_test_final_guided_dashboard": "PASS; 7 tests",
+    "python_test_guided_public_release": "PASS; 3 tests including schema-2 and manifested Pages staging",
+    "python_test_explorer_reference_binding": "PASS",
+    "R_test_final_guided_export": "PASS; Windows R 4.6.1",
+    "R_test_balanced_views": "PASS; Windows R 4.6.1",
+    "repository_validator": "PASS",
+    "result_snapshot_and_current_coverage_validator": "PASS"
+  },
+  "CI": "PENDING_COMMIT",
+  "remaining_external_dependencies": [
+    "Finish the existing R production and rerun fixed-finalize to export certified cell IDs and per-view balance proof.",
+    "Final international numeric payloads, paper/scientific/rights/replication approvals remain required for public release.",
+    "No reference membership is inferred from incomplete exports; placeholders remain until exact evidence is present."
+  ],
+  "additional_repair": "Regenerated stale Dutch coverage report: 2397 validated, 281 documented unavailable, 0 unresolved, with approved Female / Other identities; no numerical computation performed."
+}

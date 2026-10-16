@@ -29,6 +29,8 @@ jobs:
           node-version: "24"
       - name: Restored October dashboard and numeric rendering
         run: node 05_publication/tests/test_restored_renderer.cjs
+      - name: Five-choice explorer and exact reference/rank calculations
+        run: node 05_publication/tests/test_explorer.mjs
       - name: JavaScript syntax
         run: node --check 03_dashboard/app/assets/app-product.js
       - name: Build public-safe site
