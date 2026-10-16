@@ -1,29 +1,46 @@
-// No browser or data service needed: exercise the actual rendering functions.
+// Exercise the actual renderer without a browser or source data.
 const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
-let code=fs.readFileSync('05_publication/preview_overlay/assets/app-shell.js','utf8');
-code=code.replace(/^import .*;$/m,'').split('init().catch')[0];
-const box={document:{documentElement:{dataset:{base:''}},querySelector:()=>null},window:{innerWidth:1200},DEFAULTS:{},Intl,URLSearchParams,console};
-vm.createContext(box);vm.runInContext(code,box);
-vm.runInContext(`
-state.locale='nl';state.dict={figure:{chartAria:'{title}'}};
-state.country='NLD';state.countries=[{code:'NLD',nl:'Nederland',en:'Netherlands'}];
-if(seriesLabel({series_id:'total',series_role:'focus',country_id:'iso3:NLD'})!=='Nederland')throw Error('Focus country mislabeled as reference');
-state.locale='en';
-if(seriesLabel({series_id:'total',series_role:'focus',country_id:'iso3:NLD'})!=='Netherlands')throw Error('English focus label mismatch');
-state.locale='nl';
-const absent=[{estimate:550,year:2021,ci_low:null,ci_high:''},{estimate:540,year:2016}];
-const axis=axisDomain(absent,{unit:'score_points'});
-if(axis.lo<530)throw Error('Absent intervals incorrectly extended the axis to zero');
-if(chartHtml(absent,{unit:'score_points'}).includes('class="ci-line"'))throw Error('Absent interval rendered');
-const benchmark=[{estimate:550,year:2021,ci_low:1,ci_high:999,series_role:'comparator'}];
-if(chartHtml(benchmark,{unit:'score_points'}).includes('class="ci-line"'))throw Error('Benchmark interval rendered');
-if(axisDomain(benchmark,{unit:'score_points'}).lo<540)throw Error('Benchmark interval affected axis');
-if(fmtNumber(null)!=='—'||fmtNumber('')!=='—')throw Error('Missing values became zero');
-`,box);
-const html=fs.readFileSync('05_publication/preview_overlay/index.html','utf8');
-assert.equal((html.match(/class="question-card"/g)||[]).length,4);
-assert.ok(html.includes('id="explorer" hidden'));
-assert.ok(html.includes('class="breadcrumb"'));
-assert.ok(!html.includes('guided-builder'));
-assert.ok(fs.existsSync('05_publication/preview_overlay/assets/router.mjs'));
-console.log('PASS restored October layout, missing intervals and no benchmark CI');
+(async()=>{
+ const helpers=await import('../preview_overlay/assets/explorer.mjs');
+ let code=fs.readFileSync('05_publication/preview_overlay/assets/app-shell.js','utf8').replace(/^import .*;$/gm,'').split('init().catch')[0];
+ const box={...helpers,document:{documentElement:{dataset:{base:''}},querySelector:()=>({textContent:'Synthetic test'})},window:{innerWidth:1200},Intl,URLSearchParams,console};
+ vm.createContext(box);vm.runInContext(code,box);
+ vm.runInContext(`state.locale='nl';state.country='NLD';state.countries=[{code:'NLD',nl:'Nederland',en:'Netherlands'}];
+ if(seriesName({series_id:'total',series_role:'focus',country_id:'iso3:NLD'})!=='Nederland')throw Error('Focus mislabeled');
+ const f={unit:'score_points',required_years:'2016;2021'};
+ const rows=[{series_id:'total',estimate:550,year:2021,ci_low:null,ci_high:''},{series_id:'total',estimate:540,year:2016}];
+ let svg=chart(rows,f);if(svg.includes('class="ci-line"'))throw Error('Missing interval rendered');
+ if(+svg.match(/data-y-min="([^"]+)"/)[1]<530)throw Error('Missing interval affected axis');
+ rows.forEach(r=>Object.assign(r,{series_role:'comparator',ci_low:1,ci_high:999}));
+ svg=chart(rows,f);if(svg.includes('class="ci-line"'))throw Error('Benchmark CI rendered');
+ if(+svg.match(/data-y-min="([^"]+)"/)[1]<530)throw Error('Benchmark CI affected axis');
+ if(fmt(null)!=='—'||fmt('')!=='—')throw Error('Missing value became zero');
+ `,box);
+ // Export must keep the selection captured before its asynchronous font/logo
+ // reads, even when the user changes country while the export is in flight.
+ class Element {
+  constructor(tag){this.tag=tag;this.attrs={};this.children=[];this.textContent='';}
+  setAttribute(k,v){this.attrs[k]=v;}getAttribute(k){return this.attrs[k];}
+  append(v){this.children.push(v);}prepend(v){this.children.unshift(v);}
+  cloneNode(){return this;}
+  querySelector(){const svg=new Element('svg');svg.attrs.viewBox='0 0 1120 430';return svg;}
+ }
+ box.document.createElement=tag=>new Element(tag);
+ box.document.createElementNS=(_,tag)=>new Element(tag);
+ box.AbortSignal=AbortSignal;let releaseAssets;const hold=new Promise(r=>releaseAssets=r);
+ box.fetch=async path=>{await hold;return {ok:true,text:async()=>path.endsWith('.svg')?'<svg>original logo</svg>':'@font-face{font-family:Oswald;src:url(data:font/woff2;base64,AA)}'};};
+ box.XMLSerializer=class{serializeToString(svg){return JSON.stringify(svg);}};
+ vm.runInContext(`state.currentFigure={figure_id:'test',unit:'score_points',required_years:'2016;2021'};state.shown=[{series_id:'total',year:2016,estimate:540},{series_id:'total',year:2021,estimate:550}];saveBlob=(data,type,name)=>{exported={data,type,name};};`,box);
+ const pending=vm.runInContext('downloadFigure()',box);vm.runInContext("state.country='CAN';",box);releaseAssets();await pending;
+ const output=box.exported;assert.equal(output.name,'leerprestaties_NLD_test.svg');
+ const svg=JSON.parse(output.data),metadata=JSON.parse(svg.children.find(x=>x.tag==='metadata').textContent);
+ assert.equal(metadata.selection.country,'NLD');assert.equal(metadata.records.length,2);
+ assert.ok(svg.children.find(x=>x.tag==='style').textContent.includes('data:font/woff2'));
+ assert.ok(svg.children.find(x=>x.tag==='image').attrs.href.startsWith('data:image/svg+xml'));
+ assert.equal(svg.attrs.width,'1120');
+ const html=fs.readFileSync('05_publication/preview_overlay/index.html','utf8');
+ for(const id of ['countrySelect','subjectSelect','statisticSelect','splitSelect','compareToggle','referenceDialog'])assert.ok(html.includes(`id="${id}"`));
+ assert.equal((html.match(/data-question=/g)||[]).length,4);
+ assert.ok(!html.includes('id="ageControls"'));assert.ok(html.includes('assets/brand/leerprestaties_nl.svg'));
+ console.log('PASS five-choice layout, original logo, missing values, benchmark uncertainty and immutable self-contained SVG export');
+})().catch(e=>{console.error(e);process.exit(1)});

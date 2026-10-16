@@ -72,10 +72,13 @@ def build(state, output):
     if ids - trace.keys():
         raise ValueError("Active grid cells without product trace")
     counts = collections.Counter(category(row) for row in grid)
-    # This explanatory review covers the full NLD audit of 15 October 2026.
+    for key in ('validated', 'unavailable', 'unresolved'):
+        counts.setdefault(key, 0)
+    # Reviewed after the explicitly approved Female / Other overlay. This
+    # report must no longer describe the 24 superseded exact-girls targets.
     # Reject changed science before writing anything with outdated prose.
     if {r['country'] for r in grid} != {'NLD'} or dict(counts) != {
-            'validated': 2373, 'unavailable': 281, 'unresolved': 24}:
+            'validated': 2397, 'unavailable': 281, 'unresolved': 0}:
         raise ValueError('Coverage changed: update the reviewed explanations before publishing')
     columns = ["cell_id", "country", "survey", "year", "age", "population_id", "sample_id",
                "domain", "subgroup_variable", "subgroup_level", "statistic",
@@ -162,18 +165,17 @@ def build(state, output):
     text += ["", "## Dekking per golf", "", "| Bron | Jaar | Doelcellen | Gecontroleerd | Onbeschikbaar | Open |", "|---|---:|---:|---:|---:|---:|"]
     for row in summaries["BY_WAVE"]:
         text.append("| " + " | ".join(str(row[k]) for k in ["survey", "year", "targets", "validated", "unavailable", "unresolved"]) + " |")
-    text += ["", "## Waarom 305 doelcellen geen uitkomst hebben", "",
+    text += ["", "## Waarom 281 doelcellen geen uitkomst hebben", "",
         "| Oorzaak | Cellen | Gevolg vanuit de gekozen regels |", "|---|---:|---|",
         "| Officiële Home-SES bestaat nog niet als gekozen construct: PIRLS 2001/2006/2011/2016; TIMSS 2003/2007/2011/2015/2019 | 126 | Geen oudere Home Resources-schaal aan de nieuwe Home-SES-reeks plakken. |",
         "| TIMSS 2023: Nederlandse Home Questionnaire niet afgenomen | 18 | Geen officiële Home-SES uit niet-geobserveerde ouderdata maken. |",
         "| Onvoldoende oudergeboortelandvelden: PIRLS 2011/2016/2021, TIMSS 2011 | 103 | Geen migratiegeneraties of ouderdefinities gokken; dit raakt ook peers en baselines. |",
         "| Geen feitelijke PISA-klasidentificatie | 27 | 23 prestatie- en 4 SES-klasvarianties niet vervangen door school×programma. Schooluitkomsten blijven beschikbaar. |",
         "| PIRLS 2006 heeft always/sometimes/never, niet de gekozen always-or-almost-categorie | 7 | Geen ongemerkte categorie- of constructwissel voor taal en taalpeers. |",
-        "| PISA 2025 NLD: geen afzonderlijk bruikbaar meisjesveld in gecontroleerde broneditie | 24 | 6 meisjesgemiddelden/geslachtskloven en 18 SES×meisje-uitkomsten blijven open; jongens zijn wel berekend. |", "",
-        "De 281 onbeschikbare cellen blijven als gedocumenteerde doelen in het grid. De 24 meisjescellen zijn een open bronvraag, geen bewijs dat zulke gegevens nergens bestaan. "
+        "", "De 281 onbeschikbare cellen blijven als gedocumenteerde doelen in het grid. De 24 eerder open geslachtscellen zijn na expliciete toestemming vervangen door de brongetrouwe categorie Meisjes + other, met nieuwe celidentiteiten en onafhankelijke certificering. "
         "PIRLS 2021 Home-SES heeft 9 uitkomsten op 2.031 van 4.313 leerlingen; gewogen dekking 47,7027%. Geen claim van volledige ouderrespons.", "",
         "## Landen en productieopties", "",
-        "Alleen Nederland is momenteel goedgekeurd voor productie en heeft gecertificeerde cellen in dit grid. "
+        "Dit rapport beschrijft uitsluitend het Nederlandse grid. Internationale productie is eveneens goedgekeurd; haar voortgang moet uit de afzonderlijke all_required-uitvoer worden gelezen. "
         "Nederland voldoet voor de kern aan minstens drie geldige golven in elk van zes leeftijd-domeincombinaties. "
         "Dat certificeert niet automatisch alle splits of referentiegroepen.", "",
         "De rijke kandidaten zijn hieronder herkenbaar. Rijk is geen toelatingsbewijs. Voor de Nederlandse standaard moeten kandidaten het volledige 40-combinatie-anker én de samen vergeleken groepen/peerconstructen dekken. "
@@ -183,15 +185,15 @@ def build(state, output):
         "- all_required: die pool plus andere goedgekeurde, toegelaten landen. Zoeken buiten COMMON42 blijft vereist; deze catalogus is geen volledige wereldinventaris.", "",
         "| Code | Land/stelsel | Rijke kandidaat | Huidig bewijs |", "|---|---|---|---|"]
     for row in country_rows:
-        status = "NLD-kern geverifieerd; productie actief" if row["country"] == "NLD" else "Brondekking nog niet gecertificeerd; geen productie-akkoord"
+        status = "Kerntoelating geverifieerd; resultaatdekking apart toetsen" if row["dashboard_eligible"] == "TRUE" else row["interpretation"]
         text.append(f"| {row['country']} | {row['country_name_en']} | {'ja' if row['rich_candidate']=='TRUE' else 'nee'} | {status} |")
-    text += ["", "FALSE bij buitenlandse dashboard_eligible betekent hier nog niet geverifieerd, niet bewezen ongeschikt. "
-        "Alle 58 catalogusrecords staan in COUNTRY_CANDIDATES.csv. Geen automatische productie voor deze 58; een concreet landenvoorstel en gebruikersakkoord blijven nodig.", "",
+    text += ["", "Lees dashboard_eligible samen met eligibility_basis: ontbrekend verificatiebewijs is iets anders dan aangetoonde ontoereikende dekking. "
+        f"Alle {len(country_rows)} catalogusrecords staan in COUNTRY_CANDIDATES.csv; {sum(r['dashboard_eligible']=='TRUE' for r in country_rows)} voldoen aan de opgeslagen brontoelating. Dit certificeert nog geen internationale figuur of referentie.", "",
         "## Zit alles voor het dashboard in het grid?", "",
         "**De gekozen Nederlandse primitieve families staan erin; alle internationale dashboarduitkomsten nog niet.** "
         "Naast de genoemde gaten ontbreken gecertificeerde buitenlandse reeksen, de definitieve gebalanceerde referentieleden per vergelijking, "
         "en de werkelijke afgeleide referentiegemiddelden/rangtijdsreeksen met oudercellen en gekozen leden. "
-        "De registratie van kandidaat-ouders voor A09 is geen voltooide rangberekening. De referentiebediening en complete productrelease zijn ook nog niet afgerond.", "",
+        "De registratie van kandidaat-ouders voor A09 is geen voltooide rangberekening. De vijfkeuzebediening, referentie- en rangafleiding zijn geïmplementeerd en getest; volledige productvrijgave vereist de gecontroleerde R-uitvoer en vrijgavebewijzen.", "",
         "De gebruiker bouwt één figuur met jaren op de x-as. De rang van het hoofdland is relatief tot de gekozen internationale referentiegroep; "
         "die groep wordt niet als ranglijn geplot. Eventueel komt er één ander individueel land naast. Een ranglijst hoort alleen in de paper. "
         "Bij gewone vergelijkingen wegen referentielanden gelijk en blijft het hoofdland buiten zijn referentie; geen SE/CI op de samengestelde referentielijn.", "",
@@ -205,11 +207,11 @@ def build(state, output):
         "en het hele 50-slide-deck zijn geen productieopdracht. Q01–Q08 en paperclaims vragen afzonderlijk bewijs; producttrace alleen sluit ze niet af.", "",
         "## Meisjes bij PISA en herkomst", "",
         "De resolver gebruikt ST004D01T met labelcontrole én Female=1 / Male=2. ST004 en de gedocumenteerde ST004D01D zijn expliciete fallbacks; "
-        "tegenstrijdige gevulde velden stoppen de run. Codes Other/95–99/ontbrekend worden geen meisjes. MALE=0 met label Female / Other evenmin. "
+        "tegenstrijdige gevulde velden stoppen de run. Codes 95–99 en ontbrekend blijven ontbrekend. De expliciet goedgekeurde Female / Other-pooling gebruikt uitsluitend gecontroleerde broncodes en krijgt een eigen definitie en label; zij wordt nooit voorgesteld als afzonderlijk geobserveerde meisjes. "
         "De onafhankelijke referentie-implementatie controleert dezelfde brondefinitie afzonderlijk. "
         "In de daadwerkelijk gecontroleerde Nederlandse PISA-2025-bron staan alle 6.636 ST004D01T-waarden op 99. "
         "MALE bevat 3.397 jongens, 3.237 Female / Other en 2 ontbrekend. Het label Female=1 bestaat dus, maar er zijn geen records met code 1. "
-        "Zie ../PISA2025_USER_GENDER_FIELDS_RECHECK.json voor bronhash, tellingen en resolveruitkomst.", "",
+        "Die tellingen blijven geldig; de nieuwe keuze staat berekening van de gepoolde categorie toe. Zie de actuele scopebesluiten en het poolingbewijs in het reviewregister.", "",
         "De officiële [OECD-database](https://www.oecd.org/en/data/datasets/pisa-2025-database.html) en "
         "[downloadindex](https://webfs.oecd.org/pisa2022/index.html) zijn geraadpleegd. De index biedt voor deze editie de SPSS-studentbron; "
         "er is daar geen afzonderlijke 2025-SAS-studentdownload aangetoond die dit oplost. Dezelfde bron opnieuw downloaden levert geen bewezen nieuwe meisjesinformatie op.", "",

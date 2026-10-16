@@ -51,4 +51,29 @@ class ReleaseGate(unittest.TestCase):
    mf=p/'BUILD_SHA256_MANIFEST.json';a=json.loads(mf.read_text());a[0]['path']='..\\private.txt'
    mf.write_text(json.dumps(a));c['candidate_manifest_sha256']=m.sha(mf);cf.write_text(json.dumps(c))
    with self.assertRaises(ValueError):m.verify(p,cf)
+ def test_per_view_release_and_manifested_pages_copy(self):
+  with tempfile.TemporaryDirectory() as d:
+   root=Path(d);p=root/'site';p.mkdir();c=self.fixture(p);cf=root/'cert.json'
+   bp=p/'data/balanced_references.json'
+   view={'focus':'NLD','view_cell_ids':['exact_cell'], 'required_keys':['core_key','exact_cell'],
+    'options':[], 'default_members':[], 'default_points':[], 'country_weights':'EQUAL_PER_COUNTRY'}
+   balance={'schema_version':2,'policy':'FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3','views':[view]}
+   def recertify():
+    bp.write_text(json.dumps(balance),encoding='utf-8')
+    qp=p/'GUIDED_QA.json';q=json.loads(qp.read_text(encoding='utf-8'))
+    q['balanced_references_sha256']=m.sha(bp);qp.write_text(json.dumps(q),encoding='utf-8')
+    c['balanced_references_sha256']=m.sha(bp);self.manifest(p,c)
+    cf.write_text(json.dumps(c),encoding='utf-8')
+   ep=p/'data/explorer_references.json';ep.write_text(json.dumps({'figures':[]}),encoding='utf-8')
+   recertify();self.assertEqual(m.verify(p,cf)['systems'],1)
+   view['view_cell_ids']=[];recertify()
+   with self.assertRaisesRegex(ValueError,'exact view-to-figure'):m.verify(p,cf)
+   view['view_cell_ids']=['exact_cell'];recertify()
+   receipt=m.stage(root,p,cf)
+   spec=importlib.util.spec_from_file_location('prepare_pages',ROOT/'05_publication/prepare_verified_pages.py')
+   pages=importlib.util.module_from_spec(spec);spec.loader.exec_module(pages);pages.ROOT=root
+   pages.prepare(receipt['release_id'],root/'output')
+   self.assertEqual(m.sha(root/'output/BUILD_SHA256_MANIFEST.json'),c['candidate_manifest_sha256'])
+   self.assertFalse((root/'output/PUBLIC_RELEASE_CERTIFICATION.json').exists())
+   with self.assertRaises(ValueError):pages.prepare('../escape',root/'unsafe')
 if __name__=='__main__':unittest.main()

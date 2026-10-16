@@ -2,7 +2,7 @@
 
 Dit overzicht is gegenereerd uit het opgeslagen auditgrid. Het telt exacte doelcellen, geen figuren, leerlingen of afzonderlijke R-runs. De actuele scope is **nld_only**. Productkoppelingen bewijzen herkomst; zij bewijzen niet automatisch een oude slidetitel of paperclaim.
 
-**2678 doelcellen; 2373 gecontroleerde uitkomsten; 281 gedocumenteerd onbeschikbaar; 24 open.** Alle doelcellen hebben een productkoppeling. Het volledige internationale dashboard is nog niet gevuld.
+**2678 doelcellen; 2397 gecontroleerde uitkomsten; 281 gedocumenteerd onbeschikbaar; 0 open.** Alle doelcellen hebben een productkoppeling. Het volledige internationale dashboard is nog niet gevuld.
 
 ## Jaren, populaties en domeinen
 
@@ -41,9 +41,9 @@ Alle geselecteerde IEA-staarten gebruiken <475 en ≥625; 550 is hier niet gekoz
 | extension_performance_class | 40 | 17 | 23 | 0 |
 | extension_performance_school | 40 | 40 | 0 | 0 |
 | extension_ses_class | 15 | 11 | 4 | 0 |
-| extension_ses_gender | 348 | 330 | 0 | 18 |
+| extension_ses_gender | 348 | 348 | 0 | 0 |
 | extension_ses_school | 15 | 15 | 0 | 0 |
-| gender | 120 | 114 | 0 | 6 |
+| gender | 120 | 120 | 0 | 0 |
 | high_proficiency_peer_exposure | 160 | 160 | 0 | 0 |
 | home_language_frequency_peer | 22 | 20 | 2 | 0 |
 | home_language_peer_exposure | 16 | 16 | 0 | 0 |
@@ -75,7 +75,7 @@ Alle geselecteerde IEA-staarten gebruiken <475 en ≥625; 550 is hier niet gekoz
 | PISA | 2015 | 197 | 193 | 4 | 0 |
 | PISA | 2018 | 197 | 193 | 4 | 0 |
 | PISA | 2022 | 197 | 193 | 4 | 0 |
-| PISA | 2025 | 197 | 169 | 4 | 24 |
+| PISA | 2025 | 197 | 193 | 4 | 0 |
 | TIMSS | 2003 | 158 | 140 | 18 | 0 |
 | TIMSS | 2007 | 158 | 140 | 18 | 0 |
 | TIMSS | 2011 | 158 | 106 | 52 | 0 |
@@ -83,7 +83,7 @@ Alle geselecteerde IEA-staarten gebruiken <475 en ≥625; 550 is hier niet gekoz
 | TIMSS | 2019 | 158 | 140 | 18 | 0 |
 | TIMSS | 2023 | 158 | 140 | 18 | 0 |
 
-## Waarom 305 doelcellen geen uitkomst hebben
+## Waarom 281 doelcellen geen uitkomst hebben
 
 | Oorzaak | Cellen | Gevolg vanuit de gekozen regels |
 |---|---:|---|
@@ -92,13 +92,12 @@ Alle geselecteerde IEA-staarten gebruiken <475 en ≥625; 550 is hier niet gekoz
 | Onvoldoende oudergeboortelandvelden: PIRLS 2011/2016/2021, TIMSS 2011 | 103 | Geen migratiegeneraties of ouderdefinities gokken; dit raakt ook peers en baselines. |
 | Geen feitelijke PISA-klasidentificatie | 27 | 23 prestatie- en 4 SES-klasvarianties niet vervangen door school×programma. Schooluitkomsten blijven beschikbaar. |
 | PIRLS 2006 heeft always/sometimes/never, niet de gekozen always-or-almost-categorie | 7 | Geen ongemerkte categorie- of constructwissel voor taal en taalpeers. |
-| PISA 2025 NLD: geen afzonderlijk bruikbaar meisjesveld in gecontroleerde broneditie | 24 | 6 meisjesgemiddelden/geslachtskloven en 18 SES×meisje-uitkomsten blijven open; jongens zijn wel berekend. |
 
-De 281 onbeschikbare cellen blijven als gedocumenteerde doelen in het grid. De 24 meisjescellen zijn een open bronvraag, geen bewijs dat zulke gegevens nergens bestaan. PIRLS 2021 Home-SES heeft 9 uitkomsten op 2.031 van 4.313 leerlingen; gewogen dekking 47,7027%. Geen claim van volledige ouderrespons.
+De 281 onbeschikbare cellen blijven als gedocumenteerde doelen in het grid. De 24 eerder open geslachtscellen zijn na expliciete toestemming vervangen door de brongetrouwe categorie Meisjes + other, met nieuwe celidentiteiten en onafhankelijke certificering. PIRLS 2021 Home-SES heeft 9 uitkomsten op 2.031 van 4.313 leerlingen; gewogen dekking 47,7027%. Geen claim van volledige ouderrespons.
 
 ## Landen en productieopties
 
-Alleen Nederland is momenteel goedgekeurd voor productie en heeft gecertificeerde cellen in dit grid. Nederland voldoet voor de kern aan minstens drie geldige golven in elk van zes leeftijd-domeincombinaties. Dat certificeert niet automatisch alle splits of referentiegroepen.
+Dit rapport beschrijft uitsluitend het Nederlandse grid. Internationale productie is eveneens goedgekeurd; haar voortgang moet uit de afzonderlijke all_required-uitvoer worden gelezen. Nederland voldoet voor de kern aan minstens drie geldige golven in elk van zes leeftijd-domeincombinaties. Dat certificeert niet automatisch alle splits of referentiegroepen.
 
 De rijke kandidaten zijn hieronder herkenbaar. Rijk is geen toelatingsbewijs. Voor de Nederlandse standaard moeten kandidaten het volledige 40-combinatie-anker én de samen vergeleken groepen/peerconstructen dekken. Voor een ander hoofdland geldt diens volledige passende dekking. Er worden geen jaren of groepen ingekort en geen vaste aantallen geforceerd.
 
@@ -108,70 +107,71 @@ De rijke kandidaten zijn hieronder herkenbaar. Rijk is geen toelatingsbewijs. Vo
 
 | Code | Land/stelsel | Rijke kandidaat | Huidig bewijs |
 |---|---|---|---|
-| ALB | Albania | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| ARE | United Arab Emirates | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| AUS | Australia | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| AUT | AUT | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| AZE | Azerbaijan | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| BEL | BEL | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| BGR | Bulgaria | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| BRA | Brazil | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| CAN | CAN | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| CHE | CHE | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| CHL | CHL | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| COL | COL | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| CRI | CRI | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| CYP | Cyprus | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| CZE | Czechia | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| DEU | Germany | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| DNK | Denmark | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| ESP | Spain | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| EST | EST | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| FIN | Finland | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| FRA | France | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| GBR | GBR | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| GEO | Georgia | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| GRC | GRC | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| HKG | Hong Kong | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| HUN | Hungary | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| IRL | Ireland | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| ISL | ISL | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| ISR | ISR | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| ITA | Italy | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| JOR | Jordan | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| JPN | JPN | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| KAZ | Kazakhstan | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| KOR | KOR | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| LTU | Lithuania | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| LUX | LUX | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| LVA | Latvia | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| MAC | Macao | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| MAR | Morocco | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| MEX | MEX | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| MKD | North Macedonia | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| MNE | Montenegro | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| NLD | Netherlands | ja | NLD-kern geverifieerd; productie actief |
-| NOR | Norway | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| NZL | New Zealand | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| POL | Poland | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| PRT | Portugal | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| QAT | Qatar | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| SAU | Saudi Arabia | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| SGP | Singapore | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| SRB | Serbia | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| SVK | Slovakia | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| SVN | Slovenia | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| SWE | Sweden | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| TUR | Türkiye | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| TWN | Chinese Taipei | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| USA | United States | ja | Brondekking nog niet gecertificeerd; geen productie-akkoord |
-| XKX | Kosovo | nee | Brondekking nog niet gecertificeerd; geen productie-akkoord |
+| ALB | Albania | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| ARE | United Arab Emirates | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| AUS | Australia | ja | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| AUT | AUT | ja | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| AZE | Azerbaijan | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| BEL | BEL | ja | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| BGR | Bulgaria | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| BRA | Brazil | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| CAN | CAN | ja | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| CHE | CHE | ja | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| CHL | CHL | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| COL | COL | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| CRI | CRI | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| CYP | Cyprus | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| CZE | Czechia | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| DEU | Germany | ja | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| DNK | Denmark | ja | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| ESP | Spain | ja | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| EST | EST | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| FIN | Finland | ja | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| FRA | France | ja | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| GBR | GBR | ja | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| GEO | Georgia | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| GRC | GRC | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| HKG | Hong Kong | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| HUN | Hungary | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| IRL | Ireland | ja | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| ISL | ISL | ja | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| ISR | ISR | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| ITA | Italy | ja | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| JOR | Jordan | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| JPN | JPN | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| KAZ | Kazakhstan | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| KOR | KOR | ja | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| LTU | Lithuania | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| LUX | LUX | ja | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| LVA | Latvia | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| MAC | Macao | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| MAR | Morocco | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| MEX | MEX | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| MKD | North Macedonia | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| MNE | Montenegro | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| NLD | Netherlands | ja | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| NOR | Norway | ja | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| NZL | New Zealand | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| POL | Poland | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| PRT | Portugal | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| QAT | Qatar | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| RUS | RUS | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| SAU | Saudi Arabia | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| SGP | Singapore | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| SRB | Serbia | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| SVK | Slovakia | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| SVN | Slovenia | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| SWE | Sweden | ja | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| TUR | Türkiye | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
+| TWN | Chinese Taipei | nee | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| USA | United States | ja | Kerntoelating geverifieerd; resultaatdekking apart toetsen |
+| XKX | Kosovo | nee | NOT_YET_CERTIFIED_NOT_A_PROVEN_DATA_FAILURE |
 
-FALSE bij buitenlandse dashboard_eligible betekent hier nog niet geverifieerd, niet bewezen ongeschikt. Alle 58 catalogusrecords staan in COUNTRY_CANDIDATES.csv. Geen automatische productie voor deze 58; een concreet landenvoorstel en gebruikersakkoord blijven nodig.
+Lees dashboard_eligible samen met eligibility_basis: ontbrekend verificatiebewijs is iets anders dan aangetoonde ontoereikende dekking. Alle 59 catalogusrecords staan in COUNTRY_CANDIDATES.csv; 34 voldoen aan de opgeslagen brontoelating. Dit certificeert nog geen internationale figuur of referentie.
 
 ## Zit alles voor het dashboard in het grid?
 
-**De gekozen Nederlandse primitieve families staan erin; alle internationale dashboarduitkomsten nog niet.** Naast de genoemde gaten ontbreken gecertificeerde buitenlandse reeksen, de definitieve gebalanceerde referentieleden per vergelijking, en de werkelijke afgeleide referentiegemiddelden/rangtijdsreeksen met oudercellen en gekozen leden. De registratie van kandidaat-ouders voor A09 is geen voltooide rangberekening. De referentiebediening en complete productrelease zijn ook nog niet afgerond.
+**De gekozen Nederlandse primitieve families staan erin; alle internationale dashboarduitkomsten nog niet.** Naast de genoemde gaten ontbreken gecertificeerde buitenlandse reeksen, de definitieve gebalanceerde referentieleden per vergelijking, en de werkelijke afgeleide referentiegemiddelden/rangtijdsreeksen met oudercellen en gekozen leden. De registratie van kandidaat-ouders voor A09 is geen voltooide rangberekening. De vijfkeuzebediening, referentie- en rangafleiding zijn geïmplementeerd en getest; volledige productvrijgave vereist de gecontroleerde R-uitvoer en vrijgavebewijzen.
 
 De gebruiker bouwt één figuur met jaren op de x-as. De rang van het hoofdland is relatief tot de gekozen internationale referentiegroep; die groep wordt niet als ranglijn geplot. Eventueel komt er één ander individueel land naast. Een ranglijst hoort alleen in de paper. Bij gewone vergelijkingen wegen referentielanden gelijk en blijft het hoofdland buiten zijn referentie; geen SE/CI op de samengestelde referentielijn.
 
@@ -183,7 +183,7 @@ A05 internationale absolute SES, A07 taal×migratie en A08 oude historische rang
 
 ## Meisjes bij PISA en herkomst
 
-De resolver gebruikt ST004D01T met labelcontrole én Female=1 / Male=2. ST004 en de gedocumenteerde ST004D01D zijn expliciete fallbacks; tegenstrijdige gevulde velden stoppen de run. Codes Other/95–99/ontbrekend worden geen meisjes. MALE=0 met label Female / Other evenmin. De onafhankelijke referentie-implementatie controleert dezelfde brondefinitie afzonderlijk. In de daadwerkelijk gecontroleerde Nederlandse PISA-2025-bron staan alle 6.636 ST004D01T-waarden op 99. MALE bevat 3.397 jongens, 3.237 Female / Other en 2 ontbrekend. Het label Female=1 bestaat dus, maar er zijn geen records met code 1. Zie ../PISA2025_USER_GENDER_FIELDS_RECHECK.json voor bronhash, tellingen en resolveruitkomst.
+De resolver gebruikt ST004D01T met labelcontrole én Female=1 / Male=2. ST004 en de gedocumenteerde ST004D01D zijn expliciete fallbacks; tegenstrijdige gevulde velden stoppen de run. Codes 95–99 en ontbrekend blijven ontbrekend. De expliciet goedgekeurde Female / Other-pooling gebruikt uitsluitend gecontroleerde broncodes en krijgt een eigen definitie en label; zij wordt nooit voorgesteld als afzonderlijk geobserveerde meisjes. De onafhankelijke referentie-implementatie controleert dezelfde brondefinitie afzonderlijk. In de daadwerkelijk gecontroleerde Nederlandse PISA-2025-bron staan alle 6.636 ST004D01T-waarden op 99. MALE bevat 3.397 jongens, 3.237 Female / Other en 2 ontbrekend. Het label Female=1 bestaat dus, maar er zijn geen records met code 1. Die tellingen blijven geldig; de nieuwe keuze staat berekening van de gepoolde categorie toe. Zie de actuele scopebesluiten en het poolingbewijs in het reviewregister.
 
 De officiële [OECD-database](https://www.oecd.org/en/data/datasets/pisa-2025-database.html) en [downloadindex](https://webfs.oecd.org/pisa2022/index.html) zijn geraadpleegd. De index biedt voor deze editie de SPSS-studentbron; er is daar geen afzonderlijke 2025-SAS-studentdownload aangetoond die dit oplost. Dezelfde bron opnieuw downloaden levert geen bewezen nieuwe meisjesinformatie op.
 

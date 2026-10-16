@@ -188,7 +188,7 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
       q4_target_pct_q1_peers="Share of Q1 peers among Q4 pupils",
       population_q1_share="National Q1 share (composition baseline)",
       population_q4_share="National Q4 share (composition baseline)")
-    row<-data.frame(figure_id=id,country=code,
+    row<-data.frame(figure_id=id,country=code,cell_id=as.character(source$metric_key[i]),
       year=as.character(source$year[i]),survey=as.character(source$survey[i]),
       domain=as.character(source$domain[i]),
       outcome_id=if(new_peer)"peer_share_below_basic"
@@ -219,7 +219,7 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
     rec[[length(rec)+1L]]<-row
   }
   result<-if(length(rec))do.call(rbind,rec) else data.frame(
-    figure_id=character(),country=character(),year=character(),
+    figure_id=character(),country=character(),cell_id=character(),year=character(),
     survey=character(),domain=character(),outcome_id=character(),
     estimate=numeric(),se=numeric(),n_unweighted=numeric(),n_definition=character(),
     scientific_status=character(),sample_id=character(),

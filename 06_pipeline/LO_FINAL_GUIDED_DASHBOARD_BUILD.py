@@ -50,6 +50,11 @@ def country_contract(bundle,registry=None,allow_synthetic=False):
  ids=[r["country"] for r in members]
  if len(set(ids))!=len(ids) or any(not re.fullmatch("[A-Z0-9]{3}",c) for c in ids):fail("invalid country registry identities")
  if any(r["eligibility_basis"]!="SHA_VERIFIED_SOURCE_SUPPORT" for r in members):fail("uncertified source eligibility")
+ names={"AUT":("Oostenrijk","Austria"),"CAN":("Canada","Canada"),"RUS":("Rusland","Russian Federation")}
+ for r in members:
+  for locale,index in (("nl",0),("en",1)):
+   key="country_name_"+locale
+   if r["country"] in names and r[key] in ("",r["country"]):r[key]=names[r["country"]][index]
  return [dict(r,route_code=r["country"],country_id="iso3:"+r["country"]) for r in members]
 def read_scope_decisions(path):
  if path is None:return {}
@@ -234,6 +239,7 @@ def product_rows(path,countries,figures):
   if k in observed:fail("duplicate country/figure/year/series")
   observed.add(k)
   val=dict(figure_id=fid,country_id="iso3:"+country,year=int(year),
+     cell_id=r.get("cell_id",""),
      estimate=estimate,n_unweighted=int(n),unit=f["unit"],
      series_id=r["series_id"],series_role=role,
      series_label_nl=r.get("series_label_nl",r["series_id"]),
@@ -281,6 +287,48 @@ def figure_complete(current,figure):
  pairs={(str(row["year"]),row["series_id"]) for row in current if row["series_role"]=="focus"}
  return bool(required) and bool(groups) and {(y,g) for y in required for g in groups}.issubset(pairs)
 
+def explorer_references(balance_path,countries,figures,rows):
+ """Bind certified comparison views to public figures through exact cell IDs.
+
+ Absence of the new mapping is an explicit pending state, never permission
+ to infer comparability from plotted values. All constituent views (including
+ peer baseline definitions) must pass; their eligible sets are intersected.
+ """
+ def array(value):return [] if value is None else value if isinstance(value,list) else [value]
+ evidence=json.loads(balance_path.read_text(encoding="utf-8-sig")) if balance_path else {}
+ views=array(evidence.get("views")); output=[]
+ by_country=defaultdict(lambda:defaultdict(list))
+ for row in rows:
+  if row["series_role"]=="focus":by_country[row["country_id"].split(":")[-1]][row["figure_id"]].append(row)
+ for country in sorted(countries):
+  for f in figures:
+   current=by_country[country][f["figure_id"]]
+   cell_ids={r.get("cell_id") for r in current if r.get("cell_id")}
+   matches=[v for v in views if v.get("focus")==country and cell_ids.intersection(array(v.get("view_cell_ids")))]
+   mapped=set().union(*(set(array(v.get("view_cell_ids"))) for v in matches)) if matches else set()
+   ready=bool(matches) and len(cell_ids)==len(current) and cell_ids<=mapped and figure_complete(current,f)
+   ready=ready and all(v.get("status") in ("BALANCED_REFERENCE_AVAILABLE","NO_ELIGIBLE_REFERENCE") for v in matches)
+   eligible=set(countries)-{country};defaults=set(eligible)
+   if ready:
+    for v in matches:
+     if v.get("focus_excluded") is not True or v.get("country_weights")!="EQUAL_PER_COUNTRY" or v.get("benchmark_uncertainty") is not False or not v.get("required_keys"):
+      fail("invalid reference policy for "+country)
+     options=array(v.get("options"))
+     allowed={o["country"] for o in options if o.get("eligible") is True and o.get("dashboard_eligible") is True}
+     eligible &= allowed
+     defaults &= set(array(v.get("default_members")))
+    # Publishing a member also requires a complete exact figure payload.
+    eligible={c for c in eligible if figure_complete(by_country[c][f["figure_id"]],f)}
+    defaults &= eligible
+   else:eligible=set();defaults=set()
+   output.append(dict(focus=country,figure_id=f["figure_id"],
+     status="BALANCED_REFERENCE_AVAILABLE" if ready and eligible else "NO_ELIGIBLE_REFERENCE" if ready else "COMPARABILITY_PENDING",
+     eligible_members=sorted(eligible),default_members=sorted(defaults),
+     evidence_sha256=sha(balance_path) if balance_path else None,
+     view_ids=sorted(v["view_id"] for v in matches),required_years=f["required_years"],
+     expected_series=f["expected_series"],focus_excluded=True,country_weights="EQUAL_PER_COUNTRY",benchmark_uncertainty=False))
+ return dict(schema_version=1,policy="FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3",figures=output)
+
 def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
           unavailable_review=None,country_registry=None,scope_decisions=None,balance_export=None):
  if destination.exists():fail("immutable candidate path already exists")
@@ -308,6 +356,8 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
   encoding="utf-8")
  if balance_export is not None:
   shutil.copyfile(balance_export,destination/"data"/"balanced_references.json")
+ (destination/"data"/"explorer_references.json").write_text(json.dumps(
+   explorer_references(balance_export,ids,figures,numeric_rows),ensure_ascii=False),encoding="utf-8")
  (destination/"data"/"figure_registry.json").write_text(
   json.dumps({"figures":figures},ensure_ascii=False),encoding="utf-8")
  method_ids=sorted({f["method_id"] for f in figures})
