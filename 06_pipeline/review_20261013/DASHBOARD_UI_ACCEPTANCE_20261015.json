@@ -46,13 +46,16 @@
     "reference_checkboxes_and_restore_defaults": "PASS; separate visibly labelled synthetic fixture",
     "rank_focus_plus_one_country_no_group_line_no_CI": "PASS; separate visibly labelled synthetic fixture",
     "dialog_escape_and_focus_return": "PASS",
-    "console_errors": "NONE_OBSERVED",
+    "console_errors": "Initial test sequence: none. One animation-related console error was observed after viewport reset; source unknown. UI and SVG/CSV downloads rechecked successfully.",
     "svg_download": "PASS; actual downloaded SVG parsed and visually inspected; 10 synthetic records, original embedded logo and embedded fonts",
     "svg_download_sha256": "3f82158bcd0d66c6fa1f5917e484fd6f82b0914a4aa8e78738891d2314753fc8",
     "screenshots": {
       "05_publication/preview_overlay/qa/desktop_20261016.png": "17d2ca315ef3b08d92cc7bf05229bdd25f45f0a51a17cdc910db11c91bf0a09c",
       "05_publication/preview_overlay/qa/mobile_20261016.png": "c7e65d7d1ba134a12337b88c3c3ebf028ad1142bcfb31034484dc65c28e6b750"
-    }
+    },
+    "csv_download": "PASS; actual downloaded CSV parsed: five real Dutch observations with result fingerprints",
+    "download_tool_limit": "Browser waitForEvent returned only after an unexpectedly long delay despite its explicit 8-second timeout. Actual saved SVG and CSV files were independently parsed; no such wait is part of dashboard code.",
+    "json_provenance": "exportPayload serialization verified in the SVG regression test and actual SVG metadata; a separate browser JSON file download was not independently inspected"
   },
   "local_tests": {
     "node_test_explorer_with_real_174_figure_contracts": "PASS; every active contract uniquely reachable",
@@ -65,7 +68,35 @@
     "repository_validator": "PASS",
     "result_snapshot_and_current_coverage_validator": "PASS"
   },
-  "CI": "PENDING_COMMIT",
+  "CI": {
+    "tested_commit": "a682f437e2cb28cd1e940bcbeb661a25fc2a1c21",
+    "conclusion": "SUCCESS",
+    "runs": [
+      {
+        "name": "public-dashboard-checks",
+        "run_id": 38833328948,
+        "conclusion": "success",
+        "url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/38833328948"
+      },
+      {
+        "name": "repository-checks",
+        "run_id": 38833328899,
+        "conclusion": "success",
+        "url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/38833328899"
+      },
+      {
+        "name": "storage-and-replication-contract",
+        "run_id": 38833328997,
+        "conclusion": "success",
+        "url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/38833328997"
+      }
+    ],
+    "platforms": [
+      "ubuntu-latest",
+      "windows-latest"
+    ],
+    "scope": "Dashboard engine and rendering; Python suite and manifest checks; R entrypoints, balance/export, storage, resume and locked environment"
+  },
   "remaining_external_dependencies": [
     "Finish the existing R production and rerun fixed-finalize to export certified cell IDs and per-view balance proof.",
     "Final international numeric payloads, paper/scientific/rights/replication approvals remain required for public release.",
