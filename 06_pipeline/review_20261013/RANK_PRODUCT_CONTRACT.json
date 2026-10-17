@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "approval_id": "A09",
+  "decision_date": "2026-10-14",
+  "scope_status": "APPROVED",
+  "user_evidence": "ik wil wel rang van individuele landen of een vergelijkingsgroep kunnen plotten op het dashboard, en een ranglijst in het wetenschappelijke paper maar niet in het dashboard. Dashboard is gecentreerd om steeds 1 figuur met jaren op x-as, voor uitkomstmaat en leeftijd (groep 4 of 15 jaar) en split/vergelijking naar keuze. Dat is wat het dashboard je laat bouwen",
+  "dashboard": {
+    "figures_visible": 1,
+    "x_axis": "year",
+    "controls": [
+      "focus_country",
+      "outcome",
+      "age_population",
+      "split",
+      "comparison",
+      "value_or_rank"
+    ],
+    "rank_series": [
+      "focus_country",
+      "optional_single_other_country"
+    ],
+    "country_ranking_table": false,
+    "maximum_displayed_countries": 2,
+    "group_rank_series": false,
+    "ranking_country_group": "The selected international comparison group determines the country rank; the group itself is not plotted",
+    "rank_basis": "selected_international_reference_group",
+    "reference_group_plotted_in_rank_view": false
+  },
+  "paper": {
+    "country_ranking_table": true,
+    "source": "Same certified aggregate result version as dashboard"
+  },
+  "computation": {
+    "new_pupil_tasks": false,
+    "product_placement": "Rank view uses only outcomes approved for that product; appendix and scientific-only extensions do not become main-dashboard outcomes",
+    "parents": "Exact certified outcome cells or certified joint-gap derivations; preserve IDs, hashes, definitions, source, population and uncertainty",
+    "ranking_universe": "Derive ranks relative to the selected international reference group, with explicit constant membership over all required years and jointly compared groups; existing full-focus and 6x3 rules apply. No separate ranking-group selection.",
+    "legacy_fixed_panels_authorized": false,
+    "group_rank_definition": "NOT_APPLICABLE: no group rank or average rank is produced",
+    "rank_direction": "Explicit per outcome, not inferred from higher-is-better",
+    "ties": "Must be specified in derivation version",
+    "uncertainty": "Do not reuse score SE as rank SE; no comparison-group CI; point ranks do not prove significant differences",
+    "ranked_country_membership": "The focus country is evaluated relative to the selected reference group and is not a member of its own reference group. Include the focus result once when determining its position relative to those countries; do not require the user to check it into the reference group. An optional single-country comparison uses the same disclosed rank basis."
+  },
+  "open_clarifications": [],
+  "population": {
+    "current_source": "International fourth grade (Netherlands group 6, around age 10) and 15-year-olds",
+    "user_wording": "groep 4 of 15 jaar",
+    "status": "CONFIRMED_INTERNATIONAL_GRADE4_NLD_GROUP6"
+  },
+  "implementation_status": "PRODUCT_CONTRACT_AND_PARENT_TRACE_RECORDED;NUMERICAL_COUNTRY_RANK_DERIVATION_AND_DASHBOARD_CONTROLS_NOT_YET_BUILT",
+  "clarifying_user_evidence": "rang vergelijken we niet met een groep. Mogelijk wel met een enkel ander land. Rang is wel op basis van een gekozen landengroep",
+  "population_confirmation": "Ja: vierde leerjaar / Nederlandse groep 6",
+  "latest_user_evidence": "nee bij de rangfiguren plotten we niet de internationale vergelijkingsgroep. Maar de rang van NL is wel relatief tot de vergelijkingsgroep"
+}

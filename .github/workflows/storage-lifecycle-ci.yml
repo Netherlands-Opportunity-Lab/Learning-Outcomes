@@ -1,0 +1,166 @@
+name: storage-and-replication-contract
+on:
+  pull_request:
+    paths:
+      - "06_pipeline/**"
+      - "START.R"
+      - ".gitattributes"
+      - "04_results/review/**"
+      - "scripts/validate_result_snapshots.py"
+      - ".github/workflows/storage-lifecycle-ci.yml"
+  workflow_dispatch:
+jobs:
+  locked-environment:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.6.1'
+      - name: Restore the recorded scientific environment in a clean library
+        run: Rscript -e "install.packages('renv', repos='https://cloud.r-project.org'); renv::restore(project='.', lockfile='renv.lock', prompt=FALSE)"
+      - name: Verify exact versions and meaningful source and dispatch tests
+        run: Rscript 06_pipeline/tests/test_locked_environment.R
+  storage-tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test local storage and private Drive sync (no credentials)
+        run: python -m unittest discover -s 06_pipeline/tests -v
+      - name: Verify historical manifest bytes and repository boundaries on both platforms
+        run: python scripts/validate_repository.py
+      - name: Verify committed aggregate and producer-code manifests
+        run: python scripts/validate_result_snapshots.py
+  r-entrypoint-parse:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+      - name: Install minimal R JSON dependency
+        run: Rscript -e "install.packages(c('jsonlite','digest','zip','DBI','RSQLite','haven','filelock'), repos='https://cloud.r-project.org')"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Kill a real R writer and resume committed grid transactions
+        run: python 06_pipeline/tests/crash_resume_check.py
+      - name: Guard checkout before Git updates and recover after process death
+        run: python 06_pipeline/tests/startup_lock_check.py
+      - name: Parse R production launcher without starting any production
+        run: Rscript -e "parse(file='START.R'); parse(file='06_pipeline/RUN.R'); parse(file='06_pipeline/DRIVE_SYNC.R'); parse(file='06_pipeline/GITHUB_STATUS.R'); parse(file='06_pipeline/BUNDLE_DISCOVERY.R'); parse(file='06_pipeline/PRODUCT_SCOPE_GATE.R'); parse(file='06_pipeline/REFERENCE_SOURCE_AUDIT.R'); parse(file='06_pipeline/MASTER_STORAGE.R'); parse(file='06_pipeline/LOCAL_CLEANUP_GATE.R'); parse(file='06_pipeline/LOCAL_QUARANTINE.R'); parse(file='06_pipeline/PROVENANCE_AUDIT.R'); parse(file='06_pipeline/CANONICAL_RESULT_RECONCILIATION.R'); parse(file='06_pipeline/CONTRACT_REUSE_QUEUE.R'); parse(file='06_pipeline/REUSE_PREFLIGHT.R'); parse(file='06_pipeline/EXISTING_LO02_EXPORT.R'); parse(file='06_pipeline/MINIMUM_FIGURE_QUEUE.R'); parse(file='06_pipeline/MASTER_ESTIMATION_GRID.R'); parse(file='06_pipeline/GRID_ARCHIVE_BATCH.R'); parse(file='06_pipeline/LO_SCOPE_LOCK.R'); parse(file='06_pipeline/LO_EXISTING_RESULT_REGISTRY.R'); parse(file='06_pipeline/LO_FIXED_VALIDATION.R'); parse(file='06_pipeline/LO_FIXED_PRODUCERS.R'); parse(file='06_pipeline/LO_FIXED_CLEANUP_GATES.R'); parse(file='06_pipeline/LO_FIXED_CONTROLLER.R'); parse(file='06_pipeline/LO_FIXED_COMPARATOR.R'); parse(file='06_pipeline/LO_COMPACT_GRID_STORE.R'); parse(file='06_pipeline/LO_COMPACT_RECOMPUTE.R'); parse(file='06_pipeline/LO_FINAL_DASHBOARD_EXPORT.R'); parse(file='06_pipeline/V5_NLD_CORE_ONLY.R'); parse(file='06_pipeline/RESULT_LINEAGE_RECORDS.R'); parse(file='06_pipeline/RECONCILE_AND_PLAN.R'); cat('R launcher and native Drive sync parse OK\n')"
+      - name: Validate historical reference fixtures (not current admission)
+        run: Rscript 06_pipeline/tests/test_run.R
+      - name: Test R-native private Drive reports and reviewed return ZIP
+        run: Rscript 06_pipeline/tests/test_drive_sync_r.R
+      - name: Test exact-run LO02 read-only export, without pupil data
+        run: Rscript 06_pipeline/tests/test_existing_lo02_export.R
+      - name: Test product-driven minimum computations with synthetic contracts
+        run: Rscript 06_pipeline/tests/test_minimum_figure_queue.R
+      - name: Test blank-first scientific estimation grid and strict archive fill
+        run: Rscript 06_pipeline/tests/test_master_estimation_grid.R
+      - name: Test strict archive grid fill and shared-wave batch scheduling
+        run: Rscript 06_pipeline/tests/test_grid_archive_batch.R
+      - name: Test production scopes, artifact QA gates and dashboard mapping
+        run: Rscript 06_pipeline/tests/test_fixed_pipeline.R
+      - name: Test balanced country eligibility and joint subgroup references
+        run: Rscript 06_pipeline/tests/test_balanced_membership.R
+      - name: Test explicit human decisions before adding optional science targets
+        run: Rscript 06_pipeline/tests/test_scope_decisions.R
+      - name: Test approved-cell dispatch, resume, stale input and idempotence
+        run: Rscript 06_pipeline/tests/test_exact_dispatch.R
+      - name: Test explicit run configuration and recorded provenance
+        run: Rscript 06_pipeline/tests/test_run_config.R
+      - name: Test certified aggregate GitHub export and private-field exclusion
+        run: Rscript 06_pipeline/tests/test_github_results.R
+      - name: Test immutable environment verification
+        run: Rscript 06_pipeline/tests/test_environment.R
+      - name: Test dynamic source eligibility beyond historical country lists
+        run: Rscript 06_pipeline/tests/test_country_registry.R
+      - name: Test approved country expansion without historical whitelist
+        run: Rscript 06_pipeline/tests/test_country_tasks.R
+      - name: Test international source identity and atomic checkpoints
+        run: Rscript 06_pipeline/tests/test_international_sources.R
+      - name: Reuse certified results across scopes
+        run: Rscript 06_pipeline/tests/test_scope_result_reuse.R
+      - name: Test certified balance adapter and full-focus export
+        run: Rscript 06_pipeline/tests/test_balanced_export.R
+      - name: Test exact guided export and pending scope exclusion
+        run: Rscript 06_pipeline/tests/test_final_guided_export.R
+      - name: Test approved extension contracts and exact selected estimators
+        run: Rscript 06_pipeline/tests/test_approved_extensions.R
+      - name: Test optimized peer sums against the original estimator
+        run: Rscript 06_pipeline/tests/test_peer_fast_sum.R
+      - name: Test bounded background matrices and all joint replicates
+        run: Rscript 06_pipeline/tests/test_background_linear.R
+      - name: Test fresh evidence hashes before source checkpoint reuse
+        run: Rscript 06_pipeline/tests/test_source_checkpoint_reuse.R
+      - name: Test exact international worklist and proven absence exclusions
+        run: Rscript 06_pipeline/tests/test_international_worklist.R
+      - name: Test approved pooled gender identities and mapping
+        run: Rscript 06_pipeline/tests/test_gender_pool_policy.R
+      - name: Test private incremental checkpoint recovery
+        run: Rscript 06_pipeline/tests/test_remote_checkpoint.R
+      - name: Test balanced individual country rank derivation
+        run: Rscript 06_pipeline/tests/test_country_ranks.R
+      - name: Test selected SES composition and missing peer denominators
+        run: Rscript 06_pipeline/tests/test_ses_composition.R
+      - name: Test independent selected SES reference estimates
+        run: Rscript 06_pipeline/tests/test_ses_reference.R
+      - name: Test function-only boot without legacy inventory or raw fallback
+        run: Rscript 06_pipeline/tests/test_exact_boot.R
+      - name: Test source-label and ID-checked demographic repair
+        run: Rscript 06_pipeline/tests/test_source_repair.R
+      - name: Test independent raw PISA sample weights and PV verification
+        run: Rscript 06_pipeline/tests/test_verify_pisa_core.R
+      - name: Test labelled PISA source repair and independent paired verification
+        run: Rscript 06_pipeline/tests/test_pisa_source_block.R
+      - name: Test proven source absence without shortening the grid
+        run: Rscript 06_pipeline/tests/test_source_unavailability.R
+      - name: Test raw IEA source population and JRR verification
+        run: Rscript 06_pipeline/tests/test_iea_source_block.R
+      - name: Test ordinal IEA books and fractional quartiles
+        run: Rscript 06_pipeline/tests/test_iea_background.R
+      - name: Test background source labels and independent peer reference
+        run: Rscript 06_pipeline/tests/test_background_sources.R
+      - name: Test streaming older PISA sources and five plausible values
+        run: Rscript 06_pipeline/tests/test_pisa_legacy_source.R
+      - name: Test frozen equal-weight reference panel and no benchmark SE
+        run: Rscript 06_pipeline/tests/test_fixed_comparator.R
+      - name: Test locked archive and SQLite evidence extraction without fabricated N
+        run: Rscript 06_pipeline/tests/test_fixed_existing_result_registry.R
+      - name: Test public Git status privacy filter without network push
+        run: Rscript 06_pipeline/tests/test_github_status.R
+      - name: Test figure, slide, paper and country-scope mapping invariants
+        run: Rscript 06_pipeline/tests/test_product_gate.R
+      - name: Test 89GB inventory/retirement gates with synthetic files
+        run: Rscript 06_pipeline/tests/test_master_storage.R
+      - name: Test gated same-volume quarantine and restore with synthetic files
+        run: Rscript 06_pipeline/tests/test_local_quarantine.R
+      - name: Test reuse preflight with no approval and locked execution
+        run: Rscript 06_pipeline/tests/test_reuse_preflight.R
+      - name: Test archive-first contract reuse and conflict semantics
+        run: Rscript 06_pipeline/tests/test_contract_reuse_queue.R
+      - name: Test compact source-free SQLite grid with correct estimate SE and N
+        run: Rscript 06_pipeline/tests/test_compact_grid_store.R
+      - name: Test low-basic peer PV denominator and minimal active figures
+        run: Rscript 06_pipeline/tests/test_compact_recompute.R
+      - name: Test independent peer PV counts and self-exclusion
+        run: Rscript 06_pipeline/tests/test_peer_reference.R
+      - name: Test NLD-only native V5 path with candidate suppression
+        run: Rscript 06_pipeline/tests/test_v5_nld_core.R
+
+

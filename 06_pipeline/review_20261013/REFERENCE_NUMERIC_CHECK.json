@@ -1,0 +1,27 @@
+{
+  "raw_sha256": "0d21bdc1cc3070a632d09a76620dab0c971ba1c7053a95027b7f685f43db5df3",
+  "threshold_czechia": 57625.0961715706,
+  "strict_members_including_NLD": [
+    "AUS",
+    "AUT",
+    "BEL",
+    "CAN",
+    "CHE",
+    "DEU",
+    "DNK",
+    "ESP",
+    "FIN",
+    "FRA",
+    "GBR",
+    "IRL",
+    "ISL",
+    "ITA",
+    "KOR",
+    "LUX",
+    "NLD",
+    "NOR",
+    "SWE",
+    "USA"
+  ],
+  "status": "RAW_SNAPSHOT_NUMERIC_PARITY_VERIFIED"
+}

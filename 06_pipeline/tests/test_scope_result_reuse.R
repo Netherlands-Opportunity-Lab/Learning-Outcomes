@@ -1,0 +1,13 @@
+source('06_pipeline/LO_SCOPE_RESULT_REUSE.R')
+source('06_pipeline/LO_COMPACT_GRID_STORE.R')
+root<-tempfile('scope_reuse_');dir.create(root)
+row<-data.frame(cell_id='NLD|fixture',survey='PISA',country='NLD',year='2022',domain='reading',module='core',stat='mean',subgroup='total',definition='total',unit='score_points',peer_environment='',threshold='',estimate=501.123456789012,standard_error=3.4,n_unweighted=5000L,input_fingerprint=paste(rep('a',64),collapse=''),producer_fingerprint=paste(rep('b',64),collapse=''),method_id='TEST',status='COMPUTED_PENDING_VALIDATION',hold_reason='')
+con<-lo_compact_open(file.path(root,'FIXED_PRODUCTION_V1/nld_only/compact'));lo_compact_put(con,row);lo_compact_close(con)
+grid<-row;grid$status<-'SCIENTIFICALLY_VALIDATED';grid$code_fingerprint<-row$producer_fingerprint
+stopifnot(lo_scope_result_reuse(normalizePath('.'),root,'all_required',grid)==1L)
+stopifnot(lo_scope_result_reuse(normalizePath('.'),root,'all_required',grid)==0L)
+con<-lo_compact_open(file.path(root,'FIXED_PRODUCTION_V1/all_required/compact'))
+stopifnot(identical(DBI::dbGetQuery(con,'SELECT estimate FROM grid')$estimate,row$estimate));lo_compact_close(con)
+grid$input_fingerprint<-paste(rep('c',64),collapse='')
+stopifnot(inherits(try(lo_scope_result_reuse(normalizePath('.'),root,'nld_plus_19',grid),silent=TRUE),'try-error'))
+cat('PASS cross-scope certified value reuse, full precision, second-run zero writes and changed-input rejection\n')

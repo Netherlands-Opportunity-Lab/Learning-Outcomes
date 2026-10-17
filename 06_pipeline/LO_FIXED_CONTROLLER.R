@@ -1,0 +1,403 @@
+# SINGLE FIXED CONTROLLER: audit -> produce -> finalize (+ separate cleanup).
+# This file deliberately never changes the pinned scientific engine or the
+# September released website. All scientific values remain local/private.
+lo_fixed_remaining_targets <- function(status) sum(status!='SCIENTIFICALLY_VALIDATED' & !startsWith(status,'UNAVAILABLE_'))
+lo_fixed_status_summary <- function(repo,state,scope) {
+  # Read only the saved audit. This is not a fresh source verification and an
+  # empty certified queue must never be presented as completed science.
+  source(file.path(repo,"06_pipeline","LO_RUN_CONFIG.R"),local=environment())
+  cfg<-lo_run_config(scope)
+  paths<-file.path(state,c("FIXED_INPUT_MANIFEST.json","PRIVATE_MASTER_GRID.csv"))
+  result<-list(audit="NOT_AVAILABLE",configuration="NOT_CHECKED",grid="NOT_CHECKED",
+    targets=NA_integer_,validated=NA_integer_,unavailable=NA_integer_,remaining=NA_integer_,
+    approved_compute_cells=NA_integer_,scientific_readiness="NOT_ESTABLISHED_BY_STATUS")
+  if(!all(file.exists(paths)))return(result)
+  manifest<-jsonlite::fromJSON(paths[1])
+  saved<-read.csv(paths[2],stringsAsFactors=FALSE,na.strings=character())
+  if(!all(c("cell_id","status")%in%names(saved))||anyDuplicated(saved$cell_id))
+    stop("FIXED_STATUS_INVALID_SAVED_GRID")
+  result$audit<-"RECORDED_COUNTS_ONLY"
+  result$configuration<-if(identical(lo_run_config_hash(cfg),manifest$sha256$run_configuration))"MATCH"else"CHANGED_REAUDIT_REQUIRED"
+  result$grid<-if(identical(digest::digest(file=paths[2],algo="sha256"),manifest$grid_sha256))"MATCH"else"CHANGED_REAUDIT_REQUIRED"
+  result$targets<-nrow(saved)
+  result$validated<-sum(saved$status=="SCIENTIFICALLY_VALIDATED")
+  result$unavailable<-sum(startsWith(saved$status,"UNAVAILABLE_"))
+  result$remaining<-result$targets-result$validated-result$unavailable
+  result$approved_compute_cells<-sum(saved$status=="COMPUTE_REQUIRED_AFTER_METHOD_GATE")
+  result
+}
+
+lo_fixed_controller <- function(repo,bundle,
+  stage=c("audit","produce","finalize","cleanup-plan","status"),
+  scope=c("nld_only","nld_plus_19","all_required"),
+  root=Sys.getenv("LO_FIXED_ROOT",unset=file.path(
+    Sys.getenv("USERPROFILE",unset=path.expand("~")),"Downloads","LO05_RESULTATEN"))) {
+  stage<-match.arg(stage);scope<-match.arg(scope)
+  for(name in c("LO_SCOPE_LOCK.R","LO_SCOPE_DECISIONS.R","LO_BALANCED_MEMBERSHIP.R",
+    "LO_COUNTRY_REGISTRY.R","LO_COUNTRY_TASKS.R","LO_GENDER_POOL_POLICY.R","MASTER_ESTIMATION_GRID.R","LO_APPROVED_EXTENSIONS.R",
+    "GRID_ARCHIVE_BATCH.R","LO_EXISTING_RESULT_REGISTRY.R",
+    "LO_FIXED_VALIDATION.R","LO_FIXED_PRODUCERS.R","LO_PRODUCT_TRACE.R","LO_SOURCE_UNAVAILABILITY.R")) {
+    source(file.path(repo,"06_pipeline",name),
+           local=environment(),encoding="UTF-8")
+  }
+  state<-file.path(root,"FIXED_PRODUCTION_V1",scope)
+  if(stage=="status") {
+    status_file<-file.path(state,"FIXED_STAGE_STATUS.csv")
+    if(!file.exists(status_file)) {
+      cat("FIXED_PIPELINE_STATUS=NOT_STARTED; scope=",scope,"\n",sep="")
+      return(invisible(data.frame()))
+    }
+    x<-read.csv(status_file,stringsAsFactors=FALSE)
+    current<-lo_fixed_status_summary(repo,state,scope)
+    cat("FIXED_PIPELINE_STATUS=",current$audit,"; scope=",scope,
+      "; configuration=",current$configuration,"; saved_grid=",current$grid,"\n",sep="")
+    if(is.finite(current$targets))cat("Targets: ",current$targets,
+      "; recorded scientifically validated: ",current$validated,
+      "; documented unavailable: ",current$unavailable,
+      "; remaining: ",current$remaining,
+      "; certified compute cells: ",current$approved_compute_cells,"\n",sep="")
+    cat("Status reads saved evidence only. A zero compute queue does not mean all analyses are complete.\n")
+    if(nrow(x))print(x[!duplicated(x$stage,fromLast=TRUE),,drop=FALSE],row.names=FALSE)
+    cat("Full history retained: ",status_file,"\n",sep="")
+    attr(x,"current_audit")<-current
+    return(invisible(x))
+  }
+  source(file.path(repo,"06_pipeline","LO_RUN_CONFIG.R"),local=environment())
+  run_config<-lo_run_config(scope)
+  # Every scope writes the same scientific registry. One OS-owned lock prevents
+  # an NLD run and an international run from overwriting each other's commits.
+  source(file.path(repo,'06_pipeline/LO_PROCESS_LOCK.R'),local=environment())
+  master_lock<-lo_process_lock(file.path(root,'master_reconciliation','.SCIENTIFIC_MASTER_WRITER.lck'))
+  on.exit(lo_process_unlock(master_lock),add=TRUE)
+  international_manifest<-file.path(root,'international','SOURCE_RUN_MANIFEST.csv')
+  if(scope!='nld_only'&&stage=='audit'&&!file.exists(international_manifest)&&nzchar(Sys.getenv('LO_SOURCE_BINDINGS',''))) {
+    source(file.path(repo,'06_pipeline/LO_SOURCE_BINDINGS.R'),local=environment())
+    lo_bind_international_sources(repo,root,Sys.getenv('LO_SOURCE_BINDINGS'))
+  }
+  if(scope!='nld_only'&&stage=='audit'&&file.exists(international_manifest)) {
+    source(file.path(repo,'06_pipeline/LO_INTERNATIONAL_SOURCES.R'),local=environment())
+    lo_international_sources(repo,root,international_manifest)
+  }
+  if(nzchar(Sys.getenv("LO_REPRODUCE_COMMIT",""))) {
+    source(file.path(repo,"06_pipeline","LO_ENVIRONMENT.R"),local=environment())
+    lo_environment_check(repo,strict=TRUE)
+  }
+  tasks<-read.csv(file.path(bundle,"engine","TASKS.csv"),
+     colClasses="character",stringsAsFactors=FALSE,check.names=FALSE)
+  if(nrow(tasks)!=79448L||anyDuplicated(tasks$metric_key))
+    stop("FIXED_PIPELINE_HOLD: original 79448-key lock changed")
+  source_support<-lo_read_source_support(file.path(root,"master_reconciliation",
+                                            "SOURCE_SUPPORT_CONTRACTS.csv"))
+  scope_info<-lo_runtime_scope(bundle,tasks,scope,source_support)
+  selected<-lo_country_base_tasks(tasks,scope_info)
+  scope_decisions<-lo_read_scope_decisions(repo)
+  new_peer_tasks<-lo_scoped_low_peer_tasks(selected,scope_decisions)
+  selected<-lo_scope_active_tasks(selected,scope_decisions)
+  extensions<-lo_gender_pool_tasks(lo_extension_tasks(selected,scope_decisions),source_support)
+  selected<-lo_gender_pool_tasks(selected,source_support)
+  selected<-rbind(selected,lo_scope_active_tasks(extensions,scope_decisions))
+  chosen_ids<-lo_run_select(rbind(selected,new_peer_tasks),run_config)$metric_key
+  selected<-selected[selected$metric_key%in%chosen_ids,,drop=FALSE]
+  new_peer_tasks<-new_peer_tasks[new_peer_tasks$metric_key%in%chosen_ids,,drop=FALSE]
+  extensions<-extensions[extensions$metric_key%in%chosen_ids,,drop=FALSE]
+  state<-file.path(root,"FIXED_PRODUCTION_V1",scope)
+  dir.create(state,recursive=TRUE,showWarnings=FALSE)
+  evidence_dir<-file.path(state,"FINAL_FIXED_PIPELINE")
+  dir.create(evidence_dir,recursive=TRUE,showWarnings=FALSE)
+  source(file.path(repo,"06_pipeline","LO_PROCESS_LOCK.R"),local=environment())
+  lock<-lo_process_lock(file.path(state,".FIXED_PRODUCTION_WRITER.lck"),
+    file.path(state,"FIXED_PRODUCTION_OPERATION.lock"))
+  on.exit(lo_process_unlock(lock),add=TRUE)
+  run_outcome<-"FAILED_OR_INTERRUPTED"
+  # Persist settings and code identity before computation. A hard process kill
+  # skips on.exit; completed SQLite receipts can still be linked to this run.
+  lo_run_record(repo,state,stage,run_config,"STARTED_CHECKPOINTS_DURABLE")
+  on.exit(lo_run_record(repo,state,stage,run_config,run_outcome),add=TRUE)
+  statusfile<-file.path(state,"FIXED_STAGE_STATUS.csv")
+  old<-if(file.exists(statusfile))read.csv(statusfile,stringsAsFactors=FALSE) else
+    data.frame(stage=character(),scope=character(),status=character(),
+      timestamp_utc=character(),detail=character(),stringsAsFactors=FALSE)
+  put<-function(name,status,detail="") {
+    item<-data.frame(stage=name,scope=scope,status=status,
+      timestamp_utc=format(Sys.time(),"%Y-%m-%dT%H:%M:%SZ",tz="UTC"),
+      detail=substr(detail,1L,450L),stringsAsFactors=FALSE)
+    latest<-rbind(old,item)
+    write.csv(latest,statusfile,row.names=FALSE)
+    old <<- latest
+    run_outcome <<- status
+    cat("FIXED_STAGE=",name," STATUS=",status,
+        if(nzchar(detail))paste0(" DETAIL=",detail)else"","\n",sep="")
+    invisible(item)
+  }
+  if(stage=="cleanup-plan") {
+    # No file removal. Use existing candidate review, then the stronger
+    # OFF-C independent restore proof gate; a missing input is a HOLD report.
+    master <- file.path(root,"master_reconciliation")
+    review <- tryCatch(source(file.path(repo,"06_pipeline",
+       "LOCAL_CLEANUP_GATE.R"),local=environment(),encoding="UTF-8"),
+       error=function(e)e)
+    source(file.path(repo,"06_pipeline","LO_FIXED_CLEANUP_GATES.R"),
+           local=environment(),encoding="UTF-8")
+    report <- lo_fixed_backup_cleanup_gate(master,action="plan")
+    put("cleanup-plan",
+       if(inherits(review,"error"))"HOLD_MISSING_CANDIDATE_INVENTORY"
+       else "REVIEW_ONLY_NO_DELETE",
+       if(inherits(review,"error"))conditionMessage(review)
+       else "No C-disk space freed; off-C restores required")
+    return(invisible(report))
+  }
+  international_changed<-FALSE
+  if(stage=='produce'&&file.exists(international_manifest)) {
+    # The international source adapter is a producer too: validate the saved
+    # worklist BEFORE it can read/compute cells, not only before final dispatch.
+    manifest_path<-file.path(state,'FIXED_INPUT_MANIFEST.json')
+    if(!file.exists(manifest_path))stop('FIXED_AUDIT_REQUIRED')
+    recorded<-jsonlite::fromJSON(manifest_path,simplifyVector=TRUE)
+    current<-lo_fixed_input_manifest(repo,bundle,root,scope)
+    if(!identical(recorded$scope,current$scope)||
+       !identical(as.character(unlist(recorded$sha256)),as.character(unlist(current$sha256)))||
+       digest::digest(file=file.path(state,'PRIVATE_MASTER_GRID.csv'),algo='sha256')!=recorded$grid_sha256)
+      stop('FIXED_AUDIT_INPUT_CHANGED: rerun bounded fixed-audit')
+    source(file.path(repo,'06_pipeline/LO_INTERNATIONAL_PRODUCTION.R'),local=environment())
+    international_result<-lo_international_produce(repo,bundle,root,scope)
+    # Refresh the saved exact grid from durable block certificates before the
+    # existing dispatcher/status/export path inspects it. Zero queued cells
+    # must not hide unfinished or unavailable international targets.
+    after_international<-lo_fixed_input_manifest(repo,bundle,root,scope)
+    international_changed<-!identical(current$sha256,after_international$sha256)
+  }
+  membership <- lo_runtime_scope_evidence(scope_info,state)
+  if(stage=="audit"||international_changed) {
+    audit<-lo_existing_result_evidence(bundle,selected,state,
+       lo02_root=Sys.getenv("LO02_ROOT",
+          file.path(Sys.getenv("USERPROFILE",unset=path.expand("~")),
+                    "Downloads","LO02_PRODUCTIE")))
+    grid<-lo_grid_from_tasks(selected)
+    home_availability<-lo_extension_availability(extensions)
+    write.csv(home_availability,file.path(state,"HOME_SES_YEAR_AVAILABILITY.csv"),row.names=FALSE)
+    unavailable<-home_availability[home_availability$status%in%c("OFFICIAL_SCALE_NOT_IN_EARLIER_CYCLE",
+      "UNAVAILABLE_HOME_QUESTIONNAIRE_NOT_ADMINISTERED"),]
+    unavailable_keys<-paste(unavailable$country,unavailable$survey,unavailable$year)
+    is_unavailable<-selected$module=="extension_home_ses" &
+      paste(selected$country,selected$survey,selected$year)%in%unavailable_keys
+    ui<-match(paste(selected$country,selected$survey,selected$year),unavailable_keys)
+    grid$status[is_unavailable]<-"UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE"
+    grid$hold_reason[is_unavailable]<-unavailable$reason[ui[is_unavailable]]
+    grid<-lo_grid_mark_archive_candidates(grid,
+       audit$evidence$metric_key[
+         audit$evidence$source_kind=="LO01_HISTORICAL_CANDIDATES"],
+       audit$evidence$metric_key[
+         audit$evidence$source_kind=="LO02_RETURN_20261010_CURRENT_RESULTS"])
+    # Only an explicit human A01 decision creates new below-basic targets.
+    # They remain separate from old HIGH-peer cells and need method evidence.
+    if(nrow(new_peer_tasks)) {
+      peer_grid <- lo_grid_from_tasks(new_peer_tasks)
+      peer_grid$status <- "NEW_LOW_PEER_METHOD_GATE_REQUIRED"
+      peer_grid$hold_reason <-
+         "Requires weighted PV/replicate, peer self-exclusion and source sample certification"
+      grid <- rbind(grid,peer_grid)
+    }
+    # Other SQLite objects exist as unvalidated candidates. They never
+    # overwrite estimate, standard error or N in the scientific grid.
+    live_keys<-unique(audit$evidence$metric_key[
+      grepl("^LIVE_(LO02|CONSOLIDATED|PARQUET)_",audit$evidence$source_kind)])
+    is_live<-grid$cell_id%in%live_keys &
+      grid$status=="TARGET_NOT_YET_ADJUDICATED"
+    grid$status[is_live]<-"LIVE_SQLITE_CANDIDATE_NOT_VALIDATED"
+    approved_file<-file.path(root,"master_reconciliation",
+                             "SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv")
+    if(file.exists(approved_file)) {
+      a<-read.csv(approved_file,stringsAsFactors=FALSE,check.names=FALSE)
+      a<-a[a$cell_id%in%grid$cell_id,,drop=FALSE]
+      # A shared metric_key is insufficient; sample identity must already
+      # have been locked in the true target grid.
+      filled<-tryCatch(lo_grid_archive_fill(grid,a,verify_files=TRUE),error=function(e)e)
+      if(inherits(filled,"error"))
+        put("archive-fill","HOLD",conditionMessage(filled))
+      else grid<-filled
+    }
+    # Only independent method/source/sample/PV certificates may produce
+    # compute instructions; never infer new work merely from an empty cell.
+    compute_file <- file.path(root,"master_reconciliation",
+                             "SCIENTIFIC_COMPUTE_APPROVALS.csv")
+    if(file.exists(compute_file)) {
+      approved_compute <- read.csv(compute_file,
+           stringsAsFactors=FALSE,check.names=FALSE)
+      chosen <- approved_compute[approved_compute$cell_id%in%grid$cell_id,
+                                  ,drop=FALSE]
+      grid <- lo_grid_apply_compute_approvals(grid,chosen)
+    }
+    grid<-lo_source_unavailability(grid,file.path(root,"master_reconciliation","SOURCE_UNAVAILABLE_CELLS.csv"))
+    write.csv(grid,file.path(state,"PRIVATE_MASTER_GRID.csv"),
+              row.names=FALSE,na="")
+    lo_product_trace(repo,rbind(selected,new_peer_tasks),grid,scope_decisions,state)
+    manifest<-lo_fixed_input_manifest(repo,bundle,root,scope)
+    manifest$grid_sha256<-digest::digest(file=file.path(state,"PRIVATE_MASTER_GRID.csv"),algo="sha256")
+    jsonlite::write_json(manifest,file.path(state,"FIXED_INPUT_MANIFEST.json"),auto_unbox=TRUE,pretty=TRUE)
+    batch<-lo_grid_batch_plan(grid)
+    write.csv(batch,file.path(state,"PRIVATE_BATCH_PLAN.csv"),
+              row.names=FALSE)
+    row<-data.frame(scope=scope,
+      selected_countries=length(scope_info$selected),
+      original_contracts=nrow(selected),
+      new_below_basic_peer_targets=nrow(new_peer_tasks),
+      total_primitive_targets=nrow(grid),
+      archive_candidates=sum(grepl("CANDIDATE",grid$status)),
+      validated=sum(grid$status=="SCIENTIFICALLY_VALIDATED"),
+      approved_compute_batches=nrow(batch),
+      scientific_status="NOT_RELEASED",stringsAsFactors=FALSE)
+    write.csv(row,file.path(state,"GRID_AUDIT_SUMMARY.csv"),row.names=FALSE)
+    put("audit","COMPLETED_WITH_SCIENCE_GATES",paste0(nrow(grid),
+        " target rows; ",row$archive_candidates," candidates, ",
+        row$validated," validated; ",nrow(batch)," approved batches"))
+    if(stage=="audit")return(invisible(row))
+  }
+  manifest_path<-file.path(state,"FIXED_INPUT_MANIFEST.json")
+  if(!file.exists(manifest_path))stop("FIXED_AUDIT_REQUIRED")
+  recorded<-jsonlite::fromJSON(manifest_path,simplifyVector=TRUE)
+  current<-lo_fixed_input_manifest(repo,bundle,root,scope)
+  if(!identical(recorded$scope,current$scope) ||
+     !identical(as.character(unlist(recorded$sha256)),as.character(unlist(current$sha256))) ||
+     digest::digest(file=file.path(state,"PRIVATE_MASTER_GRID.csv"),algo="sha256")!=recorded$grid_sha256)
+    stop("FIXED_AUDIT_INPUT_CHANGED: rerun bounded fixed-audit")
+  if(stage=="produce") {
+    # Stage 2 is a deliberate production action; not run during audit/final.
+    # The saved grid is the authoritative minimal worklist for stage 2.
+    # A missing/invalid grid is a HOLD, not permission to run all PISA tasks.
+    saved <- file.path(state,"PRIVATE_MASTER_GRID.csv")
+    if(!file.exists(saved))
+      stop("FIXED_PRODUCE_HOLD: stage-1 grid missing")
+    grid <- read.csv(saved,stringsAsFactors=FALSE,check.names=FALSE,
+                     na.strings=character())
+    if(anyDuplicated(grid$cell_id))
+      stop("FIXED_PRODUCE_HOLD: duplicate grid cell ID")
+    source(file.path(repo,'06_pipeline/LO_SCOPE_RESULT_REUSE.R'),local=environment())
+    lo_scope_result_reuse(repo,root,scope,grid)
+    result<-lo_fixed_produce(bundle,scope_info,rbind(selected,new_peer_tasks),state,
+                            native_run=TRUE,grid=grid,max_units=run_config$max_compute_units)
+    if(exists('international_result',inherits=FALSE)) {
+      remaining<-lo_fixed_remaining_targets(grid$status)
+      put('produce',if(remaining)'PRODUCED_WITH_EXPLICIT_REMAINING_TARGETS'else'ALL_SELECTED_TARGETS_ACCOUNTED_FOR',
+        paste(international_result$certified_new,'new independently certified international cells;',remaining,'remaining targets;',length(international_result$repairs),'repair records. Publication gates remain separate.'))
+    }else put("produce",as.character(result$native_execution[[1]]),
+        "Only saved approved cells dispatched; see exact execution receipts")
+    return(invisible(result))
+  }
+  balance_contract_path<-file.path(root,"master_reconciliation","BALANCE_CELL_CONTRACTS.csv")
+  balance_export<-NULL
+  if(file.exists(balance_contract_path)) {
+    source(file.path(repo,"06_pipeline","LO_EXACT_DISPATCH.R"),local=environment())
+    source(file.path(repo,"06_pipeline","LO_BALANCED_EXPORT.R"),local=environment())
+    source(file.path(repo,"06_pipeline","LO_BALANCED_VIEWS.R"),local=environment())
+    g<-read.csv(file.path(state,"PRIVATE_MASTER_GRID.csv"),stringsAsFactors=FALSE,na.strings=character())
+    reference_file<-file.path(root,"master_reconciliation","SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv")
+    if(file.exists(reference_file)) {
+      a_ref<-read.csv(reference_file,stringsAsFactors=FALSE,na.strings=character())
+      g<-rbind(g,lo_reference_only_grid(tasks,a_ref,scope_info,scope_decisions))
+    }
+    bc<-read.csv(balance_contract_path,colClasses="character",na.strings=character())
+    balance_export<-lo_balanced_view_export(repo,g,bc,rbind(selected,new_peer_tasks),scope_info,state)
+  }
+  # Finalize constructs a private copy of the dynamically eligible
+  # guided dashboard (with truthful missing-data placeholders), even if the
+  # independent scientific freeze has not passed yet.
+  approval <- file.path(root,"master_reconciliation",
+                        "SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv")
+  source(file.path(repo,"06_pipeline","LO_FINAL_GUIDED_EXPORT.R"),
+         local=environment(),encoding="UTF-8")
+  a <- if(file.exists(approval))read.csv(approval,
+                 stringsAsFactors=FALSE,check.names=FALSE) else data.frame()
+  dashboard_tasks <- selected[selected$country%in%scope_info$dashboard,
+                              ,drop=FALSE]
+  dashboard_tasks <- rbind(dashboard_tasks,
+    new_peer_tasks[new_peer_tasks$country%in%scope_info$dashboard,,drop=FALSE])
+  guided_approved <- if(nrow(a) && "cell_id"%in%names(a))
+    a[a$cell_id%in%dashboard_tasks$metric_key,,drop=FALSE] else data.frame()
+  map <- tryCatch(lo_guided_grid_export(bundle,dashboard_tasks,
+                             guided_approved,state,scope_decisions=scope_decisions),error=function(e)e)
+  if(inherits(map,"error")) {
+    put("guided-mapping","HOLD",conditionMessage(map))
+  } else {
+    validated_export <- file.path(state,"PRIVATE_GUIDED_VALIDATED_ROWS.csv")
+    if(!requireNamespace("digest",quietly=TRUE))
+      stop("FIXED_PIPELINE_HOLD: digest missing for immutable preview")
+    build_hash <- lo_guided_preview_fingerprint(repo,bundle,state)
+    candidate <- file.path(state,paste0("DASHBOARD_GUIDED_REVIEW_",build_hash))
+    preview_state <- if(dir.exists(candidate)) {
+      if(file.exists(file.path(candidate,"BUILD_SHA256_MANIFEST.json")))
+        "REUSED_IMMUTABLE_PRIVATE_CANDIDATE"
+      else "HOLD_PARTIAL_IMMUTABLE_CANDIDATE"
+    } else {
+      py <- Sys.getenv("LO_PYTHON","python")
+      builder <- file.path(repo,"06_pipeline",
+                           "LO_FINAL_GUIDED_DASHBOARD_BUILD.py")
+      args <- c(builder,"--repo",repo,"--bundle",bundle,
+        "--country-registry",file.path(state,"COUNTRY_SOURCE_ELIGIBILITY.csv"),
+        "--scope-decisions",file.path(repo,"06_pipeline","SCOPE_APPROVALS.csv"),
+        "--validated-grid",validated_export,"--output",candidate)
+      if(!is.null(balance_export))args<-c(args,"--balanced-references",file.path(state,"BALANCED_REFERENCE_EXPORT.json"))
+      x <- tryCatch(suppressWarnings(system2(py,shQuote(args),
+              stdout=TRUE,stderr=TRUE)),error=function(e)e)
+      if(inherits(x,"error"))paste0("HOLD_PYTHON:",conditionMessage(x))
+      else {
+        status <- attr(x,"status")
+        if(!is.null(status) && status!=0L)
+          paste0("HOLD_BUILDER:",paste(tail(x,3L),collapse=" | "))
+        else "PRIVATE_GUIDED_CANDIDATE_BUILT"
+      }
+    }
+    write.csv(data.frame(scope=scope,rendered_source_rows=map$guided_focus_rows,
+       unmapped_validated_source_rows=map$mapping_holds,
+       preview_id=if(startsWith(preview_state,"HOLD"))"" else build_hash,
+       preview_status=preview_state,
+       public_release="NOT_AUTHORIZED"),
+       file.path(state,"GUIDED_PREVIEW_SUMMARY.csv"),row.names=FALSE)
+    put("guided-preview",preview_state,
+        paste0(map$guided_focus_rows," mapped, ",map$mapping_holds,
+               " held; public September site unchanged"))
+  }
+  # No count-based scientific release. Independent paper, covariance,
+  # data-edition and peer denominator gates remain authoritative.
+  q <- tryCatch(lo_final_quality_gate(bundle,rbind(selected,new_peer_tasks),approval,state,
+                                     scope_decisions=scope_decisions),
+                error=function(e)e)
+  if(inherits(q,"error")) {
+    put("finalize","HOLD_SCIENTIFIC_GATE_ERROR",conditionMessage(q))
+    return(invisible(q))
+  }
+  if(!identical(q$scientific_freeze[[1]],
+                "ELIGIBLE_FOR_INDEPENDENT_REVIEW")) {
+    put("finalize","HOLD_SCIENTIFIC_GATES",
+        paste0(q$active_missing," active grid gaps; Q01-Q08 ",
+               q$paper_gates_pass,"/8; primary peers ",
+               q$primary_peer_gate))
+    return(invisible(q))
+  }
+  # Immutable candidate must be independently reviewed with an explicit
+  # SHA-pinned scientific/rights/replication/21-slide certificate.
+  certificate <- file.path(state,"PUBLIC_RELEASE_CERTIFICATION.json")
+  if(is.null(balance_export) || !file.exists(certificate) || inherits(map,"error") ||
+     !exists("candidate") || !dir.exists(candidate)) {
+    put("finalize","HOLD_RELEASE_CERTIFICATE_OR_GUIDED_CANDIDATE",
+        "Missing independent SHA-pinned release evidence")
+    return(invisible(q))
+  }
+  script <- file.path(repo,"06_pipeline","LO_FINAL_GUIDED_PUBLIC_RELEASE.py")
+  args <- c(script,"--repo",repo,"--candidate",candidate,
+            "--certificate",certificate)
+  py <- Sys.getenv("LO_PYTHON","python")
+  x <- tryCatch(suppressWarnings(system2(py,shQuote(args),
+              stdout=TRUE,stderr=TRUE)),error=function(e)e)
+  if(inherits(x,"error")) {
+    put("finalize","HOLD_GUIDED_RELEASE_SCRIPT",conditionMessage(x))
+  } else {
+    status <- attr(x,"status")
+    if(!is.null(status) && status!=0L)
+      put("finalize","HOLD_GUIDED_RIGHTS_OR_QA",
+           paste(tail(x,4L),collapse=" | "))
+    else put("finalize","GUIDED_RELEASE_STAGED_NOT_DEPLOYED",
+         "Immutable SHA-pinned candidate staged for human review")
+  }
+  invisible(q)
+}
+

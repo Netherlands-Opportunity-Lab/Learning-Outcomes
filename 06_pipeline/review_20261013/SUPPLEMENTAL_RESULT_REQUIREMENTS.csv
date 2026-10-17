@@ -1,0 +1,29 @@
+dependency_id,definition,gate,status,approval_items,production_authorized_by_inventory
+S_TITLE,Editorial title and source identification,NO_ESTIMATE_REQUIRED,EDITORIAL_NO_CELLS,[],False
+S_DESIGN,"Population, realised sample N, weights, PVs and replicate design",Q02;Q08,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_OFFICIAL_SES,"PISA official wave-specific national ESCS: Q1/Q4 levels, tails, gaps, coverage; distinct from Cobreros",Q07,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_COVERAGE,"SES total/valid N and weighted coverage by component, edition and analysis sample",Q01,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_COBREROS_4,Author four-wave 34-system 13-item replication at pinned commit,Q03,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_COBREROS_2,Author two-wave 36-system 16-item replication at pinned commit,Q04,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_COBREROS_EXT,"Fixed parameter extension: item mapping, missingness, calibration, overlap sensitivity",Q05,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_REFERENCE,Frozen PPP2024 strict CZE panel; original numeric WDI snapshot; exact panel membership and availability per series,Q06,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_TREND,Correct uncertainty for any retained change claim is mandatory QA; a new systematic suite of trend contrasts is not authorized by this inventory (A17),Q08,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_HOME_SES,"IEA official Home SES levels, shares and response selection; distinct from books quartiles",Q02;Q07,PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION,['A04'],False
+S_EDITION,"Matched official publication cells across source editions, including SES historical revisions",SOURCE_EDITION_GATE,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_ABSOLUTE_SES,International absolute ESCS Q1-Q4 and original foreign31 panel; not national quartiles,LEGACY_PANEL_31_GATE,PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION,['A05'],False
+S_SES_GENDER,"SES by gender joint groups, means and within-sample contrasts",JOINT_SAMPLE_GATE,PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION,['A06'],False
+S_LANGUAGE_FREQUENCY,"Four TIMSS home test-language frequencies, levels/shares/SE; original PIRLS binary frequencies",SOURCE_LABEL_GATE,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_LANGUAGE_MIGRATION,Home versus test-language prevalence by migration generation,JOINT_DEMOGRAPHIC_GATE,PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION,['A07'],False
+S_LANGUAGE_EXACT,Exact Dutch versus other language classification; frequency is not a validated binary proxy,SOURCE_LABEL_GATE,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_LEGACY_PANELS,"Original fixed13/32 trend panels, 45-gap and 46/48/49 broad/quality cross-age panels; member lists and rank intervals",LEGACY_PANEL_GATE,PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION,"['A08', 'A09', 'A10']",False
+S_COHORT,"Age, fieldwork timing, cohort-distance proxies, ISCED/institutional context; no linked pupil claim; descriptive population/fieldwork disclosure remains mandatory QA without new cross-age estimands",POPULATION_GATE,PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION,['A10'],False
+S_SORTING_SCORE,Academic between-school/class variance shares by survey/wave/domain/sample; design uncertainty,SORTING_METHOD_GATE,PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION,"['A11', 'A12']",False
+S_SORTING_SES,SES-rank between-school/class variance shares; books versus ESCS; TIMSS once per sample,SORTING_METHOD_GATE,PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION,"['A13', 'A14']",False
+S_THEIL,"Weighted Theil H language/migration, category support and multilingual stratification",DEMOGRAPHIC_METHOD_GATE,PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION,"['A15', 'A16']",False
+S_REPAIRS,"Sept28 completion 283284 rows / 2569 of 2570 tasks; locate exact repairs, Korea2003 reading and residual holds",REPAIR_RECORD_PARITY_GATE,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_LOW_PEER,"NEW below-basic peer targets; self excluded total/below/above groups, direct and whole-school units",PEER_JOINT_PV_REPLICATE_GATE,PENDING_USER_APPROVAL_NOT_REQUIRED_PRODUCTION,['A01'],False
+S_REPLICATION,"Annotated RStudio entrypoint, pinned inputs/code/environment, README, metadata/licenses, clean-machine reproduction",FAIR_AER_REPLICATION_GATE,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_BRAND,Kansenlab v05 typography/colors with v06 vector logos; 16:9 and 12-column grid; licensed embedded fonts,VISUAL_ACCESSIBILITY_GATE,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_DASHBOARD,"Dashboard 6x3 without exceptions; reference candidates cover full selected focus support including subgroups and peer units; PPP20 is a candidate pool; equal weighting, focus excluded, stable panel and exports",BROWSER_EXPORT_GATE,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_STORAGE,Raw sources may stay C; private Drive intermediates with hash readback; reviewed final GitHub outputs,STORAGE_DEPENDENCY_GATE,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False
+S_INTERPRETATION,"Dutch interpretation, nonresponse/coverage caveats, descriptive peer/sorting associations, source-specific claims",CLAIM_EVIDENCE_GATE,QUALITY_OR_EXISTING_SCOPE_SPECIFICATION_NOT_CERTIFIED,[],False

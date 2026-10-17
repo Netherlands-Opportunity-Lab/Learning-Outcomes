@@ -1,0 +1,17 @@
+{
+  "scan_roots": [
+    "${LO_LOCAL_PROJECT_ROOT}"
+  ],
+  "archive_root": "${LO_ARCHIVE_ROOT}",
+  "backup_root": "${LO_BACKUP_ROOT}",
+  "minimum_age_days": 90,
+  "required_product_pins": [
+    "slides",
+    "dashboard",
+    "paper"
+  ],
+  "automatic_cleanup_enabled": false,
+  "notes": "Set independent off-device primary+backup roots; replicate receipt SHA only after a real end-to-end clean scientific validation. GitHub never stores private paths/data.",
+  "replication_receipt": "${LO_REPLICATION_RECEIPT}",
+  "replication_receipt_sha256": ""
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "scope": "nld_only",
+  "countries_in_grid": [
+    "NLD"
+  ],
+  "targets": 2678,
+  "counts": {
+    "validated": 2397,
+    "unavailable": 281,
+    "unresolved": 0
+  },
+  "orphan_cells": 0,
+  "complete_international_dashboard": false,
+  "evidence": "SAVED_AUDITED_GRID_NOT_A_NEW_SCIENTIFIC_CERTIFICATION",
+  "source_files": {
+    "PRIVATE_MASTER_GRID.csv": "96ed7bf25dd3d48664e26edf1144863bb28de1e53bbc5f1ea49c117b52141e97",
+    "PRIVATE_ACTIVE_PRODUCT_CELL_TRACE.csv": "3c2c160b80a8052c97611291eb622c9c350b96053a879fea1e196086e8676f56",
+    "COUNTRY_SOURCE_ELIGIBILITY.csv": "d4c0d295d6802d2272dac9a9fe8de0c12558efb604b107901770950d021a23c6",
+    "ACTIVE_REQUIREMENT_REGISTER.csv": "40076c1d79c3e42e49d5a556356fcc5b290bed631ba0c6d6fd043642e78a0a10"
+  },
+  "generator_sha256": "24a1021bf5cda0cb61d0dbf19601c0e17ee042b0eafc463608448688f76268c8",
+  "output_files": {
+    "BY_EXACT_COMBINATION.csv": "80a3ee6aff1d358ff96a1f7ece39208e8897fcdd889ae15c9d8d4d2b5c8698b1",
+    "BY_FAMILY.csv": "862711c19a2c75508d2bc7f337cb25dd3fe4d0ae0a4542a127d5c8015729ecc7",
+    "BY_WAVE.csv": "95f99df84f771391a8dd3162e9c07794bb3ff42ec54e2955b24ce112fa83cea9",
+    "COUNTRY_CANDIDATES.csv": "36ae40d9fb0576f176f2d197803cb886e61e585a1eb649acb4d59c6eb80804a3",
+    "EXACT_CELL_COVERAGE.csv": "51905b1d8cef8c5d13ce18a5a4732ce8fcbe34d959a166897d0a2bda93e2f410",
+    "MISSING_CELLS.csv": "27cd6c67aa29ff5acdc66645ddad8842ee22376819b6f522673658b5fcd1ab1a",
+    "REQUIREMENT_COVERAGE.csv": "558ad0fb630876e846f84008a0701491f28f1f9c24e04910f5677d3b33b0790c"
+  }
+}

@@ -1,0 +1,23 @@
+# Apply the human-approved statistic contracts consistently to every admitted
+# country. The immutable historical task catalogue remains provenance. It is
+# not a country whitelist and cannot omit newly discovered eligible countries.
+lo_country_base_tasks <- function(tasks,scope_info) {
+  if(anyDuplicated(tasks$metric_key))stop('COUNTRY_TEMPLATE_DUPLICATE_CONTRACT')
+  template<-tasks[tasks$country=='NLD',,drop=FALSE]
+  if(!nrow(template))stop('COUNTRY_TEMPLATE_MISSING')
+  support<-scope_info$source_support
+  parts<-list(template[template$country%in%scope_info$selected,,drop=FALSE])
+  for(country in setdiff(scope_info$selected,'NLD')) {
+    contexts<-unique(support[support$country==country,c('survey','year')])
+    keys<-paste(contexts$survey,contexts$year)
+    z<-template[paste(template$survey,template$year)%in%keys,,drop=FALSE]
+    if(!nrow(z))stop('COUNTRY_HAS_NO_REVIEWED_CYCLE_CONTRACT: ',country)
+    z$country<-country
+    if(any(!startsWith(z$metric_key,'NLD|')))stop('COUNTRY_TEMPLATE_KEY_MISMATCH')
+    z$metric_key<-sub('^NLD[|]',paste0(country,'|'),z$metric_key)
+    parts[[length(parts)+1L]]<-z
+  }
+  result<-do.call(rbind,parts);rownames(result)<-NULL
+  if(anyDuplicated(result$metric_key))stop('COUNTRY_EXPANSION_DUPLICATE')
+  result
+}

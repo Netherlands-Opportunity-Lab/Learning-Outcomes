@@ -1,0 +1,5 @@
+product_id,source_name,file_type,pages_or_slides,sha256,status,scope_note
+"POLICY_DECK","20260929BR_Leerprestaties_gecontroleerd_20261001.pptx","pptx","21","cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac","USER_LEADING","Not a 13-slide kernel; preserve all user charts and notes"
+"SCIENTIFIC_SEMINAR","PISA_PIRLS_TIMSS_FINAL_WETENSCHAPPELIJK_DECK_20260928.pdf","pdf","50","b6e4ed6fe21ba5e0e764a1a2656722776d4a6539da8ffd79915fc670d4054dc4","FROZEN_SEPT28","Separate scientific seminar; historic caveat text may conflict with late update"
+"SCIENTIFIC_NOTE","PISA_PIRLS_TIMSS_FINAL_WETENSCHAPPELIJKE_NOTITIE_20260928.pdf","pdf","16","be3b9ba0b9b4e5bdeb428695919dd46d521e32ddd64fc3e31eca55392a91ba27","FROZEN_SEPT28","Final page describes repaired PIRLS core SE and TIMSS 1995; earlier pages describe prior holds"
+"IMPACT_CONTEXT","20260929BR leerprestaties disseminatie impact.docx","docx","24","ab9151db67b350e22204f54a5f80b3ba6c8ca4e5d7eed43322f7e6464ebc353d","CONTEXT_ONLY","Separate economics paper, policy diagnosis, interactive dashboard and implementation-policy products"

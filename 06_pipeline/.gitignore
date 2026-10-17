@@ -1,0 +1,9 @@
+# Local results and private inventories must never be committed.
+config.local.json
+state/
+objects/
+runs/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+__pycache__/

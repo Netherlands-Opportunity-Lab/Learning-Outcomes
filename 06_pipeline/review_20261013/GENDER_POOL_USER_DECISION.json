@@ -1,0 +1,22 @@
+{
+  "decision_id": "D20",
+  "date": "2026-10-15",
+  "authority": "direct human instruction",
+  "verbatim": "pool meisjes met other in landen waar meisjes niet apart is.",
+  "policy_id": "FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+  "exact_female_preferred": true,
+  "nonresponse_not_pooled": true,
+  "new_result_identity_required": true,
+  "visible_label_nl": "Meisjes + other",
+  "known_contexts": {
+    "AUS": 24,
+    "CAN": 24,
+    "DEU": 24,
+    "DNK": 24,
+    "ESP": 24,
+    "IRL": 24,
+    "NLD": 24,
+    "NZL": 24
+  },
+  "source_validation": "raw value labels, observed categories, exact pupil IDs and weights required"
+}

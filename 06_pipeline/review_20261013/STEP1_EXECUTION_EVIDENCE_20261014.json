@@ -1,0 +1,834 @@
+{
+  "schema_version": 2,
+  "date": "2026-10-15",
+  "recorded_utc": "2026-10-15T10:43:39.859993+00:00",
+  "source_scope": "NLD only; exact selected multi-survey primitives; not full science or a public release",
+  "current": {
+    "target_cells": 2678,
+    "scientifically_validated_cells": 2373,
+    "status_counts": {
+      "SCIENTIFICALLY_VALIDATED": 2373,
+      "UNAVAILABLE_VERIFIED_SOURCE_FIELD": 137,
+      "HOLD_SOURCE_MAPPING_REVIEW": 24,
+      "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE": 144
+    },
+    "approved_compute_batches": 0,
+    "active_uncertified_cells": 24,
+    "documented_unavailable_home_ses": 144,
+    "documented_unavailable_other_source_fields": 137,
+    "peer_cells_certified": 400,
+    "primary_below_basic_peer_cells": 240,
+    "high_peer_cells": 160,
+    "execution_receipts": 1940,
+    "archived_numerical_versions": 2364,
+    "original_nine_current_cells_predate_version_table": true,
+    "unapproved_or_deferred_expansions_computed": 0,
+    "full_scientific_release": false,
+    "source_mapping_review_cells": 24,
+    "derivation_receipts": 80
+  },
+  "independent_validation": {
+    "estimate_and_se_tolerance": 1e-09,
+    "sample_counts": "Exact observed count, or certified peer analytic-frame N plus each independently verified PV target count",
+    "all_targeted_peer_self_exclusion_and_joint_PV_replication_gate": "PASS",
+    "joint_reference_arrays_retained": true
+  },
+  "controller_closures": {
+    "modern_pisa": {
+      "sha256": "8f18679ff525157bfc10d0bd57665f7b32fca831bea4ad1576b6034f8ee04094",
+      "receipt": {
+        "status": "MODERN_PISA_219_CELLS_CERTIFIED",
+        "first": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 162,
+            "new_candidates": 162,
+            "reused_candidates": 0,
+            "held_cells": 0
+          }
+        ],
+        "second": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 162,
+            "new_candidates": 0,
+            "reused_candidates": 162,
+            "held_cells": 0
+          }
+        ],
+        "final_audit": [
+          {
+            "scope": "nld_only",
+            "selected_countries": 1,
+            "original_contracts": 2438,
+            "new_below_basic_peer_targets": 240,
+            "total_primitive_targets": 2678,
+            "archive_candidates": 468,
+            "validated": 219,
+            "approved_compute_batches": 0,
+            "scientific_status": "NOT_RELEASED"
+          }
+        ],
+        "pilot_reused_without_recalculation": 48,
+        "previous_nine_retained": 9,
+        "global_release": false
+      }
+    },
+    "iea_core_gender_performance_variance": {
+      "sha256": "b479e53174b9a12d50bfe334524e12be0335fe30252fe69a58d15f952aec1320",
+      "receipt": {
+        "status": "NLD_PISA_IEA_423_CELLS_CERTIFIED",
+        "first": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 180,
+            "new_candidates": 180,
+            "reused_candidates": 0,
+            "held_cells": 0
+          }
+        ],
+        "second": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 180,
+            "new_candidates": 0,
+            "reused_candidates": 180,
+            "held_cells": 0
+          }
+        ],
+        "final_audit": [
+          {
+            "scope": "nld_only",
+            "selected_countries": 1,
+            "original_contracts": 2438,
+            "new_below_basic_peer_targets": 240,
+            "total_primitive_targets": 2678,
+            "archive_candidates": 400,
+            "validated": 423,
+            "approved_compute_batches": 0,
+            "scientific_status": "NOT_RELEASED"
+          }
+        ],
+        "pilot_reused_without_recalculation": 24,
+        "previous_certified_retained": 219,
+        "global_release": false
+      }
+    },
+    "iea_books_ses_gender_ses_variance": {
+      "sha256": "6a3c5d4e1e7ae74b9503587d769185db887c4e664e18bc390149ee80d3033a67",
+      "receipt": {
+        "status": "SELECTED_SOURCE_BLOCKS_CERTIFIED",
+        "first": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 305,
+            "new_candidates": 305,
+            "reused_candidates": 0,
+            "held_cells": 0
+          }
+        ],
+        "second": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 305,
+            "new_candidates": 0,
+            "reused_candidates": 305,
+            "held_cells": 0
+          }
+        ],
+        "final_audit": [
+          {
+            "scope": "nld_only",
+            "selected_countries": 1,
+            "original_contracts": 2438,
+            "new_below_basic_peer_targets": 240,
+            "total_primitive_targets": 2678,
+            "archive_candidates": 281,
+            "validated": 768,
+            "approved_compute_batches": 0,
+            "scientific_status": "NOT_RELEASED"
+          }
+        ],
+        "pilot_reused_without_recalculation": 40,
+        "previous_certified_retained": 423,
+        "global_release": false
+      }
+    },
+    "legacy_pisa": {
+      "sha256": "f7584b43b5310e058055ceb0a88ea4344c6a5f8fa10e6ad224b2efd622f401aa",
+      "receipt": {
+        "status": "SELECTED_SOURCE_BLOCKS_CERTIFIED",
+        "selected_legacy_cells": 209,
+        "pilot_reused": 57,
+        "preserved_completed_before_language_repair": 128,
+        "language_repair_first": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 24,
+            "new_candidates": 24,
+            "reused_candidates": 0,
+            "held_cells": 0
+          }
+        ],
+        "language_repair_identical": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 24,
+            "new_candidates": 0,
+            "reused_candidates": 24,
+            "held_cells": 0
+          }
+        ],
+        "final_audit": [
+          {
+            "scope": "nld_only",
+            "selected_countries": 1,
+            "original_contracts": 2438,
+            "new_below_basic_peer_targets": 240,
+            "total_primitive_targets": 2678,
+            "archive_candidates": 234,
+            "validated": 977,
+            "approved_compute_batches": 0,
+            "scientific_status": "NOT_RELEASED"
+          }
+        ],
+        "global_release": false
+      }
+    },
+    "pisa_peers": {
+      "sha256": "62ce3606b8c74bc3fd448408ace2354b541c9eff063679ddc17d38d74295c1cd",
+      "receipt": {
+        "status": "SELECTED_SOURCE_BLOCKS_CERTIFIED",
+        "first": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 200,
+            "new_candidates": 200,
+            "reused_candidates": 0,
+            "held_cells": 0
+          }
+        ],
+        "second": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 200,
+            "new_candidates": 0,
+            "reused_candidates": 200,
+            "held_cells": 0
+          }
+        ],
+        "final_audit": [
+          {
+            "scope": "nld_only",
+            "selected_countries": 1,
+            "original_contracts": 2438,
+            "new_below_basic_peer_targets": 240,
+            "total_primitive_targets": 2678,
+            "archive_candidates": 234,
+            "validated": 1207,
+            "approved_compute_batches": 0,
+            "scientific_status": "NOT_RELEASED"
+          }
+        ],
+        "pilot_reused_without_recalculation": 30,
+        "previous_certified_retained": 977,
+        "global_release": false
+      }
+    },
+    "iea_peers": {
+      "sha256": "53361340f90e42f66102ba119b17f432d976bf68072fb08cf9ecdfadb10656ba",
+      "receipt": {
+        "status": "SELECTED_SOURCE_BLOCKS_CERTIFIED",
+        "first": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 150,
+            "new_candidates": 150,
+            "reused_candidates": 0,
+            "held_cells": 0
+          }
+        ],
+        "second": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 150,
+            "new_candidates": 0,
+            "reused_candidates": 150,
+            "held_cells": 0
+          }
+        ],
+        "final_audit": [
+          {
+            "scope": "nld_only",
+            "selected_countries": 1,
+            "original_contracts": 2438,
+            "new_below_basic_peer_targets": 240,
+            "total_primitive_targets": 2678,
+            "archive_candidates": 234,
+            "validated": 1377,
+            "approved_compute_batches": 0,
+            "scientific_status": "NOT_RELEASED"
+          }
+        ],
+        "pilot_reused_without_recalculation": 20,
+        "previous_certified_retained": 1207,
+        "global_release": false
+      }
+    },
+    "pisa2025_gender_source_correction": {
+      "sha256": "d97be27b10fcd45a1c09ba3628a49a9e425370492ddd76bc1bdb61785b106440",
+      "receipt": {
+        "status": "BOYS_VERIFIED_GIRLS_MAPPING_UNRESOLVED",
+        "closed": {
+          "closed": 3,
+          "remaining": 0
+        },
+        "again": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 3,
+            "new_candidates": 0,
+            "reused_candidates": 3,
+            "held_cells": 0
+          }
+        ],
+        "final_audit": [
+          {
+            "scope": "nld_only",
+            "selected_countries": 1,
+            "original_contracts": 2438,
+            "new_below_basic_peer_targets": 240,
+            "total_primitive_targets": 2678,
+            "archive_candidates": 232,
+            "validated": 1380,
+            "approved_compute_batches": 0,
+            "scientific_status": "NOT_RELEASED"
+          }
+        ],
+        "unresolved_gender_targets": 24,
+        "raw_sha256": "6f6fa1e1ecce23d39183d44ec82ba05b245fe88a2416c8d8dc1b016d556fc379",
+        "global_release": false
+      }
+    },
+    "chosen_cobreros_ses": {
+      "sha256": "e9c877ea6b4e8c6e8c7e65d7464ce973d9795a38111781735872606b9acce6ab",
+      "receipt": {
+        "status": "SELECTED_SOURCE_BLOCKS_CERTIFIED",
+        "first": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 198,
+            "new_candidates": 198,
+            "reused_candidates": 0,
+            "held_cells": 0
+          }
+        ],
+        "second": [
+          {
+            "scope": "nld_only",
+            "selected_contracts": 2678,
+            "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+            "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+            "approved_cells": 198,
+            "new_candidates": 0,
+            "reused_candidates": 198,
+            "held_cells": 0
+          }
+        ],
+        "final_audit": [
+          {
+            "scope": "nld_only",
+            "selected_countries": 1,
+            "original_contracts": 2438,
+            "new_below_basic_peer_targets": 240,
+            "total_primitive_targets": 2678,
+            "archive_candidates": 132,
+            "validated": 1626,
+            "approved_compute_batches": 0,
+            "scientific_status": "NOT_RELEASED"
+          }
+        ],
+        "pilot_reused_without_recalculation": 48,
+        "previous_certified_retained": 1380,
+        "global_release": false
+      }
+    },
+    "background_iea": {
+      "status": "SELECTED_SOURCE_BLOCKS_CERTIFIED",
+      "first": [
+        {
+          "scope": "nld_only",
+          "selected_contracts": 2678,
+          "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+          "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+          "approved_cells": 349,
+          "new_candidates": 349,
+          "reused_candidates": 0,
+          "held_cells": 0
+        }
+      ],
+      "second": [
+        {
+          "scope": "nld_only",
+          "selected_contracts": 2678,
+          "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+          "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+          "approved_cells": 349,
+          "new_candidates": 0,
+          "reused_candidates": 349,
+          "held_cells": 0
+        }
+      ],
+      "final_audit": [
+        {
+          "scope": "nld_only",
+          "selected_countries": 1,
+          "original_contracts": 2438,
+          "new_below_basic_peer_targets": 240,
+          "total_primitive_targets": 2678,
+          "archive_candidates": 0,
+          "validated": 2107,
+          "approved_compute_batches": 0,
+          "scientific_status": "NOT_RELEASED"
+        }
+      ],
+      "pilot_reused_without_recalculation": 52,
+      "previous_certified_retained": 1706,
+      "global_release": false
+    },
+    "background_pisa": {
+      "status": "SELECTED_SOURCE_BLOCKS_CERTIFIED",
+      "first": [
+        {
+          "scope": "nld_only",
+          "selected_contracts": 2678,
+          "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+          "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+          "approved_cells": 232,
+          "new_candidates": 232,
+          "reused_candidates": 0,
+          "held_cells": 0
+        }
+      ],
+      "second": [
+        {
+          "scope": "nld_only",
+          "selected_contracts": 2678,
+          "native_execution": "EXACT_CANDIDATES_REQUIRE_SCIENCE_REVIEW",
+          "scientific_release": "NOT_AUTOMATICALLY_VALIDATED",
+          "approved_cells": 232,
+          "new_candidates": 0,
+          "reused_candidates": 232,
+          "held_cells": 0
+        }
+      ],
+      "final_audit": [
+        {
+          "scope": "nld_only",
+          "selected_countries": 1,
+          "original_contracts": 2438,
+          "new_below_basic_peer_targets": 240,
+          "total_primitive_targets": 2678,
+          "archive_candidates": 0,
+          "validated": 2373,
+          "approved_compute_batches": 0,
+          "scientific_status": "NOT_RELEASED"
+        }
+      ],
+      "pilot_reused_without_recalculation": 34,
+      "previous_certified_retained": 2107,
+      "global_release": false
+    }
+  },
+  "source_admission": {
+    "countries": [
+      {
+        "country": "NLD",
+        "dashboard_eligible": true
+      }
+    ],
+    "detail": [
+      {
+        "country": "NLD",
+        "survey": "PIRLS",
+        "age_group": "age10",
+        "domain": "reading",
+        "verified_comparable_cycles": 5,
+        "combination_pass": true
+      },
+      {
+        "country": "NLD",
+        "survey": "PISA",
+        "age_group": "age15",
+        "domain": "reading",
+        "verified_comparable_cycles": 8,
+        "combination_pass": true
+      },
+      {
+        "country": "NLD",
+        "survey": "TIMSS",
+        "age_group": "age10",
+        "domain": "mathematics",
+        "verified_comparable_cycles": 6,
+        "combination_pass": true
+      },
+      {
+        "country": "NLD",
+        "survey": "PISA",
+        "age_group": "age15",
+        "domain": "mathematics",
+        "verified_comparable_cycles": 8,
+        "combination_pass": true
+      },
+      {
+        "country": "NLD",
+        "survey": "TIMSS",
+        "age_group": "age10",
+        "domain": "science",
+        "verified_comparable_cycles": 6,
+        "combination_pass": true
+      },
+      {
+        "country": "NLD",
+        "survey": "PISA",
+        "age_group": "age15",
+        "domain": "science",
+        "verified_comparable_cycles": 7,
+        "combination_pass": true
+      }
+    ]
+  },
+  "scientific_gate": {
+    "scope_contracts": 2678,
+    "active_primitive_contracts": 2397,
+    "validated_active_primitives": 2373,
+    "active_missing": 24,
+    "documented_unavailable_extensions": 144,
+    "documented_unavailable_source_fields": 137,
+    "new_below_basic_peer_targets": 240,
+    "new_below_basic_peer_verified": 240,
+    "paper_gates_pass": 0,
+    "paper_gates_required": 8,
+    "primary_peer_gate": "PASS",
+    "scientific_freeze": "HOLD",
+    "publication_authorized": "NO_RIGHTS_AND_REPLICATION_REVIEW_PENDING",
+    "reason": ";ACTIVE_GRID_GAPS;Q01_Q08_OPEN"
+  },
+  "storage": {
+    "physical_bytes_freed": 26008379325,
+    "targeted_removed_bytes": 14807156478,
+    "deduplicated_source_bytes": 11201222847,
+    "deduplicated_source_paths_preserved": 6,
+    "complete_project_folders_removed": 0,
+    "current_C_free_bytes": 50961137664,
+    "result_bytes": {
+      "COMPACT_DASHBOARD_ROUNDED.csv.gz": 101179,
+      "COMPACT_MASTER_GRID.csv.gz": 142742,
+      "COMPACT_MASTER_GRID.sqlite": 4481024,
+      "COMPACT_MODULE_STATUS.csv": 3373,
+      "EXACT_DISPATCH_SUMMARY.csv": 198
+    },
+    "private_evidence_restore": {
+      "status": "PASS_REAL_PRIVATE_DRIVE_RESTORE",
+      "archive_sha256": "ca7a57489b11e967494dcc185e20dfb49541f21321790d472a5059ec2c0c7128",
+      "archive_bytes": 19854844,
+      "files_verified": 1903,
+      "counts": {
+        "grid": 2373,
+        "execution_receipts": 1940,
+        "result_versions": 2364,
+        "derivation_receipts": 80
+      },
+      "database_rows": 2373,
+      "original_nine_current_cells_predate_version_table": true,
+      "sqlite_integrity": "ok",
+      "full_source_backup_claimed": false,
+      "owner_only_permission_verified": true
+    },
+    "full_source_backup_claimed": false,
+    "new_20261015_deletion": {
+      "files": 367,
+      "bytes": 9532709229,
+      "free_bytes_after": 20501639168,
+      "receipt_scope": "Exact reviewed recomputable foreign PISA caches; unique source/result/evidence files retained"
+    }
+  },
+  "measured_pilots": {
+    "modern_pisa": {
+      "max_n": 6636,
+      "max_cells": 48,
+      "seconds": 65.19000000000001,
+      "peak_R_bytes": 175353856,
+      "measured_peak_scratch_bytes": 0,
+      "max_scratch_bytes": 67108864
+    },
+    "iea": {
+      "max_n": 4515,
+      "max_cells": 24,
+      "seconds": 33.96,
+      "peak_R_bytes": 167563264,
+      "measured_peak_scratch_bytes": 0,
+      "max_scratch_bytes": 67108864
+    },
+    "iea_books": {
+      "max_n": 4515,
+      "max_cells": 40,
+      "seconds": 32.04,
+      "peak_R_bytes": 177201152,
+      "measured_peak_scratch_bytes": 0,
+      "max_scratch_bytes": 67108864
+    },
+    "legacy_pisa": {
+      "max_n": 4871,
+      "max_cells": 57,
+      "seconds": 21.810000000000002,
+      "peak_R_bytes": 175636480,
+      "measured_peak_scratch_bytes": 0,
+      "max_scratch_bytes": 67108864
+    },
+    "pisa_peers": {
+      "max_n": 6636,
+      "max_cells": 30,
+      "seconds": 31.380000000000003,
+      "peak_R_bytes": 228683776,
+      "measured_peak_scratch_bytes": 0,
+      "max_scratch_bytes": 67108864
+    },
+    "iea_peers": {
+      "max_n": 4515,
+      "max_cells": 20,
+      "seconds": 15.8,
+      "peak_R_bytes": 233254912,
+      "measured_peak_scratch_bytes": 0,
+      "max_scratch_bytes": 67108864
+    },
+    "background_iea": {
+      "status": "BACKGROUND_PRODUCER_PARITY_PASS",
+      "n": 4515,
+      "cells": 52,
+      "seconds": 61.03,
+      "peak_R_bytes": 201293824,
+      "source_sha256": "829ede46ec4f10f2caf09cca2f40caa2f5b586a8632fc473b639b17869cd974c",
+      "producer_code_sha256": "ad286fa91437b42ed2a55fd8d94de6a4f4e16634033bf3b1adcac9c07f382f29",
+      "max_estimate_diff": 5.115907697472721e-13,
+      "max_se_diff": 6.598070281775235e-14
+    },
+    "background_pisa": {
+      "status": "BACKGROUND_PRODUCER_PARITY_PASS",
+      "n": 6636,
+      "cells": 34,
+      "seconds": 25.16,
+      "peak_R_bytes": 210849792,
+      "source_sha256": "c365631eaf896f4aaca61d6329b61f01fe0c0cff5ef129b0d66fafa9611e5c2b",
+      "producer_code_sha256": "ad286fa91437b42ed2a55fd8d94de6a4f4e16634033bf3b1adcac9c07f382f29",
+      "max_estimate_diff": 5.115907697472721e-13,
+      "max_se_diff": 5.329070518200751e-15
+    }
+  },
+  "precision": {
+    "sqlite": "IEEE754 64-bit double",
+    "scientific_csv": "17 significant digits, gzip",
+    "display_only": "Score/percentage one decimal; SE two; counts integers; never reused for inference"
+  },
+  "execution_entrypoint": {
+    "status": "Actual existing clean Git checkout safely fast-forwarded; START.R fixed-status and fixed-audit executed with explicit paths and JSON config",
+    "audit_commit": "5ba49912ef1d13afe428ad628fcb5e34e2d3f1e1",
+    "subsequent_sync_fix": "ae34ed5e554e66ef97d3a4f12f3e00733334b58e",
+    "run_provenance": "Earlier staging runs use named code hashes; actual Git-checkout audit also records Git commit; no fabricated Git identity",
+    "drive_correction": "Current 2373-cell private package actually restored; every file hash and reopened database checked. No full raw-source backup claim.",
+    "latest_local_finalize_commit": "9d79d974448ce50692be2f830eae59f880b510a2"
+  },
+  "ci": {
+    "source_code_commit": "9d79d974448ce50692be2f830eae59f880b510a2",
+    "windows_linux_contract_run": 38720043182,
+    "status": "PASS",
+    "clean_locked_R_version": "4.6.1",
+    "locked_packages": 41,
+    "latest_changes": "Follow latest PR commit checks; do not infer them from an earlier commit"
+  },
+  "visual_qa": {
+    "errors": [],
+    "screens": [],
+    "home": {
+      "cards": 4,
+      "bodyFont": "Oswald, \"Arial Narrow\", sans-serif",
+      "wordmarkFont": "Inter, Arial, sans-serif",
+      "oswald": true,
+      "inter": true,
+      "overflow": false
+    },
+    "explorer": {
+      "visible": true,
+      "chart": true,
+      "status": "Gevalideerde resultaten."
+    },
+    "english": {
+      "lang": "en",
+      "logo": "block",
+      "hiddenLogo": "none"
+    },
+    "mobile": {
+      "overflow": false,
+      "body": 390,
+      "viewport": 390
+    },
+    "data_scope": "Historical October archive data, visibly labelled for design QA only; not scientific release"
+  },
+  "historical_initial_nine_cell_test": {
+    "source_scope": "NLD PISA 2022; selected nine core cells only",
+    "raw_validation": {
+      "pupils": 5046,
+      "exact_id_set": true,
+      "weights": 81,
+      "plausible_value_columns": 30,
+      "column_checks": 111
+    },
+    "independent_parity": {
+      "cells": 9,
+      "max_estimate_abs_diff": 3.41060513164848e-13,
+      "max_se_abs_diff": 1.94955163124177e-13,
+      "tolerance": 1e-09
+    },
+    "controller": {
+      "first_new": 9,
+      "second_new": 0,
+      "second_reused": 9,
+      "subsequent_audit_certified": 9,
+      "remaining_authorized_compute_batches": 0,
+      "private_finalize": "EXECUTED; full scientific release correctly withheld"
+    }
+  },
+  "remaining": [
+    "24 exact PISA2025 girl-dependent targets require an authoritative uncollapsed source field; all other selected NLD primitives are certified or specifically proven unavailable",
+    "Complete foreign-country and joint subgroup support plus explicit country approval",
+    "Q01-Q08 claim checks and full scientific freeze",
+    "Portable source-code bundle and clean source-to-product replication",
+    "New reference/rank dashboard controls, policy deck and Netherlands paper; rights and release review"
+  ],
+  "current_finalize_export": {
+    "status": "ACTUAL_FINALIZE_EXPORT_PASS",
+    "export": [
+      {
+        "validated_input_cells": 2373,
+        "guided_focus_rows": 1893,
+        "mapping_holds": 0,
+        "separate_appendix_or_science_rows": 480,
+        "requires_new_below_basic_peer": "YES",
+        "publication_status": "PRIVATE_REVIEW_ONLY"
+      }
+    ],
+    "verified_code_commit": "9d79d974448ce50692be2f830eae59f880b510a2",
+    "unchanged_result_database_sha256": "464b0cebc9b3a47137fb770e28ed41d79ae0e5205e6ab7fdff21bcbb12a06185",
+    "no_pupil_calculation": true
+  },
+  "actual_fixed_scope_drive_sync": {
+    "status": "REMOTE_BYTES_AND_HASHES_VERIFIED",
+    "files": 13,
+    "run_report_completeness": "FIXED_SCOPE_AGGREGATES_ONLY",
+    "manifest_id": "20261014T220818Z_c385a201a6d79b5e",
+    "sync_commit": "0a5327374590a7a56906473759c746f4ce79f0c9",
+    "scope": "nld_only",
+    "producer_commit_is_not_inferred_from_sync_commit": true,
+    "not_a_complete_raw_source_backup": true
+  },
+  "abrupt_process_termination": {
+    "test": "06_pipeline/tests/crash_resume_check.py",
+    "verified_commit": "4197b3d8c75994498789761c5491b6320e4cacd5",
+    "windows_job": 116256487405,
+    "linux_job": 116256487009,
+    "status": "PASS_BOTH_PLATFORMS",
+    "scenarios": [
+      "Kill during second estimate",
+      "Kill inside second uncommitted SQLite transaction"
+    ],
+    "committed_cell_retained": true,
+    "only_incomplete_block_recalculated": true,
+    "third_run_new_calculations": 0,
+    "concurrent_writer_rejected": true,
+    "sqlite_integrity": "ok",
+    "run_metadata_written_before_computation": true
+  },
+  "chosen_calibration": {
+    "author_commit": "1da4b26097e84e732973af672355a1c3103d5d33",
+    "country_count": 34,
+    "n": 1079563,
+    "raw_input_waves_verified": [
+      2015,
+      2018,
+      2022,
+      2025
+    ],
+    "max_parameter_difference_lt": 1e-10,
+    "public_adapter_reproduction": {
+      "status": "PUBLIC_ADAPTER_REPRODUCTION_AND_RESUME_PASS",
+      "output_identical": true,
+      "second_run_no_output_rewrite": true,
+      "first_seconds": 112.19000000000001,
+      "second_seconds": 3.230000000000004,
+      "output_sha256": "12f88e6623e91e119fb4251fb285505e50cb9fd1cce87e535fda1b04c933429c",
+      "model_refit_avoided_using_verified_upstream_fingerprint": true
+    },
+    "new_certified_NLD_cells": 246,
+    "uncertainty": "conditional on fitted SES construct"
+  },
+  "remaining_checks_closure": "review_20261013/REMAINING_CHECKS_CLOSURE_20261015.json",
+  "private_drive_restore_current": {
+    "status": "PASS_REAL_PRIVATE_DRIVE_RESTORE",
+    "archive_sha256": "ca7a57489b11e967494dcc185e20dfb49541f21321790d472a5059ec2c0c7128",
+    "archive_bytes": 19854844,
+    "files_verified": 1903,
+    "counts": {
+      "grid": 2373,
+      "execution_receipts": 1940,
+      "result_versions": 2364,
+      "derivation_receipts": 80
+    },
+    "database_rows": 2373,
+    "original_nine_current_cells_predate_version_table": true,
+    "sqlite_integrity": "ok",
+    "full_source_backup_claimed": false,
+    "owner_only_permission_verified": true
+  }
+}

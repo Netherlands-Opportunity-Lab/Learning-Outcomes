@@ -1,0 +1,14 @@
+{
+  "deck_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+  "slides": 21,
+  "native_charts": 48,
+  "native_series": 94,
+  "core_year_cells": 40,
+  "status": "SOURCE_PRESENTATION_SUPPORT_ONLY",
+  "limits": [
+    "The deck fixes requested support, not scientific availability.",
+    "Native chart cached values and vector-axis labels require source-record validation.",
+    "Absent or placeholder focus outcomes do not imply zero observations or universal reference eligibility.",
+    "Do not activate excluded/pending analyses merely because they occur in this source deck."
+  ]
+}

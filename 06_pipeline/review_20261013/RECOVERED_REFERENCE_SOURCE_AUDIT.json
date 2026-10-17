@@ -1,0 +1,40 @@
+{
+  "raw_sha256": "0d21bdc1cc3070a632d09a76620dab0c971ba1c7053a95027b7f685f43db5df3",
+  "second_copy_sha256": "0d21bdc1cc3070a632d09a76620dab0c971ba1c7053a95027b7f685f43db5df3",
+  "copies_equal": true,
+  "metadata": {
+    "page": 1,
+    "pages": 1,
+    "per_page": 400,
+    "total": 265,
+    "sourceid": "2",
+    "lastupdated": "2026-07-13"
+  },
+  "oecd_members_in_extract": 38,
+  "threshold_czechia": 57625.0961715706,
+  "strict_members_including_NLD": [
+    "AUS",
+    "AUT",
+    "BEL",
+    "CAN",
+    "CHE",
+    "DEU",
+    "DNK",
+    "ESP",
+    "FIN",
+    "FRA",
+    "GBR",
+    "IRL",
+    "ISL",
+    "ITA",
+    "KOR",
+    "LUX",
+    "NLD",
+    "NOR",
+    "SWE",
+    "USA"
+  ],
+  "strict_count": 20,
+  "reference_table_numeric_parity": true,
+  "reference_membership_source": "38-country accession-date extract; original OECD HTML not in this snapshot"
+}

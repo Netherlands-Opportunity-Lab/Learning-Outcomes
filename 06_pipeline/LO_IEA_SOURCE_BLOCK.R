@@ -1,0 +1,152 @@
+# Exact Netherlands grade-four source preparation. No legacy canonical cache,
+# no country substitution, no implicit exclusion of delayed PIRLS respondents.
+lo_iea_label_code <- function(x,labels) {
+  a<-attr(x,"labels");i<-tolower(trimws(names(a)))%in%labels
+  if(sum(i)!=1L)stop("IEA_SOURCE_LABEL_AMBIGUOUS")
+  unname(a[i])
+}
+lo_iea_prepare_nld <- function(path,survey,year,output_dir) {
+  lo_iea_prepare_country(path,survey,year,output_dir,'NLD',528L)
+}
+lo_iea_prepare_country <- function(path,survey,year,output_dir,country,country_code,
+                                   allowed_grades=4L,population_note=NULL,population_evidence=NULL) {
+  if(length(country)!=1L||!grepl('^[A-Z]{3}$',country)||
+     length(country_code)!=1L||!is.finite(country_code))stop('IEA_COUNTRY_CONTRACT_INVALID')
+  if(!survey%in%c("PIRLS","TIMSS")||!year%in%if(survey=="PIRLS")c(2001,2006,2011,2016,2021)else c(2003,2007,2011,2015,2019,2023))
+    stop("IEA_UNREVIEWED_CYCLE")
+  codes<-if(survey=="PIRLS")c(READ="ASRREA")else c(MATH="ASMMAT",SCIE="ASSSCI")
+  pv<-unlist(lapply(codes,function(k)paste0(k,sprintf('%02d',1:5))))
+  fields<-c('IDCNTRY','IDSTUD','IDSCHOOL','IDCLASS','IDPOP','IDGRADE','ITSEX','TOTWGT','JKZONE','JKREP',pv)
+  header<-haven::read_sav(path,n_max=0)
+  if(!all(fields%in%names(header)))stop("IEA_REQUIRED_RAW_FIELDS_MISSING")
+  raw<-haven::read_sav(path,col_select=tidyselect::all_of(fields))
+  if(anyNA(raw[c('IDCNTRY','IDSTUD','IDSCHOOL','IDCLASS','IDPOP','IDGRADE')])||
+     anyDuplicated(raw[c('IDCNTRY','IDSTUD')])||any(raw$IDCNTRY!=country_code)||any(raw$IDPOP!=1))stop("IEA_COUNTRY_POPULATION_IDENTITY_FAILED")
+  delayed<-country=='NLD'&&survey=="PIRLS"&&year==2021L
+  grades<-if(delayed)c(4,5)else allowed_grades
+  if(!identical(grades,4L)&&!delayed&&
+     (is.null(population_note)||is.null(population_evidence)||!nzchar(population_evidence)))
+    stop('IEA_NONSTANDARD_GRADE_EVIDENCE_REQUIRED')
+  if(any(!raw$IDGRADE%in%grades))stop("IEA_GRADE_OUTSIDE_REVIEWED_POPULATION")
+  if(any(!is.finite(raw$TOTWGT)|raw$TOTWGT<=0)||any(!raw$JKREP%in%c(0,1))||
+     anyNA(raw$JKZONE)||any(raw$JKZONE<1)||any(!is.finite(as.matrix(raw[pv]))))stop("IEA_INCOMPLETE_PV_OR_DESIGN")
+  zones<-split(as.numeric(raw$JKREP),as.numeric(raw$JKZONE))
+  # The complete official respondent file can have an empty replicate half
+  # after nonresponse. Apply its supplied JKZONE/JKREP weights unchanged; do
+  # not drop these pupils, invent a partner, or reject the entire national wave.
+  incomplete_zones<-names(zones)[!vapply(zones,function(z)setequal(z,c(0,1)),logical(1))]
+  female<-lo_iea_label_code(raw$ITSEX,c('girl','female'));male<-lo_iea_label_code(raw$ITSEX,c('boy','male'))
+  d<-data.frame(SOURCE_STUDENT_ID=as.character(raw$IDSTUD),STUDENT=as.character(raw$IDSTUD),
+    SCHOOL=as.character(raw$IDSCHOOL),CLASS=as.character(raw$IDCLASS),GRADE=as.numeric(raw$IDGRADE),
+    W=as.numeric(raw$TOTWGT),JKZONE=as.numeric(raw$JKZONE),JKREP=as.numeric(raw$JKREP),
+    DEMO_GENDER=c('girl','boy')[match(as.numeric(raw$ITSEX),c(female,male))],stringsAsFactors=FALSE)
+  d$GENDER<-d$DEMO_GENDER
+  for(k in names(codes))for(j in 1:5)d[[paste0('PV_',k,'_',j)]]<-as.numeric(raw[[paste0(codes[[k]],sprintf('%02d',j))]])
+  note<-if(delayed)'Official fourth-grade cohort, including respondents assessed after the summer in fifth grade; no post-hoc grade exclusion'else 'Official fourth-grade national public-use student sample'
+  evidence<-if(delayed)'https://www.expertisecentrumnederlands.nl/pirls-2021-resultaten/download/PIRLS-2021_Rapportage.pdf#page=13'else 'https://www.iea.nl/data-tools/repository'
+  if(!is.null(population_note))note<-population_note
+  if(!is.null(population_evidence))evidence<-population_evidence
+  meta<-list(survey=survey,year=as.integer(year),v9_country=country,source_country_code=country_code,
+    preparation='DIRECT_FROM_OFFICIAL_PUF_WITHOUT_LEGACY_CACHE',class_identity='ACTUAL_CLASS_NESTED_WITHIN_SCHOOL',
+    gender_variable='ITSEX',gender_status='SOURCE_VALUE_LABEL_VERIFIED',population=note,population_evidence=evidence,
+    repair_raw_sha256=digest::digest(file=path,algo='sha256'))
+  obj<-list(data=d,meta=meta);dir.create(output_dir,recursive=TRUE,showWarnings=FALSE)
+  output<-file.path(output_dir,paste0('canonical_',survey,'_',year,'_',country,'_',substr(digest::digest(obj,algo='sha256'),1,16),'.rds'))
+  if(!file.exists(output))saveRDS(obj,output,compress=FALSE)
+  else if(!identical(readRDS(output),obj))stop('IEA_CHANGED_CANONICAL_OUTPUT')
+  receipt<-list(status='RAW_SAMPLE_AND_FIELDS_VERIFIED',survey=survey,year=year,country=country,n=nrow(d),
+    raw_sha256=meta$repair_raw_sha256,canonical_filename=basename(output),canonical_sha256=digest::digest(file=output,algo='sha256'),
+    all_source_records_retained=TRUE,grade4_n=sum(d$GRADE==4),grade5_n=sum(d$GRADE==5),population=note,population_evidence=evidence,
+    gender_weighted_coverage=sum(d$W[!is.na(d$GENDER)])/sum(d$W),jk_zones=length(zones),
+    official_zones_with_one_observed_half=incomplete_zones,
+    replicate_scheme=if(year>=2015)'TWO_PER_ZONE_FACTOR_HALF'else 'JKREP_ONE_PER_ZONE_FACTOR_ONE',
+    pv_count=5L,not_certified=c('SES','language','migration','peer methods','cross-country comparability','publication release'))
+  jsonlite::write_json(receipt,file.path(output_dir,'SOURCE_VERIFICATION.json'),pretty=TRUE,auto_unbox=TRUE,digits=17)
+  list(raw=raw,object=obj,path=normalizePath(output,winslash='/'),receipt=receipt)
+}
+
+# Independent verification works directly on official source columns. Joint
+# arrays retain matched PV/replicate coordinates for later approved contrasts.
+lo_iea_independent_selected <- function(raw,q) {
+  if(!nrow(q)||length(unique(q$year))!=1L||length(unique(q$survey))!=1L||
+     any(!q$module%in%c('core','gender','extension_performance_school','extension_performance_class')))
+    stop('IEA_INDEPENDENT_UNREVIEWED_TASK')
+  year<-as.integer(q$year[1]);zones<-sort(unique(as.numeric(raw$JKZONE)))
+  spec<-expand.grid(zone=zones,keep=if(year>=2015)c(0,1)else 1)
+  factor<-if(year>=2015).5 else 1
+  W<-matrix(as.numeric(raw$TOTWGT),nrow(raw),nrow(spec)+1L)
+  for(i in seq_len(nrow(spec))) {
+    selected<-raw$JKZONE==spec$zone[i]
+    W[selected,i+1]<-W[selected,1]*ifelse(raw$JKREP[selected]==spec$keep[i],2,0)
+  }
+  sex<-as.numeric(raw$ITSEX)
+  female<-lo_iea_label_code(raw$ITSEX,c('girl','female'));male<-lo_iea_label_code(raw$ITSEX,c('boy','male'))
+  full<-matrix(NA_real_,5,nrow(q),dimnames=list(NULL,q$metric_key))
+  reps<-array(NA_real_,c(nrow(spec),5,nrow(q)),dimnames=list(NULL,NULL,q$metric_key));ns<-integer(nrow(q))
+  wm<-function(y,w){ok<-is.finite(y)&is.finite(w)&w>0;sum(y[ok]*w[ok])/sum(w[ok])}
+  quant<-function(y,w,p){ok<-is.finite(y)&w>0;o<-order(y[ok]);v<-y[ok][o];z<-w[ok][o];v[which(cumsum(z)>=p*sum(z))[1]]}
+  quantile_cache<-new.env(parent=emptyenv())
+  selected_quantiles<-function(domain,Y) {
+    if(exists(domain,quantile_cache,inherits=FALSE))return(get(domain,quantile_cache))
+    stats<-unique(q$stat[q$domain==domain&q$stat%in%c('p10','p50','p90','p90_p10')])
+    probs<-sort(unique(unlist(lapply(stats,function(s)if(s=='p90_p10')c(.1,.9)else as.numeric(sub('p','',s))/100))))
+    answer<-setNames(lapply(probs,function(p)matrix(NA_real_,5,ncol(W))),as.character(probs))
+    for(j in 1:5) {
+      order_y<-order(Y[,j])
+      for(r in seq_len(ncol(W))) {
+        o<-order_y[W[order_y,r]>0];weight<-W[o,r];cumulative<-cumsum(weight)
+        for(p in probs)answer[[as.character(p)]][j,r]<-Y[o[which(cumulative>=p*sum(weight))[1]],j]
+      }
+    }
+    result<-setNames(lapply(stats,function(s)if(s=='p90_p10')answer[['0.9']]-answer[['0.1']]else answer[[as.character(as.numeric(sub('p','',s))/100)]]),stats)
+    assign(domain,result,quantile_cache);result
+  }
+  for(k in seq_len(nrow(q))) {
+    z<-q[k,];prefix<-switch(z$domain,reading='ASRREA',mathematics='ASMMAT',science='ASSSCI',stop('IEA_UNKNOWN_DOMAIN'))
+    y<-as.matrix(raw[paste0(prefix,sprintf('%02d',1:5))]);if(any(!is.finite(y)))stop('IEA_INCOMPLETE_PVS')
+    a<-rep(TRUE,nrow(raw));b<-NULL
+    if(z$module=='gender') {
+      if(z$stat=='gap'){stopifnot(z$group=='girls_minus_boys');a<-sex==female;b<-sex==male}
+      else a<-sex==switch(z$group,girl=female,boy=male,stop('IEA_UNKNOWN_GENDER_GROUP'))
+    }
+    a[is.na(a)]<-FALSE;if(!is.null(b))b[is.na(b)]<-FALSE
+    ns[k]<-sum(a|if(is.null(b))FALSE else b)
+    cluster<-if(grepl('^extension_performance_',z$module))
+      if(z$module=='extension_performance_school')as.character(raw$IDSCHOOL)else paste(raw$IDSCHOOL,raw$IDCLASS,sep='::')else NULL
+    m<-matrix(NA_real_,5,ncol(W))
+    linear<-z$module%in%c('core','gender')&&z$stat%in%c('mean','gap','total_below','total_high')
+    if(linear) {
+      values<-y
+      if(z$stat%in%c('total_below','total_high')) {
+        threshold<-if(z$stat=='total_below')475 else 625
+        if(as.numeric(z$threshold)!=threshold)stop('IEA_UNREVIEWED_THRESHOLD')
+        values<-if(z$stat=='total_below')1*(y<threshold)else 1*(y>=threshold)
+      }
+      means<-function(group){weights<-W*group;sweep(crossprod(values,weights),2,colSums(weights),'/')}
+      m<-means(a);if(!is.null(b))m<-m-means(b)
+    }else if(z$stat%in%c('p10','p50','p90','p90_p10'))m<-selected_quantiles(z$domain,y)[[z$stat]]
+    else for(j in 1:5)for(r in seq_len(ncol(W))) {
+      v<-y[,j];w<-W[,r];s<-z$stat
+      if(s%in%c('total_below','total_high')) {
+        threshold<-if(s=='total_below')475 else 625
+        if(as.numeric(z$threshold)!=threshold)stop('IEA_UNREVIEWED_THRESHOLD')
+        v<-if(s=='total_below')as.numeric(v<threshold)else as.numeric(v>=threshold)
+      }
+      m[j,r]<-if(grepl('^extension_performance_',z$module)) {
+        stopifnot(s=='between_variance_share')
+        unit<-cluster
+        mu<-sum(w*v)/sum(w);sw<-as.numeric(rowsum(w,unit,reorder=FALSE));sy<-as.numeric(rowsum(w*v,unit,reorder=FALSE));ok<-sw>0
+        100*sum(sw[ok]*(sy[ok]/sw[ok]-mu)^2)/sum(w*(v-mu)^2)
+      }else if(!is.null(b))wm(v,w*a)-wm(v,w*b)
+      else if(s%in%c('mean','total_below','total_high'))wm(v,w*a)
+      else if(s%in%c('p10','p50','p90'))quant(v,w,as.numeric(sub('p','',s))/100)
+      else if(s=='p90_p10')quant(v,w,.9)-quant(v,w,.1)
+      else stop('IEA_UNREVIEWED_STAT')
+    }
+    if(any(!is.finite(m)))stop('IEA_INCOMPLETE_ESTIMATION: ',z$metric_key)
+    full[,k]<-m[,1];reps[,,k]<-t(m[,-1,drop=FALSE])
+  }
+  variance<-vapply(seq_len(nrow(q)),function(k)mean(rowSums((t(reps[,,k])-full[,k])^2)*factor)+1.2*var(full[,k]),numeric(1))
+  list(results=data.frame(cell_id=q$metric_key,estimate=colMeans(full),standard_error=sqrt(variance),n_unweighted=ns),
+    joint=list(cell_ids=q$metric_key,full_pv=full,replicate_pv=reps,replicate_spec=spec,factor=factor,pv_count=5L))
+}

@@ -1,0 +1,5 @@
+a<-commandArgs(trailingOnly=TRUE)
+stopifnot(length(a)==3L)
+source(file.path(a[1],'production.R'),local=.GlobalEnv,encoding='UTF-8')
+tryCatch(lo5_run(a[1],dget(a[2]),a[3]),error=function(e){writeLines(c('STATUS=FAILED',paste0('DETAIL=',conditionMessage(e))),file.path(a[3],'UITKOMST.txt'));cat(conditionMessage(e),'\n')})
+writeLines(capture.output(sessionInfo()),file.path(a[3],'SESSION_INFO.txt'))

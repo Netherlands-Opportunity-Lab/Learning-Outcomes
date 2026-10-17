@@ -1,0 +1,10 @@
+{
+  "local_results_root": "${LO_LOCAL_RESULTS_ROOT}",
+  "remote": "lo_private:Learning-Outcomes-Private",
+  "data_visibility": "PRIVATE_ACCOUNT_ONLY",
+  "rclone_binary": "rclone",
+  "min_age_seconds": 60,
+  "max_file_bytes": 2147483648,
+  "max_transfers": 4,
+  "watch_interval_seconds": 180
+}

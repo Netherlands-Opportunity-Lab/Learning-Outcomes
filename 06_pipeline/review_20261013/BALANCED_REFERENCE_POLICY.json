@@ -1,0 +1,44 @@
+{
+  "rule_id": "USER_20261014_FULL_FOCUS_SUPPORT",
+  "dashboard": {
+    "minimum_distinct_comparable_cycles": 3,
+    "required_age_groups": [
+      "age10",
+      "age15"
+    ],
+    "required_domains": [
+      "reading",
+      "mathematics",
+      "science"
+    ],
+    "rich_pool_exception": false
+  },
+  "reference": {
+    "candidate_pool_default": "OECD_PPP_GT_CZE_2024",
+    "pool_size_is_membership": false,
+    "nld_core_anchor": "NLD_POLICY_CORE_YEAR_ANCHOR.csv",
+    "nld_core_required_cells": 40,
+    "focus_excluded": true,
+    "required_support": "UNION_OF_ALL_APPROVED_SERIES_COMPARED_TOGETHER",
+    "includes": [
+      "sex",
+      "SES",
+      "home_language",
+      "migration",
+      "class_and_school_composition"
+    ],
+    "missing_support_action": "EXCLUDE_CANDIDATE_FOR_ENTIRE_COMPARISON",
+    "country_weights": "EQUAL",
+    "benchmark_se_displayed": false,
+    "automatic_year_or_group_shrinkage": false
+  },
+  "implementation": {
+    "selector": "06_pipeline/LO_BALANCED_MEMBERSHIP.R",
+    "real_source_adapter": "PENDING_CERTIFIED_SOURCE_MAPPING",
+    "dashboard_ui": "PENDING_IMPLEMENTATION",
+    "eligible_country_list": "DYNAMIC_SOURCE_ADMISSION_VERIFIED_RESULTS_AND_VIEW_SUPPORT_PENDING",
+    "source_admission_evidence": "international/PREPARATION_EVIDENCE.json",
+    "view_selector": "06_pipeline/LO_BALANCED_VIEWS.R"
+  },
+  "substantive_approvals_A01_A17": "INDIVIDUALLY_DECIDED_SEE_SCOPE_APPROVALS_CSV"
+}

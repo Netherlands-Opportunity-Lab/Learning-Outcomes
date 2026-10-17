@@ -1,0 +1,18 @@
+approval_id,title,status,decision_date,user_evidence,placement_or_condition
+A01,Aandeel peers onder basisniveau,APPROVED,2026-10-14,dus dan ook voor de peers,MAIN_BELOW_BASIC_PEERS
+A02,Hoog vaardigheidsniveau naar SES als appendix,APPROVED,2026-10-14,"Ja, hoog/gevorderd naar SES ook in de appendix",APPENDIX_ONLY
+A03,Hoogpresterende peers als aanvullende variant,APPROVED,2026-10-14,"Ja, beide peeruitkomsten opnemen",BOTH_BELOW_BASIC_AND_HIGH_PEERS
+A04,Officiele IEA Home SES groepen,APPROVED,2026-10-14,"ja voeg toe in appendix, maar zorg wel dat consistent is over alle jaren. en laat weten voor welke jaren dit niet berekend kan worden omdat de data ontbreekt",APPENDIX_ONLY_HARMONIZED_DEFINITION_AND_MISSING_YEAR_REPORT
+A05,Internationale absolute SES grenzen,REJECTED,2026-10-14,Niet opnemen,EXCLUDED
+A06,SES maal geslacht,APPROVED,2026-10-14,Alleen in appendix opnemen,APPENDIX_ONLY
+A07,Thuistaal maal migratiegeneratie,REJECTED,2026-10-14,Niet opnemen,EXCLUDED
+A08,Historische leesrangen in 13 of 32 panels,REJECTED,2026-10-14,Niet opnemen,EXCLUDED
+A09,Rangontwikkeling in dashboard en ranglijst uitsluitend in wetenschappelijke paper,APPROVED,2026-10-14,"ik wil wel rang van individuele landen of een vergelijkingsgroep kunnen plotten op het dashboard, en een ranglijst in het wetenschappelijke paper maar niet in het dashboard. Dashboard is gecentreerd om steeds 1 figuur met jaren op x-as, voor uitkomstmaat en leeftijd (groep 4 of 15 jaar) en split/vergelijking naar keuze. Dat is wat het dashboard je laat bouwen | Nadere precisering: rang vergelijken we niet met een groep. Mogelijk wel met een enkel ander land. Rang is wel op basis van een gekozen landengroep | Laatste expliciete correctie: nee bij de rangfiguren plotten we niet de internationale vergelijkingsgroep. Maar de rang van NL is wel relatief tot de vergelijkingsgroep",DASHBOARD_SINGLE_TIME_SERIES;PAPER_RANKING_TABLE;NO_DASHBOARD_RANKING_TABLE;NO_LEGACY_FIXED_PANEL;RANK_RELATIVE_TO_SELECTED_REFERENCE_GROUP;REFERENCE_GROUP_NOT_PLOTTED;OPTIONAL_SINGLE_COMPARISON_COUNTRY;NO_GROUP_RANK
+A10,Kwantitatieve cross age cohort en brede kwaliteitspanels,DEFERRED,2026-10-14,ik begrijp niet wat dit is maar stel uit voor een latere keuze na de vier stappen,REVISIT_AFTER_FOUR_STEPS
+A11,Prestatievariantie tussen scholen,APPROVED,2026-10-14,Als wetenschappelijke uitbreiding opnemen,SCIENTIFIC_EXTENSION
+A12,Prestatievariantie tussen klassen,APPROVED,2026-10-14,Naast A11 opnemen waar vergelijkbaar,SCIENTIFIC_EXTENSION_COMPARABLE_CLASSES_ONLY
+A13,SES variantie tussen scholen,APPROVED,2026-10-14,Als wetenschappelijke uitbreiding opnemen,SCIENTIFIC_EXTENSION
+A14,SES variantie tussen klassen,APPROVED,2026-10-14,Naast A13 in appendix opnemen,APPENDIX_ONLY_COMPARABLE_CLASSES
+A15,Theil H taal,DEFERRED,2026-10-14,Uitstellen,DEFERRED
+A16,Theil H migratie,DEFERRED,2026-10-14,Uitstellen,DEFERRED
+A17,Systematische trendcontrasten,REJECTED,2026-10-14,Alleen noodzakelijke paperclaims toetsen,REJECT_SYSTEMATIC_SUITE_KEEP_NECESSARY_CLAIM_QA

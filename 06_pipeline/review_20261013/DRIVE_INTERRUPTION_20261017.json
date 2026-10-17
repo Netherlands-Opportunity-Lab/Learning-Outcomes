@@ -1,0 +1,211 @@
+{
+  "schema_version": 1,
+  "checked_utc": "2026-10-17T13:53:42Z",
+  "master_sha256": "c55854f10543913582fe4c1fe3e1739cf0520c6fc65653d4d9fa9e45892175c3",
+  "remote_index_sha256": "6da8620aa99e51fff292c889fa7939c530ad1eecc9015237a1856f2f40c26693",
+  "unique_validated_cells": 49992,
+  "remotely_verified_versions": 49972,
+  "current_cells_remote_verified": 49972,
+  "pending_remote_cells": 20,
+  "pending_certificates_valid": true,
+  "pending_contexts": [
+    {
+      "country": "PRT",
+      "survey": "TIMSS",
+      "year": 2023
+    }
+  ],
+  "pending_cell_ids": [
+    "PRT|TIMSS|2023|mathematics|high_proficiency_peer_exposure|self_below_high|self_below_high|high_peer_raw_sample|direct_learning_environment|625|percent|V10_exclude_unknown_peer_status_and_singletons",
+    "PRT|TIMSS|2023|mathematics|high_proficiency_peer_exposure|self_high|self_high|high_peer_raw_sample|direct_learning_environment|625|percent|V10_exclude_unknown_peer_status_and_singletons",
+    "PRT|TIMSS|2023|mathematics|high_proficiency_peer_exposure|self_below_high|self_below_high|high_peer_raw_sample|whole_school|625|percent|V10_exclude_unknown_peer_status_and_singletons",
+    "PRT|TIMSS|2023|mathematics|high_proficiency_peer_exposure|self_high|self_high|high_peer_raw_sample|whole_school|625|percent|V10_exclude_unknown_peer_status_and_singletons",
+    "PRT|TIMSS|2023|science|high_proficiency_peer_exposure|self_below_high|self_below_high|high_peer_raw_sample|direct_learning_environment|625|percent|V10_exclude_unknown_peer_status_and_singletons",
+    "PRT|TIMSS|2023|science|high_proficiency_peer_exposure|self_high|self_high|high_peer_raw_sample|direct_learning_environment|625|percent|V10_exclude_unknown_peer_status_and_singletons",
+    "PRT|TIMSS|2023|science|high_proficiency_peer_exposure|self_below_high|self_below_high|high_peer_raw_sample|whole_school|625|percent|V10_exclude_unknown_peer_status_and_singletons",
+    "PRT|TIMSS|2023|science|high_proficiency_peer_exposure|self_high|self_high|high_peer_raw_sample|whole_school|625|percent|V10_exclude_unknown_peer_status_and_singletons",
+    "NEW_PEER_BELOW_BASIC|PRT|TIMSS|2023|mathematics|direct_learning_environment|total|IEA_BELOW_INTERMEDIATE_475",
+    "NEW_PEER_BELOW_BASIC|PRT|TIMSS|2023|mathematics|direct_learning_environment|self_below_basic|IEA_BELOW_INTERMEDIATE_475",
+    "NEW_PEER_BELOW_BASIC|PRT|TIMSS|2023|mathematics|direct_learning_environment|self_at_or_above_basic|IEA_BELOW_INTERMEDIATE_475",
+    "NEW_PEER_BELOW_BASIC|PRT|TIMSS|2023|mathematics|whole_school|total|IEA_BELOW_INTERMEDIATE_475",
+    "NEW_PEER_BELOW_BASIC|PRT|TIMSS|2023|mathematics|whole_school|self_below_basic|IEA_BELOW_INTERMEDIATE_475",
+    "NEW_PEER_BELOW_BASIC|PRT|TIMSS|2023|mathematics|whole_school|self_at_or_above_basic|IEA_BELOW_INTERMEDIATE_475",
+    "NEW_PEER_BELOW_BASIC|PRT|TIMSS|2023|science|direct_learning_environment|total|IEA_BELOW_INTERMEDIATE_475",
+    "NEW_PEER_BELOW_BASIC|PRT|TIMSS|2023|science|direct_learning_environment|self_below_basic|IEA_BELOW_INTERMEDIATE_475",
+    "NEW_PEER_BELOW_BASIC|PRT|TIMSS|2023|science|direct_learning_environment|self_at_or_above_basic|IEA_BELOW_INTERMEDIATE_475",
+    "NEW_PEER_BELOW_BASIC|PRT|TIMSS|2023|science|whole_school|total|IEA_BELOW_INTERMEDIATE_475",
+    "NEW_PEER_BELOW_BASIC|PRT|TIMSS|2023|science|whole_school|self_below_basic|IEA_BELOW_INTERMEDIATE_475",
+    "NEW_PEER_BELOW_BASIC|PRT|TIMSS|2023|science|whole_school|self_at_or_above_basic|IEA_BELOW_INTERMEDIATE_475"
+  ],
+  "repair_blocks": 12,
+  "repairs": [
+    {
+      "country": "AZE",
+      "survey": "PISA",
+      "year": 2006,
+      "family": "PEERS_PISA",
+      "reason": "PEER_REFERENCE_EMPTY_REPLICATE_OR_TARGET: AZE|PISA|2006|science|high_proficiency_peer_exposure|self_high|self_high|high_peer_raw_sample|direct_learning_environment|633.33|percent|V10_exclude_unknown_peer_status_and_singletons"
+    },
+    {
+      "country": "MAR",
+      "survey": "PIRLS",
+      "year": 2006,
+      "family": "PEERS_IEA",
+      "reason": "PEER_REFERENCE_EMPTY_REPLICATE_OR_TARGET: MAR|PIRLS|2006|reading|high_proficiency_peer_exposure|self_high|self_high|high_peer_raw_sample|direct_learning_environment|625|percent|V10_exclude_unknown_peer_status_and_singletons"
+    },
+    {
+      "country": "MAR",
+      "survey": "PIRLS",
+      "year": 2016,
+      "family": "PEERS_IEA",
+      "reason": "PEER_REFERENCE_EMPTY_REPLICATE_OR_TARGET: MAR|PIRLS|2016|reading|high_proficiency_peer_exposure|self_high|self_high|high_peer_raw_sample|direct_learning_environment|625|percent|V10_exclude_unknown_peer_status_and_singletons"
+    },
+    {
+      "country": "MAR",
+      "survey": "TIMSS",
+      "year": 2003,
+      "family": "PEERS_IEA",
+      "reason": "PEER_REFERENCE_EMPTY_REPLICATE_OR_TARGET: MAR|TIMSS|2003|mathematics|high_proficiency_peer_exposure|self_high|self_high|high_peer_raw_sample|direct_learning_environment|625|percent|V10_exclude_unknown_peer_status_and_singletons"
+    },
+    {
+      "country": "MAR",
+      "survey": "PISA",
+      "year": 2018,
+      "family": "PEERS_PISA",
+      "reason": "PEER_REFERENCE_EMPTY_REPLICATE_OR_TARGET: MAR|PISA|2018|reading|high_proficiency_peer_exposure|self_high|self_high|high_peer_raw_sample|direct_learning_environment|625.61|percent|V10_exclude_unknown_peer_status_and_singletons"
+    },
+    {
+      "country": "MAR",
+      "survey": "PISA",
+      "year": 2022,
+      "family": "PEERS_PISA",
+      "reason": "PEER_REFERENCE_EMPTY_REPLICATE_OR_TARGET: MAR|PISA|2022|reading|high_proficiency_peer_exposure|self_high|self_high|high_peer_raw_sample|direct_learning_environment|625.61|percent|V10_exclude_unknown_peer_status_and_singletons"
+    },
+    {
+      "country": "MAR",
+      "survey": "PISA",
+      "year": 2025,
+      "family": "PEERS_PISA",
+      "reason": "PEER_REFERENCE_EMPTY_REPLICATE_OR_TARGET: MAR|PISA|2025|reading|high_proficiency_peer_exposure|self_high|self_high|high_peer_raw_sample|direct_learning_environment|625.61|percent|V10_exclude_unknown_peer_status_and_singletons"
+    },
+    {
+      "country": "NZL",
+      "survey": "PIRLS",
+      "year": 2016,
+      "family": "BACKGROUND_IEA",
+      "reason": "BACKGROUND_REFERENCE_INVALID_RESULT: NZL|PIRLS|2016|reading|language_frequency_binary|mean|always_almost|frequency_always_almost_vs_sometimes_never|||score_points|"
+    },
+    {
+      "country": "NZL",
+      "survey": "PIRLS",
+      "year": 2021,
+      "family": "BACKGROUND_IEA",
+      "reason": "BACKGROUND_REFERENCE_INVALID_RESULT: NZL|PIRLS|2021|reading|language_frequency_binary|mean|always_almost|frequency_always_almost_vs_sometimes_never|||score_points|"
+    },
+    {
+      "country": "POL",
+      "survey": "TIMSS",
+      "year": 2015,
+      "family": "BACKGROUND_IEA",
+      "reason": "BACKGROUND_REFERENCE_INVALID_RESULT: POL|TIMSS|2015|mathematics|migration|mean|reference|MIGRATION_ANY_PARENT_ABROAD|||score_points|"
+    },
+    {
+      "country": "POL",
+      "survey": "PISA",
+      "year": 2009,
+      "family": "PISA_CORE",
+      "reason": "PISA_REFERENCE_INCOMPLETE_ESTIMATION: POL|PISA|2009|reading|migration_generation|mean_score|second_generation|MIGRATION_GENERATION_SOURCE_LABELLED|||score_points|; N=0; nonfinite PV/weight positions=1,1"
+    },
+    {
+      "country": "POL",
+      "survey": "PISA",
+      "year": 2009,
+      "family": "BACKGROUND_PISA",
+      "reason": "BACKGROUND_REFERENCE_INVALID_RESULT: POL|PISA|2009|all|migration_peer_exposure|second_generation_target_pct_native_peers|second_generation_target_pct_native_peers|MIGRATION_GENERATION_SOURCE_LABELLED|direct_learning_environment||percent|V10_exclude_unknown_peer_status_and_singletons"
+    }
+  ],
+  "remote_package_count": 1376,
+  "kind": "INTERRUPTED_PRODUCTION_CHECKPOINT_INSPECTION",
+  "inspection_code_commit": "ba80d20831a7c62d65031e98175e7c5fdfca27e4",
+  "failure": "GOOGLE_OAUTH_INVALID_GRANT",
+  "recovery_status": "RESTORED_WITH_READBACK_MEMBER_HASHES_AND_IDEMPOTENT_SECOND_CALL",
+  "live_remote_access_verified": true,
+  "large_production_restarted": false,
+  "local_certificates_rehashed": true,
+  "source_log_sha256": "29b362004b95e178d6dc38a78486871001a7e4f2136b865b3598c1537072746b",
+  "tests": {
+    "windows_native_drive_sync": "PASS",
+    "windows_native_checkpoint_resume": "PASS",
+    "windows_linux_ci": "PASS",
+    "ci_evidence": {
+      "tested_commit": "375619ab3f68742aa506e5239f4202dc3dea7fbb",
+      "run_id": 39038929790,
+      "url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39038929790",
+      "jobs": [
+        {
+          "id": 117414273192,
+          "name": "locked-environment (windows-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 117414273332,
+          "name": "storage-tests (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 117414273352,
+          "name": "locked-environment (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 117414273377,
+          "name": "r-entrypoint-parse (windows-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 117414273399,
+          "name": "storage-tests (windows-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 117414273431,
+          "name": "r-entrypoint-parse (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  },
+  "interpretation": "Initial inspection found 49992 unique certified cells, with 20 absent from the previously verified remote index. After same-account OAuth reconnection the existing remote index was verified, all 20 pending results and their evidence were uploaded and restored, and a second checkpoint call wrote nothing new. The scientific master hash stayed unchanged and no pupil estimates were rerun. Twelve scientific block failures remain separately registered; this is not full international completion.",
+  "recovery": {
+    "checked_utc": "2026-10-17T13:59:21Z",
+    "same_existing_remote_index_verified": true,
+    "master_unchanged": true,
+    "calculations_started": 0,
+    "second": {
+      "cells": 49992,
+      "new": 0,
+      "packages": 1377
+    },
+    "first": {
+      "cells": 49992,
+      "new": 20,
+      "packages": 1377,
+      "receipt": {
+        "sha256": "5c0462707bd357f0125c78aa8267974d21fe55f4d0a9854c36c1e8f1d3ea2871",
+        "bytes": 2426537,
+        "cells": 20,
+        "files": 28,
+        "restore": "DOWNLOADED_RESULTS_AND_ALL_MEMBER_BYTES_VERIFIED",
+        "verified_utc": "2026-10-17T13:59:05Z"
+      }
+    }
+  },
+  "current_cells_remote_verified_after_recovery": 49992,
+  "pending_remote_cells_after_recovery": 0
+}

@@ -1,0 +1,93 @@
+{
+  "schema_version": 2,
+  "observed_utc": "2026-10-15T17:24:00.190243+00:00",
+  "production_commit_before_restart": "9a7a0c303d2d94d8906644999fed0e879d69ffeb",
+  "status": "CONTROLLED_STOP_FOR_VERIFIED_PERFORMANCE_UPDATE",
+  "targets": 77611,
+  "completed_cells_retained_at_controlled_restart": 2850,
+  "documented_source_absence": 3597,
+  "remaining": 71164,
+  "full_production_complete": false,
+  "performance_evidence": "PERFORMANCE_REVIEW_EVIDENCE.json",
+  "previous_snapshot": {
+    "schema_version": 1,
+    "production_commit_before_restart": "b276b780d64a357eb8538fc5d579d378e140e19b",
+    "completed_cells_retained_at_controlled_restart": 2607,
+    "new_cells_this_full_attempt": 91,
+    "first_attempt_start": "2026-10-15T15:19:30Z",
+    "controlled_stop": "2026-10-15T15:56:41Z",
+    "full_production_complete": false,
+    "reason": "Numerically verified acceleration; completed certificates retained",
+    "core": {
+      "reference_seconds": 3.69,
+      "cells": 12,
+      "estimate_max": 1.7621459846850485e-12,
+      "SE_max": 1.949551631241775e-13,
+      "joint_max": 2.9558577807620168e-12
+    },
+    "producer": {
+      "status": "EXACT_SELECTED_PRODUCER_PARITY_PASS",
+      "n": 14618,
+      "cells": 12,
+      "seconds": 0.019999999999999574,
+      "source_sha256": "3ff60f3e826594f35a5cfeb3cc74bdacb1e4e3f3cf216248e4a12215bcb434d5",
+      "producer_code_sha256": "1f0b152b06830e7877eb881302f8809035eba8d7795babf11b3c9576e9c161f1",
+      "new_cells": 0,
+      "reused_cells": 12,
+      "max_estimate_difference": 4.547473508864641e-13,
+      "max_se_difference": 6.439293542825908e-15
+    },
+    "other_references": {
+      "PISA2018": {
+        "cells": 57,
+        "seconds": 8.28,
+        "estimate_max": 9.094947017729282e-13,
+        "SE_max": 2.611244553918368e-13,
+        "joint_max": 4.035882739117369e-12
+      },
+      "TIMSS2023_BOOKS": {
+        "cells": 40,
+        "seconds": 2.389999999999999,
+        "estimate_max": 5.684341886080801e-13,
+        "SE_max": 2.113864638886298e-13,
+        "joint_max": 2.3874235921539366e-12
+      }
+    },
+    "earlier_benchmark": {
+      "core": {
+        "cells": 12,
+        "old_seconds": 70.25,
+        "new_seconds": 62.39,
+        "max_estimate_difference": 1.3073986337985843e-12,
+        "max_SE_difference": 1.9451107391432743e-13,
+        "max_joint_difference": 2.9558577807620168e-12
+      },
+      "books": {
+        "cells": 21,
+        "old_seconds": 77.47999999999999,
+        "new_seconds": 13.430000000000007,
+        "max_estimate_difference": 7.887024366937112e-13,
+        "max_SE_difference": 6.896705428971472e-13,
+        "max_joint_difference": 3.751665644813329e-12
+      }
+    },
+    "local_acceptance": {
+      "status": "PASS",
+      "tests": [
+        "test_pisa_source_block.R",
+        "test_pisa_legacy_source.R",
+        "test_iea_source_block.R",
+        "test_iea_background.R",
+        "test_approved_extensions.R",
+        "test_exact_dispatch.R",
+        "test_balanced_views.R",
+        "test_source_bindings.R",
+        "test_scope_result_reuse.R",
+        "test_byte_index.py"
+      ],
+      "platform": "Windows R 4.6.1",
+      "independent_real_source_checks": "PISA2018_NLD;PIRLS2011_ARE;TIMSS2023_NLD",
+      "production_complete": false
+    }
+  }
+}

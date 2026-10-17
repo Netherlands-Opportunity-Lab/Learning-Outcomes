@@ -1,0 +1,280 @@
+# Build a GUIDED-frontend figure-product candidate from independently
+# validated primitive estimates. Source task and figure IDs remain immutable.
+# Old high-peer results cannot fill new primary below-basic peer graphs.
+lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL) {
+  if(any(grepl('FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015',tasks$metric_key,fixed=TRUE))&&
+     !exists('lo_gender_display',mode='function'))stop('GUIDED_EXPORT_GENDER_LABEL_POLICY_REQUIRED')
+  if(!exists("lo_grid_validate_fill",mode="function"))
+    stop("GUIDED_EXPORT_HOLD: load MASTER_ESTIMATION_GRID.R")
+  dir.create(out,recursive=TRUE,showWarnings=FALSE)
+  figures<-read.csv(file.path(bundle,"FIGURE_SERIES_CONTRACT_20261002.csv"),
+      colClasses="character",stringsAsFactors=FALSE,check.names=FALSE)
+  required<-c("figure_id","expected_series","survey","domain","required_years")
+  if(!all(required%in%names(figures)) ||
+     (nrow(figures)!=138L &&
+      Sys.getenv("LO_SYNTHETIC_GUIDED_TEST")!="YES") ||
+     anyDuplicated(figures$figure_id))
+    stop("GUIDED_EXPORT_HOLD: source figure registry changed")
+  if(!all(c("metric_key","contract_figure_id","country","survey",
+            "year","domain","group","stat","definition")%in%names(tasks)) ||
+      anyDuplicated(tasks$metric_key))
+    stop("GUIDED_EXPORT_HOLD: source task identity changed")
+  if(!nrow(approved)) {
+    # A blank file with the exact locked schema can still produce an empty
+    # review candidate, without pretending data have been checked.
+    approved <- data.frame(cell_id=character(),estimate=numeric(),
+      standard_error=numeric(),n_unweighted=integer(),
+      sample_id=character(),input_fingerprint=character(),
+      code_fingerprint=character(),result_hash=character(),
+      method_version=character(),status=character())
+  }
+  if(nrow(approved)) {
+    if(!exists("lo_grid_archive_fill",mode="function"))stop("GUIDED_EXPORT_EXACT_ARCHIVE_GATE_REQUIRED")
+    lo_grid_archive_fill(lo_grid_from_tasks(tasks),approved,
+      verify_files=TRUE)
+  }
+  matched <- match(approved$cell_id,tasks$metric_key)
+  if(anyNA(matched))stop("GUIDED_EXPORT_HOLD: unknown science cell")
+  source<-tasks[matched,,drop=FALSE]
+  map_fig<-match(source$contract_figure_id,figures$figure_id)
+  rec<-list();omissions<-list()
+  omit<-function(i,reason) {
+    omissions[[length(omissions)+1L]] <<- data.frame(
+       cell_id=approved$cell_id[i],figure_id=source$contract_figure_id[i],
+       country=source$country[i],reason=reason,stringsAsFactors=FALSE)
+  }
+  for(i in seq_len(nrow(approved))) {
+    if(is.na(map_fig[[i]])) {
+      if(startsWith(source$module[i],"extension_")) {
+        omit(i,"APPROVED_APPENDIX_OR_SCIENCE_EXTENSION_SEPARATE_EXPORT");next
+      }
+      omit(i,"NO_EXACT_FIGURE_CONTRACT_OR_DERIVED_RANK");next
+    }
+    f<-figures[map_fig[i],,drop=FALSE]
+    id<-f$figure_id[[1]]
+    family<-sub("_age.*$","",id)
+    if(family=="TR_POSITION") {
+      omit(i,"RANK_REQUIRES_CERTIFIED_DERIVATION_AND_EXPLICIT_FIXED_PANEL");next
+    }
+    if(family=="TR_BASIC") {
+      omit(i,"DERIVED_COMPLEMENT_NO_SEPARATE_CHART");next
+    }
+    new_peer <- family=="EN_PERFORMANCE_PEER" &&
+                 source$module[[i]]=="peer_below_basic" &&
+                 source$stat[[i]]=="peer_share_below_basic"
+    allowed <- function(id)exists("lo_scope_is_approved",mode="function") && lo_scope_is_approved(scope_decisions,id)
+    if(new_peer && !allowed("A01")) { omit(i,"PENDING_A01");next }
+    if(family=="EN_PERFORMANCE_PEER" && !new_peer && !allowed("A03")) {
+      omit(i,"OLD_HIGH_PEER_CANNOT_FILL_PRIMARY_BELOW_BASIC");next
+    }
+    if(new_peer) {
+      cert <- c("peer_denominator_verified","self_exclusion_verified",
+                "method_certification_status")
+      if(!all(cert%in%names(approved)) ||
+         any(vapply(cert,function(col)!identical(
+              as.character(approved[[col]][i]),"PASS"),logical(1L)))) {
+        omit(i,"HOLD_NEW_PEER_METHOD_DENOMINATOR_OR_SELF_EXCLUSION");next
+      }
+    }
+    if(family=="GP_SES_HIGH" && !allowed("A02")) {
+      omit(i,"OPTIONAL_APPENDIX_NOT_REQUIRED_FOR_MAIN_42");next
+    }
+    if(family=="GP_SES_HIGH") {
+      omit(i,"APPROVED_APPENDIX_OR_SCIENCE_EXTENSION_SEPARATE_EXPORT");next
+    }
+    value<-as.numeric(approved$estimate[i]);se<-as.numeric(approved$standard_error[i])
+    low<-if("ci_low"%in%names(approved))as.character(approved$ci_low[i]) else ""
+    high<-if("ci_high"%in%names(approved))as.character(approved$ci_high[i]) else ""
+    derived<-FALSE
+    if(family=="GP_SES_BASIC") {
+      unit<-source$unit[i];stat<-source$stat[i]
+      # Historical base_share is >=basic. Do not infer a unit from its value.
+      if(!unit%in%c("proportion","percent") || !stat%in%c("base_share","below_share","q1_basic","q4_basic")) {
+        omit(i,"BELOW_BASIC_EXACT_UNIT_OR_STAT_NOT_RECOGNIZED");next
+      }
+      cap<-if(unit=="proportion")1 else 100
+      if(value<0||value>cap)stop("GUIDED_EXPORT_INVALID_SHARE_RANGE")
+      if(stat%in%c("base_share","q1_basic","q4_basic")) {
+        value<-cap-value;derived<-TRUE
+        if(nzchar(low)&&nzchar(high)) { oldlow<-low;low<-as.character(cap-as.numeric(high));high<-as.character(cap-as.numeric(oldlow)) }
+      }
+      scale<-if(f$unit=="percent" && unit=="proportion")100 else if(f$unit==unit)1 else NA_real_
+      if(!is.finite(scale))stop("GUIDED_EXPORT_UNIT_CONVERSION_NOT_SPECIFIED")
+      value<-value*scale;se<-se*scale
+      if(nzchar(low))low<-as.character(as.numeric(low)*scale)
+      if(nzchar(high))high<-as.character(as.numeric(high)*scale)
+    }
+    if(family=="EN_PERFORMANCE_PEER" && !new_peer && allowed("A01"))
+      id<-sub("^EN_PERFORMANCE_PEER_","EN_PERFORMANCE_PEER_HIGH_",id)
+    group<-as.character(source$group[i])
+    expected<-if(new_peer)
+      c("total","self_below_basic","self_at_or_above_basic")
+      else strsplit(f$expected_series[[1]],";",fixed=TRUE)[[1]]
+    years<-strsplit(f$required_years[[1]],";",fixed=TRUE)[[1]]
+    # The historical shared IEA figure is two source-specific series. Never
+    # collide PIRLS and TIMSS observations with the same calendar year.
+    if(f$survey[[1]]=="PIRLS_TIMSS" && source$survey[i]%in%c("PIRLS","TIMSS")) {
+      id<-paste0(id,"_",source$survey[i]);f$survey<-source$survey[i]
+      years<-if(f$survey=="PIRLS")c("2001","2006","2011","2016","2021")else c("2003","2007","2011","2015","2019","2023")
+    }
+    if(family%in%c("GP_MIGRATION_LEVELS","GP_MIGRATION_GAP","EN_MIGRATION_PEER")) {
+      binary<-source$definition[i]%in%c("MIGRATION_ANY_PARENT_ABROAD","MIGRATION_BOTH_PARENTS_ABROAD")
+      if(binary)id<-paste0(id,"_",sub("^MIGRATION_","",source$definition[i]))
+      if(family=="GP_MIGRATION_LEVELS")expected<-if(binary)c("reference","migration")else c("native","first_generation","second_generation")
+      if(family=="GP_MIGRATION_GAP")expected<-if(binary)"migration_minus_reference"else c("first_minus_native","second_minus_native")
+      if(family=="EN_MIGRATION_PEER") {
+        expected<-if(binary)c("migration_target_pct_reference_peers","population_reference_share")else c("first_generation_target_pct_native_peers","second_generation_target_pct_native_peers")
+        if(source$module[i]=="migration_binary_peer")group<-source$stat[i]
+        if(source$module[i]=="peer_baseline"&&source$stat[i]=="reference_share")group<-"population_reference_share"
+      }
+    }
+    if(family=="EN_LANGUAGE_PEER") {
+      expected<-c(if(f$survey=="PISA")"other_language_target_pct_test_language_home_peers"else"less_often_target_pct_always_almost_peers","population_test_language_share")
+      group<-if(source$module[i]=="peer_baseline"&&source$stat[i]=="test_language_share")"population_test_language_share"else source$stat[i]
+    }
+    if(f$survey=="PISA"&&family%in%c("EN_LANGUAGE_PEER","EN_MIGRATION_PEER"))years<-c("2003","2006","2009","2012","2015","2018","2022","2025")
+    if(family=="EN_PERFORMANCE_PEER"&&!new_peer&&source$module[i]=="peer_baseline"&&source$stat[i]=="high_share") {
+      group<-"population_high_share";expected<-c(expected,group)
+    }
+    if(f$survey%in%c("PIRLS","TIMSS")&&source$module[i]=="language_frequency_binary"&&source$definition[i]=="frequency_always_almost_vs_sometimes_never") {
+      if(family=="GP_LANGUAGE_LEVELS")expected<-c("always_almost","sometimes_never")
+      if(family=="GP_LANGUAGE_GAP")expected<-"sometimes_never_minus_always_almost"
+    }
+    # Resolve the historical '2025 if SES; ...' prose only for the explicitly
+    # chosen four-wave construct. National shares are contextual baselines,
+    # not peer exposure or another target group; keep their exact source IDs.
+    ses_context<-family=="EN_SES_PEER" && ((f$survey[[1]]=="PISA"&&source$definition[i]=="Cobreros_fourwave_13item_trend_comparable")||
+      (f$survey[[1]]%in%c("PIRLS","TIMSS")&&source$definition[i]=="books5_fractional"))
+    if(ses_context) {
+      if(f$survey[[1]]=="PISA")years<-c("2015","2018","2022","2025")
+      expected<-c("q1_target_pct_q4_peers","q4_target_pct_q1_peers",
+                  "population_q1_share","population_q4_share")
+      if(source$module[i]=="peer_baseline" && source$group[i]=="total" &&
+         source$stat[i]%in%c("q1_share","q4_share"))
+        group<-paste0("population_",source$stat[i])
+    }
+    # The pinned contract intentionally leaves language groups source-specific.
+    # Resolve only the certified PISA home-versus-assessment-language construct;
+    # IEA frequency categories and Dutch-versus-other are different constructs.
+    if(f$survey[[1]]=="PISA" && source$module[i]=="language_exact" &&
+       source$definition[i]=="same_as_assessment_language_vs_other") {
+      if(family=="GP_LANGUAGE_LEVELS" && source$stat[i]=="mean" &&
+         identical(expected,"source_valid_groups"))
+        expected<-c("test_language_home","other_language_home")
+      if(family=="GP_LANGUAGE_GAP" && source$stat[i]=="gap" &&
+         identical(expected,"source_valid_contrast"))expected<-"other_minus_test"
+    }
+    if(!group%in%expected) {
+      omit(i,"HOLD_EXPECTED_SERIES_MAPPING_NEEDS_METHOD_ADJUDICATION")
+      next
+    }
+    if(!as.character(source$year[i])%in%years) {
+      omit(i,"HOLD_SURVEY_YEAR_NOT_IN_FIGURE_CONTRACT");next
+    }
+    code<-as.character(source$country[i])
+    if(!grepl("^[A-Z0-9]{3}$",code)) {
+      omit(i,"HOLD_INVALID_COUNTRY_CODE");next
+    }
+    language_labels_nl<-c(test_language_home="Thuis dezelfde taal als de toets",
+      other_language_home="Thuis een andere taal",other_minus_test="Andere thuistaal minus toetstaal")
+    language_labels_en<-c(test_language_home="Home language matches assessment",
+      other_language_home="Other home language",other_minus_test="Other home language minus assessment language")
+    language_row<-source$module[i]=="language_exact" && group%in%names(language_labels_nl)
+    ses_labels_nl<-c(q1_target_pct_q4_peers="Aandeel Q4-peers van Q1-leerlingen",
+      q4_target_pct_q1_peers="Aandeel Q1-peers van Q4-leerlingen",
+      population_q1_share="Landelijk aandeel Q1 (referentie voor samenstelling)",
+      population_q4_share="Landelijk aandeel Q4 (referentie voor samenstelling)")
+    ses_labels_en<-c(q1_target_pct_q4_peers="Share of Q4 peers among Q1 pupils",
+      q4_target_pct_q1_peers="Share of Q1 peers among Q4 pupils",
+      population_q1_share="National Q1 share (composition baseline)",
+      population_q4_share="National Q4 share (composition baseline)")
+    row<-data.frame(figure_id=id,country=code,cell_id=as.character(source$metric_key[i]),
+      year=as.character(source$year[i]),survey=as.character(source$survey[i]),
+      domain=as.character(source$domain[i]),
+      outcome_id=if(new_peer)"peer_share_below_basic"
+         else if(family=="GP_SES_BASIC")"below_basic_by_ses" else as.character(source$definition[i]),
+      estimate=value,
+      se=se,
+      n_unweighted=as.numeric(approved$n_unweighted[i]),
+      n_definition=if(grepl('PEER_PV_FRAME_N_TARGET_COUNTS_V1',approved$method_version[i],fixed=TRUE))
+        'ANALYTIC_PEER_FRAME; TARGET_N_SEPARATE_FOR_EACH_PV'else 'EXACT_VALID_OBSERVED_TARGET_OR_CONTRAST_SAMPLE',
+      scientific_status="SCIENTIFICALLY_VALIDATED",
+      sample_id=as.character(approved$sample_id[i]),
+      source_id=paste0("GRID:SHA256:",as.character(approved$result_hash[i])),
+      input_fingerprint=as.character(approved$input_fingerprint[i]),
+      code_fingerprint=as.character(approved$code_fingerprint[i]),
+      result_hash=if(derived)digest::digest(list(parent=as.character(approved$result_hash[i]),
+        transform="BELOW_BASIC_COMPLEMENT_V1",source_unit=source$unit[i],target_unit=f$unit,
+        estimate=value,se=se,ci_low=low,ci_high=high),algo="sha256") else as.character(approved$result_hash[i]),
+      series_id=group,series_role="focus",
+      series_label_nl=if(language_row)unname(language_labels_nl[group])else if(ses_context)unname(ses_labels_nl[group])else if(exists("lo_gender_display",mode="function"))lo_gender_display(source$metric_key[i],group,"nl")else group,
+      series_label_en=if(language_row)unname(language_labels_en[group])else if(ses_context)unname(ses_labels_en[group])else if(exists("lo_gender_display",mode="function"))lo_gender_display(source$metric_key[i],group,"en")else group,
+      split_group=group,
+      comparison_fixed_panel_pass="",
+      comparison_method="",comparator_n="",
+      ci_low=low,ci_high=high,
+      peer_denominator_verified=if(new_peer)"PASS" else "",
+      self_exclusion_verified=if(new_peer)"PASS" else "",
+      stringsAsFactors=FALSE)
+    rec[[length(rec)+1L]]<-row
+  }
+  result<-if(length(rec))do.call(rbind,rec) else data.frame(
+    figure_id=character(),country=character(),cell_id=character(),year=character(),
+    survey=character(),domain=character(),outcome_id=character(),
+    estimate=numeric(),se=numeric(),n_unweighted=numeric(),n_definition=character(),
+    scientific_status=character(),sample_id=character(),
+    source_id=character(),input_fingerprint=character(),
+    code_fingerprint=character(),result_hash=character(),
+    series_id=character(),series_role=character(),
+    series_label_nl=character(),series_label_en=character(),
+    split_group=character(),comparison_fixed_panel_pass=character(),
+    comparison_method=character(),comparator_n=character(),
+    ci_low=character(),ci_high=character(),
+    peer_denominator_verified=character(),
+    self_exclusion_verified=character(),stringsAsFactors=FALSE)
+  if(nrow(result) && anyDuplicated(result[c("figure_id","country",
+                                "year","series_id","series_role")]))
+    stop("GUIDED_EXPORT_HOLD: multiple validated results per figure-series-wave")
+  skipped<-if(length(omissions))do.call(rbind,omissions) else
+     data.frame(cell_id=character(),figure_id=character(),
+                country=character(),reason=character())
+  write.csv(result,file.path(out,"PRIVATE_GUIDED_VALIDATED_ROWS.csv"),
+            row.names=FALSE,na="")
+  # Preserve approved appendix/science results with exact parent IDs and full
+  # provenance; dashboard figure contracts cannot silently rename these rows.
+  ext<-startsWith(source$module,"extension_") | grepl("^GP_SES_HIGH_age",source$contract_figure_id)
+  appendix<-cbind(source[ext,,drop=FALSE],approved[ext,setdiff(names(approved),names(source)),drop=FALSE])
+  if(exists('lo_gender_display',mode='function')) {
+    appendix$group_label_nl<-lo_gender_display(appendix$metric_key,appendix$group,'nl')
+    appendix$group_label_en<-lo_gender_display(appendix$metric_key,appendix$group,'en')
+  }
+  write.csv(appendix,file.path(out,"PRIVATE_APPROVED_EXTENSION_ROWS.csv"),row.names=FALSE,na="")
+  write.csv(skipped,file.path(out,"PRIVATE_GUIDED_MAPPING_HOLDS.csv"),
+            row.names=FALSE)
+  stats<-data.frame(validated_input_cells=nrow(approved),
+    guided_focus_rows=nrow(result),
+    mapping_holds=sum(skipped$reason!="APPROVED_APPENDIX_OR_SCIENCE_EXTENSION_SEPARATE_EXPORT"),
+    separate_appendix_or_science_rows=sum(skipped$reason=="APPROVED_APPENDIX_OR_SCIENCE_EXTENSION_SEPARATE_EXPORT"),
+    requires_new_below_basic_peer=if(!is.null(scope_decisions) && lo_scope_is_approved(scope_decisions,"A01"))"YES" else "NO",
+    publication_status="PRIVATE_REVIEW_ONLY",stringsAsFactors=FALSE)
+  write.csv(stats,file.path(out,"GUIDED_EXPORT_SUMMARY.csv"),row.names=FALSE)
+  invisible(stats)
+}
+# Immutable previews must change when the visible frontend or reference data
+# changes, even if the scientific values remain identical.
+lo_guided_preview_fingerprint <- function(repo,bundle,state) {
+  frontend<-file.path(repo,"05_publication","preview_overlay")
+  assets<-sort(list.files(frontend,recursive=TRUE,full.names=TRUE))
+  assets<-assets[!dir.exists(assets)]
+  if(!length(assets))stop("GUIDED_PREVIEW_FRONTEND_MISSING")
+  files<-c(export=file.path(state,"PRIVATE_GUIDED_VALIDATED_ROWS.csv"),
+    decisions=file.path(repo,"06_pipeline","SCOPE_APPROVALS.csv"),
+    countries=file.path(state,"COUNTRY_SOURCE_ELIGIBILITY.csv"),
+    figures=file.path(bundle,"FIGURE_SERIES_CONTRACT_20261002.csv"),
+    builder=file.path(repo,"06_pipeline","LO_FINAL_GUIDED_DASHBOARD_BUILD.py"),
+    references=file.path(state,"BALANCED_REFERENCE_EXPORT.json"),
+    setNames(assets,paste0("frontend/",substring(assets,nchar(frontend)+2L))))
+  hashes<-vapply(files,function(p)if(file.exists(p))digest::digest(file=p,algo="sha256") else "ABSENT",character(1))
+  substr(digest::digest(hashes,algo="sha256"),1L,18L)
+}
+

@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "audit_source_commit": "24f9202ed4e176ce9da8f84e34e3e2274b63a566",
+  "scope_counts": [
+    {
+      "scope": "nld_only",
+      "countries": 1,
+      "historical_cells": 1867,
+      "keys_with_candidates": 494,
+      "keys_with_finite_estimate_se": 473,
+      "keys_with_source_pair_verified": 363,
+      "scientifically_approved": 0,
+      "active_historical_cells": 1529,
+      "new_below_basic_peer_cells": 240,
+      "additional_supplemental_cell_count": "NOT_EXPANDED_DO_NOT_TREAT_AS_ZERO"
+    },
+    {
+      "scope": "nld_plus_19",
+      "countries": 20,
+      "historical_cells": 29846,
+      "keys_with_candidates": 8242,
+      "keys_with_finite_estimate_se": 8119,
+      "keys_with_source_pair_verified": 5088,
+      "scientifically_approved": 0,
+      "active_historical_cells": 24355,
+      "new_below_basic_peer_cells": 3954,
+      "additional_supplemental_cell_count": "NOT_EXPANDED_DO_NOT_TREAT_AS_ZERO"
+    },
+    {
+      "scope": "all_required",
+      "countries": 50,
+      "historical_cells": 70633,
+      "keys_with_candidates": 19050,
+      "keys_with_finite_estimate_se": 18775,
+      "keys_with_source_pair_verified": 11192,
+      "scientifically_approved": 0,
+      "active_historical_cells": 57690,
+      "new_below_basic_peer_cells": 9198,
+      "additional_supplemental_cell_count": "NOT_EXPANDED_DO_NOT_TREAT_AS_ZERO"
+    }
+  ],
+  "requirements": 247,
+  "product_counts": {
+    "POLICY_DECK": 21,
+    "SCIENTIFIC_SEMINAR": 50,
+    "SCIENTIFIC_NOTE": 18,
+    "PAPER": 14,
+    "RESULT_SCRIPTS": 1,
+    "DASHBOARD": 138,
+    "ALL_PRODUCTS": 5
+  },
+  "supplemental_specifications": 28,
+  "historical_figure_contracts": 138,
+  "historical_unique_cells": 79448,
+  "derived_rank_figures": 6,
+  "evidence_sources": [
+    {
+      "source": "LO01",
+      "rows": 16767,
+      "distinct_keys": 16767,
+      "finite_estimate_se_rows": 16482,
+      "registered_status_counts": {
+        "UNVALIDATED": 16767
+      },
+      "scientifically_approved_in_this_audit": 0
+    },
+    {
+      "source": "LO02",
+      "rows": 3486,
+      "distinct_keys": 3486,
+      "finite_estimate_se_rows": 3486,
+      "registered_status_counts": {
+        "COMPUTED_PENDING_VALIDATION": 3486
+      },
+      "scientifically_approved_in_this_audit": 0
+    },
+    {
+      "source": "REGISTRY_V4",
+      "rows": 59822,
+      "distinct_keys": 55915,
+      "finite_estimate_se_rows": 58838,
+      "registered_status_counts": {
+        "AVAILABLE_POINT": 59621,
+        "CONFLICT": 201
+      },
+      "scientifically_approved_in_this_audit": 0
+    }
+  ],
+  "registry": {
+    "status": "READ_ONLY_SNAPSHOT",
+    "rows": 59822,
+    "unique_keys": 55915,
+    "current_rows": 55915,
+    "input_sha256_format_rows": 0,
+    "registered_status_counts": {
+      "AVAILABLE_POINT": 59621,
+      "CONFLICT": 201
+    },
+    "specification_join_rows": 59822,
+    "task_file_join_rows": 7814,
+    "dependency_rows": 0,
+    "n_or_sample_columns_present": false,
+    "scientifically_approved_in_this_audit": 0,
+    "registered_product_links": [
+      {
+        "product_id": "DECK_CURRENT",
+        "relation": "DIRECT_OR_REGISTERED_SLIDE_USE",
+        "n": 9691
+      }
+    ],
+    "file_sha256": "7b6813adc1149cfff1b333a1120df27e266b1f0e35711eb92c737dce54272550"
+  },
+  "lo01_source_checks": {
+    "performed": true,
+    "rows": 16767,
+    "sha_verified": 14460,
+    "estimate_equal": 13467,
+    "finite_se_equal": 13192,
+    "verified_finite_pairs": 12364
+  },
+  "historical_grid_decisions": {
+    "CANDIDATE_REQUIRES_SCIENTIFIC_REVIEW": 19601,
+    "NO_MATCH_IN_INSPECTED_EXACT_KEY_SOURCES": 59036,
+    "HOLD_NUMERIC_VERSION_RECONCILIATION": 811
+  },
+  "scientific_release": "NOT_GRANTED",
+  "new_compute_authorized": false,
+  "limits": [
+    "No candidate is independently certified by this inventory or numeric parity test.",
+    "Source-pair parity tests the archived payload before any recorded derivation; it is not approval of a transformed target.",
+    "No exact-key match is not evidence that computation is necessary.",
+    "Supplemental specifications other than new low peers still require certified cell expansion.",
+    "Cross-archive numeric differences may reflect editions/samples; no winner chosen."
+  ],
+  "inventory_is_user_approval": false,
+  "scope_basis": "HISTORICAL_42_20_50_COUNTS_NOT_6x3_ELIGIBILITY_PROOF",
+  "pending_scope_requirements": 63,
+  "scope_amendment": "USER_SCOPE_AMENDMENT_20261014.md"
+}
