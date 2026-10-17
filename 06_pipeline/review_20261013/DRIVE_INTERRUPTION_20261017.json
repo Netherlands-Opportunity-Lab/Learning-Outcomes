@@ -136,7 +136,50 @@
   "tests": {
     "windows_native_drive_sync": "PASS",
     "windows_native_checkpoint_resume": "PASS",
-    "windows_linux_ci": "PENDING"
+    "windows_linux_ci": "PASS",
+    "ci_evidence": {
+      "tested_commit": "375619ab3f68742aa506e5239f4202dc3dea7fbb",
+      "run_id": 39038929790,
+      "url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39038929790",
+      "jobs": [
+        {
+          "id": 117414273192,
+          "name": "locked-environment (windows-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 117414273332,
+          "name": "storage-tests (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 117414273352,
+          "name": "locked-environment (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 117414273377,
+          "name": "r-entrypoint-parse (windows-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 117414273399,
+          "name": "storage-tests (windows-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 117414273431,
+          "name": "r-entrypoint-parse (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
   },
   "interpretation": "Initial inspection found 49992 unique certified cells, with 20 absent from the previously verified remote index. After same-account OAuth reconnection the existing remote index was verified, all 20 pending results and their evidence were uploaded and restored, and a second checkpoint call wrote nothing new. The scientific master hash stayed unchanged and no pupil estimates were rerun. Twelve scientific block failures remain separately registered; this is not full international completion.",
   "recovery": {
