@@ -26,6 +26,17 @@ old_sleep <- Sys.sleep
 Sys.sleep <- function(time) invisible(NULL)
 always_down <- try(lo_drive_run("dummy",c("copyto","a","b")),silent=TRUE)
 stopifnot(inherits(always_down,"try-error"),calls_network==5L)
+calls_network <- 0L
+system2 <- function(command,args,stdout,stderr,...) {
+  calls_network <<- calls_network + 1L
+  structure("couldn't fetch token: invalid_grant: maybe token expired?",status=1L)
+}
+expired <- try(lo_drive_run("rclone",c("copyto","C:/local/result.rds",
+  "private_test:project/scientific-checkpoints/objects/result.rds")),silent=TRUE)
+stopifnot(inherits(expired,"try-error"), calls_network==1L,
+  grepl("PRIVATE_DRIVE_SYNC_PENDING: PRIVATE_DRIVE_REAUTH_REQUIRED",expired,fixed=TRUE),
+  grepl("config reconnect private_test: --auto-confirm",expired,fixed=TRUE),
+  !grepl("config reconnect C:",expired,fixed=TRUE))
 rm(system2,Sys.sleep)
 
 

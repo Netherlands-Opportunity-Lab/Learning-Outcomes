@@ -1,9 +1,25 @@
 # Start hier — actuele besluiten en resterend werk
 
-Bijgewerkt: 16 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
+Bijgewerkt: 17 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
 
 **Runconfiguratie en replicatie:** zie [de actuele uitvoeringshandleiding](REPLICATION_CURRENT.md) en `RUN_CONFIG.example.json`. `LO_RUN_CONFIG` legt keuzes expliciet vast; de selectie verkleint uitsluitend het goedgekeurde grid. Iedere muterende fixed-fase bewaart configuratie, inputmanifest, code-/resultaathashes en R/pakketversies. De compacte database bewaart gewijzigde numerieke resultaatversies eenmaal. Volledige rekenprecisie blijft behouden; presentatie wordt apart afgerond. De hele gekozen wetenschappelijke productie is nog niet gereed: de actuele aantallen staan in het uitvoeringsbewijs hieronder; niet alle gekozen modules en landen zijn al gecertificeerd.
 
+
+## Productieonderbreking en herstelpunt — 17 oktober 2026
+
+De internationale run stopte bij een verlopen/ingetrokken Google-aanmelding,
+na certificering van 49.992 unieke cellen. De laatst bevestigde private
+Drive-index bevat 49.972 daarvan; 20 PRT/TIMSS/2023-cellen zijn lokaal behouden
+met opnieuw gecontroleerde certificaathash. Na Google-heraanmelding is de
+bestaande externe index bevestigd en zijn de laatste 20 cellen overgebracht,
+teruggelezen en volledig hersteld met hashcontrole. Alle 49.992 cellen zijn nu
+extern bevestigd. De tweede opslagpoging schreef niets nieuws; het lokale
+wetenschappelijke masterbestand bleef byte-identiek en geen schatting is herhaald. Zie [herstelbewijs](review_20261013/DRIVE_INTERRUPTION_20261017.json)
+en [herstelprocedure](REPLICATION_CURRENT.md). Dezelfde productieopdracht probeert
+de openstaande overdracht vóór nieuwe berekeningen opnieuw. Twaalf afzonderlijke
+bron-/steekproef-/schattingsmeldingen blijven geregistreerd; zij zijn niet door
+de Drive-fout veroorzaakt en gelden niet als gecertificeerde resultaten.
+Onderstaande oudere aantallen blijven historische uitvoeringsmomenten.
 
 ## Dashboard: vijf hoofdkeuzes en definitieve huisstijl — 15 oktober 2026
 

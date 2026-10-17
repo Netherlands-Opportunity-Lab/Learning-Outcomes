@@ -15,6 +15,15 @@ copy<-function(from,to) {
 x<-lo_remote_checkpoint('.',tmp,config,copy);stopifnot(x$new==1L,calls==4L)
 x<-lo_remote_checkpoint('.',tmp,config,copy);stopifnot(x$new==0L,calls==4L)
 rows$cell_id<-'b';write.csv(rows,file.path(tmp,'master_reconciliation/SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),row.names=FALSE)
+# An expired login must preserve the locally sealed result and old index.
+master_before<-digest::digest(file=file.path(tmp,'master_reconciliation/SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),algo='sha256')
+index_before<-digest::digest(file=file.path(tmp,'.remote_checkpoints/VERIFIED_INDEX.rds'),algo='sha256')
+expired<-function(from,to)stop('PRIVATE_DRIVE_SYNC_PENDING: PRIVATE_DRIVE_REAUTH_REQUIRED')
+failed_auth<-tryCatch(lo_remote_checkpoint('.',tmp,config,expired),error=identity)
+stopifnot(inherits(failed_auth,'error'),
+  grepl('PRIVATE_DRIVE_REAUTH_REQUIRED',conditionMessage(failed_auth),fixed=TRUE),
+  digest::digest(file=file.path(tmp,'master_reconciliation/SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),algo='sha256')==master_before,
+  digest::digest(file=file.path(tmp,'.remote_checkpoints/VERIFIED_INDEX.rds'),algo='sha256')==index_before)
 broken<-function(from,to) {copy(from,to);if(startsWith(from,'private:'))writeBin(as.raw(1),to)}
 failed<-tryCatch(lo_remote_checkpoint('.',tmp,config,broken),error=identity)
 stopifnot(inherits(failed,'error'),length(readRDS(file.path(tmp,'.remote_checkpoints/VERIFIED_INDEX.rds'))$keys)==1L)

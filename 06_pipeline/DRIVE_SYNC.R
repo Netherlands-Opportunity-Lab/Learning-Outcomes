@@ -13,6 +13,20 @@ lo_drive_run <- function(exe,args) {
     status <- attr(out,"status")
     if(is.null(status)||identical(as.integer(status),0L))return(out)
     message_text <- paste(tail(out,12L),collapse=" | ")
+    # OAuth revocation/expiry requires the account holder's browser login.
+    # Never loop, reset checkpoints or invoke authentication automatically.
+    if(grepl("invalid_grant|invalid_rapt|token has been expired or revoked",
+             message_text,ignore.case=TRUE)) {
+      remote_arg <- args[grepl("^[A-Za-z0-9_-]+:[^/\\\\]",args)]
+      remote_arg <- remote_arg[!grepl("^[A-Za-z]:[/\\\\]",remote_arg)]
+      remote <- if(length(remote_arg))sub(":.*$",":",remote_arg[[1L]])else "<remote>:"
+      stop("PRIVATE_DRIVE_SYNC_PENDING: PRIVATE_DRIVE_REAUTH_REQUIRED; ",
+           "completed local results and the last verified remote checkpoint are retained. ",
+           "Reconnect the SAME Google account using: ",shQuote(exe),
+           " config reconnect ",remote," --auto-confirm. ",
+           "Then repeat the same production command; pending transfers are retried before new calculations. ",
+           "Do not delete local resume files.",call.=FALSE)
+    }
     transient <- grepl(
       "no such host|temporary failure|serverbusy|service unavailable|connection reset|timeout|timed out|429|500|502|503|504|rate limit|dns",
       message_text,ignore.case=TRUE)
