@@ -3,6 +3,34 @@
 This is an executable development pipeline, not a completed scientific replication release. Real production now covers independently verified Netherlands PISA, PIRLS and TIMSS cells across the complete 40-combination Dutch core-year anchor. The current count, result sizes and closure receipts are recorded in `review_20261013/STEP1_EXECUTION_EVIDENCE_20261014.json`. The broader approved scope still requires source/sample/method certification, reconciliation of older candidates, country approval and independent replication. See `START_HIER_ACTUEEL.md` and `ACCEPTATIE_EN_VOORTGANG.csv` for the current decisions. Do not infer readiness from a successful software test.
 
 
+## Verlopen Drive-aanmelding tijdens productie — 17 oktober 2026
+
+`PRIVATE_DRIVE_REAUTH_REQUIRED` / `invalid_grant` betekent dat Google de bestaande
+OAuth-aanmelding niet meer accepteert. Nieuwe berekeningen stoppen; afgesloten
+lokale resultaten en het laatste bevestigde externe checkpoint blijven behouden.
+Automatisch herproberen herstelt een ingetrokken aanmelding niet.
+
+Gebruik de rclone-binary uit de bestaande private `drive.local.json` en voer in
+een terminal `rclone config reconnect lo_private: --auto-confirm` uit (of gebruik
+het volledige pad naar die binary). Bevestig in de browser **hetzelfde Google-account**
+als voor de bestaande private projectmap. Deel geen tokens of wachtwoorden.
+Dit wijzigt de aanmelding; het verwijdert geen bestanden en start geen analyses.
+Zie de [officiële reconnect-documentatie](https://rclone.org/commands/rclone_config_reconnect/).
+
+Herhaal daarna het bestaande RStudio-productiecommando. De internationale
+producent draagt eerst het nog niet extern bevestigde blok over en controleert
+de teruggelezen bytes; daarna gaat hij verder met ontbrekende berekeningen.
+Verwijder het lokale mastergrid, de certificaten en `.remote_checkpoints` niet.
+Een nieuwe aanmelding of geslaagde overdracht lost afzonderlijke
+`INTERNATIONAL_REPAIR_REQUIRED`-meldingen niet op.
+
+Bij de onderbreking van 17 oktober zijn 49.992 unieke gecertificeerde cellen
+lokaal aangetroffen, waarvan 49.972 in de laatst bevestigde externe index.
+De overige 20 betreffen PRT/TIMSS/2023. De lokale certificaathash is opnieuw
+gecontroleerd. Zie [het herstelbewijs](review_20261013/DRIVE_INTERRUPTION_20261017.json)
+voor de actuele herstelstatus. Dit zijn checkpointaantallen; het oude auditgrid
+is pas na een nieuwe audit weer een actuele volledige productiestatus.
+
 ## Actueel besluit: gepoold geslacht en externe checkpoints — 15 oktober 2026
 
 De gebruiker heeft nu expliciet besloten: **“pool meisjes met other in landen waar meisjes niet apart is.”** Dit vervangt de eerdere open constructkeuze. De exacte bronresolver blijft afzonderlijke meisjes herkennen; een aparte, brongecontroleerde productielaag gebruikt alleen bij ontbrekende afzonderlijke meisjes de officiële categorie `Female / Other`. Resultaten heten zichtbaar **Meisjes + other**, inclusief verschillen en SES-appendix. Hun metric-key en calculation-policy veranderen; bestaande exacte meisjesresultaten kunnen niet als deze nieuwe definitie worden hergebruikt. De code controleert bronlabels, waarnemingen, leerling-ID's en gewichten. Onbekend/non-response blijft ontbrekend; dit is geen imputatie van afzonderlijke meisjes.
