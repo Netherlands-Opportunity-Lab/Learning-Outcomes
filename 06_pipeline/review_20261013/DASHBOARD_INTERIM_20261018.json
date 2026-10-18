@@ -1,0 +1,51 @@
+{
+  "candidate_id": "80346ea0081ea94b02fc",
+  "snapshot_utc": "2026-10-18T09:59:58Z",
+  "dashboard_points": 51304,
+  "countries": 34,
+  "source_commit": "83f4b921018882eee25779cca4649b5f07a42989",
+  "release_kind": "PARTIAL_VERIFIED_RESULTS",
+  "full_scientific_release": false,
+  "package": {
+    "files": 169,
+    "bytes": 6735737,
+    "sha256": "8017bf5278f50eb33c6b58ff819ed0a46f7a2c8f0b8bd1469aa9c493237e08a7",
+    "source_commit": "83f4b921018882eee25779cca4649b5f07a42989"
+  },
+  "availability": {
+    "PARTIAL": 3443,
+    "PLACEHOLDER": 358,
+    "VALIDATED": 2115
+  },
+  "snapshot_validation_seconds": 2292.22,
+  "mapping_holds": 0,
+  "appendix_cells_separate": 14191,
+  "software_ci": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39119248385",
+  "actual_browser_checks": [
+    "NLD PISA reading gender: 16 points; 2025 pooled label and path break",
+    "SWE PISA reading gender: 16 points; SE and N visible",
+    "AZE PIRLS reading total: 3/5 points with missing positions retained",
+    "NL/EN selection and documentation links",
+    "Mobile 390px: no horizontal overflow; chart and controls inspected",
+    "No unverified ranks or comparison lines",
+    "CSV browser download values/hashes match all 15 selected points",
+    "Final 6.7 MB replication ZIP HTTP readback hash matches and fresh reconstruction passes"
+  ],
+  "release_receipt": {
+    "candidate_manifest_sha256": "80346ea0081ea94b02fcd2172eea19b861dc1aee8c46492c2de34e953d5be5f0",
+    "systems": 34,
+    "active_figures": 174,
+    "scientific_rows": 51304,
+    "release_kind": "PARTIAL_VERIFIED_RESULTS",
+    "release_gate": "PASS_PARTIAL_DISPLAY_ONLY_FULL_SCIENCE_INCOMPLETE",
+    "release_id": "80346ea0081ea94b02fc",
+    "status": "STAGED_ON_FEATURE_BRANCH_NOT_DEPLOYED"
+  },
+  "deployment_status": "STAGED_PENDING_REMOTE_WINDOWS_LINUX_AND_PAGES",
+  "open_science": [
+    "Independent comparability mappings",
+    "Q01-Q08 and paper products",
+    "21-slide acceptance",
+    "Clean-room pupil-source replication"
+  ]
+}
