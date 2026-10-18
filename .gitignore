@@ -48,3 +48,8 @@ Thumbs.db
 .Rproj.user/
 node_modules/
 dist/
+
+# Generated publication builds and Python bytecode
+public_site_dist/
+__pycache__/
+*.pyc

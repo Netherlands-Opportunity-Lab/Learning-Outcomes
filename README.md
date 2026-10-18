@@ -1,3 +1,25 @@
+# Learning Outcomes — Kansenlab
+
+**[Open het dashboard](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/nl/)** · **[English](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/en/)** · **[Methode en replicatiepakket](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/info/nl/)**
+
+De tussenstand van 18 oktober 2026 bevat **51.304 gecontroleerde dashboardpunten voor 34 landen**. Kies een hoofdland, leeftijd/domein, statistiek en uitsplitsing. Beschikbare punten worden getoond; ontbrekende jaren en groepen blijven open. Internationale referenties en rangen volgen pas na onafhankelijke certificering van volledige vergelijkbaarheid.
+
+Het [replicatiepakket](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/replication/learning-outcomes-replication.zip) bevat 169 bestanden en is circa 6,7 MB: actuele analysescripts, omgevingsversies, scope, broncatalogi, dashboardaggregaten en herkomst. De openbare figuren worden met `python reproduce_dashboard.py` opnieuw opgebouwd en byte voor byte gecontroleerd. Volledige replicatie vanaf leerlingbestanden heeft nog de vastgelegde bronbundel nodig en is niet als afgerond gecertificeerd.
+
+- Publicatiekandidaat: `80346ea0081ea94b02fc`; volledige bestandsvingerafdrukken staan in de website en kandidaatmap.
+- Vastgelegde analyse- en dashboardcode: [83f4b9210188](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/tree/83f4b921018882eee25779cca4649b5f07a42989). Deze code blijft afzonderlijk ontwikkeld op de bestaande ontwikkelbranch en PR #5.
+- [Actuele wetenschappelijke uitvoeringshandleiding](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/blob/83f4b921018882eee25779cca4649b5f07a42989/06_pipeline/REPLICATION_CURRENT.md) en [besluitregister](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/blob/83f4b921018882eee25779cca4649b5f07a42989/06_pipeline/START_HIER_ACTUEEL.md).
+- De figuurdownloads bewaren SE, N, exacte cellen en bron-/code-/resultaathashes. Afronding gebeurt alleen bij weergave.
+- [Septemberarchief](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/archive/2026-09-28/) en de historische code blijven behouden.
+
+Deze publicatie verandert de wetenschappelijke productie niet en verleent geen PASS aan open paper-, presentatie- of vergelijkbaarheidscontroles. Leerling-/schoolbestanden en complete afgeleide bulkmasters worden niet publiek gemaakt.
+
+---
+
+## Historische septemberdocumentatie
+
+De onderstaande aantallen en bronversies beschrijven uitsluitend de bewaarde release van september.
+
 # Learning Outcomes — PISA / PIRLS / TIMSS
 
 Reproducible analyses and a public research dashboard on international learning outcomes at approximately age 10 and age 15.

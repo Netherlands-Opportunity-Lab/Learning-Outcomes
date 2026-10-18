@@ -1,0 +1,65 @@
+{
+  "decision_date": "2026-10-14",
+  "human_evidence": "Versie uit archief van 1 oktober",
+  "baseline": "04_DASHBOARD_BRON_20261001/03_dashboard/app",
+  "preserve": [
+    "landing hero and country selector",
+    "four question cards",
+    "separate explorer with breadcrumb",
+    "horizontal controls",
+    "framed figure card",
+    "mobile layout and NL/EN routes"
+  ],
+  "change": [
+    "Kansenlab v06 vector logo",
+    "v05 variant B typography",
+    "v05 brand tokens",
+    "retain reviewed numerical axis correction"
+  ],
+  "source_files": [
+    {
+      "path": "index.html",
+      "sha256": "e91b649c3ec84064bc139227fcd00e05d48182400690cc3ed780c93501a65b76"
+    },
+    {
+      "path": "assets/styles.css",
+      "sha256": "705f8daad2517b6b796b9dc3f2c870cb05bd8274738384e275556e3825c9469f"
+    },
+    {
+      "path": "assets/app-shell.js",
+      "sha256": "4d56cc5adf5750178c69339d1b7fbdac21b4cfd2692b1675b3a7dda01eb25ee6"
+    },
+    {
+      "path": "assets/router.mjs",
+      "sha256": "6cead3dd2279f532e1c1adca9b2cb7609a715a02c30f3b5b1c64155bb58687af"
+    },
+    {
+      "path": "locales/nl.json",
+      "sha256": "7f04141e3d79d676c2d30f7db581930fdafa9f5a50c06ee5cc1fff335f1019b7"
+    },
+    {
+      "path": "locales/en.json",
+      "sha256": "517000c38de002ab2e33562e66440712d29fc62f457f4d81c918450503a3fe34"
+    },
+    {
+      "path": "brand/leerprestaties_nl.svg",
+      "sha256": "6546c10807a5b81015ceb015425acb03a8daf88bf32a9f4cd3d054057029ab25"
+    },
+    {
+      "path": "brand/leerprestaties_en.svg",
+      "sha256": "d939c9a8d5fc9303ffa1f5fb14e561c05a1029629e02a7047ce0400c0350e534"
+    },
+    {
+      "path": "brand/leerprestaties.svg",
+      "sha256": "596e3c34baa09c1b36ec79d5b1511f1a857e438c65ca9221cfd77ecfde0b7481"
+    },
+    {
+      "path": "brand/kansenlab_brand_registry_v05.json",
+      "sha256": "ad6d8170f3c8a259390459d0b466109aa470e4a00213ce303480f0bce5716efa"
+    },
+    {
+      "path": "brand/kansenlab_stylesheet_v05.css",
+      "sha256": "8bd4357419b0ea789d5b731c08b6d33036ca4acd7393b24499122b1fcd06c313"
+    }
+  ]
+}
