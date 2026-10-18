@@ -2,6 +2,7 @@ from pathlib import Path
 import hashlib
 import html
 import json
+import os
 import shutil
 import zipfile
 
@@ -12,6 +13,10 @@ DOCS = ROOT / "03_dashboard" / "docs"
 MANIFEST = PUB / "PUBLIC_DASHBOARD_MANIFEST.json"
 BUNDLE = PUB / "public_dashboard_runtime_20260928.zip"
 OUT = ROOT / "public_site_dist"
+# The old checked release remains reachable after an explicit interim deploy.
+# This switch only changes its bounded destination; scientific bytes stay frozen.
+if os.environ.get("LO_BUILD_SEPTEMBER_ARCHIVE")=="1":
+    OUT = OUT / "archive" / "2026-09-28"
 
 def sha256_bytes(data):
     return hashlib.sha256(data).hexdigest()
@@ -49,6 +54,8 @@ with zipfile.ZipFile(BUNDLE) as zf:
             fail(f"SHA-256 mismatch: {name}")
 
 if OUT.exists():
+    if not OUT.resolve().is_relative_to((ROOT/"public_site_dist").resolve()):
+        fail("output escapes the declared publication workspace")
     shutil.rmtree(OUT)
 OUT.mkdir()
 

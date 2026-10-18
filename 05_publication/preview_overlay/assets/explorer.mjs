@@ -75,6 +75,22 @@ export function completeRows(rows, f) {
   }
   return years.length>0 && groups.length>0 && years.every(y=>groups.every(g=>found.has(`${y}:${g}`)));
 }
+// Partial focus data are displayable; comparison/rank completeness stays strict.
+export function displayableRows(rows,f,availability) {
+  if(!['VALIDATED','PARTIAL'].includes(availability?.display_state))return [];
+  const years=words(f.required_years),groups=words(f.expected_series),seen=new Set();
+  return rows.filter(r=>{
+    const key=`${r.year}:${r.series_id}`;
+    if(seen.has(key))throw new Error('DUPLICATE_DISPLAY_CELL');
+    seen.add(key);
+    return r.quality_status==='SCIENTIFICALLY_VALIDATED'&&Number.isFinite(number(r.estimate))&&years.includes(String(r.year))&&groups.includes(r.series_id);
+  });
+}
+export function breakBetween(previous,current,f) {
+  if(!previous)return true;
+  const years=words(f.required_years).map(Number).sort((a,b)=>a-b);
+  return years.indexOf(+current.year)!==years.indexOf(+previous.year)+1 || current.series_break_before===true || current.series_break_before==='TRUE';
+}
 export function referenceStatus(contract, focus, members) {
   if (!contract || contract.status !== 'BALANCED_REFERENCE_AVAILABLE') return {ok:false,reason:'pending'};
   if(!members.length)return {ok:false,reason:'empty'};
