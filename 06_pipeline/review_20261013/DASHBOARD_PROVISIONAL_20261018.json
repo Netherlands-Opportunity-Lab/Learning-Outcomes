@@ -30,7 +30,8 @@
     "Searching Canada and changing checkboxes works; Canada-only ranks with optional second-country line leave 2006/2021 empty",
     "Canada focus: 3 of 5 own points with explicit gaps, and available-year comparison displayed",
     "English interface: translated provisional notice and working country selection; no console errors",
-    "Actual iPhone Safari is not available for automated testing"
+    "Actual iPhone Safari is not available for automated testing",
+    "Live Pages readback: Canada unchecked and Apply changes default 12 to custom 11; Restore defaults returns 12; focus dropdown fourth"
   ],
   "release_receipt": {
     "candidate_manifest_sha256": "05c0b4552abcfaa8f0727a9800ff61f5d3ed999bf8312a4eaff62c002a238770",
@@ -43,7 +44,7 @@
     "status": "STAGED_ON_FEATURE_BRANCH_NOT_DEPLOYED"
   },
   "active_R_checkout_modified": false,
-  "software_tests": "18 guided Python tests, 5 partial release tests and both Node suites passed locally; cross-platform CI pending",
+  "software_tests": "24 Python regression checks per platform, Node explorer and restored renderer, and actual package reconstruction passed on Windows/Linux",
   "unavailable_rich_candidates": {
     "countries": [
       "BEL",
@@ -60,5 +61,33 @@
     "country": "USA",
     "reason": "NO_RELEASED_POINTS_FOR_THIS_FIGURE_IN_CURRENT_SNAPSHOT"
   },
-  "deployment_status": "STAGED_NOT_DEPLOYED"
+  "deployment_status": "LIVE_ALL_ASSETS_HTTP_HASH_VERIFIED",
+  "publication_commit": "30f8eca07381077218bc36bb242bf218b6c02a49",
+  "windows_linux_ci": {
+    "status": "SUCCESS_ALL_THREE_JOBS",
+    "url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39130289063",
+    "python_tests_per_platform": 24,
+    "package_runtime_files": 408
+  },
+  "pages_deployment": {
+    "status": "SUCCESS",
+    "url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39130462730"
+  },
+  "live_verification": {
+    "status": "PASS_ALL_PUBLISHED_ASSET_HASHES",
+    "verified_at_utc": "2026-10-18T13:13:20.782403+00:00",
+    "candidate_id": "05c0b4552abcfaa8f072",
+    "verified_files": 411,
+    "verified_bytes": 154360870,
+    "site": "https://netherlands-opportunity-lab.github.io/Learning-Outcomes/",
+    "archive_index": {
+      "path": "archive/2026-09-28/index.html",
+      "bytes": 6655,
+      "sha256": "91bc0b6d52edab9ca55ad8c9ebf6cf05781092d2f2ee2fed419b39932e1b4c08"
+    }
+  },
+  "active_R_checkout": {
+    "head": "32c48305e3db57e43fb14da49fae7c0f70de5541",
+    "status": "CLEAN_UNCHANGED"
+  }
 }
