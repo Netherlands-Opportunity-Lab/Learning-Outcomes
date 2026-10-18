@@ -225,11 +225,28 @@
   "absence_proof_validation": "All 97 exact certificates and attached source, code, task and denominator evidence hashes verified in the isolated registry.",
   "certificate_check_optimization": "Group checks by immutable certificate; retain exact comparisons for every cell and fresh hashes for every referenced file. No persistent metadata-only hash cache.",
   "full_snapshot_check": {
-    "status": "IN_PROGRESS_NOT_A_SCIENTIFIC_RELEASE",
-    "snapshot_rows": 64362,
-    "snapshot_certificates": 2334,
-    "snapshot_source_files": 1903,
-    "snapshot_timestamp_utc": "2026-10-18T08:04:12Z",
-    "duplicate_old_verifier": "Stopped to avoid redundant I/O; optimized full verifier continues on the same immutable snapshot."
+    "status": "COMPLETED_ON_FROZEN_SNAPSHOT",
+    "seconds": 1422.9,
+    "summary": [
+      {
+        "scope_contracts": 77611,
+        "active_primitive_contracts": 70189,
+        "validated_active_primitives": 64362,
+        "active_missing": 5827,
+        "documented_unavailable_extensions": 3366,
+        "documented_unavailable_source_fields": 4101,
+        "documented_unavailable_analytic_samples": 0,
+        "new_below_basic_peer_targets": 7002,
+        "documented_unavailable_low_peers": 9,
+        "new_below_basic_peer_verified": 6369,
+        "paper_gates_pass": 0,
+        "paper_gates_required": 8,
+        "primary_peer_gate": "HOLD",
+        "scientific_freeze": "HOLD",
+        "publication_authorized": "NO_RIGHTS_AND_REPLICATION_REVIEW_PENDING",
+        "reason": ";ACTIVE_GRID_GAPS;Q01_Q08_OPEN;BELOW_BASIC_PEER_REQUIREMENTS_OPEN"
+      }
+    ],
+    "evidence_sha256": "ffa9106c7103c0a5bdc76891958c43c9ddb8c170a4be03f24759db011b459668"
   }
 }

@@ -1,7 +1,33 @@
-# Current replication entry point — 15 October 2026
+# Current replication entry point — 18 October 2026
 
 This is an executable development pipeline, not a completed scientific replication release. Real production now covers independently verified Netherlands PISA, PIRLS and TIMSS cells across the complete 40-combination Dutch core-year anchor. The current count, result sizes and closure receipts are recorded in `review_20261013/STEP1_EXECUTION_EVIDENCE_20261014.json`. The broader approved scope still requires source/sample/method certification, reconciliation of older candidates, country approval and independent replication. See `START_HIER_ACTUEEL.md` and `ACCEPTATIE_EN_VOORTGANG.csv` for the current decisions. Do not infer readiness from a successful software test.
 
+
+## Eén opdracht voor hervatten en eindcontrole — 18 oktober 2026
+
+De bestaande `LO_START_ACTION=produce-approved` voert audit, productie,
+finalize en status achtereenvolgens uit, met dezelfde codecommit en configuratie.
+Daarna volgen private checkpoint, GitHub-aggregaatdepositie en rapportoverdracht.
+Gebruik de bestaande lokale configuratiewrapper in RStudio; stel de optie
+`lo.current.action` op `produce-approved` in. Start geen tweede schrijver naast
+een actieve run. De checkout-lock wordt vóór iedere Git-update gecontroleerd.
+
+De werkvoorraad bestaat uit alle ontbrekende goedgekeurde cellen, inclusief
+eerdere probleemblokken; er is geen handmatige startlandinstelling nodig.
+Geldige bestaande certificaten en resultaten worden hergebruikt. De gedeeltelijke
+blokreparatie bewaart aantoonbare afwezigheid per cel, zonder een lege noemer op
+nul te zetten of vereiste PVs/replicaten weg te laten. `fixed-finalize` maakt de
+balans-/rangafleidingen, private dashboardkandidaat en het eindrapport. Open
+wetenschappelijke controles blijven open; het commando verleent geen publicatierecht.
+
+Een Windows `REMOTE_CHECKPOINT_INDEX_ATOMIC_REPLACE` kan ontstaan doordat een
+lezer tijdelijk het vervangen van de index of `.previous` blokkeert. De atomische
+schrijver probeert zulke sharing/lock-fouten maximaal circa twintig seconden
+opnieuw en bewaart de vorige index. Bij blijvende blokkade stopt hij veilig;
+herhalen probeert eerst de overdracht opnieuw, zonder gecertificeerde schattingen
+te herberekenen. Wis geen locks, index of mastergrid om dit te omzeilen.
+Werkelijke tijdelijke en blijvende Windows-locks, hervatten en de volledige
+fasevolgorde worden getest; zie `CHECKPOINT_RESUME_20261018.json` in de reviewmap.
 
 ## Verlopen Drive-aanmelding tijdens productie — 17 oktober 2026
 

@@ -118,12 +118,12 @@ lo_remote_checkpoint_impl <- function(repo,root,config,transfer) {
   transfer(pointer,pointer_remote);transfer(pointer_remote,pointer_back)
   if(hash(pointer)!=hash(pointer_back))stop('REMOTE_CHECKPOINT_INDEX_READBACK_FAILED')
   save_path<-tempfile('verified_',tmpdir=stage);saveRDS(index,save_path)
-  if(.Platform$OS.type=='windows'&&file.exists(index_path)) {
-    ps_quote<-function(x)paste0("'",gsub("'","''",normalizePath(x,winslash='/',mustWork=FALSE),fixed=TRUE),"'")
-    command<-paste0('[System.IO.File]::Replace(',ps_quote(save_path),',',ps_quote(index_path),',',ps_quote(paste0(index_path,'.previous')),')')
-    if(system2('powershell',c('-NoProfile','-NonInteractive','-Command',shQuote(command)))!=0L)
-      stop('REMOTE_CHECKPOINT_INDEX_ATOMIC_REPLACE')
-  }else if(!file.rename(save_path,index_path))stop('REMOTE_CHECKPOINT_INDEX_ATOMIC_RENAME')
+  # The remote package and pointer are already verified. A transient Windows
+  # sharing violation must not abort after just one replacement attempt.
+  # On a persistent lock retain both the old index and the prepared new one;
+  # resumption rechecks remote storage before any new pupil calculation.
+  tryCatch(lo_atomic_replace(save_path,index_path),error=function(e)
+    stop('REMOTE_CHECKPOINT_INDEX_ATOMIC_REPLACE: ',conditionMessage(e)))
   cat('PRIVATE_DRIVE_CHECKPOINT_VERIFIED: ',nrow(selected),' new cells; ',length(index$keys),' cell versions recoverable remotely\n',sep='')
   invisible(list(cells=nrow(all),new=nrow(selected),packages=length(index$packages),receipt=record))
 }
