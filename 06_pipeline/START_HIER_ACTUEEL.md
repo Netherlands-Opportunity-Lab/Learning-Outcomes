@@ -17,6 +17,8 @@ een veranderende rangbasis een lijnonderbreking. Deze definitieve UI-instellinge
 maken de nog onvolledige resultaten niet definitief en vervangen de strenge
 wetenschappelijke balansregel niet.
 
+Deze bediening staat live als kandidaat `ea0632b132508dff805d`. Alle 408 runtimebestanden zijn op Windows en Linux exact gereconstrueerd; alle 411 gepubliceerde bestanden zijn via HTTPS op SHA256 gecontroleerd. Het pakket bevat 179 bestanden (13.128.299 bytes), inclusief de uitvoeringsinventaris. De 34 landbestanden zijn byte-identiek gebleven. Mobiele NL/EN-bediening, begininstellingen, lijnverbinding, ranguitzondering en eigen landenkeuze zijn daadwerkelijk getest. Zie `review_20261013/DASHBOARD_FINAL_SETTINGS_20261018.json`.
+
 De actuele scriptinventaris staat in `RUN_COMPLETION_INVENTORY_20261018.md`.
 Voer de laatste hervathulp pas uit nadat de bestaande R-run klaar of gestopt is;
 wijzig geen actieve checkout en start geen tweede schrijver.
