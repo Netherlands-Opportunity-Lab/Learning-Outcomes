@@ -1,0 +1,10 @@
+{
+  "active_figures": 174,
+  "candidate_manifest_sha256": "4cdac912f6b0de90c6d6f5b6e8c67a5a06b31522d5a3615907195c67ddef27d7",
+  "release_gate": "PASS_PARTIAL_DISPLAY_ONLY_FULL_SCIENCE_INCOMPLETE",
+  "release_id": "4cdac912f6b0de90c6d6",
+  "release_kind": "PARTIAL_VERIFIED_RESULTS",
+  "scientific_rows": 51304,
+  "status": "STAGED_ON_FEATURE_BRANCH_NOT_DEPLOYED",
+  "systems": 34
+}

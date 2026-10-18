@@ -1,9 +1,9 @@
 {
-  "candidate_id": "05c0b4552abcfaa8f072",
+  "candidate_id": "4cdac912f6b0de90c6d6",
   "snapshot_utc": "2026-10-18T09:59:58Z",
   "dashboard_points": 51304,
   "countries": 34,
-  "source_commit": "85636cc1c6e7a758d1a88e49095b6f5d230ada19",
+  "source_commit": "fb62303a9e56f438b03eaeae6362d66cc4ac980b",
   "release_kind": "PARTIAL_VERIFIED_RESULTS",
   "reference_mode": "AVAILABLE_CASES_PROVISIONAL",
   "full_scientific_release": false

@@ -1,0 +1,112 @@
+{
+  "candidate_id": "4cdac912f6b0de90c6d6",
+  "snapshot_utc": "2026-10-18T09:59:58Z",
+  "dashboard_points": 51304,
+  "countries": 34,
+  "source_commit": "fb62303a9e56f438b03eaeae6362d66cc4ac980b",
+  "release_kind": "PARTIAL_VERIFIED_RESULTS",
+  "reference_mode": "AVAILABLE_CASES_PROVISIONAL",
+  "full_scientific_release": false,
+  "package": {
+    "files": 174,
+    "bytes": 13113350,
+    "sha256": "638334ac5bee3edf70726618d67d201daadded2ac8161db9612418e00dc07ffa",
+    "source_commit": "fb62303a9e56f438b03eaeae6362d66cc4ac980b"
+  },
+  "reference_policy_sha256": "52c4b65d96381c6d221a86624bec60308ab0bb3684a66adc5f7ed89c095cc123",
+  "retained_strict_evidence_sha256": "d8d62a9dd67a514885e893d5a18a151d018fb05cc0d25737c2f5ff305225d9be",
+  "reference_views": {
+    "PROVISIONAL_REFERENCE_AVAILABLE": 5916
+  },
+  "nld_reference_views": {
+    "PROVISIONAL_REFERENCE_AVAILABLE": 174
+  },
+  "actual_browser_checks": [
+    "Chromium desktop and mobile 390x844: focus-only interval switch initially off and functional; no horizontal overflow",
+    "NLD PIRLS reading mean: 10 total plotted points, exactly 5 confidence intervals when enabled, none when off",
+    "NL to EN language switch retains country, outcome, statistic, split, comparison and uncertainty preference",
+    "PISA gender mean: 16 focus intervals, none on 16 reference points; pooled Girls + other label and definition-break note retained",
+    "Rank view disables interval switch and plots zero intervals; returning to score restores saved preference",
+    "NLD PISA reading below basic 2022: 34.58 percent, SE 1.74 and 95 percent interval 31.17 to 38.00, from unchanged certified proportion",
+    "Translated options, group labels, notices, search, close, skip-link, region and language labels; one shared runtime/data",
+    "No browser console errors; actual iPhone Safari is not available for automated testing"
+  ],
+  "release_receipt": {
+    "candidate_manifest_sha256": "4cdac912f6b0de90c6d6f5b6e8c67a5a06b31522d5a3615907195c67ddef27d7",
+    "systems": 34,
+    "active_figures": 174,
+    "scientific_rows": 51304,
+    "release_kind": "PARTIAL_VERIFIED_RESULTS",
+    "release_gate": "PASS_PARTIAL_DISPLAY_ONLY_FULL_SCIENCE_INCOMPLETE",
+    "release_id": "4cdac912f6b0de90c6d6",
+    "status": "STAGED_ON_FEATURE_BRANCH_NOT_DEPLOYED"
+  },
+  "active_R_checkout_modified": false,
+  "software_tests": "18 guided Python tests, 5 partial release tests and both Node suites passed locally; cross-platform CI pending",
+  "unavailable_rich_candidates": {
+    "countries": [
+      "BEL",
+      "CHE",
+      "GBR",
+      "ISL",
+      "KOR",
+      "LUX"
+    ],
+    "reason": "SOURCE_SUPPORT_NOT_YET_VERIFIED_IN_FROZEN_REGISTRY",
+    "interpretation": "Not evidence that official data do not exist; resolve at final source admission review"
+  },
+  "other_rich_missing": {
+    "country": "USA",
+    "reason": "NO_RELEASED_POINTS_FOR_THIS_FIGURE_IN_CURRENT_SNAPSHOT"
+  },
+  "display_policy": "FOCUS_NORMAL_95_AND_CORE_PERCENT_V1",
+  "display_audit": {
+    "status": "PASS",
+    "points": 51304,
+    "derivedIntervals": 51304,
+    "scaledCoreShares": 2194,
+    "unchangedCountryFiles": 34,
+    "missingLabels": [],
+    "display_policy": {
+      "id": "FOCUS_NORMAL_95_AND_CORE_PERCENT_V1",
+      "confidence_level": 0.95,
+      "critical_value": 1.96,
+      "interval_method": "NORMAL_APPROXIMATION_FROM_VERIFIED_SE",
+      "focus_only": true,
+      "default_visible": false,
+      "rank_intervals": false,
+      "reference_intervals": false,
+      "core_proportion_figures": [
+        "TR_BELOW",
+        "TR_HIGH"
+      ],
+      "interval_bounds_clipped": false
+    },
+    "source_commit": "fb62303a9e56f438b03eaeae6362d66cc4ac980b",
+    "shared_html_template": true,
+    "shared_assets_and_data": true,
+    "examples": [
+      {
+        "figure": "TR_MEAN_age15_reading",
+        "input_estimate": 459.242908056442,
+        "input_se": 4.28220491615576,
+        "display_estimate": 459.242908056442,
+        "display_se": 4.28220491615576,
+        "ci_low": 450.8497864207767,
+        "ci_high": 467.6360296921073,
+        "result_hash": "672ce605c1051c8dcb1f8d8b36a21423ef214e668dceca6795ad8198e3576bd1"
+      },
+      {
+        "figure": "TR_BELOW_age15_reading",
+        "input_estimate": 0.345832035168812,
+        "input_se": 0.0174346932813374,
+        "display_estimate": 34.5832035168812,
+        "display_se": 1.74346932813374,
+        "ci_low": 31.166003633739066,
+        "ci_high": 38.00040340002333,
+        "result_hash": "27bc0ed88420ec57f3a5d39dc0ba0d38e26d389ab311a9b75fdef5a65911ee65"
+      }
+    ]
+  },
+  "deployment_status": "STAGED_NOT_DEPLOYED"
+}
