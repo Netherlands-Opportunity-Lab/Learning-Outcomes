@@ -92,11 +92,23 @@ export function breakBetween(previous,current,f) {
   return years.indexOf(+current.year)!==years.indexOf(+previous.year)+1 || current.series_break_before===true || current.series_break_before==='TRUE';
 }
 export function referenceStatus(contract, focus, members) {
-  if (!contract || contract.status !== 'BALANCED_REFERENCE_AVAILABLE') return {ok:false,reason:'pending'};
+  if (!contract || contract.status !== 'BALANCED_REFERENCE_AVAILABLE') return {ok:false,reason:({
+    NO_ELIGIBLE_REFERENCE:'coverage',FOCUS_CORE_INCOMPLETE:'focus_core',FOCUS_VIEW_INCOMPLETE:'focus_view'
+  })[contract?.status]||'pending'};
   if(!members.length)return {ok:false,reason:'empty'};
   const eligible = list(contract.eligible_members);
   if(members.includes(focus) || new Set(members).size!==members.length || members.some(c=>!eligible.includes(c)))return {ok:false,reason:'ineligible'};
   return {ok:true};
+}
+export function referenceOption(contract,focus,country) {
+  if(country===focus)return {allowed:false,reason:'focus'};
+  if(list(contract?.eligible_members).includes(country))return {allowed:true,reason:'eligible'};
+  if(contract?.status==='FOCUS_CORE_INCOMPLETE')return {allowed:false,reason:'focus_core'};
+  if(contract?.status==='FOCUS_VIEW_INCOMPLETE')return {allowed:false,reason:'focus_view'};
+  const detail=list(contract?.eligibility).find(r=>r.country===country);
+  if(detail?.reason==='FAIL_DASHBOARD_6x3')return {allowed:false,reason:'admission'};
+  if(detail?.missing_cells>0)return {allowed:false,reason:'missing',detail};
+  return {allowed:false,reason:'pending'};
 }
 // A selected member must have every year × series. No yearwise reweighting,
 // stale precomputed average, silently dropped member, or averaged uncertainty.
