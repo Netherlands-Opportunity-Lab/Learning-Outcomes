@@ -36,6 +36,29 @@ is no group-rank line and no reference confidence interval. This is not a
 balanced-panel or final scientific certification. The displayed point count counts country/figure/year/
 series combinations: one underlying cell can support more than one product.
 
+## Display uncertainty, units and languages
+
+The optional **Onzekerheidsmarge / Uncertainty range** switch defaults to off.
+Focus-country intervals are normal-approximation 95% confidence intervals:
+estimate ± 1.96 × the certified design/PV standard error. It adds no pupil-level
+calculation. Existing joint-variance SEs are used for approved gaps; covariance
+is never inferred from separate group SEs. No intervals are derived for reference
+means or ranks. Bounds are not clipped at 0 or 100. These intervals describe
+sampling/estimation uncertainty, not pupil dispersion or every source of bias;
+interval overlap is not a significance test.
+
+`assets/explorer.mjs` records the versioned display policy. `TR_BELOW` and
+`TR_HIGH` inputs are proportions and are scaled by 100 with their SEs/bounds.
+SES and peer percentages are already on the percent scale and are not rescaled.
+Underlying public inputs and result hashes remain unchanged. CSV/JSON downloads
+preserve original values, scale factor, parent hash and derived interval metadata.
+
+There is one renderer, selection model, style sheet, figure registry and set of
+country data for both languages. The same HTML template is built at `/nl/` and
+`/en/`; locale dictionaries and bilingual text labels provide translations.
+The URL preserves all selections, including `uncertainty=1`, when changing language.
+The SVG/JSON export snapshots the selection before asynchronous asset loading.
+
 ## Recalculate from original sources
 
 The scientific entry point is `START.R` with `06_pipeline/RUN.R`. Follow

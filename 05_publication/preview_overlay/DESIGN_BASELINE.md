@@ -1,3 +1,14 @@
+# Aanvullend actueel besluit — 18 oktober 2026
+
+De vier dropdowns staan als uitkomst/leeftijd → statistiek → uitsplitsing → hoofdland.
+De vergelijking blijft de vijfde keuze. De gebruiker vraagt daarnaast een optionele
+onzekerheidsschakelaar voor de hoofdlandfiguren en een volledige Engelse vertaling
+zonder tweede applicatie. Uitvoering: **Onzekerheidsmarge / Uncertainty range**,
+standaard uit, naast de figuurstatus. Toon 95%-intervallen uit de bestaande
+gecontroleerde SE, alleen voor het hoofdland. Rangen/referentiegemiddelden krijgen
+geen interval. Dezelfde code, data en figuurkeuzes bedienen beide talen; een
+ taalwissel bewaart de selectie. Geen nieuwe schattingen of productfamilies.
+
 # Actueel ontwerpbesluit — 15 oktober 2026
 
 De gebruiker heeft nu expliciet één rustige figuurbouwer met vijf hoofdkeuzes gevraagd. Dit vervangt de verplichte aparte startpagina, zichtbare vier vraagkaarten en losse leeftijd/domeinknoppen uit het onderstaande historische besluit. De visuele basis van 1 oktober blijft: warme achtergrond, horizontale filters, ruime witte figuur, rustige omlijning en responsieve opbouw. De vier vragen zijn uitklapbare snelkoppelingen.

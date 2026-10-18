@@ -2,6 +2,25 @@
 
 Bijgewerkt: 18 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
 
+## Nieuw weergavebesluit — onzekerheid en één tweetalige applicatie
+
+De gebruiker vraagt op 18 oktober een aan/uit-schakelaar voor betrouwbaarheidsintervallen
+van het hoofdland en een volledige Engelse versie waarbij alleen teksten veranderen.
+De gekozen eenvoudige naam is **Onzekerheidsmarge**, Engels **Uncertainty range**.
+De schakelaar staat standaard uit, behoudt de rustige vier-dropdowns-opzet en toont
+95%-intervallen (schatting ± 1,96 × gecontroleerde SE) alleen voor hoofdlandreeksen.
+Geen interval voor vergelijkingsgemiddelden of rangen; geen extra leerlingberekeningen.
+Dit is een weergavekeuze, geen nieuwe scopebeslissing of wetenschappelijke certificering.
+
+Beide talen delen renderer, keuzelogica, stijl en data. Groepsnamen, hulpteksten en
+toegankelijkheidslabels zijn vertaald; taalwissel en downloads bewaren de selectie.
+Bij de controle bleek dat TR_BELOW/TR_HIGH-fracties ten onrechte onder een procentlabel
+werden getoond. De presentatie schaalt uitsluitend die families én hun SE met 100;
+SES/peerpercentages blijven onaangetast. Broncellen en hashes veranderen niet.
+Herkomst en afleiding staan expliciet in de download. Normale 95%-grenzen worden niet
+stilzwijgend afgeknipt op 0–100. Test-/publicatiebewijs volgt in
+`review_20261013/DASHBOARD_UNCERTAINTY_I18N_20261018.json`.
+
 ## Laatste besluit — tijdelijk vergelijken met beschikbare resultaten
 
 Op 18 oktober zegt de gebruiker: **“Doe tijdelijk maar even met wat beschikbaar is, volledigheid en check komt als alle resultaten klaar zijn.”** Dit vervangt uitsluitend voor de tijdelijke website de volledige dekkingsvoorwaarde voor vergelijkingen en rangen. `05_publication/REFERENCE_POLICY.json` legt dit expliciet vast; `--reference-policy` activeert de stand in de bestaande bouwer. De wetenschappelijke R-productie, definitieve balansregel, brongetoetste landen en gekozen figuren veranderen niet.

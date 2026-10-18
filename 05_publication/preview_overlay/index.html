@@ -22,11 +22,11 @@
   <div class="control"><label id="statisticLabel" for="statisticSelect">Statistiek</label><select id="statisticSelect"></select></div>
   <div class="control"><label id="splitLabel" for="splitSelect">Uitsplitsing</label><select id="splitSelect"></select></div>
   <div class="control"><label id="countryLabel" for="countrySelect">Hoofdland</label><select id="countrySelect"></select></div>
-  <div class="control comparison-control"><label id="comparisonLabel" for="compareToggle">Internationaal vergelijken</label><div class="comparison-line"><input id="compareToggle" type="checkbox" role="switch" checked><span id="compareState">Aan</span><button type="button" id="editReference" class="text-button" aria-haspopup="dialog">Landen kiezen</button></div><span id="referenceSummary" class="control-help"></span></div>
+  <div class="control comparison-control"><label id="comparisonLabel" for="compareToggle">Internationaal vergelijken</label><div class="comparison-line"><input id="compareToggle" class="toggle-switch" type="checkbox" role="switch" checked><span id="compareState">Aan</span><button type="button" id="editReference" class="text-button" aria-haspopup="dialog">Landen kiezen</button></div><span id="referenceSummary" class="control-help"></span></div>
  </section>
  <p id="selectionNotice" class="selection-notice" role="status" hidden></p>
  <section class="figure-shell" aria-labelledby="figureHeading" aria-busy="true">
-  <header class="figure-header"><div><p class="measure-label" id="measureLabel"></p><h2 id="figureHeading">Resultaten laden…</h2><p id="figureSubtitle" class="figure-subtitle"></p></div><span id="figureStatus" class="status-badge"></span></header>
+  <header class="figure-header"><div><p class="measure-label" id="measureLabel"></p><h2 id="figureHeading">Resultaten laden…</h2><p id="figureSubtitle" class="figure-subtitle"></p></div><div class="figure-display-controls"><span id="figureStatus" class="status-badge"></span><label class="uncertainty-control" for="uncertaintyToggle"><input id="uncertaintyToggle" class="toggle-switch" type="checkbox" role="switch" aria-describedby="uncertaintyHelp"><span id="uncertaintyLabel">Onzekerheidsmarge</span><span id="uncertaintyState" class="control-help">Uit</span></label><p id="uncertaintyHelp" class="control-help">95% · alleen hoofdland</p></div></header>
   <div id="comparisonNotice" class="comparison-notice" role="status" hidden></div>
   <div id="chartStage" class="chart-stage"><p role="status">Resultaten laden…</p></div>
   <p id="definitionNote" class="definition-note"></p>
