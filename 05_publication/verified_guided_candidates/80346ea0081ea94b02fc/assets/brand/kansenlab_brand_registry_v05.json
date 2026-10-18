@@ -1,0 +1,105 @@
+{
+  "version": "v05",
+  "status": "finalised design bundle",
+  "wordmark_font": {
+    "family": "Inter",
+    "weight": 600
+  },
+  "dashboard_typography": {
+    "short_labels": {
+      "family": "Oswald",
+      "weight": 300
+    },
+    "body": {
+      "family": "Oswald",
+      "weight": 400
+    },
+    "headings": {
+      "family": "Oswald",
+      "weight": 500
+    },
+    "strong_emphasis": {
+      "family": "Oswald",
+      "weight": 600
+    }
+  },
+  "kansenlab_ring_colors": [
+    "#D9833C",
+    "#EBC45A",
+    "#82A85B",
+    "#5EA6A7",
+    "#4C77A8",
+    "#6B5A8E"
+  ],
+  "brands": {
+    "kansenlab": {
+      "nl": "Kansenlab",
+      "en": "Netherlands Opportunity Lab",
+      "domain_nl": "kansenlab.nl",
+      "domain_en": "netherlandsopportunitylab.nl"
+    },
+    "gezondheidjeugd": {
+      "nl": "Gezondheid Jeugd",
+      "en": "Youth Health",
+      "color": "#D9833C",
+      "domain_nl": "gezondheidjeugd.nl",
+      "domain_en": "youthhealth.nl"
+    },
+    "gezondheidsverschillen": {
+      "nl": "Gezondheidsverschillen",
+      "en": "Health Disparities",
+      "color": "#EBC45A",
+      "domain_nl": "gezondheidsverschillen.nl",
+      "domain_en": "healthdisparities.nl"
+    },
+    "kansenkaart": {
+      "nl": "KansenKaart",
+      "en": "Opportunity Map",
+      "color": "#82A85B",
+      "domain_nl": "kansenkaart.nl",
+      "domain_en": "opportunitymap.nl"
+    },
+    "kansenkloof": {
+      "nl": "KansenKloof",
+      "en": "Opportunity Gap",
+      "color": "#5EA6A7",
+      "domain_nl": "kansenkloof.nl",
+      "domain_en": "opportunitygap.nl"
+    },
+    "onderwijsverschillen": {
+      "nl": "Onderwijsverschillen",
+      "en": "Education Disparities",
+      "color": "#4C77A8",
+      "domain_nl": "onderwijsverschillen.nl",
+      "domain_en": "educationdisparities.nl"
+    },
+    "leerprestaties": {
+      "nl": "Leerprestaties",
+      "en": "Learning Outcomes",
+      "color": "#5365A3",
+      "domain_nl": "leerprestaties.nl",
+      "domain_en": "Engels domein nog niet vastgesteld"
+    },
+    "inkomensverschillen": {
+      "nl": "Inkomensverschillen",
+      "en": "Income Disparities",
+      "color": "#6B5A8E",
+      "domain_nl": "inkomensverschillen.nl",
+      "domain_en": "incomedisparities.nl"
+    },
+    "jeugdsegregatie": {
+      "nl": "Jeugdsegregatie",
+      "en": "Youth Segregation",
+      "color": "#AC5D91",
+      "domain_nl": "jeugdsegregatie.nl",
+      "domain_en": "youthsegregation.nl"
+    },
+    "nederlandsewaarden": {
+      "nl": "Nederlandse Waarden",
+      "en": "Dutch Values",
+      "color": "#C46E6D",
+      "domain_nl": "nederlandsewaarden.org",
+      "domain_en": "dutchvalues.org"
+    }
+  }
+}

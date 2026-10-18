@@ -1,237 +1,100 @@
-'use strict';
-import {DEFAULTS,parseRoute,makeRoute,stateFromSearch,stateSearch,localeTarget} from './router.mjs';
-
+import {list,number,words,SUBJECTS,RANK_RULES,choices,splitKey,statisticKey,compatible,normalizeSelection,selectFigure,readSelection,selectionSearch,completeRows,displayableRows,breakBetween,referenceStatus,referenceRows,rankRows} from './explorer.mjs';
+import {parseRoute} from './router.mjs';
 const BASE=document.documentElement.dataset.base||'';
-const state={...DEFAULTS,dict:null,countries:[],figures:[],methods:{},availability:[],records:[],routeValid:true,currentFigure:null,currentAvailability:null,isLanding:false};
-const $=q=>document.querySelector(q), $$=q=>[...document.querySelectorAll(q)];
-const get=(o,path)=>path.split('.').reduce((a,k)=>a?.[k],o);
-const tr=key=>get(state.dict,key)??key;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const route=(locale=state.locale,country=state.country,question=state.question)=>makeRoute(BASE,locale,country,question);
+const state={country:'NLD',subject:'age10:reading',statistic:'mean_score',split:'none',rank:false,compare:true,members:null,other:'',locale:'nl',countries:[],figures:[],records:[],shown:[],references:{figures:[]},payloads:{},availability:{},currentFigure:null,contract:null,dict:{}};
+let epoch=0,draftMembers=[],draftDefault=false,draftOther='';
+const text=(nl,en)=>state.locale==='nl'?nl:en;
+const fmt=(v,d=1)=>Number.isFinite(number(v))?new Intl.NumberFormat(state.locale==='nl'?'nl-NL':'en-GB',{maximumFractionDigits:d}).format(number(v)):'—';
+const countryName=c=>{const r=state.countries.find(r=>r.code===c);return r?(state.locale==='nl'?r.nl:r.en):c;};
+const subjectName=s=>{const [age,dom]=s.split(':');return ({reading:text('Lezen','Reading'),mathematics:text('Wiskunde','Mathematics'),science:text('Natuurwetenschappen','Science')})[dom]+' · '+(age==='age15'?text('15 jaar','age 15'):text('groep 6','grade 4'));};
+const statisticName=k=>({mean_score:text('Gemiddelde score','Mean score'),below_basic:text('Onder basisniveau (%)','Below basic (%)'),high_proficiency:text('Hoog / gevorderd (%)','High / advanced (%)'),gap:text('Verschil tussen groepen','Difference between groups'),p10:text('Onderkant (P10)','Lower end (P10)'),p50:text('Mediaan (P50)','Median (P50)'),p90:text('Bovenkant (P90)','Upper end (P90)'),p90_minus_p10:text('Spreiding (P90 − P10)','Spread (P90 − P10)'),peer_share:text('Samenstelling (%)','Composition (%)')})[k]||k;
+function splitName(k){if(k.startsWith('peers:')){const [,group,level]=k.split(':');return text(level==='school'?'Schoolgenoten · ':'Klasgenoten · ',level==='school'?'School peers · ':'Class peers · ')+(group==='performance_status'?text('prestaties','performance'):splitName(group));}return ({none:text('Alle leerlingen','All pupils'),gender:text('Meisjes / jongens','Girls / boys'),ses:text('Lage / hoge SES','Low / high SES'),home_language:text('Thuistaal','Home language'),migration_any:text('Migratie · één of beide ouders','Migration · one or both parents'),migration_both:text('Migratie · beide ouders','Migration · both parents'),migration_generation:text('Migratie · generatie','Migration · generation')})[k]||k;}
+const option=(v,label,selected=false)=>`<option value="${esc(v)}"${selected?' selected':''}>${esc(label)}</option>`;
+async function json(path){const r=await fetch(BASE+path);if(!r.ok)throw new Error(`HTTP ${r.status}: ${path}`);return r.json();}
+const pendingCountries=new Map();
+async function countryPayload(code){if(state.payloads[code])return state.payloads[code];if(!pendingCountries.has(code))pendingCountries.set(code,Promise.all([json(`data/countries/${code}.json`),json(`data/availability/${code}.json`)]).then(([p,a])=>{state.payloads[code]=p;state.availability[code]=a;return p;}).finally(()=>pendingCountries.delete(code)));return pendingCountries.get(code);}
+function groupName(r){const key=r.parent_series_id||r.series_id;const raw=state.locale==='nl'?r.series_label_nl:r.series_label_en;const mapped=state.dict.seriesLabels?.[key];return raw&&raw!==key?raw:mapped||({total:text('Alle leerlingen','All pupils'),girl:text('Meisjes','Girls'),boy:text('Jongens','Boys'),q1:text('Lage SES','Low SES'),q4:text('Hoge SES','High SES'),always_almost:text('Thuistaal (bijna) altijd toetstaal','Home language (almost) always test language'),sometimes_never:text('Thuistaal soms / nooit toetstaal','Home language sometimes / never test language')})[key]||key;}
+function seriesName(r){const k=r.parent_series_id||r.series_id;const group=groupName(r);if(r.series_role==='comparator')return text('Vergelijkingsgroep','Reference group')+(k==='total'?'':' · '+group);const country=String(r.country_id||state.country).replace(/^iso3:/,'');if(state.rank||r.series_role==='other')return countryName(country)+(k==='total'?'':' · '+group);return k==='total'?countryName(state.country):group;}
+function translate(){document.documentElement.lang=state.locale;document.title=text('Leerprestaties · Kansenlab','Learning Outcomes · Netherlands Opportunity Lab');$('#localeSelect').value=state.locale;$('#brandLogo').src=BASE+`assets/brand/leerprestaties_${state.locale}.svg`;$('#brandLogo').alt=text('Leerprestaties','Learning Outcomes');$('#homeLink').href=BASE+state.locale+'/';
+const labels={eyebrow:['EEN INTERNATIONALE BLIK OP ONDERWIJS','AN INTERNATIONAL PERSPECTIVE ON EDUCATION'],pageTitle:['Hoe ontwikkelen leerprestaties zich?','How are learning outcomes changing?'],introCopy:['Kies een land, leeftijd en uitkomst. Ontdek de ontwikkeling en de verschillen tussen groepen.','Choose a country, age and outcome. Explore trends and differences between groups.'],countryLabel:['Hoofdland','Focus country'],subjectLabel:['Uitkomst en leeftijd','Outcome and age'],statisticLabel:['Statistiek','Statistic'],splitLabel:['Uitsplitsing','Breakdown'],comparisonLabel:state.rank?['Internationale rangbasis','International rank basis']:['Internationaal vergelijken','International comparison'],editReference:['Landen kiezen','Choose countries'],copyLink:['Link delen','Share link'],exportLabel:['Download','Download'],downloadFigure:['Figuur (SVG)','Figure (SVG)'],downloadData:['Data (CSV)','Data (CSV)'],downloadProvenance:['Data + herkomst (JSON)','Data + provenance (JSON)'],methodsTitle:['Over deze figuur','About this figure'],questionsTitle:['Verken een vraag','Explore a question'],footerName:['Een dashboard van Kansenlab','A dashboard by Netherlands Opportunity Lab'],footerMethod:['PISA, PIRLS en TIMSS behouden hun eigen meetschalen.','PISA, PIRLS and TIMSS retain their own measurement scales.'],referenceEyebrow:['INTERNATIONALE VERGELIJKING','INTERNATIONAL COMPARISON'],referenceTitle:['Stel je vergelijkingsgroep samen','Choose your comparison group'],restoreReference:['Standaard herstellen','Restore defaults'],applyReference:['Toepassen','Apply'],rankOtherLabel:['Tweede land in de rangfiguur (optioneel)','Second country in rank chart (optional)']};for(const [id,pair]of Object.entries(labels))$('#'+id).textContent=text(...pair);
+$('#countrySearch').placeholder=text('Zoek een land','Search countries');for(const [i,b]of $$('#questionGrid button').entries())b.textContent=text(['Ontwikkeling','Verdeling','Verschillen tussen groepen','Leeromgeving'][i],['Trends','Distribution','Group differences','Learning environment'][i]);}
 
-async function loadJson(p){const r=await fetch(`${BASE}${p}`);if(!r.ok)throw new Error(`${r.status} ${p}`);return r.json();}
-function countryName(code){const c=state.countries.find(x=>x.code===code);return c?(state.locale==='nl'?c.nl:c.en):code;}
-function figureLabel(f){return state.locale==='nl'?f.label_nl:f.label_en;}
-function measureLabel(f){return state.locale==='nl'?f.measure_label_nl:f.measure_label_en;}
-function figureSubtitle(f){return state.locale==='nl'?f.subtitle_nl:f.subtitle_en;}
-function ageLabel(){return tr(`ages.${state.age}`);}
-function domainLabel(){return tr(`domains.${state.domain}`);}
-
-function applyTranslations(){
-  document.documentElement.lang=state.locale;
-  $$('[data-i18n]').forEach(el=>{const v=tr(el.dataset.i18n);if(v!==undefined)el.textContent=v;});
-  $('#localeSelect').value=state.locale;
-  $('#localeLabel').textContent=tr('a11y.language');
-  document.title=state.isLanding?'International Learning Outcomes Explorer':`${tr(`questions.${state.question}.title`)} · International Learning Outcomes Explorer`;
-  $('.visual-kicker').textContent=state.isLanding?tr('landing.example'):tr('landing.current');
+function renderRelease(){
+ const release=state.manifest?.review_release,notice=$('#releaseNotice');
+ notice.hidden=!release;
+ if(release)notice.innerHTML=`<strong>${text('Tussenstand','Work in progress')} · ${esc(release.date)}</strong> ${text('Gecontroleerde resultaten staan klaar. Ontbrekende meetpunten blijven open; nieuwe resultaten worden na controle toegevoegd.','Verified results are available. Missing points remain open; new results are added after review.')}`;
+ $('#replicationLink').href=BASE+'info/'+state.locale+'/';
+ $('#replicationLink').textContent=text('Methode, bronnen en replicatie','Methods, sources and replication');
+}
+function renderAvailability(a,f){
+ const missing=list(a?.missing_points),panel=$('#availabilityPanel');
+ panel.hidden=!missing.length;
+ $('#availabilityTitle').textContent=text('Beschikbaarheid','Availability')+' · '+(a?.available_points||0)+' / '+(a?.required_points||0)+' '+text('meetpunten','points');
+ const byYear=new Map();for(const p of missing){if(!byYear.has(p.year))byYear.set(p.year,[]);byYear.get(p.year).push(groupName({series_id:p.series_id}));}
+ $('#availabilityContent').innerHTML='<p>'+esc(text('Open posities zijn ontbrekende resultaten, geen nulwaarden. De oorspronkelijke jaren en groepen blijven behouden.','Open positions mean missing results, not zero values. The original years and groups are retained.'))+'</p><ul>'+[...byYear].map(([year,groups])=>'<li>'+year+': '+esc(groups.join(', '))+'</li>').join('')+'</ul>';
 }
 
-function populateCountries(){
-  const rows=[...state.countries].sort((a,b)=>countryName(a.code).localeCompare(countryName(b.code),state.locale==='nl'?'nl':'en'));
-  if(!state.countries.some(c=>c.code===state.country))state.country='NLD';
-  const sel=$('#countrySelect');
-  sel.innerHTML=rows.map(c=>`<option value="${c.code}">${esc(countryName(c.code))}</option>`).join('');
-  sel.value=state.country;
+function renderControls(){translate();renderRelease();$('#countrySelect').innerHTML=[...state.countries].sort((a,b)=>countryName(a.code).localeCompare(countryName(b.code),state.locale)).map(c=>option(c.code,countryName(c.code),c.code===state.country)).join('');$('#subjectSelect').innerHTML=SUBJECTS.map(s=>option(s,subjectName(s),s===state.subject)).join('');const c=choices(state.figures,state.subject,state.split);const ordinary=c.splits.filter(s=>!s.startsWith('peers:')), peers=c.splits.filter(s=>s.startsWith('peers:'));$('#splitSelect').innerHTML=ordinary.map(s=>option(s,splitName(s),s===state.split)).join('')+(peers.length?`<optgroup label="${text('Leeromgeving','Learning environment')}">${peers.map(s=>option(s,splitName(s),s===state.split)).join('')}</optgroup>`:'');const rankChoices=state.split.startsWith('peers:')?[]:c.statistics.filter(k=>RANK_RULES[k]);$('#statisticSelect').innerHTML=c.statistics.map(k=>option(k,statisticName(k),!state.rank&&k===state.statistic)).join('')+(rankChoices.length?`<optgroup label="${text('Rangontwikkeling','Rank over time')}">${rankChoices.map(k=>option('rank:'+k,text('Rang · ','Rank · ')+statisticName(k),state.rank&&k===state.statistic)).join('')}</optgroup>`:'');$('#compareToggle').checked=state.compare||state.rank;$('#compareToggle').disabled=state.rank;$('#compareState').textContent=state.rank?text('Rangbasis','Rank basis'):state.compare?text('Aan','On'):text('Uit','Off');$('#referenceSummary').textContent=state.members===null?text('Standaard: rijke OESO-landen','Default: high-income OECD'):text('Eigen selectie','Custom selection');}
+const members=()=>state.members===null?list(state.contract?.default_members):state.members;
+function placeholder(reason){const unavailable=reason==='unavailable';return `<div class="status-placeholder"><svg class="placeholder-symbol" viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="5" width="30" height="38" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M17 16h14M17 23h14M17 30h8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><h3>${esc(reason==='rank'?text('Rang nog niet beschikbaar','Rank not yet available'):unavailable?text('Deze uitsplitsing is niet beschikbaar','This breakdown is unavailable'):text('Resultaten worden toegevoegd','Results will be added'))}</h3><p>${esc(reason==='rank'?text('De rang verschijnt zodra alle landen in je vergelijkingsgroep over dezelfde jaren en groepen gecontroleerde resultaten hebben.','Ranks appear when every selected country has verified results for the same years and groups.'):unavailable?state.unavailableReason||text('De benodigde brongegevens ontbreken voor deze figuur.','The required source data are unavailable for this figure.'):text('De benodigde resultaten zijn nog niet volledig verwerkt. Je kunt de figuur al samenstellen; de gegevens volgen na de gecontroleerde R-uitvoer.','The required results have not all been processed yet. You can already configure the chart; data will follow after the verified R export.'))}</p><p class="placeholder-context">${esc(countryName(state.country)+' · '+subjectName(state.subject)+' · '+splitName(state.split))}</p></div>`;}
+function style(r,i){if(r.series_role==='comparator')return {color:'#727B81',dash:i%2?'7 5':'2 5',shape:'square'};const key=r.parent_series_id||r.series_id;const colors={q1:'#9A6D00',q4:'#6A4C93',girl:'#6A4C93',boy:'#315D8A'};return {color:colors[key]||['#315D8A','#6A4C93','#9A6D00','#2C807F','#587A32'][i%5],dash:i%2?'8 4':'',shape:i%2?'square':'circle'};}
+function interval(r){return !state.rank&&r.series_role!=='comparator'&&Number.isFinite(number(r.ci_low))&&Number.isFinite(number(r.ci_high));}
+function tooltip(r){return `${seriesName(r)} · ${r.year}: ${fmt(r.estimate,2)}${Number.isFinite(number(r.se))?' · SE: '+fmt(r.se,2):''}${interval(r)?' · 95% interval: '+fmt(r.ci_low,2)+'–'+fmt(r.ci_high,2):''}`;}
+function chart(rows,f,exporting=false){const mobile=!exporting&&window.innerWidth<600,W=mobile?360:1120,H=mobile?320:430,pad={l:mobile?54:64,r:mobile?20:208,t:28,b:50};const ys=words(f.required_years).map(Number).sort((a,b)=>a-b);let lo=Math.min(...rows.map(r=>interval(r)?number(r.ci_low):number(r.estimate))),hi=Math.max(...rows.map(r=>interval(r)?number(r.ci_high):number(r.estimate)));const floor=f.unit==='percent'?1:2.5;const margin=Math.max((hi-lo)*.1,floor);lo-=margin;hi+=margin;if(f.unit==='percent'){lo=Math.max(0,lo);hi=Math.min(100,hi);}if(state.rank){lo=1;hi=Math.max(2,members().length+1);}const sx=y=>pad.l+(y-ys[0])/(ys.at(-1)-ys[0]||1)*(W-pad.l-pad.r),sy=v=>pad.t+(state.rank?(v-lo)/(hi-lo):1-(v-lo)/(hi-lo))*(H-pad.t-pad.b);let svg='';const ticks=state.rank?(hi<=8?Array.from({length:hi},(_,i)=>i+1):[...new Set([1,Math.round(hi/4),Math.round(hi/2),Math.round(hi*3/4),hi])]):Array.from({length:5},(_,i)=>lo+(hi-lo)*i/4);
+for(const v of ticks)svg+=`<line class="grid-line" x1="${pad.l}" x2="${W-pad.r}" y1="${sy(v)}" y2="${sy(v)}"/><text class="axis-label" x="${pad.l-12}" y="${sy(v)+5}" text-anchor="end">${esc(fmt(v,state.rank?0:1))}</text>`;
+for(const [i,y]of ys.entries()){if(mobile&&ys.length>6&&i%2&&i!==ys.length-1)continue;svg+=`<text class="axis-label" x="${sx(y)}" y="${H-16}" text-anchor="middle">${y}</text>`;}
+const groups=new Map();rows.forEach(r=>{const k=r.series_id;if(!groups.has(k))groups.set(k,[]);groups.get(k).push(r);});let idx=0,legend='',ends=[];
+for(const [key,g]of groups){g.sort((a,b)=>a.year-b.year);const st=style(g[0],idx++);let d='',prev=null;for(const r of g){const br=breakBetween(prev,r,f)||(prev&&groupName(prev)!==groupName(r));d+=(prev&&!br?' L ':' M ')+sx(r.year)+' '+sy(r.estimate);prev=r;}svg+=`<path class="series-line" d="${d}" stroke="${st.color}" stroke-dasharray="${st.dash}"/>`;for(const r of g){const x=sx(r.year),y=sy(r.estimate);if(interval(r))svg+=`<line class="ci-line" x1="${x}" x2="${x}" y1="${sy(r.ci_low)}" y2="${sy(r.ci_high)}" stroke="${st.color}"/>`;const attrs=`class="data-point" tabindex="0" role="img" aria-label="${esc(tooltip(r))}" data-tooltip="${esc(tooltip(r))}" fill="${st.color}"`;svg+=st.shape==='square'?`<rect ${attrs} x="${x-4}" y="${y-4}" width="8" height="8"/>`:`<circle ${attrs} cx="${x}" cy="${y}" r="4.5"/>`;}
+const last=g.at(-1);ends.push({y:sy(last.estimate),actual:sy(last.estimate),label:seriesName(last),style:st});legend+=`<span class="legend-item"><span class="legend-line" style="border-color:${st.color};border-top-style:${st.dash?'dashed':'solid'}"></span>${esc(seriesName(last))}</span>`;}
+if(!mobile&&groups.size<=4){ends.sort((a,b)=>a.y-b.y);for(let i=1;i<ends.length;i++)ends[i].y=Math.max(ends[i].y,ends[i-1].y+24);const overflow=Math.max(0,ends.at(-1).y-(H-pad.b));ends.forEach(e=>e.y-=overflow);for(const e of ends)svg+=`<path d="M${W-pad.r+4} ${e.actual} L${W-pad.r+14} ${e.y}" fill="none" stroke="${e.style.color}"/><text class="direct-label" x="${W-pad.r+19}" y="${e.y+5}" fill="${e.style.color}">${esc(e.label.length>28?e.label.slice(0,27)+'…':e.label)}</text>`;}
+return `<div class="chart-wrap"><div class="chart-legend">${legend}</div><svg xmlns="http://www.w3.org/2000/svg" class="time-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc($('#figureHeading').textContent)}" data-y-min="${lo}" data-y-max="${hi}" data-axis-policy="${state.rank?'rank':'dynamic'}"><title>${esc($('#figureHeading').textContent)}</title>${svg}</svg><div id="chartTooltip" class="chart-tooltip" hidden></div></div><details class="data-details"><summary>${text('Bekijk de gegevens bij deze figuur','View this figure’s data')}</summary><div class="data-table-wrap"><table><thead><tr><th>${text('Jaar','Year')}</th><th>${text('Reeks','Series')}</th><th>${text('Waarde','Value')}</th><th>SE</th><th>N</th><th>95% interval</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.year}</td><td>${esc(seriesName(r))}</td><td>${fmt(r.estimate,2)}</td><td>${fmt(r.se,2)}</td><td>${fmt(r.n_unweighted,0)}</td><td>${interval(r)?fmt(r.ci_low,2)+'–'+fmt(r.ci_high,2):'—'}</td></tr>`).join('')}</tbody></table></div></details>`;}
+function bindTooltips(){const tt=$('#chartTooltip');if(!tt)return;for(const el of $$('.data-point')){const show=e=>{tt.textContent=el.dataset.tooltip;tt.hidden=false;const box=el.closest('.chart-wrap').getBoundingClientRect();tt.style.left=Math.max(4,Math.min((e.clientX||box.left+40)-box.left+12,box.width-270))+'px';tt.style.top=Math.max(4,(e.clientY||box.top+30)-box.top+12)+'px';};el.addEventListener('pointerenter',show);el.addEventListener('focus',show);el.addEventListener('click',show);el.addEventListener('pointerleave',()=>tt.hidden=true);el.addEventListener('blur',()=>tt.hidden=true);}}
+function methodContent(f){const years=words(f.required_years),rule=RANK_RULES[state.statistic];return `<p>${text('Schattingen gebruiken de officiële steekproefgewichten, plausible values en het bijbehorende replicatieontwerp. De figuur toont alleen gecontroleerde resultaten. De tabel en tooltips vermelden de standaardfout (SE). Een 95%-interval wordt alleen getoond als het expliciet is meegeleverd.','Estimates use official sampling weights, plausible values and the corresponding replication design. The figure shows verified results only. The table and tooltips report the standard error (SE). A 95% interval is displayed only when explicitly supplied.')}</p><p>${state.rank?text('Rang 1 betekent hier: ','Rank 1 here means: ')+(rule.transform==='absolute'?text('de kleinste absolute groepskloof.','the smallest absolute group gap.'):rule.direction==='ascending'?text('de laagste waarde.','the lowest value.'):text('de hoogste waarde.','the highest value.'))+' '+text('Gelijke waarden krijgen de gemiddelde rang. Punt-rangen zijn geen toets van significante verschillen. De vergelijkingsgroep wordt niet geplot.','Ties receive average ranks. Point ranks do not establish significant differences. The reference group is not plotted.'):text('De vergelijkingsgroep is een ongewogen gemiddelde van landen, zonder betrouwbaarheidsinterval. De samenstelling blijft gelijk over alle meetjaren en groepen.','The reference is an equal-country average without a confidence interval. Membership stays constant over all years and groups.')}</p><dl class="method-grid"><div><dt>${text('Populatie en bron','Population and source')}</dt><dd>${esc(subjectName(state.subject))} · ${esc(f.survey)}${f.age==='age10'?' · '+text('internationaal vierde leerjaar = Nederlandse groep 6','international fourth grade'):''}</dd></div><div><dt>${text('Periode en eenheid','Period and unit')}</dt><dd>${esc(years.join(', '))} · ${esc(state.rank?text('rang','rank'):f.unit)}</dd></div><div><dt>${text('Vergelijkingsgroep','Reference group')}</dt><dd>${esc(members().map(countryName).join(', ')||text('Nog geen passende landen beschikbaar','No eligible countries available yet'))}</dd></div><div><dt>${text('Definitie','Definition')}</dt><dd>${esc(state.locale==='nl'?f.subtitle_nl:f.subtitle_en)}</dd></div></dl><p>${text('Download ‘Data + herkomst’ voor de resultaat-, bron- en codevingerafdrukken, exacte selectie en gebruikte afleiding.','Download “Data + provenance” for result, source and code fingerprints, the exact selection and the derivation used.')}</p>`;}
+async function refresh(){const run=++epoch;Object.assign(state,normalizeSelection(state.figures,state));renderControls();const f=selectFigure(state.figures,state);state.currentFigure=f;state.contract=f?list(state.references.figures).find(r=>r.focus===state.country&&r.figure_id===f.figure_id)||null:null;state.shown=[];$('.figure-shell').setAttribute('aria-busy','true');$('#figureHeading').textContent=(state.rank?text('Rang · ','Rank · '):'')+statisticName(state.statistic)+' — '+subjectName(state.subject);$('#measureLabel').textContent=countryName(state.country)+' · '+splitName(state.split);$('#figureSubtitle').textContent=f?`${f.survey} · ${text('Meetjaren','Survey years')} ${words(f.required_years).join(', ')}`:'';$('#chartStage').innerHTML=placeholder('pending');$('#comparisonNotice').hidden=true;for(const id of ['downloadData','downloadFigure','downloadProvenance'])$('#'+id).disabled=true;
+try{if(!f)throw new Error('NO_APPROVED_FIGURE');await countryPayload(state.country);if(run!==epoch)return;const rows=list(state.payloads[state.country].records).filter(r=>r.figure_id===f.figure_id&&r.series_role!=='comparator');state.records=rows;const a=list(state.availability[state.country]?.figures).find(r=>r.figure_id===f.figure_id);state.contract=list(state.references.figures).find(r=>r.focus===state.country&&r.figure_id===f.figure_id)||null;state.unavailableReason=a?(state.locale==='nl'?a.reason_nl:a.reason_en):'';const good=a?.display_state==='VALIDATED'&&completeRows(rows,f);let shown=state.rank?[]:displayableRows(rows,f,a),comparisonProblem='';renderAvailability(a,f);
+if(state.rank||state.compare){const status=referenceStatus(state.contract,state.country,members());if(!status.ok)comparisonProblem=status.reason;else{try{await Promise.all(members().map(countryPayload));if(run!==epoch)return;if(state.rank&&good)shown=rankRows(f,state.statistic,state.country,members(),state.payloads,state.contract,state.other);else if(good)shown=[...rows,...referenceRows(f,state.country,members(),state.payloads,state.contract)];}catch(error){comparisonProblem='incomplete';console.warn(error.message);}}}
+if(run!==epoch)return;if(state.rank&&comparisonProblem)shown=[];state.shown=shown;$('#chartStage').innerHTML=shown.length?chart(shown,f):placeholder(state.rank?'rank':a?.display_state==='UNAVAILABLE'?'unavailable':'pending');bindTooltips();$('#figureStatus').textContent=shown.length?(a?.display_state==='PARTIAL'?text('Deels beschikbaar','Partly available'):text('Gecontroleerde resultaten','Verified results')):text('Nog niet beschikbaar','Not yet available');$('#figureStatus').dataset.state=shown.length?'ready':'pending';$('#comparisonNotice').hidden=!comparisonProblem;$('#comparisonNotice').textContent=comparisonProblem==='empty'?text('Geen landen geselecteerd. Kies landen voor de vergelijking.','No countries selected. Choose countries for comparison.'):comparisonProblem==='ineligible'?text('Je selectie bevat landen die niet meer passen bij deze figuur. Pas de landenkeuze aan; de periode en groepen blijven behouden.','Your selection contains countries that do not match this figure. Update the selection; years and groups are preserved.'):text('De internationale vergelijking is nog niet vrijgegeven. Volledige vergelijkbaarheid van jaren, groepen en definities moet eerst worden bevestigd.','International comparison is not yet released. Complete comparability of years, groups and definitions must first be confirmed.');$('#referenceSummary').textContent=(state.members===null?text('Standaard','Default'):text('Eigen selectie','Custom'))+' · '+members().length+' '+text('landen','countries');
+const pooled=state.split==='gender'?rows.filter(r=>/other/i.test(r.series_label_nl||'')):[];$('#definitionNote').textContent=pooled.length?text('Let op: in ','Note: in ')+[...new Set(pooled.map(r=>r.year))].join(', ')+text(' is ‘meisjes + other’ de beschikbare categorie. Een definitiewijziging wordt niet met een doorlopende lijn verbonden.',' “girls + other” is the available category. A definition change is not connected by a continuous line.'):state.split.startsWith('peers:')?text('Samenstelling van de leeromgeving, met uitsluiting van de leerling zelf. Dit is een beschrijvende samenhang, geen causaal peereffect.','Peer composition excludes the pupil themself. This is a descriptive association, not a causal peer effect.'):'';$('#figureSource').textContent=text('Bron: ','Source: ')+f.survey+' · '+(state.rank?text('Rang binnen vaste landengroep','Rank within a fixed country set'):f.unit==='percent'?text('Aandeel leerlingen (%)','Share of pupils (%)'):/percentage?_points/.test(f.unit)?text('Procentpunten','Percentage points'):text('Scorepunten','Score points'));$('#methodContent').innerHTML=methodContent(f);for(const id of ['downloadData','downloadFigure','downloadProvenance'])$('#'+id).disabled=!shown.length;$('#appStatus').textContent=$('#figureHeading').textContent+' · '+$('#figureStatus').textContent;
+}catch(error){if(run!==epoch)return;$('#figureStatus').textContent=text('Laden niet gelukt','Unable to load');$('#chartStage').innerHTML=`<div class="status-placeholder"><h3>${text('Gegevens tijdelijk niet bereikbaar','Data temporarily unavailable')}</h3><p>${text('Ververs de pagina om opnieuw te proberen. Je selectie blijft in de link bewaard.','Refresh the page to retry. Your selection is saved in the link.')}</p></div>`;console.error(error);}finally{if(run===epoch){$('.figure-shell').setAttribute('aria-busy','false');history.replaceState(null,'',location.pathname+selectionSearch(state));}}}
+function renderReferenceList(){const search=$('#countrySearch').value.toLocaleLowerCase();const eligible=list(state.contract?.eligible_members),defaults=list(state.contract?.default_members);$('#referenceCountries').innerHTML=[...state.countries].sort((a,b)=>Number(defaults.includes(b.code))-Number(defaults.includes(a.code))||countryName(a.code).localeCompare(countryName(b.code),state.locale)).filter(c=>countryName(c.code).toLocaleLowerCase().includes(search)).map(c=>{const checked=draftMembers.includes(c.code),allowed=c.code!==state.country&&eligible.includes(c.code);const reason=c.code===state.country?text('Hoofdland · uitgesloten van eigen groep','Focus country · excluded from own group'):allowed?defaults.includes(c.code)?text('Standaardgroep · volledige dekking','Default group · complete coverage'):text('Volledige passende dekking','Complete comparable coverage'):text('Nog geen volledige passende dekking','Complete comparable coverage not yet available');return `<label class="reference-country ${allowed?'':'unavailable'}"><input type="checkbox" value="${c.code}"${checked?' checked':''}${!allowed&&!checked?' disabled':''}><span>${esc(countryName(c.code))}<small>${esc(reason)}</small></span></label>`;}).join('');$('#referenceCount').textContent=draftMembers.length+' '+text('landen geselecteerd','countries selected');if(draftOther&&!draftMembers.includes(draftOther))draftOther='';$('#rankOtherSelect').innerHTML=option('',text('Geen tweede land','No second country'),!draftOther)+draftMembers.map(c=>option(c,countryName(c),draftOther===c)).join('');$('#referenceFeedback').textContent=draftMembers.some(c=>!eligible.includes(c))?text('Verwijder de aangevinkte landen zonder passende dekking om te vergelijken.','Remove selected countries without comparable coverage to compare.'):'';}
+function openReference(){draftMembers=[...members()];draftDefault=state.members===null;draftOther=state.other;$('#countrySearch').value='';$('#rankOtherGroup').hidden=!state.rank;$('#referenceHelp').textContent=state.rank?text('Deze landen bepalen de rang van het hoofdland. De groep krijgt geen eigen lijn. Alleen landen met volledige passende jaren, groepen en definities zijn selecteerbaar.','These countries determine the focus country’s rank. The group has no line of its own. Only countries with complete matching years, groups and definitions can be selected.'):text('Standaard gebruiken we de passende rijke OESO-landen, zonder het hoofdland. Ieder land telt even zwaar. Landen zonder volledige dekking zijn niet selecteerbaar.','The default uses eligible high-income OECD countries, excluding the focus country. Each country has equal weight. Countries without complete coverage cannot be selected.');renderReferenceList();$('#referenceDialog').showModal();}
+function saveBlob(content,type,name){const u=URL.createObjectURL(new Blob([content],{type}));const a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);$('#exportMenu').open=false;}
+function exportPayload(){return {schema_version:1,selection:{country:state.country,subject:state.subject,split:state.split,statistic:state.statistic,rank:state.rank,compare:state.compare,other:state.other,members:members()},figure:state.currentFigure,result_build:state.manifest||{},reference_contract:state.contract,derivation_version:'EXPLORER_AGGREGATES_V1',records:state.shown};}
+function fileName(ext){return `leerprestaties_${state.country}_${state.currentFigure.figure_id}${state.rank?'_rank':''}.${ext}`;}
+async function downloadFigure(){
+ // Capture the displayed selection before asynchronous asset reads. A later
+ // control change must not relabel an already requested export.
+ const payload=JSON.stringify(exportPayload()),name=fileName('svg'),locale=state.locale;
+ const heading=$('#figureHeading').textContent,measure=$('#measureLabel').textContent,source=$('#figureSource').textContent;
+ const labels=[...new Set(state.shown.map(seriesName))];
+ const container=document.createElement('div');container.innerHTML=chart(state.shown,state.currentFigure,true);
+ const svg=container.querySelector('svg.time-chart').cloneNode(true);
+ try{
+  const assets=await Promise.all([`assets/brand/leerprestaties_${locale}.svg`,'assets/brand/fonts.css'].map(async path=>{
+   const response=await fetch(BASE+path,{signal:AbortSignal.timeout(15000)});
+   if(!response.ok)throw new Error(`Export asset HTTP ${response.status}`);return response.text();
+  }));
+  const [,,w,h]=svg.getAttribute('viewBox').split(' ').map(Number),height=h+250+Math.ceil(labels.length/2)*24;
+  svg.setAttribute('xmlns','http://www.w3.org/2000/svg');svg.setAttribute('viewBox',`0 -160 ${w} ${height}`);
+  svg.setAttribute('width',String(w));svg.setAttribute('height',String(height));
+  const ns='http://www.w3.org/2000/svg',css=document.createElementNS(ns,'style');
+  css.textContent=assets[1]+`text{font-family:Oswald,Arial,sans-serif}.axis-label{font-size:16px;fill:#59636A}.direct-label{font-size:15px}.grid-line{stroke:#D8D8D3;stroke-width:1}.series-line{fill:none;stroke-width:2.75}.ci-line{stroke-width:1.1}.data-point{stroke:white;stroke-width:1.6}`;svg.prepend(css);
+  const bg=document.createElementNS(ns,'rect');for(const [k,v]of Object.entries({x:0,y:-160,width:w,height,fill:'#FFFFFF'}))bg.setAttribute(k,String(v));svg.prepend(bg);
+  const logo=document.createElementNS(ns,'image');logo.setAttribute('href','data:image/svg+xml;charset=utf-8,'+encodeURIComponent(assets[0]));
+  for(const [k,v]of Object.entries({x:12,y:-152,width:240,height:56}))logo.setAttribute(k,String(v));svg.append(logo);
+  const addText=(x,y,value,size)=>{const t=document.createElementNS(ns,'text');t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('font-size',size);t.setAttribute('fill','#17242D');t.textContent=value;svg.append(t);};
+  addText(12,-68,heading,24);addText(12,-34,measure,18);addText(12,h+30,source,14);
+  labels.forEach((label,i)=>addText(12+(i%2)*w/2,h+56+Math.floor(i/2)*24,label,14));
+  const meta=document.createElementNS(ns,'metadata');meta.textContent=payload;svg.append(meta);
+  saveBlob(new XMLSerializer().serializeToString(svg),'image/svg+xml',name);
+  $('#appStatus').textContent=text('Figuurdownload voorbereid.','Figure download prepared.');
+ }catch(error){$('#exportMenu').open=false;$('#appStatus').textContent=text('Download niet gelukt. Probeer het opnieuw.','Download failed. Please retry.');console.error(error);}
 }
 
-function applyPressed(container,value){$$(`#${container} button`).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.value===value)));}
-function applyQuestionPressed(){$$('#questionGrid .question-choice').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.question===state.question)));}
-function setSelect(sel,items,value){sel.innerHTML=items.map(([v,n])=>`<option value="${esc(v)}">${esc(n)}</option>`).join('');if(items.some(x=>x[0]===value))sel.value=value;else if(items.length){sel.value=items[0][0];return items[0][0];}return value;}
-function normalizeBaseState(){if(!['age10','age15'].includes(state.age))state.age=DEFAULTS.age;if(!['reading','mathematics','science'].includes(state.domain))state.domain=DEFAULTS.domain;}
-function contextFigures(){return state.figures.filter(f=>f.question===state.question&&f.age===state.age&&(f.domain===state.domain||f.domain==='all'));}
-
-function normalizeFigureState(){
-  let fs=contextFigures();
-  if(!fs.length){state.currentFigure=null;return;}
-  if(state.question==='gaps'){
-    const splits=[...new Set(fs.map(f=>f.split))];if(!splits.includes(state.split))state.split=splits[0];
-    fs=fs.filter(f=>f.split===state.split);
-    const modes=[...new Set(fs.map(f=>f.view_mode))];if(!modes.includes(state.view_mode))state.view_mode=modes[0];
-    fs=fs.filter(f=>f.view_mode===state.view_mode);
-  }else{state.split='none';state.view_mode='levels';}
-  if(state.question==='environment'){
-    const peers=[...new Set(fs.map(f=>f.peer_definition))];if(!peers.includes(state.peer_definition))state.peer_definition=peers[0];
-    fs=fs.filter(f=>f.peer_definition===state.peer_definition);
-  }
-  const outcomes=[...new Set(fs.map(f=>f.outcome))];
-  if(!outcomes.includes(state.outcome))state.outcome=outcomes[0];
-  state.currentFigure=fs.find(f=>f.outcome===state.outcome)||fs[0];
-}
-
-function updateStepNumbers(){
-  $('#ageGroup').dataset.step='3';$('#domainGroup').dataset.step='4';
-  if(state.question==='gaps'){$('#splitGroup').dataset.step='5';$('#viewModeGroup').dataset.step='6';$('#outcomeGroup').dataset.step='7';}
-  else if(state.question==='environment'){$('#peerGroup').dataset.step='5';$('#outcomeGroup').dataset.step='6';}
-  else{$('#outcomeGroup').dataset.step='5';}
-}
-
-function renderContextControls(){
-  const fs=contextFigures(),isGaps=state.question==='gaps',isEnv=state.question==='environment';
-  $('#splitGroup').hidden=!isGaps;$('#viewModeGroup').hidden=!isGaps;$('#peerGroup').hidden=!isEnv;
-  if(isGaps){const splits=[...new Set(fs.map(f=>f.split))];state.split=setSelect($('#splitSelect'),splits.map(s=>[s,tr(`splits.${s}`)]),state.split);applyPressed('viewModeControls',state.view_mode);}
-  if(isEnv)applyPressed('peerControls',state.peer_definition);
-  normalizeFigureState();
-  let candidates=contextFigures();
-  if(isGaps)candidates=candidates.filter(f=>f.split===state.split&&f.view_mode===state.view_mode);
-  if(isEnv)candidates=candidates.filter(f=>f.peer_definition===state.peer_definition);
-  const unique=[],seen=new Set();
-  for(const f of candidates){if(!seen.has(f.outcome)){seen.add(f.outcome);unique.push([f.outcome,figureLabel(f)]);}}
-  state.outcome=setSelect($('#outcomeSelect'),unique,state.outcome);
-  normalizeFigureState();
-  $('#domainGroup').hidden=Boolean(isEnv&&state.currentFigure&&state.currentFigure.domain==='all');
-  applyPressed('ageControls',state.age);applyPressed('domainControls',state.domain);applyQuestionPressed();updateStepNumbers();
-}
-
-function availabilityFor(fid){return state.availability.find(x=>x.figure_id===fid)||null;}
-function recordsFor(fid){return state.records.filter(r=>r.figure_id===fid);}
-function statusText(a){return a?tr(`status.${a.display_state}`):tr('status.PLACEHOLDER');}
-function placeholderHtml(a){const st=a?.display_state||'PLACEHOLDER';const reason=a?(state.locale==='nl'?a.reason_nl:a.reason_en):tr('status.bindingPending');return `<div class="status-placeholder status-${esc(st.toLowerCase())}"><div class="placeholder-mark" aria-hidden="true"></div><h3>${esc(statusText(a))}</h3><p>${esc(reason)}</p></div>`;}
-
-function seriesLabel(r){
-  const raw=r.series_label_nl&&state.locale==='nl'?r.series_label_nl:r.series_label_en&&state.locale==='en'?r.series_label_en:(r.series_role==='comparator'?'comparator':r.split_group||r.series_id||'total');
-  if(raw==='total'&&seriesRole(r)!=='comparator')return countryName(state.country);
-  const translated=tr(`seriesLabels.${raw}`);return translated===`seriesLabels.${raw}`?raw:translated;
-}
-function tableHtml(rows){if(!rows.length)return '';const nf=new Intl.NumberFormat(state.locale==='nl'?'nl-NL':'en-GB',{maximumFractionDigits:2});return `<details class="data-details"><summary>${esc(tr('figure.dataTable'))}</summary><div class="data-table-wrap"><table><thead><tr><th>${esc(tr('figure.year'))}</th><th>${esc(tr('figure.group'))}</th><th>${esc(tr('figure.estimate'))}</th><th>${esc(tr('figure.confidenceInterval'))}</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.year??'')}</td><td>${esc(seriesLabel(r))}</td><td>${Number.isFinite(+r.estimate)?nf.format(+r.estimate):'—'}</td><td>${Number.isFinite(+r.ci_low)&&Number.isFinite(+r.ci_high)?`${nf.format(+r.ci_low)} – ${nf.format(+r.ci_high)}`:'—'}</td></tr>`).join('')}</tbody></table></div></details>`;}
-function seriesKey(r){return String(r.series_id||r.series_role||r.split_group||'total');}
-function seriesRole(r){const k=seriesKey(r).toLowerCase();return r.series_role||(['comparator','comparison','comparison_group'].includes(k)?'comparator':'focus');}
-function seriesStyle(key,role,index){if(role==='comparator')return {stroke:'#A7A7A7',dash:'7 5'};const semantic={q1:'#9A6D00',q4:'#6B5A8E',girl:'#6B5A8E',boy:'#315D8A',native:'#315D8A',first_generation:'#5EA6A7',second_generation:'#82A85B',third_generation:'#6B5A8E',self_below_high:'#9A6D00',self_high:'#315D8A'};const palette=['#315D8A','#6B5A8E','#9A6D00','#5EA6A7','#657A47'];return {stroke:semantic[key]||palette[index%palette.length],dash:'none'};}
-function fmtNumber(v){return Number.isFinite(+v)?new Intl.NumberFormat(state.locale==='nl'?'nl-NL':'en-GB',{maximumFractionDigits:2}).format(+v):'—';}
-function chartTooltipText(r){const ci=Number.isFinite(+r.ci_low)&&Number.isFinite(+r.ci_high)?`${fmtNumber(r.ci_low)} – ${fmtNumber(r.ci_high)}`:'—';return `${seriesLabel(r)} · ${tr('figure.tooltipYear')}: ${r.year} · ${tr('figure.tooltipEstimate')}: ${fmtNumber(r.estimate)} · ${tr('figure.tooltipCI')}: ${ci}`;}
-
-function axisUnitKind(unit){
-  const u=String(unit||'').toLowerCase();
-  if(u==='rank'||u.includes('rank'))return 'rank';
-  if(u.includes('percentage_point')||u.includes('percentage point')||u.includes('procentpunt'))return 'percentage_points';
-  if(u.includes('percent')||u.includes('percentage')||u==='%')return 'percent';
-  if(u.includes('score'))return 'score';
-  return 'other';
-}
-function minimumAxisMargin(kind,midpoint){
-  if(kind==='score')return 2.5;
-  if(kind==='percent'||kind==='percentage_points')return 1;
-  if(kind==='rank')return .5;
-  return Math.max(Math.abs(midpoint)*.01,.5);
-}
-function axisDomain(rows,f){
-  const pointValues=rows.map(r=>+r.estimate).filter(Number.isFinite);
-  if(!pointValues.length)return {lo:0,hi:1,policy:'dynamic'};
-  const unit=f.unit||rows[0]?.unit||'',kind=axisUnitKind(unit),pointLo=Math.min(...pointValues),pointHi=Math.max(...pointValues),mid=(pointLo+pointHi)/2,span=Math.max(0,pointHi-pointLo),floor=minimumAxisMargin(kind,mid);
-  const margin=Math.max(span*.06,floor);
-  let lo=pointLo-margin,hi=pointHi+margin,policy='dynamic';
-
-  const ciLows=rows.map(r=>+r.ci_low).filter(Number.isFinite),ciHighs=rows.map(r=>+r.ci_high).filter(Number.isFinite);
-  const ciLo=ciLows.length?Math.min(...ciLows):null,ciHi=ciHighs.length?Math.max(...ciHighs):null;
-  const ciSafety=Math.max(span*.015,floor*.35);
-  if(ciLo!==null&&ciLo<lo)lo=ciLo-ciSafety;
-  if(ciHi!==null&&ciHi>hi)hi=ciHi+ciSafety;
-
-  const declared=String(f.y_axis_policy||'').toLowerCase();
-  const fixedMin=Number(f.y_axis_min),fixedMax=Number(f.y_axis_max);
-  const fixedNumeric=Number.isFinite(fixedMin)&&Number.isFinite(fixedMax)&&fixedMin<fixedMax;
-  const fixedHundred=declared==='fixed_0_100'||String(f.chart_type||'').toLowerCase()==='stacked_100'||String(f.outcome_family||'').toLowerCase()==='composition';
-  if(fixedNumeric){lo=fixedMin;hi=fixedMax;policy='fixed_declared';}
-  else if(fixedHundred){lo=0;hi=100;policy='fixed_0_100';}
-  else{
-    if(kind==='percent'){lo=Math.max(0,lo);hi=Math.min(100,hi);}
-    if(kind==='rank'){
-      lo=Math.max(1,lo);
-      const logicalMax=Math.max(...rows.map(r=>Number.isFinite(+r.comparator_n)?+r.comparator_n+1:1));
-      if(logicalMax>1)hi=Math.min(logicalMax,hi);
-    }
-  }
-  if(!(hi>lo)){
-    const fallback=Math.max(floor,1);lo=pointLo-fallback;hi=pointHi+fallback;
-    if(kind==='percent'){lo=Math.max(0,lo);hi=Math.min(100,hi);}
-    if(kind==='rank')lo=Math.max(1,lo);
-  }
-  return {lo,hi,policy,pointLo,pointHi,kind};
-}
-
-function chartHtml(rows,f){
-  const usable=rows.filter(r=>Number.isFinite(+r.estimate)&&Number.isFinite(+r.year));
-  if(!usable.length)return tableHtml(rows);
-  const mobile=window.innerWidth<=430,tablet=window.innerWidth<=760;
-  const W=mobile?360:(tablet?720:940),H=mobile?340:(tablet?390:430),pad=mobile?{l:44,r:110,t:24,b:48}:(tablet?{l:58,r:125,t:26,b:52}:{l:62,r:140,t:28,b:54});
-  const years=[...new Set(usable.map(r=>+r.year))].sort((a,b)=>a-b),unit=f.unit||usable[0]?.unit||'';
-  const axis=axisDomain(usable,f),minY=axis.lo,maxY=axis.hi,x0=years[0],x1=years.at(-1),sx=y=>pad.l+(y-x0)/(x1-x0||1)*(W-pad.l-pad.r),sy=v=>{const q=(v-minY)/(maxY-minY||1);return axis.kind==='rank'?pad.t+q*(H-pad.t-pad.b):pad.t+(1-q)*(H-pad.t-pad.b);};
-  const groups=new Map();for(const r of usable){const k=seriesKey(r);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(r);}for(const a of groups.values())a.sort((a,b)=>+a.year-+b.year);
-  let body='',idx=0;const ticks=4;
-  for(let i=0;i<ticks;i++){const v=minY+(maxY-minY)*i/(ticks-1),y=sy(v);body+=`<line class="grid-line" x1="${pad.l}" x2="${W-pad.r}" y1="${y}" y2="${y}"></line><text class="axis-label" x="${pad.l-10}" y="${y+4}" text-anchor="end">${esc(fmtNumber(v))}</text>`;}
-  for(const y of years)body+=`<text class="axis-label" x="${sx(y)}" y="${H-18}" text-anchor="middle">${y}</text>`;
-  for(const [k,a] of groups){
-    const role=seriesRole(a[0]),sty=seriesStyle(k,role,idx++);let d='',prev=null;
-    for(const r of a){const x=sx(+r.year),y=sy(+r.estimate),br=String(r.series_break_before||'').toLowerCase()==='true'||r.series_break_before===1;if(prev&&!br)d+=` L ${x.toFixed(2)} ${y.toFixed(2)}`;else d+=`${d?' M':'M'} ${x.toFixed(2)} ${y.toFixed(2)}`;prev=r;}
-    body+=`<path class="series-line" d="${d}" stroke="${sty.stroke}" ${sty.dash!=='none'?`stroke-dasharray="${sty.dash}"`:''}></path>`;
-    for(const r of a){const x=sx(+r.year),y=sy(+r.estimate),tip=chartTooltipText(r);if(Number.isFinite(+r.ci_low)&&Number.isFinite(+r.ci_high))body+=`<line class="ci-line" x1="${x}" x2="${x}" y1="${sy(+r.ci_low)}" y2="${sy(+r.ci_high)}" stroke="${sty.stroke}"></line>`;body+=`<circle class="data-point" tabindex="0" role="img" aria-label="${esc(tip)}" data-tooltip="${esc(tip)}" cx="${x}" cy="${y}" r="5" fill="${sty.stroke}"></circle>`;}
-    const last=a.at(-1);if(last)body+=`<text class="direct-label" x="${Math.min(W-8,sx(+last.year)+10)}" y="${sy(+last.estimate)+4}" fill="${sty.stroke}">${esc(seriesLabel(last))}</text>`;
-  }
-  const aria=tr('figure.chartAria').replace('{title}',figureLabel(f));
-  return `<div class="chart-wrap"><svg class="time-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(aria)}" data-y-min="${minY}" data-y-max="${maxY}" data-axis-policy="${axis.policy}">${body}</svg><div class="chart-tooltip" id="chartTooltip" role="status" aria-live="polite" hidden></div></div>${tableHtml(rows)}`;
-}
-
-function bindChartTooltip(){const tt=$('#chartTooltip');if(!tt)return;const show=(el,e)=>{tt.textContent=el.dataset.tooltip||'';tt.hidden=false;const wrap=el.closest('.chart-wrap'),box=wrap.getBoundingClientRect();let x=(e?.clientX??box.left+box.width*.5)-box.left+12,y=(e?.clientY??box.top+40)-box.top+12;tt.style.left=`${Math.max(8,Math.min(x,box.width-240))}px`;tt.style.top=`${Math.max(8,y)}px`;};const hide=()=>{tt.hidden=true;};$$('.data-point').forEach(el=>{el.addEventListener('pointerenter',e=>show(el,e));el.addEventListener('pointerleave',hide);el.addEventListener('focus',e=>show(el,e));el.addEventListener('blur',hide);el.addEventListener('pointerdown',e=>{e.preventDefault();show(el,e);});});}
-
-function renderFigure(){
-  const f=state.currentFigure;if(!f)return;
-  const a=availabilityFor(f.figure_id);state.currentAvailability=a;const rows=recordsFor(f.figure_id);
-  $('#figureQuestion').textContent=tr(`questions.${state.question}.routeTitle`);
-  const years=[...new Set(rows.map(r=>+r.year).filter(Number.isFinite))].sort((a,b)=>a-b),yearText=years.length?` · ${f.survey} ${years[0]}–${years.at(-1)}`:` · ${f.survey}`;
-  $('#figureContext').textContent=`${countryName(state.country)} · ${ageLabel()} · ${domainLabel()}${yearText}`;
-  $('#measureLabel').textContent=measureLabel(f);$('#figureHeading').textContent=figureLabel(f);$('#figureSubtitle').textContent=figureSubtitle(f);
-  const badge=$('#figureStatus');badge.textContent=statusText(a);badge.dataset.state=(a?.display_state||'PLACEHOLDER').toLowerCase();
-  const usable=a?.display_state==='VALIDATED'&&rows.length>0;
-  $('#chartStage').innerHTML=usable?chartHtml(rows,f):placeholderHtml(a);if(usable)bindChartTooltip();
-  $('#downloadData').disabled=!usable;$('#downloadCountry').disabled=!state.records.length;
-  const m=state.methods[f.method_id];$('#methodsCopy').textContent=m?(state.locale==='nl'?m.nl:m.en):tr('methods.copy');$('#methodDefinition').textContent=figureLabel(f);$('#methodAvailability').textContent=a?(state.locale==='nl'?a.reason_nl:a.reason_en):tr('status.bindingPending');
-  const ses=Boolean(f.ses_definition_id);$('#sesDefinitionRow').hidden=!ses;$('#coverageRow').hidden=!ses;if(ses)$('#methodSesDefinition').textContent=f.ses_definition_id==='PISA_ESCS_TREND_COMPARABLE_COMMON42'?(state.locale==='nl'?'SES – trendvergelijkbaar':'SES – trend-comparable'):f.ses_definition_id;
-  const ns=[...new Set(rows.map(r=>+r.comparator_n).filter(Number.isFinite))];$('#comparatorRow').hidden=!usable||!ns.length;$('#methodComparator').textContent=ns.length?tr('figure.comparatorN').replace('{n}',ns.join('–')):'';
-}
-
-function render(){
-  normalizeBaseState();applyTranslations();populateCountries();$('#homeLink').href=route(state.locale,state.country,null);
-  if(state.routeValid===false){$('#hero').hidden=true;$('#visualFirst').hidden=true;$('#guidedBuilder').hidden=true;$('#invalidRoute').hidden=false;return;}
-  $('#hero').hidden=false;$('#visualFirst').hidden=false;$('#guidedBuilder').hidden=false;$('#invalidRoute').hidden=true;
-  normalizeFigureState();renderContextControls();renderFigure();
-}
-
-function currentShareUrl(){
-  const path=route(state.locale,state.country,state.question),query=stateSearch(state);return new URL(path+query,location.href).href;
-}
-function syncUrl(mode='replace'){
-  const path=state.isLanding?route(state.locale,state.country,null):route(state.locale,state.country,state.question),query=state.isLanding?'':stateSearch(state),url=path+query+location.hash;
-  history[mode==='push'?'pushState':'replaceState'](null,'',url);
-}
-function ensureRouted(){if(state.isLanding){state.isLanding=false;syncUrl('push');}else syncUrl('replace');}
-function maybeScrollToFigure(){const reduce=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;$('#visualFirst').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});}
-async function changeCountry(code){if(!state.countries.some(c=>c.code===code))return;state.country=code;state.isLanding=false;await loadCountryPayload();normalizeFigureState();syncUrl('push');render();maybeScrollToFigure();}
-function switchLocale(locale){location.assign(localeTarget({base:BASE,locale,country:state.country,question:state.isLanding?null:state.question,search:state.isLanding?'':stateSearch(state),hash:location.hash}));}
-
-const CSV_FIELDS=['country_id','country_name','survey','year','age_group','domain','outcome','split_dimension','split_group','peer_definition','estimate','se','ci_low','ci_high','unit','threshold_id','definition_id','ses_definition_id','comparator_n','method_id','source_id','quality_status','availability_status'];
-function downloadCsv(rows,filename){const q=v=>'"'+String(v??'').replaceAll('"','""')+'"';const body=[CSV_FIELDS.join(','),...rows.map(r=>CSV_FIELDS.map(k=>q(k==='country_name'?countryName(state.country):r[k])).join(','))].join('\r\n');const u=URL.createObjectURL(new Blob(['\uFEFF'+body],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=u;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);}
-async function loadCountryPayload(){const [a,d]=await Promise.all([loadJson(`data/availability/${state.country}.json`),loadJson(`data/countries/${state.country}.json`)]);state.availability=a.figures||[];state.records=d.records||[];}
-
-async function init(){
-  const r=parseRoute(location.pathname);Object.assign(state,r);state.routeValid=r.valid;state.isLanding=Boolean(r.valid&&!r.question);
-  Object.assign(state,stateFromSearch(location.search,state));
-  if(state.isLanding&&!location.search){state.question='trends';state.age='age15';state.domain='reading';state.outcome='mean_score';state.split='none';state.view_mode='levels';}
-  else if(state.isLanding){state.question='trends';}
-  const [dict,countries,fr,mr]=await Promise.all([loadJson(`locales/${state.locale}.json`),loadJson('data/common42.json'),loadJson('data/figure_registry.json'),loadJson('data/method_registry.json')]);
-  state.dict=dict;state.countries=countries;state.figures=fr.figures||[];state.methods=mr.methods||{};if(!state.countries.some(c=>c.code===state.country))state.country='NLD';
-  await loadCountryPayload();render();
-
-  $('#countrySelect').addEventListener('change',e=>changeCountry(e.target.value));
-  $('#localeSelect').addEventListener('change',e=>switchLocale(e.target.value));
-  $$('#questionGrid .question-choice').forEach(b=>b.addEventListener('click',()=>{state.question=b.dataset.question;state.isLanding=false;state.outcome='';state.split='none';state.view_mode='levels';normalizeFigureState();syncUrl('push');render();maybeScrollToFigure();}));
-  for(const [id,key] of [['ageControls','age'],['domainControls','domain'],['viewModeControls','view_mode'],['peerControls','peer_definition']])$$(`#${id} button`).forEach(b=>b.addEventListener('click',()=>{state[key]=b.dataset.value;if(key==='age'||key==='domain')state.outcome='';normalizeFigureState();ensureRouted();render();}));
-  $('#splitSelect').addEventListener('change',e=>{state.split=e.target.value;state.outcome='';normalizeFigureState();ensureRouted();render();});
-  $('#outcomeSelect').addEventListener('change',e=>{state.outcome=e.target.value;normalizeFigureState();ensureRouted();render();});
-  $('#methodsButton').addEventListener('click',()=>{const p=$('#methodsPanel'),open=p.hidden;p.hidden=!open;$('#methodsButton').setAttribute('aria-expanded',String(open));});
-  $('#copyLink').addEventListener('click',async()=>{const url=currentShareUrl();try{await navigator.clipboard.writeText(url);$('#copyLink').textContent=tr('actions.copied');}catch{$('#copyLink').textContent=url;}});
-  $('#downloadData').addEventListener('click',()=>{const f=state.currentFigure;if(f)downloadCsv(recordsFor(f.figure_id),`learning_outcomes_${state.country}_${f.figure_id}.csv`);});
-  $('#downloadCountry').addEventListener('click',()=>downloadCsv(state.records,`learning_outcomes_${state.country}_visible.csv`));
-  window.addEventListener('popstate',()=>location.reload());
-  window.__learningOutcomesShell={state,route,parseRoute,makeRoute,stateFromSearch,localeTarget,contextFigures,availabilityFor,recordsFor,currentShareUrl};
-}
-
-init().catch(err=>{console.error(err);document.body.innerHTML=`<main style="padding:2rem;font-family:Arial,sans-serif"><h1>Dashboard shell error</h1><pre>${esc(err.message)}</pre></main>`;});
+function bind(){for(const [id,key]of [['countrySelect','country'],['subjectSelect','subject'],['splitSelect','split']])$('#'+id).addEventListener('change',e=>{state[key]=e.target.value;if(key==='country'){state.members=null;state.other='';}const before=state.statistic;const next=normalizeSelection(state.figures,state);$('#selectionNotice').hidden=before===next.statistic;$('#selectionNotice').textContent=text('Bij deze uitsplitsing tonen we: ','This breakdown uses: ')+statisticName(next.statistic)+'.';Object.assign(state,next);refresh();});$('#statisticSelect').addEventListener('change',e=>{state.rank=e.target.value.startsWith('rank:');state.statistic=e.target.value.replace(/^rank:/,'');refresh();});$('#compareToggle').addEventListener('change',e=>{state.compare=e.target.checked;refresh();});$('#localeSelect').addEventListener('change',e=>location.assign(new URL(BASE+e.target.value+'/',location.href).pathname+selectionSearch(state)));$('#editReference').addEventListener('click',openReference);$('#closeReference').addEventListener('click',()=>$('#referenceDialog').close());$('#countrySearch').addEventListener('input',renderReferenceList);$('#referenceCountries').addEventListener('change',e=>{if(e.target.type!=='checkbox')return;draftDefault=false;draftMembers=e.target.checked?[...draftMembers,e.target.value]:draftMembers.filter(c=>c!==e.target.value);renderReferenceList();});$('#restoreReference').addEventListener('click',()=>{draftDefault=true;draftMembers=[...list(state.contract?.default_members)];draftOther='';renderReferenceList();});$('#rankOtherSelect').addEventListener('change',e=>draftOther=e.target.value);$('#referenceForm').addEventListener('submit',e=>{e.preventDefault();state.members=draftDefault?null:[...new Set(draftMembers)].sort();state.other=draftOther;$('#referenceDialog').close();refresh();});$('#copyLink').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(location.href);$('#copyLink').textContent=text('Link gekopieerd','Link copied');}catch{window.prompt(text('Kopieer deze link','Copy this link'),location.href);}});$('#downloadProvenance').addEventListener('click',()=>saveBlob(JSON.stringify(exportPayload(),null,2),'application/json',fileName('json')));$('#downloadData').addEventListener('click',()=>{const fields=[...new Set(state.shown.flatMap(Object.keys))];const q=v=>'"'+String(Array.isArray(v)?v.join(';'):v??'').replaceAll('"','""')+'"';saveBlob('\uFEFF'+[fields.join(','),...state.shown.map(r=>fields.map(k=>q(r[k])).join(','))].join('\r\n'),'text/csv;charset=utf-8',fileName('csv'));});$('#downloadFigure').addEventListener('click',downloadFigure);
+for(const b of $$('#questionGrid button'))b.addEventListener('click',()=>{const question=b.dataset.question;const f=state.figures.find(f=>f.question===question&&compatible(f,state.subject));if(f){state.split=splitKey(f);state.statistic=statisticKey(f);state.rank=false;refresh();$('#figureControls').scrollIntoView({behavior:'smooth',block:'start'});}});window.addEventListener('popstate',()=>{Object.assign(state,readSelection(location.search,{}));refresh();});let resize;window.addEventListener('resize',()=>{clearTimeout(resize);resize=setTimeout(()=>{if(state.shown.length){$('#chartStage').innerHTML=chart(state.shown,state.currentFigure);bindChartSafe();}},150);});}
+function bindChartSafe(){bindTooltips();}
+async function init(){const route=parseRoute(location.pathname);state.locale=route.locale;Object.assign(state,readSelection(location.search,state));const [countries,figures,dict,refs,manifest]=await Promise.all([json('data/common42.json'),json('data/figure_registry.json'),json(`locales/${state.locale}.json`),json('data/explorer_references.json'),json('GUIDED_QA.json')]);state.countries=countries;state.figures=list(figures.figures);state.dict=dict;state.references=refs;state.manifest=manifest;if(!countries.some(c=>c.code===state.country))state.country=countries.some(c=>c.code==='NLD')?'NLD':countries[0]?.code||'NLD';if(!new URLSearchParams(location.search).has('subject')&&route.question){if(countries.some(c=>c.code===route.country))state.country=route.country;const q=new URLSearchParams(location.search),f=state.figures.find(f=>f.question===route.question&&f.age===(q.get('age')||'age10')&&(f.domain===(q.get('domain')||'reading')||f.domain==='all')&&(!q.has('outcome')||f.outcome===q.get('outcome')));if(f)Object.assign(state,{subject:f.age+':'+(f.domain==='all'?'reading':f.domain),split:splitKey(f),statistic:statisticKey(f)});}bind();window.__learningOutcomesShell={state,refresh,selectFigure,choices,exportPayload};await refresh();}
+init().catch(error=>{console.error(error);$('#figureHeading').textContent=text('Dashboard tijdelijk niet bereikbaar','Dashboard temporarily unavailable');$('#chartStage').innerHTML='<p>'+esc(text('Ververs de pagina om de bestanden opnieuw op te halen.','Refresh the page to load the files again.'))+'</p>';$('.figure-shell').setAttribute('aria-busy','false');});

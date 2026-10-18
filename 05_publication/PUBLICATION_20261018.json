@@ -1,0 +1,15 @@
+{
+  "candidate_id": "80346ea0081ea94b02fc",
+  "snapshot_utc": "2026-10-18T09:59:58Z",
+  "dashboard_points": 51304,
+  "countries": 34,
+  "source_commit": "83f4b921018882eee25779cca4649b5f07a42989",
+  "release_kind": "PARTIAL_VERIFIED_RESULTS",
+  "full_scientific_release": false,
+  "policy": "PUBLICATION_ONLY_MAIN_BRANCH",
+  "analysis_branch": "feat/reproducible-storage-and-cleanup-20261010",
+  "analysis_pr": 5,
+  "source_branch": "codex/problem-blocks-final-checks-20261018",
+  "unchanged_analysis": "No scientific estimators or result calculations are merged into main by this publication.",
+  "preserved_archive": "archive/2026-09-28/"
+}
