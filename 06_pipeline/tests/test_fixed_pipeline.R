@@ -138,6 +138,15 @@ complete<-lo_final_quality_gate(bundle,tasks,file.path(work,"complete_approvals.
 stopifnot(complete$active_missing==0L,
  complete$scientific_freeze=="ELIGIBLE_FOR_INDEPENDENT_REVIEW",
  complete$publication_authorized=="NO_RIGHTS_AND_REPLICATION_REVIEW_PENDING")
+policy<-jsonlite::fromJSON('06_pipeline/review_20261013/PAPER_QA_CURRENT.json')$requirements
+stopifnot(inherits(try(lo_final_quality_gate(bundle,tasks,file.path(work,'complete_approvals.csv'),file.path(work,'stale_policy'),paper_policy=policy),silent=TRUE),'try-error'))
+for(i in seq_len(nrow(paper_gates))) {
+ p<-paper_gates$evidence_path[i];cert<-jsonlite::fromJSON(p);cert$policy_sha256<-digest::digest(policy,algo='sha256')
+ jsonlite::write_json(cert,p,auto_unbox=TRUE);paper_gates$evidence_sha256[i]<-digest::digest(file=p,algo='sha256')
+}
+write.csv(paper_gates,file.path(work,'SCIENTIFIC_PAPER_GATES.csv'),row.names=FALSE)
+current_policy<-lo_final_quality_gate(bundle,tasks,file.path(work,'complete_approvals.csv'),file.path(work,'current_policy'),paper_policy=policy)
+stopifnot(current_policy$paper_gates_pass==8L)
 writeLines("changed source",source_fixture)
 stopifnot(inherits(try(lo_final_quality_gate(bundle,tasks,
  file.path(work,"complete_approvals.csv"),file.path(work,"changed_source")),silent=TRUE),"try-error"))
