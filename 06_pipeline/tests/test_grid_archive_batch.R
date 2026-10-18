@@ -47,3 +47,26 @@ stopifnot(cand$status[[1]]=="ARCHIVE_CANDIDATE_FOUND_NOT_VALIDATED",
           all(is.na(cand$estimate)),
           nrow(lo_grid_batch_plan(cand))==0L)
 
+# Grouped artifact verification must check every cell in each certificate,
+# regardless of row order; late-row corruption must not evade the fast path.
+tmp<-tempfile('grouped_certificates_');dir.create(tmp)
+src<-file.path(tmp,'source.txt');writeLines('synthetic source',src)
+r<-data.frame(cell_id=paste0('cell_',1:400),estimate=(1:400)/10,standard_error=2,n_unweighted=100,
+ sample_id='sample',method_version='method',source_path=src,source_edition_sha256=digest::digest(file=src,algo='sha256'),
+ target_contract_sha256=sha('a'),input_fingerprint=sha('b'),code_fingerprint=sha('c'),result_hash=sha('d'),
+ weight_design='design',pv_rule='all_pv',variance_rule='all_replicates')
+r$certification_path<-file.path(tmp,paste0('cert_',rep(1:4,each=100),'.json'))
+for(p in unique(r$certification_path))jsonlite::write_json(list(status='SCIENTIFICALLY_VALIDATED',cells=r[r$certification_path==p,],
+ evidence_files=data.frame(path=src,sha256=digest::digest(file=src,algo='sha256'))),p,auto_unbox=TRUE,digits=17)
+r$certification_sha256<-vapply(r$certification_path,function(p)digest::digest(file=p,algo='sha256'),character(1))
+lo_grid_verify_result_artifacts(r[400:1,])
+for(field in c('estimate','standard_error','n_unweighted','method_version','target_contract_sha256','weight_design','pv_rule','variance_rule')) {
+ bad<-r;if(is.numeric(bad[[field]]))bad[[field]][400]<-bad[[field]][400]+1 else bad[[field]][400]<-'changed'
+ stopifnot(inherits(try(lo_grid_verify_result_artifacts(bad),silent=TRUE),'try-error'))
+}
+bad<-r;bad$cell_id[400]<-'unknown';stopifnot(inherits(try(lo_grid_verify_result_artifacts(bad),silent=TRUE),'try-error'))
+writeLines('changed source',src)
+stopifnot(inherits(try(lo_grid_verify_result_artifacts(r),silent=TRUE),'try-error'))
+unlink(tmp,recursive=TRUE)
+cat('PASS grouped certificate checks preserve every value/design/target comparison and fresh file hashes\n')
+
