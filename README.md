@@ -1,4 +1,14 @@
-> **October development:** start with [the current decision register and four remaining assignments](06_pipeline/START_HIER_ACTUEEL.md). The October work is not scientifically released. The release descriptions below document the preserved September version; they do not define the new country eligibility, optional scope or active guided frontend.
+> **Current version — 18 October 2026:** the five-choice dashboard publishes a clearly marked interim snapshot of scientifically checked aggregate points. Missing years/groups remain open. International comparisons and ranks remain pending independent comparability mappings. The complete paper/scientific replication release is not finished.
+
+**[Open the dashboard](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/nl/)** · **[Methods and replication package](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/info/nl/)** · **[Current decisions](06_pipeline/START_HIER_ACTUEEL.md)**
+
+The current website source is [`05_publication/preview_overlay/`](05_publication/preview_overlay/), built by [`LO_FINAL_GUIDED_DASHBOARD_BUILD.py`](06_pipeline/LO_FINAL_GUIDED_DASHBOARD_BUILD.py) from the checked grid export. Each point retains its exact cell ID, estimate, uncertainty, sample and input/code/result fingerprints. Downloads preserve numerical precision; labels are rounded only for readability. The interim publication gate checks actual point values against the packaged inputs and rejects hidden pupil data, fabricated completeness and unverified reference groups.
+
+The [replication package guide](05_publication/REPLICATION_PACKAGE_README.md) explains reconstruction of public figures and the separate scientific R workflow. [`START.R`](START.R), [`REPLICATION_CURRENT.md`](06_pipeline/REPLICATION_CURRENT.md) and [`RUN_CONFIG.example.json`](06_pipeline/RUN_CONFIG.example.json) define the existing resumable production route. It reuses certified cells only when inputs, methods and settings match. Complete independent pupil-level replication still requires the retained original source bundle and is not yet certified.
+
+Admission requires at least three valid waves in all six age–domain combinations. `all_required` selects admitted countries and approved targets; historical country-set names do not force a fixed count. Appendix and scientific extensions do not silently become dashboard options. Read the website snapshot metadata for actual coverage; a local R run does not update the website until a new checked snapshot is published.
+
+The September release is preserved at [`archive/2026-09-28/`](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/archive/2026-09-28/). **The sections below are historical September documentation**, including their counts and scientific source lock. They do not define the current October scope, admission or interface.
 
 # Learning Outcomes — PISA / PIRLS / TIMSS
 

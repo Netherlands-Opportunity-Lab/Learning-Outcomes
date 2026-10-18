@@ -2,6 +2,14 @@
 
 Bijgewerkt: 18 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
 
+## Nieuw direct besluit — beschikbare resultaten nu op het dashboard
+
+Op 18 oktober vraagt de gebruiker: **“alles wat we hebben op het dashboard zetten”**, ontbrekende dingen **“even open”** laten en de scripts, README, uitleg en het replicatiepakket afmaken. Dit autoriseert een expliciet gemarkeerde tussenpublicatie met al gecertificeerde dashboardpunten. Het vervangt voor die tussenpublicatie de eerdere eis dat eerst de volledige paper, presentatie en Q01–Q08 gereed zijn. Het is geen wijziging van de gekozen statistieken, productplaatsing, bron-/celvalidatie, privacygrens of balansregel.
+
+`PARTIAL_VERIFIED_RESULTS` is een afzonderlijk geteste publicatiecontrole. Een figuur toont alle gecontroleerde punten; ontbrekende jaar–groepparen worden benoemd, krijgen geen nulwaarde en worden niet met een lijn overbrugd. Appendix- en wetenschappelijke uitbreidingen blijven buiten het dashboard. Referenties en rangen blijven open zolang de exacte onafhankelijke vergelijkbaarheidskoppeling ontbreekt; de code creëert daarvoor geen fictief PASS. De strenge uiteindelijke wetenschappelijke vrijgave blijft bestaan.
+
+De publicatie krijgt bron-/code-/resultaathashes, een deterministisch replicatiepakket, tweetalige uitleg en een reconstructietest van de openbare figuren. Volledige herberekening vanaf een schone computer heeft nog de vastgelegde oorspronkelijke bronbundel nodig en wordt niet als voltooid gecertificeerd. De septemberrelease blijft als archief bereikbaar. Nieuwe publicatie gebeurt vanuit de voorbereidingsbranch, zonder de actieve R-checkout te wijzigen. Zie `review_20261013/DASHBOARD_INTERIM_20261018.json` voor het feitelijke vrijgavebewijs zodra de controles afgerond zijn.
+
 **Runconfiguratie en replicatie:** zie [de actuele uitvoeringshandleiding](REPLICATION_CURRENT.md) en `RUN_CONFIG.example.json`. `LO_RUN_CONFIG` legt keuzes expliciet vast; de selectie verkleint uitsluitend het goedgekeurde grid. Iedere muterende fixed-fase bewaart configuratie, inputmanifest, code-/resultaathashes en R/pakketversies. De compacte database bewaart gewijzigde numerieke resultaatversies eenmaal. Volledige rekenprecisie blijft behouden; presentatie wordt apart afgerond. De hele gekozen wetenschappelijke productie is nog niet gereed: de actuele aantallen staan in het uitvoeringsbewijs hieronder; niet alle gekozen modules en landen zijn al gecertificeerd.
 
 

@@ -7,6 +7,17 @@ const payloads={NLD:{records:rows('NLD',510)},AUT:{records:rows('AUT',500)},CAN:
 const contract={status:'BALANCED_REFERENCE_AVAILABLE',eligible_members:['AUT','CAN'],default_members:['AUT'],evidence_sha256:'a'.repeat(64)};
 assert.ok(Number.isNaN(m.number(null)));assert.ok(Number.isNaN(m.number('')));assert.equal(m.number(0),0);
 assert.ok(m.completeRows(payloads.NLD.records,f));assert.ok(!m.completeRows(payloads.NLD.records.slice(1),f));assert.ok(!m.completeRows([...payloads.NLD.records,payloads.NLD.records[0]],f));
+// Individual checked points survive missing waves; comparisons still require
+// the unchanged complete year x group grid tested below.
+const partial=payloads.NLD.records.slice(1).map(r=>({...r,quality_status:'SCIENTIFICALLY_VALIDATED'}));
+assert.equal(m.displayableRows(partial,f,{display_state:'PARTIAL'}).length,5);
+assert.equal(m.displayableRows(partial,f,{display_state:'PLACEHOLDER'}).length,0);
+assert.equal(m.displayableRows([{...partial[0],quality_status:'PENDING'}],f,{display_state:'PARTIAL'}).length,0);
+assert.equal(m.displayableRows([{...partial[0],year:2020}],f,{display_state:'PARTIAL'}).length,0);
+assert.throws(()=>m.displayableRows([...partial,partial[0]],f,{display_state:'PARTIAL'}),/DUPLICATE_DISPLAY_CELL/);
+assert.equal(m.breakBetween({year:2018},{year:2022},f),false);
+assert.equal(m.breakBetween({year:2018},{year:2025},f),true);
+assert.equal(m.breakBetween({year:2018},{year:2022,series_break_before:true},f),true);
 let average=m.referenceRows(f,'NLD',['AUT','CAN'],payloads,contract);
 assert.equal(average[0].estimate,510);assert.equal(average.length,6);assert.ok(average.every(r=>!('se'in r)&&!('ci_low'in r)));
 assert.equal(m.referenceRows(f,'NLD',['CAN'],payloads,contract)[0].estimate,520);

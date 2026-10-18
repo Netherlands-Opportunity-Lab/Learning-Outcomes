@@ -47,4 +47,6 @@ Thumbs.db
 .Rhistory
 .Rproj.user/
 node_modules/
+__pycache__/
+*.pyc
 dist/

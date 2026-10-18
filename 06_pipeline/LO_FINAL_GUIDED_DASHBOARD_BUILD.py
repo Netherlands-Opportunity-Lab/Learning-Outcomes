@@ -347,6 +347,7 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
  destination.mkdir(parents=True)
  shutil.copytree(source/"assets",destination/"assets")
  shutil.copytree(source/"locales",destination/"locales")
+ if (source/"info").is_dir():shutil.copytree(source/"info",destination/"info")
  template=(source/"index.html").read_text(encoding="utf-8")
  (destination/"data"/"countries").mkdir(parents=True)
  (destination/"data"/"availability").mkdir(parents=True)
@@ -379,9 +380,9 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
   available=[]
   for f in figures:
    current=present[f["figure_id"]]
-   # At least one focus series per year, and all declared waves, required
-   # to call a full trend graph VALIDATED. Partial rows stay visible in data
-   # only as a private review candidate; front-end chart stays placeholder.
+   # Only a full year x group grid is VALIDATED. The user explicitly requested
+   # verified partial points on 18 Oct; missing pairs remain named gaps and
+   # never relax full-period reference or rank requirements.
    years={str(row["year"]) for row in current if row["series_role"]=="focus"}
    required=set(x for x in f["required_years"].split(";") if x)
    roles=set(row["series_id"] for row in current if row["series_role"]=="focus")
@@ -391,16 +392,18 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
    reviewed=unavailable.get((country,f["figure_id"]))
    if reviewed and current:
     fail("cannot mark a figure unavailable while releasing numeric rows")
-   st="VALIDATED" if fully else ("UNAVAILABLE" if reviewed else "PLACEHOLDER")
+   st="VALIDATED" if fully else ("PARTIAL" if current else "UNAVAILABLE" if reviewed else "PLACEHOLDER")
    availability_states[st]+=1
    reason_nl=("Alle vereiste meetjaren en groepen wetenschappelijk gecontroleerd."
        if fully else reviewed["reason_nl"] if reviewed else
-       "Nog niet volledig wetenschappelijk gevalideerd; geen verzonnen waarden.")
+       "De beschikbare punten zijn gecontroleerd. Ontbrekende meetjaren of groepen blijven open." if current else "Resultaten worden nog toegevoegd.")
    reason_en=("All required survey waves and groups scientifically validated."
        if fully else reviewed["reason_en"] if reviewed else
-       "Scientific evidence incomplete; no fabricated estimates.")
+       "Available points are verified. Missing years or groups remain open." if current else "Results will be added.")
    available.append(dict(figure_id=f["figure_id"],display_state=st,
-      reason_nl=reason_nl,reason_en=reason_en))
+      reason_nl=reason_nl,reason_en=reason_en,available_points=len(present_pairs),
+      required_points=len(required)*len(expected),
+      missing_points=[dict(year=int(y),series_id=g) for y in sorted(required) for g in sorted(expected) if (y,g) not in present_pairs]))
   (destination/"data"/"availability"/(country+".json")).write_text(
    json.dumps({"figures":available},ensure_ascii=False),encoding="utf-8")
  for locale in ("nl","en"):
