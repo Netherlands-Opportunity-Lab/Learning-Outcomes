@@ -214,7 +214,22 @@
   "first_ci": {
     "commit": "e1c829d0f393bb1b64e4d01b5a74024e18b22e87",
     "run": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39109786977",
-    "status": "RUNNING_AT_REPORT_CREATION"
+    "status": "ALL_SIX_JOBS_PASS_WINDOWS_AND_LINUX"
   },
-  "remaining": "Normal pipeline must certify the repaired blocks after safe integration; final paper, balance, product and rights evidence are separate. No public dashboard deployment."
+  "remaining": "Normal pipeline must certify the repaired blocks after safe integration; final paper, balance, product and rights evidence are separate. No public dashboard deployment.",
+  "latest_code_ci": {
+    "commit": "194139a2c006101b3046c4c15d6f83b80367e212",
+    "run": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39110598083",
+    "status": "ALL_SIX_JOBS_PASS_WINDOWS_AND_LINUX"
+  },
+  "absence_proof_validation": "All 97 exact certificates and attached source, code, task and denominator evidence hashes verified in the isolated registry.",
+  "certificate_check_optimization": "Group checks by immutable certificate; retain exact comparisons for every cell and fresh hashes for every referenced file. No persistent metadata-only hash cache.",
+  "full_snapshot_check": {
+    "status": "IN_PROGRESS_NOT_A_SCIENTIFIC_RELEASE",
+    "snapshot_rows": 64362,
+    "snapshot_certificates": 2334,
+    "snapshot_source_files": 1903,
+    "snapshot_timestamp_utc": "2026-10-18T08:04:12Z",
+    "duplicate_old_verifier": "Stopped to avoid redundant I/O; optimized full verifier continues on the same immutable snapshot."
+  }
 }

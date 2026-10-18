@@ -1,6 +1,6 @@
 # Start hier — actuele besluiten en resterend werk
 
-Bijgewerkt: 17 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
+Bijgewerkt: 18 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
 
 **Runconfiguratie en replicatie:** zie [de actuele uitvoeringshandleiding](REPLICATION_CURRENT.md) en `RUN_CONFIG.example.json`. `LO_RUN_CONFIG` legt keuzes expliciet vast; de selectie verkleint uitsluitend het goedgekeurde grid. Iedere muterende fixed-fase bewaart configuratie, inputmanifest, code-/resultaathashes en R/pakketversies. De compacte database bewaart gewijzigde numerieke resultaatversies eenmaal. Volledige rekenprecisie blijft behouden; presentatie wordt apart afgerond. De hele gekozen wetenschappelijke productie is nog niet gereed: de actuele aantallen staan in het uitvoeringsbewijs hieronder; niet alle gekozen modules en landen zijn al gecertificeerd.
 
