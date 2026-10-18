@@ -40,5 +40,56 @@
   "test_environment": "Windows sandbox temp access initially denied; same Python tests passed with normal temp access",
   "active_R_checkout_modified": false,
   "production_inventory": "RUN_COMPLETION_INVENTORY_20261018.json",
-  "deployment_status": "STAGED_NOT_DEPLOYED"
+  "deployment_status": "LIVE_ALL_ASSETS_HTTP_HASH_VERIFIED",
+  "publication_commit": "22c27b9d2aa32f1e0f173bdb476a7aaecc838085",
+  "windows_linux_ci": {
+    "status": "SUCCESS_ALL_THREE_JOBS",
+    "url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39135752593",
+    "python_tests_per_platform": 24,
+    "package_runtime_files": 408
+  },
+  "pages_deployment": {
+    "status": "SUCCESS",
+    "url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39135877686"
+  },
+  "live_verification": {
+    "status": "PASS_ALL_PUBLISHED_ASSET_HASHES",
+    "verified_at_utc": "2026-10-18T14:27:11.738261+00:00",
+    "candidate_id": "ea0632b132508dff805d",
+    "verified_files": 411,
+    "verified_bytes": 154514773,
+    "site": "https://netherlands-opportunity-lab.github.io/Learning-Outcomes/",
+    "archive_index": {
+      "path": "archive/2026-09-28/index.html",
+      "bytes": 6655,
+      "sha256": "91bc0b6d52edab9ca55ad8c9ebf6cf05781092d2f2ee2fed419b39932e1b4c08"
+    }
+  },
+  "active_R_checkout": {
+    "head": "32c48305e3db57e43fb14da49fae7c0f70de5541",
+    "status": "CLEAN_UNCHANGED"
+  },
+  "live_browser_checks": {
+    "site": "https://netherlands-opportunity-lab.github.io/Learning-Outcomes/nl/",
+    "viewport": "Chromium 390x844; actual iPhone Safari not available",
+    "comparison_default": true,
+    "uncertainty_default": true,
+    "dropdown_order": [
+      "Uitkomst en leeftijd",
+      "Uitsplitsing",
+      "Weergave",
+      "Hoofdland"
+    ],
+    "focus_confidence_intervals": 5,
+    "total_focus_and_reference_points": 10,
+    "reference_path_moves": 1,
+    "reference_path_connected_segments": 4,
+    "controls_and_provisional_notes_below_chart": true,
+    "standalone_95_focus_label_visible": false,
+    "horizontal_overflow": false,
+    "nl_en_nl_roundtrip_preserves_both_enabled": true,
+    "english_measure_label": "Measure",
+    "console_errors_or_warnings": [],
+    "live_mobile_screenshot_visually_inspected": true
+  }
 }
