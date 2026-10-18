@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-18",
+  "scope": "all_required",
+  "production_commit": "331349ec64cc23ba71c2f7221d52e32b0baaf681",
+  "preflight_timestamp_utc": "2026-10-18T20:44:27Z",
+  "preflight_timestamp_europe_amsterdam": "2026-10-18T22:44:27+02:00",
+  "preflight_sha256": "ac635939f03074ab9509a181c3fa4a5ef23f393692a0ac7d4f77d379113fd66d",
+  "preflight": {
+    "scope": "all_required",
+    "targets": 77611,
+    "recorded_validated": 69775,
+    "evidenced_unavailable": 7836,
+    "remaining": 0,
+    "certified_cells_not_in_remote_index": 0,
+    "absence_registry_in_remote_index": true,
+    "input_sha256": {
+      "grid": "2cf2a63a7b62f7736ffe1c7b66ca69ada394153de41d8d78c4a4795a81e104e8",
+      "approved": "11e88b29916a96786728edfba25678bc1bb9d3742e1aeb744c16a228d490a821",
+      "absent": "b65700621a830a4cd5723d07d955623207dd213ed2596759d5f6fbf0a66f41a6",
+      "remote": "dfe84c72f12f57ea520c66068b02d0a32596c61cea0f383ad2b6d8b58fd4bd85"
+    },
+    "snapshot": "STABLE_READ_ONLY",
+    "computation_accounted_for": true,
+    "storage_accounted_for": true,
+    "scientific_release": "NOT_ESTABLISHED_BY_PREFLIGHT_Q01_Q08_AND_PRODUCT_GATES_STILL_REQUIRED"
+  },
+  "current_input_hashes_match_saved_preflight": true,
+  "stage_records": [
+    {
+      "stage": "audit",
+      "scope": "all_required",
+      "status": "COMPLETED_WITH_SCIENCE_GATES",
+      "timestamp_utc": "2026-10-18T20:40:11Z",
+      "detail": "77611 target rows; 0 candidates, 69775 validated; 0 approved batches"
+    },
+    {
+      "stage": "produce",
+      "scope": "all_required",
+      "status": "ALL_SELECTED_TARGETS_ACCOUNTED_FOR",
+      "timestamp_utc": "2026-10-18T20:40:35Z",
+      "detail": "332 new independently certified international cells; 0 remaining targets; 0 repair records. Publication gates remain separate."
+    },
+    {
+      "stage": "final-check-preparation",
+      "scope": "all_required",
+      "status": "STABLE_SNAPSHOT_CHECKED",
+      "timestamp_utc": "2026-10-18T20:44:27Z",
+      "detail": "0 remaining cells; 0 certified cells awaiting remote checkpoint; scientific gates checked separately"
+    }
+  ],
+  "finalize_started": "2026-10-18T22:41:21+02:00",
+  "finalize_result_at_observation": "NO_NEW_TERMINAL_FINALIZE_RECORD_YET",
+  "github_result_deposit_for_this_completed_production": "NOT_YET_CONFIRMED_AFTER_RUNNING_FINALIZE",
+  "last_verified_prior_result_deposit": "da2ffead1b05af2efdbc9b8adf75d8d549b1ebfd",
+  "agent_actions": "Read saved evidence and source-file hashes only; no production, lock removal, checkout mutation or public data replacement",
+  "technical_validation": {
+    "commit": "e1fd411dd2123973065236b13719d13cdafff41c",
+    "url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39155570977",
+    "all_six_jobs": "SUCCESS",
+    "jobs": [
+      {
+        "id": 117757988205,
+        "name": "locked-environment (windows-latest)"
+      },
+      {
+        "id": 117757988379,
+        "name": "storage-tests (windows-latest)"
+      },
+      {
+        "id": 117757988391,
+        "name": "r-entrypoint-parse (windows-latest)"
+      },
+      {
+        "id": 117757988409,
+        "name": "storage-tests (ubuntu-latest)"
+      },
+      {
+        "id": 117757988433,
+        "name": "locked-environment (ubuntu-latest)"
+      },
+      {
+        "id": 117757988464,
+        "name": "r-entrypoint-parse (ubuntu-latest)"
+      }
+    ],
+    "limitation": "Technical regression evidence, not independent pupil-source replication; later non-scientific manifest repair is not in the active frozen run"
+  },
+  "remaining_acceptance": [
+    "Scientific Q01-Q08 and final product/release evidence",
+    "Full reference balance and outstanding country-source admission, including BEL CHE GBR ISL KOR LUX",
+    "Controlled export and deployment of these new results; existing live dashboard is an earlier snapshot",
+    "Final 21-slide presentation, paper and clean-room scientific replication"
+  ],
+  "interpretation": "Every selected target in the current 34-country grid is either recorded validated or evidenced unavailable. No open computation or repair records; this is not proof all desired country-source admission or final science/product requirements are complete."
+}
