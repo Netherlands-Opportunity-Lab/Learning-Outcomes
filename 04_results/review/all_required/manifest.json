@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "scope": "all_required",
+  "configuration": {
+    "schema_version": 1,
+    "scope": "all_required",
+    "selection": {
+      "surveys": [],
+      "years": [],
+      "domains": [],
+      "modules": [],
+      "countries": [],
+      "stats": [],
+      "groups": [],
+      "definitions": [],
+      "peer_environments": [],
+      "cell_ids": []
+    },
+    "max_compute_units": 100000
+  },
+  "audited_input_sha256": {
+    "tasks": "8fb89079cfcb6425fe09d98644af313def25f4a294b99383748323782802afd2",
+    "pool": "a1fa557b06db9a603c953b30e07c9ef1ef7be2261d0faa1b775893e4027f3a43",
+    "environment": "d575c2abbaee6392379995f9ab358bbb4af82429ca8700bd82f1a667a67c66d3",
+    "decisions": "b8149f28d4c287120bf6259b6e10bfd9cff5622b889962aa9014c2802fd5cb5f",
+    "products": "57f40577f0da0d0d487f46fdaa5a8db70bb043f688699c7884716449d0a589be",
+    "rank_product": "f6e2071b4ab2bb309938107f2b6426b0c36d81dbabd3af1ea8a056eb6738fc7f",
+    "extensions": "338c04a394acd6e52be656360e82688b27dace7743aa0bc43ff22ae4f3355d77",
+    "gender_policy": "dbc0a3f20d4d28d5d80b3bd16ee67a10dcec93acb1aff885f78de8f7e1d86e94",
+    "scope_code": "13cee7b621322ab2d7091e6257dce0178ff0773239a672bfbaa73d0f52d306e3",
+    "country_decisions": "aa0cdfc75ade819b7aada518872ee817b97e994be18b52bfd8f35e6ef94c7e9b",
+    "country_code": "54340337097860d1ad0a0f7aaed4898a5966867cbf6f4171eeb0338ead7f3d46",
+    "anchor": "baa2cd6b3221a043a713b7fc2c605d736bdf39a9f5c95855f226984910a82bca",
+    "support": "fe4dd32f5d7a5365886383bab0de7f03afed14b3e6ab6f7f0a3ac686a364a154",
+    "compute": "652fabe25f4d97e0dac5519ef5308164530b4254e1d61aa05958da585e6563ae",
+    "validated": "233aedc7408aff56c6445d06a5eb111ee34311a530f2a41ab8f6cddce1fcbdd5",
+    "unavailable": "2f551324e7de0c0e3fca00ebb7b35e7298ee30a79bf913147872702d5c6b742e",
+    "run_configuration": "ced0c2319b860b3736cb8a967e32b461ff754bda49fab61df8b1d61a6721d2bf",
+    "run_config_code": "71727bd6d3006808ed6ac0cb38e9a39471f93b7db716e02a373245884d859b2f"
+  },
+  "configuration_sha256": "ced0c2319b860b3736cb8a967e32b461ff754bda49fab61df8b1d61a6721d2bf",
+  "validated_rows": 69437,
+  "target_rows": 77611,
+  "status_counts": {
+    "ARCHIVE_CANDIDATE_FOUND_NOT_VALIDATED": 28,
+    "LIVE_SQLITE_CANDIDATE_NOT_VALIDATED": 4,
+    "NEW_LOW_PEER_METHOD_GATE_REQUIRED": 108,
+    "SCIENTIFICALLY_VALIDATED": 69437,
+    "TARGET_NOT_YET_ADJUDICATED": 295,
+    "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE": 3312,
+    "UNAVAILABLE_VERIFIED_SOURCE_FIELD": 4427
+  },
+  "publication_status": "RESEARCH_REVIEW_NOT_PRODUCT_RELEASE",
+  "raw_or_pupil_data_included": false,
+  "producer_identity": "Per-cell producer_fingerprint and linked historical run records; export checkout is not producer identity",
+  "historical_producer_code": "06_pipeline/archive_or_superseded/LO05_CODE_LOCK_20261010/SOURCE_CODE_ORIGINAL_VS_PUBLIC_SHA256.csv",
+  "files": [
+    {
+      "file": "derivations.csv",
+      "sha256": "67a658b273064c9612e3534035b44d0be8da746604d89bf0f14f8cbfa3d950bb",
+      "bytes": 637993
+    },
+    {
+      "file": "execution_receipts.csv",
+      "sha256": "117b3ca9a88a43c0ab68983e4f4e6bbed0210ccb5127afd464b32d55bbe6c2cf",
+      "bytes": 504206
+    },
+    {
+      "file": "measured_execution_receipts.csv",
+      "sha256": "01b76d1cc225a9e35d01835c8a03cda77bb7e8f56769de5a0a5a080f161f77b2",
+      "bytes": 16786748
+    },
+    {
+      "file": "result_run_links.csv",
+      "sha256": "86c5e63504763f688638cde5b3ada28c194f6dcb0004b4bfe209170c6715ce9e",
+      "bytes": 18031967
+    },
+    {
+      "file": "results.csv",
+      "sha256": "9da22d3685b77b7bd54b54a2a60203055c5a9f011b38195f9ddb59aaf61549f8",
+      "bytes": 84496045
+    },
+    {
+      "file": "run_provenance.json",
+      "sha256": "890a49806bdbcc9f8a8386c4fab456a83bbbc7bea003b7e4d4d8a824cf0340b6",
+      "bytes": 68161
+    },
+    {
+      "file": "scripts.csv",
+      "sha256": "1fbac3c2fd0576a4405845d4e4a6f0d8ac3f3db90008e30a17def6ac48492832",
+      "bytes": 1711
+    },
+    {
+      "file": "target_status.csv",
+      "sha256": "44fdc445015525742caa12a0c4a7b587664ebc922183cf52a148d5854d88a2e3",
+      "bytes": 12083996
+    }
+  ]
+}
