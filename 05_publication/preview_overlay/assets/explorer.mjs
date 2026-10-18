@@ -51,9 +51,9 @@ export function normalizeSelection(figures, selection) {
   return out;
 }
 export function readSelection(search, defaults) {
-  const q = new URLSearchParams(search), out = {country:'NLD',subject:'age10:reading',split:'none',statistic:'mean_score',rank:false,compare:true,other:'',...defaults};
+  const q = new URLSearchParams(search), out = {country:'NLD',subject:'age10:reading',split:'none',statistic:'mean_score',rank:false,compare:true,uncertainty:false,other:'',...defaults};
   for (const k of ['country','subject','split','statistic','other']) if(q.has(k))out[k]=q.get(k);
-  for (const k of ['rank','compare']) if(q.has(k))out[k]=q.get(k)==='1';
+  for (const k of ['rank','compare','uncertainty']) if(q.has(k))out[k]=q.get(k)==='1';
   out.members = q.has('members') ? [...new Set(q.get('members').split(',').filter(Boolean))].sort() : null;
   return out;
 }
@@ -61,10 +61,45 @@ export function selectionSearch(state) {
   const q = new URLSearchParams();
   for(const k of ['country','subject','split','statistic'])q.set(k,state[k]);
   if(state.rank)q.set('rank','1');
+  if(state.uncertainty)q.set('uncertainty','1');
   q.set('compare',state.compare?'1':'0');
   if(state.members !== null)q.set('members',state.members.join(','));
   if(state.other)q.set('other',state.other);
   return '?'+q;
+}
+
+// Display-only derivations from certified aggregates. Keep input values and
+// hashes intact; never infer a unit from the magnitude of a result. Core tail
+// shares are exported as proportions; SES tails and peer shares are already %.
+export const DISPLAY_POLICY = {
+  id:'FOCUS_NORMAL_95_AND_CORE_PERCENT_V1', confidence_level:0.95, critical_value:1.96,
+  interval_method:'NORMAL_APPROXIMATION_FROM_VERIFIED_SE', focus_only:true,
+  default_visible:false, rank_intervals:false, reference_intervals:false,
+  core_proportion_figures:['TR_BELOW','TR_HIGH'], interval_bounds_clipped:false
+};
+export function presentationRows(rows,f,rank=false) {
+  return rows.map(row=>{
+    if(row.display_policy===DISPLAY_POLICY.id)return {...row};
+    const r={...row},family=f.figure_id?.split('_age')[0];
+    const scale=!rank&&f.unit==='percent'&&DISPLAY_POLICY.core_proportion_figures.includes(family)?100:1;
+    if(scale!==1){
+      r.input_estimate=number(r.estimate);r.estimate=r.input_estimate*scale;
+      r.input_unit='proportion';r.display_scale=scale;
+      for(const key of ['se','ci_low','ci_high'])if(Number.isFinite(number(r[key]))){r['input_'+key]=number(r[key]);r[key]=number(r[key])*scale;}
+    }
+    r.display_policy=DISPLAY_POLICY.id;
+    if(rank||r.unit==='rank'||r.series_role!=='focus')return r;
+    const estimate=number(r.estimate),se=number(r.se),low=number(r.ci_low),high=number(r.ci_high);
+    if(!Number.isFinite(estimate))return r;
+    if(number(r.ci_level)===.95&&Number.isFinite(low)&&Number.isFinite(high)&&low<=estimate&&estimate<=high){
+      r.ci_level=.95;r.ci_method='SUPPLIED_95_INTERVAL';
+    }else if(Number.isFinite(se)&&se>=0){
+      r.ci_low=estimate-1.96*se;r.ci_high=estimate+1.96*se;
+      r.ci_level=.95;r.ci_method=DISPLAY_POLICY.interval_method;r.ci_critical_value=1.96;
+    }
+    if(r.ci_method)r.ci_parent_result_hash=r.result_hash;
+    return r;
+  });
 }
 export function completeRows(rows, f) {
   const years=words(f.required_years), groups=words(f.expected_series), found=new Set();
