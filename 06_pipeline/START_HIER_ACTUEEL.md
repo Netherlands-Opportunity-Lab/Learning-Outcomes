@@ -10,6 +10,8 @@ Een land is tijdelijk selecteerbaar zodra het gecontroleerde punten heeft voor d
 
 Deze stand heet `AVAILABLE_CASES_PROVISIONAL`, niet een geslaagde balanscontrole. Het bestaande strenge vergelijkingsbewijs blijft bewaard voor de eindcontrole. Na complete resultaten en review wordt zonder tijdelijke beleidsoptie opnieuw gebouwd. Zie [uitvoeringsbewijs](review_20261013/DASHBOARD_PROVISIONAL_20261018.json). Oudere beschrijvingen van blokkades hieronder zijn historische uitvoeringsmomenten.
 
+De tijdelijke versie staat live als kandidaat `05c0b4552abcfaa8f072`. Het pakket bevat 174 bestanden (13.108.350 bytes); alle 408 runtimebestanden zijn op Windows en Linux exact gereconstrueerd. Alle 411 gepubliceerde bestanden zijn via HTTPS op SHA256 gecontroleerd. De mobiele en live landenkiezer zijn getest, inclusief aanpassen en standaard herstellen. De actieve RStudio-checkout bleef schoon en ongewijzigd.
+
 De latere expliciete UI-keuze plaatst de vier dropdowns in deze volgorde: uitkomst en leeftijd → statistiek → uitsplitsing → hoofdland. De vergelijking blijft de vijfde keuze.
 
 ## Eerder direct besluit — beschikbare resultaten nu op het dashboard
