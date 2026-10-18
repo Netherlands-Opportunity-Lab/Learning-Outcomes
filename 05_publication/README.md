@@ -1,8 +1,6 @@
 # 05 — Dashboardcode, resultaten en publicatie
 
-Bijgewerkt: 16 oktober 2026. De nieuwe vijfkeuze-interface staat op de
-ontwikkelbranch van [PR #5](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/pull/5).
-Code op GitHub en een lokale preview betekenen nog geen nieuwe openbare release.
+Bijgewerkt: 18 oktober 2026. De vijfkeuze-interface en gecontroleerde resultaten staan op GitHub Pages. De laatste gebruikerskeuze activeert tijdelijk vergelijkingen met beschikbare punten via [REFERENCE_POLICY.json](REFERENCE_POLICY.json). Ieder vergelijkingspunt registreert de daadwerkelijk gebruikte landen; de definitieve balanscontrole volgt na volledige productie. [Actuele versie](INTERIM_CURRENT.json) en [uitvoeringsbewijs](../06_pipeline/review_20261013/DASHBOARD_PROVISIONAL_20261018.json).
 
 ## Actieve code en uitleg
 
@@ -42,8 +40,9 @@ computer waarop de previewserver draait. ChatGPT Pages en Sites zijn voor deze
 GitHub-route niet nodig.
 
 De browser schat geen nieuwe statistieken uit leerlingdata. Hij kan wel de
-expliciet gekozen referentiegemiddelden en puntrangen afleiden uit complete,
-gecertificeerde landenreeksen, met vaste leden en geregistreerde oudercellen.
+expliciet gekozen referentiegemiddelden en puntrangen afleiden uit gecertificeerde
+aggregaten. De tijdelijke stand registreert leden per punt; de strenge stand
+vereist vaste leden over de volledige vergelijking. Beide bewaren oudercellen.
 De oorspronkelijke septemberrelease hieronder had een andere runtime en blijft
 als historische release beschreven; haar beperkingen zijn geen beschrijving
 van de nieuwe figuurbouwer.

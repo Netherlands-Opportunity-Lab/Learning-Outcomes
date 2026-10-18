@@ -1,0 +1,84 @@
+{
+  "scope": "all_required",
+  "targets": 77611,
+  "recorded_validated": 68321,
+  "evidenced_unavailable": 7699,
+  "remaining": 1591,
+  "certified_cells_not_in_remote_index": 0,
+  "absence_registry_in_remote_index": false,
+  "input_sha256": {
+    "grid": "5a138ff168db462ff29c7dc262a98cc91cd35897cc2f02ce647dce1eed338043",
+    "approved": "3ef18809b3df68b7f4ceac75252c59f5a5c26aca18ecc9d4507c55ee7c1fcc94",
+    "absent": "8a6ea469f86fe41a60f19b13e6225fad3d0a282334f51f3e9faa26fd8dddf35a",
+    "remote": "6714f7494f26c22de4fefc95b02d3d192d3408167c23f66ef1ac5dd98cbe3593"
+  },
+  "snapshot": "STABLE_READ_ONLY",
+  "computation_accounted_for": false,
+  "storage_accounted_for": false,
+  "scientific_release": "NOT_ESTABLISHED_BY_PREFLIGHT_Q01_Q08_AND_PRODUCT_GATES_STILL_REQUIRED",
+  "observed_at_utc": "2026-10-18T14:07:18Z",
+  "writer_active": true,
+  "remaining_by": {
+    "country": {
+      "USA": 1156,
+      "POL": 149,
+      "MAR": 130,
+      "NZL": 39,
+      "SWE": 34,
+      "SVN": 33,
+      "AZE": 30,
+      "QAT": 20
+    },
+    "survey": {
+      "PISA": 1407,
+      "TIMSS": 110,
+      "PIRLS": 74
+    },
+    "module": {
+      "peer_below_basic": 234,
+      "migration": 174,
+      "core": 161,
+      "high_proficiency_peer_exposure": 156,
+      "peer_baseline": 152,
+      "extension_ses_gender": 144,
+      "migration_generation": 125,
+      "ses_harmonized": 84,
+      "gender": 69,
+      "language_exact": 69,
+      "migration_binary_peer": 40,
+      "migration_peer_exposure": 40,
+      "ses_peer_exposure": 36,
+      "extension_performance_school": 23,
+      "language_frequency_binary": 21,
+      "extension_performance_class": 18,
+      "home_language_peer_exposure": 18,
+      "home_language_frequency_peer": 10,
+      "extension_home_ses": 9,
+      "extension_ses_class": 4,
+      "extension_ses_school": 4
+    }
+  },
+  "remaining_contexts": 166,
+  "snapshot_copied_utc": "2026-10-18T14:06:53.153355Z",
+  "active_source_commit": "32c48305e3db57e43fb14da49fae7c0f70de5541",
+  "integration_receipt_present": false,
+  "active_checkout_modified": false,
+  "active_process_name": "rsession-utf8",
+  "run_config": {
+    "scope": "all_required",
+    "selection": "ALL_APPROVED_TARGETS",
+    "max_compute_units": 100000
+  },
+  "next_step": "After current writer finishes: RESUME_WITH_FINAL_CHECKS.R -> existing RUN_CURRENT_NLD.R -> START.R",
+  "caveat": "Snapshot during ongoing production. Recorded validated is not a fresh full scientific source replication. Final Q01-Q08 and product gates remain open.",
+  "website_snapshot_utc": "2026-10-18T09:59:58Z",
+  "website_points": 51304,
+  "separately_pending": [
+    "Final source admission for BEL CHE GBR ISL KOR LUX",
+    "Strict all-period all-group reference balance",
+    "Q01-Q08",
+    "21-slide policy deck",
+    "Scientific paper",
+    "Clean-room pupil-source replication"
+  ]
+}

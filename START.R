@@ -90,7 +90,7 @@ lo_bootstrap_main <- function() {
     config_path<-Sys.getenv('LO_RUN_CONFIG','')
     scope<-if(nzchar(config_path))jsonlite::fromJSON(config_path)$scope else Sys.getenv('LO_SCOPE','nld_only')
     root<-Sys.getenv('LO_FIXED_ROOT',file.path(home,'Downloads','LO05_RESULTATEN'))
-    for(stage in c('fixed-audit','fixed-produce','fixed-status')) {
+    for(stage in c('fixed-audit','fixed-produce','fixed-finalize','fixed-status')) {
       Sys.setenv(LO_ACTION=stage)
       source(runner,local=new.env(parent=.GlobalEnv),encoding='UTF-8')
     }
@@ -116,7 +116,8 @@ lo_bootstrap_main <- function() {
       tryCatch(private_sync$lo_pipeline_drive_publish(repo,'publish',results_root=root,fixed_scope=scope),
         error=function(e)message('FIXED_PRIVATE_SYNC_PENDING: ',conditionMessage(e)))
     }
-    cat('Approved results are durable. Repeating this command resumes only missing approved calculations.\n')
+    cat('Approved results are durable. Repeating this command resumes only missing approved calculations and repeats the final checks.\n')
+    cat('Read the fixed-finalize report for remaining scientific/product gates; completing this command is not publication approval.\n')
     return(invisible(TRUE))
   }
   Sys.setenv(LO_ACTION=action)

@@ -1,0 +1,86 @@
+/* KANSENLAB DESIGN SYSTEM 1.0.0 — generated from config/brand_tokens.json */
+/* Brand colors and analytical data colors have separate meaning. */
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&display=swap");
+:root {
+  --kl-font-ui: "Oswald", "Arial Narrow", Arial, sans-serif;
+  --kl-text: #17242D; --kl-text-muted: #59636A; --kl-bg: #F7F5F0; --kl-surface: #FFFFFF;
+  --kl-border: #D8D8D3; --kl-context-light: #C3C7C9; --kl-context-dark: #8B9298;
+  --kl-focus-data: #315D8A; --kl-warning: #984F3F;
+  --kl-radius-small: 6px; --kl-radius-medium: 10px; --kl-page-max: 1440px;
+  --kl-space-1: 4px; --kl-space-2: 8px; --kl-space-3: 12px; --kl-space-4: 16px; --kl-space-6: 24px; --kl-space-8: 32px; --kl-space-12: 48px;
+  --kl-font-size-small: 14px; --kl-font-size-body: 18px; --kl-font-size-chart: 16px; --kl-font-size-heading: clamp(26px,2vw,34px);
+  --kl-data-ses-low: #EBC45A; --kl-data-ses-two: #82A85B; --kl-data-ses-mid: #5EA6A7; --kl-data-ses-four: #4C77A8; --kl-data-ses-high: #6B5A8E;
+  --kl-umbrella-1: #D9833C;
+  --kl-umbrella-2: #EBC45A;
+  --kl-umbrella-3: #82A85B;
+  --kl-umbrella-4: #5EA6A7;
+  --kl-umbrella-5: #4C77A8;
+  --kl-umbrella-6: #6B5A8E;
+  --kl-brand-gezondheidjeugd: #D9833C;
+  --kl-brand-gezondheidjeugd-ink: #A36838;
+  --kl-brand-gezondheidjeugd-soft: #FBF3EC;
+  --kl-brand-gezondheidsverschillen: #EBC45A;
+  --kl-brand-gezondheidsverschillen-ink: #837644;
+  --kl-brand-gezondheidsverschillen-soft: #FDF9EE;
+  --kl-brand-kansenkaart: #82A85B;
+  --kl-brand-kansenkaart-ink: #617F4D;
+  --kl-brand-kansenkaart-soft: #F2F6EF;
+  --kl-brand-kansenkloof: #5EA6A7;
+  --kl-brand-kansenkloof-ink: #497F82;
+  --kl-brand-kansenkloof-soft: #EFF6F6;
+  --kl-brand-onderwijsverschillen: #347FB9;
+  --kl-brand-onderwijsverschillen-ink: #337BB3;
+  --kl-brand-onderwijsverschillen-soft: #EBF2F8;
+  --kl-brand-leerprestaties: #4D52BF;
+  --kl-brand-leerprestaties-ink: #4D52BF;
+  --kl-brand-leerprestaties-soft: #EDEEF9;
+  --kl-brand-inkomensverschillen: #79508E;
+  --kl-brand-inkomensverschillen-ink: #79508E;
+  --kl-brand-inkomensverschillen-soft: #F2EEF4;
+  --kl-brand-jeugdsegregatie: #AC5D91;
+  --kl-brand-jeugdsegregatie-ink: #AB5C90;
+  --kl-brand-jeugdsegregatie-soft: #F7EFF4;
+  --kl-brand-nederlandsewaarden: #C46E6D;
+  --kl-brand-nederlandsewaarden-ink: #A86263;
+  --kl-brand-nederlandsewaarden-soft: #F9F0F0;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { color-scheme: light; }
+body { margin:0; background:var(--kl-bg); color:var(--kl-text); font:400 var(--kl-font-size-body)/1.5 var(--kl-font-ui); }
+body[data-kl-brand="kansenlab"] {--kl-brand:#315D8A;--kl-brand-ink:#315D8A;--kl-brand-soft:#EEF2F6;}
+body[data-kl-brand="gezondheidjeugd"]{--kl-brand:var(--kl-brand-gezondheidjeugd);--kl-brand-ink:var(--kl-brand-gezondheidjeugd-ink);--kl-brand-soft:var(--kl-brand-gezondheidjeugd-soft);}
+body[data-kl-brand="gezondheidsverschillen"]{--kl-brand:var(--kl-brand-gezondheidsverschillen);--kl-brand-ink:var(--kl-brand-gezondheidsverschillen-ink);--kl-brand-soft:var(--kl-brand-gezondheidsverschillen-soft);}
+body[data-kl-brand="kansenkaart"]{--kl-brand:var(--kl-brand-kansenkaart);--kl-brand-ink:var(--kl-brand-kansenkaart-ink);--kl-brand-soft:var(--kl-brand-kansenkaart-soft);}
+body[data-kl-brand="kansenkloof"]{--kl-brand:var(--kl-brand-kansenkloof);--kl-brand-ink:var(--kl-brand-kansenkloof-ink);--kl-brand-soft:var(--kl-brand-kansenkloof-soft);}
+body[data-kl-brand="onderwijsverschillen"]{--kl-brand:var(--kl-brand-onderwijsverschillen);--kl-brand-ink:var(--kl-brand-onderwijsverschillen-ink);--kl-brand-soft:var(--kl-brand-onderwijsverschillen-soft);}
+body[data-kl-brand="leerprestaties"]{--kl-brand:var(--kl-brand-leerprestaties);--kl-brand-ink:var(--kl-brand-leerprestaties-ink);--kl-brand-soft:var(--kl-brand-leerprestaties-soft);}
+body[data-kl-brand="inkomensverschillen"]{--kl-brand:var(--kl-brand-inkomensverschillen);--kl-brand-ink:var(--kl-brand-inkomensverschillen-ink);--kl-brand-soft:var(--kl-brand-inkomensverschillen-soft);}
+body[data-kl-brand="jeugdsegregatie"]{--kl-brand:var(--kl-brand-jeugdsegregatie);--kl-brand-ink:var(--kl-brand-jeugdsegregatie-ink);--kl-brand-soft:var(--kl-brand-jeugdsegregatie-soft);}
+body[data-kl-brand="nederlandsewaarden"]{--kl-brand:var(--kl-brand-nederlandsewaarden);--kl-brand-ink:var(--kl-brand-nederlandsewaarden-ink);--kl-brand-soft:var(--kl-brand-nederlandsewaarden-soft);}
+.kl-layout {max-width:var(--kl-page-max); margin:auto; padding:clamp(16px,3vw,40px);}
+.kl-header {display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 24px; background:var(--kl-surface); border-bottom:1px solid var(--kl-border);}
+.kl-header img {display:block; height:56px; width:auto; max-width:100%;}
+.kl-heading {font-weight:500; font-size:var(--kl-font-size-heading); line-height:1.22; margin:0 0 8px;}
+.kl-copy {font-weight:400; max-width:76ch;}
+.kl-label {font-weight:300; font-size:16px;}
+.kl-help {font-weight:300; color:var(--kl-text-muted); font-size:var(--kl-font-size-small);}
+.kl-active {font-weight:500; color:var(--kl-brand-ink);}
+.kl-panel {background:var(--kl-surface); border:1px solid var(--kl-border); border-radius:var(--kl-radius-medium); padding:24px;}
+.kl-accent-rule {height:3px; background:var(--kl-brand);}
+.kl-btn, .kl-filter, .kl-tab {font:500 17px/1.3 var(--kl-font-ui); min-height:44px; border:1px solid var(--kl-border); border-radius:var(--kl-radius-small); padding:10px 16px; background:white; color:var(--kl-text);}
+.kl-btn-primary {background:var(--kl-brand-soft); color:var(--kl-brand-ink); border-color:var(--kl-brand-ink);}
+:is(a,button,input,select,textarea,[tabindex]):focus-visible {outline:3px solid #315D8A; outline-offset:3px;}
+.kl-error {color:#984F3F; font-weight:500;}
+.kl-disabled, :disabled {opacity:0.55; cursor:not-allowed;}
+.kl-sr-only {position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
+.kl-figure {background:#FFFFFF; padding:16px 8px;}
+.kl-figure-title {font-weight:500; font-size:22px; line-height:1.25;}
+.kl-figure-subtitle, .kl-figure-note {color:var(--kl-text-muted); font-weight:400;}
+.kl-figure-note {font-size:14px;}
+.kl-data-note {font-size:14px; color:var(--kl-text-muted);}
+.kl-table {border-collapse:collapse; width:100%; font-variant-numeric:tabular-nums;}
+.kl-table th {font-weight:500; text-align:left; border-bottom:2px solid var(--kl-border); padding:8px 12px;}
+.kl-table td {border-bottom:1px solid var(--kl-border); padding:8px 12px;}
+.kl-table td.num {text-align:right; font-variant-numeric:tabular-nums;}
+@media(max-width:750px) {.kl-layout{padding:14px}.kl-header{padding:10px 14px}.kl-header img{height:44px}.kl-panel{padding:16px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto !important;transition:none !important;animation:none !important}}

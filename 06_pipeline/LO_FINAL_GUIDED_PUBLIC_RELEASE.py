@@ -22,6 +22,13 @@ def verify(site,cert_file):
  if not site.is_dir() or not cert_file.is_file():
   fail("missing guided dashboard or source-verified certificate")
  cert=json.loads(cert_file.read_text(encoding="utf-8"))
+ if cert.get("release_kind")=="PARTIAL_VERIFIED_RESULTS":
+  # A direct user decision permits available points now. Keep the independent
+  # final scientific release gate below intact; the interim gate cannot pass it.
+  import importlib.util
+  spec=importlib.util.spec_from_file_location("partial_release",Path(__file__).with_name("LO_PARTIAL_DASHBOARD_RELEASE.py"))
+  partial=importlib.util.module_from_spec(spec);spec.loader.exec_module(partial)
+  return partial.verify(site,cert_file)
  for key,val in REQUIRED_CERT.items():
   if cert.get(key)!=val:fail("scientific or rights approval missing "+key)
  source_lock=cert.get("scientific_source_sha256","")

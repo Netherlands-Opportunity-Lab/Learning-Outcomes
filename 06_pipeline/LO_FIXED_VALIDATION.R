@@ -1,6 +1,6 @@
 # Final scientific acceptance: no automatic promotion from old source/metric.
 lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
-                                  scope_decisions=NULL) {
+                                  scope_decisions=NULL,paper_policy=NULL) {
   dir.create(out,recursive=TRUE,showWarnings=FALSE)
   family <- sub("_age.*$","",tasks$contract_figure_id)
   active <- !(family %in% c("TR_BASIC","TR_POSITION","GP_SES_HIGH","EN_PERFORMANCE_PEER"))
@@ -24,12 +24,14 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
   # Use the same verified source-absence evidence as audit. Keep the complete
   # target manifest; unavailable fields are not silently removed from balance.
   source_unavailable_ids<-character()
+  analytic_unavailable_ids<-character()
   source_absence<-file.path(dirname(approval_csv),"SOURCE_UNAVAILABLE_CELLS.csv")
   if(file.exists(source_absence)) {
     if(!exists("lo_source_unavailability",mode="function"))stop("SCIENTIFIC_GATE_SOURCE_ABSENCE_VERIFIER_REQUIRED")
     checked_absence<-lo_source_unavailability(lo_grid_from_tasks(required),source_absence)
-    absent<-checked_absence[checked_absence$status=="UNAVAILABLE_VERIFIED_SOURCE_FIELD",,drop=FALSE]
+    absent<-checked_absence[startsWith(checked_absence$status,"UNAVAILABLE_"),,drop=FALSE]
     source_unavailable_ids<-absent$cell_id
+    analytic_unavailable_ids<-absent$cell_id[absent$status=='UNAVAILABLE_VERIFIED_ANALYTIC_SAMPLE']
     write.csv(absent,file.path(out,"DOCUMENTED_UNAVAILABLE_SOURCE_TARGETS.csv"),row.names=FALSE,na="")
     req_ids<-setdiff(req_ids,source_unavailable_ids)
   }
@@ -67,15 +69,25 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
               stringsAsFactors=FALSE,colClasses="character")
   if(nrow(paper)!=8L||!setequal(paper$requirement_id,sprintf("Q%02d",1:8)))
     stop("SCIENTIFIC_GATE_HOLD: Q01-Q08 source contract changed")
+  policy_sha<-NULL
+  if(!is.null(paper_policy)) {
+    if(!all(c('requirement_id','requirement','scope_disposition','evidence')%in%names(paper_policy))||
+      nrow(paper_policy)!=8L||anyDuplicated(paper_policy$requirement_id)||!setequal(paper_policy$requirement_id,paper$requirement_id))stop('PAPER_CURRENT_SCOPE_POLICY_INVALID')
+    policy_sha<-digest::digest(paper_policy,algo='sha256')
+    paper$historical_requirement<-paper$requirement
+    ix<-match(paper$requirement_id,paper_policy$requirement_id)
+    for(k in c('requirement','scope_disposition','evidence'))paper[[k]]<-paper_policy[[k]][ix]
+  }
   gates <- file.path(dirname(approval_csv),"SCIENTIFIC_PAPER_GATES.csv")
   received <- if(file.exists(gates))read.csv(gates,stringsAsFactors=FALSE) else
     data.frame(requirement_id=character(),status=character())
   if(!all(c("requirement_id","status")%in%names(received)) ||
      anyDuplicated(received$requirement_id))
     stop("SCIENTIFIC_GATE_HOLD: invalid Q01-Q08 gate file")
-  paper$validated <- paper$requirement_id %in%
-    received$requirement_id[received$status=="PASS"]
-  write.csv(paper[,c("requirement_id","requirement","validated")],
+  if(any(received$status=='PASS')&&!exists('lo_paper_gate_evidence',mode='function'))stop('SCIENTIFIC_GATE_PAPER_EVIDENCE_VERIFIER_REQUIRED')
+  passed<-if(any(received$status=='PASS'))lo_paper_gate_evidence(received,tasks,approval_csv,policy_sha)else character()
+  paper$validated <- paper$requirement_id %in% passed
+  write.csv(paper[,intersect(c("requirement_id","requirement","scope_disposition","evidence","historical_requirement","validated"),names(paper))],
       file.path(out,"PAPER_Q01_Q08_GATES.csv"),row.names=FALSE)
   # A01 scope approval must precede any BELOW-basic peer requirement.
   # Each approved target still needs its own certified
@@ -95,6 +107,15 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
       if(lo_scope_is_approved(scope_decisions,"A01"))low_peer_tasks<-rbind(low_peer_tasks,extra)
     }
   }
+  low_peer_total<-nrow(low_peer_tasks)
+  peer_absent<-low_peer_tasks[FALSE,,drop=FALSE]
+  if(nrow(low_peer_tasks)&&file.exists(source_absence)) {
+    checked<-lo_source_unavailability(lo_grid_from_tasks(low_peer_tasks),source_absence)
+    peer_absent<-low_peer_tasks[startsWith(checked$status,'UNAVAILABLE_'),,drop=FALSE]
+    if(nrow(all_approved)&&any(peer_absent$metric_key%in%all_approved$cell_id))stop('SCIENTIFIC_GATE_CONTRADICTORY_PEER_ABSENCE')
+    low_peer_tasks<-low_peer_tasks[!low_peer_tasks$metric_key%in%peer_absent$metric_key,,drop=FALSE]
+  }
+  write.csv(peer_absent,file.path(out,'DOCUMENTED_UNAVAILABLE_LOW_PEER_TARGETS.csv'),row.names=FALSE,na='')
   peer_ids <- low_peer_tasks$metric_key
   peer_approved <- if(nrow(all_approved))
      all_approved[all_approved$cell_id%in%peer_ids,,drop=FALSE]
@@ -147,12 +168,14 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
     validated_active_primitives=nrow(approved)+nrow(peer_approved),
     active_missing=length(missing)+length(peer_missing),
     documented_unavailable_extensions=length(unavailable_ids),
-    documented_unavailable_source_fields=length(source_unavailable_ids),
-    new_below_basic_peer_targets=length(peer_ids),
+    documented_unavailable_source_fields=length(setdiff(source_unavailable_ids,analytic_unavailable_ids)),
+    documented_unavailable_analytic_samples=length(analytic_unavailable_ids),
+    new_below_basic_peer_targets=low_peer_total,
+    documented_unavailable_low_peers=nrow(peer_absent),
     new_below_basic_peer_verified=length(peer_ids)-length(peer_missing),
     paper_gates_pass=sum(paper$validated),
     paper_gates_required=8L,
-    primary_peer_gate=if(!length(peer_ids))"NOT_REQUIRED_BY_CURRENT_SCOPE"
+    primary_peer_gate=if(!length(peer_ids))if(low_peer_total)'DOCUMENTED_UNAVAILABLE'else "NOT_REQUIRED_BY_CURRENT_SCOPE"
                      else if(peer_pass)"PASS" else "HOLD",
     scientific_freeze=if(all_pass)"ELIGIBLE_FOR_INDEPENDENT_REVIEW" else "HOLD",
     publication_authorized="NO_RIGHTS_AND_REPLICATION_REVIEW_PENDING",

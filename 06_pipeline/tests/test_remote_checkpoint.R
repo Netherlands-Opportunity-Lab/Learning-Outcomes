@@ -33,5 +33,17 @@ run_dir<-file.path(tmp,'FIXED_PRODUCTION_V1/nld_only/RUN_RECORDS');dir.create(ru
 jsonlite::write_json(list(git_commit='verified_test_commit',configuration=list(scope='nld_only')),file.path(run_dir,'run.json'),auto_unbox=TRUE)
 before<-calls;x<-lo_remote_checkpoint('.',tmp,config,copy)
 stopifnot(x$new==0L,calls==before+4L,length(readRDS(file.path(tmp,'.remote_checkpoints/VERIFIED_INDEX.rds'))$run_record_sha256)==1L)
+# Source/analytic absence certificates must also survive an interruption even
+# when no numerical result changed. Their referenced evidence is restored too.
+absence<-file.path(tmp,'master_reconciliation/SOURCE_UNAVAILABLE_CELLS.csv')
+write.csv(data.frame(cell_id='unavailable',evidence_path=cert,evidence_sha256=digest::digest(file=cert,algo='sha256')),absence,row.names=FALSE)
+before<-calls;x<-lo_remote_checkpoint('.',tmp,config,copy)
+stopifnot(x$new==0L,calls==before+4L)
+ix<-readRDS(file.path(tmp,'.remote_checkpoints/VERIFIED_INDEX.rds'))
+stopifnot(digest::digest(file=absence,algo='sha256')%in%ix$absence_registry_sha256)
+before<-calls;lo_remote_checkpoint('.',tmp,config,copy);stopifnot(calls==before)
+writeLines('corrupted absence proof',evidence)
+write.csv(data.frame(cell_id='another',evidence_path=cert,evidence_sha256=digest::digest(file=cert,algo='sha256')),absence,row.names=FALSE)
+stopifnot(inherits(try(lo_remote_checkpoint('.',tmp,config,copy),silent=TRUE),'try-error'))
 unlink(c(tmp,remote_dir),recursive=TRUE)
 cat('PASS external checkpoint round trip, extracted-file restoration, idempotent resume and corrupted readback rejection\n')

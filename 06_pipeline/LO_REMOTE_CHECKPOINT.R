@@ -38,7 +38,10 @@ lo_remote_checkpoint_impl <- function(repo,root,config,transfer) {
     list.files(file.path(root,'FIXED_PRODUCTION_V1',scope,'RUN_RECORDS'),pattern='[.]json$',full.names=TRUE)),use.names=FALSE)
   run_hashes<-vapply(run_paths,hash,character(1))
   run_new<-!run_hashes%in%index$run_record_sha256
-  if(!any(missing)&&!any(run_new))return(invisible(list(cells=nrow(all),new=0L,packages=length(index$packages))))
+  absence_path<-file.path(root,'master_reconciliation/SOURCE_UNAVAILABLE_CELLS.csv')
+  absence_sha<-if(file.exists(absence_path))hash(absence_path)else ''
+  absence_new<-nzchar(absence_sha)&&!absence_sha%in%index$absence_registry_sha256
+  if(!any(missing)&&!any(run_new)&&!absence_new)return(invisible(list(cells=nrow(all),new=0L,packages=length(index$packages))))
   selected<-all[missing,,drop=FALSE]
   # Traverse only evidence explicitly bound to a certified result. Certificates
   # can reference method certificates, which in turn reference joint evidence.
@@ -75,6 +78,12 @@ lo_remote_checkpoint_impl <- function(repo,root,config,transfer) {
   # Run records bind the actual Git commit, configuration, code/package hashes
   # and cell result versions. Back up new provenance even if no values changed.
   for(i in which(run_new))add(run_paths[i],run_hashes[i])
+  if(absence_new) {
+    absent<-read.csv(absence_path,colClasses='character',na.strings=character())
+    if(!all(c('cell_id','evidence_path','evidence_sha256')%in%names(absent))||anyDuplicated(absent$cell_id))stop('REMOTE_CHECKPOINT_INVALID_ABSENCE_REGISTRY')
+    add(absence_path,absence_sha)
+    for(i in which(!duplicated(absent$evidence_path)))add(absent$evidence_path[i],absent$evidence_sha256[i])
+  }
   members<-do.call(rbind,members)
   package<-list(schema_version=1L,kind='CERTIFIED_AGGREGATES_AND_JOINT_EVIDENCE',
     raw_or_canonical_pupils=FALSE,results=selected,result_keys=keys[missing],members=members,files=files,
@@ -101,6 +110,7 @@ lo_remote_checkpoint_impl <- function(repo,root,config,transfer) {
     verified_utc=format(Sys.time(),'%Y-%m-%dT%H:%M:%SZ',tz='UTC'))
   index$keys<-c(index$keys,keys[missing]);index$packages[[sha]]<-record
   index$run_record_sha256<-unique(c(index$run_record_sha256,run_hashes[run_new]))
+  if(absence_new)index$absence_registry_sha256<-unique(c(index$absence_registry_sha256,absence_sha))
   pointer<-tempfile('index_',tmpdir=stage,fileext='.json');pointer_back<-tempfile('index_readback_',tmpdir=stage)
   on.exit(unlink(c(pointer,pointer_back)),add=TRUE)
   jsonlite::write_json(list(schema_version=1L,certified_cell_versions=length(index$keys),packages=index$packages),pointer,auto_unbox=TRUE,pretty=TRUE)
@@ -108,12 +118,12 @@ lo_remote_checkpoint_impl <- function(repo,root,config,transfer) {
   transfer(pointer,pointer_remote);transfer(pointer_remote,pointer_back)
   if(hash(pointer)!=hash(pointer_back))stop('REMOTE_CHECKPOINT_INDEX_READBACK_FAILED')
   save_path<-tempfile('verified_',tmpdir=stage);saveRDS(index,save_path)
-  if(.Platform$OS.type=='windows'&&file.exists(index_path)) {
-    ps_quote<-function(x)paste0("'",gsub("'","''",normalizePath(x,winslash='/',mustWork=FALSE),fixed=TRUE),"'")
-    command<-paste0('[System.IO.File]::Replace(',ps_quote(save_path),',',ps_quote(index_path),',',ps_quote(paste0(index_path,'.previous')),')')
-    if(system2('powershell',c('-NoProfile','-NonInteractive','-Command',shQuote(command)))!=0L)
-      stop('REMOTE_CHECKPOINT_INDEX_ATOMIC_REPLACE')
-  }else if(!file.rename(save_path,index_path))stop('REMOTE_CHECKPOINT_INDEX_ATOMIC_RENAME')
+  # The remote package and pointer are already verified. A transient Windows
+  # sharing violation must not abort after just one replacement attempt.
+  # On a persistent lock retain both the old index and the prepared new one;
+  # resumption rechecks remote storage before any new pupil calculation.
+  tryCatch(lo_atomic_replace(save_path,index_path),error=function(e)
+    stop('REMOTE_CHECKPOINT_INDEX_ATOMIC_REPLACE: ',conditionMessage(e)))
   cat('PRIVATE_DRIVE_CHECKPOINT_VERIFIED: ',nrow(selected),' new cells; ',length(index$keys),' cell versions recoverable remotely\n',sep='')
   invisible(list(cells=nrow(all),new=nrow(selected),packages=length(index$packages),receipt=record))
 }

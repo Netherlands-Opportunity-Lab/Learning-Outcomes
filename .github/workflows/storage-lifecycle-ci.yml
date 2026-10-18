@@ -58,6 +58,8 @@ jobs:
           python-version: '3.12'
       - name: Kill a real R writer and resume committed grid transactions
         run: python 06_pipeline/tests/crash_resume_check.py
+      - name: Fetch reviewed preparation from a single-branch clone without changing results
+        run: python 06_pipeline/tests/prepared_fetch_check.py
       - name: Guard checkout before Git updates and recover after process death
         run: python 06_pipeline/tests/startup_lock_check.py
       - name: Parse R production launcher without starting any production
@@ -114,6 +116,10 @@ jobs:
         run: Rscript 06_pipeline/tests/test_gender_pool_policy.R
       - name: Test private incremental checkpoint recovery
         run: Rscript 06_pipeline/tests/test_remote_checkpoint.R
+      - name: Test transient Windows readers and persistent checkpoint locks
+        run: python 06_pipeline/tests/atomic_sharing_check.py
+      - name: Test complete approved production orchestration
+        run: Rscript 06_pipeline/tests/test_approved_orchestration.R
       - name: Test balanced individual country rank derivation
         run: Rscript 06_pipeline/tests/test_country_ranks.R
       - name: Test selected SES composition and missing peer denominators
@@ -130,6 +136,10 @@ jobs:
         run: Rscript 06_pipeline/tests/test_pisa_source_block.R
       - name: Test proven source absence without shortening the grid
         run: Rscript 06_pipeline/tests/test_source_unavailability.R
+      - name: Test partial-block estimability without zero filling or dropped PVs
+        run: Rscript 06_pipeline/tests/test_estimation_availability.R
+      - name: Test read-only final-check preparation and remote accounting
+        run: Rscript 06_pipeline/tests/test_completion_preflight.R
       - name: Test raw IEA source population and JRR verification
         run: Rscript 06_pipeline/tests/test_iea_source_block.R
       - name: Test ordinal IEA books and fractional quartiles

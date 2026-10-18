@@ -51,9 +51,9 @@ export function normalizeSelection(figures, selection) {
   return out;
 }
 export function readSelection(search, defaults) {
-  const q = new URLSearchParams(search), out = {country:'NLD',subject:'age10:reading',split:'none',statistic:'mean_score',rank:false,compare:true,other:'',...defaults};
+  const q = new URLSearchParams(search), out = {country:'NLD',subject:'age10:reading',split:'none',statistic:'mean_score',rank:false,compare:true,uncertainty:true,other:'',...defaults};
   for (const k of ['country','subject','split','statistic','other']) if(q.has(k))out[k]=q.get(k);
-  for (const k of ['rank','compare']) if(q.has(k))out[k]=q.get(k)==='1';
+  for (const k of ['rank','compare','uncertainty']) if(q.has(k))out[k]=q.get(k)==='1';
   out.members = q.has('members') ? [...new Set(q.get('members').split(',').filter(Boolean))].sort() : null;
   return out;
 }
@@ -61,10 +61,47 @@ export function selectionSearch(state) {
   const q = new URLSearchParams();
   for(const k of ['country','subject','split','statistic'])q.set(k,state[k]);
   if(state.rank)q.set('rank','1');
+  q.set('uncertainty',state.uncertainty?'1':'0');
   q.set('compare',state.compare?'1':'0');
   if(state.members !== null)q.set('members',state.members.join(','));
   if(state.other)q.set('other',state.other);
   return '?'+q;
+}
+
+// Display-only derivations from certified aggregates. Keep input values and
+// hashes intact; never infer a unit from the magnitude of a result. Core tail
+// shares are exported as proportions; SES tails and peer shares are already %.
+export const DISPLAY_POLICY = {
+  id:'FOCUS_NORMAL_95_AND_CORE_PERCENT_V2', confidence_level:0.95, critical_value:1.96,
+  interval_method:'NORMAL_APPROXIMATION_FROM_VERIFIED_SE', focus_only:true,
+  default_visible:true, rank_intervals:false, reference_intervals:false,
+  core_proportion_figures:['TR_BELOW','TR_HIGH'], interval_bounds_clipped:false,
+  reference_line:'CONNECT_ADJACENT_AVAILABLE_WAVES_WITH_MEMBERSHIP_NOTE',
+  rank_membership_changes_break_line:true
+};
+export function presentationRows(rows,f,rank=false) {
+  return rows.map(row=>{
+    if(row.display_policy===DISPLAY_POLICY.id)return {...row};
+    const r={...row},family=f.figure_id?.split('_age')[0];
+    const scale=!rank&&f.unit==='percent'&&DISPLAY_POLICY.core_proportion_figures.includes(family)?100:1;
+    if(scale!==1){
+      r.input_estimate=number(r.estimate);r.estimate=r.input_estimate*scale;
+      r.input_unit='proportion';r.display_scale=scale;
+      for(const key of ['se','ci_low','ci_high'])if(Number.isFinite(number(r[key]))){r['input_'+key]=number(r[key]);r[key]=number(r[key])*scale;}
+    }
+    r.display_policy=DISPLAY_POLICY.id;
+    if(rank||r.unit==='rank'||r.series_role!=='focus')return r;
+    const estimate=number(r.estimate),se=number(r.se),low=number(r.ci_low),high=number(r.ci_high);
+    if(!Number.isFinite(estimate))return r;
+    if(number(r.ci_level)===.95&&Number.isFinite(low)&&Number.isFinite(high)&&low<=estimate&&estimate<=high){
+      r.ci_level=.95;r.ci_method='SUPPLIED_95_INTERVAL';
+    }else if(Number.isFinite(se)&&se>=0){
+      r.ci_low=estimate-1.96*se;r.ci_high=estimate+1.96*se;
+      r.ci_level=.95;r.ci_method=DISPLAY_POLICY.interval_method;r.ci_critical_value=1.96;
+    }
+    if(r.ci_method)r.ci_parent_result_hash=r.result_hash;
+    return r;
+  });
 }
 export function completeRows(rows, f) {
   const years=words(f.required_years), groups=words(f.expected_series), found=new Set();
@@ -75,16 +112,52 @@ export function completeRows(rows, f) {
   }
   return years.length>0 && groups.length>0 && years.every(y=>groups.every(g=>found.has(`${y}:${g}`)));
 }
+// Partial focus data are displayable; comparison/rank completeness stays strict.
+export function displayableRows(rows,f,availability) {
+  if(!['VALIDATED','PARTIAL'].includes(availability?.display_state))return [];
+  const years=words(f.required_years),groups=words(f.expected_series),seen=new Set();
+  return rows.filter(r=>{
+    const key=`${r.year}:${r.series_id}`;
+    if(seen.has(key))throw new Error('DUPLICATE_DISPLAY_CELL');
+    seen.add(key);
+    return r.quality_status==='SCIENTIFICALLY_VALIDATED'&&Number.isFinite(number(r.estimate))&&years.includes(String(r.year))&&groups.includes(r.series_id);
+  });
+}
+// Reference lines connect adjacent available survey waves; contributor changes
+// remain explicit in notes/table/downloads. Missing waves, construct breaks and
+// changing rank bases still break the line. This is display, not panel balancing.
+export function breakBetween(previous,current,f) {
+  if(!previous)return true;
+  const years=words(f.required_years).map(Number).sort((a,b)=>a-b);
+  return years.indexOf(+current.year)!==years.indexOf(+previous.year)+1 || current.series_break_before===true || current.series_break_before==='TRUE' ||
+    (current.comparison_status==='PROVISIONAL' && current.series_role!=='comparator' && previous.comparison_membership_key!==current.comparison_membership_key);
+}
+export const provisional = contract => contract?.mode==='AVAILABLE_CASES_PROVISIONAL';
 export function referenceStatus(contract, focus, members) {
-  if (!contract || contract.status !== 'BALANCED_REFERENCE_AVAILABLE') return {ok:false,reason:'pending'};
+  if (!contract || !(contract.status==='BALANCED_REFERENCE_AVAILABLE'||provisional(contract)&&contract.status==='PROVISIONAL_REFERENCE_AVAILABLE')) return {ok:false,reason:({
+    NO_AVAILABLE_REFERENCE:'available_missing',
+    NO_ELIGIBLE_REFERENCE:'coverage',FOCUS_CORE_INCOMPLETE:'focus_core',FOCUS_VIEW_INCOMPLETE:'focus_view'
+  })[contract?.status]||'pending'};
   if(!members.length)return {ok:false,reason:'empty'};
   const eligible = list(contract.eligible_members);
   if(members.includes(focus) || new Set(members).size!==members.length || members.some(c=>!eligible.includes(c)))return {ok:false,reason:'ineligible'};
   return {ok:true};
 }
+export function referenceOption(contract,focus,country) {
+  if(country===focus)return {allowed:false,reason:'focus'};
+  if(provisional(contract))return {allowed:list(contract.eligible_members).includes(country),reason:list(contract.eligible_members).includes(country)?'provisional':'available_missing',detail:list(contract.eligibility).find(r=>r.country===country)};
+  if(list(contract?.eligible_members).includes(country))return {allowed:true,reason:'eligible'};
+  if(contract?.status==='FOCUS_CORE_INCOMPLETE')return {allowed:false,reason:'focus_core'};
+  if(contract?.status==='FOCUS_VIEW_INCOMPLETE')return {allowed:false,reason:'focus_view'};
+  const detail=list(contract?.eligibility).find(r=>r.country===country);
+  if(detail?.reason==='FAIL_DASHBOARD_6x3')return {allowed:false,reason:'admission'};
+  if(detail?.missing_cells>0)return {allowed:false,reason:'missing',detail};
+  return {allowed:false,reason:'pending'};
+}
 // A selected member must have every year × series. No yearwise reweighting,
 // stale precomputed average, silently dropped member, or averaged uncertainty.
 export function referenceRows(f, focus, members, payloads, contract) {
+  if(provisional(contract))return provisionalReferenceRows(f,focus,members,payloads,contract);
   const status=referenceStatus(contract,focus,members);
   if(!status.ok)throw new Error('REFERENCE_'+status.reason.toUpperCase());
   const tables = members.map(c=>{
@@ -101,6 +174,7 @@ export function referenceRows(f, focus, members, payloads, contract) {
   }));
 }
 export function rankRows(f, statistic, focus, members, payloads, contract, other='') {
+  if(provisional(contract))return provisionalRankRows(f,statistic,focus,members,payloads,contract,other);
   referenceRows(f,focus,members,payloads,contract); // validates the full panel
   if(other && !members.includes(other))throw new Error('RANK_OTHER_NOT_IN_REFERENCE');
   const rule=RANK_RULES[statistic];if(!rule)throw new Error('RANK_RULE_UNDEFINED');
@@ -118,4 +192,63 @@ export function rankRows(f, statistic, focus, members, payloads, contract, other
       members:[...members],method_id:'POINT_RANK_AVERAGE_TIES_V1',rank_direction:rule.direction,rank_transform:rule.transform,
       parent_result_hashes:parents.map(r=>r.result_hash),reference_contract_hash:contract.evidence_sha256};
   })));
+}
+
+// User-authorised temporary mode. Keep the full x-axis; each observed point
+// carries its actual contributors, exclusions and hashes. No zero fill or CI.
+function availablePointSets(f,focus,members,payloads,contract) {
+  const status=referenceStatus(contract,focus,members);
+  if(!status.ok)throw new Error('REFERENCE_'+status.reason.toUpperCase());
+  const tables=new Map(),years=words(f.required_years),groups=words(f.expected_series);
+  for(const c of [focus,...members]) {
+    const table=new Map();
+    for(const r of list(payloads[c]?.records)) {
+      if(r.figure_id!==f.figure_id||r.series_role==='comparator'||r.quality_status!=='SCIENTIFICALLY_VALIDATED'||!Number.isFinite(number(r.estimate))||!years.includes(String(r.year))||!groups.includes(r.series_id))continue;
+      const key=`${r.year}:${r.series_id}`;
+      if(table.has(key))throw new Error('DUPLICATE_AVAILABLE_CELL');
+      table.set(key,r);
+    }
+    tables.set(c,table);
+  }
+  return years.flatMap(year=>groups.map(group=>{
+    const key=`${year}:${group}`,main=tables.get(focus).get(key),contributors=[],excluded=[];
+    for(const country of members){const row=tables.get(country).get(key);
+      // A temporary coverage waiver does not relabel a known pooled category.
+      const differs=f.split==='gender'&&main&&row&&/other/i.test(row.series_label_en||'')!==/other/i.test(main.series_label_en||'');
+      if(!row||differs)excluded.push({country,reason:differs?'KNOWN_DEFINITION_DIFFERENCE':'POINT_NOT_AVAILABLE'});
+      else contributors.push({country,row});
+    }
+    return {year:+year,group,main,contributors,excluded};
+  }));
+}
+function provisionalMetadata(point,members,contract) {
+  const actual=point.contributors.map(x=>x.country);
+  return {comparison_status:'PROVISIONAL',comparator_n:actual.length,members:actual,
+    selected_members:[...members],excluded_members:point.excluded.map(x=>x.country),exclusion_reasons:point.excluded,
+    comparison_membership_key:[...actual].sort().join(';'),reference_policy_sha256:contract.reference_policy_sha256,
+    reference_contract_hash:contract.evidence_sha256,parent_result_hashes:point.contributors.map(x=>x.row.result_hash)};
+}
+function provisionalReferenceRows(f,focus,members,payloads,contract) {
+  return availablePointSets(f,focus,members,payloads,contract).filter(p=>p.contributors.length).map(p=>({
+    figure_id:f.figure_id,year:p.year,series_id:'reference:'+p.group,parent_series_id:p.group,series_role:'comparator',
+    estimate:p.contributors.reduce((sum,x)=>sum+number(x.row.estimate),0)/p.contributors.length,
+    unit:f.unit,method_id:'EQUAL_AVAILABLE_COUNTRY_WEIGHT_TEMPORARY_V1',
+    series_label_nl:p.main?.series_label_nl,series_label_en:p.main?.series_label_en,
+    source_id:p.contributors.map(x=>x.row.source_id).join(';'),...provisionalMetadata(p,members,contract)}));
+}
+function provisionalRankRows(f,statistic,focus,members,payloads,contract,other) {
+  if(other&&!members.includes(other))throw new Error('RANK_OTHER_NOT_IN_REFERENCE');
+  const rule=RANK_RULES[statistic];if(!rule)throw new Error('RANK_RULE_UNDEFINED');
+  const transform=v=>rule.transform==='absolute'?Math.abs(v):v;
+  return availablePointSets(f,focus,members,payloads,contract).filter(p=>p.main&&p.contributors.length).flatMap(p=>{
+    const universe=[{country:focus,row:p.main},...p.contributors],values=universe.map(x=>transform(number(x.row.estimate)));
+    return universe.filter(x=>x.country===focus||x.country===other).map(({country,row})=>{
+      const value=transform(number(row.estimate)),better=values.filter(v=>rule.direction==='descending'?v>value:v<value).length,tied=values.filter(v=>v===value).length;
+      return {...row,series_id:country+':'+p.group,parent_series_id:p.group,country_id:'iso3:'+country,series_role:country===focus?'focus':'other',
+        source_estimate:row.estimate,estimate:1+better+(tied-1)/2,se:null,ci_low:null,ci_high:null,unit:'rank',
+        method_id:'AVAILABLE_COUNTRY_POINT_RANK_TEMPORARY_V1',rank_direction:rule.direction,rank_transform:rule.transform,
+        ...provisionalMetadata(p,members,contract),rank_basis_n:universe.length,rank_basis_members:universe.map(x=>x.country),
+        parent_result_hashes:universe.map(x=>x.row.result_hash)};
+    });
+  });
 }

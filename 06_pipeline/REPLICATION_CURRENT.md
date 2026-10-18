@@ -1,7 +1,55 @@
-# Current replication entry point — 15 October 2026
+# Current replication entry point — 18 October 2026
+
+**Latest temporary display override:** the user requests comparisons from available results while production finishes. `05_publication/REFERENCE_POLICY.json` and the builder's `--reference-policy` option enable `AVAILABLE_CASES_PROVISIONAL`. Each year/series has explicit actual contributors, exclusions and parent hashes. The latest UI decision connects adjacent available reference waves and puts the membership caveat below the figure; missing waves and construct changes still break the line. Ranks retain their point-specific basis and denominator, with line breaks on a changing basis. Comparison and focus uncertainty default on. This changes the interim website only. Scientific production and final full-support rules below remain intact. The public package carries the same policy and reproduces it exactly. Omit the temporary policy when rebuilding after complete results and final review.
+
+**Current execution inventory:** [what to run after the existing R process finishes](RUN_COMPLETION_INVENTORY_20261018.md), including the 16:07 snapshot, remaining modules, tested repairs, and separate final scientific/product requirements. No second concurrent writer.
+
+**Public dashboard snapshot, 18 October:** the user explicitly requests publication of checked results with visible gaps. The website replication package rebuilds those aggregate figures without pupil data; see [the package guide](../05_publication/REPLICATION_PACKAGE_README.md). This does not certify clean-room scientific replication, Q01–Q08, the paper or slides. The 18 October country-selection repair adds a publication adapter over the frozen certified export: `LO_DASHBOARD_COMPARABILITY.py` binds source/sample/method evidence, `LO_DASHBOARD_REFERENCE_EXPORT.R` uses the existing balanced-membership engine, and `LO_DASHBOARD_REFERENCE_VERIFY.py` independently verifies every exported option. A missing mapping or focus year still blocks that comparison. This publication snapshot does not mutate the running production master. The retained original source-bundle dependency is also still open. Historical counts and gender findings below retain their dates; the later approved Female / Other pooling decision is controlling.
 
 This is an executable development pipeline, not a completed scientific replication release. Real production now covers independently verified Netherlands PISA, PIRLS and TIMSS cells across the complete 40-combination Dutch core-year anchor. The current count, result sizes and closure receipts are recorded in `review_20261013/STEP1_EXECUTION_EVIDENCE_20261014.json`. The broader approved scope still requires source/sample/method certification, reconciliation of older candidates, country approval and independent replication. See `START_HIER_ACTUEEL.md` and `ACCEPTATIE_EN_VOORTGANG.csv` for the current decisions. Do not infer readiness from a successful software test.
 
+
+## Eén opdracht voor hervatten en eindcontrole — 18 oktober 2026
+
+De lokale installatiehulp gebruikt nu `LO_PREPARED_FETCH.R`: expliciete
+fetchdoelen maken ook in een single-branch-clone de vereiste `origin`-verwijzingen.
+Dit herstelt de gemelde ontbrekende voorbereidingsbranch vóór de merge zonder
+de opgeslagen Git-fetchconfiguratie, resultaatcommits of wetenschappelijke
+berekeningen te veranderen. Hetzelfde hervatcommando blijft gelden. Zie
+`review_20261013/MAINTENANCE_FETCH_REPAIR_20261018.json` voor fout, test en actuele
+eindstand van de vorige run.
+
+De bestaande `LO_START_ACTION=produce-approved` voert audit, productie,
+finalize en status achtereenvolgens uit, met dezelfde codecommit en configuratie.
+Daarna volgen private checkpoint, GitHub-aggregaatdepositie en rapportoverdracht.
+Gebruik de bestaande lokale configuratiewrapper in RStudio; stel de optie
+`lo.current.action` op `produce-approved` in. Start geen tweede schrijver naast
+een actieve run. De checkout-lock wordt vóór iedere Git-update gecontroleerd.
+
+Voor de tijdens de lopende productie apart geteste reparatie is lokaal
+`RESUME_WITH_FINAL_CHECKS.R` voorbereid. Die installatiehulp controleert checkout-
+en masterlock, haalt de vastgelegde geteste commit op, behoudt eventuele nieuwe
+resultaatcommits, voegt de reparatie zonder force/reset samen op de bestaande
+ontwikkelbranch en verifieert de GitHub-push. Pas daarna wordt de bestaande
+configuratiewrapper aangeroepen. Een tweede uitvoering is getest en veilig.
+Deze machinegebonden installatiehulp bevat geen schatter en verandert geen scope.
+
+De werkvoorraad bestaat uit alle ontbrekende goedgekeurde cellen, inclusief
+eerdere probleemblokken; er is geen handmatige startlandinstelling nodig.
+Geldige bestaande certificaten en resultaten worden hergebruikt. De gedeeltelijke
+blokreparatie bewaart aantoonbare afwezigheid per cel, zonder een lege noemer op
+nul te zetten of vereiste PVs/replicaten weg te laten. `fixed-finalize` maakt de
+balans-/rangafleidingen, private dashboardkandidaat en het eindrapport. Open
+wetenschappelijke controles blijven open; het commando verleent geen publicatierecht.
+
+Een Windows `REMOTE_CHECKPOINT_INDEX_ATOMIC_REPLACE` kan ontstaan doordat een
+lezer tijdelijk het vervangen van de index of `.previous` blokkeert. De atomische
+schrijver probeert zulke sharing/lock-fouten maximaal circa twintig seconden
+opnieuw en bewaart de vorige index. Bij blijvende blokkade stopt hij veilig;
+herhalen probeert eerst de overdracht opnieuw, zonder gecertificeerde schattingen
+te herberekenen. Wis geen locks, index of mastergrid om dit te omzeilen.
+Werkelijke tijdelijke en blijvende Windows-locks, hervatten en de volledige
+fasevolgorde worden getest; zie `CHECKPOINT_RESUME_20261018.json` in de reviewmap.
 
 ## Verlopen Drive-aanmelding tijdens productie — 17 oktober 2026
 
@@ -47,7 +95,7 @@ Onderstaande aantallen en opmerkingen over een nog ontbrekend poolingbesluit zij
 
 ## One configuration, three existing stages
 
-The ordinary `START.R` action `produce-approved` now fast-forwards the reviewed branch once, freezes one code commit across audit/produce/status, then deposits the certified aggregate review snapshot and sanitized provenance on that same GitHub branch. It never force-pushes or deploys Pages. Explicit `LO_REPRODUCE_COMMIT` keeps historical reproduction immutable. See [the result-deposit contract and measured runtime](review_20261013/GITHUB_RESULTS_AND_RUNTIME_20261015.md). `GITHUB_RESULTS_VERIFIED` confirms remote branch identity; `GITHUB_RESULTS_PENDING` means local results are safe but the upload has not completed. `LO_GITHUB_RESULTS=off` explicitly opts out of the deposit.
+The ordinary `START.R` action `produce-approved` now fast-forwards the reviewed branch once, freezes one code commit across audit/produce/finalize/status, then deposits the certified aggregate review snapshot and sanitized provenance on that same GitHub branch. It never force-pushes or deploys Pages. Explicit `LO_REPRODUCE_COMMIT` keeps historical reproduction immutable. See [the result-deposit contract and measured runtime](review_20261013/GITHUB_RESULTS_AND_RUNTIME_20261015.md). `GITHUB_RESULTS_VERIFIED` confirms remote branch identity; `GITHUB_RESULTS_PENDING` means local results are safe but the upload has not completed. `LO_GITHUB_RESULTS=off` explicitly opts out of the deposit.
 
 Copy `RUN_CONFIG.example.json` to a private local file and set `LO_RUN_CONFIG` to that file's absolute path. Its fields are:
 
@@ -111,11 +159,11 @@ The user's 14 October permission allows removing unnecessary RStudio/ChatGPT/Cod
 
 This package aims at the [FAIR principles](https://www.gofair.foundation/fair-principles) and follows the [AEA preparation guidance](https://aeadataeditor.github.io/aea-de-guidance/preparing-replication-package.html). Completion requires a permanent version identifier, searchable metadata, source access instructions and editions, a data dictionary, licenses, declared computational requirements, all necessary code/dependencies, a product-to-result map and successful independent execution. See `../DATA_LICENSE.md` for the current publication boundary. Restricted sources need not become public to document their provenance/access route.
 
-Still outstanding: the uncollapsed authoritative PISA2025 girls field for 24 exact targets; exact required covariance/derived paper products; complete eligible international results and comparison mappings; complete scientific bundle portability; clean reproduction from original sources without hidden Downloads dependencies; final rights/QA review and durable release. All other selected NLD primitive targets have numerical certification or specific evidence of source unavailability. The verified source blocks and green Windows/Linux checks do not by themselves grant publication or AEA-level external verification.
+Still outstanding: exact required covariance/derived paper products; complete eligible international results and comparison mappings; complete scientific bundle portability; clean reproduction from original sources without hidden Downloads dependencies; final rights/QA review and durable release. All other selected NLD primitive targets have numerical certification or specific evidence of source unavailability. The verified source blocks and green Windows/Linux checks do not by themselves grant publication or AEA-level external verification.
 
 ## Corrected PISA 2025 gender source finding
 
-The current NLD PUF has 6,636 rows and ST004D01T=99 throughout. This does not mean that all gender data are unavailable: MALE=1 identifies 3,397 boys, whose three domain means and standard errors independently match the published OECD tables to the tables' rounding precision. Those three exact cells are now certified. MALE=0 means Female / Other, not girls; it fails parity against the published girls. The official recode uses ST004D01D, absent from the local PUF edition. Twenty-four exact girl-dependent targets therefore remain a source-mapping review, not certified absence. Eighteen boy-by-SES targets are now independently certified using the chosen four-wave Cobreros calibration. Never shorten the comparison years or substitute Female / Other for girls. See the dated source register and gender correction evidence.
+The current NLD PUF has 6,636 rows and ST004D01T=99 throughout. This does not mean that all gender data are unavailable: MALE=1 identifies 3,397 boys, whose three domain means and standard errors independently match the published OECD tables to the tables' rounding precision. Those three exact cells are now certified. MALE=0 means Female / Other, not girls; it fails parity against the published girls. The official recode uses ST004D01D, absent from the local PUF edition. Twenty-four exact girl-dependent targets therefore remain a source-mapping review, not certified absence. Eighteen boy-by-SES targets are now independently certified using the chosen four-wave Cobreros calibration. Never shorten comparison years or silently label Female / Other as girls. The later explicit pooling decision authorises the visibly distinct pooled construct; it resolves the 24 targets without claiming an uncollapsed girls field. See the dated source register and gender correction evidence.
 
 ## Chosen SES calibration, checked 15 October
 
@@ -137,6 +185,16 @@ The explicit public `review_20261013/international/SOURCE_CATALOG.csv` and `HOME
 Reference checks use matrix-weighted means and reuse sorted outcomes for exactly the selected quantiles. Source labels for school/class identities are converted once. The original definitions, thresholds, full PV/replicate arrays and uncertainty formulas remain unchanged; real PIRLS, TIMSS and PISA parity is recorded in `review_20261013/international/EXECUTION_PROGRESS.json`. Estimates retain full precision. No extra statistic is selected by this acceleration.
 
 Reference membership is now evaluated per complete joint figure in `LO_BALANCED_VIEWS.R`, always retaining the full focus core anchor and every selected group/year. An unrelated appendix does not constrain a main figure. An unresolved focus group blocks its view explicitly; it never produces a shorter or girl-only comparison panel. This adapter still requires real comparability contracts before it can export international reference values; synthetic tests do not grant that certification.
+
+## Partial blocks and end checks, 18 October
+
+`LO_ESTIMATION_AVAILABILITY.R` checks each requested conditional denominator in all required PVs and replicates before reference/producer dispatch. An empty requested subgroup is registered as `UNAVAILABLE_VERIFIED_ANALYTIC_SAMPLE`, with exact task contracts and immutable source/code/diagnostic evidence. It stays in the target grid and cannot satisfy a balanced comparison. Valid zero results remain estimable. Invalid source columns, weights or codes remain errors. An absent unrelated migration generation no longer blocks a selected observed group. Real-source parity for 304 previously blocked cells and idempotent second runs is recorded in `review_20261013/PROBLEM_BLOCK_REPAIR_20261018.json`; these isolated tests do not certify new live results.
+
+The existing remote checkpoint now includes changed absence registries and their evidence, even when no numerical value changed. Binary pupil-source dependencies remain local and hash-bound. The new preflight runs inside `fixed-finalize`, reporting remaining exact targets, remote coverage and verified absences from a stable read-only snapshot. Do not equate an empty compute queue or a preflight count with scientific approval.
+
+Paper gates use `review_20261013/PAPER_QA_CURRENT.json`. A reviewed PASS row must contain `evidence_path` and `evidence_sha256`. Its JSON receipt needs `status`, `requirement_id`, `assessment`, `target_sha256`, `approval_sha256`, `policy_sha256` and a nonempty `evidence_files` table (`path`, `sha256`). Target hashing uses the sorted `cell_id,target_contract_sha256` table with reset row names; the result hash is the exact approved CSV hash, and the policy hash is `digest(policy$requirements, algo='sha256')`. All attached files are checked. Changed targets, results, policy or evidence require a new assessment. Historical Q03/Q04 country counts, Q06 benchmark intervals and Q07 extra PISA-SES analyses do not expand current approved production; see the explicit current criteria.
+
+While the long run is active, preparation remains on `codex/problem-blocks-final-checks-20261018`. After its result deposit, integrate that branch into the existing development branch/PR #5 without overwriting results. The next ordinary `produce-approved` invocation uses the repaired existing pipeline. No second concurrent production run, manual editing of missing values, or new downloads are required for these verified repairs.
 
 ## Performance and concurrent starts, 15 October
 
