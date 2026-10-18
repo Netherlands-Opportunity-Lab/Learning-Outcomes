@@ -35,6 +35,7 @@ jobs:
         run: |
           python -m unittest discover -s 06_pipeline/tests -p 'test_*guided*.py' -v
           python -m unittest discover -s 06_pipeline/tests -p 'test_partial_dashboard_release.py' -v
+          python -m unittest discover -s 06_pipeline/tests -p 'test_explorer_reference_binding.py' -v
           node --check 05_publication/preview_overlay/assets/app-shell.js
           node 05_publication/tests/test_explorer.mjs
       - name: Reconstruct actual public figures from the downloadable package

@@ -121,17 +121,30 @@ def verify(site, certificate):
         expected_rows=builder.product_rows(source,ids,figures)
     expected_by_country={c:[r for r in expected_rows if r["country_id"]=="iso3:"+c] for c in ids}
     refs = read(site / "data/explorer_references.json")
+    if refs.get('schema_version')==2:
+        if refs.get('country_files')!={c:f'data/references/{c}.json' for c in sorted(ids)}:
+            fail('reference country route mismatch')
+        refs=dict(schema_version=1,policy=refs['policy'],figures=[v for c in sorted(ids)
+            for v in read(site/refs['country_files'][c])['figures']])
     if refs.get("policy") != "FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3":
         fail("reference policy changed")
     reference_keys = {(v["focus"], v["figure_id"]) for v in refs["figures"]}
     if reference_keys != {(c, f) for c in ids for f in fids} or len(reference_keys) != len(refs["figures"]):
         fail("incomplete reference availability")
-    # This interim policy intentionally permits no unproved comparisons. A later
-    # release with certified balance uses the full verifier or a reviewed policy.
-    for ref in refs["figures"]:
-        if (ref["status"] != "COMPARABILITY_PENDING" or ref["eligible_members"] or ref["default_members"]
-                or ref.get("evidence_sha256") is not None):
-            fail("unverified reference/rank enabled in interim release")
+    balance=site/'data/balanced_references.json'
+    if balance.is_file():
+        if cert.get('balanced_references_sha256')!=sha(balance) or qa.get('balanced_references_sha256')!=sha(balance):
+            fail('unbound comparison evidence')
+        if package['files'].get('release_inputs/BALANCED_REFERENCE_EXPORT.json')!=sha(balance):
+            fail('replication comparison evidence differs')
+        if read(balance).get('schema_version')!=3:fail('unverified reference schema')
+        recomputed=builder.explorer_references(balance,ids,figures,expected_rows,qa['scientific_source_sha256'])
+        if refs!=recomputed:fail('reference options differ from exact verified support')
+    else:
+        for ref in refs["figures"]:
+            if (ref["status"] != "COMPARABILITY_PENDING" or ref["eligible_members"] or ref["default_members"]
+                    or ref.get("evidence_sha256") is not None):
+                fail("unverified reference/rank enabled in interim release")
     counts = Counter(); total = 0
     for country in ids:
         rows = read(site / f"data/countries/{country}.json")["records"]

@@ -33,6 +33,13 @@ assert.throws(()=>m.rankRows(f,'mean_score','NLD',['AUT'],payloads,contract,'CAN
 const s={country:'NLD',subject:'age15:reading',split:'gender',statistic:'mean_score',rank:true,compare:false,members:[],other:''};assert.deepEqual(m.readSelection(m.selectionSearch(s),{}),s);
 assert.equal(m.splitKey({...f,split:'migration',figure_id:'GP_MIGRATION_LEVELS_age15_reading_ANY_PARENT_ABROAD'}),'migration_any');
 assert.equal(m.statisticKey({...f,view_mode:'difference'}),'gap');
+assert.deepEqual(m.referenceOption(contract,'NLD','AUT'),{allowed:true,reason:'eligible'});
+assert.deepEqual(m.referenceOption(contract,'NLD','NLD'),{allowed:false,reason:'focus'});
+assert.equal(m.referenceOption({status:'FOCUS_CORE_INCOMPLETE'},'NLD','AUT').reason,'focus_core');
+assert.equal(m.referenceOption({status:'FOCUS_VIEW_INCOMPLETE'},'NLD','AUT').reason,'focus_view');
+assert.equal(m.referenceOption({eligibility:[{country:'AUT',reason:'FAIL_DASHBOARD_6x3'}]},'NLD','AUT').reason,'admission');
+assert.equal(m.referenceOption({eligibility:[{country:'AUT',reason:'MISSING_OR_INCOMPATIBLE_REQUIRED_CELLS',missing_cells:1}]},'NLD','AUT').reason,'missing');
+assert.equal(m.referenceStatus({status:'NO_ELIGIBLE_REFERENCE'},'NLD',[]).reason,'coverage');
 // Optionally verify every real approved figure is reachable exactly once.
 if(process.argv[2]){const figures=JSON.parse(fs.readFileSync(process.argv[2],'utf8')).figures,reached=new Set();for(const subject of m.SUBJECTS)for(const split of m.choices(figures,subject,'none').splits)for(const statistic of m.choices(figures,subject,split).statistics){const fs=figures.filter(f=>m.compatible(f,subject)&&m.splitKey(f)===split&&m.statisticKey(f)===statistic);assert.equal(fs.length,1);reached.add(m.selectFigure(figures,{subject,split,statistic}).figure_id);}assert.equal(reached.size,figures.length);console.log(`PASS all ${figures.length} approved figure contracts reachable without collisions`);}
 console.log('PASS exact selected references, joint completeness, no benchmark CI, ranks, ties, single other country and URL roundtrip');
