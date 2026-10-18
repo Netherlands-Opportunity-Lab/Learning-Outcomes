@@ -13,7 +13,12 @@
     "full_actual_local_installation_helper": "PASS clean branch and independent completed-result commit; single-branch fetch config with absent prepared tracking ref; identical second invocation succeeds",
     "tracked_git_r_regression": "PASS original failure reproduced; explicit ref fetch works twice; HEAD, completed results and fetch config unchanged; unrelated pinned commit rejected"
   },
-  "cross_platform_ci": "PENDING",
+  "cross_platform_ci": {
+    "run": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39155163890",
+    "windows_prepared_fetch": "PASS",
+    "initial_broad_storage_check": "FAILED_STALE_GITIGNORE_MANIFEST_GUARD_REPAIRED",
+    "followup": "PENDING"
+  },
   "previous_completed_run": {
     "scope": "all_required",
     "targets": 77611,
@@ -24,12 +29,34 @@
     "repair_records": 16,
     "private_master_grid_sha256": "f9c2a6185844f527f7bde0c4b7d2641e6ac412fe2e30d7e31f28247b58d409a0",
     "private_master_grid_unchanged_during_read": true,
-    "remaining_by_country": {"AZE": 30, "MAR": 130, "NZL": 39, "POL": 149, "QAT": 20, "SVN": 33, "SWE": 34},
+    "remaining_by_country": {
+      "AZE": 30,
+      "MAR": 130,
+      "NZL": 39,
+      "POL": 149,
+      "QAT": 20,
+      "SVN": 33,
+      "SWE": 34
+    },
     "previously_source_tested_cells": 401,
     "additional_sweden_checkpoint_cells": 34,
     "github_result_commit": "da2ffead1b05af2efdbc9b8adf75d8d549b1ebfd",
     "reported_drive_recoverable_versions": 69437,
     "reported_report_manifest": "20261018T161732Z_9a8c69ebcce51d32",
     "science_caveat": "Saved-grid and completed-run accounting, not a new full source audit or scientific release. Numerical production, evidenced unavailability, final checks and products remain distinct."
+  },
+  "actual_fetch_only_verification": {
+    "status": "PASS",
+    "reviewed_pin": "4be4d2a066b33bb59af17a2889115c64cb73b9f0",
+    "checkout_head_unchanged": "da2ffead1b05af2efdbc9b8adf75d8d549b1ebfd",
+    "both_writer_guards_held": true,
+    "merged": false,
+    "started_analysis": false,
+    "saved_fetch_config_unchanged": true
+  },
+  "additional_ci_finding": {
+    "issue": "Historical manifest compared the legitimately extended publication .gitignore to frozen September bytes",
+    "fix": "Remove only the three explicit permitted additive byte blocks before historical SHA/length comparison; do not change manifest or exempt protection rules",
+    "native_test": "PASS complete validator plus rejection of removed protection and unknown/duplicated additions"
   }
 }

@@ -51,15 +51,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: r-lib/actions/setup-r@v2
-      - name: Install minimal R JSON dependency
-        run: Rscript -e "install.packages(c('jsonlite','digest','zip','DBI','RSQLite','haven','filelock'), repos='https://cloud.r-project.org')"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Kill a real R writer and resume committed grid transactions
-        run: python 06_pipeline/tests/crash_resume_check.py
       - name: Fetch reviewed preparation from a single-branch clone without changing results
         run: python 06_pipeline/tests/prepared_fetch_check.py
+      - name: Install minimal R JSON dependency
+        run: Rscript -e "install.packages(c('jsonlite','digest','zip','DBI','RSQLite','haven','filelock'), repos='https://cloud.r-project.org')"
+      - name: Kill a real R writer and resume committed grid transactions
+        run: python 06_pipeline/tests/crash_resume_check.py
       - name: Guard checkout before Git updates and recover after process death
         run: python 06_pipeline/tests/startup_lock_check.py
       - name: Parse R production launcher without starting any production
