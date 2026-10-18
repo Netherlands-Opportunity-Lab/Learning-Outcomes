@@ -354,13 +354,13 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
  (destination/"data"/"common42.json").write_text(json.dumps([
   {"code":r["route_code"],"nl":r["country_name_nl"],
    "en":r["country_name_en"]} for r in countries],ensure_ascii=False),
-  encoding="utf-8")
+  encoding="utf-8",newline="\n")
  if balance_export is not None:
   shutil.copyfile(balance_export,destination/"data"/"balanced_references.json")
  (destination/"data"/"explorer_references.json").write_text(json.dumps(
-   explorer_references(balance_export,ids,figures,numeric_rows),ensure_ascii=False),encoding="utf-8")
+   explorer_references(balance_export,ids,figures,numeric_rows),ensure_ascii=False),encoding="utf-8",newline="\n")
  (destination/"data"/"figure_registry.json").write_text(
-  json.dumps({"figures":figures},ensure_ascii=False),encoding="utf-8")
+  json.dumps({"figures":figures},ensure_ascii=False),encoding="utf-8",newline="\n")
  method_ids=sorted({f["method_id"] for f in figures})
  method_text={m:{"nl":"Methode en bronversie: "+m+
                      "; zie gecontroleerd wetenschappelijk register.",
@@ -368,13 +368,13 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
                      "; consult the reviewed scientific register."}
               for m in method_ids}
  (destination/"data"/"method_registry.json").write_text(
-  json.dumps({"methods":method_text},ensure_ascii=False),encoding="utf-8")
+  json.dumps({"methods":method_text},ensure_ascii=False),encoding="utf-8",newline="\n")
  availability_states=defaultdict(int)
  for country in sorted(ids):
   records=by_country[country]
   (destination/"data"/"countries"/(country+".json")).write_text(
    json.dumps({"records":records},ensure_ascii=False,allow_nan=False,
-              separators=(",",":")),encoding="utf-8")
+              separators=(",",":")),encoding="utf-8",newline="\n")
   present=defaultdict(list)
   for row in records:present[row["figure_id"]].append(row)
   available=[]
@@ -405,7 +405,7 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
       required_points=len(required)*len(expected),
       missing_points=[dict(year=int(y),series_id=g) for y in sorted(required) for g in sorted(expected) if (y,g) not in present_pairs]))
   (destination/"data"/"availability"/(country+".json")).write_text(
-   json.dumps({"figures":available},ensure_ascii=False),encoding="utf-8")
+   json.dumps({"figures":available},ensure_ascii=False),encoding="utf-8",newline="\n")
  for locale in ("nl","en"):
   for parts in ((locale,),*((locale,"country",c,q)
         for c in sorted(ids) for q in QUESTIONS)):
@@ -413,14 +413,14 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
    folder.mkdir(parents=True,exist_ok=True)
    base="../"*len(parts)
    (folder/"index.html").write_text(
-     template.replace("__BASE__",base),encoding="utf-8")
+     template.replace("__BASE__",base),encoding="utf-8",newline="\n")
  (destination/"index.html").write_text(
   '<!doctype html><meta charset="utf-8"><title>Learning Outcomes</title>'
   '<meta http-equiv="refresh" content="0; url=nl/">'
   '<a href="nl/">Nederlands</a> · <a href="en/">English</a>',
-  encoding="utf-8")
- (destination/".nojekyll").write_text("",encoding="utf-8")
- (destination/"robots.txt").write_text("User-agent: *\nDisallow: /\n",encoding="utf-8")
+  encoding="utf-8",newline="\n")
+ (destination/".nojekyll").write_text("",encoding="utf-8",newline="\n")
+ (destination/"robots.txt").write_text("User-agent: *\nDisallow: /\n",encoding="utf-8",newline="\n")
  summary={"scientific_data_rows":len(numeric_rows),"system_count":len(ids),
    "active_figures":len(figures),
    "availability_counts":dict(sorted(availability_states.items())),
@@ -431,7 +431,7 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
    "scope_decisions_sha256":sha(scope_decisions) if scope_decisions else "PENDING_DEFAULT",
    "release_status":"PRIVATE_GUIDED_CANDIDATE_NOT_PUBLIC"}
  (destination/"GUIDED_QA.json").write_text(json.dumps(summary,indent=2),
-                                          encoding="utf-8")
+                                          encoding="utf-8",newline="\n")
  entries=[]
  for path in sorted(destination.rglob("*")):
   if not path.is_file():continue
@@ -440,7 +440,7 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
   entries.append({"path":relative,"sha256":sha(path),
                   "bytes":path.stat().st_size})
  (destination/"BUILD_SHA256_MANIFEST.json").write_text(
-  json.dumps(entries,indent=2),encoding="utf-8")
+  json.dumps(entries,indent=2),encoding="utf-8",newline="\n")
  return summary
 def main():
  p=argparse.ArgumentParser()
