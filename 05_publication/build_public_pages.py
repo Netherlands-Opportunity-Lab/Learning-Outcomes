@@ -57,7 +57,7 @@ if OUT.exists():
     if not OUT.resolve().is_relative_to((ROOT/"public_site_dist").resolve()):
         fail("output escapes the declared publication workspace")
     shutil.rmtree(OUT)
-OUT.mkdir()
+OUT.mkdir(parents=True)
 
 shutil.copy2(APP / "index.html", OUT / "index.html")
 shutil.copytree(APP / "assets", OUT / "assets")
