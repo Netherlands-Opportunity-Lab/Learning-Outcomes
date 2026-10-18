@@ -130,6 +130,10 @@ jobs:
         run: Rscript 06_pipeline/tests/test_pisa_source_block.R
       - name: Test proven source absence without shortening the grid
         run: Rscript 06_pipeline/tests/test_source_unavailability.R
+      - name: Test partial-block estimability without zero filling or dropped PVs
+        run: Rscript 06_pipeline/tests/test_estimation_availability.R
+      - name: Test read-only final-check preparation and remote accounting
+        run: Rscript 06_pipeline/tests/test_completion_preflight.R
       - name: Test raw IEA source population and JRR verification
         run: Rscript 06_pipeline/tests/test_iea_source_block.R
       - name: Test ordinal IEA books and fractional quartiles

@@ -54,7 +54,7 @@ lo_extension_tasks <- function(tasks,decisions) {
 lo_extension_availability <- function(tasks) {
   x<-unique(tasks[tasks$module=="extension_home_ses",c("country","survey","year")])
   first<-ifelse(x$survey=="PIRLS",2021L,2023L)
-  x$construct<-"IEA_OFFICIAL_HOME_SES"
+  x$construct<-rep("IEA_OFFICIAL_HOME_SES",nrow(x))
   x$status<-ifelse(as.integer(x$year)<first,"OFFICIAL_SCALE_NOT_IN_EARLIER_CYCLE",
     "REQUIRES_COUNTRY_SOURCE_RESPONSE_CHECK")
   x$reason<-ifelse(as.integer(x$year)<first,
