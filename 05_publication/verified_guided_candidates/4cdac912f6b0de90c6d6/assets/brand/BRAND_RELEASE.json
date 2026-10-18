@@ -1,0 +1,38 @@
+{
+  "version": "1.1.0",
+  "date": "2026-10-15",
+  "archive": "Kansenlab_HUISSTIJL_COMPLEET_FINAL_2026-10-15.zip",
+  "archive_sha256": "b9cedd40f9a1274540a74ac9fba64dc4447de718d3dff0906441772426a11b23",
+  "assets": [
+    {
+      "source": "config/brand_tokens.json",
+      "file": "brand_tokens.json",
+      "sha256": "1a4596f97e5d6daef41bcc9e54e960dea01a88bfef6ac952d813ed83a19e0538"
+    },
+    {
+      "source": "web/kansenlab.css",
+      "file": "kansenlab.css",
+      "sha256": "6c5ee60ac792391df151f0c08dd836bcd3dbd50d5e9f83848f69780912f1ea08"
+    },
+    {
+      "source": "assets/svg/wordmarks/nl/leerprestaties_nl.svg",
+      "file": "leerprestaties_nl.svg",
+      "sha256": "4cd36d9bf561ace61692d0ad86caa1cbe896f158f1996e7540e3a4eeb4786fbb"
+    },
+    {
+      "source": "assets/svg/wordmarks/en/leerprestaties_en.svg",
+      "file": "leerprestaties_en.svg",
+      "sha256": "8dd56ed5d9ab2cd8d6adf583b8d9acf74630ea7bf4c5ad204a5079739d60b0b8"
+    },
+    {
+      "source": "assets/svg/pictograms/leerprestaties.svg",
+      "file": "leerprestaties.svg",
+      "sha256": "a6b06c19cdbe9c708616db6b90632890308f25c744a9269039ee3bd02c1c831f"
+    },
+    {
+      "source": "assets/png/browser_tabs/leerprestaties.ico",
+      "file": "leerprestaties.ico",
+      "sha256": "ecb7f5af77cfe2b4ca25768bf88c209bafb930a8a55313d36ce45b6d43289557"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+/* Kansenlab — definitieve stylesheet v05 */
+@import url("fonts.css");
+:root {
+  --kl-font-wordmark: 'Inter', Arial, sans-serif;
+  --kl-font-dashboard: 'Oswald', 'Arial Narrow', sans-serif;
+  --kl-font-body: 'Oswald', 'Arial Narrow', sans-serif;
+  --kl-color-text: #17242D;
+  --kl-color-muted: #59636A;
+  --kl-color-bg: #F7F5F0;
+  --kl-color-border: #D9DFDF;
+  --kl-brand-orange: #D9833C;
+  --kl-brand-yellow: #EBC45A;
+  --kl-brand-green: #82A85B;
+  --kl-brand-teal: #5EA6A7;
+  --kl-brand-blue: #4C77A8;
+  --kl-brand-purple: #6B5A8E;
+  --kl-focus-data: #315D8A;
+  --kl-site-kansenlab: linear-gradient(90deg,#D9833C 0%,#EBC45A 20%,#82A85B 40%,#5EA6A7 60%,#4C77A8 80%,#6B5A8E 100%);
+  --kl-site-gezondheidjeugd: #D9833C;
+  --kl-site-gezondheidsverschillen: #EBC45A;
+  --kl-site-kansenkaart: #82A85B;
+  --kl-site-kansenkloof: #5EA6A7;
+  --kl-site-onderwijsverschillen: #4C77A8;
+  --kl-site-leerprestaties: #5365A3;
+  --kl-site-inkomensverschillen: #6B5A8E;
+  --kl-site-jeugdsegregatie: #AC5D91;
+  --kl-site-nederlandsewaarden: #C46E6D;
+}
+
+.kl-wordmark { font-family: var(--kl-font-wordmark); font-weight: 600; }
+.kl-page-title, .kl-chart-title, .kl-card-title, .kl-table-head { font-family: var(--kl-font-dashboard); font-weight: 500; }
+.kl-body, .kl-caption, .kl-table-cell, .kl-legend { font-family: var(--kl-font-body); font-weight: 400; }
+.kl-short-label, .kl-help, .kl-axis-label { font-family: var(--kl-font-body); font-weight: 300; }
+.kl-active-filter, .kl-selected-tab, .kl-button-primary { font-family: var(--kl-font-body); font-weight: 500; }
+
+body { background: var(--kl-color-bg); color: var(--kl-color-text); }

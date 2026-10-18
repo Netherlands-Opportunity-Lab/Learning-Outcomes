@@ -1,0 +1,236 @@
+{
+  "version": "1.1.0",
+  "date": "2026-10-15",
+  "release": "Final handoff, not deployed to live websites",
+  "brands": {
+    "kansenlab": {
+      "nl": "Kansenlab",
+      "en": "Netherlands Opportunity Lab",
+      "domain_nl": "kansenlab.nl",
+      "domain_en": "netherlandsopportunitylab.nl",
+      "accent": null
+    },
+    "gezondheidjeugd": {
+      "nl": "Gezondheid Jeugd",
+      "en": "Youth Health",
+      "domain_nl": "gezondheidjeugd.nl",
+      "domain_en": "youthhealth.nl",
+      "accent": "#D9833C"
+    },
+    "gezondheidsverschillen": {
+      "nl": "Gezondheidsverschillen",
+      "en": "Health Disparities",
+      "domain_nl": "gezondheidsverschillen.nl",
+      "domain_en": "healthdisparities.nl",
+      "accent": "#EBC45A"
+    },
+    "kansenkaart": {
+      "nl": "KansenKaart",
+      "en": "Opportunity Map",
+      "domain_nl": "kansenkaart.nl",
+      "domain_en": "opportunitymap.nl",
+      "accent": "#82A85B"
+    },
+    "kansenkloof": {
+      "nl": "KansenKloof",
+      "en": "Opportunity Gap",
+      "domain_nl": "kansenkloof.nl",
+      "domain_en": "opportunitygap.nl",
+      "accent": "#5EA6A7"
+    },
+    "onderwijsverschillen": {
+      "nl": "Onderwijsverschillen",
+      "en": "Education Disparities",
+      "domain_nl": "onderwijsverschillen.nl",
+      "domain_en": "educationdisparities.nl",
+      "accent": "#347FB9"
+    },
+    "leerprestaties": {
+      "nl": "Leerprestaties",
+      "en": "Learning Outcomes",
+      "domain_nl": "leerprestaties.nl",
+      "domain_en": null,
+      "accent": "#4D52BF"
+    },
+    "inkomensverschillen": {
+      "nl": "Inkomensverschillen",
+      "en": "Income Disparities",
+      "domain_nl": "inkomensverschillen.nl",
+      "domain_en": "incomedisparities.nl",
+      "accent": "#79508E"
+    },
+    "jeugdsegregatie": {
+      "nl": "Jeugdsegregatie",
+      "en": "Youth Segregation",
+      "domain_nl": "jeugdsegregatie.nl",
+      "domain_en": "youthsegregation.nl",
+      "accent": "#AC5D91"
+    },
+    "nederlandsewaarden": {
+      "nl": "Nederlandse Waarden",
+      "en": "Dutch Values",
+      "domain_nl": "nederlandsewaarden.org",
+      "domain_en": "dutchvalues.org",
+      "accent": "#C46E6D"
+    }
+  },
+  "brand_order": [
+    "kansenlab",
+    "gezondheidjeugd",
+    "gezondheidsverschillen",
+    "kansenkaart",
+    "kansenkloof",
+    "onderwijsverschillen",
+    "leerprestaties",
+    "inkomensverschillen",
+    "jeugdsegregatie",
+    "nederlandsewaarden"
+  ],
+  "colors": {
+    "kansenlab_ring": [
+      "#D9833C",
+      "#EBC45A",
+      "#82A85B",
+      "#5EA6A7",
+      "#4C77A8",
+      "#6B5A8E"
+    ],
+    "brands": {
+      "gezondheidjeugd": "#D9833C",
+      "gezondheidsverschillen": "#EBC45A",
+      "kansenkaart": "#82A85B",
+      "kansenkloof": "#5EA6A7",
+      "onderwijsverschillen": "#347FB9",
+      "leerprestaties": "#4D52BF",
+      "inkomensverschillen": "#79508E",
+      "jeugdsegregatie": "#AC5D91",
+      "nederlandsewaarden": "#C46E6D"
+    },
+    "text": "#17242D",
+    "muted": "#59636A",
+    "background": "#F7F5F0",
+    "white": "#FFFFFF",
+    "grid": "#D8D8D3",
+    "context_light": "#C3C7C9",
+    "context_dark": "#8B9298",
+    "netherlands_focus": "#315D8A",
+    "warning": "#984F3F",
+    "ses_fill": [
+      "#EBC45A",
+      "#82A85B",
+      "#5EA6A7",
+      "#4C77A8",
+      "#6B5A8E"
+    ],
+    "ses_line": [
+      "#9A6D00",
+      "#587A32",
+      "#2C807F",
+      "#4C77A8",
+      "#6A4C93"
+    ],
+    "historical_kansenkaart_choropleth": [
+      "#973A48",
+      "#B35E52",
+      "#CB825C",
+      "#E0B17C",
+      "#F2E3A6",
+      "#B6C8AC",
+      "#87AAA7",
+      "#608B9B",
+      "#3D6F86"
+    ],
+    "brand_text_accessible": {
+      "gezondheidjeugd": "#A36838",
+      "gezondheidsverschillen": "#837644",
+      "kansenkaart": "#617F4D",
+      "kansenkloof": "#497F82",
+      "onderwijsverschillen": "#337BB3",
+      "leerprestaties": "#4D52BF",
+      "inkomensverschillen": "#79508E",
+      "jeugdsegregatie": "#AB5C90",
+      "nederlandsewaarden": "#A86263"
+    },
+    "brand_bg_soft": {
+      "gezondheidjeugd": "#FBF3EC",
+      "gezondheidsverschillen": "#FDF9EE",
+      "kansenkaart": "#F2F6EF",
+      "kansenkloof": "#EFF6F6",
+      "onderwijsverschillen": "#EBF2F8",
+      "leerprestaties": "#EDEEF9",
+      "inkomensverschillen": "#F2EEF4",
+      "jeugdsegregatie": "#F7EFF4",
+      "nederlandsewaarden": "#F9F0F0"
+    }
+  },
+  "typography": {
+    "logos": {
+      "family": "Inter",
+      "weight": 600,
+      "output": "glyph outlines, no font file shipped"
+    },
+    "dashboards": {
+      "family": "Oswald",
+      "short_labels": 300,
+      "body": 400,
+      "titles_and_active": 500,
+      "emphasis": 600
+    },
+    "office_fallback": "Arial; platform font differences must be tested"
+  },
+  "pictogram_locks": {
+    "unchanged_byte_exact": [
+      "gezondheidjeugd",
+      "gezondheidsverschillen",
+      "jeugdsegregatie"
+    ],
+    "approved": [
+      "kansenkaart",
+      "kansenkloof",
+      "leerprestaties",
+      "inkomensverschillen",
+      "nederlandsewaarden_nl",
+      "nederlandsewaarden_en"
+    ],
+    "design_choice": [
+      "onderwijsverschillen"
+    ],
+    "kansenlab": "6 fixed arcs"
+  },
+  "svg": {
+    "icon_viewbox": "0 0 160 160",
+    "wordmark_icon_width": 136,
+    "text_baseline": 87,
+    "text_x": 138,
+    "nominal_type_px": 52
+  },
+  "data_viz": {
+    "caveat": "site brand colors never replace analytical encodings",
+    "legend_missing": "missing != zero != suppressed",
+    "map_levels": "historical scheme separate from brand"
+  },
+  "notes": [
+    "English domain for Leerprestaties not decided: keep null",
+    "Dutch Values NL uses national icon; EN uses globe identical to learning outcomes",
+    "Netherlands contour is a simplified pictogram, not a GIS boundary or official map",
+    "New colors for Onderwijsverschillen/Leerprestaties/Inkomensverschillen replace prior locks at user direction 2026-10-15",
+    "The user approved revised blue, indigo and purple accents: #347FB9, #4D52BF and #79508E. No other brand color changed.",
+    "The KansenKloof dots ARE the seesaw beam, not floating above it; it slopes from left down to right up.",
+    "Previously locked icons are byte-for-byte identical to source reference. All other icons frozen by canonical SVG SHA256.",
+    "All scaled and alternate assets derive from the same canonical SVGs and do not redraw icon geometry.",
+    "No font files are distributed; canonical text has been converted to glyph paths; editable labels require correct Inter SemiBold font.",
+    "Full color-blind indistinguishability is impossible to guarantee. Labels and distinct pictograms remain mandatory.",
+    "The user approved revised blue, indigo and purple accents: #347FB9, #4D52BF and #79508E. No other brand color changed.",
+    "The KansenKloof dots ARE the seesaw beam, not floating above it; it slopes from left down to right up.",
+    "Previously locked icons are byte-for-byte identical to source reference. All other icons frozen by canonical SVG SHA256.",
+    "All scaled and alternate assets derive from the same canonical SVGs and do not redraw icon geometry.",
+    "No font files are distributed; canonical text has been converted to glyph paths; editable labels require correct Inter SemiBold font.",
+    "Full color-blind indistinguishability is impossible to guarantee. Labels and distinct pictograms remain mandatory.",
+    "The user approved revised blue, indigo and purple accents: #347FB9, #4D52BF and #79508E. No other brand color changed.",
+    "The KansenKloof dots ARE the seesaw beam, not floating above it; it slopes from left down to right up.",
+    "Previously locked icons are byte-for-byte identical to source reference. All other icons frozen by canonical SVG SHA256.",
+    "All scaled and alternate assets derive from the same canonical SVGs and do not redraw icon geometry.",
+    "No font files are distributed; canonical text has been converted to glyph paths; editable labels require correct Inter SemiBold font.",
+    "Full color-blind indistinguishability is impossible to guarantee. Labels and distinct pictograms remain mandatory."
+  ]
+}

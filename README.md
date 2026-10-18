@@ -4,11 +4,13 @@
 
 De tussenstand van 18 oktober 2026 bevat **51.304 gecontroleerde dashboardpunten voor 34 landen**. Kies achtereenvolgens leeftijd/domein, statistiek, uitsplitsing en hoofdland. Beschikbare punten worden getoond; ontbrekende jaren en groepen blijven open. Op uitdrukkelijk verzoek zijn tijdelijk landen met beschikbare figuurpunten selecteerbaar. Ieder vergelijkingspunt vermeldt de gebruikte en ontbrekende landen; rangen bewaren de beschikbare landenbasis per punt. De volledige balanscontrole volgt na complete productie. De website markeert deze stand als voorlopig.
 
+De schakelaar **Onzekerheidsmarge / Uncertainty range** toont optioneel 95%-betrouwbaarheidsintervallen voor het hoofdland. Hij staat standaard uit en geldt niet voor rangen of de vergelijkingsgroep. Nederlands en Engels delen één applicatie en dezelfde gegevens; de taalwissel bewaart alle keuzes. Procentreeksen worden op de juiste schaal getoond en downloads bewaren de oorspronkelijke waarden en afleiding.
+
 Het [replicatiepakket](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/replication/learning-outcomes-replication.zip) bevat 174 bestanden en is circa 13,1 MB: actuele analysescripts, omgevingsversies, scope, broncatalogi, dashboardaggregaten en herkomst. De openbare figuren worden met `python reproduce_dashboard.py` opnieuw opgebouwd en byte voor byte gecontroleerd. Volledige replicatie vanaf leerlingbestanden heeft nog de vastgelegde bronbundel nodig en is niet als afgerond gecertificeerd.
 
-- Publicatiekandidaat: `05c0b4552abcfaa8f072`; volledige bestandsvingerafdrukken staan in de website en kandidaatmap.
-- Vastgelegde analyse- en dashboardcode: [85636cc1c6e7](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/tree/85636cc1c6e7a758d1a88e49095b6f5d230ada19). Deze code blijft afzonderlijk ontwikkeld op de bestaande ontwikkelbranch en PR #5.
-- [Actuele wetenschappelijke uitvoeringshandleiding](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/blob/85636cc1c6e7a758d1a88e49095b6f5d230ada19/06_pipeline/REPLICATION_CURRENT.md) en [besluitregister](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/blob/85636cc1c6e7a758d1a88e49095b6f5d230ada19/06_pipeline/START_HIER_ACTUEEL.md).
+- Publicatiekandidaat: `4cdac912f6b0de90c6d6`; volledige bestandsvingerafdrukken staan in de website en kandidaatmap.
+- Vastgelegde analyse- en dashboardcode: [fb62303a9e56](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/tree/fb62303a9e56f438b03eaeae6362d66cc4ac980b). Deze code blijft afzonderlijk ontwikkeld op de bestaande ontwikkelbranch en PR #5.
+- [Actuele wetenschappelijke uitvoeringshandleiding](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/blob/fb62303a9e56f438b03eaeae6362d66cc4ac980b/06_pipeline/REPLICATION_CURRENT.md) en [besluitregister](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/blob/fb62303a9e56f438b03eaeae6362d66cc4ac980b/06_pipeline/START_HIER_ACTUEEL.md).
 - De figuurdownloads bewaren SE, N, exacte cellen en bron-/code-/resultaathashes en de exacte vergelijkingsbasis. Afronding gebeurt alleen bij weergave.
 - [Septemberarchief](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/archive/2026-09-28/) en de historische code blijven behouden.
 
