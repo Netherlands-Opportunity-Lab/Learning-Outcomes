@@ -17,6 +17,24 @@ permissions:
   contents: read
 
 jobs:
+  interim-dashboard:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Reconstruct the actual downloadable release on a clean machine
+        run: python 05_publication/tests/verify_interim_candidate.py
+      - name: Verify every approved figure is reachable
+        run: node 05_publication/tests/test_explorer.mjs
   public-dashboard:
     runs-on: ubuntu-latest
     steps:
