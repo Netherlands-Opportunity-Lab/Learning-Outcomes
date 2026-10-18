@@ -13,6 +13,16 @@ De publicatie krijgt bron-/code-/resultaathashes, een deterministisch replicatie
 **Runconfiguratie en replicatie:** zie [de actuele uitvoeringshandleiding](REPLICATION_CURRENT.md) en `RUN_CONFIG.example.json`. `LO_RUN_CONFIG` legt keuzes expliciet vast; de selectie verkleint uitsluitend het goedgekeurde grid. Iedere muterende fixed-fase bewaart configuratie, inputmanifest, code-/resultaathashes en R/pakketversies. De compacte database bewaart gewijzigde numerieke resultaatversies eenmaal. Volledige rekenprecisie blijft behouden; presentatie wordt apart afgerond. De hele gekozen wetenschappelijke productie is nog niet gereed: de actuele aantallen staan in het uitvoeringsbewijs hieronder; niet alle gekozen modules en landen zijn al gecertificeerd.
 
 
+## Gepubliceerde tussenstand — 18 oktober 2026
+
+De gecontroleerde snapshot van **09:59:58 UTC** staat nu op [GitHub Pages](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/nl/): **51.304 dashboardpunten, 34 brongetoetste landen en 174 gekozen figuurcontracten**. 2.115 landfiguren zijn volledig, 3.443 gedeeltelijk en 358 hebben nog geen vrijgegeven punten. De 14.191 appendix-/wetenschappelijke productcellen blijven apart volgens de gekozen plaatsing. Een dashboardpunt telt een land/figuur/jaar/reeks, niet noodzakelijk één unieke primitieve schatting.
+
+De 169 bestanden in het pakket (6.735.752 bytes) reconstrueren de publieke runtime en data byte voor byte op Windows en Linux. De 375 daadwerkelijk gepubliceerde bestanden zijn over HTTPS teruggelezen en hebben exact de verwachte SHA256-hashes. Publicatiecommit: `ddb0081fc086287eb9135d2007b3d905a106cd4f`; kandidaat: `624ff991ed5a4bacbfe0`. Het septemberarchief is behouden. Zie [uitvoeringsbewijs](review_20261013/DASHBOARD_INTERIM_20261018.json).
+
+Internationale referenties/rangen blijven open wegens de ontbrekende onafhankelijke vergelijkbaarheidskoppeling. Volledige wetenschappelijke bronreplicatie, papercontroles en decks zijn hiermee niet afgerond. De openbare website is een vastgelegde tussenstand en verandert pas bij een volgende gecontroleerde export/publicatie.
+
+De publicatie is afzonderlijk naar main gebracht; de geteste R-reparaties en deze registers staan op de voorbereidingsbranch. De actieve R-checkout is niet veranderd. Na afloop van de oude run kan de bestaande lokale installatiehulp de gecontroleerde geschiedenis in de ontwikkelbranch/PR #5 opnemen, met behoud van eigen resultaatcommits.
+
 ## Probleemblokken en eindcontroles voorbereid — 18 oktober 2026
 
 De lopende internationale productie blijft op haar eigen codecommit. Reparaties staan tijdelijk op `codex/problem-blocks-final-checks-20261018`, vanuit dezelfde ontwikkelbranch. Integreer ze in PR #5 zodra de oude run is beëindigd of onderbroken en beide bestaande schrijverslocks vrij zijn; verander de actieve checkout niet tijdens berekeningen. De lokale `RESUME_WITH_FINAL_CHECKS.R` doet uitsluitend die gecontroleerde Git-integratie en roept daarna de bestaande `RUN_CURRENT_NLD.R`/`START.R` aan. Eventuele inmiddels gemaakte resultaatcommits blijven behouden. Na productie volgt de normale resultaatdepositie. Dit is een eenmalige installatiehulp, geen nieuwe wetenschappelijke runner.
