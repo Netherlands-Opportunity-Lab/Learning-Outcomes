@@ -6,6 +6,8 @@
 *.key
 *secret*
 *token*
+# Public brand design tokens contain only approved styles, no credentials.
+!05_publication/verified_guided_candidates/*/assets/brand/brand_tokens.json
 
 # Pupil microdata and restricted source bytes
 *.sav
