@@ -1,7 +1,7 @@
 # A PASS label is not scientific evidence. Each reviewed Q01-Q08 receipt binds
 # the exact current targets and approved result file, and checks its attachments.
 # This verifier does not write PASS receipts or authorize added analysis scope.
-lo_paper_gate_evidence <- function(received,tasks,approval_csv) {
+lo_paper_gate_evidence <- function(received,tasks,approval_csv,policy_sha=NULL) {
   passed<-received[received$status=='PASS',,drop=FALSE]
   if(!nrow(passed))return(character())
   fields<-c('requirement_id','evidence_path','evidence_sha256')
@@ -15,6 +15,7 @@ lo_paper_gate_evidence <- function(received,tasks,approval_csv) {
     row<-passed[i,];p<-row$evidence_path
     if(!file.exists(p)||digest::digest(file=p,algo='sha256')!=row$evidence_sha256)stop('PAPER_GATE_RECEIPT_CHANGED')
     cert<-jsonlite::fromJSON(p)
+    if(!is.null(policy_sha)&&!identical(cert$policy_sha256,policy_sha))stop('PAPER_GATE_CURRENT_SCOPE_POLICY_REQUIRED')
     if(!identical(cert$status,'PASS')||!identical(cert$requirement_id,row$requirement_id)||
       !identical(cert$target_sha256,target_sha)||!identical(cert$approval_sha256,results_sha)||
       is.null(cert$assessment)||!nzchar(cert$assessment)||

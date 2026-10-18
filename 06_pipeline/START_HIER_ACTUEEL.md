@@ -5,6 +5,20 @@ Bijgewerkt: 17 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproduc
 **Runconfiguratie en replicatie:** zie [de actuele uitvoeringshandleiding](REPLICATION_CURRENT.md) en `RUN_CONFIG.example.json`. `LO_RUN_CONFIG` legt keuzes expliciet vast; de selectie verkleint uitsluitend het goedgekeurde grid. Iedere muterende fixed-fase bewaart configuratie, inputmanifest, code-/resultaathashes en R/pakketversies. De compacte database bewaart gewijzigde numerieke resultaatversies eenmaal. Volledige rekenprecisie blijft behouden; presentatie wordt apart afgerond. De hele gekozen wetenschappelijke productie is nog niet gereed: de actuele aantallen staan in het uitvoeringsbewijs hieronder; niet alle gekozen modules en landen zijn al gecertificeerd.
 
 
+## Probleemblokken en eindcontroles voorbereid — 18 oktober 2026
+
+De lopende internationale productie blijft op haar eigen codecommit. Reparaties staan tijdelijk op `codex/problem-blocks-final-checks-20261018`, vanuit dezelfde ontwikkelbranch. Integreer ze in PR #5 zodra de lopende run en haar GitHub-resultaatdepositie klaar zijn; verander de actieve checkout niet tijdens berekeningen. Dit voorkomt een conflicterende push van de huidige resultaten.
+
+Vijftien vastgelopen bron-/familieblokken zijn op echte brondata onderzocht: **401 open cellen, 304 berekenbaar en 97 met een ontbrekende gevraagde subgroep of noemer**. De 304 schattingen, standaardfouten en steekproefaantallen zijn afzonderlijk met de bestaande onafhankelijke referenties vergeleken. Alle verschillen blijven onder 1e-9; tweede uitvoering: nul nieuwe berekeningen. Dit zijn geïsoleerde reparatieproeven, nog geen nieuwe certificeringen in het actieve mastergrid. Zie [uitvoeringsbewijs](review_20261013/PROBLEM_BLOCK_REPAIR_20261018.json).
+
+De bestaande producent behandelt onbeschikbaarheid nu per exacte cel. Bewijs bevat bron-, code-, taak- en diagnosehashes en de betrokken PV/replicatieposities. Ontbrekende doelen blijven in het grid en de volledige balansvoorwaarden. Een geldige nul blijft een resultaat; een lege noemer wordt geen nul. Bij Polen/PISA/2009 blokkeert een afwezige tweede generatie niet langer de wel geobserveerde groepen. Oude migratiecode eiste ten onrechte alle drie categorieën voor iedere geselecteerde berekening.
+
+De nieuwe `LO_COMPLETION_PREFLIGHT.R` maakt een alleen-lezen, op onveranderde inputhashes gecontroleerd overzicht voor `fixed-finalize`. Hij controleert exacte celidentiteit, dubbele resultaten, eindige waarden/SE/N, bewezen afwezigheden en de bestaande Drive-index. Gewone en lage-peeruitkomsten gebruiken dezelfde afwezigheidsregels. Ook afwezigheidsbewijzen worden door de bestaande externe checkpointfunctie overgebracht en werkelijk teruggelezen/hersteld.
+
+Q01–Q08 worden beoordeeld volgens [het actuele paperbeleid](review_20261013/PAPER_QA_CURRENT.json), met de oude broncriteria zichtbaar als geschiedenis. Oude aantallen 34/36 zijn methodereplicatiecontext, geen nieuwe landenvereiste. Q07 verplicht geen afgewezen officiële PISA-ESCS-analyses; de goedgekeurde IEA Home-SES-appendix blijft controleplichtig. Q06 introduceert geen onzekerheidsinterval voor de internationale groep. Q08 geldt alleen voor noodzakelijke geregistreerde paperclaims. Een PASS vereist bewijsbestanden met gecontroleerde hashes, gekoppeld aan de exacte taken, resultaatversie en dit beleid; een losse statusregel is onvoldoende.
+
+Na veilige integratie gebruikt de gebruiker dezelfde `produce-approved`-opdracht. Die pakt resterende goedgekeurde cellen op en behoudt bestaande resultaten. Daarna volgt de bestaande `fixed-finalize`-route voor gebalanceerde referenties, rangen, dashboardkoppeling en wetenschappelijke/productcontroles. Geen nieuwe brede runner, scope-uitbreiding of publieke deploy.
+
 ## Productieonderbreking en herstelpunt — 17 oktober 2026
 
 De internationale run stopte bij een verlopen/ingetrokken Google-aanmelding,

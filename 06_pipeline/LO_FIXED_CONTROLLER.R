@@ -363,7 +363,8 @@ lo_fixed_controller <- function(repo,bundle,
   # No count-based scientific release. Independent paper, covariance,
   # data-edition and peer denominator gates remain authoritative.
   q <- tryCatch(lo_final_quality_gate(bundle,rbind(selected,new_peer_tasks),approval,state,
-                                     scope_decisions=scope_decisions),
+                                     scope_decisions=scope_decisions,paper_policy=jsonlite::fromJSON(
+                                       file.path(repo,'06_pipeline/review_20261013/PAPER_QA_CURRENT.json'))$requirements),
                 error=function(e)e)
   if(inherits(q,"error")) {
     put("finalize","HOLD_SCIENTIFIC_GATE_ERROR",conditionMessage(q))

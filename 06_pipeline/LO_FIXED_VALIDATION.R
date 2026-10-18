@@ -1,6 +1,6 @@
 # Final scientific acceptance: no automatic promotion from old source/metric.
 lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
-                                  scope_decisions=NULL) {
+                                  scope_decisions=NULL,paper_policy=NULL) {
   dir.create(out,recursive=TRUE,showWarnings=FALSE)
   family <- sub("_age.*$","",tasks$contract_figure_id)
   active <- !(family %in% c("TR_BASIC","TR_POSITION","GP_SES_HIGH","EN_PERFORMANCE_PEER"))
@@ -69,6 +69,15 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
               stringsAsFactors=FALSE,colClasses="character")
   if(nrow(paper)!=8L||!setequal(paper$requirement_id,sprintf("Q%02d",1:8)))
     stop("SCIENTIFIC_GATE_HOLD: Q01-Q08 source contract changed")
+  policy_sha<-NULL
+  if(!is.null(paper_policy)) {
+    if(!all(c('requirement_id','requirement','scope_disposition','evidence')%in%names(paper_policy))||
+      nrow(paper_policy)!=8L||anyDuplicated(paper_policy$requirement_id)||!setequal(paper_policy$requirement_id,paper$requirement_id))stop('PAPER_CURRENT_SCOPE_POLICY_INVALID')
+    policy_sha<-digest::digest(paper_policy,algo='sha256')
+    paper$historical_requirement<-paper$requirement
+    ix<-match(paper$requirement_id,paper_policy$requirement_id)
+    for(k in c('requirement','scope_disposition','evidence'))paper[[k]]<-paper_policy[[k]][ix]
+  }
   gates <- file.path(dirname(approval_csv),"SCIENTIFIC_PAPER_GATES.csv")
   received <- if(file.exists(gates))read.csv(gates,stringsAsFactors=FALSE) else
     data.frame(requirement_id=character(),status=character())
@@ -76,9 +85,9 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
      anyDuplicated(received$requirement_id))
     stop("SCIENTIFIC_GATE_HOLD: invalid Q01-Q08 gate file")
   if(any(received$status=='PASS')&&!exists('lo_paper_gate_evidence',mode='function'))stop('SCIENTIFIC_GATE_PAPER_EVIDENCE_VERIFIER_REQUIRED')
-  passed<-if(any(received$status=='PASS'))lo_paper_gate_evidence(received,tasks,approval_csv)else character()
+  passed<-if(any(received$status=='PASS'))lo_paper_gate_evidence(received,tasks,approval_csv,policy_sha)else character()
   paper$validated <- paper$requirement_id %in% passed
-  write.csv(paper[,c("requirement_id","requirement","validated")],
+  write.csv(paper[,intersect(c("requirement_id","requirement","scope_disposition","evidence","historical_requirement","validated"),names(paper))],
       file.path(out,"PAPER_Q01_Q08_GATES.csv"),row.names=FALSE)
   # A01 scope approval must precede any BELOW-basic peer requirement.
   # Each approved target still needs its own certified
