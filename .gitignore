@@ -52,3 +52,6 @@ node_modules/
 __pycache__/
 *.pyc
 dist/
+
+# Generated publication build
+public_site_dist/
