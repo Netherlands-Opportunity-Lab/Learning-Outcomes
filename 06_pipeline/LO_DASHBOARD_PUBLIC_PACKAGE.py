@@ -35,12 +35,14 @@ def make_package(repo,site,inputs,provenance,source_commit):
         add(repo/name)
     for pattern in ("*.R","*.py"):
         for path in sorted((repo/"06_pipeline").glob(pattern)):add(path)
-    for name in ("REPLICATION_CURRENT.md","RUN_CONFIG.example.json","SCOPE_APPROVALS.csv",
+    for name in ("REPLICATION_CURRENT.md","RUN_COMPLETION_INVENTORY_20261018.md","RUN_CONFIG.example.json","SCOPE_APPROVALS.csv",
                  "MASTER_GRID_DESIGN_20261013.md"):
         add(repo/"06_pipeline"/name)
     # Static policy/source controls only. No private run inventories or result masters.
     for name in ("international/SOURCE_CATALOG.csv","international/HOME_SOURCE_CATALOG.csv",
-                 "RANK_PRODUCT_CONTRACT.json","PAPER_QA_CURRENT.json"):
+                 "RANK_PRODUCT_CONTRACT.json","PAPER_QA_CURRENT.json",
+                 "RUN_COMPLETION_INVENTORY_20261018.json","REMAINING_BY_CONTEXT_20261018.csv",
+                 "PROBLEM_BLOCK_REPAIR_20261018.json","CHECKPOINT_RESUME_20261018.json"):
         add(repo/"06_pipeline/review_20261013"/name)
     archive=repo/"06_pipeline/archive_or_superseded/LO05_CODE_LOCK_20261010"
     for path in sorted(archive.rglob("*")):

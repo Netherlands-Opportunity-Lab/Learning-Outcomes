@@ -6,6 +6,11 @@ in the accompanying dashboard. Read `release_inputs/PROVENANCE.json` for the exa
 snapshot, code commit and validation evidence. Each point preserves its cell ID,
 input/code fingerprints, result hash, sample, standard error and observed sample N.
 
+For the current production state and next execution step, read
+`06_pipeline/RUN_COMPLETION_INVENTORY_20261018.md`. Its dated counts and remaining
+context table are included; they are not a claim that the whole scientific
+project or the currently running R session has finished.
+
 ## Rebuild the published figures
 
 With Python 3.11 or newer, extract the package into a fresh directory and run:
@@ -30,7 +35,7 @@ used. This interim version explicitly uses `AVAILABLE_CASES_PROVISIONAL`, as
 requested while production is incomplete. Countries with any approved figure
 points can be selected. Each year/series uses available selected countries with
 equal weights, excluding the focus; contributors and omissions are recorded.
-Membership changes break the line. Ranks use the focus plus the available
+Reference lines connect adjacent available survey waves; the point-specific membership changes remain explicit. Missing waves and construct breaks still interrupt the line. Changes in a rank basis also interrupt rank lines. Ranks use the focus plus the available
 reference countries, and retain the point-specific basis and denominator. There
 is no group-rank line and no reference confidence interval. This is not a
 balanced-panel or final scientific certification. The displayed point count counts country/figure/year/
@@ -38,7 +43,7 @@ series combinations: one underlying cell can support more than one product.
 
 ## Display uncertainty, units and languages
 
-The optional **Onzekerheidsmarge / Uncertainty range** switch defaults to off.
+The optional **Onzekerheidsmarge / Uncertainty range** switch defaults to on.
 Focus-country intervals are normal-approximation 95% confidence intervals:
 estimate ± 1.96 × the certified design/PV standard error. It adds no pupil-level
 calculation. Existing joint-variance SEs are used for approved gaps; covariance
@@ -56,7 +61,7 @@ preserve original values, scale factor, parent hash and derived interval metadat
 There is one renderer, selection model, style sheet, figure registry and set of
 country data for both languages. The same HTML template is built at `/nl/` and
 `/en/`; locale dictionaries and bilingual text labels provide translations.
-The URL preserves all selections, including `uncertainty=1`, when changing language.
+The comparison and uncertainty switches default to on. Explicit `compare=0` and `uncertainty=0` links remain off when changing language. The controls are outcome/age, breakdown, measure and focus country; uncertainty and interim notices sit below the chart.
 The SVG/JSON export snapshots the selection before asynchronous asset loading.
 
 ## Recalculate from original sources

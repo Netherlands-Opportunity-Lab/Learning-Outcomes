@@ -2,7 +2,26 @@
 
 Bijgewerkt: 18 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
 
-## Nieuw weergavebesluit — onzekerheid en één tweetalige applicatie
+## Laatste bedieningsbesluit — instellingen definitief, gegevens nog in productie
+
+De laatste telefoonscreenshot en gebruikersopdracht vervangen de eerdere
+standaard-uit- en dropdownkeuzes: **uitkomst/leeftijd → uitsplitsing → Weergave →
+hoofdland**. Vergelijking en onzekerheidsmarge staan standaard aan. De
+onzekerheidsknop en alle voorlopige toelichtingen staan onder de figuur; de losse
+tekst “95% · alleen hoofdland” vervalt. Engels gebruikt **Measure**.
+
+De stippellijn van de referentie verbindt opeenvolgende beschikbare meetjaren.
+De wisselende landenbasis blijft expliciet per punt en onder de figuur vermeld;
+ontbrekende jaren/definitiewijzigingen worden niet overbrugd. Voor rangen blijft
+een veranderende rangbasis een lijnonderbreking. Deze definitieve UI-instellingen
+maken de nog onvolledige resultaten niet definitief en vervangen de strenge
+wetenschappelijke balansregel niet.
+
+De actuele scriptinventaris staat in `RUN_COMPLETION_INVENTORY_20261018.md`.
+Voer de laatste hervathulp pas uit nadat de bestaande R-run klaar of gestopt is;
+wijzig geen actieve checkout en start geen tweede schrijver.
+
+## Eerder weergavebesluit — onzekerheid en één tweetalige applicatie
 
 De gebruiker vraagt op 18 oktober een aan/uit-schakelaar voor betrouwbaarheidsintervallen
 van het hoofdland en een volledige Engelse versie waarbij alleen teksten veranderen.
