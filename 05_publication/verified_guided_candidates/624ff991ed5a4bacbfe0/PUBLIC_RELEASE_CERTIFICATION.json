@@ -214,7 +214,7 @@
     "EN_PERFORMANCE_PEER_HIGH_age15_science_whole_school",
     "EN_PERFORMANCE_PEER_age15_science_whole_school"
   ],
-  "candidate_manifest_sha256": "80346ea0081ea94b02fcd2172eea19b861dc1aee8c46492c2de34e953d5be5f0",
+  "candidate_manifest_sha256": "624ff991ed5a4bacbfe08e57585adc1d816fbd54c7fef5ae40bbb51417061336",
   "preserved_september_runtime_sha256": "ae6404aeedecdf3f42e22ef1612e27d3f0e61bc663a0fc99f89aad4c8c15a706",
   "actual_browser_checks": [
     "NLD PISA reading gender: 16 points; 2025 pooled label and path break",
@@ -242,5 +242,6 @@
   "country_registry_sha256": "fa497c2525ee05badd2b1c7759375e4becdbe32649a78c5ea6ad29af98a616af",
   "figure_contract_sha256": "467feecd2fee7db8472669603d87d65163cf32fa4172941c3e779681baaf4ffe",
   "scientific_source_sha256": "39d039dcf465d6f8594b0e8cb0a65060e94ac7945185f550747343b31a27e8da",
-  "scope_decisions_sha256": "b8149f28d4c287120bf6259b6e10bfd9cff5622b889962aa9014c2802fd5cb5f"
+  "scope_decisions_sha256": "b8149f28d4c287120bf6259b6e10bfd9cff5622b889962aa9014c2802fd5cb5f",
+  "inherited_browser_checks": "Same verified data and UI as 80346ea0081ea94b02fc; only total group wording corrected. Recheck wording after deployment."
 }
