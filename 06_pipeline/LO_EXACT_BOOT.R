@@ -29,6 +29,8 @@ lo_exact_boot <- function(bundle) {
     assign('v10_peer_matrix',lo_exact_peer_matrix,.GlobalEnv)
   if(exists("lo_exact_language_groups",mode="function"))
     assign("language_groups",lo_exact_language_groups,.GlobalEnv)
+  if(exists('lo_exact_migration_groups',mode='function'))
+    assign('migration_groups',lo_exact_migration_groups,.GlobalEnv)
   if(exists(".lo36_original_compute",.GlobalEnv,inherits=FALSE))
     rm(".lo36_original_compute",envir=.GlobalEnv)
   lo36_install_compute(.GlobalEnv,lo35_compute_extensions)

@@ -1,0 +1,22 @@
+source('06_pipeline/LO_COMPLETION_PREFLIGHT.R')
+tmp<-tempfile('preflight_');state<-file.path(tmp,'FIXED_PRODUCTION_V1/nld_only');dir.create(state,recursive=TRUE)
+master<-file.path(tmp,'master_reconciliation');dir.create(master)
+h<-paste(rep('a',64),collapse='')
+g<-data.frame(cell_id=c('a','b'),target_contract_sha256=c('one','two'),status='TARGET_NOT_YET_ADJUDICATED',country='ZZZ',survey='PISA',year=2009,subgroup_variable='core')
+a<-g[1,,drop=FALSE];a$status<-'SCIENTIFICALLY_VALIDATED';a$estimate<-0;a$standard_error<-0;a$n_unweighted<-10
+for(k in c('result_hash','certification_sha256','input_fingerprint','code_fingerprint'))a[[k]]<-h
+gp<-file.path(state,'PRIVATE_MASTER_GRID.csv');ap<-file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv')
+write.csv(g,gp,row.names=FALSE);write.csv(a,ap,row.names=FALSE)
+before<-vapply(c(gp,ap),function(p)digest::digest(file=p,algo='sha256'),character(1))
+x<-lo_completion_preflight('.',tmp,'nld_only',file.path(tmp,'report'))
+stopifnot(x$targets==2L,x$recorded_validated==1L,x$remaining==1L,x$certified_cells_not_in_remote_index==1L,
+ !x$computation_accounted_for,identical(before,vapply(c(gp,ap),function(p)digest::digest(file=p,algo='sha256'),character(1))))
+dir.create(file.path(tmp,'.remote_checkpoints'))
+saveRDS(list(keys=paste('a',h,h,sep='::')),file.path(tmp,'.remote_checkpoints/VERIFIED_INDEX.rds'))
+x<-lo_completion_preflight('.',tmp,'nld_only',file.path(tmp,'report'));stopifnot(x$storage_accounted_for)
+a$standard_error<--1;write.csv(a,ap,row.names=FALSE)
+stopifnot(inherits(try(lo_completion_preflight('.',tmp,'nld_only',file.path(tmp,'report')),silent=TRUE),'try-error'))
+a$standard_error<-0;a$target_contract_sha256<-'wrong';write.csv(a,ap,row.names=FALSE)
+stopifnot(inherits(try(lo_completion_preflight('.',tmp,'nld_only',file.path(tmp,'report')),silent=TRUE),'try-error'))
+unlink(tmp,recursive=TRUE)
+cat('PASS read-only final-check preparation, exact target identities, valid zero, unresolved and remote counts\n')

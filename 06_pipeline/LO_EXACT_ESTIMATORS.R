@@ -1,5 +1,16 @@
 # Exact selected statistics with common PV/replicate pooling. No broad legacy
 # module vector is evaluated and then discarded. Contrasts use joint replicates.
+lo_exact_migration_groups <- function(obj) {
+  g<-obj$data$DEMO_MIGRATION
+  if(is.null(g)||length(g)!=nrow(obj$data))return(list(ok=FALSE,reason='DEMO_MIGRATION missing'))
+  cats<-sort(unique(as.character(g[!is.na(g)])))
+  allowed<-c('native','first_generation','second_generation')
+  if(!length(cats)||any(!cats%in%allowed))return(list(ok=FALSE,reason='Unverified migration generation codes'))
+  # A labelled category need not be observed in every national sample. The
+  # exact requested target/contrast still needs all its own positive denominators.
+  list(ok=TRUE,group=as.character(g),groups=cats,definition='Source-labelled migration generation; requested cells only')
+}
+
 lo_exact_peer_matrix <- function(unit,peer,target,W) {
   ok<-!is.na(unit)&nzchar(v10_text(unit))&is.finite(peer)&is.finite(target)
   if(!any(ok))return(rep(NA_real_,ncol(W)))

@@ -36,7 +36,7 @@ lo_fixed_controller <- function(repo,bundle,
   for(name in c("LO_SCOPE_LOCK.R","LO_SCOPE_DECISIONS.R","LO_BALANCED_MEMBERSHIP.R",
     "LO_COUNTRY_REGISTRY.R","LO_COUNTRY_TASKS.R","LO_GENDER_POOL_POLICY.R","MASTER_ESTIMATION_GRID.R","LO_APPROVED_EXTENSIONS.R",
     "GRID_ARCHIVE_BATCH.R","LO_EXISTING_RESULT_REGISTRY.R",
-    "LO_FIXED_VALIDATION.R","LO_FIXED_PRODUCERS.R","LO_PRODUCT_TRACE.R","LO_SOURCE_UNAVAILABILITY.R")) {
+    "LO_FIXED_VALIDATION.R","LO_FIXED_PRODUCERS.R","LO_PRODUCT_TRACE.R","LO_SOURCE_UNAVAILABILITY.R","LO_PAPER_GATE_EVIDENCE.R")) {
     source(file.path(repo,"06_pipeline",name),
            local=environment(),encoding="UTF-8")
   }
@@ -283,6 +283,10 @@ lo_fixed_controller <- function(repo,bundle,
         "Only saved approved cells dispatched; see exact execution receipts")
     return(invisible(result))
   }
+  source(file.path(repo,'06_pipeline/LO_COMPLETION_PREFLIGHT.R'),local=environment())
+  preparation<-lo_completion_preflight(repo,root,scope,file.path(state,'FINAL_CHECK_PREPARATION'))
+  put('final-check-preparation','STABLE_SNAPSHOT_CHECKED',paste(preparation$remaining,
+    'remaining cells;',preparation$certified_cells_not_in_remote_index,'certified cells awaiting remote checkpoint; scientific gates checked separately'))
   balance_contract_path<-file.path(root,"master_reconciliation","BALANCE_CELL_CONTRACTS.csv")
   balance_export<-NULL
   if(file.exists(balance_contract_path)) {

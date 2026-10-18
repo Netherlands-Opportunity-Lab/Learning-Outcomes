@@ -81,6 +81,20 @@ expanded<-rbind(with_peer,lo_scoped_low_peer_tasks(with_peer,scope_decisions))
 expanded_q<-lo_final_quality_gate(bundle,expanded,
  file.path(work,"missing_approvals.csv"),file.path(work,"expanded_peer"),scope_decisions)
 stopifnot(expanded_q$new_below_basic_peer_targets==3L,expanded_q$active_missing==6L)
+# The same verified absence rule applies to low peers. It leaves the target
+# count intact and cannot silently require an impossible result at finalize.
+low<-lo_scoped_low_peer_tasks(with_peer,scope_decisions)
+low_cells<-lo_grid_from_tasks(low)[c('cell_id','target_contract_sha256')];low_cells$reason<-'Synthetic verified empty source'
+writeLines('synthetic peer absence',proof)
+jsonlite::write_json(list(status='SOURCE_UNAVAILABLE_VERIFIED',cells=low_cells,
+ evidence_files=data.frame(path=proof,sha256=digest::digest(file=proof,algo='sha256'))),cert,auto_unbox=TRUE)
+low_cells$evidence_path<-cert;low_cells$evidence_sha256<-digest::digest(file=cert,algo='sha256')
+write.csv(low_cells,absence_file,row.names=FALSE)
+peer_absence<-lo_final_quality_gate(bundle,expanded,file.path(work,'missing_approvals.csv'),file.path(work,'peer_absence'),scope_decisions)
+stopifnot(peer_absence$scope_contracts==nrow(expanded),peer_absence$new_below_basic_peer_targets==3L,
+ peer_absence$documented_unavailable_low_peers==3L,peer_absence$active_missing==3L,
+ peer_absence$primary_peer_gate=='DOCUMENTED_UNAVAILABLE',peer_absence$scientific_freeze=='HOLD')
+unlink(absence_file)
 candidate<-lo_fixed_produce(bundle,p3,tasks,
       file.path(work,"production"),native_run=FALSE)
 stopifnot(candidate$native_execution=="PREVIEW_ONLY",
@@ -108,8 +122,17 @@ jsonlite::write_json(list(status="SCIENTIFICALLY_VALIDATED",cells=fixture,
 fixture$certification_path<-cert_fixture
 fixture$certification_sha256<-digest::digest(file=cert_fixture,algo="sha256")
 write.csv(fixture,file.path(work,"complete_approvals.csv"),row.names=FALSE)
-write.csv(data.frame(requirement_id=sprintf("Q%02d",1:8),status="PASS"),
- file.path(work,"SCIENTIFIC_PAPER_GATES.csv"),row.names=FALSE)
+source('06_pipeline/LO_PAPER_GATE_EVIDENCE.R')
+paper_gates<-data.frame(requirement_id=sprintf('Q%02d',1:8),status='PASS')
+stopifnot(inherits(try(lo_paper_gate_evidence(paper_gates,tasks,file.path(work,'complete_approvals.csv')),silent=TRUE),'try-error'))
+target<-lo_grid_from_tasks(tasks)[c('cell_id','target_contract_sha256')];target<-target[order(target$cell_id),];rownames(target)<-NULL
+paper_gates$evidence_path<-file.path(work,paste0(paper_gates$requirement_id,'.json'))
+for(i in seq_len(nrow(paper_gates)))jsonlite::write_json(list(status='PASS',requirement_id=paper_gates$requirement_id[i],
+ target_sha256=digest::digest(target,algo='sha256'),approval_sha256=digest::digest(file=file.path(work,'complete_approvals.csv'),algo='sha256'),
+ assessment='Synthetic evidence test only; no real scientific approval',
+ evidence_files=data.frame(path=source_fixture,sha256=digest::digest(file=source_fixture,algo='sha256'))),paper_gates$evidence_path[i],auto_unbox=TRUE)
+paper_gates$evidence_sha256<-vapply(paper_gates$evidence_path,function(p)digest::digest(file=p,algo='sha256'),character(1))
+write.csv(paper_gates,file.path(work,'SCIENTIFIC_PAPER_GATES.csv'),row.names=FALSE)
 complete<-lo_final_quality_gate(bundle,tasks,file.path(work,"complete_approvals.csv"),
  file.path(work,"complete_quality"))
 stopifnot(complete$active_missing==0L,
