@@ -1,0 +1,12 @@
+{
+  "mode": "AVAILABLE_CASES_PROVISIONAL",
+  "authorization": "USER_2026_10_18_TEMPORARY_AVAILABLE_RESULTS",
+  "user_decision": "Doe tijdelijk maar even met wat beschikbaar is, volledigheid en check komt als alle resultaten klaar zijn",
+  "country_membership": "PER_YEAR_AND_SERIES",
+  "country_weights": "EQUAL_PER_AVAILABLE_COUNTRY",
+  "cell_requirement": "EXISTING_VALIDATED_PUBLIC_AGGREGATES",
+  "full_period_balance_required": false,
+  "show_contributors": true,
+  "return_to_strict": "AFTER_COMPLETE_RESULTS_AND_FINAL_REVIEW",
+  "final_scientific_policy": "UNCHANGED"
+}

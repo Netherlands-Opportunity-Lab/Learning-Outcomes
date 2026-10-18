@@ -349,8 +349,37 @@ def explorer_references(balance_path,countries,figures,rows,scientific_sha=None)
      expected_series=f["expected_series"],focus_excluded=True,country_weights="EQUAL_PER_COUNTRY",benchmark_uncertainty=False))
  return dict(schema_version=1,policy="FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3",figures=output)
 
+def provisional_references(policy_path,countries,figures,rows,input_sha):
+ """Explicit temporary display policy; never a scientific comparability PASS."""
+ policy=json.loads(policy_path.read_text(encoding='utf-8'))
+ required=dict(mode='AVAILABLE_CASES_PROVISIONAL',authorization='USER_2026_10_18_TEMPORARY_AVAILABLE_RESULTS',
+   country_membership='PER_YEAR_AND_SERIES',country_weights='EQUAL_PER_AVAILABLE_COUNTRY',
+   cell_requirement='EXISTING_VALIDATED_PUBLIC_AGGREGATES',full_period_balance_required=False,
+   show_contributors=True,final_scientific_policy='UNCHANGED')
+ if any(policy.get(k)!=v for k,v in required.items()):fail('invalid temporary comparison policy')
+ policy_sha=sha(policy_path)
+ counts=defaultdict(int)
+ for row in rows:
+  if row['quality_status']!='SCIENTIFICALLY_VALIDATED':fail('unvalidated provisional input')
+  counts[(row['country_id'].split(':')[-1],row['figure_id'])]+=1
+ ids=sorted(c['route_code'] for c in countries)
+ rich={c['route_code'] for c in countries if c.get('rich_candidate','').upper()=='TRUE'}
+ output=[]
+ for focus in ids:
+  for f in figures:
+   available=[c for c in ids if c!=focus and counts[c,f['figure_id']]>0]
+   output.append(dict(focus=focus,figure_id=f['figure_id'],mode=policy['mode'],
+    status='PROVISIONAL_REFERENCE_AVAILABLE' if available else 'NO_AVAILABLE_REFERENCE',
+    eligible_members=available,default_members=sorted(set(available)&rich),
+    eligibility=[dict(country=c,available_points=counts[c,f['figure_id']],reason='AVAILABLE_POINTS' if c in available else 'NO_AVAILABLE_POINTS') for c in ids if c!=focus],
+    evidence_sha256=input_sha,reference_policy_sha256=policy_sha,
+    required_years=f['required_years'],expected_series=f['expected_series'],
+    focus_excluded=True,country_weights='EQUAL_PER_AVAILABLE_COUNTRY',benchmark_uncertainty=False,
+    full_period_balance_verified=False))
+ return dict(schema_version=1,policy=policy['mode'],figures=output)
+
 def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
-          unavailable_review=None,country_registry=None,scope_decisions=None,balance_export=None):
+          unavailable_review=None,country_registry=None,scope_decisions=None,balance_export=None,reference_policy=None):
  if destination.exists():fail("immutable candidate path already exists")
  source=repo/"05_publication"/"preview_overlay"
  for rel in ("index.html","assets/app-shell.js","assets/styles.css",
@@ -377,7 +406,11 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
   encoding="utf-8",newline="\n")
  if balance_export is not None:
   shutil.copyfile(balance_export,destination/"data"/"balanced_references.json")
- references=explorer_references(balance_export,ids,figures,numeric_rows,sha(scientific_rows) if scientific_rows else None)
+ if reference_policy is not None:
+  shutil.copyfile(reference_policy,destination/'data/reference_policy.json')
+  references=provisional_references(reference_policy,countries,figures,numeric_rows,sha(scientific_rows))
+ else:
+  references=explorer_references(balance_export,ids,figures,numeric_rows,sha(scientific_rows) if scientific_rows else None)
  (destination/'data/references').mkdir()
  for country in sorted(ids):
   (destination/f'data/references/{country}.json').write_text(json.dumps(dict(
@@ -452,6 +485,8 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
    "scientific_source_sha256":sha(scientific_rows) if scientific_rows else "NO_DATA",
    "figure_contract_sha256":sha(bundle/"FIGURE_SERIES_CONTRACT_20261002.csv"),
    "balanced_references_sha256":sha(balance_export) if balance_export else "MISSING",
+   "reference_policy_sha256":sha(reference_policy) if reference_policy else "STRICT_BALANCE_DEFAULT",
+   "reference_mode":references['policy'],
    "country_registry_sha256":sha(country_registry) if country_registry else "SYNTHETIC_ONLY",
    "scope_decisions_sha256":sha(scope_decisions) if scope_decisions else "PENDING_DEFAULT",
    "release_status":"PRIVATE_GUIDED_CANDIDATE_NOT_PUBLIC"}
@@ -477,9 +512,11 @@ def main():
  p.add_argument("--country-registry",type=Path,required=True)
  p.add_argument("--scope-decisions",type=Path,required=True)
  p.add_argument("--balanced-references",type=Path)
+ p.add_argument("--reference-policy",type=Path)
  args=p.parse_args()
  print(json.dumps(build(args.repo,args.bundle,args.output,
                    args.validated_grid,
                    unavailable_review=args.reviewed_unavailable,country_registry=args.country_registry,
-                   scope_decisions=args.scope_decisions,balance_export=args.balanced_references),sort_keys=True))
+                   scope_decisions=args.scope_decisions,balance_export=args.balanced_references,
+                   reference_policy=args.reference_policy),sort_keys=True))
 if __name__=="__main__":main()

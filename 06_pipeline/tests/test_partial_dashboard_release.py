@@ -89,4 +89,33 @@ class PartialRelease(unittest.TestCase):
             with zipfile.ZipFile(site/m.PACKAGE,"a") as z:z.writestr("private.sav",b"must never publish")
             with self.assertRaisesRegex(ValueError,"source/binary archive"):self.check(site,cert)
 
+    def test_temporary_policy_requires_explicit_binding_and_exact_available_options(self):
+        with tempfile.TemporaryDirectory() as td:
+            site=Path(td)/"site";site.mkdir();cert=self.fixture(site)
+            policy=site/'data/reference_policy.json'
+            policy.write_bytes((ROOT/'05_publication/REFERENCE_POLICY.json').read_bytes())
+            registry=Path(td)/'countries.csv'
+            registry.write_text('country,dashboard_eligible,selected_for_production,country_name_nl,country_name_en,eligibility_basis,rich_candidate\nNLD,TRUE,TRUE,Nederland,Netherlands,SHA_VERIFIED_SOURCE_SUPPORT,TRUE\n',encoding='utf-8')
+            qa=m.read(site/'GUIDED_QA.json')
+            qa.update(reference_mode='AVAILABLE_CASES_PROVISIONAL',reference_policy_sha256=m.sha(policy))
+            qa['review_release']['reference_policy']='AVAILABLE_CASES_PROVISIONAL'
+            p.put_json(site/'GUIDED_QA.json',qa)
+            figures=m.read(site/'data/figure_registry.json')['figures']
+            rows=m.read(site/'data/countries/NLD.json')['records']
+            refs=b.provisional_references(policy,b.country_contract(None,registry),figures,rows,qa['scientific_source_sha256'])
+            p.put_json(site/'data/explorer_references.json',refs)
+            target=site/m.PACKAGE
+            with zipfile.ZipFile(target) as z:content={n:z.read(n) for n in z.namelist() if n!='PACKAGE_MANIFEST.json'}
+            content['release_inputs/REFERENCE_POLICY.json']=policy.read_bytes()
+            content['release_inputs/COUNTRY_SOURCE_ELIGIBILITY.csv']=registry.read_bytes()
+            content['PACKAGE_MANIFEST.json']=json.dumps(dict(source_commit='d'*40,files={n:hashlib.sha256(v).hexdigest() for n,v in content.items()})).encode()
+            with zipfile.ZipFile(target,'w') as z:
+                for name,data in content.items():z.writestr(name,data)
+            with self.assertRaisesRegex(ValueError,'unbound provisional'):self.check(site,cert)
+            cert.update(temporary_reference_authorization='USER_2026_10_18_TEMPORARY_AVAILABLE_RESULTS',reference_policy_sha256=m.sha(policy))
+            self.assertEqual(self.check(site,cert)['release_gate'],'PASS_PARTIAL_DISPLAY_ONLY_FULL_SCIENCE_INCOMPLETE')
+            refs['figures'][0]['eligible_members']=['AUT']
+            p.put_json(site/'data/explorer_references.json',refs)
+            with self.assertRaisesRegex(ValueError,'differ from available approved points'):self.check(site,cert)
+
 if __name__=="__main__":unittest.main()

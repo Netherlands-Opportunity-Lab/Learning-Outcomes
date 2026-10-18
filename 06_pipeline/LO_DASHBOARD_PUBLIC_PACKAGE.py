@@ -54,6 +54,8 @@ def make_package(repo,site,inputs,provenance,source_commit):
         add(inputs/name,"release_inputs/"+name)
     balance=site/'data/balanced_references.json'
     if balance.is_file():add(balance,'release_inputs/BALANCED_REFERENCE_EXPORT.json')
+    reference_policy=site/'data/reference_policy.json'
+    if reference_policy.is_file():add(reference_policy,'release_inputs/REFERENCE_POLICY.json')
     base=json.loads((site/"BUILD_SHA256_MANIFEST.json").read_text(encoding="utf-8"))
     code["release_inputs/DASHBOARD_REBUILD_MANIFEST.json"]=json.dumps(base,sort_keys=True).encode()
     code["release_inputs/PROVENANCE.json"]=(json.dumps(provenance,sort_keys=True,indent=2)+"\n").encode()
@@ -77,7 +79,7 @@ def make_package(repo,site,inputs,provenance,source_commit):
     qa["review_release"]=dict(kind="PARTIAL_VERIFIED_RESULTS",date=provenance["snapshot_utc"][:10],
          snapshot_utc=provenance["snapshot_utc"],source_commit=source_commit,full_scientific_release=False,
          missing_policy="EXPLICIT_YEAR_GROUP_GAPS_NO_INTERPOLATION",
-         reference_policy="VERIFIED_FULL_FOCUS_SUPPORT_PER_FIGURE" if balance.is_file() else "PENDING_INDEPENDENT_COMPARABILITY_MAPPING",
+         reference_policy="AVAILABLE_CASES_PROVISIONAL" if reference_policy.is_file() else "VERIFIED_FULL_FOCUS_SUPPORT_PER_FIGURE" if balance.is_file() else "PENDING_INDEPENDENT_COMPARABILITY_MAPPING",
          replication_package=PACKAGE,replication_package_sha256=sha(target),replication_package_bytes=target.stat().st_size)
     qa["release_status"]="INTERIM_VERIFIED_POINTS_FULL_SCIENCE_INCOMPLETE"
     put_json(site/"GUIDED_QA.json",qa)
