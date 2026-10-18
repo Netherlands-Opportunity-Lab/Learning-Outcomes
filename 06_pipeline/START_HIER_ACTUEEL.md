@@ -18,8 +18,7 @@ Bij de controle bleek dat TR_BELOW/TR_HIGH-fracties ten onrechte onder een proce
 werden getoond. De presentatie schaalt uitsluitend die families én hun SE met 100;
 SES/peerpercentages blijven onaangetast. Broncellen en hashes veranderen niet.
 Herkomst en afleiding staan expliciet in de download. Normale 95%-grenzen worden niet
-stilzwijgend afgeknipt op 0–100. Test-/publicatiebewijs volgt in
-`review_20261013/DASHBOARD_UNCERTAINTY_I18N_20261018.json`.
+stilzwijgend afgeknipt op 0–100. De versie staat live als kandidaat `4cdac912f6b0de90c6d6`. Het pakket bevat 174 bestanden (13.113.350 bytes); 408 runtimebestanden zijn op Windows en Linux exact gereconstrueerd, en alle 411 online bestanden zijn op SHA256 gecontroleerd. Beide talen, de mobiele bediening en de echte SVG-download zijn getest. De actieve RStudio-checkout is ongewijzigd. Bewijs: `review_20261013/DASHBOARD_UNCERTAINTY_I18N_20261018.json`.
 
 ## Laatste besluit — tijdelijk vergelijken met beschikbare resultaten
 
