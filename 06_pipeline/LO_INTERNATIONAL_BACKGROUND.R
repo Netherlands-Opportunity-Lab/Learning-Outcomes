@@ -13,7 +13,8 @@ lo_international_absence <- function(repo,root,q,reason,evidence,classification=
   if(!file.exists(p))jsonlite::write_json(cert,p,auto_unbox=TRUE,pretty=TRUE,digits=17)
   cells$evidence_path<-p;cells$evidence_sha256<-digest::digest(file=p,algo='sha256');cells$classification<-classification
   path<-file.path(root,'master_reconciliation/SOURCE_UNAVAILABLE_CELLS.csv')
-  old<-read.csv(path,colClasses='character',na.strings=character())
+  dir.create(dirname(path),recursive=TRUE,showWarnings=FALSE)
+  old<-if(file.exists(path))read.csv(path,colClasses='character',na.strings=character())else cells[FALSE,]
   for(k in setdiff(names(cells),names(old)))old[[k]]<-''
   for(k in setdiff(names(old),names(cells)))cells[[k]]<-''
   lo_atomic_csv(rbind(old[!old$cell_id%in%cells$cell_id,],cells[names(old)]),path)
@@ -90,7 +91,10 @@ lo_international_background <- function(repo,obj,q,row,out,home_path='') {
     }
   }
   obj$meta$background_mapping_status<-'RAW_LABELS_AND_EXACT_IDS_VERIFIED';obj$meta$background_mappings<-mappings
-  record<-list(mappings=mappings,sources=proofs,valid_counts=lapply(obj$data[intersect(c('MOTHER_BORN_HERE','FATHER_BORN_HERE','DEMO_LANGUAGE','DEMO_MIGRATION','HOME_SES_GROUP'),names(obj$data))],function(x)as.list(table(x,useNA='always'))))
+  # Explicit records: anonymous JSON list names previously made NA look like
+  # an observed category (e.g. code 1). This changes evidence, not the recode.
+  record<-list(mappings=mappings,sources=proofs,valid_counts=lapply(obj$data[intersect(c('MOTHER_BORN_HERE','FATHER_BORN_HERE','DEMO_LANGUAGE','DEMO_MIGRATION','HOME_SES_GROUP'),names(obj$data))],function(x){
+    t<-table(as.character(x),useNA='always');data.frame(value=ifelse(is.na(names(t)),'NA',names(t)),n=as.integer(t))}))
   path<-file.path(out,paste0('RAW_MAPPING_',digest::digest(record,algo='sha256'),'.json'))
   if(!file.exists(path))jsonlite::write_json(record,path,pretty=TRUE,auto_unbox=TRUE,digits=17)
   list(object=obj,tasks=q,absent=if(length(absent))do.call(rbind,absent)else NULL,proof=path)

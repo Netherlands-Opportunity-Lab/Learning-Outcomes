@@ -1,0 +1,28 @@
+{
+  "active_figures": 174,
+  "availability_counts": {
+    "PARTIAL": 3443,
+    "PLACEHOLDER": 358,
+    "VALIDATED": 2115
+  },
+  "balanced_references_sha256": "MISSING",
+  "country_registry_sha256": "fa497c2525ee05badd2b1c7759375e4becdbe32649a78c5ea6ad29af98a616af",
+  "figure_contract_sha256": "467feecd2fee7db8472669603d87d65163cf32fa4172941c3e779681baaf4ffe",
+  "release_status": "INTERIM_VERIFIED_POINTS_FULL_SCIENCE_INCOMPLETE",
+  "review_release": {
+    "date": "2026-10-18",
+    "full_scientific_release": false,
+    "kind": "PARTIAL_VERIFIED_RESULTS",
+    "missing_policy": "EXPLICIT_YEAR_GROUP_GAPS_NO_INTERPOLATION",
+    "reference_policy": "PENDING_INDEPENDENT_COMPARABILITY_MAPPING",
+    "replication_package": "replication/learning-outcomes-replication.zip",
+    "replication_package_bytes": 6735752,
+    "replication_package_sha256": "33af947f1513739bf39403a2b2067b95b8324019fe9b4844f6a5ebde8e56d056",
+    "snapshot_utc": "2026-10-18T09:59:58Z",
+    "source_commit": "f66a40067431ec39bbbc6a12197830307c8b8ba4"
+  },
+  "scientific_data_rows": 51304,
+  "scientific_source_sha256": "39d039dcf465d6f8594b0e8cb0a65060e94ac7945185f550747343b31a27e8da",
+  "scope_decisions_sha256": "b8149f28d4c287120bf6259b6e10bfd9cff5622b889962aa9014c2802fd5cb5f",
+  "system_count": 34
+}

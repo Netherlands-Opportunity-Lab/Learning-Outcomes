@@ -46,3 +46,13 @@ for(m in c('migration','language_exact','language_frequency_binary','migration_g
 q$stat[1]<-'unapproved'
 stopifnot(inherits(try(lo_exact_background_linear(o,q),silent=TRUE),'try-error'))
 cat('PASS chunk-invariant background PV/replicate values and joint migration/language/generation contrasts\n')
+o$data$DEMO_MIGRATION<-o$data$GROUP
+migration_groups<-lo_exact_migration_groups
+stopifnot(migration_groups(o)$ok,!('second_generation'%in%migration_groups(o)$groups))
+a<-lo_exact_background_linear(o,z)
+stopifnot(max(abs(captured$full-expected[,1,]))<1e-10)
+missing<-z[1,,drop=FALSE];missing$group<-'second_generation'
+stopifnot(any(!is.finite(lo_exact_background_linear(o,missing)$estimate)))
+o$data$DEMO_MIGRATION[1]<-'unreviewed'
+stopifnot(!migration_groups(o)$ok)
+cat('PASS absent unrelated generation does not block estimable selected groups; absent target and unknown codes still reject\n')

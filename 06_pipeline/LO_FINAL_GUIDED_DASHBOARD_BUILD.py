@@ -7,7 +7,7 @@ results, and never overwrites the live GitHub Pages release. Every missing
 country/figure cell remains an explicit placeholder.
 """
 from __future__ import annotations
-import argparse,csv,hashlib,json,math,re,shutil
+import argparse,csv,hashlib,importlib.util,json,math,re,shutil
 from collections import defaultdict
 from pathlib import Path
 
@@ -287,7 +287,7 @@ def figure_complete(current,figure):
  pairs={(str(row["year"]),row["series_id"]) for row in current if row["series_role"]=="focus"}
  return bool(required) and bool(groups) and {(y,g) for y in required for g in groups}.issubset(pairs)
 
-def explorer_references(balance_path,countries,figures,rows):
+def explorer_references(balance_path,countries,figures,rows,scientific_sha=None):
  """Bind certified comparison views to public figures through exact cell IDs.
 
  Absence of the new mapping is an explicit pending state, never permission
@@ -296,7 +296,15 @@ def explorer_references(balance_path,countries,figures,rows):
  """
  def array(value):return [] if value is None else value if isinstance(value,list) else [value]
  evidence=json.loads(balance_path.read_text(encoding="utf-8-sig")) if balance_path else {}
+ if evidence.get('schema_version')==3:
+  spec=importlib.util.spec_from_file_location('reference_verify',Path(__file__).with_name('LO_DASHBOARD_REFERENCE_VERIFY.py'))
+  verifier=importlib.util.module_from_spec(spec);spec.loader.exec_module(verifier)
+  verifier.verify(evidence,rows,countries,figures,scientific_sha)
  views=array(evidence.get("views")); output=[]
+ # The immutable evidence file can be large; hash it once for the entire build.
+ evidence_sha=sha(balance_path) if balance_path else None
+ views_by_country=defaultdict(list)
+ for view in views:views_by_country[view.get('focus')].append(view)
  by_country=defaultdict(lambda:defaultdict(list))
  for row in rows:
   if row["series_role"]=="focus":by_country[row["country_id"].split(":")[-1]][row["figure_id"]].append(row)
@@ -304,7 +312,8 @@ def explorer_references(balance_path,countries,figures,rows):
   for f in figures:
    current=by_country[country][f["figure_id"]]
    cell_ids={r.get("cell_id") for r in current if r.get("cell_id")}
-   matches=[v for v in views if v.get("focus")==country and cell_ids.intersection(array(v.get("view_cell_ids")))]
+   matches=[v for v in views_by_country[country] if (v.get('figure_id')==f['figure_id'] or
+       not v.get('figure_id') and cell_ids.intersection(array(v.get("view_cell_ids"))))]
    mapped=set().union(*(set(array(v.get("view_cell_ids"))) for v in matches)) if matches else set()
    ready=bool(matches) and len(cell_ids)==len(current) and cell_ids<=mapped and figure_complete(current,f)
    ready=ready and all(v.get("status") in ("BALANCED_REFERENCE_AVAILABLE","NO_ELIGIBLE_REFERENCE") for v in matches)
@@ -321,16 +330,56 @@ def explorer_references(balance_path,countries,figures,rows):
     eligible={c for c in eligible if figure_complete(by_country[c][f["figure_id"]],f)}
     defaults &= eligible
    else:eligible=set();defaults=set()
+   reasons=[]
+   for candidate in sorted(set(countries)-{country}):
+    opts=[o for v in matches for o in array(v.get('options')) if o['country']==candidate]
+    bad=[o for o in opts if not o.get('eligible')]
+    keys=sorted(set(evidence['key_dictionary'][int(k)-1] if evidence.get('key_dictionary') else k
+        for o in bad for k in o.get('missing_keys','').split(';') if k))
+    reasons.append(dict(country=candidate,missing_cells=max((o.get('missing_cells',0) for o in bad),default=0),
+      reason=bad[0]['reason'] if bad else 'FULL_BALANCED_SUPPORT' if candidate in eligible else 'FOCUS_NOT_READY',
+      missing_examples=[dict(survey=k.split('|')[0],domain=k.split('|')[2],year=int(k.split('|')[3])) for k in keys[:3]]))
+   pending=next((v['status'] for v in matches if v['status'] in ('FOCUS_CORE_INCOMPLETE','FOCUS_VIEW_INCOMPLETE')),'COMPARABILITY_PENDING')
    output.append(dict(focus=country,figure_id=f["figure_id"],
-     status="BALANCED_REFERENCE_AVAILABLE" if ready and eligible else "NO_ELIGIBLE_REFERENCE" if ready else "COMPARABILITY_PENDING",
+     status="BALANCED_REFERENCE_AVAILABLE" if ready and eligible else "NO_ELIGIBLE_REFERENCE" if ready else pending,
      eligible_members=sorted(eligible),default_members=sorted(defaults),
-     evidence_sha256=sha(balance_path) if balance_path else None,
+     eligibility=reasons,
+     evidence_sha256=evidence_sha,
      view_ids=sorted(v["view_id"] for v in matches),required_years=f["required_years"],
      expected_series=f["expected_series"],focus_excluded=True,country_weights="EQUAL_PER_COUNTRY",benchmark_uncertainty=False))
  return dict(schema_version=1,policy="FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3",figures=output)
 
+def provisional_references(policy_path,countries,figures,rows,input_sha):
+ """Explicit temporary display policy; never a scientific comparability PASS."""
+ policy=json.loads(policy_path.read_text(encoding='utf-8'))
+ required=dict(mode='AVAILABLE_CASES_PROVISIONAL',authorization='USER_2026_10_18_TEMPORARY_AVAILABLE_RESULTS',
+   country_membership='PER_YEAR_AND_SERIES',country_weights='EQUAL_PER_AVAILABLE_COUNTRY',
+   cell_requirement='EXISTING_VALIDATED_PUBLIC_AGGREGATES',full_period_balance_required=False,
+   show_contributors=True,final_scientific_policy='UNCHANGED')
+ if any(policy.get(k)!=v for k,v in required.items()):fail('invalid temporary comparison policy')
+ policy_sha=sha(policy_path)
+ counts=defaultdict(int)
+ for row in rows:
+  if row['quality_status']!='SCIENTIFICALLY_VALIDATED':fail('unvalidated provisional input')
+  counts[(row['country_id'].split(':')[-1],row['figure_id'])]+=1
+ ids=sorted(c['route_code'] for c in countries)
+ rich={c['route_code'] for c in countries if c.get('rich_candidate','').upper()=='TRUE'}
+ output=[]
+ for focus in ids:
+  for f in figures:
+   available=[c for c in ids if c!=focus and counts[c,f['figure_id']]>0]
+   output.append(dict(focus=focus,figure_id=f['figure_id'],mode=policy['mode'],
+    status='PROVISIONAL_REFERENCE_AVAILABLE' if available else 'NO_AVAILABLE_REFERENCE',
+    eligible_members=available,default_members=sorted(set(available)&rich),
+    eligibility=[dict(country=c,available_points=counts[c,f['figure_id']],reason='AVAILABLE_POINTS' if c in available else 'NO_AVAILABLE_POINTS') for c in ids if c!=focus],
+    evidence_sha256=input_sha,reference_policy_sha256=policy_sha,
+    required_years=f['required_years'],expected_series=f['expected_series'],
+    focus_excluded=True,country_weights='EQUAL_PER_AVAILABLE_COUNTRY',benchmark_uncertainty=False,
+    full_period_balance_verified=False))
+ return dict(schema_version=1,policy=policy['mode'],figures=output)
+
 def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
-          unavailable_review=None,country_registry=None,scope_decisions=None,balance_export=None):
+          unavailable_review=None,country_registry=None,scope_decisions=None,balance_export=None,reference_policy=None):
  if destination.exists():fail("immutable candidate path already exists")
  source=repo/"05_publication"/"preview_overlay"
  for rel in ("index.html","assets/app-shell.js","assets/styles.css",
@@ -347,19 +396,29 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
  destination.mkdir(parents=True)
  shutil.copytree(source/"assets",destination/"assets")
  shutil.copytree(source/"locales",destination/"locales")
+ if (source/"info").is_dir():shutil.copytree(source/"info",destination/"info")
  template=(source/"index.html").read_text(encoding="utf-8")
  (destination/"data"/"countries").mkdir(parents=True)
  (destination/"data"/"availability").mkdir(parents=True)
  (destination/"data"/"common42.json").write_text(json.dumps([
   {"code":r["route_code"],"nl":r["country_name_nl"],
    "en":r["country_name_en"]} for r in countries],ensure_ascii=False),
-  encoding="utf-8")
+  encoding="utf-8",newline="\n")
  if balance_export is not None:
   shutil.copyfile(balance_export,destination/"data"/"balanced_references.json")
- (destination/"data"/"explorer_references.json").write_text(json.dumps(
-   explorer_references(balance_export,ids,figures,numeric_rows),ensure_ascii=False),encoding="utf-8")
+ if reference_policy is not None:
+  shutil.copyfile(reference_policy,destination/'data/reference_policy.json')
+  references=provisional_references(reference_policy,countries,figures,numeric_rows,sha(scientific_rows))
+ else:
+  references=explorer_references(balance_export,ids,figures,numeric_rows,sha(scientific_rows) if scientific_rows else None)
+ (destination/'data/references').mkdir()
+ for country in sorted(ids):
+  (destination/f'data/references/{country}.json').write_text(json.dumps(dict(
+     schema_version=1,policy=references['policy'],figures=[v for v in references['figures'] if v['focus']==country]),ensure_ascii=False),encoding='utf-8',newline='\n')
+ (destination/"data"/"explorer_references.json").write_text(json.dumps(dict(
+   schema_version=2,policy=references['policy'],country_files={c:f'data/references/{c}.json' for c in sorted(ids)}),ensure_ascii=False),encoding="utf-8",newline="\n")
  (destination/"data"/"figure_registry.json").write_text(
-  json.dumps({"figures":figures},ensure_ascii=False),encoding="utf-8")
+  json.dumps({"figures":figures},ensure_ascii=False),encoding="utf-8",newline="\n")
  method_ids=sorted({f["method_id"] for f in figures})
  method_text={m:{"nl":"Methode en bronversie: "+m+
                      "; zie gecontroleerd wetenschappelijk register.",
@@ -367,21 +426,21 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
                      "; consult the reviewed scientific register."}
               for m in method_ids}
  (destination/"data"/"method_registry.json").write_text(
-  json.dumps({"methods":method_text},ensure_ascii=False),encoding="utf-8")
+  json.dumps({"methods":method_text},ensure_ascii=False),encoding="utf-8",newline="\n")
  availability_states=defaultdict(int)
  for country in sorted(ids):
   records=by_country[country]
   (destination/"data"/"countries"/(country+".json")).write_text(
    json.dumps({"records":records},ensure_ascii=False,allow_nan=False,
-              separators=(",",":")),encoding="utf-8")
+              separators=(",",":")),encoding="utf-8",newline="\n")
   present=defaultdict(list)
   for row in records:present[row["figure_id"]].append(row)
   available=[]
   for f in figures:
    current=present[f["figure_id"]]
-   # At least one focus series per year, and all declared waves, required
-   # to call a full trend graph VALIDATED. Partial rows stay visible in data
-   # only as a private review candidate; front-end chart stays placeholder.
+   # Only a full year x group grid is VALIDATED. The user explicitly requested
+   # verified partial points on 18 Oct; missing pairs remain named gaps and
+   # never relax full-period reference or rank requirements.
    years={str(row["year"]) for row in current if row["series_role"]=="focus"}
    required=set(x for x in f["required_years"].split(";") if x)
    roles=set(row["series_id"] for row in current if row["series_role"]=="focus")
@@ -391,18 +450,20 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
    reviewed=unavailable.get((country,f["figure_id"]))
    if reviewed and current:
     fail("cannot mark a figure unavailable while releasing numeric rows")
-   st="VALIDATED" if fully else ("UNAVAILABLE" if reviewed else "PLACEHOLDER")
+   st="VALIDATED" if fully else ("PARTIAL" if current else "UNAVAILABLE" if reviewed else "PLACEHOLDER")
    availability_states[st]+=1
    reason_nl=("Alle vereiste meetjaren en groepen wetenschappelijk gecontroleerd."
        if fully else reviewed["reason_nl"] if reviewed else
-       "Nog niet volledig wetenschappelijk gevalideerd; geen verzonnen waarden.")
+       "De beschikbare punten zijn gecontroleerd. Ontbrekende meetjaren of groepen blijven open." if current else "Resultaten worden nog toegevoegd.")
    reason_en=("All required survey waves and groups scientifically validated."
        if fully else reviewed["reason_en"] if reviewed else
-       "Scientific evidence incomplete; no fabricated estimates.")
+       "Available points are verified. Missing years or groups remain open." if current else "Results will be added.")
    available.append(dict(figure_id=f["figure_id"],display_state=st,
-      reason_nl=reason_nl,reason_en=reason_en))
+      reason_nl=reason_nl,reason_en=reason_en,available_points=len(present_pairs),
+      required_points=len(required)*len(expected),
+      missing_points=[dict(year=int(y),series_id=g) for y in sorted(required) for g in sorted(expected) if (y,g) not in present_pairs]))
   (destination/"data"/"availability"/(country+".json")).write_text(
-   json.dumps({"figures":available},ensure_ascii=False),encoding="utf-8")
+   json.dumps({"figures":available},ensure_ascii=False),encoding="utf-8",newline="\n")
  for locale in ("nl","en"):
   for parts in ((locale,),*((locale,"country",c,q)
         for c in sorted(ids) for q in QUESTIONS)):
@@ -410,25 +471,27 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
    folder.mkdir(parents=True,exist_ok=True)
    base="../"*len(parts)
    (folder/"index.html").write_text(
-     template.replace("__BASE__",base),encoding="utf-8")
+     template.replace("__BASE__",base),encoding="utf-8",newline="\n")
  (destination/"index.html").write_text(
   '<!doctype html><meta charset="utf-8"><title>Learning Outcomes</title>'
   '<meta http-equiv="refresh" content="0; url=nl/">'
   '<a href="nl/">Nederlands</a> · <a href="en/">English</a>',
-  encoding="utf-8")
- (destination/".nojekyll").write_text("",encoding="utf-8")
- (destination/"robots.txt").write_text("User-agent: *\nDisallow: /\n",encoding="utf-8")
+  encoding="utf-8",newline="\n")
+ (destination/".nojekyll").write_text("",encoding="utf-8",newline="\n")
+ (destination/"robots.txt").write_text("User-agent: *\nDisallow: /\n",encoding="utf-8",newline="\n")
  summary={"scientific_data_rows":len(numeric_rows),"system_count":len(ids),
    "active_figures":len(figures),
    "availability_counts":dict(sorted(availability_states.items())),
    "scientific_source_sha256":sha(scientific_rows) if scientific_rows else "NO_DATA",
    "figure_contract_sha256":sha(bundle/"FIGURE_SERIES_CONTRACT_20261002.csv"),
    "balanced_references_sha256":sha(balance_export) if balance_export else "MISSING",
+   "reference_policy_sha256":sha(reference_policy) if reference_policy else "STRICT_BALANCE_DEFAULT",
+   "reference_mode":references['policy'],
    "country_registry_sha256":sha(country_registry) if country_registry else "SYNTHETIC_ONLY",
    "scope_decisions_sha256":sha(scope_decisions) if scope_decisions else "PENDING_DEFAULT",
    "release_status":"PRIVATE_GUIDED_CANDIDATE_NOT_PUBLIC"}
  (destination/"GUIDED_QA.json").write_text(json.dumps(summary,indent=2),
-                                          encoding="utf-8")
+                                          encoding="utf-8",newline="\n")
  entries=[]
  for path in sorted(destination.rglob("*")):
   if not path.is_file():continue
@@ -437,7 +500,7 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
   entries.append({"path":relative,"sha256":sha(path),
                   "bytes":path.stat().st_size})
  (destination/"BUILD_SHA256_MANIFEST.json").write_text(
-  json.dumps(entries,indent=2),encoding="utf-8")
+  json.dumps(entries,indent=2),encoding="utf-8",newline="\n")
  return summary
 def main():
  p=argparse.ArgumentParser()
@@ -449,9 +512,11 @@ def main():
  p.add_argument("--country-registry",type=Path,required=True)
  p.add_argument("--scope-decisions",type=Path,required=True)
  p.add_argument("--balanced-references",type=Path)
+ p.add_argument("--reference-policy",type=Path)
  args=p.parse_args()
  print(json.dumps(build(args.repo,args.bundle,args.output,
                    args.validated_grid,
                    unavailable_review=args.reviewed_unavailable,country_registry=args.country_registry,
-                   scope_decisions=args.scope_decisions,balance_export=args.balanced_references),sort_keys=True))
+                   scope_decisions=args.scope_decisions,balance_export=args.balanced_references,
+                   reference_policy=args.reference_policy),sort_keys=True))
 if __name__=="__main__":main()

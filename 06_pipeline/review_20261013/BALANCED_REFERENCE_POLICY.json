@@ -40,5 +40,12 @@
     "source_admission_evidence": "international/PREPARATION_EVIDENCE.json",
     "view_selector": "06_pipeline/LO_BALANCED_VIEWS.R"
   },
-  "substantive_approvals_A01_A17": "INDIVIDUALLY_DECIDED_SEE_SCOPE_APPROVALS_CSV"
+  "substantive_approvals_A01_A17": "INDIVIDUALLY_DECIDED_SEE_SCOPE_APPROVALS_CSV",
+  "temporary_publication_override": {
+    "decision": "USER_2026_10_18_TEMPORARY_AVAILABLE_RESULTS",
+    "policy_file": "05_publication/REFERENCE_POLICY.json",
+    "scope": "INTERIM_WEBSITE_ONLY",
+    "final_rule_unchanged": true,
+    "restore_after": "COMPLETE_RESULTS_AND_FINAL_REVIEW"
+  }
 }

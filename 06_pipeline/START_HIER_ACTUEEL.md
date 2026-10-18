@@ -1,9 +1,123 @@
 # Start hier — actuele besluiten en resterend werk
 
-Bijgewerkt: 17 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
+Bijgewerkt: 18 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
+
+## Hervathulp na afgesloten internationale run — 18 oktober 2026
+
+De oude run is afgesloten met **69.437 geregistreerd gevalideerde resultaten,
+7.739 onderbouwd niet-berekenbare cellen en 435 resterende doelen**. GitHub-depositie:
+`da2ffead1b05af2efdbc9b8adf75d8d549b1ebfd`; de uitvoer bevestigt 69.437 private
+Drive-resultaatversies. Het opgeslagen grid is stabiel teruggelezen en telt
+dezelfde aantallen. De 435 bestaan uit de 401 eerder op brondata geteste
+probleemcellen en 34 Zweedse cellen met een checkpointvergrendeling.
+
+De eerste poging met `RESUME_WITH_FINAL_CHECKS.R` stopte vóór de merge: de
+single-branch-clone had geen `origin/codex/problem-blocks-final-checks-20261018`.
+De bestaande installatiehulp gebruikt nu `LO_PREPARED_FETCH.R` met expliciete
+bron- én doelverwijzingen voor beide branches; de persoonlijke Git-configuratie
+en alle resultaten blijven behouden. Hetzelfde RStudio-commando blijft gelden.
+De native integratieproeven controleren ook behoud van een tussentijdse
+resultaatcommit en veilig herhalen. Zie
+`review_20261013/MAINTENANCE_FETCH_REPAIR_20261018.json`. De dashboardbediening en
+publieke gegevens veranderen door deze reparatie niet.
+
+## Laatste bedieningsbesluit — instellingen definitief, gegevens nog in productie
+
+De laatste telefoonscreenshot en gebruikersopdracht vervangen de eerdere
+standaard-uit- en dropdownkeuzes: **uitkomst/leeftijd → uitsplitsing → Weergave →
+hoofdland**. Vergelijking en onzekerheidsmarge staan standaard aan. De
+onzekerheidsknop en alle voorlopige toelichtingen staan onder de figuur; de losse
+tekst “95% · alleen hoofdland” vervalt. Engels gebruikt **Measure**.
+
+De stippellijn van de referentie verbindt opeenvolgende beschikbare meetjaren.
+De wisselende landenbasis blijft expliciet per punt en onder de figuur vermeld;
+ontbrekende jaren/definitiewijzigingen worden niet overbrugd. Voor rangen blijft
+een veranderende rangbasis een lijnonderbreking. Deze definitieve UI-instellingen
+maken de nog onvolledige resultaten niet definitief en vervangen de strenge
+wetenschappelijke balansregel niet.
+
+Deze bediening staat live als kandidaat `ea0632b132508dff805d`. Alle 408 runtimebestanden zijn op Windows en Linux exact gereconstrueerd; alle 411 gepubliceerde bestanden zijn via HTTPS op SHA256 gecontroleerd. Het pakket bevat 179 bestanden (13.128.299 bytes), inclusief de uitvoeringsinventaris. De 34 landbestanden zijn byte-identiek gebleven. Mobiele NL/EN-bediening, begininstellingen, lijnverbinding, ranguitzondering en eigen landenkeuze zijn daadwerkelijk getest. Zie `review_20261013/DASHBOARD_FINAL_SETTINGS_20261018.json`.
+
+De actuele scriptinventaris staat in `RUN_COMPLETION_INVENTORY_20261018.md`.
+Voer de laatste hervathulp pas uit nadat de bestaande R-run klaar of gestopt is;
+wijzig geen actieve checkout en start geen tweede schrijver.
+
+## Eerder weergavebesluit — onzekerheid en één tweetalige applicatie
+
+De gebruiker vraagt op 18 oktober een aan/uit-schakelaar voor betrouwbaarheidsintervallen
+van het hoofdland en een volledige Engelse versie waarbij alleen teksten veranderen.
+De gekozen eenvoudige naam is **Onzekerheidsmarge**, Engels **Uncertainty range**.
+De schakelaar staat standaard uit, behoudt de rustige vier-dropdowns-opzet en toont
+95%-intervallen (schatting ± 1,96 × gecontroleerde SE) alleen voor hoofdlandreeksen.
+Geen interval voor vergelijkingsgemiddelden of rangen; geen extra leerlingberekeningen.
+Dit is een weergavekeuze, geen nieuwe scopebeslissing of wetenschappelijke certificering.
+
+Beide talen delen renderer, keuzelogica, stijl en data. Groepsnamen, hulpteksten en
+toegankelijkheidslabels zijn vertaald; taalwissel en downloads bewaren de selectie.
+Bij de controle bleek dat TR_BELOW/TR_HIGH-fracties ten onrechte onder een procentlabel
+werden getoond. De presentatie schaalt uitsluitend die families én hun SE met 100;
+SES/peerpercentages blijven onaangetast. Broncellen en hashes veranderen niet.
+Herkomst en afleiding staan expliciet in de download. Normale 95%-grenzen worden niet
+stilzwijgend afgeknipt op 0–100. De versie staat live als kandidaat `4cdac912f6b0de90c6d6`. Het pakket bevat 174 bestanden (13.113.350 bytes); 408 runtimebestanden zijn op Windows en Linux exact gereconstrueerd, en alle 411 online bestanden zijn op SHA256 gecontroleerd. Beide talen, de mobiele bediening en de echte SVG-download zijn getest. De actieve RStudio-checkout is ongewijzigd. Bewijs: `review_20261013/DASHBOARD_UNCERTAINTY_I18N_20261018.json`.
+
+## Laatste besluit — tijdelijk vergelijken met beschikbare resultaten
+
+Op 18 oktober zegt de gebruiker: **“Doe tijdelijk maar even met wat beschikbaar is, volledigheid en check komt als alle resultaten klaar zijn.”** Dit vervangt uitsluitend voor de tijdelijke website de volledige dekkingsvoorwaarde voor vergelijkingen en rangen. `05_publication/REFERENCE_POLICY.json` legt dit expliciet vast; `--reference-policy` activeert de stand in de bestaande bouwer. De wetenschappelijke R-productie, definitieve balansregel, brongetoetste landen en gekozen figuren veranderen niet.
+
+Een land is tijdelijk selecteerbaar zodra het gecontroleerde punten heeft voor de gekozen figuur. Standaard worden de beschikbare rijke kandidaten geselecteerd, zonder hoofdland. Ieder jaar–groeppunt gebruikt het gelijke gemiddelde van de daadwerkelijk beschikbare geselecteerde landen. Tooltip, tabel en download bewaren de gebruikte en ontbrekende leden; bij veranderende samenstelling onderbreekt de lijn. Rangen gebruiken het hoofdland plus de op dat punt beschikbare geselecteerde landen, met zichtbare noemer en zonder groepsranglijn. Ontbrekende punten blijven open. Bekende verschillen tussen meisjes en meisjes + other worden niet stilzwijgend samengevoegd.
+
+Deze stand heet `AVAILABLE_CASES_PROVISIONAL`, niet een geslaagde balanscontrole. Het bestaande strenge vergelijkingsbewijs blijft bewaard voor de eindcontrole. Na complete resultaten en review wordt zonder tijdelijke beleidsoptie opnieuw gebouwd. Zie [uitvoeringsbewijs](review_20261013/DASHBOARD_PROVISIONAL_20261018.json). Oudere beschrijvingen van blokkades hieronder zijn historische uitvoeringsmomenten.
+
+De tijdelijke versie staat live als kandidaat `05c0b4552abcfaa8f072`. Het pakket bevat 174 bestanden (13.108.350 bytes); alle 408 runtimebestanden zijn op Windows en Linux exact gereconstrueerd. Alle 411 gepubliceerde bestanden zijn via HTTPS op SHA256 gecontroleerd. De mobiele en live landenkiezer zijn getest, inclusief aanpassen en standaard herstellen. De actieve RStudio-checkout bleef schoon en ongewijzigd.
+
+De latere expliciete UI-keuze plaatst de vier dropdowns in deze volgorde: uitkomst en leeftijd → statistiek → uitsplitsing → hoofdland. De vergelijking blijft de vijfde keuze.
+
+## Eerder direct besluit — beschikbare resultaten nu op het dashboard
+
+Op 18 oktober vraagt de gebruiker: **“alles wat we hebben op het dashboard zetten”**, ontbrekende dingen **“even open”** laten en de scripts, README, uitleg en het replicatiepakket afmaken. Dit autoriseert een expliciet gemarkeerde tussenpublicatie met al gecertificeerde dashboardpunten. Het vervangt voor die tussenpublicatie de eerdere eis dat eerst de volledige paper, presentatie en Q01–Q08 gereed zijn. Het is geen wijziging van de gekozen statistieken, productplaatsing, bron-/celvalidatie, privacygrens of balansregel.
+
+`PARTIAL_VERIFIED_RESULTS` is een afzonderlijk geteste publicatiecontrole. Een figuur toont alle gecontroleerde punten; ontbrekende jaar–groepparen worden benoemd, krijgen geen nulwaarde en worden niet met een lijn overbrugd. Appendix- en wetenschappelijke uitbreidingen blijven buiten het dashboard. Referenties en rangen blijven open zolang de exacte onafhankelijke vergelijkbaarheidskoppeling ontbreekt; de code creëert daarvoor geen fictief PASS. De strenge uiteindelijke wetenschappelijke vrijgave blijft bestaan.
+
+De publicatie krijgt bron-/code-/resultaathashes, een deterministisch replicatiepakket, tweetalige uitleg en een reconstructietest van de openbare figuren. Volledige herberekening vanaf een schone computer heeft nog de vastgelegde oorspronkelijke bronbundel nodig en wordt niet als voltooid gecertificeerd. De septemberrelease blijft als archief bereikbaar. Nieuwe publicatie gebeurt vanuit de voorbereidingsbranch, zonder de actieve R-checkout te wijzigen. Zie `review_20261013/DASHBOARD_INTERIM_20261018.json` voor het feitelijke vrijgavebewijs zodra de controles afgerond zijn.
 
 **Runconfiguratie en replicatie:** zie [de actuele uitvoeringshandleiding](REPLICATION_CURRENT.md) en `RUN_CONFIG.example.json`. `LO_RUN_CONFIG` legt keuzes expliciet vast; de selectie verkleint uitsluitend het goedgekeurde grid. Iedere muterende fixed-fase bewaart configuratie, inputmanifest, code-/resultaathashes en R/pakketversies. De compacte database bewaart gewijzigde numerieke resultaatversies eenmaal. Volledige rekenprecisie blijft behouden; presentatie wordt apart afgerond. De hele gekozen wetenschappelijke productie is nog niet gereed: de actuele aantallen staan in het uitvoeringsbewijs hieronder; niet alle gekozen modules en landen zijn al gecertificeerd.
 
+
+## Landenkeuze hersteld — 18 oktober 2026
+
+De fout uit de telefoonscreenshot kwam doordat iedere referentie nog op een generieke wachtstatus stond. De nieuwe publicatieadapter koppelt 51.301 van de 51.304 punten aan exacte bron-/steekproef-/methodebewijzen. De bestaande R-balanscontrole en een onafhankelijke Python-controle bevestigen alle opties. 2.098 land–figuurvergelijkingen zijn mogelijk, waaronder 128 voor Nederland. De Nederlandse leesfiguur biedt Hongarije, Hongkong, Italië en Nieuw-Zeeland; de rijke standaardselectie is hier alleen Italië. Alle 40 Nederlandse basiscellen en alle figuurjaren en groepen blijven verplicht. Drie oude jongensgemiddelde-koppelingen blijven expliciet open voor vergelijking.
+
+Kandidaat `b4b8af52c36aa1bdf238`; code `6c7f404c99f52935b7ee8b213815f7d75f0b15f2`; pakket: 173 bestanden, 13.103.954 bytes. De 407 runtimebestanden zijn op Windows en Linux byte voor byte gereconstrueerd; alle 410 gepubliceerde bestanden zijn via HTTPS teruggelezen en SHA256-gecontroleerd. De mobiele bediening, aangepaste groepsgemiddelden, rangbasis, zoeken en standaard herstellen zijn getest. Publicatie- en Windows/Linux-status staan in [het uitvoeringsbewijs](review_20261013/DASHBOARD_REFERENCE_REPAIR_20261018.json). De actieve RStudio-checkout is ongewijzigd. [Technische uitleg en herhaling](review_20261013/DASHBOARD_REFERENCE_REPAIR_20261018.md).
+
+## Eerdere tussenpublicatie — 18 oktober 2026
+
+De gecontroleerde snapshot van **09:59:58 UTC** staat nu op [GitHub Pages](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/nl/): **51.304 dashboardpunten, 34 brongetoetste landen en 174 gekozen figuurcontracten**. 2.115 landfiguren zijn volledig, 3.443 gedeeltelijk en 358 hebben nog geen vrijgegeven punten. De 14.191 appendix-/wetenschappelijke productcellen blijven apart volgens de gekozen plaatsing. Een dashboardpunt telt een land/figuur/jaar/reeks, niet noodzakelijk één unieke primitieve schatting.
+
+De 169 bestanden in het pakket (6.735.752 bytes) reconstrueren de publieke runtime en data byte voor byte op Windows en Linux. De 375 daadwerkelijk gepubliceerde bestanden zijn over HTTPS teruggelezen en hebben exact de verwachte SHA256-hashes. Publicatiecommit: `ddb0081fc086287eb9135d2007b3d905a106cd4f`; kandidaat: `624ff991ed5a4bacbfe0`. Het septemberarchief is behouden. Zie [uitvoeringsbewijs](review_20261013/DASHBOARD_INTERIM_20261018.json).
+
+Bij deze eerdere publicatie stonden internationale referenties/rangen nog open wegens de ontbrekende onafhankelijke vergelijkbaarheidskoppeling; de reparatie hierboven vervangt die algemene blokkade. Volledige wetenschappelijke bronreplicatie, papercontroles en decks zijn hiermee niet afgerond. De openbare website is een vastgelegde tussenstand en verandert pas bij een volgende gecontroleerde export/publicatie.
+
+De publicatie is afzonderlijk naar main gebracht; de geteste R-reparaties en deze registers staan op de voorbereidingsbranch. De actieve R-checkout is niet veranderd. Na afloop van de oude run kan de bestaande lokale installatiehulp de gecontroleerde geschiedenis in de ontwikkelbranch/PR #5 opnemen, met behoud van eigen resultaatcommits.
+
+## Probleemblokken en eindcontroles voorbereid — 18 oktober 2026
+
+De lopende internationale productie blijft op haar eigen codecommit. Reparaties staan tijdelijk op `codex/problem-blocks-final-checks-20261018`, vanuit dezelfde ontwikkelbranch. Integreer ze in PR #5 zodra de oude run is beëindigd of onderbroken en beide bestaande schrijverslocks vrij zijn; verander de actieve checkout niet tijdens berekeningen. De lokale `RESUME_WITH_FINAL_CHECKS.R` doet uitsluitend die gecontroleerde Git-integratie en roept daarna de bestaande `RUN_CURRENT_NLD.R`/`START.R` aan. Eventuele inmiddels gemaakte resultaatcommits blijven behouden. Na productie volgt de normale resultaatdepositie. Dit is een eenmalige installatiehulp, geen nieuwe wetenschappelijke runner.
+
+Vijftien vastgelopen bron-/familieblokken zijn op echte brondata onderzocht: **401 open cellen, 304 berekenbaar en 97 met een ontbrekende gevraagde subgroep of noemer**. De 304 schattingen, standaardfouten en steekproefaantallen zijn afzonderlijk met de bestaande onafhankelijke referenties vergeleken. Alle verschillen blijven onder 1e-9; tweede uitvoering: nul nieuwe berekeningen. Dit zijn geïsoleerde reparatieproeven, nog geen nieuwe certificeringen in het actieve mastergrid. Zie [uitvoeringsbewijs](review_20261013/PROBLEM_BLOCK_REPAIR_20261018.json).
+
+De bestaande producent behandelt onbeschikbaarheid nu per exacte cel. Bewijs bevat bron-, code-, taak- en diagnosehashes en de betrokken PV/replicatieposities. Ontbrekende doelen blijven in het grid en de volledige balansvoorwaarden. Een geldige nul blijft een resultaat; een lege noemer wordt geen nul. Bij Polen/PISA/2009 blokkeert een afwezige tweede generatie niet langer de wel geobserveerde groepen. Oude migratiecode eiste ten onrechte alle drie categorieën voor iedere geselecteerde berekening.
+
+De nieuwe `LO_COMPLETION_PREFLIGHT.R` maakt een alleen-lezen, op onveranderde inputhashes gecontroleerd overzicht voor `fixed-finalize`. Hij controleert exacte celidentiteit, dubbele resultaten, eindige waarden/SE/N, bewezen afwezigheden en de bestaande Drive-index. Gewone en lage-peeruitkomsten gebruiken dezelfde afwezigheidsregels. Ook afwezigheidsbewijzen worden door de bestaande externe checkpointfunctie overgebracht en werkelijk teruggelezen/hersteld.
+
+Q01–Q08 worden beoordeeld volgens [het actuele paperbeleid](review_20261013/PAPER_QA_CURRENT.json), met de oude broncriteria zichtbaar als geschiedenis. Oude aantallen 34/36 zijn methodereplicatiecontext, geen nieuwe landenvereiste. Q07 verplicht geen afgewezen officiële PISA-ESCS-analyses; de goedgekeurde IEA Home-SES-appendix blijft controleplichtig. Q06 introduceert geen onzekerheidsinterval voor de internationale groep. Q08 geldt alleen voor noodzakelijke geregistreerde paperclaims. Een PASS vereist bewijsbestanden met gecontroleerde hashes, gekoppeld aan de exacte taken, resultaatversie en dit beleid; een losse statusregel is onvoldoende.
+
+Na veilige integratie gebruikt de gebruiker dezelfde `produce-approved`-opdracht. Die voert nu automatisch `fixed-audit` → `fixed-produce` → `fixed-finalize` → `fixed-status` uit op één vastgezette codecommit. Zij pakt ook eerder vastgelopen blokken op, behoudt bestaande geldige resultaten en voert de gebalanceerde referenties, rangen, dashboardkoppeling en wetenschappelijke/productcontroles uit. Daarna volgen de laatste private checkpoint en GitHub-depositie. Geen nieuwe brede runner, scope-uitbreiding of publieke deploy. Een fout tijdens productie stopt de vervolgfasen; wetenschappelijke aandachtspunten blijven zichtbaar in het eindrapport.
+
+De volledige controle van de bevroren momentopname met **64.362 gecertificeerde cellen** is afgerond in 1.423 seconden. Alle geregistreerde certificaten/bestanden en exacte resultaatvelden zijn gecontroleerd. Er waren in die momentopname nog **5.827 open actieve cellen** en geen afgeronde Q01–Q08-papertoetsen. Dit is bewijs dat de bestaande resultaten de controle doorstaan, geen volledige wetenschappelijke vrijgave.
+
+De onderbreking `REMOTE_CHECKPOINT_INDEX_ATOMIC_REPLACE` bij Zweden betrof Windows-bestandsdeling. `LO_ATOMIC_CHECKPOINT.R` probeert uitsluitend tijdelijke sharing/lock-fouten begrensd opnieuw; de oude index blijft behouden. Ook een vergrendelde `.previous`-kopie is getest. Bij een blijvende blokkade stopt de overdracht veilig en blijft hervatten mogelijk. Op 18 oktober om 08:47 UTC bevatte de actuele Drive-index alle 64.362 lokaal gecertificeerde resultaatversies: nul open overdrachten. De toen opnieuw actieve R-run bleef ongemoeid; integreer alleen onder de bestaande checkout-/masterlocks. Zie [herstel- en testbewijs](review_20261013/CHECKPOINT_RESUME_20261018.json).
+
+**Migratieachtergrond blijft drie gekozen weergaven kennen:** minstens één ouder buiten het toetsland geboren; beide ouders buiten het toetsland geboren; en de eerste/tweede generatie afzonderlijk. De eerste generatie is zelf buiten het toetsland geboren, de tweede daarbinnen; beide vereisen twee buiten het toetsland geboren ouders. Bij de generatie-indeling is de referentie minstens één ouder geboren in het toetsland. De twee generaties samen vallen inhoudelijk onder de beide-oudersdefinitie, maar de feitelijke noemer kan verschillen als de geboorteplaats van het kind ontbreekt. De minstens-één-ouderdefinitie omvat daarnaast gemengde ouderparen. Er is geen afzonderlijke derde-generatiecel: onze geharmoniseerde bronnen bevatten daarvoor geen geverifieerde grootoudergeboorteplaatsen. Dit verduidelijkt de bestaande scope en voegt niets toe. Zie `LO_BACKGROUND_SOURCE.R`, `LO_EXACT_ESTIMATORS.R` en de drie migratiekeuzes in `assets/app-shell.js` van het dashboard.
 
 ## Productieonderbreking en herstelpunt — 17 oktober 2026
 

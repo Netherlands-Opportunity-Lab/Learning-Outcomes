@@ -1,4 +1,27 @@
-> **October development:** start with [the current decision register and four remaining assignments](06_pipeline/START_HIER_ACTUEEL.md). The October work is not scientifically released. The release descriptions below document the preserved September version; they do not define the new country eligibility, optional scope or active guided frontend.
+# Learning Outcomes — Kansenlab
+
+**[Open het dashboard](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/nl/)** · **[English](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/en/)** · **[Methode en replicatiepakket](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/info/nl/)**
+
+De tussenstand van 18 oktober 2026 bevat **51.304 gecontroleerde dashboardpunten voor 34 landen**. Kies achtereenvolgens leeftijd/domein, uitsplitsing, Weergave en hoofdland. Beschikbare punten worden getoond; ontbrekende jaren en groepen blijven open. Op uitdrukkelijk verzoek zijn tijdelijk landen met beschikbare figuurpunten selecteerbaar. Ieder vergelijkingspunt vermeldt de gebruikte en ontbrekende landen; rangen bewaren de beschikbare landenbasis per punt. De volledige balanscontrole volgt na complete productie. De website markeert deze stand als voorlopig.
+
+De schakelaar **Onzekerheidsmarge / Uncertainty range** toont optioneel 95%-betrouwbaarheidsintervallen voor het hoofdland. Hij staat standaard aan en geldt niet voor rangen of de vergelijkingsgroep. Nederlands en Engels delen één applicatie en dezelfde gegevens; de taalwissel bewaart alle keuzes. Procentreeksen worden op de juiste schaal getoond en downloads bewaren de oorspronkelijke waarden en afleiding.
+
+Het [replicatiepakket](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/replication/learning-outcomes-replication.zip) bevat 179 bestanden en is circa 13,1 MB: actuele analysescripts, omgevingsversies, scope, broncatalogi, dashboardaggregaten en herkomst. De openbare figuren worden met `python reproduce_dashboard.py` opnieuw opgebouwd en byte voor byte gecontroleerd. Volledige replicatie vanaf leerlingbestanden heeft nog de vastgelegde bronbundel nodig en is niet als afgerond gecertificeerd.
+
+- Publicatiekandidaat: `ea0632b132508dff805d`; volledige bestandsvingerafdrukken staan in de website en kandidaatmap.
+- Vastgelegde analyse- en dashboardcode: [fda6d579c87a](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/tree/fda6d579c87a2376ff9f7e8e3bf7df395d722d45). Deze code blijft afzonderlijk ontwikkeld op de bestaande ontwikkelbranch en PR #5.
+- [Actuele wetenschappelijke uitvoeringshandleiding](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/blob/fda6d579c87a2376ff9f7e8e3bf7df395d722d45/06_pipeline/REPLICATION_CURRENT.md) en [besluitregister](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/blob/fda6d579c87a2376ff9f7e8e3bf7df395d722d45/06_pipeline/START_HIER_ACTUEEL.md).
+- [Welke opdracht nu draaien en wat daarna overblijft](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/blob/fda6d579c87a2376ff9f7e8e3bf7df395d722d45/06_pipeline/RUN_COMPLETION_INVENTORY_20261018.md): inventaris met gedateerde stand, resterende landen/modules en alle uitvoeringsfasen.
+- De figuurdownloads bewaren SE, N, exacte cellen en bron-/code-/resultaathashes en de exacte vergelijkingsbasis. Afronding gebeurt alleen bij weergave.
+- [Septemberarchief](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/archive/2026-09-28/) en de historische code blijven behouden.
+
+Deze publicatie verandert de wetenschappelijke productie niet en verleent geen PASS aan open paper-, presentatie- of vergelijkbaarheidscontroles. Leerling-/schoolbestanden en complete afgeleide bulkmasters worden niet publiek gemaakt.
+
+---
+
+## Historische septemberdocumentatie
+
+De onderstaande aantallen en bronversies beschrijven uitsluitend de bewaarde release van september.
 
 # Learning Outcomes — PISA / PIRLS / TIMSS
 

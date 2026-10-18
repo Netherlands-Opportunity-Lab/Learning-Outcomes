@@ -74,22 +74,23 @@ lo_grid_verify_result_artifacts <- function(rows) {
   fields<-c("source_path","source_edition_sha256","certification_path","certification_sha256")
   if(!all(fields%in%names(rows)))stop("GRID_RESULT_ARTIFACTS_REQUIRED")
   checked<-new.env(parent=emptyenv())
-  certificates<-new.env(parent=emptyenv())
-  for(i in seq_len(nrow(rows))) {
-    for(pair in list(c("source_path","source_edition_sha256"),c("certification_path","certification_sha256"))) {
-      p<-rows[[pair[1]]][i];h<-rows[[pair[2]]][i];key<-paste(p,h)
+  # Group by immutable certificate instead of revisiting its evidence and
+  # schema for every cell. Every file is still hashed on this invocation and
+  # every selected cell/value/design field is still compared exactly.
+  for(pair in list(c('source_path','source_edition_sha256'),c('certification_path','certification_sha256'))) {
+    files<-unique(rows[pair])
+    for(i in seq_len(nrow(files))) {
+      p<-files[[pair[1]]][i];h<-files[[pair[2]]][i];key<-paste(p,h)
       if(!exists(key,checked,inherits=FALSE)) {
         if(is.na(p)||!nzchar(p)||!file.exists(p)||!grepl("^[a-f0-9]{64}$",h)||
            digest::digest(file=p,algo="sha256")!=h)stop("GRID_RESULT_CHANGED_ARTIFACT")
         assign(key,TRUE,checked)
       }
     }
-    cert_key<-paste(rows$certification_path[i],rows$certification_sha256[i])
-    if(exists(cert_key,certificates,inherits=FALSE))cert<-get(cert_key,certificates,inherits=FALSE)
-    else {
-      cert<-jsonlite::fromJSON(rows$certification_path[i],simplifyVector=TRUE)
-      assign(cert_key,cert,certificates)
-    }
+  }
+  groups<-split(seq_len(nrow(rows)),paste(rows$certification_path,rows$certification_sha256))
+  for(ix in groups) {
+    cert<-jsonlite::fromJSON(rows$certification_path[ix[1]],simplifyVector=TRUE)
     evidence<-cert$evidence_files
     if(!is.data.frame(evidence)||!nrow(evidence)||!all(c("path","sha256")%in%names(evidence)))
       stop("GRID_RESULT_CERTIFICATE_WITHOUT_EVIDENCE")
@@ -106,9 +107,9 @@ lo_grid_verify_result_artifacts <- function(rows) {
       "weight_design","pv_rule","variance_rule")
     if(!identical(cert$status,"SCIENTIFICALLY_VALIDATED")||!all(cols%in%names(cert$cells)) ||
        anyDuplicated(cert$cells$cell_id))stop("GRID_RESULT_CERTIFICATE_INVALID")
-    j<-match(rows$cell_id[i],cert$cells$cell_id)
-    if(is.na(j))stop("GRID_RESULT_CERTIFICATE_UNKNOWN_CELL")
-    for(k in cols)if(!identical(as.character(rows[[k]][i]),as.character(cert$cells[[k]][j])))
+    j<-match(rows$cell_id[ix],cert$cells$cell_id)
+    if(anyNA(j))stop("GRID_RESULT_CERTIFICATE_UNKNOWN_CELL")
+    for(k in cols)if(!identical(as.character(rows[[k]][ix]),as.character(cert$cells[[k]][j])))
       stop("GRID_RESULT_CERTIFICATE_CHANGED_VALUE_",k)
   }
   invisible(TRUE)

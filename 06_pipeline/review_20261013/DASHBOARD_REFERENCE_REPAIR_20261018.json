@@ -1,0 +1,133 @@
+{
+  "candidate_id": "b4b8af52c36aa1bdf238",
+  "snapshot_utc": "2026-10-18T09:59:58Z",
+  "dashboard_points": 51304,
+  "countries": 34,
+  "source_commit": "6c7f404c99f52935b7ee8b213815f7d75f0b15f2",
+  "release_kind": "PARTIAL_VERIFIED_RESULTS",
+  "full_scientific_release": false,
+  "package": {
+    "files": 173,
+    "bytes": 13103954,
+    "sha256": "853692216cc2d19ecd526c93ec40de49df18aca13eb0f069d90cd1be72895e75",
+    "source_commit": "6c7f404c99f52935b7ee8b213815f7d75f0b15f2"
+  },
+  "comparability_audit": {
+    "schema_version": 1,
+    "status": "EXACT_SOURCE_RESULT_METHOD_COMPARABILITY_BINDINGS",
+    "dashboard_input_sha256": "39d039dcf465d6f8594b0e8cb0a65060e94ac7945185f550747343b31a27e8da",
+    "snapshot_sha256": "ea37409995810cbb4f67a80c883ea53faf30352056d58e7dc5302837235e90eb",
+    "scientific_export_evidence_sha256": "6943ce4613a805550d357f1989cf232b1d01c6a5562b58192a3d3938ac2ecbb4",
+    "mapped_cells": 51301,
+    "unresolved_cells": 3,
+    "reasons": {
+      "SAMPLE_SOURCE_EQUIVALENCE_UNRESOLVED": 3
+    },
+    "available_sha256": "47e8fdf3358c900b366bd3e1e8da0710da5bdac1c1659e9af1df9e7b9874238c",
+    "core_targets_sha256": "8415089ed522dbfff4a1af7839e0fbcdc24a2e7eb8564076cde22dfb7bc86879",
+    "mapping_code_sha256": "fba34461719b3262c0939bc7361f1ade1dacb9f81623180c02bd5925940564cd",
+    "previous_audit_sha256": "76c8f462308e1ab166ff25e4015ea9a531caa522d16eeaba80048f78f2413d3b",
+    "no_pupil_recalculation": true,
+    "no_new_scientific_freeze": true
+  },
+  "reference_sha256": "d8d62a9dd67a514885e893d5a18a151d018fb05cc0d25737c2f5ff305225d9be",
+  "reference_views": {
+    "FOCUS_VIEW_INCOMPLETE": 3287,
+    "BALANCED_REFERENCE_AVAILABLE": 2098,
+    "NO_ELIGIBLE_REFERENCE": 6,
+    "COMPARABILITY_PENDING": 3,
+    "FOCUS_CORE_INCOMPLETE": 522
+  },
+  "nld_reference_views": {
+    "BALANCED_REFERENCE_AVAILABLE": 128,
+    "FOCUS_VIEW_INCOMPLETE": 43,
+    "COMPARABILITY_PENDING": 3
+  },
+  "actual_browser_checks": [
+    "Chromium 390x844: country list scrolls independently; Apply stays in viewport; no horizontal overflow",
+    "NLD PIRLS mean: eligible HKG HUN ITA NZL; default ITA; empty selection disables Apply",
+    "Checked HUN and NZL; URL retains members; five equal-weight comparison means displayed",
+    "Comparison means 536.03,541.30,535.15,538.35,530.44 agree with released HUN/NZL inputs",
+    "Ranks of NLD against HUN/NZL: 1,2,1,2,2; no group-rank line",
+    "Restore defaults returns ITA; search Canada shows exact missing-wave reasons and disables Canada",
+    "Changing focus to ITA loads its own reference contract and draws the eligible reference",
+    "Browser console has no errors; actual iPhone Safari unavailable for automated testing"
+  ],
+  "release_receipt": {
+    "candidate_manifest_sha256": "b4b8af52c36aa1bdf238513100c1f8770547c92d96881348d0450fc7d0d40211",
+    "systems": 34,
+    "active_figures": 174,
+    "scientific_rows": 51304,
+    "release_kind": "PARTIAL_VERIFIED_RESULTS",
+    "release_gate": "PASS_PARTIAL_DISPLAY_ONLY_FULL_SCIENCE_INCOMPLETE",
+    "release_id": "b4b8af52c36aa1bdf238",
+    "status": "STAGED_ON_FEATURE_BRANCH_NOT_DEPLOYED"
+  },
+  "active_R_checkout_modified": false,
+  "software_tests": "20 Python regression tests and Node explorer/renderer checks PASS; real package reconstructed on Windows and Linux",
+  "deployment_status": "LIVE_VERIFIED_REFERENCE_SELECTION",
+  "publication_commit": "a73e31e9971dec160e6dd2b5e7b6558a90bd508c",
+  "deployment_run": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39128435269",
+  "candidate_windows_linux_ci": {
+    "commit": "a73e31e9971dec160e6dd2b5e7b6558a90bd508c",
+    "run": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39128350917",
+    "status": "ALL_THREE_JOBS_PASS_ACTUAL_PACKAGE_RECONSTRUCTION"
+  },
+  "public_readback": {
+    "status": "PASS_ALL_PUBLISHED_ASSET_HASHES",
+    "verified_at_utc": "2026-10-18T12:44:12.843867+00:00",
+    "candidate_id": "b4b8af52c36aa1bdf238",
+    "verified_files": 410,
+    "verified_bytes": 165940368,
+    "site": "https://netherlands-opportunity-lab.github.io/Learning-Outcomes/",
+    "archive_index": {
+      "path": "archive/2026-09-28/index.html",
+      "bytes": 6655,
+      "sha256": "91bc0b6d52edab9ca55ad8c9ebf6cf05781092d2f2ee2fed419b39932e1b4c08"
+    }
+  },
+  "public_browser_checks": {
+    "status": "PASS",
+    "verified_at_utc": "2026-10-18T12:45:03.554596+00:00",
+    "url": "https://netherlands-opportunity-lab.github.io/Learning-Outcomes/nl/",
+    "viewport": [
+      390,
+      844
+    ],
+    "engine": "Chromium; iPhone Safari not directly available",
+    "eligible_nld_reading": [
+      "ITA",
+      "HUN",
+      "HKG",
+      "NZL"
+    ],
+    "checked_selection": [
+      "HUN",
+      "ITA"
+    ],
+    "reference_values": [
+      541.98,
+      551.18,
+      540.3,
+      551.08,
+      538.3
+    ],
+    "reference_years": [
+      2001,
+      2006,
+      2011,
+      2016,
+      2021
+    ],
+    "comparison_line_and_table_visible": true,
+    "apply_inside_viewport": true,
+    "no_horizontal_overflow": true,
+    "console_errors": []
+  },
+  "temporary_cleanup": {
+    "removed_test_copies": 5,
+    "reclaimed_bytes": 791991052.0,
+    "raw_sources_and_active_R_checkout_untouched": true,
+    "remote_restoration": "Public replication ZIP 853692216cc2d19ecd526c93ec40de49df18aca13eb0f069d90cd1be72895e75 SHA-verified"
+  }
+}

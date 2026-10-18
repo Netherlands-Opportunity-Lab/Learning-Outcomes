@@ -1,3 +1,30 @@
+# Definitieve bedieningskeuzes — 18 oktober 2026, laatste gebruikersbericht
+
+Uitkomst/leeftijd → uitsplitsing → **Weergave / Measure** → hoofdland.
+Internationale vergelijking en onzekerheidsmarge staan standaard aan. Expliciete
+uit-keuzes in gedeelde links blijven behouden. Onzekerheidsknop, figuurstatus en
+alle tijdelijke/voorlopige toelichtingen staan onder de figuur. De losse tekst
+“95% · alleen hoofdland” vervalt; de 95%-methode blijft in de toelichting en downloads.
+
+De beschikbare referentiepunten in opeenvolgende meetjaren worden met een
+stippellijn verbonden. Landen kunnen per punt verschillen; dat blijft onder de
+figuur en in de tabel/download vermeld. Niet verbinden over ontbrekende meetjaren,
+definitiewijzigingen of gewijzigde rangbases. De definitieve wetenschappelijke
+balansregels veranderen niet door deze bedieningskeuzes.
+
+De oudere keuze voor standaard-uit hieronder is hiermee vervangen.
+
+# Aanvullend actueel besluit — 18 oktober 2026
+
+De vier dropdowns staan als uitkomst/leeftijd → statistiek → uitsplitsing → hoofdland.
+De vergelijking blijft de vijfde keuze. De gebruiker vraagt daarnaast een optionele
+onzekerheidsschakelaar voor de hoofdlandfiguren en een volledige Engelse vertaling
+zonder tweede applicatie. Uitvoering: **Onzekerheidsmarge / Uncertainty range**,
+standaard uit, naast de figuurstatus. Toon 95%-intervallen uit de bestaande
+gecontroleerde SE, alleen voor het hoofdland. Rangen/referentiegemiddelden krijgen
+geen interval. Dezelfde code, data en figuurkeuzes bedienen beide talen; een
+ taalwissel bewaart de selectie. Geen nieuwe schattingen of productfamilies.
+
 # Actueel ontwerpbesluit — 15 oktober 2026
 
 De gebruiker heeft nu expliciet één rustige figuurbouwer met vijf hoofdkeuzes gevraagd. Dit vervangt de verplichte aparte startpagina, zichtbare vier vraagkaarten en losse leeftijd/domeinknoppen uit het onderstaande historische besluit. De visuele basis van 1 oktober blijft: warme achtergrond, horizontale filters, ruime witte figuur, rustige omlijning en responsieve opbouw. De vier vragen zijn uitklapbare snelkoppelingen.

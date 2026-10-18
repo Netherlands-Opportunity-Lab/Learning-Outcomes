@@ -59,7 +59,7 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
   for(f in c('LO_ATOMIC_CHECKPOINT.R','LO_COUNTRY_REGISTRY.R','LO_COUNTRY_TASKS.R','LO_BALANCED_MEMBERSHIP.R','LO_GENDER_POOL_POLICY.R','LO_REMOTE_CHECKPOINT.R',
     'MASTER_ESTIMATION_GRID.R','LO_SCOPE_DECISIONS.R','LO_APPROVED_EXTENSIONS.R','LO_CERTIFY_SOURCE_BLOCKS.R',
     'LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PISA_LEGACY_SOURCE.R','LO_PEER_REFERENCE.R',
-    'LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_RUN_CONFIG.R'))source(file.path(repo,'06_pipeline',f))
+    'LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_RUN_CONFIG.R','LO_ESTIMATION_AVAILABILITY.R'))source(file.path(repo,'06_pipeline',f))
   master<-file.path(root,'master_reconciliation');international<-file.path(root,'international')
   manifest<-read.csv(file.path(international,'SOURCE_RUN_MANIFEST.csv'),colClasses='character',na.strings=character())
   support<-lo_read_source_support(file.path(master,'SOURCE_SUPPORT_CONTRACTS.csv'))
@@ -204,7 +204,13 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
         science_obj$meta$calibration_evidence_path<-ses$certificate_path;science_obj$meta$calibration_sha256<-digest::digest(file=ses$certificate_path,algo='sha256')
       }
       if(!nrow(q))return(invisible(NULL))
-      verifier_files<-c('LO_INTERNATIONAL_PRODUCTION.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PEER_REFERENCE.R','LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_INTERNATIONAL_SES.R','LO_GENDER_POOL_POLICY.R')
+      # One undefined subgroup must not discard valid siblings. Preserve exact
+      # unavailable targets with source/code/denominator proof before computing.
+      evidence<-c(srcfile,file.path(parent,src$canonical_filename))
+      if(startsWith(family,'BACKGROUND_'))evidence<-c(evidence,bg$proof)
+      q<-lo_record_estimation_availability(repo,root,science_obj,q,evidence)
+      if(!nrow(q)){lo_remote_checkpoint(repo,root);return(invisible(NULL))}
+      verifier_files<-c('LO_INTERNATIONAL_PRODUCTION.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PEER_REFERENCE.R','LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_INTERNATIONAL_SES.R','LO_GENDER_POOL_POLICY.R','LO_ESTIMATION_AVAILABILITY.R')
       key<-digest::digest(list(q=q,parent=src$canonical_sha256,object=digest::digest(science_obj,algo='sha256'),reference=vapply(file.path(repo,'06_pipeline',verifier_files),function(p)digest::digest(file=p,algo='sha256'),character(1))),algo='sha256')
       block_id<-paste0(id,'_',substr(key,1,16));out<-file.path(outroot,block_id);dir.create(out,recursive=TRUE,showWarnings=FALSE)
       if(startsWith(family,'BACKGROUND_'))file.copy(bg$proof,file.path(out,basename(bg$proof)),overwrite=FALSE)

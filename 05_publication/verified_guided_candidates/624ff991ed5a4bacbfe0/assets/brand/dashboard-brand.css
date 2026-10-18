@@ -1,0 +1,16 @@
+/* The 1 October layout is preserved. These are the approved v05/v06 brand
+   substitutions, not a new page layout or a statistical colour reassignment. */
+:root{--bg:var(--kl-color-bg);--ink:var(--kl-color-text);--muted:var(--kl-color-muted);--line:var(--kl-color-border);--paper:#fff;--brand:var(--kl-site-leerprestaties)}
+body{font-family:var(--kl-font-dashboard);font-weight:400}
+button,select,input{font-family:inherit}
+h1,h2,h3,h4,legend,.question-card h2,.direct-label,.data-details summary,.method-grid dt,th{font-weight:500}
+.brand-title{font-family:var(--kl-font-wordmark);font-weight:600}
+.brand-logo{display:block;width:280px;max-width:100%;height:auto}
+.brand-logo>svg{display:block;width:100%;height:auto}
+html[lang="nl"] .brand-logo-en,html[lang="en"] .brand-logo-nl{display:none}
+.brand-subtitle{font-weight:300;margin-left:84px}
+.eyebrow,.kicker,.measure-label,.axis-label,.breadcrumb,.question-number,.site-footer,.country-control label,.route-country-control label{font-weight:300}
+.segmented button[aria-pressed="true"],.status-badge{font-weight:500}
+.data-table-wrap td,.figure-subtitle,.hero-copy{font-weight:400}
+.question-card:hover{border-color:var(--brand)}
+@media(max-width:430px){.brand-logo{width:225px}.brand-subtitle{margin-left:68px}.site-header{gap:12px}}
