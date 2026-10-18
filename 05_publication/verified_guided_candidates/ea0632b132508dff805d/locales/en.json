@@ -1,0 +1,162 @@
+{
+  "a11y": {
+    "skip": "Skip to content",
+    "language": "Language"
+  },
+  "hero": {
+    "kicker": "International learning outcomes",
+    "title": "How have learning outcomes changed — and for whom?",
+    "copy": "Compare developments around age 10 and at age 15, across reading/language, mathematics and science."
+  },
+  "controls": {
+    "country": "Focus country or system",
+    "age": "Age / stage",
+    "domain": "Domain",
+    "outcome": "Outcome",
+    "split": "Split",
+    "viewMode": "View",
+    "peerDefinition": "Peer definition"
+  },
+  "questions": {
+    "trends": {
+      "title": "Trends",
+      "description": "How have learning outcomes changed?",
+      "routeTitle": "How have learning outcomes changed?",
+      "routeDescription": "Follow outcomes over time for the selected focus country."
+    },
+    "distribution": {
+      "title": "Distribution",
+      "description": "Where in the distribution did they change?",
+      "routeTitle": "Where in the distribution did they change?",
+      "routeDescription": "Track the bottom, middle and top of the achievement distribution over time."
+    },
+    "gaps": {
+      "title": "Gaps between groups",
+      "description": "Have gaps between groups changed?",
+      "routeTitle": "Have gaps between groups changed?",
+      "routeDescription": "Compare levels and gaps by socioeconomic background, sex category, home language and migration where valid."
+    },
+    "environment": {
+      "title": "Learning environment",
+      "description": "How are students’ learning environments composed?",
+      "routeTitle": "How are students’ learning environments composed?",
+      "routeDescription": "Explore peer exposure in the direct learning environment or the whole school."
+    }
+  },
+  "nav": {
+    "home": "Home"
+  },
+  "ages": {
+    "age10": "Around age 10 / grade 4",
+    "age15": "Age 15"
+  },
+  "domains": {
+    "reading": "Language / reading",
+    "mathematics": "Mathematics",
+    "science": "Science"
+  },
+  "actions": {
+    "copyLink": "Share this view",
+    "copied": "Link copied",
+    "download": "Download data",
+    "methods": "How is this calculated?",
+    "downloadCountry": "All displayed results for this country",
+    "downloadUnavailable": "No validated data to download"
+  },
+  "methods": {
+    "title": "Method and source",
+    "copy": "The browser selects and draws precomputed results. Scientific estimates are not calculated in the frontend.",
+    "definition": "Definition",
+    "availability": "Availability",
+    "sesDefinition": "SES definition",
+    "coverage": "Coverage / missingness",
+    "coveragePending": "Not yet available in the bound release.",
+    "comparator": "Comparison group"
+  },
+  "status": {
+    "shellReady": "The application shell is ready. Validated figure data will be connected in the next content step.",
+    "invalidRoute": "This route is not part of the locked dashboard.",
+    "PLACEHOLDER": "Results are still being produced.",
+    "HELD": "Candidate results are available but are not released while methodological validation is pending.",
+    "UNAVAILABLE": "This outcome is not available in a sufficiently comparable form for this selection.",
+    "NOT_APPLICABLE": "This outcome does not apply to this selection.",
+    "VALIDATED": "Validated results.",
+    "bindingPending": "The figure is fully built. Validated results will be added once the analysis for this selection is complete.",
+    "noEligibleCountries": "No countries have fully verified source coverage yet. The new results have not been released."
+  },
+  "figure": {
+    "measure": "Outcome",
+    "title": "Figure view",
+    "subtitle": "The figure definition follows the selected question, age and domain.",
+    "noDataTitle": "Figure ready — data pending",
+    "sourcePending": "Source metadata will be bound with the validated records.",
+    "dataTable": "Underlying values",
+    "year": "Year",
+    "group": "Group",
+    "estimate": "Estimate",
+    "confidenceInterval": "95% interval",
+    "comparatorN": "Comparison group: {n} systems",
+    "chartAria": "Time series for {title}.",
+    "tooltipYear": "Year",
+    "tooltipEstimate": "Estimate",
+    "tooltipCI": "95% interval"
+  },
+  "footer": {
+    "public": "Public research infrastructure · GitHub Pages",
+    "method": "PISA, PIRLS and TIMSS remain on their own measurement scales."
+  },
+  "splits": {
+    "ses": "Socioeconomic background",
+    "gender": "Sex category",
+    "home_language": "Home language",
+    "migration": "Migration background"
+  },
+  "viewModes": {
+    "levels": "Levels",
+    "difference": "Difference"
+  },
+  "peerDefinitions": {
+    "direct_learning_environment": "Direct learning environment",
+    "whole_school": "Whole school"
+  },
+  "seriesLabels": {
+    "total": "All pupils",
+    "comparator": "Comparison group",
+    "q1": "Bottom SES quarter",
+    "q4": "Top SES quarter",
+    "girl": "Girls",
+    "boy": "Boys",
+    "native": "At least one parent born in assessment country",
+    "first_generation": "First generation",
+    "second_generation": "Second generation",
+    "self_below_high": "Student below high level",
+    "self_high": "Student at high level",
+    "test_language_home": "Assessment language at home",
+    "other_language_home": "Other language at home",
+    "girls_minus_boys": "Gap: girls − boys",
+    "always_almost": "Home language (almost) always test language",
+    "sometimes_never": "Home language sometimes / never test language",
+    "sometimes_never_minus_always_almost": "Gap: sometimes/never − (almost) always",
+    "less_often_target_pct_always_almost_peers": "Other-language pupils: test-language peers",
+    "population_test_language_share": "Share speaking the test language at home",
+    "population_q4_share": "Share of high-SES pupils",
+    "population_q1_share": "Share of low-SES pupils",
+    "population_high_share": "Share of high-performing pupils",
+    "q1_target_pct_q4_peers": "Low SES: share of high-SES peers",
+    "q4_target_pct_q1_peers": "High SES: share of low-SES peers",
+    "q4_minus_q1": "Gap: high − low SES",
+    "self_below_basic": "Pupil below basic level",
+    "self_at_or_above_basic": "Pupil at or above basic level",
+    "migration_target_pct_reference_peers": "Migration group: share of reference-category peers",
+    "first_minus_native": "Gap: first generation − reference",
+    "second_minus_native": "Gap: second generation − reference",
+    "first_generation_target_pct_native_peers": "First generation: share of reference-category peers",
+    "second_generation_target_pct_native_peers": "Second generation: share of reference-category peers",
+    "reference": "Reference category",
+    "migration": "Migration background",
+    "migration_minus_reference": "Gap: migration − reference",
+    "population_reference_share": "Share of pupils in reference category",
+    "other_minus_test": "Gap: other home language − test language",
+    "other_language_target_pct_test_language_home_peers": "Other-language pupils: test-language peers"
+  }
+}

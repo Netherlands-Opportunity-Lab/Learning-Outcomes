@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-18",
+  "reported_failure": "REMOTE_CHECKPOINT_INDEX_ATOMIC_REPLACE after SWE_PISA_2018 PISA_CORE certification and six derived baselines",
+  "cause_verified": "Windows delete-sharing denial reproduced for the index and its previous backup; the particular process holding the user's file was not identified",
+  "fix": "Same-directory atomic replacement with bounded retry for native sharing/lock errors 32 and 33; no unlink-before-rename fallback",
+  "native_windows_checks": {
+    "transient_reader": "PASS: old index remains readable until released; replacement then succeeds",
+    "persistent_index_and_backup_locks": "PASS: failure preserves old index and prepared bytes; retry succeeds after unlock",
+    "remote_checkpoint": "PASS: downloaded package and members restored; repeated run transfers nothing; failed authentication/readback rejected",
+    "actual_bootstrap": "PASS: audit -> produce -> finalize -> status -> remote checkpoint -> GitHub deposit; frozen commit and scope; environment restored; production failure prevents following phases; startup lock released"
+  },
+  "live_readonly_observation": {
+    "timestamp_utc": "2026-10-18T08:47:08Z",
+    "stable_before_after_hashes": true,
+    "certified_cells": 64362,
+    "verified_remote_index_versions": 64362,
+    "certified_cells_missing_from_index": 0,
+    "writer_active": true,
+    "live_checkout_or_master_changed_by_this_repair": false
+  },
+  "scientific_completion": "NOT_CLAIMED: repair code and stored-result integrity do not close remaining estimates or paper/product gates",
+  "windows_linux_ci": {
+    "status": "ALL_SIX_JOBS_PASS",
+    "tested_code_commit": "8122446abd6ccf36b759c4ff1b2c5d1e939c7bb4",
+    "run": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39112892805"
+  },
+  "maintenance_integration_tests": {
+    "active_real_writer": "PASS: rejected before Git changes",
+    "clean_feature_branch": "PASS: integrates and pushes reviewed commit; identical second invocation succeeds",
+    "independent_completed_result_commit": "PASS: normal merge preserves result file and both histories; identical second invocation succeeds",
+    "scientific_runner": "Unchanged START.R entry point; no estimators in installation helper",
+    "script_sha256": "7a577abf471f2374044ad3313ff2573f7e600665c066c6dd542a0305de03a7cd",
+    "fixture_sha256": "b038b9c936424a6b072480db10fa1809b758a8defae18ffc4b013c6612d7b609"
+  }
+}
