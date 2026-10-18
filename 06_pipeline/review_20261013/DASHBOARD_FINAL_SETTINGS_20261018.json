@@ -1,0 +1,44 @@
+{
+  "candidate_id": "ea0632b132508dff805d",
+  "snapshot_utc": "2026-10-18T09:59:58Z",
+  "dashboard_points": 51304,
+  "countries": 34,
+  "source_commit": "fda6d579c87a2376ff9f7e8e3bf7df395d722d45",
+  "release_kind": "PARTIAL_VERIFIED_RESULTS",
+  "reference_mode": "AVAILABLE_CASES_PROVISIONAL",
+  "full_scientific_release": false,
+  "package": {
+    "files": 179,
+    "bytes": 13128299,
+    "sha256": "42cf9d72c8fa9a7095fbf6d755f99e4c22932112cd08e17e7d5d4fc955086861",
+    "source_commit": "fda6d579c87a2376ff9f7e8e3bf7df395d722d45"
+  },
+  "release_receipt": {
+    "candidate_manifest_sha256": "ea0632b132508dff805df959f48384683508f0db52b1de9e94b223c4f6ccd020",
+    "systems": 34,
+    "active_figures": 174,
+    "scientific_rows": 51304,
+    "release_kind": "PARTIAL_VERIFIED_RESULTS",
+    "release_gate": "PASS_PARTIAL_DISPLAY_ONLY_FULL_SCIENCE_INCOMPLETE",
+    "release_id": "ea0632b132508dff805d",
+    "status": "STAGED_ON_FEATURE_BRANCH_NOT_DEPLOYED"
+  },
+  "actual_browser_checks": [
+    "Chromium desktop and mobile 390x844: both comparison and uncertainty initially on; no horizontal overflow",
+    "Order: outcome/age, breakdown, Measure, focus country; Dutch uses Weergave",
+    "Uncertainty switch, provisional status and both provisional notices below chart; standalone 95 percent focus label absent",
+    "NLD PIRLS reading: five focus intervals; reference path one M and four L segments connecting all five available waves; no reference intervals",
+    "Explicit uncertainty=0 and compare=0 preserved when switching NL to EN; zero intervals and five focus points",
+    "Rank view: uncertainty disabled, zero intervals, no reference-group line, changing rank basis note retained",
+    "Mobile English country picker: Canada unchecked changes default 12 to custom 11; Restore defaults returns 12; reference path remains connected",
+    "No browser console warnings/errors; actual iPhone Safari not available for automated testing"
+  ],
+  "raw_country_files_unchanged": 34,
+  "display_policy": "FOCUS_NORMAL_95_AND_CORE_PERCENT_V2",
+  "data_or_estimators_changed": false,
+  "local_checks": "24 Python tests plus Node explorer and renderer passed; actual package rebuilt all 408 runtime files byte for byte",
+  "test_environment": "Windows sandbox temp access initially denied; same Python tests passed with normal temp access",
+  "active_R_checkout_modified": false,
+  "production_inventory": "RUN_COMPLETION_INVENTORY_20261018.json",
+  "deployment_status": "STAGED_NOT_DEPLOYED"
+}
