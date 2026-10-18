@@ -12,8 +12,8 @@
   "source_branch": "codex/problem-blocks-final-checks-20261018",
   "unchanged_analysis": "No scientific estimators or result calculations are merged into main by this publication.",
   "preserved_archive": "archive/2026-09-28/",
-  "candidate_windows_linux_ci": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39121920542",
-  "candidate_ci_commit": "6b1269b04b37a70ad9aa5faa5b771d0ee063f086",
+  "candidate_windows_linux_ci": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39122707018",
+  "candidate_ci_commit": "e6c07f32ef7fa21cf3028581393005ca6875ee83",
   "candidate_ci_result": "PASS_WINDOWS_LINUX_ACTUAL_PACKAGE_RECONSTRUCTION",
   "previous_candidate_id": "80346ea0081ea94b02fc",
   "change": "Display-only total series wording; scientific data unchanged"
