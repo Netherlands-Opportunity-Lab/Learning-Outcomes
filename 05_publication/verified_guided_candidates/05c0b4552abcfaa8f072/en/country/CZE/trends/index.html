@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="nl" data-base="../../../../">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Ontdek de ontwikkeling van leerprestaties met PISA, PIRLS en TIMSS.">
+<meta name="color-scheme" content="light"><title>Leerprestaties · Kansenlab</title>
+<link rel="icon" href="../../../../assets/brand/leerprestaties.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../../assets/brand/fonts.css">
+<link rel="stylesheet" href="../../../../assets/styles.css">
+</head>
+<body data-kl-brand="leerprestaties">
+<a class="skip-link" href="#main">Ga naar inhoud / Skip to content</a>
+<header class="site-header">
+ <a id="homeLink" class="brand-title" href="../../../../nl/"><img id="brandLogo" src="../../../../assets/brand/leerprestaties_nl.svg" alt="Leerprestaties" width="290" height="76"></a>
+ <div class="header-right"><span class="brand-subtitle">PISA · PIRLS · TIMSS</span><label class="sr-only" for="localeSelect">Taal / Language</label><select id="localeSelect"><option value="nl">NL</option><option value="en">EN</option></select></div>
+</header>
+<main id="main" tabindex="-1">
+ <section class="intro"><p class="eyebrow" id="eyebrow">EEN INTERNATIONALE BLIK OP ONDERWIJS</p><h1 id="pageTitle">Hoe ontwikkelen leerprestaties zich?</h1><p id="introCopy">Kies een land, leeftijd en uitkomst. Ontdek de ontwikkeling en de verschillen tussen groepen.</p></section>
+ <aside id="releaseNotice" class="release-notice" hidden></aside>
+ <section class="control-bar" aria-label="Figuurkeuzes" id="figureControls">
+  <div class="control"><label id="subjectLabel" for="subjectSelect">Uitkomst en leeftijd</label><select id="subjectSelect"></select></div>
+  <div class="control"><label id="statisticLabel" for="statisticSelect">Statistiek</label><select id="statisticSelect"></select></div>
+  <div class="control"><label id="splitLabel" for="splitSelect">Uitsplitsing</label><select id="splitSelect"></select></div>
+  <div class="control"><label id="countryLabel" for="countrySelect">Hoofdland</label><select id="countrySelect"></select></div>
+  <div class="control comparison-control"><label id="comparisonLabel" for="compareToggle">Internationaal vergelijken</label><div class="comparison-line"><input id="compareToggle" type="checkbox" role="switch" checked><span id="compareState">Aan</span><button type="button" id="editReference" class="text-button" aria-haspopup="dialog">Landen kiezen</button></div><span id="referenceSummary" class="control-help"></span></div>
+ </section>
+ <p id="selectionNotice" class="selection-notice" role="status" hidden></p>
+ <section class="figure-shell" aria-labelledby="figureHeading" aria-busy="true">
+  <header class="figure-header"><div><p class="measure-label" id="measureLabel"></p><h2 id="figureHeading">Resultaten laden…</h2><p id="figureSubtitle" class="figure-subtitle"></p></div><span id="figureStatus" class="status-badge"></span></header>
+  <div id="comparisonNotice" class="comparison-notice" role="status" hidden></div>
+  <div id="chartStage" class="chart-stage"><p role="status">Resultaten laden…</p></div>
+  <p id="definitionNote" class="definition-note"></p>
+  <details id="availabilityPanel" class="methods-panel" hidden><summary id="availabilityTitle">Beschikbaarheid</summary><div id="availabilityContent"></div></details>
+  <div class="figure-bottom"><span id="figureSource" class="source-note"></span><div class="figure-tools"><button id="copyLink" type="button" class="text-button">Link delen</button><details id="exportMenu"><summary id="exportLabel">Download</summary><div class="export-options"><button id="downloadFigure" type="button">Figuur (SVG)</button><button id="downloadData" type="button">Data (CSV)</button><button id="downloadProvenance" type="button">Data + herkomst (JSON)</button></div></details></div></div>
+  <details id="methodsPanel" class="methods-panel"><summary id="methodsTitle">Over deze figuur</summary><div id="methodContent"></div></details>
+ </section>
+ <details class="question-shortcuts"><summary id="questionsTitle">Verken een vraag</summary><nav id="questionGrid" class="question-grid" aria-label="Onderzoeksvragen"><button data-question="trends">Ontwikkeling</button><button data-question="distribution">Verdeling</button><button data-question="gaps">Verschillen tussen groepen</button><button data-question="environment">Leeromgeving</button></nav></details>
+ <p id="appStatus" class="sr-only" role="status" aria-live="polite"></p>
+</main>
+<footer class="site-footer"><span id="footerName">Een dashboard van Kansenlab</span><span id="footerMethod">PISA, PIRLS en TIMSS behouden hun eigen meetschalen.</span><a id="replicationLink" href="../../../../info/nl/">Methode, bronnen en replicatie</a></footer>
+<dialog id="referenceDialog" aria-labelledby="referenceTitle">
+ <form method="dialog" id="referenceForm"><div class="dialog-heading"><div><p class="eyebrow" id="referenceEyebrow">INTERNATIONALE VERGELIJKING</p><h2 id="referenceTitle">Stel je vergelijkingsgroep samen</h2></div><button class="close-button" type="button" id="closeReference" aria-label="Sluiten / Close">×</button></div>
+ <p id="referenceHelp"></p><div class="reference-actions"><label class="sr-only" for="countrySearch">Zoek een land / Search countries</label><input id="countrySearch" type="search" placeholder="Zoek een land"><button type="button" id="restoreReference" class="text-button">Standaard herstellen</button></div>
+ <div id="referenceCountries" class="reference-countries"></div>
+ <div id="rankOtherGroup" class="rank-other" hidden><label id="rankOtherLabel" for="rankOtherSelect">Tweede land in de rangfiguur</label><select id="rankOtherSelect"></select></div>
+ <p id="referenceFeedback" role="status"></p><div class="dialog-footer"><span id="referenceCount"></span><button id="applyReference" type="submit" class="primary-button">Toepassen</button></div></form>
+</dialog>
+<script type="module" src="../../../../assets/app-shell.js"></script>
+</body></html>
