@@ -16,10 +16,10 @@
     "missing_policy": "EXPLICIT_YEAR_GROUP_GAPS_NO_INTERPOLATION",
     "reference_policy": "PENDING_INDEPENDENT_COMPARABILITY_MAPPING",
     "replication_package": "replication/learning-outcomes-replication.zip",
-    "replication_package_bytes": 6735737,
-    "replication_package_sha256": "8017bf5278f50eb33c6b58ff819ed0a46f7a2c8f0b8bd1469aa9c493237e08a7",
+    "replication_package_bytes": 6735752,
+    "replication_package_sha256": "33af947f1513739bf39403a2b2067b95b8324019fe9b4844f6a5ebde8e56d056",
     "snapshot_utc": "2026-10-18T09:59:58Z",
-    "source_commit": "83f4b921018882eee25779cca4649b5f07a42989"
+    "source_commit": "f66a40067431ec39bbbc6a12197830307c8b8ba4"
   },
   "scientific_data_rows": 51304,
   "scientific_source_sha256": "39d039dcf465d6f8594b0e8cb0a65060e94ac7945185f550747343b31a27e8da",

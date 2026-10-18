@@ -5,9 +5,9 @@
     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
   {
-    "bytes": 36509,
+    "bytes": 36570,
     "path": "assets/app-shell.js",
-    "sha256": "0ba99e9efd99eb1364801b2598ecb64ccdb7e8311f8f71c690501c6cc83c8f42"
+    "sha256": "c893348b4608a8099d39f0b594255cae1f7b966c90c64bcafc75b7ffa225adaf"
   },
   {
     "bytes": 1382,
@@ -1147,7 +1147,7 @@
   {
     "bytes": 1306,
     "path": "GUIDED_QA.json",
-    "sha256": "83e77d3453ab91f015bbdf44afa629039ce5284637ae2aa5decbda2403d750d3"
+    "sha256": "033ed7fe5a73fb1c62e3a80f3484d04a7709aa2ee9c68923b25cc06f8c32f2df"
   },
   {
     "bytes": 174,
@@ -1860,9 +1860,9 @@
     "sha256": "c46cce12644cd03f180523aca66ae9f6d31a129633350ada83a5889ecedf98e6"
   },
   {
-    "bytes": 6735737,
+    "bytes": 6735752,
     "path": "replication/learning-outcomes-replication.zip",
-    "sha256": "8017bf5278f50eb33c6b58ff819ed0a46f7a2c8f0b8bd1469aa9c493237e08a7"
+    "sha256": "33af947f1513739bf39403a2b2067b95b8324019fe9b4844f6a5ebde8e56d056"
   },
   {
     "bytes": 26,
