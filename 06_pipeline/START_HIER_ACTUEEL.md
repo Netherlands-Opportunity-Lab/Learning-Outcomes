@@ -2,7 +2,17 @@
 
 Bijgewerkt: 18 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
 
-## Nieuw direct besluit — beschikbare resultaten nu op het dashboard
+## Laatste besluit — tijdelijk vergelijken met beschikbare resultaten
+
+Op 18 oktober zegt de gebruiker: **“Doe tijdelijk maar even met wat beschikbaar is, volledigheid en check komt als alle resultaten klaar zijn.”** Dit vervangt uitsluitend voor de tijdelijke website de volledige dekkingsvoorwaarde voor vergelijkingen en rangen. `05_publication/REFERENCE_POLICY.json` legt dit expliciet vast; `--reference-policy` activeert de stand in de bestaande bouwer. De wetenschappelijke R-productie, definitieve balansregel, brongetoetste landen en gekozen figuren veranderen niet.
+
+Een land is tijdelijk selecteerbaar zodra het gecontroleerde punten heeft voor de gekozen figuur. Standaard worden de beschikbare rijke kandidaten geselecteerd, zonder hoofdland. Ieder jaar–groeppunt gebruikt het gelijke gemiddelde van de daadwerkelijk beschikbare geselecteerde landen. Tooltip, tabel en download bewaren de gebruikte en ontbrekende leden; bij veranderende samenstelling onderbreekt de lijn. Rangen gebruiken het hoofdland plus de op dat punt beschikbare geselecteerde landen, met zichtbare noemer en zonder groepsranglijn. Ontbrekende punten blijven open. Bekende verschillen tussen meisjes en meisjes + other worden niet stilzwijgend samengevoegd.
+
+Deze stand heet `AVAILABLE_CASES_PROVISIONAL`, niet een geslaagde balanscontrole. Het bestaande strenge vergelijkingsbewijs blijft bewaard voor de eindcontrole. Na complete resultaten en review wordt zonder tijdelijke beleidsoptie opnieuw gebouwd. Zie [uitvoeringsbewijs](review_20261013/DASHBOARD_PROVISIONAL_20261018.json). Oudere beschrijvingen van blokkades hieronder zijn historische uitvoeringsmomenten.
+
+De latere expliciete UI-keuze plaatst de vier dropdowns in deze volgorde: uitkomst en leeftijd → statistiek → uitsplitsing → hoofdland. De vergelijking blijft de vijfde keuze.
+
+## Eerder direct besluit — beschikbare resultaten nu op het dashboard
 
 Op 18 oktober vraagt de gebruiker: **“alles wat we hebben op het dashboard zetten”**, ontbrekende dingen **“even open”** laten en de scripts, README, uitleg en het replicatiepakket afmaken. Dit autoriseert een expliciet gemarkeerde tussenpublicatie met al gecertificeerde dashboardpunten. Het vervangt voor die tussenpublicatie de eerdere eis dat eerst de volledige paper, presentatie en Q01–Q08 gereed zijn. Het is geen wijziging van de gekozen statistieken, productplaatsing, bron-/celvalidatie, privacygrens of balansregel.
 

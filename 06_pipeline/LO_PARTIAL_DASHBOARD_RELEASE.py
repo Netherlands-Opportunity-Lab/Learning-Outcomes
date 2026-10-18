@@ -126,7 +126,10 @@ def verify(site, certificate):
             fail('reference country route mismatch')
         refs=dict(schema_version=1,policy=refs['policy'],figures=[v for c in sorted(ids)
             for v in read(site/refs['country_files'][c])['figures']])
-    if refs.get("policy") != "FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3":
+    policy=site/'data/reference_policy.json'
+    provisional=policy.is_file()
+    expected_policy='AVAILABLE_CASES_PROVISIONAL' if provisional else 'FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3'
+    if refs.get("policy") != expected_policy:
         fail("reference policy changed")
     reference_keys = {(v["focus"], v["figure_id"]) for v in refs["figures"]}
     if reference_keys != {(c, f) for c in ids for f in fids} or len(reference_keys) != len(refs["figures"]):
@@ -138,9 +141,23 @@ def verify(site, certificate):
         if package['files'].get('release_inputs/BALANCED_REFERENCE_EXPORT.json')!=sha(balance):
             fail('replication comparison evidence differs')
         if read(balance).get('schema_version')!=3:fail('unverified reference schema')
-        recomputed=builder.explorer_references(balance,ids,figures,expected_rows,qa['scientific_source_sha256'])
-        if refs!=recomputed:fail('reference options differ from exact verified support')
-    else:
+        if not provisional:
+            recomputed=builder.explorer_references(balance,ids,figures,expected_rows,qa['scientific_source_sha256'])
+            if refs!=recomputed:fail('reference options differ from exact verified support')
+    if provisional:
+        if (cert.get('temporary_reference_authorization')!='USER_2026_10_18_TEMPORARY_AVAILABLE_RESULTS'
+            or cert.get('reference_policy_sha256')!=sha(policy)
+            or qa.get('reference_policy_sha256')!=sha(policy)
+            or qa.get('reference_mode')!=expected_policy
+            or package['files'].get('release_inputs/REFERENCE_POLICY.json')!=sha(policy)
+            or release.get('reference_policy')!=expected_policy):fail('unbound provisional authorisation')
+        with zipfile.ZipFile(site/PACKAGE) as archive,tempfile.TemporaryDirectory() as td:
+            registry=Path(td)/'countries.csv'
+            registry.write_bytes(archive.read('release_inputs/COUNTRY_SOURCE_ELIGIBILITY.csv'))
+            country_rows=builder.country_contract(None,registry)
+        recomputed=builder.provisional_references(policy,country_rows,figures,expected_rows,qa['scientific_source_sha256'])
+        if refs!=recomputed:fail('provisional options differ from available approved points')
+    elif not balance.is_file():
         for ref in refs["figures"]:
             if (ref["status"] != "COMPARABILITY_PENDING" or ref["eligible_members"] or ref["default_members"]
                     or ref.get("evidence_sha256") is not None):

@@ -26,10 +26,14 @@ attachments are added.
 Only project-authored aggregate points required by approved dashboard figures are
 included. Appendix-only research results and complete bulk masters are excluded.
 Missing years/groups remain explicitly missing; no interpolation or zero fill is
-used. Country selection, reference means and ranks are enabled only for exact
-source-, sample- and method-bound comparisons. Missing focus years or groups
-block the complete comparison; the country list explains excluded candidates.
-The package includes the same balance evidence and rechecks every membership. The displayed point count counts country/figure/year/
+used. This interim version explicitly uses `AVAILABLE_CASES_PROVISIONAL`, as
+requested while production is incomplete. Countries with any approved figure
+points can be selected. Each year/series uses available selected countries with
+equal weights, excluding the focus; contributors and omissions are recorded.
+Membership changes break the line. Ranks use the focus plus the available
+reference countries, and retain the point-specific basis and denominator. There
+is no group-rank line and no reference confidence interval. This is not a
+balanced-panel or final scientific certification. The displayed point count counts country/figure/year/
 series combinations: one underlying cell can support more than one product.
 
 ## Recalculate from original sources
@@ -91,4 +95,4 @@ licences remain applicable; see `DATA_LICENSE.md` and the included asset licence
 The interim publication does not constitute acceptance of Q01–Q08, the paper,
 the 21-slide presentation or complete scientific replication.
 
-Country selection provenance: `release_inputs/BALANCED_REFERENCE_EXPORT.json` binds every comparison cell to result/source certificates. Its fixed panels are produced by the existing R membership engine and independently checked during Python reconstruction. Default membership uses the eligible rich candidates, excludes the focus, and never silently fills missing years or pools incompatible definitions. Changing checkboxes recalculates equal-country means from the selected complete panel; ranks use that same panel and never plot a group rank.
+Country selection provenance: `release_inputs/REFERENCE_POLICY.json` records the explicit temporary authorisation and is checked against the release certificate. The older strict `release_inputs/BALANCED_REFERENCE_EXPORT.json` remains as evidence for final review; its membership is not asserted for temporary comparisons. Reconstruction independently rebuilds temporary eligibility from the included approved rows and country registry. Default members are available rich candidates, excluding the focus. Downloads carry selected/actual/omitted members, parent result hashes and the policy hash. Known girls versus girls + other definitions are not silently combined. After full production and review, rebuild without `--reference-policy` to restore strict full-support comparisons; never relabel this interim release as balanced.

@@ -40,6 +40,36 @@ assert.equal(m.referenceOption({status:'FOCUS_VIEW_INCOMPLETE'},'NLD','AUT').rea
 assert.equal(m.referenceOption({eligibility:[{country:'AUT',reason:'FAIL_DASHBOARD_6x3'}]},'NLD','AUT').reason,'admission');
 assert.equal(m.referenceOption({eligibility:[{country:'AUT',reason:'MISSING_OR_INCOMPATIBLE_REQUIRED_CELLS',missing_cells:1}]},'NLD','AUT').reason,'missing');
 assert.equal(m.referenceStatus({status:'NO_ELIGIBLE_REFERENCE'},'NLD',[]).reason,'coverage');
+// Explicit temporary mode uses the points actually available, without
+// certifying balance or changing the strict path tested above.
+const tempContract={...contract,mode:'AVAILABLE_CASES_PROVISIONAL',status:'PROVISIONAL_REFERENCE_AVAILABLE',reference_policy_sha256:'b'.repeat(64)};
+const avail=structuredClone(payloads);
+Object.values(avail).forEach(p=>p.records.forEach(r=>r.quality_status='SCIENTIFICALLY_VALIDATED'));
+avail.CAN.records=avail.CAN.records.filter(r=>!(r.year===2022&&r.series_id==='girl'));
+avail.AUT.records=avail.AUT.records.filter(r=>!(r.year===2025&&r.series_id==='boy'));
+avail.CAN.records=avail.CAN.records.filter(r=>!(r.year===2025&&r.series_id==='boy'));
+let provisional=m.referenceRows(f,'NLD',['AUT','CAN'],avail,tempContract);
+assert.equal(provisional.length,5); // both countries missing: no invented zero
+let point=provisional.find(r=>r.year===2022&&r.parent_series_id==='girl');
+assert.equal(point.estimate,500);assert.deepEqual(point.members,['AUT']);assert.deepEqual(point.excluded_members,['CAN']);
+assert.equal(point.comparison_status,'PROVISIONAL');assert.ok(!('se' in point));
+assert.deepEqual(point.parent_result_hashes,['AUT2022girl']);
+assert.equal(m.breakBetween(provisional.find(r=>r.year===2018&&r.parent_series_id==='girl'),point,f),true);
+let tempRank=m.rankRows(f,'mean_score','NLD',['AUT','CAN'],avail,tempContract,'CAN');
+assert.equal(tempRank.find(r=>r.year===2022&&r.series_role==='focus'&&r.parent_series_id==='girl').estimate,1);
+assert.equal(tempRank.find(r=>r.year===2022&&r.series_role==='focus'&&r.parent_series_id==='girl').rank_basis_n,2);
+assert.ok(!tempRank.some(r=>r.year===2022&&r.series_role==='other'&&r.parent_series_id==='girl'));
+assert.ok(!tempRank.some(r=>r.series_role==='comparator'));
+assert.ok(tempRank.every(r=>r.se===null&&r.comparison_status==='PROVISIONAL'));
+const badAvail=structuredClone(avail);badAvail.AUT.records[0].quality_status='PENDING';
+assert.deepEqual(m.referenceRows(f,'NLD',['AUT','CAN'],badAvail,tempContract)[0].members,['CAN']);
+badAvail.AUT.records=avail.AUT.records.concat(avail.AUT.records[0]);
+assert.throws(()=>m.referenceRows(f,'NLD',['AUT','CAN'],badAvail,tempContract),/DUPLICATE_AVAILABLE_CELL/);
+const pooled=structuredClone(avail);pooled.NLD.records[0].series_label_en='Girls + other';
+assert.ok(!m.referenceRows({...f,split:'gender'},'NLD',['AUT','CAN'],pooled,tempContract).some(r=>r.year===2018&&r.parent_series_id==='girl'));
+assert.equal(m.referenceStatus(tempContract,'NLD',[]).reason,'empty');
+assert.equal(m.referenceStatus(tempContract,'NLD',['NLD']).reason,'ineligible');
+assert.equal(m.referenceOption(tempContract,'NLD','AUT').reason,'provisional');
 // Optionally verify every real approved figure is reachable exactly once.
 if(process.argv[2]){const figures=JSON.parse(fs.readFileSync(process.argv[2],'utf8')).figures,reached=new Set();for(const subject of m.SUBJECTS)for(const split of m.choices(figures,subject,'none').splits)for(const statistic of m.choices(figures,subject,split).statistics){const fs=figures.filter(f=>m.compatible(f,subject)&&m.splitKey(f)===split&&m.statisticKey(f)===statistic);assert.equal(fs.length,1);reached.add(m.selectFigure(figures,{subject,split,statistic}).figure_id);}assert.equal(reached.size,figures.length);console.log(`PASS all ${figures.length} approved figure contracts reachable without collisions`);}
 console.log('PASS exact selected references, joint completeness, no benchmark CI, ranks, ties, single other country and URL roundtrip');
