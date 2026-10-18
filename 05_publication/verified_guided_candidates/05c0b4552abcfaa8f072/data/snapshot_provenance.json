@@ -1,0 +1,36 @@
+{
+  "active_figures": 174,
+  "approved_target_cells": 77611,
+  "certified_input_cells": 65495,
+  "complete_reference_review": "AFTER_COMPLETE_RESULTS",
+  "displayed_cell_validation": "FRESH_SOURCE_CERTIFICATE_HASH_AND_NUMERIC_VERIFICATION",
+  "eligible_countries": 34,
+  "export_sha256": "39d039dcf465d6f8594b0e8cb0a65060e94ac7945185f550747343b31a27e8da",
+  "mapping": {
+    "guided_focus_rows": 51304,
+    "mapping_holds": 0,
+    "publication_status": "PRIVATE_REVIEW_ONLY",
+    "requires_new_below_basic_peer": "YES",
+    "separate_appendix_or_science_rows": 14191,
+    "validated_input_cells": 65495
+  },
+  "private_validation_receipt_sha256": "6943ce4613a805550d357f1989cf232b1d01c6a5562b58192a3d3938ac2ecbb4",
+  "public_dashboard_points": 51304,
+  "public_scope": "APPROVED_DASHBOARD_PRODUCTS_ONLY_APPENDICES_SEPARATE",
+  "reference_mapping_status": "TEMPORARY_AVAILABLE_RESULTS_NOT_BALANCED",
+  "schema_version": 1,
+  "scientific_completion": false,
+  "scientific_results_unchanged": true,
+  "scope": "all_required",
+  "snapshot_input_sha256": {
+    "FIXED_PRODUCTION_V1/all_required/COUNTRY_SOURCE_ELIGIBILITY.csv": "fa497c2525ee05badd2b1c7759375e4becdbe32649a78c5ea6ad29af98a616af",
+    "FIXED_PRODUCTION_V1/all_required/FIXED_INPUT_MANIFEST.json": "128543d973597967b02dc0e7decdd2a2ff3bb2f85996073da7dad07fdafee692",
+    "master_reconciliation/SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv": "eb2634a19cb630c846d0f409cfefca9f51df890bc78e4f658dbb40c700f63e4a",
+    "master_reconciliation/SOURCE_SUPPORT_CONTRACTS.csv": "fe4dd32f5d7a5365886383bab0de7f03afed14b3e6ab6f7f0a3ac686a364a154",
+    "master_reconciliation/SOURCE_UNAVAILABLE_CELLS.csv": "38e490cae5adc9ddec880ee3daec13d466025ea26b06daee42518a50ea826129"
+  },
+  "snapshot_utc": "2026-10-18T09:59:58Z",
+  "source_access": "Official OECD/IEA sources remain separately licensed; no pupil files in this package.",
+  "temporary_reference_authorization": "USER_2026_10_18_TEMPORARY_AVAILABLE_RESULTS",
+  "verification_elapsed_seconds": 2292.22
+}
