@@ -21,6 +21,14 @@ resultaatcommit en veilig herhalen. Zie
 `review_20261013/MAINTENANCE_FETCH_REPAIR_20261018.json`. De dashboardbediening en
 publieke gegevens veranderen door deze reparatie niet.
 
+De gebruiker heeft de hulp inmiddels succesvol herhaald. Beide schrijverslocks
+bewaakten de merge van resultaatcommit `da2ffead` met de geteste reparatie;
+`331349ec64cc23ba71c2f7221d52e32b0baaf681` is op GitHub bevestigd. Om **20:45:33
+Nederlandse tijd** startte `fixed-audit` voor `all_required` op die commit.
+De actieve checkout blijft ongewijzigd. De fetchregressie en opslag-/manifestchecks
+zijn op Windows en Linux geslaagd; latere documentatie-/validatoraanvullingen
+blijven op de voorbereidingsbranch tot de actieve run is afgelopen.
+
 ## Laatste bedieningsbesluit — instellingen definitief, gegevens nog in productie
 
 De laatste telefoonscreenshot en gebruikersopdracht vervangen de eerdere
