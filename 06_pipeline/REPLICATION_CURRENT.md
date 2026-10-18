@@ -12,6 +12,14 @@ Gebruik de bestaande lokale configuratiewrapper in RStudio; stel de optie
 `lo.current.action` op `produce-approved` in. Start geen tweede schrijver naast
 een actieve run. De checkout-lock wordt vóór iedere Git-update gecontroleerd.
 
+Voor de tijdens de lopende productie apart geteste reparatie is lokaal
+`RESUME_WITH_FINAL_CHECKS.R` voorbereid. Die installatiehulp controleert checkout-
+en masterlock, haalt de vastgelegde geteste commit op, behoudt eventuele nieuwe
+resultaatcommits, voegt de reparatie zonder force/reset samen op de bestaande
+ontwikkelbranch en verifieert de GitHub-push. Pas daarna wordt de bestaande
+configuratiewrapper aangeroepen. Een tweede uitvoering is getest en veilig.
+Deze machinegebonden installatiehulp bevat geen schatter en verandert geen scope.
+
 De werkvoorraad bestaat uit alle ontbrekende goedgekeurde cellen, inclusief
 eerdere probleemblokken; er is geen handmatige startlandinstelling nodig.
 Geldige bestaande certificaten en resultaten worden hergebruikt. De gedeeltelijke
