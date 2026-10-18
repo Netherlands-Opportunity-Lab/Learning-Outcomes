@@ -51,7 +51,7 @@ export function normalizeSelection(figures, selection) {
   return out;
 }
 export function readSelection(search, defaults) {
-  const q = new URLSearchParams(search), out = {country:'NLD',subject:'age10:reading',split:'none',statistic:'mean_score',rank:false,compare:true,uncertainty:false,other:'',...defaults};
+  const q = new URLSearchParams(search), out = {country:'NLD',subject:'age10:reading',split:'none',statistic:'mean_score',rank:false,compare:true,uncertainty:true,other:'',...defaults};
   for (const k of ['country','subject','split','statistic','other']) if(q.has(k))out[k]=q.get(k);
   for (const k of ['rank','compare','uncertainty']) if(q.has(k))out[k]=q.get(k)==='1';
   out.members = q.has('members') ? [...new Set(q.get('members').split(',').filter(Boolean))].sort() : null;
@@ -61,7 +61,7 @@ export function selectionSearch(state) {
   const q = new URLSearchParams();
   for(const k of ['country','subject','split','statistic'])q.set(k,state[k]);
   if(state.rank)q.set('rank','1');
-  if(state.uncertainty)q.set('uncertainty','1');
+  q.set('uncertainty',state.uncertainty?'1':'0');
   q.set('compare',state.compare?'1':'0');
   if(state.members !== null)q.set('members',state.members.join(','));
   if(state.other)q.set('other',state.other);
@@ -72,10 +72,12 @@ export function selectionSearch(state) {
 // hashes intact; never infer a unit from the magnitude of a result. Core tail
 // shares are exported as proportions; SES tails and peer shares are already %.
 export const DISPLAY_POLICY = {
-  id:'FOCUS_NORMAL_95_AND_CORE_PERCENT_V1', confidence_level:0.95, critical_value:1.96,
+  id:'FOCUS_NORMAL_95_AND_CORE_PERCENT_V2', confidence_level:0.95, critical_value:1.96,
   interval_method:'NORMAL_APPROXIMATION_FROM_VERIFIED_SE', focus_only:true,
-  default_visible:false, rank_intervals:false, reference_intervals:false,
-  core_proportion_figures:['TR_BELOW','TR_HIGH'], interval_bounds_clipped:false
+  default_visible:true, rank_intervals:false, reference_intervals:false,
+  core_proportion_figures:['TR_BELOW','TR_HIGH'], interval_bounds_clipped:false,
+  reference_line:'CONNECT_ADJACENT_AVAILABLE_WAVES_WITH_MEMBERSHIP_NOTE',
+  rank_membership_changes_break_line:true
 };
 export function presentationRows(rows,f,rank=false) {
   return rows.map(row=>{
@@ -121,11 +123,14 @@ export function displayableRows(rows,f,availability) {
     return r.quality_status==='SCIENTIFICALLY_VALIDATED'&&Number.isFinite(number(r.estimate))&&years.includes(String(r.year))&&groups.includes(r.series_id);
   });
 }
+// Reference lines connect adjacent available survey waves; contributor changes
+// remain explicit in notes/table/downloads. Missing waves, construct breaks and
+// changing rank bases still break the line. This is display, not panel balancing.
 export function breakBetween(previous,current,f) {
   if(!previous)return true;
   const years=words(f.required_years).map(Number).sort((a,b)=>a-b);
   return years.indexOf(+current.year)!==years.indexOf(+previous.year)+1 || current.series_break_before===true || current.series_break_before==='TRUE' ||
-    (current.comparison_status==='PROVISIONAL' && previous.comparison_membership_key!==current.comparison_membership_key);
+    (current.comparison_status==='PROVISIONAL' && current.series_role!=='comparator' && previous.comparison_membership_key!==current.comparison_membership_key);
 }
 export const provisional = contract => contract?.mode==='AVAILABLE_CASES_PROVISIONAL';
 export function referenceStatus(contract, focus, members) {

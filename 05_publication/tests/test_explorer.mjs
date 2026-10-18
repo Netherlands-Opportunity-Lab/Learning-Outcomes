@@ -54,7 +54,7 @@ let point=provisional.find(r=>r.year===2022&&r.parent_series_id==='girl');
 assert.equal(point.estimate,500);assert.deepEqual(point.members,['AUT']);assert.deepEqual(point.excluded_members,['CAN']);
 assert.equal(point.comparison_status,'PROVISIONAL');assert.ok(!('se' in point));
 assert.deepEqual(point.parent_result_hashes,['AUT2022girl']);
-assert.equal(m.breakBetween(provisional.find(r=>r.year===2018&&r.parent_series_id==='girl'),point,f),true);
+assert.equal(m.breakBetween(provisional.find(r=>r.year===2018&&r.parent_series_id==='girl'),point,f),false);
 let tempRank=m.rankRows(f,'mean_score','NLD',['AUT','CAN'],avail,tempContract,'CAN');
 assert.equal(tempRank.find(r=>r.year===2022&&r.series_role==='focus'&&r.parent_series_id==='girl').estimate,1);
 assert.equal(tempRank.find(r=>r.year===2022&&r.series_role==='focus'&&r.parent_series_id==='girl').rank_basis_n,2);
@@ -103,8 +103,14 @@ const refShare=m.presentationRows([{...rawShare,series_role:'comparator',se:unde
 assert.equal(refShare.estimate,displayed.estimate);assert.equal(refShare.ci_low,undefined);
 assert.equal(m.presentationRows([{...source,estimate:2,se:1,unit:'rank'}],f)[0].ci_method,undefined);
 const enabled={...s,uncertainty:true};assert.deepEqual(m.readSelection(m.selectionSearch(enabled),{}),enabled);
-assert.equal(m.readSelection('',{}).uncertainty,false);
+assert.equal(m.readSelection('',{}).uncertainty,true);
 console.log('PASS verified focus intervals, explicit units, unchanged parents, idempotence and uncertainty URL roundtrip');
 
 assert.equal(m.presentationRows([{...source,ci_low:1,ci_high:999}],f)[0].ci_method,m.DISPLAY_POLICY.interval_method);
 assert.equal(m.presentationRows([{...source,ci_low:1,ci_high:999,ci_level:.95}],f)[0].ci_method,'SUPPLIED_95_INTERVAL');
+
+assert.equal(m.breakBetween({...point,year:2018},{...point,year:2025},f),true);
+assert.equal(m.breakBetween({...point,year:2018},{...point,year:2022,series_break_before:true},f),true);
+assert.equal(m.breakBetween({...point,year:2018,comparison_membership_key:'AUT;CAN'},{...point,year:2022,series_role:'focus',unit:'rank',comparison_membership_key:'AUT'},f),true);
+assert.equal(m.readSelection('?uncertainty=0&compare=0',{}).uncertainty,false);
+assert.equal(m.readSelection('?uncertainty=0&compare=0',{}).compare,false);
