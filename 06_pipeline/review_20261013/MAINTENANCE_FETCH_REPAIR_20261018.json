@@ -14,10 +14,15 @@
     "tracked_git_r_regression": "PASS original failure reproduced; explicit ref fetch works twice; HEAD, completed results and fetch config unchanged; unrelated pinned commit rejected"
   },
   "cross_platform_ci": {
-    "run": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39155163890",
-    "windows_prepared_fetch": "PASS",
+    "initial_run": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39155163890",
     "initial_broad_storage_check": "FAILED_STALE_GITIGNORE_MANIFEST_GUARD_REPAIRED",
-    "followup": "PENDING"
+    "followup_run": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39155570977",
+    "reviewed_commit": "e1fd411dd2123973065236b13719d13cdafff41c",
+    "single_branch_fetch_windows": "PASS",
+    "single_branch_fetch_linux": "PASS",
+    "storage_and_historical_guard_windows": "PASS",
+    "storage_and_historical_guard_linux": "PASS",
+    "unrelated_full_R_environment_jobs": "STILL_RUNNING_AT_TARGETED_VERIFICATION"
   },
   "previous_completed_run": {
     "scope": "all_required",
@@ -57,6 +62,26 @@
   "additional_ci_finding": {
     "issue": "Historical manifest compared the legitimately extended publication .gitignore to frozen September bytes",
     "fix": "Remove only the three explicit permitted additive byte blocks before historical SHA/length comparison; do not change manifest or exempt protection rules",
-    "native_test": "PASS complete validator plus rejection of removed protection and unknown/duplicated additions"
-  }
+    "native_test": "PASS complete validator plus rejection of removed protection and unknown/duplicated additions",
+    "integration": "Prepared after the user started 331349ec; do not modify the running checkout or silently advance its pin. Non-scientific repository guard only."
+  },
+  "actual_successful_integration": {
+    "timestamp_utc": "2026-10-18T18:45:26Z",
+    "before": "da2ffead1b05af2efdbc9b8adf75d8d549b1ebfd",
+    "prepared": "4be4d2a066b33bb59af17a2889115c64cb73b9f0",
+    "after": "331349ec64cc23ba71c2f7221d52e32b0baaf681",
+    "remote_verified": "331349ec64cc23ba71c2f7221d52e32b0baaf681",
+    "writer_locks": "CHECKOUT_AND_SCIENTIFIC_MASTER_HELD",
+    "result_files_changed": false
+  },
+  "resumed_execution": {
+    "action": "fixed-audit",
+    "scope": "all_required",
+    "git_commit": "331349ec64cc23ba71c2f7221d52e32b0baaf681",
+    "started_at_europe_amsterdam": "2026-10-18 20:45:33",
+    "analysis_checkout_clean_at_check": true,
+    "agent_started_production": false
+  },
+  "local_installer_sha256": "68bd4edcf0cee3ff2ffb7af9c2dd1cf2472d076d644d4099eb0e8afd9e979afd",
+  "local_entry_pin": "4be4d2a066b33bb59af17a2889115c64cb73b9f0"
 }
