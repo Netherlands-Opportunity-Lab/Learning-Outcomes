@@ -2,6 +2,29 @@
 
 Bijgewerkt: 18 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
 
+## Actuele rekenstand — 18 oktober 2026, 22:44 Nederlandse tijd
+
+De hervatte productie op `331349ec64cc23ba71c2f7221d52e32b0baaf681` heeft nu
+**alle 77.611 doelen van het huidige goedgekeurde grid afgehandeld**:
+69.775 geregistreerd gevalideerde resultaten en 7.836 onderbouwd niet-berekenbare
+cellen; nul resterende doelen en nul reparatierecords. De opgeslagen preflight
+en de vier actuele inputhashes zijn onafhankelijk teruggelezen en gelijk bevonden.
+Alle resultaatversies en het actuele afwezigheidsregister zijn opgenomen in het
+geverifieerde private Drive-checkpoint; er wacht geen gecertificeerde cel op overdracht.
+
+`fixed-finalize` is gestart. De laatste vastgelegde fase is
+`final-check-preparation`; een nieuwe afsluitende finalize-status en de nieuwe
+GitHub-resultaatdepositie zijn op dit controlemoment nog niet bevestigd.
+Laat deze run afronden en start geen tweede schrijver. De actieve checkout en
+de gepinde hervathulp zijn niet gewijzigd. Alle zes technische Windows/Linux-jobs
+van de voorbereide reparatie zijn inmiddels geslaagd.
+
+Dit sluit de rekentaken van het **huidige 34-landengrid**, niet de afzonderlijke
+Q01–Q08-, landen-/groepsbalans-, bronadmissie- en productvoorwaarden. De live
+website bevat nog de eerder gepubliceerde momentopname. Zie
+[het actuele bewijs](review_20261013/PRODUCTION_ACCOUNTING_COMPLETE_20261018.json).
+De onderstaande hervatgeschiedenis blijft gedateerd achtergrondbewijs.
+
 ## Hervathulp na afgesloten internationale run — 18 oktober 2026
 
 De oude run is afgesloten met **69.437 geregistreerd gevalideerde resultaten,

@@ -22,7 +22,7 @@
     "single_branch_fetch_linux": "PASS",
     "storage_and_historical_guard_windows": "PASS",
     "storage_and_historical_guard_linux": "PASS",
-    "unrelated_full_R_environment_jobs": "STILL_RUNNING_AT_TARGETED_VERIFICATION"
+    "unrelated_full_R_environment_jobs": "ALL_SIX_JOBS_COMPLETED_SUCCESSFULLY"
   },
   "previous_completed_run": {
     "scope": "all_required",
@@ -83,5 +83,6 @@
     "agent_started_production": false
   },
   "local_installer_sha256": "68bd4edcf0cee3ff2ffb7af9c2dd1cf2472d076d644d4099eb0e8afd9e979afd",
-  "local_entry_pin": "4be4d2a066b33bb59af17a2889115c64cb73b9f0"
+  "local_entry_pin": "4be4d2a066b33bb59af17a2889115c64cb73b9f0",
+  "resumed_production_accounting": "review_20261013/PRODUCTION_ACCOUNTING_COMPLETE_20261018.json"
 }
