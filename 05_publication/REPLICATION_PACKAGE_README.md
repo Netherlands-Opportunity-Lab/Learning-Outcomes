@@ -26,8 +26,10 @@ attachments are added.
 Only project-authored aggregate points required by approved dashboard figures are
 included. Appendix-only research results and complete bulk masters are excluded.
 Missing years/groups remain explicitly missing; no interpolation or zero fill is
-used. Comparisons and ranks remain unavailable until complete matching support
-is independently certified. The displayed point count counts country/figure/year/
+used. Country selection, reference means and ranks are enabled only for exact
+source-, sample- and method-bound comparisons. Missing focus years or groups
+block the complete comparison; the country list explains excluded candidates.
+The package includes the same balance evidence and rechecks every membership. The displayed point count counts country/figure/year/
 series combinations: one underlying cell can support more than one product.
 
 ## Recalculate from original sources
@@ -88,3 +90,5 @@ Code is under the repository MIT licence. OECD/IEA data conditions and brand/fon
 licences remain applicable; see `DATA_LICENSE.md` and the included asset licences.
 The interim publication does not constitute acceptance of Q01–Q08, the paper,
 the 21-slide presentation or complete scientific replication.
+
+Country selection provenance: `release_inputs/BALANCED_REFERENCE_EXPORT.json` binds every comparison cell to result/source certificates. Its fixed panels are produced by the existing R membership engine and independently checked during Python reconstruction. Default membership uses the eligible rich candidates, excludes the focus, and never silently fills missing years or pools incompatible definitions. Changing checkboxes recalculates equal-country means from the selected complete panel; ranks use that same panel and never plot a group rank.

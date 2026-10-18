@@ -7,7 +7,7 @@ results, and never overwrites the live GitHub Pages release. Every missing
 country/figure cell remains an explicit placeholder.
 """
 from __future__ import annotations
-import argparse,csv,hashlib,json,math,re,shutil
+import argparse,csv,hashlib,importlib.util,json,math,re,shutil
 from collections import defaultdict
 from pathlib import Path
 
@@ -287,7 +287,7 @@ def figure_complete(current,figure):
  pairs={(str(row["year"]),row["series_id"]) for row in current if row["series_role"]=="focus"}
  return bool(required) and bool(groups) and {(y,g) for y in required for g in groups}.issubset(pairs)
 
-def explorer_references(balance_path,countries,figures,rows):
+def explorer_references(balance_path,countries,figures,rows,scientific_sha=None):
  """Bind certified comparison views to public figures through exact cell IDs.
 
  Absence of the new mapping is an explicit pending state, never permission
@@ -296,7 +296,15 @@ def explorer_references(balance_path,countries,figures,rows):
  """
  def array(value):return [] if value is None else value if isinstance(value,list) else [value]
  evidence=json.loads(balance_path.read_text(encoding="utf-8-sig")) if balance_path else {}
+ if evidence.get('schema_version')==3:
+  spec=importlib.util.spec_from_file_location('reference_verify',Path(__file__).with_name('LO_DASHBOARD_REFERENCE_VERIFY.py'))
+  verifier=importlib.util.module_from_spec(spec);spec.loader.exec_module(verifier)
+  verifier.verify(evidence,rows,countries,figures,scientific_sha)
  views=array(evidence.get("views")); output=[]
+ # The immutable evidence file can be large; hash it once for the entire build.
+ evidence_sha=sha(balance_path) if balance_path else None
+ views_by_country=defaultdict(list)
+ for view in views:views_by_country[view.get('focus')].append(view)
  by_country=defaultdict(lambda:defaultdict(list))
  for row in rows:
   if row["series_role"]=="focus":by_country[row["country_id"].split(":")[-1]][row["figure_id"]].append(row)
@@ -304,7 +312,8 @@ def explorer_references(balance_path,countries,figures,rows):
   for f in figures:
    current=by_country[country][f["figure_id"]]
    cell_ids={r.get("cell_id") for r in current if r.get("cell_id")}
-   matches=[v for v in views if v.get("focus")==country and cell_ids.intersection(array(v.get("view_cell_ids")))]
+   matches=[v for v in views_by_country[country] if (v.get('figure_id')==f['figure_id'] or
+       not v.get('figure_id') and cell_ids.intersection(array(v.get("view_cell_ids"))))]
    mapped=set().union(*(set(array(v.get("view_cell_ids"))) for v in matches)) if matches else set()
    ready=bool(matches) and len(cell_ids)==len(current) and cell_ids<=mapped and figure_complete(current,f)
    ready=ready and all(v.get("status") in ("BALANCED_REFERENCE_AVAILABLE","NO_ELIGIBLE_REFERENCE") for v in matches)
@@ -321,10 +330,21 @@ def explorer_references(balance_path,countries,figures,rows):
     eligible={c for c in eligible if figure_complete(by_country[c][f["figure_id"]],f)}
     defaults &= eligible
    else:eligible=set();defaults=set()
+   reasons=[]
+   for candidate in sorted(set(countries)-{country}):
+    opts=[o for v in matches for o in array(v.get('options')) if o['country']==candidate]
+    bad=[o for o in opts if not o.get('eligible')]
+    keys=sorted(set(evidence['key_dictionary'][int(k)-1] if evidence.get('key_dictionary') else k
+        for o in bad for k in o.get('missing_keys','').split(';') if k))
+    reasons.append(dict(country=candidate,missing_cells=max((o.get('missing_cells',0) for o in bad),default=0),
+      reason=bad[0]['reason'] if bad else 'FULL_BALANCED_SUPPORT' if candidate in eligible else 'FOCUS_NOT_READY',
+      missing_examples=[dict(survey=k.split('|')[0],domain=k.split('|')[2],year=int(k.split('|')[3])) for k in keys[:3]]))
+   pending=next((v['status'] for v in matches if v['status'] in ('FOCUS_CORE_INCOMPLETE','FOCUS_VIEW_INCOMPLETE')),'COMPARABILITY_PENDING')
    output.append(dict(focus=country,figure_id=f["figure_id"],
-     status="BALANCED_REFERENCE_AVAILABLE" if ready and eligible else "NO_ELIGIBLE_REFERENCE" if ready else "COMPARABILITY_PENDING",
+     status="BALANCED_REFERENCE_AVAILABLE" if ready and eligible else "NO_ELIGIBLE_REFERENCE" if ready else pending,
      eligible_members=sorted(eligible),default_members=sorted(defaults),
-     evidence_sha256=sha(balance_path) if balance_path else None,
+     eligibility=reasons,
+     evidence_sha256=evidence_sha,
      view_ids=sorted(v["view_id"] for v in matches),required_years=f["required_years"],
      expected_series=f["expected_series"],focus_excluded=True,country_weights="EQUAL_PER_COUNTRY",benchmark_uncertainty=False))
  return dict(schema_version=1,policy="FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3",figures=output)
@@ -357,8 +377,13 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
   encoding="utf-8",newline="\n")
  if balance_export is not None:
   shutil.copyfile(balance_export,destination/"data"/"balanced_references.json")
- (destination/"data"/"explorer_references.json").write_text(json.dumps(
-   explorer_references(balance_export,ids,figures,numeric_rows),ensure_ascii=False),encoding="utf-8",newline="\n")
+ references=explorer_references(balance_export,ids,figures,numeric_rows,sha(scientific_rows) if scientific_rows else None)
+ (destination/'data/references').mkdir()
+ for country in sorted(ids):
+  (destination/f'data/references/{country}.json').write_text(json.dumps(dict(
+     schema_version=1,policy=references['policy'],figures=[v for v in references['figures'] if v['focus']==country]),ensure_ascii=False),encoding='utf-8',newline='\n')
+ (destination/"data"/"explorer_references.json").write_text(json.dumps(dict(
+   schema_version=2,policy=references['policy'],country_files={c:f'data/references/{c}.json' for c in sorted(ids)}),ensure_ascii=False),encoding="utf-8",newline="\n")
  (destination/"data"/"figure_registry.json").write_text(
   json.dumps({"figures":figures},ensure_ascii=False),encoding="utf-8",newline="\n")
  method_ids=sorted({f["method_id"] for f in figures})

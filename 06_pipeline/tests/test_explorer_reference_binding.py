@@ -18,6 +18,6 @@ class ReferenceBinding(unittest.TestCase):
    broken=[r for r in rows if r['cell_id']!='CAN_2022_boy'];self.assertEqual(run([v],broken)['eligible_members'],['AUT'])
    v2=dict(v,view_id='context',view_cell_ids=[ids[-1]],default_members=[],options=[])
    self.assertEqual(run([v,v2])['eligible_members'],[])
-   self.assertEqual(run([dict(v,status='FOCUS_VIEW_INCOMPLETE')])['status'],'COMPARABILITY_PENDING')
+   self.assertEqual(run([dict(v,status='FOCUS_VIEW_INCOMPLETE')])['status'],'FOCUS_VIEW_INCOMPLETE')
    with self.assertRaisesRegex(ValueError,'invalid reference policy'):run([dict(v,benchmark_uncertainty=True)])
 if __name__=='__main__':unittest.main()
