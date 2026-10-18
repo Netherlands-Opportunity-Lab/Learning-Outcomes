@@ -35,6 +35,15 @@ PUBLICATION_OVERLAY_ALLOWLIST={
     "CHANGELOG.md",
     "03_dashboard/README.md",
 }
+# These exact later additions do not replace historical protections. Strip only
+# these complete byte blocks before checking the original September hash; any
+# removed/changed credential or pupil-data ignore rule must still fail.
+GITIGNORE_PUBLICATION_ADDITIONS=(
+    b"# Public brand design tokens contain only approved styles, no credentials.\n"
+    b"!05_publication/verified_guided_candidates/*/assets/brand/brand_tokens.json\n",
+    b"__pycache__/\n*.pyc\n",
+    b"\n# Generated publication build\npublic_site_dist/\n",
+)
 try:
     m=json.loads((root/"PRODUCTION_MANIFEST.json").read_text(encoding="utf-8"))
     for row in m.get("files",[]):
@@ -44,6 +53,9 @@ try:
         if rel in PUBLICATION_OVERLAY_ALLOWLIST:
             continue
         b=p.read_bytes()
+        if rel == ".gitignore":
+            for addition in GITIGNORE_PUBLICATION_ADDITIONS:
+                b=b.replace(addition,b"",1)
         if len(b)!=row["bytes"]: errors.append(f"manifest byte mismatch {rel}")
         if hashlib.sha256(b).hexdigest()!=row["sha256"]: errors.append(f"manifest sha mismatch {rel}")
 except Exception as e: errors.append(f"manifest read failure {e}")
