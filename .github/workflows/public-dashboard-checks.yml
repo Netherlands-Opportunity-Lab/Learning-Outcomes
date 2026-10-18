@@ -31,10 +31,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - name: Reconstruct the actual downloadable release on a clean machine
+      - name: Check final and interim publication boundaries
+        run: |
+          python -m unittest discover -s 06_pipeline/tests -p 'test_*guided*.py' -v
+          python -m unittest discover -s 06_pipeline/tests -p 'test_partial_dashboard_release.py' -v
+          python -m unittest discover -s 06_pipeline/tests -p 'test_explorer_reference_binding.py' -v
+          node --check 05_publication/preview_overlay/assets/app-shell.js
+          node 05_publication/tests/test_explorer.mjs
+      - name: Reconstruct actual public figures from the downloadable package
         run: python 05_publication/tests/verify_interim_candidate.py
-      - name: Verify every approved figure is reachable
-        run: node 05_publication/tests/test_explorer.mjs
   public-dashboard:
     runs-on: ubuntu-latest
     steps:
@@ -45,6 +50,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
+      - name: Restored October dashboard and numeric rendering
+        run: node 05_publication/tests/test_restored_renderer.cjs
+      - name: Five-choice explorer and exact reference/rank calculations
+        run: node 05_publication/tests/test_explorer.mjs
       - name: JavaScript syntax
         run: node --check 03_dashboard/app/assets/app-product.js
       - name: Build public-safe site
@@ -53,3 +62,4 @@ jobs:
         run: python 05_publication/validate_public_site.py
       - name: Final public integration checks
         run: python 05_publication/tests/validate_public_integration.py
+

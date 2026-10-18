@@ -23,9 +23,11 @@ def main():
     spec = importlib.util.spec_from_file_location("builder", root / "06_pipeline/LO_FINAL_GUIDED_DASHBOARD_BUILD.py")
     builder = importlib.util.module_from_spec(spec); spec.loader.exec_module(builder)
     inputs = root / "release_inputs"
+    balance=inputs/'BALANCED_REFERENCE_EXPORT.json'
     builder.build(root, inputs, args.output, inputs / "dashboard_cells.csv",
                   country_registry=inputs / "COUNTRY_SOURCE_ELIGIBILITY.csv",
-                  scope_decisions=inputs / "SCOPE_APPROVALS.csv")
+                  scope_decisions=inputs / "SCOPE_APPROVALS.csv",
+                  balance_export=balance if balance.is_file() else None)
     expected = json.loads((inputs / "DASHBOARD_REBUILD_MANIFEST.json").read_text(encoding="utf-8"))
     for entry in expected:
         path = args.output / entry["path"]
