@@ -1,6 +1,14 @@
 # Wat nu uitvoeren — inventaris van 18 oktober 2026
 
-De bestaande R-productie loopt nog. Laat die run eerst afronden, of stop haar zelf
+**Latere eindstand en installatieherstel:** de oude run is inmiddels afgesloten:
+69.437 geregistreerde resultaten, 7.739 onderbouwd onbeschikbaar en 435 open.
+De eerste hervatpoging miste een Git-trackingverwijzing in de single-branch-clone;
+de hulp is gericht hersteld en behoudt hetzelfde commando. Zie
+[het actuele herstelbewijs](review_20261013/MAINTENANCE_FETCH_REPAIR_20261018.json).
+De onderstaande 16:07-inventaris blijft een historische momentopname; haar
+uitvoeringsvolgorde en afzonderlijke eindvoorwaarden blijven gelden.
+
+Tijdens de onderstaande momentopname liep de R-productie nog. Laat een actieve run eerst afronden, of stop haar zelf
 en wacht tot RStudio weer de `>`-prompt toont. Start daarna één keer de lokaal
 voorbereide **`RESUME_WITH_FINAL_CHECKS.R`** met `source(..., encoding = "UTF-8")`.
 Deze installatiehulp haalt de geteste reparatie op en roept de bestaande

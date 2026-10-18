@@ -11,6 +11,14 @@ This is an executable development pipeline, not a completed scientific replicati
 
 ## Eén opdracht voor hervatten en eindcontrole — 18 oktober 2026
 
+De lokale installatiehulp gebruikt nu `LO_PREPARED_FETCH.R`: expliciete
+fetchdoelen maken ook in een single-branch-clone de vereiste `origin`-verwijzingen.
+Dit herstelt de gemelde ontbrekende voorbereidingsbranch vóór de merge zonder
+de opgeslagen Git-fetchconfiguratie, resultaatcommits of wetenschappelijke
+berekeningen te veranderen. Hetzelfde hervatcommando blijft gelden. Zie
+`review_20261013/MAINTENANCE_FETCH_REPAIR_20261018.json` voor fout, test en actuele
+eindstand van de vorige run.
+
 De bestaande `LO_START_ACTION=produce-approved` voert audit, productie,
 finalize en status achtereenvolgens uit, met dezelfde codecommit en configuratie.
 Daarna volgen private checkpoint, GitHub-aggregaatdepositie en rapportoverdracht.

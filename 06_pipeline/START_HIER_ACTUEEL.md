@@ -2,6 +2,25 @@
 
 Bijgewerkt: 18 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
 
+## Hervathulp na afgesloten internationale run — 18 oktober 2026
+
+De oude run is afgesloten met **69.437 geregistreerd gevalideerde resultaten,
+7.739 onderbouwd niet-berekenbare cellen en 435 resterende doelen**. GitHub-depositie:
+`da2ffead1b05af2efdbc9b8adf75d8d549b1ebfd`; de uitvoer bevestigt 69.437 private
+Drive-resultaatversies. Het opgeslagen grid is stabiel teruggelezen en telt
+dezelfde aantallen. De 435 bestaan uit de 401 eerder op brondata geteste
+probleemcellen en 34 Zweedse cellen met een checkpointvergrendeling.
+
+De eerste poging met `RESUME_WITH_FINAL_CHECKS.R` stopte vóór de merge: de
+single-branch-clone had geen `origin/codex/problem-blocks-final-checks-20261018`.
+De bestaande installatiehulp gebruikt nu `LO_PREPARED_FETCH.R` met expliciete
+bron- én doelverwijzingen voor beide branches; de persoonlijke Git-configuratie
+en alle resultaten blijven behouden. Hetzelfde RStudio-commando blijft gelden.
+De native integratieproeven controleren ook behoud van een tussentijdse
+resultaatcommit en veilig herhalen. Zie
+`review_20261013/MAINTENANCE_FETCH_REPAIR_20261018.json`. De dashboardbediening en
+publieke gegevens veranderen door deze reparatie niet.
+
 ## Laatste bedieningsbesluit — instellingen definitief, gegevens nog in productie
 
 De laatste telefoonscreenshot en gebruikersopdracht vervangen de eerdere
