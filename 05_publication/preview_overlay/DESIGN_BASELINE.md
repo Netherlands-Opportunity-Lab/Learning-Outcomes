@@ -1,3 +1,19 @@
+# Definitieve bedieningskeuzes — 18 oktober 2026, laatste gebruikersbericht
+
+Uitkomst/leeftijd → uitsplitsing → **Weergave / Measure** → hoofdland.
+Internationale vergelijking en onzekerheidsmarge staan standaard aan. Expliciete
+uit-keuzes in gedeelde links blijven behouden. Onzekerheidsknop, figuurstatus en
+alle tijdelijke/voorlopige toelichtingen staan onder de figuur. De losse tekst
+“95% · alleen hoofdland” vervalt; de 95%-methode blijft in de toelichting en downloads.
+
+De beschikbare referentiepunten in opeenvolgende meetjaren worden met een
+stippellijn verbonden. Landen kunnen per punt verschillen; dat blijft onder de
+figuur en in de tabel/download vermeld. Niet verbinden over ontbrekende meetjaren,
+definitiewijzigingen of gewijzigde rangbases. De definitieve wetenschappelijke
+balansregels veranderen niet door deze bedieningskeuzes.
+
+De oudere keuze voor standaard-uit hieronder is hiermee vervangen.
+
 # Aanvullend actueel besluit — 18 oktober 2026
 
 De vier dropdowns staan als uitkomst/leeftijd → statistiek → uitsplitsing → hoofdland.
