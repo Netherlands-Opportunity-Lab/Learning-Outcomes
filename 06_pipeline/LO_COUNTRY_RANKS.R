@@ -3,9 +3,11 @@
 # rank, or an uncertainty interval for a rank. Direction is explicit and is
 # descriptive (largest/smallest value first), not a welfare judgement.
 lo_country_rank_series <- function(available,required,plot_keys,selected,focus,
-                                   direction,other=NULL) {
+                                   direction,other=NULL,transform='identity') {
   if(length(direction)!=1L || !direction%in%c('largest_first','smallest_first'))
     stop('RANK_EXPLICIT_DIRECTION_REQUIRED')
+  if(length(transform)!=1L || !transform%in%c('identity','absolute'))
+    stop('RANK_EXPLICIT_TRANSFORM_REQUIRED')
   if(length(focus)!=1L || focus%in%selected)stop('RANK_FOCUS_NOT_REFERENCE_MEMBER')
   selected<-sort(unique(selected))
   if(!length(selected))stop('RANK_REFERENCE_GROUP_EMPTY')
@@ -25,7 +27,8 @@ lo_country_rank_series <- function(available,required,plot_keys,selected,focus,
     z<-x[x$balance_key==key & x$country%in%universe,,drop=FALSE]
     z<-z[match(universe,z$country),,drop=FALSE]
     if(nrow(z)!=length(universe)||anyNA(z$country))stop('RANK_INCOMPLETE_CONSTANT_UNIVERSE')
-    ranked<-rank(if(direction=='largest_first')-z$estimate else z$estimate,ties.method='average')
+    values<-if(transform=='absolute')abs(z$estimate)else z$estimate
+    ranked<-rank(if(direction=='largest_first')-values else values,ties.method='average')
     # Exact stored doubles determine ties. Display rounding never changes ranks.
     ids<-data.frame(country=z$country,result_hash=z$source_record_id,
       verification_id=z$verification_id,estimate=z$estimate,stringsAsFactors=FALSE)
@@ -34,7 +37,8 @@ lo_country_rank_series <- function(available,required,plot_keys,selected,focus,
     for(country in display) {
       j<-match(country,z$country)
       rows[[length(rows)+1L]]<-data.frame(country=country,year=z$year[j],balance_key=key,
-        rank=ranked[j],n_ranked=length(universe),direction=direction,ties='AVERAGE_EXACT_STORED_VALUES',
+        rank=ranked[j],source_estimate=z$estimate[j],n_ranked=length(universe),direction=direction,
+        transform=transform,ties='AVERAGE_EXACT_STORED_VALUES_AFTER_EXPLICIT_TRANSFORM',
         reference_members=paste(selected,collapse=';'),ranked_members=paste(universe,collapse=';'),
         parent_set_sha256=parent_hash,own_result_hash=z$source_record_id[j],
         uncertainty_status='DESCRIPTIVE_POINT_RANK_NO_RANK_CI',stringsAsFactors=FALSE)

@@ -503,11 +503,11 @@
 "PHL","PISA","age15","mathematics",0,FALSE
 "PHL","TIMSS","age10","science",0,FALSE
 "PHL","PISA","age15","science",0,FALSE
-"POL","PIRLS","age10","reading",4,TRUE
+"POL","PIRLS","age10","reading",2,FALSE
 "POL","PISA","age15","reading",8,TRUE
-"POL","TIMSS","age10","mathematics",4,TRUE
+"POL","TIMSS","age10","mathematics",3,TRUE
 "POL","PISA","age15","mathematics",8,TRUE
-"POL","TIMSS","age10","science",4,TRUE
+"POL","TIMSS","age10","science",3,TRUE
 "POL","PISA","age15","science",7,TRUE
 "PRT","PIRLS","age10","reading",3,TRUE
 "PRT","PISA","age15","reading",8,TRUE

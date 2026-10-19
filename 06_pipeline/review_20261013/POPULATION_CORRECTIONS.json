@@ -59,6 +59,66 @@
         }
       ],
       "historical_results": "Keep targets and historical values. This wave cannot establish comparable-wave admission or a final balanced trend; never shorten the focus anchor to hide it."
+    },
+    {
+      "review_id": "POP_POL_PIRLS_2006",
+      "country": "POL",
+      "survey": "PIRLS",
+      "year": "2006",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "Polish national grade 3; the later national target changed to grade 4. Early generic international grade-4 coding does not establish a comparable population.",
+      "incorrect_assumption": "A generic source grade-4 label was treated as a stable national grade across the Polish grade change.",
+      "reason": "OFFICIAL_GRADE_CHANGE_NOT_COMPARABLE",
+      "sources": [
+        {
+          "file": "POL_PIRLS2016_national.pdf",
+          "url": "https://pirls.ibe.edu.pl/wp-content/uploads/2020/10/Raport-PIRLS-2016.pdf",
+          "sha256": "a66ae343d570b138bc309033fe2a6b7373c9f645465b732e7039ffb812b8784a",
+          "locator": "National PIRLS report, printed p47 Table 3.10: grade 3 in 2006/2011, grade 4 in 2016.",
+          "retrieved": "2026-10-19"
+        }
+      ],
+      "historical_results": "Retain historical estimates and targets. Do not combine grade-3 and grade-4 waves for 6x3 admission, references or trend lines. Poland has only two released comparable PIRLS grade-4 waves, 2016 and 2021."
+    },
+    {
+      "review_id": "POP_POL_PIRLS_2011",
+      "country": "POL",
+      "survey": "PIRLS",
+      "year": "2011",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "Polish national grade 3; the later national target changed to grade 4. Early generic international grade-4 coding does not establish a comparable population.",
+      "incorrect_assumption": "A generic source grade-4 label was treated as a stable national grade across the Polish grade change.",
+      "reason": "OFFICIAL_GRADE_CHANGE_NOT_COMPARABLE",
+      "sources": [
+        {
+          "file": "POL_PIRLS2016_national.pdf",
+          "url": "https://pirls.ibe.edu.pl/wp-content/uploads/2020/10/Raport-PIRLS-2016.pdf",
+          "sha256": "a66ae343d570b138bc309033fe2a6b7373c9f645465b732e7039ffb812b8784a",
+          "locator": "National PIRLS report, printed p47 Table 3.10: grade 3 in 2006/2011, grade 4 in 2016.",
+          "retrieved": "2026-10-19"
+        }
+      ],
+      "historical_results": "Retain historical estimates and targets. Do not combine grade-3 and grade-4 waves for 6x3 admission, references or trend lines. Poland has only two released comparable PIRLS grade-4 waves, 2016 and 2021."
+    },
+    {
+      "review_id": "POP_POL_TIMSS_2011",
+      "country": "POL",
+      "survey": "TIMSS",
+      "year": "2011",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "Polish national grade 3; the later national target changed to grade 4. Early generic international grade-4 coding does not establish a comparable population.",
+      "incorrect_assumption": "A generic source grade-4 label was treated as a stable national grade across the Polish grade change.",
+      "reason": "OFFICIAL_GRADE_CHANGE_NOT_COMPARABLE",
+      "sources": [
+        {
+          "file": "POL_PIRLS2016_national.pdf",
+          "url": "https://pirls.ibe.edu.pl/wp-content/uploads/2020/10/Raport-PIRLS-2016.pdf",
+          "sha256": "a66ae343d570b138bc309033fe2a6b7373c9f645465b732e7039ffb812b8784a",
+          "locator": "National report, printed p47 accompanying discussion: TIMSS similarly compared third and fourth grades; national TIMSS coordinator page confirms 2011 vs 2015.",
+          "retrieved": "2026-10-19"
+        }
+      ],
+      "historical_results": "Retain historical estimates and targets. Do not combine grade-3 and grade-4 waves for 6x3 admission, references or trend lines. Poland has only two released comparable PIRLS grade-4 waves, 2016 and 2021."
     }
   ]
 }

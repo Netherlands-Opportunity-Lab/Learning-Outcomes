@@ -25,7 +25,9 @@ empty_product<-products[FALSE,,drop=FALSE]
 registry<-read(file.path(snapshot,'public_inputs/COUNTRY_SOURCE_ELIGIBILITY.csv'))
 countries<-registry$country[registry$dashboard_eligible=='TRUE' & registry$selected_for_production=='TRUE']
 rich<-registry$country[registry$rich_candidate=='TRUE']
-figures<-jsonlite::fromJSON(file.path(out,'FIGURES.json'))$figures
+figure_path<-file.path(out,'FIGURES.json')
+figure_sha<-digest::digest(file=figure_path,algo='sha256')
+figures<-jsonlite::fromJSON(figure_path)$figures
 anchor<-read(file.path(repo,'06_pipeline/review_20261013/NLD_POLICY_CORE_YEAR_ANCHOR.csv'))
 admission<-lo_dashboard_eligibility(x,countries)$countries
 countries<-countries[countries%in%admission$country[admission$dashboard_eligible]]
@@ -90,6 +92,7 @@ for(focus in sort(countries)) {
 proof_cols<-c('cell_id','country',lo_balance_columns(),'result_hash','verification_id',
               'source_certificate_sha256','result_certificate_sha256')
 jsonlite::write_json(list(schema_version=3L,policy='FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3',
+ figure_registry_sha256=figure_sha,
  dashboard_input_sha256=review$dashboard_input_sha256,mapping_evidence=review,
  population_review_sha256=attr(population_review,'sha256'),
  key_dictionary=all_keys,cell_columns=proof_cols,cells=unname(as.matrix(a[proof_cols])),

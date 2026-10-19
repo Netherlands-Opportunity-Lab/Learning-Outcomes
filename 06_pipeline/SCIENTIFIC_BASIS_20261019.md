@@ -27,11 +27,12 @@ Ontbrekende doelen krijgen precies één hoofdreden: ontbrekende bronkoppeling, 
 
 De beoordeelde kandidateninventaris bevat 116 broncodes/landen/stelsels; dat zijn niet 116 soevereine landen. Ook systemen buiten COMMON42 zijn gecontroleerd. [COUNTRY_REVIEW.csv](review_20261013/scientific_review/COUNTRY_REVIEW.csv) geeft per kandidaat de uitkomst en reden; de zes afzonderlijke tellers staan in `VERIFIED_COUNTRY_SIX_COMBINATIONS.csv`. Ontbrekende certificering is op zichzelf geen bewijs van niet-deelname.
 
-Er voldoen 33 landen/stelsels aan ten minste drie vergelijkbare meetgolven in elk van de zes combinaties: **ARE, AUS, AUT, AZE, BGR, CZE, DEU, DNK, ESP, FIN, FRA, GEO, HKG, HUN, IRL, ITA, LTU, LVA, MAR, NLD, NOR, NZL, POL, PRT, QAT, RUS, SAU, SGP, SVK, SVN, SWE, TWN en USA**. Hongkong en Chinees Taipei blijven hun consequent gedefinieerde onderwijsstelsel; ze worden niet omgedoopt tot China. Voor Noorwegen tellen uitsluitend de passende leerjaar-4-bestanden, waaronder de officiële aanvullende steekproeven, niet de leerjaar-5-populatie.
+Er voldoen 32 landen/stelsels aan ten minste drie vergelijkbare meetgolven in elk van de zes combinaties: **ARE, AUS, AUT, AZE, BGR, CZE, DEU, DNK, ESP, FIN, FRA, GEO, HKG, HUN, IRL, ITA, LTU, LVA, MAR, NLD, NOR, NZL, PRT, QAT, RUS, SAU, SGP, SVK, SVN, SWE, TWN en USA**. Hongkong en Chinees Taipei blijven hun consequent gedefinieerde onderwijsstelsel; ze worden niet omgedoopt tot China. Voor Noorwegen tellen uitsluitend de passende leerjaar-4-bestanden, waaronder de officiële aanvullende steekproeven, niet de leerjaar-5-populatie.
 
 | Kandidaat | Inhoudelijke uitkomst |
 |---|---|
 | CAN | De als nationaal gecertificeerde PIRLS-2001-bron omvat Ontario en Québec. Na correctie blijven twee passende nationale leesgolven over; Canada voldoet niet aan 6×3. Historische resultaten blijven bewaard. |
+| POL | PIRLS 2006/2011 en TIMSS 2011 betreffen de Poolse derde klas. PIRLS gebruikt vanaf 2016 de vierde klas, TIMSS vanaf 2015. De leerjaarwisseling is geen vergelijkbare tijdreeks; slechts twee vrijgegeven PIRLS-golven betreffen de consistente vierde-klaspopulatie. |
 | BEL | Vlaamse/Franse onderwijsgemeenschappen in IEA zijn niet uitwisselbaar met nationaal PISA-België. Geen stilzwijgende regionale of nationale reconstructie. |
 | GBR | Engeland, Schotland en Noord-Ierland in IEA zijn niet hetzelfde als nationaal PISA-Verenigd Koninkrijk. |
 | CHE en KOR | Geen drie PIRLS-leesgolven in de beoordeelde vrijgegeven cycli; TIMSS-deelname levert geen leesuitkomst. |
@@ -39,6 +40,9 @@ Er voldoen 33 landen/stelsels aan ten minste drie vergelijkbare meetgolven in el
 | LUX | Eén PIRLS-golf, 2006; de afwijkende lokale leerjaaraanduiding maakt daar geen drie golven van. |
 | IRN en OMN | Voldoende IEA-golven, maar geen drie PISA-golven in de beoordeelde cyclusbestanden. |
 | MKD | Drie PIRLS-golven, maar slechts twee passende TIMSS-leerjaar-4-golven. |
+| MLT | De officiële deelname is ruimer dan de lokale bestandsinventaris: PIRLS 2011/2016/2021, maar slechts twee TIMSS-golven op het primaire niveau, 2011/2019. TIMSS 2023 betreft het voortgezet onderwijs en telt niet mee. |
+
+De [Poolse nationale bron](https://ibe.edu.pl/en/assessments/assessments-international-large-scale-assessments/pirls-international-assessments) en het gepinde nationale rapport onderscheiden de leerjaren expliciet. Een algemene internationale code voor leerjaar 4 is hier onvoldoende bewijs van een ongewijzigde nationale populatie. Bij Malta bevestigt de [nationale TIMSS-deelnamelijst](https://curriculum.gov.mt/timss/) het onderscheid tussen beide onderwijsniveaus. `COUNTRY_PARTICIPATION_CLARIFICATIONS.json` legt vast dat aanwezige bronbestanden, officiële deelname en vergelijkbare golven verschillende tellers zijn.
 
 De rijke kandidatenlijst is ongewijzigd: AUS, AUT, BEL, CAN, CHE, DEU, DNK, ESP, FIN, FRA, GBR, IRL, ISL, ITA, KOR, LUX, NLD, NOR, SWE en USA. De historische constructie is **OESO-lidmaatschap en bbp per hoofd in koopkrachtpariteit in 2024 strikt boven Tsjechië**, uit World Bank `NY.GDP.PCAP.PP.CD`; dit is niet de algemene World Bank-inkomensclassificatie. De teruggevonden bron en drempel zijn afzonderlijk gepind. Het getal twintig verleent geen toelating.
 
@@ -50,7 +54,7 @@ AUT 2009 en ESP 2018 blijven historische resultaten, maar worden wegens de expli
 
 De referentie is steeds een gelijkgewogen gemiddelde van landen, exclusief het hoofdland, met constante volledige dekking van het hoofdlandanker plus de gezamenlijk gekozen figuurreeksen. De tijdelijke available-cases-website is geen bewijs van deze definitieve balans. De bestaande publieke vormgeving en laatste UI-code worden behouden voor de daaropvolgende productstap.
 
-Rang gebruikt precies de geselecteerde referentielanden plus het hoofdland eenmaal als rangbasis. Bij rang wordt geen groepslijn, groepsrang of groepsinterval geproduceerd. Een eventuele tweede landlijn moet tot dezelfde basis behoren. Gelijke ongeronde schattingen krijgen de gemiddelde rang. De richting wordt expliciet bij de maat vastgelegd; een rangverschil is geen bewijs van een statistisch significant verschil. Een ranglijsttabel hoort alleen in de paper.
+Rang gebruikt precies de geselecteerde referentielanden plus het hoofdland eenmaal als rangbasis. Bij rang wordt geen groepslijn, groepsrang of groepsinterval geproduceerd. Een eventuele tweede landlijn moet tot dezelfde basis behoren. Bij gemiddelde, percentielscores en hoog/gevorderd staat de grootste waarde op rang 1; bij onder basisniveau, P90–P10 en de absolute kloofgrootte de kleinste. Dit behoudt de bestaande dashboardregels. Het teken van een kloof blijft in het bronresultaat bewaard. Gelijke ongeronde waarden na de expliciete transformatie krijgen de gemiddelde rang. Een rangverschil is geen bewijs van een statistisch significant verschil. Peer-rangen worden niet aangeboden. Een ranglijsttabel hoort alleen in de paper.
 
 ## Q01–Q08: inhoud en bewijs
 

@@ -38,7 +38,18 @@
     "legacy_fixed_panels_authorized": false,
     "group_rank_definition": "NOT_APPLICABLE: no group rank or average rank is produced",
     "rank_direction": "largest_first or smallest_first must be explicit per chosen outcome; ordering is descriptive, not a welfare judgement",
-    "ties": "AVERAGE_EXACT_STORED_VALUES; use unrounded stored estimates, average ranks for exact ties",
+    "ties": "AVERAGE_EXACT_STORED_VALUES_AFTER_EXPLICIT_TRANSFORM; use unrounded stored estimates, average ranks for exact ties; absolute gap magnitudes retain the signed source estimates",
+    "outcome_rank_rules": {
+      "mean_score": {"direction":"largest_first","transform":"identity"},
+      "below_basic": {"direction":"smallest_first","transform":"identity"},
+      "high_proficiency": {"direction":"largest_first","transform":"identity"},
+      "p10": {"direction":"largest_first","transform":"identity"},
+      "p50": {"direction":"largest_first","transform":"identity"},
+      "p90": {"direction":"largest_first","transform":"identity"},
+      "p90_minus_p10": {"direction":"smallest_first","transform":"identity"},
+      "gap": {"direction":"smallest_first","transform":"absolute"}
+    },
+    "rank_rule_origin": "Preserves the current published explorer.mjs RANK_RULES. Larger mean/high scores first; smaller below-basic shares, spreads and absolute gap magnitudes first. This is descriptive ordering, not a causal or welfare judgement. Peer ranks are not offered.",
     "uncertainty": "Do not reuse score SE as rank SE; no comparison-group CI; point ranks do not prove significant differences",
     "ranked_country_membership": "The focus country is evaluated relative to the selected reference group and is not a member of its own reference group. Include the focus result once when determining its position relative to those countries; do not require the user to check it into the reference group. An optional single-country comparison uses the same disclosed rank basis."
   },
