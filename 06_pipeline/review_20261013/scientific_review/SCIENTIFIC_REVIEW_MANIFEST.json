@@ -1,0 +1,576 @@
+{
+  "schema_version": 1,
+  "status": "REVIEWED_SCIENTIFIC_BASIS_WITH_EXPLICIT_LIMITATIONS",
+  "result_basis": "ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2",
+  "private_manifest_sha256": "f7c76a736c21a74350bdd5fa66f5c6423c0a1ba3e2cdbd49826f9c6789adddc8",
+  "approval_sha256": "11e88b29916a96786728edfba25678bc1bb9d3742e1aeb744c16a228d490a821",
+  "reviewed_target_count": 77611,
+  "scientific_review_requirements": 8,
+  "source_reports": {
+    "Q01_SES_SAMPLE_REVIEW.json": "0a3b084dbf988a335c79a05a4896be4fa62f533eb6bfc2504d4434f75b26f884",
+    "Q02_OFFICIAL_SAMPLE_REVIEW.json": "3519bd89d8858588005ef72a60af8f47024ba2804604d21760a44ca3384d6c07",
+    "Q03_Q05_FROZEN_SES_REVIEW.json": "0f78af110b90d62e1ce97883094539a3f624135925759766b39c0824a1db35e4",
+    "Q06_REFERENCE_REVIEW.json": "958070535d80fce50256cb620851a6f011a9d4e66a303071ca23a6ded2011899",
+    "Q08_PAPER_CLAIM_REVIEW.json": "8b51a45f19566bb007ff1461670c74cef62892cbeaa1648a8a01529bb98dbc4d",
+    "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz": "d39ba1d9d61516db06cfcacc62696c98a45d7e9f34168285188eadf3836a00d3",
+    "SES_SOURCE_CHECKS.csv": "b6b8019c8c1a99878ee41cb15ff26a2aaf05ad5f849e2611aeb34f1609d69a8e",
+    "COUNTRY_CYCLE_SAMPLE_QUALITY.csv": "b0d5cec8726baffb5677364111999da69b1a38efd05c289def0e7cff63d55d73",
+    "OFFICIAL_SAMPLE_TABLE_DEPENDENCIES.csv": "335048cfd10c0b933b89d6b67001efffb5676d3d6205cc7aa84d5d76dbcd3489",
+    "FROZEN_SES_COUNTRY_WAVE_REVIEW.csv": "00ca196d812fe07588891a25762b2673853a475a25a2c37c84790fc1dbcb0b06",
+    "REFERENCE_BY_VIEW.csv": "9744059890933a4e3f7a99c191248e2a5609add0b83d3e802d203a6359381bde",
+    "REFERENCE_NUMERICAL_PROBES.csv": "62e0335297d5b14226f76818f59dc83ae320844759035a63338bb4a41fed3019",
+    "RANK_NUMERICAL_PROBES.csv": "dcbf657a6781856ae57aa171ae34a3b8062f0b0053bf0d7c1f447c89f1dd6c75",
+    "REFERENCE_DEPENDENCIES.csv": "3d58a892c7089bc373f338114118ae421c50048aa736c6192a74db985dac6c7f",
+    "PAPER_CLAIM_RESULTS.csv": "44f4b03364ae39efb8207c363cbd76bc7d842e34a05180f7e2be4514ea99d2f5",
+    "PAPER_CLAIM_DEPENDENCIES.csv": "ae0719561bc344687bf5d008b469d773339c9d6134a4873f5c2a5bfbad54c819"
+  },
+  "assessments": [
+    {
+      "requirement_id": "Q01",
+      "assessment": "Actual weighted/unweighted analysis groups, SES missingness and saved result N verified; coverage is not a missing-at-random or representativeness claim.",
+      "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
+      "report_sha256": "0a3b084dbf988a335c79a05a4896be4fa62f533eb6bfc2504d4434f75b26f884"
+    },
+    {
+      "requirement_id": "Q02",
+      "assessment": "Official population, response, exclusions, mode and cycle qualifications reviewed for every used context. Documented unreported percentages remain unknown. AUT2009/ESP2018 trend qualifications and CAN2001 regional population exclude comparable support without deleting historical targets.",
+      "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
+      "report_sha256": "3519bd89d8858588005ef72a60af8f47024ba2804604d21760a44ca3384d6c07"
+    },
+    {
+      "requirement_id": "Q03",
+      "assessment": "Pinned four-wave author code and parameter parity, plus every used canonical SES score and weight projection verified numerically. Author calibration countries are not dashboard admission.",
+      "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
+      "report_sha256": "0f78af110b90d62e1ce97883094539a3f624135925759766b39c0824a1db35e4"
+    },
+    {
+      "requirement_id": "Q04",
+      "assessment": "NOT_APPLICABLE_PROVEN: no selected two-wave dependencies or targets; no historical two-wave rerun authorized or performed.",
+      "applicability": "NOT_APPLICABLE_PROVEN",
+      "report_sha256": "f677411a6eb4990d2107d5f56d9aa87e8bd64d83fc821f46d53454d2dd3d4173"
+    },
+    {
+      "requirement_id": "Q05",
+      "assessment": "Frozen parameters, input mappings, observed components, imputation and extension-country coverage reviewed. Measurement invariance outside calibration remains a stated assumption, not an empirical finding.",
+      "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
+      "report_sha256": "0f78af110b90d62e1ce97883094539a3f624135925759766b39c0824a1db35e4"
+    },
+    {
+      "requirement_id": "Q06",
+      "assessment": "Full focus anchors and jointly selected series/peer definitions enforced; admission is six combinations with three comparable waves. Equal-country means and country ranks numerically tested. Empty references stay empty; no benchmark/rank CI or group rank line.",
+      "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
+      "report_sha256": "958070535d80fce50256cb620851a6f011a9d4e66a303071ca23a6ded2011899"
+    },
+    {
+      "requirement_id": "Q07",
+      "assessment": "Chosen PISA SES retained; no added official ESCS robustness. Home-SES appendix has one usable released wave per study and no spliced historical scale or trend claim.",
+      "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
+      "report_sha256": "f677411a6eb4990d2107d5f56d9aa87e8bd64d83fc821f46d53454d2dd3d4173"
+    },
+    {
+      "requirement_id": "Q08",
+      "assessment": "Twelve retrospectively registered Dutch claims checked against exact parents and joint PV/replicate covariance. Three PISA trend tests include linking variance and Holm correction; IEA long-term intervals are explicitly conditional, with no formal trend test.",
+      "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
+      "report_sha256": "8b51a45f19566bb007ff1461670c74cef62892cbeaa1648a8a01529bb98dbc4d"
+    }
+  ],
+  "runtime_bindings": [
+    {
+      "path": "06_pipeline/BUNDLE_DISCOVERY.R",
+      "sha256": "40e8c3f6b1f851a1392dd43cb1378b7ea9364bcd9630920791273ece0c146961"
+    },
+    {
+      "path": "06_pipeline/CANONICAL_RESULT_RECONCILIATION.R",
+      "sha256": "f10d721c45aa825b229c5099e3112f7b7a474654fabece13e26ea5eaafe2b915"
+    },
+    {
+      "path": "06_pipeline/CONTRACT_REUSE_QUEUE.R",
+      "sha256": "0ad9220de4f5a39eafdd38fa2115d265f483dde0d10c28ed75735875d394ec94"
+    },
+    {
+      "path": "06_pipeline/COUNTRY_PRODUCTION_APPROVALS.csv",
+      "sha256": "aa0cdfc75ade819b7aada518872ee817b97e994be18b52bfd8f35e6ef94c7e9b"
+    },
+    {
+      "path": "06_pipeline/drive_sync.py",
+      "sha256": "916e3b7c0bc83765334a89e603fcab4c945d2f87d3c17eaebf7fb89d0e30a714"
+    },
+    {
+      "path": "06_pipeline/DRIVE_SYNC.R",
+      "sha256": "da5de493e59026e82eda9fb5bb20ce85c9345a37b73e862b596a40e4386ca3d8"
+    },
+    {
+      "path": "06_pipeline/EXISTING_LO02_EXPORT.R",
+      "sha256": "dba66bf56b3bef5ef46ec4d80171834cdd79ecb0c17e67309e92757dce6ee5e5"
+    },
+    {
+      "path": "06_pipeline/EXTRACT_POLICY_SUPPORT.py",
+      "sha256": "876323311b008255268bcf4111fdee576cd93796b61cb672dce73fd79dcb1ac9"
+    },
+    {
+      "path": "06_pipeline/GITHUB_STATUS.R",
+      "sha256": "2fc131b2a2719aa5243a23b8be907466c34e9a4a97278b3d811cf5beb38a1c62"
+    },
+    {
+      "path": "06_pipeline/GRID_ARCHIVE_BATCH.R",
+      "sha256": "f60b53f6c503337155621aa8123313b881e6472ed734fc5f8879774b980b7169"
+    },
+    {
+      "path": "06_pipeline/LO_APPROVED_EXTENSIONS.R",
+      "sha256": "00773d41caa9e493e5a250931d5dbc84b62eafc24bb0e8a7788548ad11083bd6"
+    },
+    {
+      "path": "06_pipeline/LO_ATOMIC_CHECKPOINT.R",
+      "sha256": "7ed6ba1e421712baac3600aa37954bca928f1df8ebec1d8c11c6055693967f95"
+    },
+    {
+      "path": "06_pipeline/LO_BACKGROUND_REFERENCE.R",
+      "sha256": "f5c4258f32aa48743a9e7a9ff4a35c61921f38cb2c4445dbdc58409b11867fac"
+    },
+    {
+      "path": "06_pipeline/LO_BACKGROUND_SOURCE.R",
+      "sha256": "16e23ad1939c578323c11ac14cea226840900d34f8652ee30f16da004a2eaac9"
+    },
+    {
+      "path": "06_pipeline/LO_BALANCED_EXPORT.R",
+      "sha256": "fdec9b28ba7ea076e5082a716e563a3042bfd90b2c4149251a6d77f299ad8601"
+    },
+    {
+      "path": "06_pipeline/LO_BALANCED_MEMBERSHIP.R",
+      "sha256": "a0ebdcb0ca68a042a1a008bb4d17d0014d1f98496975ec40087e102893f919d7"
+    },
+    {
+      "path": "06_pipeline/LO_BALANCED_VIEWS.R",
+      "sha256": "7b95326a6553b1e339fcd9cb0fc0c0d3c8142ff249208e5b861d62f99c342e92"
+    },
+    {
+      "path": "06_pipeline/LO_BUILD_BYTE_INDEX.py",
+      "sha256": "87e18ec7f52122d83e09afb45ceeec876e59537583ac1cf60e051106d97745ae"
+    },
+    {
+      "path": "06_pipeline/LO_CERTIFY_BASELINES.R",
+      "sha256": "41c1366b9d6b8697c943e67b6b04db9eb643c51921a1bb22b7bd8609be771d1c"
+    },
+    {
+      "path": "06_pipeline/LO_CERTIFY_SOURCE_BLOCKS.R",
+      "sha256": "212d9c12b20d982a66d76177bd1eec643547f07d240b89549eaee3bba3e0fda1"
+    },
+    {
+      "path": "06_pipeline/LO_CLOSE_VERIFIED_CANDIDATES.R",
+      "sha256": "66aa753af48c309c6fb6c5638d1fb65754d4aa80d4c75d69cd7c93f7e95dee07"
+    },
+    {
+      "path": "06_pipeline/LO_COBREROS_PREPARE.R",
+      "sha256": "ebea074bde1c3fa1289078553b794e3aa5848f4cd36aee654b7ccf97308f1154"
+    },
+    {
+      "path": "06_pipeline/LO_COMPACT_GRID_STORE.R",
+      "sha256": "9f2701b1d9a3ec79071eb4a23ccf39934fb93102fd500bf9831beefe1801b711"
+    },
+    {
+      "path": "06_pipeline/LO_COMPACT_RECOMPUTE.R",
+      "sha256": "bec8b5c7d89d13b6da7862a219251156c932af896ad74890904d3febfdf95127"
+    },
+    {
+      "path": "06_pipeline/LO_COMPLETION_PREFLIGHT.R",
+      "sha256": "a40bdbab4c70de8a3c42974a81a7e63400a5f34bd124d0b49e6bab4ff80c6399"
+    },
+    {
+      "path": "06_pipeline/LO_COUNTRY_RANKS.R",
+      "sha256": "18399ca859df10de299037b271ecab3e7ae0e5b747f9d8a9d4e1f589d4a6b5cc"
+    },
+    {
+      "path": "06_pipeline/LO_COUNTRY_REGISTRY.R",
+      "sha256": "f475dde4929657396d1efbd9967f6363d9bad946cab00756ec9febd4b7d959c5"
+    },
+    {
+      "path": "06_pipeline/LO_COUNTRY_TASKS.R",
+      "sha256": "d89f7197466ad9569cf7bd319afab5c1f3386f8376257b3d004a8b68449174fd"
+    },
+    {
+      "path": "06_pipeline/LO_DASHBOARD_COMPARABILITY.py",
+      "sha256": "57bc13900b85d81c1f9a42dc15969853b0c07143f9b627cd5eb86eeb83718efe"
+    },
+    {
+      "path": "06_pipeline/LO_DASHBOARD_PUBLIC_PACKAGE.py",
+      "sha256": "169db8475ffd56304529d157ac3b0687fe2073d136ecc2f3a0392216462fe863"
+    },
+    {
+      "path": "06_pipeline/LO_DASHBOARD_REFERENCE_EXPORT.R",
+      "sha256": "3b103045d29d7268c01b67d6876a9ba8b21b7f161cb8cdd64cb1e4408746fdda"
+    },
+    {
+      "path": "06_pipeline/LO_DASHBOARD_REFERENCE_VERIFY.py",
+      "sha256": "2f8496c3aac7fcd726b8096e68659a323939071c5c83b21c5cba5760e2c979ef"
+    },
+    {
+      "path": "06_pipeline/LO_DERIVE_POPULATION_BASELINES.R",
+      "sha256": "8d5ccb5140203a68f5676686add0ea9e2b5c4740c3dd07a4d13a632814feca2d"
+    },
+    {
+      "path": "06_pipeline/LO_ENVIRONMENT.R",
+      "sha256": "c16724135400565829cc696788ed20a2c03898193c6e7fb3b16e2ed5fd5554b9"
+    },
+    {
+      "path": "06_pipeline/LO_ESTIMATION_AVAILABILITY.R",
+      "sha256": "fbf93f7aacba023d52b131ce8255c598f7175461aa43fa4dcce6ed4ee3d49a55"
+    },
+    {
+      "path": "06_pipeline/LO_EVIDENCE_HASHES.py",
+      "sha256": "8ca2beb0792031dff7b99801e8f3a69c90cfbbb47b94df60a962fa5b881028f1"
+    },
+    {
+      "path": "06_pipeline/LO_EXACT_BOOT.R",
+      "sha256": "7869389fafb6b24f4aa77523adbd3fc06d8dce137909a80f3b1c9906b682555e"
+    },
+    {
+      "path": "06_pipeline/LO_EXACT_DISPATCH.R",
+      "sha256": "509c06c7c6aa09304be9ca555b806b86a3388f8527c5a30303c9cefe8eb48284"
+    },
+    {
+      "path": "06_pipeline/LO_EXACT_ESTIMATORS.R",
+      "sha256": "0466dc38797d2cbe6aa78b3c9202b2fa75e5cf4b647af3f94b5455e4312553a3"
+    },
+    {
+      "path": "06_pipeline/LO_EXISTING_RESULT_REGISTRY.R",
+      "sha256": "5f493e3bdf3d4be49bc268ccbbff7e74611aabe28206ae514bf32223a20a0ac7"
+    },
+    {
+      "path": "06_pipeline/LO_FINAL_DASHBOARD_BUILD.py",
+      "sha256": "e7251ea333ad0ce7b414a73931a4c7eb9862b9d4369363115393a43802751c89"
+    },
+    {
+      "path": "06_pipeline/LO_FINAL_DASHBOARD_EXPORT.R",
+      "sha256": "0ef8a314b653c3841acb622da694813385bc6e4e70cd39a86736e564dd717072"
+    },
+    {
+      "path": "06_pipeline/LO_FINAL_GUIDED_DASHBOARD_BUILD.py",
+      "sha256": "de05c98eb633162c93e433dd04131333137eef72cb8e86fac93e1393a68c71f0"
+    },
+    {
+      "path": "06_pipeline/LO_FINAL_GUIDED_EXPORT.R",
+      "sha256": "7595ca7d26673e8e1833e7f179f87cfb0792064de24957c8f37dcae501cbf27c"
+    },
+    {
+      "path": "06_pipeline/LO_FINAL_GUIDED_PUBLIC_RELEASE.py",
+      "sha256": "393561a24d412d92b4105c41845c36d94d0041d18e1bde7d4a23d02b26da9b58"
+    },
+    {
+      "path": "06_pipeline/LO_FINAL_PUBLIC_GITHUB.py",
+      "sha256": "963db5881fa9cc652a1fdf47009719f8214f62bf5e31a7d5daac03bd374dd198"
+    },
+    {
+      "path": "06_pipeline/LO_FIXED_CLEANUP_GATES.R",
+      "sha256": "78207e44e9458ffca979014c943c3081be1e3fb7fb84dd5b1daf952b7fc74e49"
+    },
+    {
+      "path": "06_pipeline/LO_FIXED_COMPARATOR.R",
+      "sha256": "20536d55c7424f5c69ecb144ccade8384cd980705d25860b099f28b85ea7b87f"
+    },
+    {
+      "path": "06_pipeline/LO_FIXED_CONTROLLER.R",
+      "sha256": "ffb666d4d274358003b332a7d357c2428421acaa956d848edb6a564209a42e54"
+    },
+    {
+      "path": "06_pipeline/LO_FIXED_PRODUCERS.R",
+      "sha256": "7d99b6212511591e17f83723c37992df61a3d0fc9718b6cc36ebf892c1fcd1bb"
+    },
+    {
+      "path": "06_pipeline/LO_FIXED_VALIDATION.R",
+      "sha256": "79afcde6fcbb7ac09eb34fe4a3b295d641a0deba1e5b7f0a3587e5f50c65649a"
+    },
+    {
+      "path": "06_pipeline/LO_FROZEN_SES_REVIEW.R",
+      "sha256": "c097c37c10b198d159c510efd9750dd26193b126705f86403a388fe68a92bcc3"
+    },
+    {
+      "path": "06_pipeline/LO_GENDER_POOL_POLICY.R",
+      "sha256": "dbc0a3f20d4d28d5d80b3bd16ee67a10dcec93acb1aff885f78de8f7e1d86e94"
+    },
+    {
+      "path": "06_pipeline/LO_GITHUB_RESULTS.R",
+      "sha256": "f13710ec6f7674b36846b984d4dd70f190197ecc375174d495b6779f19d07d1f"
+    },
+    {
+      "path": "06_pipeline/LO_IEA_BACKGROUND.R",
+      "sha256": "653f60e10b19213f6c16c0714d707263ccf97db3e8b8a1f3679e0d4d1ca2131b"
+    },
+    {
+      "path": "06_pipeline/LO_IEA_SOURCE_BLOCK.R",
+      "sha256": "2a2cbf3b5e9a7be7ad7c5352a6c4f25e70a4ffb0fc3b8da6424add3c6968977b"
+    },
+    {
+      "path": "06_pipeline/LO_INTERNATIONAL_BACKGROUND.R",
+      "sha256": "405b3de391366aa030b805ab7ed88a8a998ffc08e3d23922e760cf777cfc46cf"
+    },
+    {
+      "path": "06_pipeline/LO_INTERNATIONAL_PRODUCTION.R",
+      "sha256": "eb95b8bad5d8f11a1cce2c184a400accfdfef4822e216459a3e6d848b925e08e"
+    },
+    {
+      "path": "06_pipeline/LO_INTERNATIONAL_SES.R",
+      "sha256": "8c1e3e3236548049f8accef5529ef43e0eddd187348220db5256cab407cef032"
+    },
+    {
+      "path": "06_pipeline/LO_INTERNATIONAL_SOURCES.R",
+      "sha256": "c323b38f44813f0e2fe748fae72722b9c4947a7473a804054309efef4c529407"
+    },
+    {
+      "path": "06_pipeline/LO_INTERNATIONAL_WORKLIST.R",
+      "sha256": "0a38e46944170de59200bd715c83a8a1d031380f02927f28befea43411beeb83"
+    },
+    {
+      "path": "06_pipeline/LO_PAPER_CLAIM_REVIEW.R",
+      "sha256": "cf9f9cd45ca2f83a2028f70f253987c1d3a84b40ea91b0f7873e62f084048860"
+    },
+    {
+      "path": "06_pipeline/LO_PAPER_GATE_EVIDENCE.R",
+      "sha256": "e0620620e7dfd135753fd8da2d1b4648c19f9b1837218cf40a9327e9625fd207"
+    },
+    {
+      "path": "06_pipeline/LO_PARTIAL_DASHBOARD_RELEASE.py",
+      "sha256": "d5e7db0396018b817d6a7f61b78d86183f379a09eda242daf55d4988ee10b328"
+    },
+    {
+      "path": "06_pipeline/LO_PEER_REFERENCE.R",
+      "sha256": "aa9f3cb8461f2cd3a599a39fbbb08e51f8586df5c8af2da9d93da0e077de62d8"
+    },
+    {
+      "path": "06_pipeline/LO_PISA_LEGACY_SOURCE.R",
+      "sha256": "5364af6640a206883a20ff4f681fb2678de7229a9f653062ee08f89f13e41387"
+    },
+    {
+      "path": "06_pipeline/LO_PISA_PARTITION.R",
+      "sha256": "3b5264b20213e868e82984e9249848f830cc11e636d7f715f3fc58df35f221fd"
+    },
+    {
+      "path": "06_pipeline/LO_PISA_SOURCE_BLOCK.R",
+      "sha256": "82127b2516afc179042d1a85de2a02c20f6f167b09e539b48b7fb18133e670c7"
+    },
+    {
+      "path": "06_pipeline/LO_POPULATION_REVIEW.R",
+      "sha256": "ca3f10a90b86540c589a26008436c741d42bcca849e05d48f98dc3a3d50c10c5"
+    },
+    {
+      "path": "06_pipeline/LO_PREPARED_FETCH.R",
+      "sha256": "7f07478460a817be29fd1484edb893594d90c5b942180607f77ace29f0756016"
+    },
+    {
+      "path": "06_pipeline/LO_PROCESS_LOCK.R",
+      "sha256": "8927d01d46b1cc5fe86090babc87ceebf99364e5327147e772e2aa14ce1a3f67"
+    },
+    {
+      "path": "06_pipeline/LO_PRODUCT_TRACE.R",
+      "sha256": "a28efe5c7567696ef2c84443655081fa9e0e5f0829df0a5098b3300f93d35941"
+    },
+    {
+      "path": "06_pipeline/LO_PRODUCTION_SPACE.R",
+      "sha256": "45e3c4a745576f660b8fcb9be02b3215fac3f3b76444bd80168ad98875c02901"
+    },
+    {
+      "path": "06_pipeline/LO_REFERENCE_REVIEW.R",
+      "sha256": "76f57fda6da361028c221c3a8f9ebcb8b909560f12abac5aa4eb3458246eb89a"
+    },
+    {
+      "path": "06_pipeline/LO_REMOTE_CHECKPOINT.R",
+      "sha256": "98f2d5e54433c2b650b6a640504aec59ca54806e7ede01dfb635e3ba9bdf3e3c"
+    },
+    {
+      "path": "06_pipeline/LO_RUN_CONFIG.R",
+      "sha256": "71727bd6d3006808ed6ac0cb38e9a39471f93b7db716e02a373245884d859b2f"
+    },
+    {
+      "path": "06_pipeline/LO_SCIENTIFIC_REVIEW_BINDING.R",
+      "sha256": "5a3055ae43ecaf1b1afde497e0d46a53dafc5da7a32c44f0c74d30052781fbfc"
+    },
+    {
+      "path": "06_pipeline/LO_SCOPE_DECISIONS.R",
+      "sha256": "13cee7b621322ab2d7091e6257dce0178ff0773239a672bfbaa73d0f52d306e3"
+    },
+    {
+      "path": "06_pipeline/LO_SCOPE_LOCK.R",
+      "sha256": "7d4b1b0c6bf29253b9649874a6dc3ec4fb622f86d3788337cb548a97ed3ec058"
+    },
+    {
+      "path": "06_pipeline/LO_SCOPE_RESULT_REUSE.R",
+      "sha256": "9360ea5f804bd19ebb3cf32f45f54145aae862307d6f60a434db169ee04fe6e0"
+    },
+    {
+      "path": "06_pipeline/LO_SES_COVERAGE_REVIEW.R",
+      "sha256": "873f24c9c33e29e403720edd493b42885b23403081c851f8747def4c03702b22"
+    },
+    {
+      "path": "06_pipeline/LO_SES_REFERENCE.R",
+      "sha256": "58be6278246086a913d506e2e5e78f08b7d5b3447d81519c4e24ed40bf7ebcd1"
+    },
+    {
+      "path": "06_pipeline/LO_SOURCE_BINDINGS.R",
+      "sha256": "790909f8de2c51a26052b67d211b728b59e875c1adb5b44698b5f4a64ce34134"
+    },
+    {
+      "path": "06_pipeline/LO_SOURCE_PROJECTION_REVIEW.R",
+      "sha256": "d6036e0a29d0b23ca841e00a894fefc4e52607b2fd745ad57682b9170bdd3d24"
+    },
+    {
+      "path": "06_pipeline/LO_SOURCE_REPAIR.R",
+      "sha256": "571430cfdf91e41d66bb90d4156c52f2c55edee2d01b7fca9e935c332ed5874b"
+    },
+    {
+      "path": "06_pipeline/LO_SOURCE_UNAVAILABILITY.R",
+      "sha256": "88ebe897245dc0b8d4b00f9df989c485592c6246e5a2f05bbc08316b9039658d"
+    },
+    {
+      "path": "06_pipeline/LO_VERIFY_PISA_CORE.R",
+      "sha256": "5cdf7a4166fe064ac462888287a6c0249e20be309871880c725b166a0ac3cdf2"
+    },
+    {
+      "path": "06_pipeline/LOCAL_CLEANUP_GATE.R",
+      "sha256": "61f5005e6df95807233049db093417b9a9446450f869a33196172c1fe04b2231"
+    },
+    {
+      "path": "06_pipeline/LOCAL_QUARANTINE.R",
+      "sha256": "d16a802ab6c93ef5b65ffec463eba1ae8414766bbabed30094c49242f4cfe316"
+    },
+    {
+      "path": "06_pipeline/MASTER_ESTIMATION_GRID.R",
+      "sha256": "027ed3d60722aeafefa9852a6799ee6e348e920154229dcae72f2ea896065160"
+    },
+    {
+      "path": "06_pipeline/MASTER_STORAGE.R",
+      "sha256": "17440b2c838e7f15fb0dd221ae2aadc68b311edcff99c5297030313c3cfa8b94"
+    },
+    {
+      "path": "06_pipeline/MINIMUM_FIGURE_QUEUE.R",
+      "sha256": "9a44cfb16f1a550c5a759c6bb679be99f74bb250570b289840ecfb37c837ac2b"
+    },
+    {
+      "path": "06_pipeline/PRODUCT_EVIDENCE_AUDIT.py",
+      "sha256": "5955189bbbb9a350e98ac1a7681b9d68a6312c83b32dd424bcae9cce6ff26e84"
+    },
+    {
+      "path": "06_pipeline/PRODUCT_SCOPE_APPROVAL.py",
+      "sha256": "dd0052908d81d771c9332829503001be9042e5a84c1b96d12a904e681eec72a9"
+    },
+    {
+      "path": "06_pipeline/PRODUCT_SCOPE_GATE.R",
+      "sha256": "2e937c48f8af1eb46503d5abf717a2448826308c0de474397cf7259e4f4179ae"
+    },
+    {
+      "path": "06_pipeline/PROVENANCE_AUDIT.R",
+      "sha256": "70ed14945112c74bafcf295e62012856e24df7e1e87410d934d13f6888159c79"
+    },
+    {
+      "path": "06_pipeline/RECONCILE_AND_PLAN.R",
+      "sha256": "a4ab8dfdfa45502951c3d76a6d076245a446497fd6c4f3279b0f11a930a3560a"
+    },
+    {
+      "path": "06_pipeline/REFERENCE_SOURCE_AUDIT.R",
+      "sha256": "8a1f49cd9bab4e2b85fdeeda43f40fba9fc10de34f8878bdd186a54e0d37b944"
+    },
+    {
+      "path": "06_pipeline/repair_cleanup_plan.py",
+      "sha256": "6894bf78cdf3df516e70f567da5c91bf665e0828a8d1c3b16433f2ea3106e70e"
+    },
+    {
+      "path": "06_pipeline/RESULT_EXACT_COMPARE.R",
+      "sha256": "519295f1569e78e6af8b5c8e8319a17d156245ef6367c4ead9a7ef465c656fe8"
+    },
+    {
+      "path": "06_pipeline/RESULT_LINEAGE_RECORDS.R",
+      "sha256": "b4c49b00d74de8f200194073a025fdbdc05a0003386957b956e647f71bb0a1b7"
+    },
+    {
+      "path": "06_pipeline/REUSE_PREFLIGHT.R",
+      "sha256": "8ac3a374dd0ca8ba8d78f79b8e619dedc6d893ff2f9325d8f03d633096789949"
+    },
+    {
+      "path": "06_pipeline/review_20261013/BALANCED_REFERENCE_POLICY.json",
+      "sha256": "9e15efa531dea6012712c4d409228da495e185f310eccd536d2a8ef66625b25b"
+    },
+    {
+      "path": "06_pipeline/review_20261013/GENDER_POOL_USER_DECISION.json",
+      "sha256": "07d5072a7a107825a6957c0dd69c4cde823e9d82b6bbf01feb4fe483254d9e61"
+    },
+    {
+      "path": "06_pipeline/review_20261013/NLD_POLICY_CORE_YEAR_ANCHOR.csv",
+      "sha256": "baa2cd6b3221a043a713b7fc2c605d736bdf39a9f5c95855f226984910a82bca"
+    },
+    {
+      "path": "06_pipeline/review_20261013/PAPER_CLAIMS.json",
+      "sha256": "c01daa802fa77e9f40637207ca168dafdae3b5fd930c2d3f626730556563537a"
+    },
+    {
+      "path": "06_pipeline/review_20261013/PAPER_QA_CURRENT.json",
+      "sha256": "96638a1b1506ca9b6f5f163a3ab67559c687aecfc5670d85c39f686fa11ad22e"
+    },
+    {
+      "path": "06_pipeline/review_20261013/POPULATION_CORRECTIONS.json",
+      "sha256": "b6ca95b94165c0a0a5465fafbce45a5048e9aebcd4b7f3242f96de5567c4ca5a"
+    },
+    {
+      "path": "06_pipeline/review_20261013/PRODUCT_REQUIREMENTS.json",
+      "sha256": "e70912ea418298fbcf30e70cf04f9dd25c4b25b50476712ddfacc909c6596e6c"
+    },
+    {
+      "path": "06_pipeline/review_20261013/RANK_PRODUCT_CONTRACT.json",
+      "sha256": "2e21d88a99f9aa46e77e3458daf807e736d84ec8b96fbb1468ae6b776b81cbfd"
+    },
+    {
+      "path": "06_pipeline/review_20261013/SOURCE_PROJECTION_REVIEWS.json",
+      "sha256": "7056a10df4f3f465ea9a24eaa8ab9d699b4e072c9820b58ae9504738398b5f7c"
+    },
+    {
+      "path": "06_pipeline/RUN.R",
+      "sha256": "96572c090a2cecf019c0ba2f00bca22d5662c433213f5ee02cb27fb4b230235b"
+    },
+    {
+      "path": "06_pipeline/SCOPE_APPROVALS.csv",
+      "sha256": "b8149f28d4c287120bf6259b6e10bfd9cff5622b889962aa9014c2802fd5cb5f"
+    },
+    {
+      "path": "06_pipeline/storage_manager.py",
+      "sha256": "d4f304321b1c58c04c0d950f1b87d32c2e335831856167ce3c8000897afebb6f"
+    },
+    {
+      "path": "06_pipeline/V5_NLD_CORE_ONLY.R",
+      "sha256": "ab201565a45ff3e8369ce99f91883082edd42503aba78c795ace9424652cfe8c"
+    },
+    {
+      "path": "renv.lock",
+      "sha256": "d575c2abbaee6392379995f9ab358bbb4af82429ca8700bd82f1a667a67c66d3"
+    },
+    {
+      "path": "scripts/freeze_scientific_review.py",
+      "sha256": "77d81f5f2ad6a94ae0bd32992766500fee805df9560bd9414a86eae359741202"
+    }
+  ],
+  "outputs": {
+    "COUNTRY_CYCLE_SAMPLE_QUALITY.csv": "b0d5cec8726baffb5677364111999da69b1a38efd05c289def0e7cff63d55d73",
+    "COUNTRY_REVIEW.csv": "5f706651053331695cc84d067e04ba8c3c20f193b6156883ac32343a74fe7c93",
+    "COUNTRY_REVIEW_MANIFEST.json": "cc5431b1c1baf082e6cd6da489e612c7169b552a6e0a17c97a1af1956d09b16d",
+    "COUNTRY_SIX_COMBINATIONS.csv": "e0475fe464ec2a49e9bc579dd872ba2f64b992902f42c6383936dfced60b6d8c",
+    "FROZEN_SES_COUNTRY_WAVE_REVIEW.csv": "00ca196d812fe07588891a25762b2673853a475a25a2c37c84790fc1dbcb0b06",
+    "METHOD_CONTRACTS.csv": "83807f1911e73f6c442186517f468dc84ca4f7eec85a87cc0eea234b2331fee8",
+    "MIGRATION_RECORDED_ANALYSIS_SAMPLES.csv": "b251b35cfd72af91555c815917d61265c58e68daf7975ab85af42b2ee47a1964",
+    "NLD_CORE_REFERENCE_REVIEW.csv": "cf6b59c378bc180eea5af20f016fd58e3ca57f62ebf1ad513108e962fa9fe89f",
+    "OFFICIAL_SAMPLE_TABLE_DEPENDENCIES.csv": "335048cfd10c0b933b89d6b67001efffb5676d3d6205cc7aa84d5d76dbcd3489",
+    "PAPER_CLAIM_DEPENDENCIES.csv": "ae0719561bc344687bf5d008b469d773339c9d6134a4873f5c2a5bfbad54c819",
+    "PAPER_CLAIM_RESULTS.csv": "44f4b03364ae39efb8207c363cbd76bc7d842e34a05180f7e2be4514ea99d2f5",
+    "Q01_SES_SAMPLE_REVIEW.json": "43c2e9548a22af359e8cbee6d3845d9b0f0d48e396fd57aeb320bf4b604c24f2",
+    "Q02_OFFICIAL_SAMPLE_REVIEW.json": "e71047a737d109284c7806efb4bfc6ac4783edb791ebf5d1d02949c3e0670e92",
+    "Q03_Q05_FROZEN_SES_REVIEW.json": "0da048708590b74410ee9757ece821838d3530f4d35cc3e8b7a7717830c9f49d",
+    "Q06_REFERENCE_REVIEW.json": "1ab2a1511569de1bddeabb03b743ff383c662c244054053425f58349474dc989",
+    "Q08_PAPER_CLAIM_REVIEW.json": "06e7b5a94a2732dc4af1c2f2fb284303b845f68d5fdfd7280bd865b4d785f69d",
+    "RANK_NUMERICAL_PROBES.csv": "dcbf657a6781856ae57aa171ae34a3b8062f0b0053bf0d7c1f447c89f1dd6c75",
+    "REFERENCE_BY_VIEW.csv": "9744059890933a4e3f7a99c191248e2a5609add0b83d3e802d203a6359381bde",
+    "REFERENCE_DEPENDENCIES.csv": "3d58a892c7089bc373f338114118ae421c50048aa736c6192a74db985dac6c7f",
+    "REFERENCE_NUMERICAL_PROBES.csv": "62e0335297d5b14226f76818f59dc83ae320844759035a63338bb4a41fed3019",
+    "REGIONAL_SOURCE_IDENTITIES.csv": "0ebd683308008a149a19a12fab69cdba17205487cb0d9b93742c434a2d49fa13",
+    "RESULT_USE_RESTRICTIONS.csv": "fb1789948f76d4dbb5e53e6da6ba604584dfdfd8c0d29f9d8b12f77bfe0eb505",
+    "SCOPE_METHOD_REVIEW.json": "f677411a6eb4990d2107d5f56d9aa87e8bd64d83fc821f46d53454d2dd3d4173",
+    "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz": "cc995d09b53e551e796466684be37e37ff6212154e6e18b0769c6e8abe1d6e22",
+    "SES_SOURCE_CHECKS.csv": "b6b8019c8c1a99878ee41cb15ff26a2aaf05ad5f849e2611aeb34f1609d69a8e",
+    "VERIFIED_COUNTRY_ADMISSION.csv": "240f75ba1e62e71155471c7b2fb4a84232c74fda8f5b47f7ab460d107a17db8b",
+    "VERIFIED_COUNTRY_SIX_COMBINATIONS.csv": "e0475fe464ec2a49e9bc579dd872ba2f64b992902f42c6383936dfced60b6d8c"
+  }
+}

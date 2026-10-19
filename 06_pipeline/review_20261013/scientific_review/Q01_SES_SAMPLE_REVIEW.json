@@ -1,0 +1,20 @@
+{
+  "status": "ACTUAL_SES_SAMPLE_COUNTS_VERIFIED",
+  "selected_result_cells": 17617,
+  "source_files": 489,
+  "analysis_groups": 6925,
+  "count_mismatches": 0,
+  "reused_source_checks": 0,
+  "source_rows_are_not_distinct_pupils_across_files": true,
+  "outputs": {
+    "coverage": "d39ba1d9d61516db06cfcacc62696c98a45d7e9f34168285188eadf3836a00d3",
+    "sources": "b6b8019c8c1a99878ee41cb15ff26a2aaf05ad5f849e2611aeb34f1609d69a8e"
+  },
+  "code_sha256": {
+    "LO_SES_COVERAGE_REVIEW.R": "873f24c9c33e29e403720edd493b42885b23403081c851f8747def4c03702b22",
+    "LO_IEA_BACKGROUND.R": "653f60e10b19213f6c16c0714d707263ccf97db3e8b8a1f3679e0d4d1ca2131b",
+    "LO_EXACT_ESTIMATORS.R": "0466dc38797d2cbe6aa78b3c9202b2fa75e5cf4b647af3f94b5455e4312553a3"
+  },
+  "limitations": "Coverage does not establish missing-at-random, measurement invariance or representativeness after nonresponse. PISA chosen SES may use the documented author imputation; observed components require their separate Q05 review.",
+  "private_full_review_sha256": "0a3b084dbf988a335c79a05a4896be4fa62f533eb6bfc2504d4434f75b26f884"
+}

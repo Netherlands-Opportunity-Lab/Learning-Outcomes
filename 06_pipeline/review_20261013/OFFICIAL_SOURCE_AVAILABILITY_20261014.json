@@ -1,5 +1,5 @@
 {
-  "checked_date": "2026-10-15",
+  "checked_date": "2026-10-19",
   "survey": "PISA",
   "cycle": 2025,
   "availability": "OFFICIAL_PUBLIC_USE_DATABASE_PUBLISHED",
@@ -9,7 +9,8 @@
   "technical_report_status": "DRAFT_CHAPTERS_AVAILABLE_FINAL_EXPECTED_2027",
   "local_edition_certified": true,
   "deck_point_is_availability_evidence": false,
-  "action": "Retain complete 2025 anchor. Three boy means independently certified from MALE=1. Correct prior 45-target unavailability claim: 24 girl-dependent targets require source mapping review; 18 boy-SES targets now independently certified with the chosen calibration.",
+  "action": "Retain complete 2025 anchor. Separate female remains preferred; direct user decision 2026-10-15 authorizes Female / Other only where unseparated, with distinct identities and visible labels. The 24 NLD girl-dependent targets were repaired and certified under that pooled definition; they are no longer open tasks. See GENDER_POOL_USER_DECISION.json, POOLED_GENDER_EXECUTION_EVIDENCE.json and the current scientific review.",
+  "historical_action_20261015": "Three boy means certified from MALE=1; at that earlier snapshot 24 girl-dependent targets still needed source mapping review. Superseded by the explicit pooling decision and completed run.",
   "local_edition_scope": "NLD selected public-use student fields; not all modules or a global release",
   "local_raw_sha256": "6f6fa1e1ecce23d39183d44ec82ba05b245fe88a2416c8d8dc1b016d556fc379",
   "local_n": 6636,
@@ -24,7 +25,7 @@
     },
     "ST004D01D": "Absent in this local edition; used by official recode",
     "boy_official_table_parity": "PASS at 5.1e-6 absolute estimate/SE tolerance",
-    "female_or_other_as_girls": "REJECTED: all three domain means differ by more than 0.01 points"
+    "female_or_other_as_girls": "REJECTED_AS_GIRLS_ONLY; APPROVED_AS_DISTINCT_FEMALE_OR_OTHER_DEFINITION_BY_USER_20261015. Historical girls-only parity failure is retained; pooling never claims girls-only equivalence."
   },
   "official_gender_tables_url": "https://stat.link/68stqn",
   "official_gender_tables_sha256": "7b0641d2dd791daef27ca1616c2f997a8262b685c622f112d9a2e28a878b05a3",
