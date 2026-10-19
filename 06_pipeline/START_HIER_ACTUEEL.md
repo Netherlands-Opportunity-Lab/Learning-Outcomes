@@ -1,8 +1,38 @@
 # Start hier — actuele besluiten en resterend werk
 
-Bijgewerkt: 18 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
+Bijgewerkt: 19 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
 
-## Actuele rekenstand — 18 oktober 2026, 22:44 Nederlandse tijd
+## Afgesloten run en drie afrondingsopdrachten — 19 oktober 2026
+
+De run is afgesloten: **69.775 geregistreerd gevalideerde resultaten, 7.836
+onderbouwd onbeschikbare doelen en nul resterende rekentaken** in het huidige
+34-landengrid. Resultaatcommit `ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2` is
+op de remote ontwikkelbranch bevestigd. De uitvoeringscode was `331349ec`.
+De private dashboardkandidaat `ece77d7a0ed52bcf8a` bevat 54.771 gemapte rijen,
+zonder mappingblokkades. Dat is een ander telobject dan de 69.775 resultaatcellen.
+
+`fixed-finalize` sloot om **00:15:27 Nederlandse tijd op 19 oktober** af met
+`HOLD_SCIENTIFIC_GATES`: nul gridgaten, Q01–Q08 nog 0/8, primaire peers PASS.
+Herhalen van dezelfde productierun sluit die bewijsdossiers niet vanzelf.
+De gebruiker heeft om drie uitgebreide vervolginstructies gevraagd:
+[DRIE_AFRONDINGSOPDRACHTEN_20261019.md](DRIE_AFRONDINGSOPDRACHTEN_20261019.md).
+Deze vervangen de eerdere vierdelige werkindeling, behouden de bestaande
+R-keten en alle inhoudelijke besluiten, en zijn in deze beurt niet uitgevoerd.
+
+Werk achtereenvolgens aan wetenschap/landen/balans, de daadwerkelijke producten,
+en volledige replicatie/publicatie/opslag. Een voorbereidend claimregister in
+de eerste opdracht voorkomt dat Q08 op een nog niet geschreven paper wacht;
+de werkelijke eindclaims worden in de tweede opdracht opnieuw gecontroleerd.
+De live website is nog een eerdere publicatie, niet deze private kandidaat.
+
+Het private checkpoint bevat alle resultaatversies en afwezigheidsbewijzen.
+De rapportback-up slaat sommige grote privé-CSV's over; sluit hun herstelbaarheid
+uit checkpoints of begrensde overdracht vóór definitieve opruiming aan. Dit is
+geen vaststelling dat de reeds geverifieerde celresultaten ontbreken. Zie
+[het afgesloten-runbewijs](review_20261013/COMPLETED_RUN_STATUS_20261019.json).
+De volgende uitvoeringsmomenten zijn historische snapshots.
+
+## Eerdere rekenstand — 18 oktober 2026, 22:44 Nederlandse tijd
 
 De hervatte productie op `331349ec64cc23ba71c2f7221d52e32b0baaf681` heeft nu
 **alle 77.611 doelen van het huidige goedgekeurde grid afgehandeld**:

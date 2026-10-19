@@ -1,5 +1,9 @@
 # Vier resterende opdrachten — Learning Outcomes
 
+Historische werkindeling. Op verzoek van de gebruiker op 19 oktober vervangen door
+[drie afrondingsopdrachten](DRIE_AFRONDINGSOPDRACHTEN_20261019.md). De laatste
+expliciete besluiten en het actuele startdocument blijven inhoudelijk leidend.
+
 Voer deze vier opdrachten achtereenvolgens in dezelfde chat uit. De gezamenlijke vaste context staat in [START_HIER_ACTUEEL.md](START_HIER_ACTUEEL.md). De bronaudit is afgerond; de wetenschappelijke productie en nieuwe producten zijn dat nog niet. Deze vier werkopdrachten behouden de bestaande drie R-fasen: `fixed-audit`, `fixed-produce`, `fixed-finalize`. Ze geven geen goedkeuring voor A01–A17 en geen toestemming om ongecontroleerd bestanden te wissen.
 
 ## 1. Maak de gekozen scope en de volledige productieketen uitvoerbaar

@@ -1,5 +1,10 @@
 # Wat nu uitvoeren — inventaris van 18 oktober 2026
 
+De hier beschreven hervatroute is inmiddels uitgevoerd en afgesloten. Zie
+[de actuele drie opdrachten](DRIE_AFRONDINGSOPDRACHTEN_20261019.md) en
+[het definitieve runrapport](review_20261013/COMPLETED_RUN_STATUS_20261019.json).
+Onderstaande tijden en wachtaanwijzingen zijn historische uitvoeringsmomenten.
+
 ## Actuele rekenstand — 18 oktober 2026, 22:44 Nederlandse tijd
 
 De hervatte productie op `331349ec64cc23ba71c2f7221d52e32b0baaf681` heeft nu
