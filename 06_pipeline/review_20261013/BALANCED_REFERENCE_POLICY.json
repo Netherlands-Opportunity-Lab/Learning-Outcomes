@@ -1,6 +1,10 @@
 {
-  "rule_id": "USER_20261014_FULL_FOCUS_SUPPORT",
+  "rule_id": "USER_20261019_COMBINATION_ADMISSION_FIXED_VIEW_PANEL",
+  "supersedes_rule_id": "USER_20261014_FULL_FOCUS_SUPPORT",
+  "user_decision": "BALANCE_USER_DECISION_20261019.json",
   "dashboard": {
+    "admission_unit": "COUNTRY_AGE_DOMAIN_COMBINATION",
+    "country_selector_entry": "AT_LEAST_ONE_ADMITTED_COMBINATION",
     "minimum_distinct_comparable_cycles": 3,
     "required_age_groups": [
       "age10",
@@ -17,7 +21,10 @@
     "candidate_pool_default": "OECD_PPP_GT_CZE_2024",
     "pool_size_is_membership": false,
     "nld_core_anchor": "NLD_POLICY_CORE_YEAR_ANCHOR.csv",
-    "nld_core_required_cells": 40,
+    "nld_anchor_catalogue_total_cells": 40,
+    "required_anchor_scope": "SELECTED_AGE_DOMAIN_COMBINATIONS_ONLY",
+    "membership_may_differ_between_figures": true,
+    "membership_constant_within_figure": true,
     "focus_excluded": true,
     "required_support": "UNION_OF_ALL_APPROVED_SERIES_COMPARED_TOGETHER",
     "includes": [
@@ -34,9 +41,9 @@
   },
   "implementation": {
     "selector": "06_pipeline/LO_BALANCED_MEMBERSHIP.R",
-    "real_source_adapter": "PENDING_CERTIFIED_SOURCE_MAPPING",
-    "dashboard_ui": "PENDING_IMPLEMENTATION",
-    "eligible_country_list": "DYNAMIC_SOURCE_ADMISSION_VERIFIED_RESULTS_AND_VIEW_SUPPORT_PENDING",
+    "real_source_adapter": "HASH_VERIFIED_SOURCE_SUPPORT_WITH_POPULATION_CORRECTIONS",
+    "dashboard_ui": "CURRENT_UI_PRESERVED_FINAL_POLICY_INTEGRATION_REQUIRED",
+    "eligible_country_list": "DYNAMIC_PER_COMBINATION_NO_FORCED_COUNTRY_COUNT",
     "source_admission_evidence": "international/PREPARATION_EVIDENCE.json",
     "view_selector": "06_pipeline/LO_BALANCED_VIEWS.R"
   },
@@ -45,7 +52,7 @@
     "decision": "USER_2026_10_18_TEMPORARY_AVAILABLE_RESULTS",
     "policy_file": "05_publication/REFERENCE_POLICY.json",
     "scope": "INTERIM_WEBSITE_ONLY",
-    "final_rule_unchanged": true,
+    "final_rule_superseded_by": "USER_20261019_COMBINATION_ADMISSION_FIXED_VIEW_PANEL",
     "restore_after": "COMPLETE_RESULTS_AND_FINAL_REVIEW"
   }
 }

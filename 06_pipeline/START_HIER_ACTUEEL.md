@@ -1,5 +1,11 @@
 # Start hier — actuele besluiten en resterend werk
 
+## Laatste inhoudelijke besluit — 19 oktober: toelating per leeftijd en uitkomst
+
+De gebruiker heeft de algemene 6×3-landeneis expliciet vervangen: **minstens drie vergelijkbare meetgolven per afzonderlijke leeftijd-uitkomstcombinatie**. Een land kan dus voor sommige combinaties toegelaten zijn en voor andere niet. Binnen iedere figuur geldt één vaste referentiegroep met het volledige hoofdlandanker van de gekozen combinatie en alle gezamenlijk getoonde groepen en leeromgevingen. Tussen figuren mag de groep verschillen. De rijke kandidatenpool, gelijke landgewichten, hoofdlanduitsluiting en rangregels veranderen niet. Zie [het rechtstreekse besluit](review_20261013/BALANCE_USER_DECISION_20261019.json) en [de actuele balansregel](review_20261013/BALANCED_REFERENCE_RULE_20261014.md).
+
+De geslaagde uitvoering op `1c562073db4e226f02b4303bc269c88151aad11e` en resultaatcommit `095d53e5d3c3187346310b4265cb8f2b8506a9d6` legden Q01–Q08 onder de **voorafgaande** regel vast. Die bewijzen blijven historisch bewaard; zij zijn geen automatische goedkeuring van de nieuwe landen-/referentieselectie. Hergebruik ongewijzigde celbewijzen en hercontroleer de door het nieuwe besluit gewijzigde scope, referenties en benodigde bronnen. Een kandidateninventaris is nog geen broncertificering.
+
 Bijgewerkt: 19 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproductie in `Netherlands-Opportunity-Lab/Learning-Outcomes`, branch `feat/reproducible-storage-and-cleanup-20261010`, PR #5. Het beschrijft besluiten en bewijs; het verleent geen wetenschappelijke vrijgave. De release van 28 september blijft een afzonderlijke historische versie.
 
 ## Afgesloten run en drie afrondingsopdrachten — 19 oktober 2026
@@ -8,13 +14,7 @@ Bijgewerkt: 19 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproduc
 [Wetenschappelijke basis en definitieve scope](SCIENTIFIC_BASIS_20261019.md),
 het [volledige dekkingsrapport](review_20261013/grid_coverage/README.md) en de
 [bewijsmanifesten en Q-dossiers](review_20261013/scientific_review/SCIENTIFIC_REVIEW_MANIFEST.json).
-De eerdere runstand hieronder blijft historische herkomst. De huidige beoordeling
-geeft 32 toegelaten landen/stelsels; de rijke kandidatenlijst blijft ongewijzigd.
-Canada 2001 was regionaal; Polen wisselde van derde naar vierde klas en heeft
-slechts twee vergelijkbare PIRLS-golven. AUT 2009 en ESP 2018 hebben officiële trendvoorbehouden.
-Vereiste jaren en historische resultaten blijven bewaard, met expliciete
-gebruiksbeperkingen. De definitieve Nederlandse rijke basisreferentie is Italië;
-iedere uitsplitsing moet daarnaast de gezamenlijke groepsdekking doorstaan.
+De eerdere runstand hieronder blijft historische herkomst. Onder de nieuwe regel zijn 34 bestaande landen/stelsels in 202 afzonderlijke combinaties bronmatig toegelaten. De exacte hergebruikcontrole telt 76.809 doelen: 69.201 bestaande gevalideerde resultaten en 7.608 onderbouwd onbeschikbare doelen. Dit is nog geen nieuwe productiedepositie. Canada en Polen blijven buiten PIRLS, maar behouden hun passende PISA- en TIMSS-reeksen. Referenties verschillen voortaan per figuur. Vijftig aanvullende bronkandidaten moeten afzonderlijk worden gecertificeerd; forceer geen eindtotaal.
 De controller kan nu werkelijke Q01-Q08-dossiers aan exacte runcontracten en
 resultaten binden. Alleen het actuele uitvoeringsbewijs bevestigt acceptatie;
 nieuwe input of code maakt verouderde bewijsbinding ongeldig.

@@ -42,13 +42,15 @@ def verify(repo, root, output):
     assert qa['balanced_references_sha256'] == sha(state / 'BALANCED_REFERENCE_EXPORT.json')
     expected_path = repo / '06_pipeline/review_20261013/scientific_review/REFERENCE_BY_VIEW.csv'
     expected = {(r['country'], r['figure_id']): r for r in table(expected_path)}
-    independent_path = work / 'Q06_mapping_final/BALANCED_REFERENCE_EXPORT.json'
+    review_manifest=work / 'SCIENTIFIC_REVIEW_MANIFEST.json'
+    mapping_directory=Path(read(review_manifest).get('reference_mapping_directory',work / 'Q06_mapping_final')) if review_manifest.exists() else work / 'Q06_mapping_final'
+    independent_path = mapping_directory / 'BALANCED_REFERENCE_EXPORT.json'
     independent = read(independent_path)
     independent_views = {(r['focus'], r['figure_id']): r for r in independent['views']}
     actual = {}
     for path in (candidate / 'data/references').glob('*.json'):
         data = read(path)
-        assert data['policy'] == 'FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3'
+        assert data['policy'] == 'FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3'
         for row in data['figures']:
             key = row['focus'], row['figure_id']
             assert key not in actual

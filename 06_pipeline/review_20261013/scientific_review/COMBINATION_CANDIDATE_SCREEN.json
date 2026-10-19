@@ -1,0 +1,5116 @@
+{
+  "schema_version": 1,
+  "status": "INVENTORY_SCREEN_ONLY_NOT_SOURCE_CERTIFICATION",
+  "candidate_countries_with_one_or_more_three_wave_combinations": 84,
+  "candidate_combinations": 362,
+  "new_candidate_countries": [
+    "ALB",
+    "ARG",
+    "ARM",
+    "BEL",
+    "BHR",
+    "BRA",
+    "BRN",
+    "CHE",
+    "CHL",
+    "COL",
+    "CRI",
+    "CYP",
+    "DOM",
+    "EST",
+    "GBR",
+    "GRC",
+    "HRV",
+    "IDN",
+    "IRN",
+    "ISL",
+    "ISR",
+    "JOR",
+    "JPN",
+    "KAZ",
+    "KGZ",
+    "KOR",
+    "KSV",
+    "KWT",
+    "LBN",
+    "LIE",
+    "LUX",
+    "MDA",
+    "MEX",
+    "MKD",
+    "MLT",
+    "MNE",
+    "MYS",
+    "OMN",
+    "PAN",
+    "PER",
+    "PHL",
+    "ROU",
+    "SRB",
+    "THA",
+    "TTO",
+    "TUN",
+    "TUR",
+    "URY",
+    "VNM",
+    "YEM"
+  ],
+  "new_country_count": 50,
+  "existing_source_registry_countries": 34,
+  "additional_named_participants": {
+    "BLR": "Belarus",
+    "BRN": "Brunei Darussalam",
+    "DOM": "Dominican Republic",
+    "ECU": "Ecuador",
+    "GTM": "Guatemala",
+    "JAM": "Jamaica",
+    "KEN": "Kenya",
+    "KGZ": "Kyrgyzstan",
+    "KHM": "Cambodia",
+    "KSV": "Kosovo",
+    "LBN": "Lebanon",
+    "LIE": "Liechtenstein",
+    "MUS": "Mauritius",
+    "MYS": "Malaysia",
+    "PAN": "Panama",
+    "PER": "Peru",
+    "PRY": "Paraguay",
+    "PSE": "Palestinian Authority",
+    "RWA": "Rwanda",
+    "URY": "Uruguay",
+    "VNM": "Viet Nam",
+    "ZMB": "Zambia"
+  },
+  "newly_screened_outside_old_country_catalogue": [
+    "BRN",
+    "DOM",
+    "KGZ",
+    "KSV",
+    "LBN",
+    "LIE",
+    "MYS",
+    "PAN",
+    "PER",
+    "URY",
+    "VNM"
+  ],
+  "codes_needing_separate_population_identity_review": [
+    "AAD",
+    "ABA",
+    "ADU",
+    "ASH",
+    "BFL",
+    "BFR",
+    "CAB",
+    "CBC",
+    "CNL",
+    "CNS",
+    "COT",
+    "CQU",
+    "EAN",
+    "EMA",
+    "ENG",
+    "IS5",
+    "MA6",
+    "MAC",
+    "MLN",
+    "NIR",
+    "NO5",
+    "QAR",
+    "QAZ",
+    "QCH",
+    "QCI",
+    "QCN",
+    "QES",
+    "QHP",
+    "QKI",
+    "QMR",
+    "QRS",
+    "QRT",
+    "QTJ",
+    "QTN",
+    "QUA",
+    "QUC",
+    "QUD",
+    "QUE",
+    "QUR",
+    "QVE",
+    "RMO",
+    "SCO",
+    "SE3",
+    "UIN",
+    "UMA",
+    "UMN",
+    "YE6",
+    "YUG",
+    "ZA5",
+    "ZA6"
+  ],
+  "participant_identity_source": "https://www.oecd.org/en/about/programmes/pisa/pisa-participants.html",
+  "combinations": [
+    {
+      "country": "ALB",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ALB",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ALB",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ARE",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ARE",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ARE",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ARE",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ARE",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2011,
+        2015,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ARE",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2011,
+        2015,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ARG",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ARG",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ARG",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ARM",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ARM",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "AUS",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AUS",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AUS",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AUS",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AUS",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AUS",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AUT",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AUT",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AUT",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AUT",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AUT",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2007,
+        2011,
+        2019
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AUT",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2007,
+        2011,
+        2019
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AZE",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AZE",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AZE",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AZE",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AZE",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2011,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "AZE",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2011,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "BEL",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "BEL",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "BEL",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "BGR",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "BGR",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "BGR",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "BGR",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "BGR",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "BGR",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "BHR",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "BHR",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "BRA",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "BRA",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "BRA",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "BRN",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "BRN",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "BRN",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "CAN",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "CAN",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "CAN",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "CAN",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "CAN",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "CHE",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "CHE",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "CHE",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "CHL",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "CHL",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "CHL",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "CHL",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "CHL",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "COL",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "COL",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "COL",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "CRI",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "CRI",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "CRI",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "CYP",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "CYP",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "CZE",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "CZE",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "CZE",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "CZE",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "CZE",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "CZE",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "DEU",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "DEU",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "DEU",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "DEU",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "DEU",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "DEU",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "DNK",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "DNK",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "DNK",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "DNK",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "DNK",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "DNK",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "DOM",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "DOM",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "DOM",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ESP",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ESP",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ESP",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ESP",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ESP",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ESP",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "EST",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "EST",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "EST",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "FIN",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "FIN",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "FIN",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "FIN",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "FIN",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "FIN",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "FRA",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "FRA",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "FRA",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "FRA",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "FRA",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "FRA",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "GBR",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "GBR",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "GBR",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "GEO",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "GEO",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2009,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "GEO",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2009,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "GEO",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2009,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "GEO",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "GEO",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "GRC",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "GRC",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "GRC",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "HKG",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "HKG",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "HKG",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "HKG",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "HKG",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "HKG",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "HRV",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "HRV",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "HRV",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "HRV",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2011,
+        2015,
+        2019
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "HRV",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2011,
+        2015,
+        2019
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "HUN",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "HUN",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "HUN",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "HUN",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "HUN",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "HUN",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "IDN",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "IDN",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "IDN",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "IRL",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "IRL",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "IRL",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "IRL",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "IRL",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "IRL",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "IRN",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "IRN",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "IRN",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ISL",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ISL",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ISL",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ISR",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ISR",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ISR",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ISR",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ITA",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ITA",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ITA",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ITA",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ITA",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ITA",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "JOR",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "JOR",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "JOR",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "JPN",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "JPN",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "JPN",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "JPN",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "JPN",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KAZ",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2009,
+        2012,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KAZ",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2009,
+        2012,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KAZ",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2009,
+        2012,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KAZ",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KAZ",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KGZ",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KGZ",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KGZ",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KOR",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KOR",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KOR",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KOR",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KOR",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KSV",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KSV",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KSV",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KWT",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "KWT",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "LBN",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2015,
+        2018,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "LBN",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2015,
+        2018,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "LBN",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2015,
+        2018,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "LIE",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "LIE",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "LIE",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "LTU",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "LTU",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "LTU",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "LTU",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "LTU",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "LTU",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "LUX",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "LUX",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "LUX",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "LVA",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "LVA",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "LVA",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "LVA",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "LVA",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "LVA",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "MAR",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "MAR",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "MAR",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "MAR",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "MAR",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "MAR",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "MDA",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2009,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MDA",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2009,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MDA",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2009,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MEX",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MEX",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MEX",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MKD",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2021
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MKD",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MKD",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MKD",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MLT",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2009,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MLT",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2009,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MLT",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2009,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MNE",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MNE",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MNE",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MYS",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2009,
+        2012,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MYS",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2009,
+        2012,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "MYS",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2009,
+        2012,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "NLD",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NLD",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NLD",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NLD",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NLD",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NLD",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NOR",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NOR",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NOR",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NOR",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NOR",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NOR",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NZL",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NZL",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NZL",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NZL",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NZL",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "NZL",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "OMN",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "OMN",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2011,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "OMN",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2011,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "PAN",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2009,
+        2018,
+        2022
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "PAN",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2009,
+        2018,
+        2022
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "PAN",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2009,
+        2018,
+        2022
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "PER",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "PER",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "PER",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "PHL",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "PHL",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "PHL",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "POL",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "POL",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "POL",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "POL",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "POL",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "PRT",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "PRT",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "PRT",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "PRT",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "PRT",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "PRT",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "QAT",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "QAT",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "QAT",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "QAT",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "QAT",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "QAT",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "ROU",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ROU",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ROU",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "ROU",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "RUS",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "RUS",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "RUS",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "RUS",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "RUS",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "RUS",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SAU",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SAU",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SAU",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SAU",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SAU",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SAU",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SGP",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SGP",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SGP",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SGP",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SGP",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SGP",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SRB",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "SRB",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "SRB",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "SRB",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "SRB",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "SVK",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SVK",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SVK",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SVK",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SVK",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SVK",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SVN",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SVN",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SVN",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SVN",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SVN",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SVN",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SWE",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SWE",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SWE",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SWE",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SWE",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "SWE",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "THA",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "THA",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "THA",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "TTO",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2006,
+        2011,
+        2016
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "TUN",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "TUN",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "TUN",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "TUN",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "TUN",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "TUR",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "TUR",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "TUR",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "TWN",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "TWN",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "TWN",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "TWN",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "TWN",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "TWN",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "URY",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "URY",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "URY",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "USA",
+      "survey": "PIRLS",
+      "domain": "reading",
+      "years": [
+        2001,
+        2006,
+        2011,
+        2016,
+        2021
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "USA",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "USA",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2003,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "USA",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "USA",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "USA",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011,
+        2015,
+        2019,
+        2023
+      ],
+      "prior_source_registry": true
+    },
+    {
+      "country": "VNM",
+      "survey": "PISA",
+      "domain": "mathematics",
+      "years": [
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "VNM",
+      "survey": "PISA",
+      "domain": "reading",
+      "years": [
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "VNM",
+      "survey": "PISA",
+      "domain": "science",
+      "years": [
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "YEM",
+      "survey": "TIMSS",
+      "domain": "mathematics",
+      "years": [
+        2003,
+        2007,
+        2011
+      ],
+      "prior_source_registry": false
+    },
+    {
+      "country": "YEM",
+      "survey": "TIMSS",
+      "domain": "science",
+      "years": [
+        2003,
+        2007,
+        2011
+      ],
+      "prior_source_registry": false
+    }
+  ],
+  "input_sha256": {
+    "COUNTRY_REVIEW.csv": "82291fad379c1795b72375e8984a014b4c4cb3ac59c32b9d60174fc83b2015b6",
+    "POPULATION_CORRECTIONS.json": "3a0c2c89ac658574408869018a20c59d69e34fc1d5b1769bf76ada2b3f47c33b",
+    "IEA_POPULATION_REVIEW.csv": "84f64254b05c25f1878b4d38df3b0f1b4321a8ea255ee7c7ac75661e6b4afefc",
+    "SOURCE_RUN_MANIFEST.csv": "d18d15d0da2b0cc64dfa4e03867be93f1dd504d46b9b0389d0f3c4cba741f556",
+    "PISA_2003_BYTE_INDEX.json": "8bcf9a75f7575cd79a65c88a5172ece5560b866900f605df3570a00ce8518dbe",
+    "PISA_2006_BYTE_INDEX.json": "e8aa546c3bd85e3c99ddd3da75831004120942b2e8c985ba840576e7a28c917d",
+    "PISA_2009_BYTE_INDEX.json": "2e540a02f701edb8963b6b3740c00fd5d82ad348c28f22d819a614f3bf601991",
+    "PISA_2012_BYTE_INDEX.json": "aea0ffbde3c941940877ae84a7f222a4c0a986bf7a3ce0b020ff9c6ad6b7cd6e",
+    "PISA_2015_COUNTRY_COUNTS.csv": "e606c9f1b2f38f47f8b37bfa9d1a6570fd1d00c62dfb479ffb5e14f3f2bd87af",
+    "PISA_2018_COUNTRY_COUNTS.csv": "9766042288d794b75a1b3f87d3093901340c8aa07be26aae44b8d1f7b0dfaab0",
+    "PISA_2022_COUNTRY_COUNTS.csv": "f52ef8d7add6323313f499ce2ce93e5d9fc6f39df959013c60d2579c904a2c12",
+    "PISA_2025_COUNTRY_COUNTS.csv": "cb09b4d60dd388d244ea3dbf6d7537fa23c284c852dad2d724df5c486136df8f"
+  },
+  "review_script_sha256": "b4e60652091857e2c6a8f91cf2afe6862308e39cae5a1c392faa8aeb9d823702",
+  "limitations": [
+    "Indices can contain questionnaire records without valid released domain scores. Exact PV/source verification determines final eligibility.",
+    "Historical national coverage, mode, scale linkage and official qualifications require Q02 review for every newly used wave.",
+    "No regional system has been renamed or substituted. Official participation can exceed locally available files (e.g. Maltese PIRLS).",
+    "This inventory neither modifies the production manifest nor schedules or certifies estimates."
+  ]
+}

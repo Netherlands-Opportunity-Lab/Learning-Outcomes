@@ -56,7 +56,7 @@ def verify(site, certificate):
     if cert.get("release_kind") != KIND:
         fail("wrong publication policy")
     for field in ("displayed_cell_validation", "rights_boundary", "scope_decisions",
-                  "dashboard_6x3", "static_site_QA", "dashboard_reproduction"):
+                  "dashboard_combination_admission", "static_site_QA", "dashboard_reproduction"):
         if cert.get(field) != "PASS":
             fail("missing evidence " + field)
     if cert.get("authorization") != "USER_2026_10_18_PUBLISH_AVAILABLE_LEAVE_MISSING_OPEN":
@@ -128,7 +128,7 @@ def verify(site, certificate):
             for v in read(site/refs['country_files'][c])['figures']])
     policy=site/'data/reference_policy.json'
     provisional=policy.is_file()
-    expected_policy='AVAILABLE_CASES_PROVISIONAL' if provisional else 'FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3'
+    expected_policy='AVAILABLE_CASES_PROVISIONAL' if provisional else 'FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3'
     if refs.get("policy") != expected_policy:
         fail("reference policy changed")
     reference_keys = {(v["focus"], v["figure_id"]) for v in refs["figures"]}
@@ -191,12 +191,16 @@ def verify(site, certificate):
                 fail("invalid uncertainty/sample size")
         for f in figures:
             a = available[f["figure_id"]]
-            required = {(int(y), g) for y in f["required_years"].split(";") for g in f["expected_series"].split(";")}
+            reference=next(v for v in refs['figures'] if v['focus']==country and v['figure_id']==f['figure_id'])
+            years=reference.get('required_years',f['required_years'])
+            required = {(int(y), g) for y in filter(None,years.split(";")) for g in f["expected_series"].split(";")}
             present = {(r["year"], r["series_id"]) for r in rows if r["figure_id"] == f["figure_id"]}
             missing = {(v["year"], v["series_id"]) for v in a["missing_points"]}
             if not present <= required or missing != required - present or len(missing) != len(a["missing_points"]):
                 fail("missing points differ from exact grid")
-            state = "VALIDATED" if not missing else "PARTIAL" if present else a["display_state"]
+            state = "UNAVAILABLE" if reference['status']=='AGE_DOMAIN_NOT_ADMITTED' else "VALIDATED" if not missing else "PARTIAL" if present else a["display_state"]
+            if reference['status']=='AGE_DOMAIN_NOT_ADMITTED' and present:
+                fail('numeric points outside admitted age-domain combination')
             if state != a["display_state"] or (not present and state not in ("PLACEHOLDER", "UNAVAILABLE")):
                 fail("misleading availability status")
             if a["available_points"] != len(present) or a["required_points"] != len(required):

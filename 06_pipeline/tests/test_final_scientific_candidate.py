@@ -40,7 +40,7 @@ class ActualCandidateProof(unittest.TestCase):
                 required_years='2018;2022', focus_excluded=True, country_weights='EQUAL_PER_COUNTRY',
                 benchmark_uncertainty=False, status='BALANCED_REFERENCE_AVAILABLE')
             def check():
-                json_file(candidate / 'data/references/NLD.json', dict(policy='FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3', figures=[row]))
+                json_file(candidate / 'data/references/NLD.json', dict(policy='FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3', figures=[row]))
                 # Simulate a self-consistent builder manifest; the independent
                 # scientific expectation must still catch the wrong payload.
                 files = [p for p in candidate.rglob('*') if p.is_file() and p.name != 'BUILD_SHA256_MANIFEST.json']

@@ -10,7 +10,7 @@ from pathlib import Path
 BAD_EXT={".sav",".zsav",".dta",".rdata",".rds",".rda",".sqlite",
  ".db",".parquet",".sas7bdat",".xls",".xlsx",".zip",".gz"}
 REQUIRED_CERT={k:"PASS" for k in ("scientific_status","rights_status",
- "Q01_Q08","approved_research_scope","dashboard_6x3","full_focus_balance","slides21",
+ "Q01_Q08","approved_research_scope","dashboard_combination_admission","full_focus_balance","slides21",
  "replication","static_site_QA","scope_decisions")}
 def fail(s):raise ValueError("GUIDED_PUBLIC_RELEASE_HOLD: "+s)
 def sha(p):
@@ -88,15 +88,27 @@ def verify(site,cert_file):
  balance_path=site/"data"/"balanced_references.json"
  if not balance_path.is_file() or sha(balance_path)!=qa["balanced_references_sha256"]:fail("balanced reference export missing or changed")
  balance=json.loads(balance_path.read_text(encoding="utf-8"))
- if balance.get("schema_version")==2:
-  if balance.get("policy")!="FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3":fail("unknown per-view reference policy")
+ if balance.get("schema_version")==3:
+  # Recompute membership from exact aggregate identities, not certificate labels.
+  import importlib.util
+  spec=importlib.util.spec_from_file_location('guided_builder',Path(__file__).with_name('LO_FINAL_GUIDED_DASHBOARD_BUILD.py'))
+  builder=importlib.util.module_from_spec(spec);spec.loader.exec_module(builder)
+  rows=[r for c in ids for r in json.loads((site/f'data/countries/{c}.json').read_text(encoding='utf-8'))['records']]
+  recomputed=builder.explorer_references(balance_path,ids,fig,rows,source_lock)
+  references=site/'data/explorer_references.json'
+  if not references.is_file() or json.loads(references.read_text(encoding='utf-8'))!=recomputed:
+   fail('reference options differ from independently verified per-combination support')
+  iterator=[] # All v3 keys, missing views and membership were verified above.
+ elif balance.get("schema_version")==2:
+  if balance.get("policy")!="FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3":fail("unknown per-view reference policy")
   records=balance.get("views",[])
+  if isinstance(records,dict):records=list(records.values())
   if not isinstance(records,list) or {v.get("focus") for v in records}!=set(ids):fail("focus view coverage differs from country scope")
   if any(not v.get("view_cell_ids") for v in records):fail("exact view-to-figure binding missing")
   if not (site/"data/explorer_references.json").is_file():fail("interactive reference contract missing")
   iterator=[(v["focus"],v) for v in records]
  else:
-  if balance.get("policy")!="FULL_FOCUS_SUPPORT_6x3" or set(balance.get("focuses",{}))!=set(ids):fail("focus balance coverage differs from country scope")
+  if balance.get("policy")!="FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3" or set(balance.get("focuses",{}))!=set(ids):fail("focus balance coverage differs from country scope")
   iterator=list(balance["focuses"].items())
  for focus,record in iterator:
   members=record.get("default_members",[])

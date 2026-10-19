@@ -17,15 +17,20 @@ stopifnot(identical(lo_runtime_scope(work,tasks,"nld_only",base)$selected,"NLD")
  setequal(lo_runtime_scope(work,tasks,"nld_plus_19",base)$selected,c("NLD","AUT")))
 missing<-base[!(base$country=="AUT" & base$age_group=="age10" & base$domain=="reading" & base$year=="2015"),]
 y<-lo_runtime_scope(work,tasks,"all_required",missing)
-stopifnot(!"AUT"%in%y$selected,!"AUT"%in%y$dashboard)
+stopifnot('AUT'%in%y$selected,'AUT'%in%y$dashboard,
+ y$countries$admitted_combinations[y$countries$country=='AUT']==5L)
 stopifnot(isTRUE(lo_country_production_approval(".","NLD")),
  inherits(try(lo_country_production_approval(".",c("NLD","AUT")),silent=TRUE),"try-error"))
 stopifnot(isTRUE(lo_country_production_approval(".",c("NLD","AUT"),c("NLD","AUT"))),
  inherits(try(lo_country_production_approval(".",c("NLD","X98"),c("NLD","AUT")),silent=TRUE),"try-error"))
-# A selected graph/zoom cannot shrink the full focus core.
+# A selected graph keeps its full focus combination, not unrelated outcomes.
 anchor<-unique(base[base$country=="NLD",c("survey","age_group","domain")]);anchor$years<-"2015;2018;2022"
 req<-lo_focus_required_support(base,base[1,],"NLD",anchor)
-stopifnot(nrow(req)==18L)
+stopifnot(nrow(req)==3L)
+neutral<-base[base$country=='NLD' & base$survey=='PISA' & base$domain=='reading',]
+neutral$domain<-'all';neutral$outcome<-'peer_composition';neutral$peer_definition<-'school'
+neutral_req<-lo_focus_required_support(base,neutral,'NLD',anchor)
+stopifnot(nrow(neutral_req)==3L,all(neutral_req$domain=='all'))
 short<-base[base$year!="2015",]
 stopifnot(inherits(try(lo_focus_required_support(short,short[1,],"NLD",anchor),silent=TRUE),"try-error"))
 one<-base[1,,drop=FALSE]

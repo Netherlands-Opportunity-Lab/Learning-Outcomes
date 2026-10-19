@@ -28,10 +28,16 @@ def publish(repo, root):
         'Q08_PAPER_CLAIM_REVIEW.json': 'Q08/PAPER_CLAIM_REVIEW.json',
         'RESULT_ARTIFACT_VERIFICATION.json': 'RESULT_ARTIFACT_VERIFICATION.json',
     }
+    q06_dir=Path(manifest.get('reference_review_directory',w / 'Q06'))
+    mapping_dir=Path(manifest.get('reference_mapping_directory',w / 'Q06_mapping_final'))
+    def source(relative):
+        if relative.startswith('Q06/'):return q06_dir / Path(relative).name
+        if relative.startswith('Q06_mapping_final/'):return mapping_dir / Path(relative).name
+        return w / relative
     source_hashes = {}
     private_pattern = r'(?<![A-Za-z0-9])[A-Za-z]:[/\\]|/Users/|/home/'
     for name, relative in mappings.items():
-        p = w / relative
+        p = source(relative)
         z = json.loads(p.read_text(encoding='utf-8'))
         if 'code_sha256' in z and isinstance(z['code_sha256'], dict):
             z['code_sha256'] = {Path(k).name: v for k, v in z['code_sha256'].items()}
@@ -50,7 +56,7 @@ def publish(repo, root):
             'Q06/REFERENCE_DEPENDENCIES.csv', 'Q08/PAPER_CLAIM_RESULTS.csv',
             'Q08/PAPER_CLAIM_DEPENDENCIES.csv', 'Q06_mapping_final/PRODUCT_DERIVATION_REVIEW.csv']
     for relative in csvs:
-        p = w / relative
+        p = source(relative)
         raw = p.read_bytes()
         if re.search(private_pattern, raw.decode('utf-8-sig')):
             raise ValueError('Private path in aggregate table: ' + p.name)
@@ -63,6 +69,8 @@ def publish(repo, root):
     correction = {(r['country'], r['survey'], str(r['year'])): r for r in corrections['corrections']}
     with (out / 'VERIFIED_COUNTRY_ADMISSION.csv').open(encoding='utf-8-sig', newline='') as f:
         admitted = {r['country'] for r in csv.DictReader(f) if r['dashboard_eligible'].lower() == 'true'}
+    with (out / 'VERIFIED_COUNTRY_COMBINATIONS.csv').open(encoding='utf-8-sig', newline='') as f:
+        combinations = {(r['country'],r['survey'],r['domain']) for r in csv.DictReader(f) if r['combination_pass'].lower()=='true'}
     restrictions = []
     migration_samples = []
     methods = set()
@@ -75,11 +83,14 @@ def publish(repo, root):
                 'subgroup_variable', 'subgroup_level', 'statistic', 'n_unweighted', 'source_edition_sha256',
                 'result_hash', 'certification_sha256']})
         correction_row = correction.get((r['country'], r['survey'], r['year']))
-        if correction_row or r['country'] not in admitted:
+        combination_ok=(r['country'],r['survey'],r['domain']) in combinations
+        if r['domain']=='all':combination_ok=any(c==r['country'] and s==r['survey'] for c,s,d in combinations)
+        if correction_row or not combination_ok:
             restrictions.append(dict(cell_id=r['cell_id'], result_hash=r['result_hash'],
                 country=r['country'], survey=r['survey'], year=r['year'],
                 dashboard_country_admitted=r['country'] in admitted,
-                use_restriction=correction_row['disposition'] if correction_row else 'COUNTRY_FAILS_DASHBOARD_6x3',
+                dashboard_combination_admitted=combination_ok,
+                use_restriction=correction_row['disposition'] if correction_row else 'AGE_DOMAIN_FAILS_COMPARABLE_MIN3',
                 review_id=correction_row['review_id'] if correction_row else 'COUNTRY_ADMISSION_REVIEW',
                 historical_result_retained=True))
     for name, rows, fields in [('RESULT_USE_RESTRICTIONS.csv', restrictions, list(restrictions[0])),

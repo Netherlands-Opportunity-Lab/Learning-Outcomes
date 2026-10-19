@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "status": "REAL_SOURCE_AND_EXISTING_TARGET_IMPACT_VERIFIED_NOT_NEW_FINALIZATION",
+  "policy": "COUNTRY_AGE_DOMAIN_MIN3_FULL_FOCUS_COMBINATION_AND_JOINT_VIEW",
+  "decision_sha256": "efcbd76a0f3404343c9442275692f8405461489d12e1ca70406f392ace1928c9",
+  "sources_sha256": "fe4dd32f5d7a5365886383bab0de7f03afed14b3e6ab6f7f0a3ac686a364a154",
+  "historical_review_grid_sha256": "2cf2a63a7b62f7736ffe1c7b66ca69ada394153de41d8d78c4a4795a81e104e8",
+  "original_task_catalogue_sha256": "8fb89079cfcb6425fe09d98644af313def25f4a294b99383748323782802afd2",
+  "code_sha256": {
+    "LO_BALANCED_MEMBERSHIP.R": "4930aa3e8efe03a31df2cac6838eaae3fbb7aeeb2bea8f12b78ffc3a4c5afc70",
+    "LO_COUNTRY_REGISTRY.R": "901b260d70d0c8a13b16a1ad7aa127ca0e17cc3f87603be055140ba11bf3955e",
+    "LO_COUNTRY_TASKS.R": "e3e17aab89ae702d32a7ffb40c7059062d93b870ea108026048074e7d6c12b7f",
+    "MASTER_ESTIMATION_GRID.R": "027ed3d60722aeafefa9852a6799ee6e348e920154229dcae72f2ea896065160",
+    "LO_SCOPE_DECISIONS.R": "13cee7b621322ab2d7091e6257dce0178ff0773239a672bfbaa73d0f52d306e3",
+    "LO_APPROVED_EXTENSIONS.R": "5434924a5d4b58644fff77efc4adb614ae073856ea5ead76e7d6c0ec72b991f5",
+    "LO_GENDER_POOL_POLICY.R": "dbc0a3f20d4d28d5d80b3bd16ee67a10dcec93acb1aff885f78de8f7e1d86e94"
+  },
+  "review_script_sha256": "03a60c655365422a4c5aa01ba4cf8343493396f632e1195d264c923530511179",
+  "modes": {
+    "nld_only": {
+      "countries": "NLD",
+      "admitted_combinations": 6,
+      "targets": 2678,
+      "prior_validated": 2397,
+      "prior_documented_unavailable": 281,
+      "new_or_changed_targets": 0,
+      "source_qualified_but_unavailable": 0,
+      "target_reuse_sha256": "45dcfbbdbedecde9c03843503588c8e143130a5831eb60718cbeb619798e13f1"
+    },
+    "nld_plus_19": {
+      "countries": ["AUS", "AUT", "CAN", "DEU", "DNK", "ESP", "FIN", "FRA", "IRL", "ITA", "NLD", "NOR", "SWE", "USA"],
+      "admitted_combinations": 83,
+      "targets": 32952,
+      "prior_validated": 29763,
+      "prior_documented_unavailable": 3189,
+      "new_or_changed_targets": 0,
+      "source_qualified_but_unavailable": 0,
+      "target_reuse_sha256": "ba8d4a92a0c5fc09ba415bec3332965bb2eefa4e68adc040603463c7aaa85dda"
+    },
+    "all_required": {
+      "countries": ["ARE", "AUS", "AUT", "AZE", "BGR", "CAN", "CZE", "DEU", "DNK", "ESP", "FIN", "FRA", "GEO", "HKG", "HUN", "IRL", "ITA", "LTU", "LVA", "MAR", "NLD", "NOR", "NZL", "POL", "PRT", "QAT", "RUS", "SAU", "SGP", "SVK", "SVN", "SWE", "TWN", "USA"],
+      "admitted_combinations": 202,
+      "targets": 76809,
+      "prior_validated": 69201,
+      "prior_documented_unavailable": 7608,
+      "new_or_changed_targets": 0,
+      "source_qualified_but_unavailable": 0,
+      "target_reuse_sha256": "ff4b3cbf8fa544ab9268306def832c8c02f802f09f0cad06d8cc1f487144365c"
+    }
+  },
+  "pupil_recalculation": false,
+  "production_master_modified": false,
+  "limitation": "Additional source candidates are not yet certified by this report. Existing target evidence must still pass the ordinary current audit/finalizer."
+}

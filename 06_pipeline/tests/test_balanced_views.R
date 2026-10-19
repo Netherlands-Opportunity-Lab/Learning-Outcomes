@@ -10,7 +10,7 @@ core_ids<-g$cell_id[g$country=='AAA' & g$split_dimension=='none']
 view<-list(focus='AAA',view_id='gender',cell_ids=g$cell_id[g$country=='AAA'&g$split_dimension=='gender'])
 x<-lo_balance_one_view(available,g,view,core_ids,c('AAA','BBB'),c('AAA','BBB'))
 stopifnot(x$status=='BALANCED_REFERENCE_AVAILABLE',identical(x$default_members,'BBB'),
-  nrow(x$default_points)==6L,length(x$required_cell_ids)==24L)
+  nrow(x$default_points)==6L,length(x$required_cell_ids)==9L)
 fast<-lo_balance_one_view(available,g,view,core_ids,c('AAA','BBB'),c('AAA','BBB'),
   context=lo_balance_view_context(available,c('AAA','BBB')))
 stopifnot(isTRUE(all.equal(x,fast,check.attributes=FALSE)))
@@ -18,7 +18,7 @@ stopifnot(isTRUE(all.equal(x,fast,check.attributes=FALSE)))
 # unrelated figure remains available; no shorter year set or girl-only panel.
 bad<-g;bad$status[match(tail(view$cell_ids,1),bad$cell_id)]<-'SOURCE_MAPPING_REVIEW_REQUIRED'
 x<-lo_balance_one_view(available,bad,view,core_ids,c('AAA','BBB'),c('AAA','BBB'))
-stopifnot(x$status=='FOCUS_VIEW_INCOMPLETE',!length(x$default_members),length(x$required_cell_ids)==24L)
+stopifnot(x$status=='FOCUS_VIEW_INCOMPLETE',!length(x$default_members),length(x$required_cell_ids)==9L)
 total<-list(focus='AAA',view_id='total',cell_ids=core_ids[1:3])
 x<-lo_balance_one_view(available,bad,total,core_ids,c('AAA','BBB'),c('AAA','BBB'))
 stopifnot(x$status=='BALANCED_REFERENCE_AVAILABLE',nrow(x$default_points)==3L)

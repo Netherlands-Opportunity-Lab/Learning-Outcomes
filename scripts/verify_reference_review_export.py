@@ -12,15 +12,17 @@ def sha(path):
         return hashlib.file_digest(handle, 'sha256').hexdigest()
 
 
-def verify(repo, work):
-    audit = work / 'Q06_mapping_final'
+def verify(repo, work, reference_root=None):
+    audit = reference_root / 'reference_mapping' if reference_root else work / 'Q06_mapping_final'
+    snapshot = reference_root / 'reference_snapshot' if reference_root else work / 'snapshot'
+    output = reference_root / 'Q06' if reference_root else work / 'Q06'
     export_path = audit / 'BALANCED_REFERENCE_EXPORT.json'
     evidence = json.loads(export_path.read_text(encoding='utf-8-sig'))
     figure_path = audit / 'FIGURES.json'
     figures = json.loads(figure_path.read_text(encoding='utf-8-sig'))['figures']
     if sha(figure_path) != evidence['figure_registry_sha256']:
         raise ValueError('Changed figure registry')
-    source = work / 'snapshot/public_inputs/dashboard_cells.csv'
+    source = snapshot / 'public_inputs/dashboard_cells.csv'
     with source.open(encoding='utf-8-sig', newline='') as handle:
         all_source_countries = sorted({r['country'] for r in csv.DictReader(handle)})
     modules = {}
@@ -37,7 +39,8 @@ def verify(repo, work):
                   code_sha256={name + '.py': sha(repo / '06_pipeline' / (name + '.py')) for name in modules},
                   verification_script_sha256=sha(Path(__file__)),
                   no_pupil_recalculation=True, public_deployment=False)
-    (work / 'Q06/PUBLICATION_REFERENCE_VERIFICATION.json').write_text(
+    output.mkdir(parents=True,exist_ok=True)
+    (output / 'PUBLICATION_REFERENCE_VERIFICATION.json').write_text(
         json.dumps(result, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(result))
 
@@ -46,5 +49,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--repo', type=Path, required=True)
     parser.add_argument('--work', type=Path, required=True)
+    parser.add_argument('--reference-root',type=Path)
     args = parser.parse_args()
-    verify(args.repo, args.work)
+    verify(args.repo, args.work, args.reference_root)

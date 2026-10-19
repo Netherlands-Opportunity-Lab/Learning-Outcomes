@@ -24,15 +24,17 @@ def read(p):
         return list(csv.DictReader(f))
 
 
-def freeze(repo, root):
+def freeze(repo, root, reference_root=None):
     work = root / 'scientific_review_20261019'
+    mapping_dir = reference_root / 'reference_mapping' if reference_root else work / 'Q06_mapping_final'
+    q06_dir = reference_root / 'Q06' if reference_root else work / 'Q06'
     reports = {
         'Q01': work / 'Q01/SES_SAMPLE_REVIEW.json',
         'Q02': work / 'Q02/OFFICIAL_SAMPLE_REVIEW.json',
         'Q03': work / 'Q03_Q05/FROZEN_SES_REVIEW.json',
         'Q04': repo / '06_pipeline/review_20261013/scientific_review/SCOPE_METHOD_REVIEW.json',
         'Q05': work / 'Q03_Q05/FROZEN_SES_REVIEW.json',
-        'Q06': work / 'Q06/REFERENCE_REVIEW.json',
+        'Q06': q06_dir / 'REFERENCE_REVIEW.json',
         'Q07': repo / '06_pipeline/review_20261013/scientific_review/SCOPE_METHOD_REVIEW.json',
         'Q08': work / 'Q08/PAPER_CLAIM_REVIEW.json',
     }
@@ -44,6 +46,8 @@ def freeze(repo, root):
                 'FULL_ANCHORS_AND_ACTUAL_MEAN_RANK_DERIVATIONS_VERIFIED',
                 'ACTUAL_SELECTED_SCOPE_AND_PRODUCT_PLACEMENT_VERIFIED',
                 'REGISTERED_CLAIMS_AND_JOINT_COVARIANCE_VERIFIED']
+    if q['Q06'].get('policy') != 'FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3':
+        raise ValueError('Q06 does not certify the current human-approved combination rule')
     if [v['status'] for v in q.values()] != expected:
         raise ValueError('Real scientific review incomplete')
     if (q['Q01']['count_mismatches'] or q['Q02']['contexts'] != q['Q02']['complete']
@@ -57,7 +61,7 @@ def freeze(repo, root):
     # Windows realpath resolution per repeated cell can dominate runtime.
     # Inputs below are absolute canonical paths; hash unique files once using
     # bounded I/O concurrency, then check every claimed expected hash.
-    initial = read(work / 'Q06_mapping_final/PRIVATE_MAPPING_EVIDENCE.csv')
+    initial = read(mapping_dir / 'PRIVATE_MAPPING_EVIDENCE.csv')
     grid_for_sources = read(root / 'FIXED_PRODUCTION_V1/all_required/PRIVATE_MASTER_GRID.csv')
     paths = {Path(f['path']).as_posix() for f in initial}
     paths.update(Path(r['source_path']).as_posix() for r in grid_for_sources if r['status'] == 'SCIENTIFICALLY_VALIDATED')
@@ -129,7 +133,6 @@ def freeze(repo, root):
                         review_code=repo / 'scripts/review_scope_contracts.py')
     for n, h in q['Q04']['input_sha256'].items():
         add(scope_inputs[n], h)
-    mapping_dir = work / 'Q06_mapping_final'
     mapping = proof_json(mapping_dir / 'BALANCE_MAPPING_REVIEW.json', q['Q06']['mapping_review_sha256'])
     add(mapping_dir / 'BALANCED_REFERENCE_EXPORT.json', q['Q06']['reference_export_sha256'])
     add(mapping_dir / 'FIGURES.json', q['Q06']['figure_registry_sha256'])
@@ -162,8 +165,8 @@ def freeze(repo, root):
     for n, h in q['Q06']['code_sha256'].items():
         add(repo / '06_pipeline' / n, h)
     for n, h in q['Q06']['output_sha256'].items():
-        add(work / 'Q06' / (n + '.csv'), h)
-    public_reference = proof_json(work / 'Q06/PUBLICATION_REFERENCE_VERIFICATION.json')
+        add(q06_dir / (n + '.csv'), h)
+    public_reference = proof_json(q06_dir / 'PUBLICATION_REFERENCE_VERIFICATION.json')
     if public_reference['status'] != 'PASS' or public_reference['views'] != q['Q06']['views']:
         raise ValueError('Actual publication reference verification failed')
     add(mapping_dir / 'BALANCED_REFERENCE_EXPORT.json', public_reference['reference_export_sha256'])
@@ -192,7 +195,7 @@ def freeze(repo, root):
     # Current runtime and policies are checked relative to the caller's repo,
     # so a different checkout cannot keep using receipts for obsolete code.
     code = list((repo / '06_pipeline').glob('*.R')) + list((repo / '06_pipeline').glob('*.py'))
-    policy_names = ['PAPER_QA_CURRENT.json', 'PAPER_CLAIMS.json', 'BALANCED_REFERENCE_POLICY.json',
+    policy_names = ['PAPER_QA_CURRENT.json', 'PAPER_CLAIMS.json', 'BALANCED_REFERENCE_POLICY.json', 'BALANCE_USER_DECISION_20261019.json',
                     'POPULATION_CORRECTIONS.json', 'PRODUCT_REQUIREMENTS.json', 'RANK_PRODUCT_CONTRACT.json',
                     'GENDER_POOL_USER_DECISION.json', 'SOURCE_PROJECTION_REVIEWS.json', 'NLD_POLICY_CORE_YEAR_ANCHOR.csv']
     code += [repo / '06_pipeline/review_20261013' / n for n in policy_names]
@@ -206,11 +209,12 @@ def freeze(repo, root):
         'Q03': 'Pinned four-wave author code and parameter parity, plus every used canonical SES score and weight projection verified numerically. Author calibration countries are not dashboard admission.',
         'Q04': 'NOT_APPLICABLE_PROVEN: no selected two-wave dependencies or targets; no historical two-wave rerun authorized or performed.',
         'Q05': 'Frozen parameters, input mappings, observed components, imputation and extension-country coverage reviewed. Measurement invariance outside calibration remains a stated assumption, not an empirical finding.',
-        'Q06': 'Full focus anchors and jointly selected series/peer definitions enforced; admission is six combinations with three comparable waves. Equal-country means and country ranks numerically tested. Empty references stay empty; no benchmark/rank CI or group rank line.',
+        'Q06': 'User decision 19 October: admission is per age-domain combination with three comparable waves. Full selected-combination focus anchors and jointly selected series/peer definitions are enforced; membership is fixed within a figure and may differ between figures. Equal-country means and ranks are numerically tested. Empty references stay empty; no benchmark/rank CI or group rank line.',
         'Q07': 'Chosen PISA SES retained; no added official ESCS robustness. Home-SES appendix has one usable released wave per study and no spliced historical scale or trend claim.',
         'Q08': 'Twelve retrospectively registered Dutch claims checked against exact parents and joint PV/replicate covariance. Three PISA trend tests include linking variance and Holm correction; IEA long-term intervals are explicitly conditional, with no formal trend test.'}
     manifest = dict(schema_version=1, status='REVIEWED_SCIENTIFIC_BASIS_WITH_EXPLICIT_LIMITATIONS',
                     historical_result_commit='ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2',
+                    reference_mapping_directory=mapping_dir.as_posix(), reference_review_directory=q06_dir.as_posix(),
                     approval_sha256=add(approval), target_contracts_path=contracts.as_posix(),
                     target_contracts_sha256=add(contracts), reviewed_target_count=len(grid),
                     runtime_bindings=bindings,
@@ -218,6 +222,9 @@ def freeze(repo, root):
                                   report_sha256=add(reports[k]), applicability='NOT_APPLICABLE_PROVEN' if k == 'Q04' else 'APPLICABLE_REVIEWED_WITH_QUALIFICATIONS') for k in reports],
                     evidence_files=[dict(path=p, sha256=h) for p, h in sorted(evidence.items())])
     output = work / 'SCIENTIFIC_REVIEW_MANIFEST.json'
+    if output.exists():
+        historical=work / ('SCIENTIFIC_REVIEW_MANIFEST_' + sha(output) + '.json')
+        if not historical.exists():shutil.copyfile(output,historical)
     output.write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(dict(status=manifest['status'], reviewed_targets=len(grid),
                          evidence_files=len(evidence), manifest_sha256=sha(output))))
@@ -228,5 +235,6 @@ if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--repo', type=Path, required=True)
     p.add_argument('--root', type=Path, required=True)
+    p.add_argument('--reference-root',type=Path)
     a = p.parse_args()
-    freeze(a.repo.resolve(), a.root.resolve())
+    freeze(a.repo.resolve(), a.root.resolve(), a.reference_root.resolve() if a.reference_root else None)
