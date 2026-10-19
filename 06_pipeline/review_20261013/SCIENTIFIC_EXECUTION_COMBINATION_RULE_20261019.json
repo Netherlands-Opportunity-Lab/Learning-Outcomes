@@ -1,0 +1,389 @@
+{
+  "schema_version": 1,
+  "status": "SCIENTIFIC_BASIS_REVIEWED_WITH_EXPLICIT_LIMITATIONS",
+  "recorded_utc": "2026-10-19T18:12:19.947958+00:00",
+  "historical_result_commit": "ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2",
+  "execution_commit": "66fa0712ada6a83fc1218855f951262ce0742860",
+  "deposited_result_commit": "be46da0286392b2d249e5d9fe169f94f2087da27",
+  "remote_result_commit_verified": "be46da0286392b2d249e5d9fe169f94f2087da27",
+  "remote_branch_head_verified": "97dc3ee936ae2cbe55f495a599ce94dc71467e4f",
+  "scope": "all_required",
+  "current_targets": 76809,
+  "status_counts": {
+    "SCIENTIFICALLY_VALIDATED": 69201,
+    "UNAVAILABLE_VERIFIED_SOURCE_FIELD": 4271,
+    "UNAVAILABLE_VERIFIED_ANALYTIC_SAMPLE": 97,
+    "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE": 3240
+  },
+  "remaining_compute_targets": 0,
+  "new_pupil_calculations": 0,
+  "original_target_count": 77611,
+  "historical_approved_master_rows": 69775,
+  "historical_approved_master_unchanged": true,
+  "approval_sha256": "11e88b29916a96786728edfba25678bc1bb9d3742e1aeb744c16a228d490a821",
+  "historical_targets_outside_current_dashboard_scope": {
+    "CAN": 276,
+    "POL": 526
+  },
+  "scope_exclusion_reasons": {
+    "REGIONAL_POPULATION_NOT_NATIONAL": 92,
+    "AGE_DOMAIN_NOT_ADMITTED": 368,
+    "OFFICIAL_GRADE_CHANGE_NOT_COMPARABLE": 342
+  },
+  "admission_count": 34,
+  "admitted_countries": [
+    "ARE",
+    "AUS",
+    "AUT",
+    "AZE",
+    "BGR",
+    "CAN",
+    "CZE",
+    "DEU",
+    "DNK",
+    "ESP",
+    "FIN",
+    "FRA",
+    "GEO",
+    "HKG",
+    "HUN",
+    "IRL",
+    "ITA",
+    "LTU",
+    "LVA",
+    "MAR",
+    "NLD",
+    "NOR",
+    "NZL",
+    "POL",
+    "PRT",
+    "QAT",
+    "RUS",
+    "SAU",
+    "SGP",
+    "SVK",
+    "SVN",
+    "SWE",
+    "TWN",
+    "USA"
+  ],
+  "scientific_binding": {
+    "status": "SCIENTIFIC_REVIEW_RECEIPTS_INSTALLED",
+    "review_manifest_sha256": "d50d201b6c130209b60bf86a1ea7660a0f0bfd9eee587a5a99fb2ab337449a9f",
+    "target_sha256": "021a75127f04f8d64479ac890e00d27ee6aa0563e0e1de74c7a6af8c9c0c65e4",
+    "approval_sha256": "11e88b29916a96786728edfba25678bc1bb9d3742e1aeb744c16a228d490a821",
+    "policy_sha256": "43de0c082c6eb8c90ae062500c8e0d4c5ee0033ecee28990b1581ea7c6ed29a9",
+    "reviewed_targets": 77611,
+    "current_targets": 76809,
+    "requirements": 8,
+    "no_pupil_recalculation": true
+  },
+  "quality_summary": {
+    "scope_contracts": "76809",
+    "active_primitive_contracts": "69201",
+    "validated_active_primitives": "69201",
+    "active_missing": "0",
+    "documented_unavailable_extensions": "3294",
+    "documented_unavailable_source_fields": "4202",
+    "documented_unavailable_analytic_samples": "97",
+    "new_below_basic_peer_targets": "6948",
+    "documented_unavailable_low_peers": "15",
+    "documented_unavailable_total": "7608",
+    "unavailable_accounting": "DISJOINT_EXTENSIONS_THEN_ANALYTIC_THEN_OTHER_SOURCE_THEN_LOW_PEERS",
+    "new_below_basic_peer_verified": "6933",
+    "paper_gates_pass": "8",
+    "paper_gates_required": "8",
+    "primary_peer_gate": "PASS",
+    "scientific_freeze": "ELIGIBLE_FOR_INDEPENDENT_REVIEW",
+    "publication_authorized": "NO_RIGHTS_AND_REPLICATION_REVIEW_PENDING",
+    "reason": "Independent reviewer and rights gate pending"
+  },
+  "latest_stages": {
+    "audit": {
+      "stage": "audit",
+      "scope": "all_required",
+      "status": "COMPLETED_WITH_SCIENCE_GATES",
+      "timestamp_utc": "2026-10-19T17:11:38Z",
+      "detail": "76809 target rows; 0 candidates, 69201 validated; 0 approved batches"
+    },
+    "produce": {
+      "stage": "produce",
+      "scope": "all_required",
+      "status": "ALL_SELECTED_TARGETS_ACCOUNTED_FOR",
+      "timestamp_utc": "2026-10-19T17:15:01Z",
+      "detail": "0 new independently certified international cells; 0 remaining targets; 0 repair records. Publication gates remain separate."
+    },
+    "final-check-preparation": {
+      "stage": "final-check-preparation",
+      "scope": "all_required",
+      "status": "STABLE_SNAPSHOT_CHECKED",
+      "timestamp_utc": "2026-10-19T17:16:45Z",
+      "detail": "0 remaining cells; 0 certified cells awaiting remote checkpoint; scientific gates checked separately"
+    },
+    "guided-preview": {
+      "stage": "guided-preview",
+      "scope": "all_required",
+      "status": "PRIVATE_GUIDED_CANDIDATE_BUILT",
+      "timestamp_utc": "2026-10-19T17:42:10Z",
+      "detail": "54095 mapped, 0 held; private candidate only, current public site unchanged"
+    },
+    "finalize": {
+      "stage": "finalize",
+      "scope": "all_required",
+      "status": "SCIENTIFIC_BASIS_REVIEWED_PRODUCT_RELEASE_PENDING",
+      "timestamp_utc": "2026-10-19T17:47:04Z",
+      "detail": "Q01-Q08 verified with qualifications; independent product/rights/release certification remains separate"
+    }
+  },
+  "q_receipts": [
+    {
+      "requirement_id": "Q01",
+      "status": "PASS",
+      "evidence_sha256": "c6301e46841cc93cdcb38c49c182c9c5132f6f089b8fe91845b266c4157aeef9"
+    },
+    {
+      "requirement_id": "Q02",
+      "status": "PASS",
+      "evidence_sha256": "4eb390b015bf58ded06a3ca9958ae1aeb8aad7e6696c0e900adce30bd241b379"
+    },
+    {
+      "requirement_id": "Q03",
+      "status": "PASS",
+      "evidence_sha256": "ca8b41a80b9a76963a0bade50ead95a781d7dc94fc885baf0de2e0bdf9b4417e"
+    },
+    {
+      "requirement_id": "Q04",
+      "status": "PASS",
+      "evidence_sha256": "bb96c14a9733fd6bf162b7d7f02502d41d94cab00424097c5d206f590d558971"
+    },
+    {
+      "requirement_id": "Q05",
+      "status": "PASS",
+      "evidence_sha256": "49adaa30dabbad4b138de29fa2a06ca65ef393014129a5a4df52bc1405a48795"
+    },
+    {
+      "requirement_id": "Q06",
+      "status": "PASS",
+      "evidence_sha256": "0ef04226e9016046abb064f5329ffe40e5a3df60a3ce178b4f5aec2ff6ac1762"
+    },
+    {
+      "requirement_id": "Q07",
+      "status": "PASS",
+      "evidence_sha256": "3662253430043ecb362933c5bd4f4510bda4735b40c42281c94d835243e6907f"
+    },
+    {
+      "requirement_id": "Q08",
+      "status": "PASS",
+      "evidence_sha256": "340fe3727a7dbb6c8b05db8b2988de566b5cef5990bd9f4ef37fad530742fb8f"
+    }
+  ],
+  "private_artifact_sha256": {
+    "FIXED_INPUT_MANIFEST.json": "3816f5b5a4213b727be25ab819eb95e8e0fbff0b28843c641845f24bd728a8e8",
+    "PRIVATE_MASTER_GRID.csv": "b02361bb696928b03167b127e2c7f3913065cda0d7a722beb6162254a0b02880",
+    "SCIENTIFIC_REVIEW_BINDING.json": "2d04bd0cbe187d89c8940f8a96fb55774362981471722ef1fc3e6a9436b7a5b2",
+    "SCIENTIFIC_QUALITY_SUMMARY.csv": "281a5a84c430a954f868145522a58fe7a03646757de1ddfb6e7deccd5e42eb0c",
+    "PAPER_Q01_Q08_GATES.csv": "ce5dde3408f326541d04e99ff06125c37dad27109827c8ae9360f49c774ce605",
+    "BALANCED_REFERENCE_EXPORT.json": "c32b5ff0cb4ed0adb943e4637e65fcc5096c6568f5902f69fe3c1f64621048a6",
+    "GUIDED_PREVIEW_SUMMARY.csv": "3e732143a557f7a2b0740dbd97833e52282dce4d9488f97646d2f118c8bde9ab",
+    "GUIDED_SCIENTIFIC_USE_EXCLUSIONS.csv": "a07dddf7eca4a0162716cdb748926f59f920d47e8d543e1baa5cf99091381b21",
+    "ACTIVE_REQUIREMENT_REGISTER.csv": "610a7c58a976b1093662296a28d40b540abbfeef52a56527d804c2548603094e",
+    "PRIVATE_ACTIVE_PRODUCT_CELL_TRACE.csv": "19a94f09e4c4b9ade9bd47e8ab1e8bde38625764a14749242f7464873deddbc0"
+  },
+  "platform_checks": {
+    "id": 39289362819,
+    "head_sha": "66fa0712ada6a83fc1218855f951262ce0742860",
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39289362819",
+    "jobs": [
+      {
+        "id": 118185672637,
+        "name": "r-entrypoint-parse (windows-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39289362819/job/118185672637"
+      },
+      {
+        "id": 118185673001,
+        "name": "storage-tests (windows-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39289362819/job/118185673001"
+      },
+      {
+        "id": 118185673012,
+        "name": "locked-environment (ubuntu-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39289362819/job/118185673012"
+      },
+      {
+        "id": 118185673107,
+        "name": "r-entrypoint-parse (ubuntu-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39289362819/job/118185673107"
+      },
+      {
+        "id": 118185673242,
+        "name": "storage-tests (ubuntu-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39289362819/job/118185673242"
+      },
+      {
+        "id": 118185673443,
+        "name": "locked-environment (windows-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39289362819/job/118185673443"
+      }
+    ]
+  },
+  "ci_execution_code_equivalence": {
+    "execution_commit": "66fa0712ada6a83fc1218855f951262ce0742860",
+    "ci_commit": "66fa0712ada6a83fc1218855f951262ce0742860",
+    "identical_reviewed_runtime_files": 122,
+    "bindings_sha256": "1e63e56347fd5768114ef5e226587ab459c29f1ec0015323095e71a8fd99aad1"
+  },
+  "actual_execution_metrics_sha256": "d0307ea430d25a5daa4c7ba2f98a67f9241c5cf122f882a75dd727db60160d39",
+  "actual_execution_mode": "FULL_EXISTING_AUDIT_PRODUCE_FINALIZE_WITH_REPAIRED_POSTRUN_VERIFIER",
+  "reused_audit_produce_execution_commit": null,
+  "actual_stage_provenance": {
+    "finalize": {
+      "record_sha256": "3b1d6500ad59ea42b1a9563f52a158d2ad5a42a48d292003c12462ac6616311b",
+      "git_commit": "66fa0712ada6a83fc1218855f951262ce0742860",
+      "timestamp_utc": "2026-10-19T17:48:10.973411Z",
+      "configuration_sha256": "ced0c2319b860b3736cb8a967e32b461ff754bda49fab61df8b1d61a6721d2bf",
+      "input_manifest_sha256": "3816f5b5a4213b727be25ab819eb95e8e0fbff0b28843c641845f24bd728a8e8",
+      "grid_sha256": "b02361bb696928b03167b127e2c7f3913065cda0d7a722beb6162254a0b02880",
+      "result_set_sha256": "e2c57e464058e4b9b9c75804e0c3b3b166cc94ac7e4e6eccf337299461687c8d",
+      "outcome": "SCIENTIFIC_BASIS_REVIEWED_PRODUCT_RELEASE_PENDING"
+    },
+    "produce": {
+      "record_sha256": "f7d1de4f12a559916262b5fc58f64ef85e49500d295af9b7a6b67838b2b21934",
+      "git_commit": "66fa0712ada6a83fc1218855f951262ce0742860",
+      "timestamp_utc": "2026-10-19T17:15:32.790098Z",
+      "configuration_sha256": "ced0c2319b860b3736cb8a967e32b461ff754bda49fab61df8b1d61a6721d2bf",
+      "input_manifest_sha256": "3816f5b5a4213b727be25ab819eb95e8e0fbff0b28843c641845f24bd728a8e8",
+      "grid_sha256": "b02361bb696928b03167b127e2c7f3913065cda0d7a722beb6162254a0b02880",
+      "result_set_sha256": "e2c57e464058e4b9b9c75804e0c3b3b166cc94ac7e4e6eccf337299461687c8d",
+      "outcome": "ALL_SELECTED_TARGETS_ACCOUNTED_FOR"
+    },
+    "audit": {
+      "record_sha256": "3e3b0443bc6be5fb32e5e1a25edd000e785116a304fca98e1563db6991bc861b",
+      "git_commit": "66fa0712ada6a83fc1218855f951262ce0742860",
+      "timestamp_utc": "2026-10-19T17:12:15.096215Z",
+      "configuration_sha256": "ced0c2319b860b3736cb8a967e32b461ff754bda49fab61df8b1d61a6721d2bf",
+      "input_manifest_sha256": "3816f5b5a4213b727be25ab819eb95e8e0fbff0b28843c641845f24bd728a8e8",
+      "grid_sha256": "b02361bb696928b03167b127e2c7f3913065cda0d7a722beb6162254a0b02880",
+      "result_set_sha256": "e2c57e464058e4b9b9c75804e0c3b3b166cc94ac7e4e6eccf337299461687c8d",
+      "outcome": "COMPLETED_WITH_SCIENCE_GATES"
+    }
+  },
+  "actual_candidate_verification": {
+    "status": "ACTUAL_FINAL_CANDIDATE_MATCHES_INDEPENDENT_Q06",
+    "candidate_id": "0aea1d921137580993",
+    "views": 5916,
+    "membership_differences": 0,
+    "required_year_differences": 0,
+    "nonadmitted_empty_anchor_views": 68,
+    "actual_status_counts": {
+      "BALANCED_REFERENCE_AVAILABLE": 4598,
+      "FOCUS_VIEW_INCOMPLETE": 1076,
+      "NO_ELIGIBLE_REFERENCE": 6,
+      "FOCUS_CORE_INCOMPLETE": 168,
+      "AGE_DOMAIN_NOT_ADMITTED": 68
+    },
+    "checked_candidate_files": 407,
+    "scientific_data_rows": 54095,
+    "source_sha256": "184eb23e14cc8007f1934034fb26ceb78f1f4e7bff2e9d28d8840dd49ae3147f",
+    "actual_balance_export_sha256": "c32b5ff0cb4ed0adb943e4637e65fcc5096c6568f5902f69fe3c1f64621048a6",
+    "independent_q06_export_sha256": "f43552712e6f59825741a8329135879568b44034bc1f0a4326e666734ac9230e",
+    "reference_table_sha256": "06ee6e37e7292e867665ef126d4957cf7e3bb4dbefd1528b616c23944dd4abb4",
+    "candidate_manifest_sha256": "5d28039a49349768a0a7440cbf599f5f216a1e4050672a56410c3fcfed96c7c6",
+    "builder_sha256": "f55c2b022f7355d33cdb9cd7bff3088a585e1c463dd752c33991ea43049c2b81",
+    "verification_script_sha256": "eac820c10b35dc081fc575434d180d9d007c34cba4d1de4f6e14b285611031f6",
+    "no_pupil_recalculation": true,
+    "public_deployment": false
+  },
+  "actual_candidate_verification_sha256": "857576bdec23473f475687e6f7f01bafc1676097666031377c3bdda65d7a4907",
+  "limits": [
+    "Q04 not applicable: unused two-wave variant excluded.",
+    "Frozen SES measurement invariance outside calibration remains an assumption.",
+    "Home-SES has one usable wave per IEA study; no spliced trend.",
+    "IEA long-term contrasts are descriptive with scale-conditional uncertainty; no formal trend test.",
+    "Population, mode, exclusions and nonresponse qualifications remain visible.",
+    "This is scientific scope/review closure; final products, rights and clean source replication are separate.",
+    "The 50 additional candidates identified by the broadened rule are not source-certified by this execution; the definitive total country inventory remains open."
+  ],
+  "additional_source_candidates_pending": 50,
+  "country_inventory_complete": false,
+  "scope_decision_sha256": "efcbd76a0f3404343c9442275692f8405461489d12e1ca70406f392ace1928c9",
+  "postrun_verifier_repair": {
+    "original_private_harness_exit_code": 1,
+    "existing_R_sequence_completed_before_checker_failure": true,
+    "original_invocation_sha256": "a8831e712a95646dc199c1333574c2e2c5b8ff5cf01bf2b001e2a5f6702f7ab3",
+    "reason": "The additional checker parsed an empty string as one blank required year in 68 non-admitted views.",
+    "repair_commit": "caf31417dee88c1c9f95ae6e3496da3fcc2f2aa0",
+    "integrated_commit": "97dc3ee936ae2cbe55f495a599ce94dc71467e4f",
+    "corrected_checker_sha256": "eac820c10b35dc081fc575434d180d9d007c34cba4d1de4f6e14b285611031f6",
+    "corrected_actual_check_exit_code": 0,
+    "actual_verification_sha256": "857576bdec23473f475687e6f7f01bafc1676097666031377c3bdda65d7a4907",
+    "unchanged_candidate_manifest_sha256": "5d28039a49349768a0a7440cbf599f5f216a1e4050672a56410c3fcfed96c7c6",
+    "production_or_candidate_changed": false,
+    "repair_platform_checks": {
+      "head_sha": "97dc3ee936ae2cbe55f495a599ce94dc71467e4f",
+      "repair_commit": "caf31417dee88c1c9f95ae6e3496da3fcc2f2aa0",
+      "run_id": 39300015391,
+      "url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39300015391",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 118222436363,
+          "name": "public-dashboard",
+          "conclusion": "success",
+          "steps": []
+        },
+        {
+          "id": 118222436793,
+          "name": "interim-dashboard (ubuntu-latest)",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Check final and interim publication boundaries",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Reconstruct actual public figures from the downloadable package",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            }
+          ]
+        },
+        {
+          "id": 118222436843,
+          "name": "interim-dashboard (windows-latest)",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Check final and interim publication boundaries",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Reconstruct actual public figures from the downloadable package",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

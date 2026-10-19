@@ -12,15 +12,17 @@ Bijgewerkt: 19 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproduc
 
 **Actuele inhoudelijke beoordeling:** lees eerst
 [Wetenschappelijke basis en definitieve scope](SCIENTIFIC_BASIS_20261019.md),
-het [volledige dekkingsrapport](review_20261013/grid_coverage_combination_scope/README.md) en de
+het [volledige dekkingsrapport van de afgesloten run](review_20261013/grid_coverage/README.md) en de
 [bewijsmanifesten en Q-dossiers](review_20261013/scientific_review/SCIENTIFIC_REVIEW_MANIFEST.json).
-De eerdere runstand hieronder blijft historische herkomst. Onder de nieuwe regel zijn 34 bestaande landen/stelsels in 202 afzonderlijke combinaties bronmatig toegelaten. De exacte hergebruikcontrole telt 76.809 doelen: 69.201 bestaande gevalideerde resultaten en 7.608 onderbouwd onbeschikbare doelen. Dit is nog geen nieuwe productiedepositie. Canada en Polen blijven buiten PIRLS, maar behouden hun passende PISA- en TIMSS-reeksen. Referenties verschillen voortaan per figuur. De nieuwe Q06-controle is uitgevoerd: 5.916 land-figuurcombinaties, 42 numerieke probes en 54.095 exact gemapte productrijen; eigen landankers, landenselectie, rangen en NL/EN-interface zijn ook in de echte dashboardkandidaat gecontroleerd. Zie [het hashgebonden bewijs](review_20261013/COMBINATION_RULE_VERIFICATION_20261019.json). Vijftig aanvullende bronkandidaten moeten afzonderlijk worden gecertificeerd; forceer geen eindtotaal.
+De eerdere runstand hieronder blijft historische herkomst. Onder de nieuwe regel zijn 34 bestaande landen/stelsels in 202 afzonderlijke combinaties bronmatig toegelaten. De exacte hergebruikcontrole telt 76.809 doelen: 69.201 bestaande gevalideerde resultaten en 7.608 onderbouwd onbeschikbare doelen. De volgende alinea bevat de inmiddels uitgevoerde nieuwe productiedepositie; de eerder beschreven hergebruikcontrole blijft afzonderlijk bewijs. Canada en Polen blijven buiten PIRLS, maar behouden hun passende PISA- en TIMSS-reeksen. Referenties verschillen voortaan per figuur. De nieuwe Q06-controle is uitgevoerd: 5.916 land-figuurcombinaties, 42 numerieke probes en 54.095 exact gemapte productrijen; eigen landankers, landenselectie, rangen en NL/EN-interface zijn ook in de echte dashboardkandidaat gecontroleerd. Zie [het hashgebonden bewijs](review_20261013/COMBINATION_RULE_VERIFICATION_20261019.json). Vijftig aanvullende bronkandidaten moeten afzonderlijk worden gecertificeerd; forceer geen eindtotaal.
+De nieuwe regel is ook via de bestaande R-keten afgesloten op code `66fa0712`, resultaatcommit `be46da02`: **76.809 doelen, 69.201 gevalideerd, 7.608 onderbouwd onbeschikbaar, nul resterend**. Q01–Q08 zijn voor deze 34 bronmatig geverifieerde landen opnieuw aan de actuele scope gebonden en geaccepteerd (8/8). Er zijn geen nieuwe leerlingberekeningen uitgevoerd. De echte eindkandidaat is onafhankelijk vergeleken met alle 5.916 referentiecontracten. Zie [het actuele uitvoeringsbewijs](review_20261013/SCIENTIFIC_EXECUTION_COMBINATION_RULE_20261019.json). De bredere inventaris van 50 aanvullende bronkandidaten blijft open; deze run certificeert hen niet en publiceert geen website.
+
 De controller kan nu werkelijke Q01-Q08-dossiers aan exacte runcontracten en
 resultaten binden. Alleen het actuele uitvoeringsbewijs bevestigt acceptatie;
 nieuwe input of code maakt verouderde bewijsbinding ongeldig.
 
-De run is afgesloten: **69.775 geregistreerd gevalideerde resultaten, 7.836
-onderbouwd onbeschikbare doelen en nul resterende rekentaken** in het huidige
+Historische run vóór de inhoudelijke controle: **69.775 geregistreerd gevalideerde resultaten, 7.836
+onderbouwd onbeschikbare doelen en nul resterende rekentaken** in het toenmalige
 34-landengrid. Resultaatcommit `ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2` is
 op de remote ontwikkelbranch bevestigd. De uitvoeringscode was `331349ec`.
 De private dashboardkandidaat `ece77d7a0ed52bcf8a` bevat 54.771 gemapte rijen,
