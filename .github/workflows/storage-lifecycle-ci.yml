@@ -110,6 +110,8 @@ jobs:
         run: Rscript 06_pipeline/tests/test_paper_claim_review.R
       - name: Test SES analysis counts with missing achievement scores
         run: Rscript 06_pipeline/tests/test_ses_coverage_review.R
+      - name: Reject incomplete or concurrently written scientific review snapshots
+        run: Rscript 06_pipeline/tests/test_scientific_snapshot.R
       - name: Test real-review receipt binding and stale evidence rejection
         run: Rscript 06_pipeline/tests/test_scientific_review_binding.R
       - name: Verify batched result and absence evidence
@@ -156,6 +158,8 @@ jobs:
         run: Rscript 06_pipeline/tests/test_source_unavailability.R
       - name: Test partial-block estimability without zero filling or dropped PVs
         run: Rscript 06_pipeline/tests/test_estimation_availability.R
+      - name: Test independent source-frame reuse and missing achievement denominators
+        run: Rscript 06_pipeline/tests/test_reference_frame_reuse.R
       - name: Test read-only final-check preparation and remote accounting
         run: Rscript 06_pipeline/tests/test_completion_preflight.R
       - name: Test raw IEA source population and JRR verification

@@ -182,6 +182,20 @@ def freeze(repo, root, reference_root=None, work=None):
     # The reference engine consumes primitive cells. A complemented display
     # percentage has its own hash and must never replace its parent's identity.
     reviewed_grid = {r['cell_id']: r for r in read(scope_inputs['grid'])}
+    artifact = proof_json(work / 'RESULT_ARTIFACT_VERIFICATION.json')
+    if (artifact['status'] != 'ACTUAL_RESULT_SOURCE_METHOD_CERTIFICATES_REVERIFIED'
+            or artifact['rows'] != sum(r['status']=='SCIENTIFICALLY_VALIDATED' for r in reviewed_grid.values())
+            or artifact['reviewed_grid_sha256'] != sha(scope_inputs['grid'])):
+        raise ValueError('Source/method artifact verification does not cover this exact review grid')
+    add(root / 'master_reconciliation/SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv', artifact['approval_sha256'])
+    add(repo / '06_pipeline/GRID_ARCHIVE_BATCH.R', artifact['review_code_sha256'])
+    add(repo / 'scripts/prepare_scientific_review_snapshot.R', artifact['snapshot_code_sha256'])
+    export_proof = proof_json(work / 'snapshot/product_export/SNAPSHOT_EXPORT_EVIDENCE.json')
+    add(scope_inputs['dashboard'], export_proof['export_sha256'])
+    add(scope_inputs['grid'], export_proof['source_grid_sha256'])
+    add(repo / '06_pipeline/LO_FINAL_GUIDED_EXPORT.R', export_proof['exporter_sha256'])
+    if export_proof['mapping_holds'] or export_proof['approved_registry_sha256'] != artifact['approval_sha256']:
+        raise ValueError('Review export is not derived from the reverified sealed result registry')
     verify_review_bindings(reviewed_grid,
         read(work/'Q01/SES_REVIEW_TARGET_BINDINGS.csv'),
         read(work/'Q03_Q05/FROZEN_SES_COUNTRY_WAVE_REVIEW.csv'),

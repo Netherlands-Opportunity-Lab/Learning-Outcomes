@@ -227,6 +227,7 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
       # unavailable targets with source/code/denominator proof before computing.
       evidence<-c(srcfile,file.path(parent,src$canonical_filename))
       if(startsWith(family,'BACKGROUND_'))evidence<-c(evidence,bg$proof)
+      if(family=='PISA_SES')evidence<-c(evidence,sx$path,ses$certificate_path)
       q<-lo_record_estimation_availability(repo,root,science_obj,q,evidence)
       if(!nrow(q)){remote_checkpoint(changed=TRUE);return(invisible(NULL))}
       verifier_files<-c('LO_INTERNATIONAL_PRODUCTION.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PEER_REFERENCE.R','LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_INTERNATIONAL_SES.R','LO_GENDER_POOL_POLICY.R','LO_ESTIMATION_AVAILABILITY.R','LO_PISA_PROGRAM_IDENTITY.R')
