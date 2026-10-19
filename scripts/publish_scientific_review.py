@@ -108,7 +108,8 @@ def publish(repo, root):
                                ('METHOD_CONTRACTS.csv', [dict(zip(method_cols, row)) for row in sorted(methods)], method_cols)]:
         with (out / name).open('w', encoding='utf-8', newline='') as f:
             writer = csv.DictWriter(f, fields, lineterminator='\n'); writer.writeheader(); writer.writerows(rows)
-    proof = dict(schema_version=1, status=manifest['status'], result_basis=manifest['historical_result_commit'],
+    proof = dict(schema_version=1, status=manifest['status'], result_basis=manifest.get('reviewed_result_commit',manifest['historical_result_commit']),
+                 historical_result_commit=manifest['historical_result_commit'],
                  private_manifest_sha256=sha(manifest_path), approval_sha256=manifest['approval_sha256'],
                  reviewed_target_count=manifest['reviewed_target_count'],
                  scientific_review_requirements=8, source_reports=source_hashes,
