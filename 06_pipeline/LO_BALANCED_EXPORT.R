@@ -1,7 +1,7 @@
 # Export reference options from exact certified cells, not display availability.
 # The matrix specifies comparability, including SES and peer definitions; never
 # invent a population/method comparison ID from a short variable label.
-lo_balance_result_adapter <- function(grid,contracts) {
+lo_balance_result_adapter <- function(grid,contracts,checked=new.env(parent=emptyenv())) {
   required<-c("cell_id",lo_balance_columns(),"verification_path","verification_sha256")
   if(!all(required%in%names(contracts)) || anyDuplicated(contracts$cell_id))
     stop("BALANCE_ADAPTER_INVALID_CONTRACTS")
@@ -12,20 +12,31 @@ lo_balance_result_adapter <- function(grid,contracts) {
   if(any(g$status!="SCIENTIFICALLY_VALIDATED"))stop("BALANCE_ADAPTER_UNVALIDATED_RESULT")
   for(k in c("survey","domain","year"))if(any(as.character(g[[k]])!=contracts[[k]]))
     stop("BALANCE_ADAPTER_IDENTITY_MISMATCH")
-  checked<-new.env(parent=emptyenv())
-  for(i in seq_len(nrow(contracts))) {
-    path<-contracts$verification_path[i];hash<-contracts$verification_sha256[i]
-    if(!exists(hash,checked,inherits=FALSE)) {
-      lo_exact_assert_sha(path,hash,"BALANCE_CERTIFICATE")
-      assign(hash,jsonlite::fromJSON(path,simplifyVector=TRUE),checked)
-    }
-    cert<-get(hash,checked,inherits=FALSE)
+  keys<-lo_balance_key(contracts)
+  # Read and join each certificate once, rather than scanning its complete cell
+  # table for every one of tens of thousands of rows. Evidence is still checked
+  # against actual bytes on every invocation; no timestamp-based reuse.
+  groups<-split(seq_len(nrow(contracts)),paste(contracts$verification_path,contracts$verification_sha256))
+  for(i in groups) {
+    path<-contracts$verification_path[i[1]];hash<-contracts$verification_sha256[i[1]]
+    lo_exact_assert_sha(path,hash,"BALANCE_CERTIFICATE")
+    cert<-jsonlite::fromJSON(path,simplifyVector=TRUE)
     if(!identical(cert$status,"COMPARABILITY_CERTIFIED") ||
+       !identical(cert$schema_version,2L)||is.null(cert$assessment)||!nzchar(cert$assessment)||
+       !is.data.frame(cert$evidence_files)||!nrow(cert$evidence_files)||
+       !all(c('path','sha256')%in%names(cert$evidence_files))||
+       anyDuplicated(cert$cells$cell_id)||
        !all(c("cell_id","balance_key","result_hash")%in%names(cert$cells)))
       stop("BALANCE_ADAPTER_EVIDENCE_REQUIRED")
+    for(k in seq_len(nrow(cert$evidence_files))) {
+      f<-cert$evidence_files[k,];key<-paste(f$path,f$sha256)
+      if(!exists(key,checked,inherits=FALSE)) {
+        lo_exact_assert_sha(f$path,f$sha256,'BALANCE_REVIEW_ATTACHMENT');assign(key,TRUE,checked)
+      }
+    }
     j<-match(g$cell_id[i],cert$cells$cell_id)
-    if(is.na(j)||cert$cells$balance_key[j]!=lo_balance_key(contracts[i,,drop=FALSE]) ||
-       cert$cells$result_hash[j]!=g$result_hash[i])stop("BALANCE_ADAPTER_CHANGED_MAPPING")
+    if(anyNA(j)||any(cert$cells$balance_key[j]!=keys[i]) ||
+       any(cert$cells$result_hash[j]!=g$result_hash[i]))stop("BALANCE_ADAPTER_CHANGED_MAPPING")
   }
   cbind(contracts[lo_balance_columns()],g[c("country","estimate","standard_error","n_unweighted","status")],
     source_record_id=g$result_hash,verification_id=contracts$verification_sha256,

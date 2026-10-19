@@ -13,7 +13,8 @@ lo_product_trace <- function(repo,tasks,grid,decisions,out) {
       identical(r$current_scope,"HISTORICAL_SOURCE_ONLY")
     rank_derivation<-identical(r$derivation,"BALANCED_RANK_FROM_APPROVED_RESULTS")
     i<-if(rank_derivation && explicitly_chosen)seq_len(nrow(selected)) else
-      which(fam%in%unlist(r$figure_families))
+      which(fam%in%unlist(if(explicitly_chosen&&!is.null(r$current_figure_families))r$current_figure_families else r$figure_families))
+    placement<-if(!is.null(r$current_placement))r$current_placement else r$role
     if(rank_derivation && identical(r$product,"DASHBOARD_DERIVATION"))
       i<-i[!startsWith(selected$module[i],"extension_") & fam[i]!="GP_SES_HIGH"]
     if(identical(r$scope,"NLD"))i<-i[selected$country[i]=="NLD"]
@@ -21,10 +22,12 @@ lo_product_trace <- function(repo,tasks,grid,decisions,out) {
     if(source_only)i<-integer()
     if(length(i))links[[length(links)+1L]]<-data.frame(
       requirement_id=r$requirement_id,product=r$product,source_locator=r$source_locator,
+      approved_placement=placement,
       figure_id=selected$contract_figure_id[i],cell_id=selected$metric_key[i],
       stringsAsFactors=FALSE)
     spec[[length(spec)+1L]]<-data.frame(requirement_id=r$requirement_id,
       product=r$product,source_locator=r$source_locator,
+      approved_placement=placement,
       role=if(source_only)"HISTORICAL_SOURCE_ONLY" else if(explicitly_chosen)"APPROVED_EXTENSION_WITH_METHOD_GATES" else r$role,
       active_cell_links=length(i),
       supplemental_dependencies=paste(unlist(r$additional_dependencies),collapse=";"),
@@ -47,12 +50,33 @@ lo_product_trace <- function(repo,tasks,grid,decisions,out) {
     placement<-decisions$placement_or_condition[match(id,decisions$approval_id)]
     links[[length(links)+1L]]<-data.frame(requirement_id=paste0("USER_20261014_",id),
       product=placement,source_locator=paste0("SCOPE_APPROVALS.csv#",id),
+      approved_placement=placement,
       figure_id=selected$contract_figure_id[i],cell_id=selected$metric_key[i])
     spec[[length(spec)+1L]]<-data.frame(requirement_id=paste0("USER_20261014_",id),
       product=placement,source_locator=paste0("SCOPE_APPROVALS.csv#",id),
+      approved_placement=placement,
       role="EXPLICITLY_APPROVED_EXTENSION",active_cell_links=length(i),
       supplemental_dependencies="source;sample;method;uncertainty;comparability",pending_choices="",
       status="EXACT_CELL_LINKS_WITH_SEPARATE_SCIENCE_STATUS")
+  }
+  # Paper claims are a small registered set of exact aggregate parents, not a
+  # request for a new country-by-year testing cross-product.
+  claim_path<-file.path(repo,'06_pipeline/review_20261013/PAPER_CLAIMS.json')
+  if(file.exists(claim_path)&&'NLD'%in%selected$country) {
+    claims<-jsonlite::fromJSON(claim_path,simplifyVector=FALSE)$claims
+    for(claim in claims) {
+      ids<-unique(Filter(nzchar,unlist(claim[c('parent_a','parent_b','gap_cell')])))
+      i<-match(ids,selected$metric_key)
+      if(anyNA(i))stop('PAPER_CLAIM_UNAPPROVED_PARENT: ',claim$claim_id)
+      links[[length(links)+1L]]<-data.frame(requirement_id=claim$claim_id,
+        product='PAPER_REGISTERED_CLAIM',source_locator=paste0('PAPER_CLAIMS.json#',claim$claim_id),
+        approved_placement='PAPER',figure_id=selected$contract_figure_id[i],cell_id=ids)
+      spec[[length(spec)+1L]]<-data.frame(requirement_id=claim$claim_id,
+        product='PAPER_REGISTERED_CLAIM',source_locator=paste0('PAPER_CLAIMS.json#',claim$claim_id),
+        approved_placement='PAPER',role='A17_LIMITED_RETROSPECTIVE_CLAIM',active_cell_links=length(ids),
+        supplemental_dependencies='Q02;Q08;exact_parent_covariance;linking_uncertainty',pending_choices='',
+        status='EXACT_CLAIM_PARENTS_AND_SEPARATE_Q08_REVIEW')
+    }
   }
   l<-if(length(links))do.call(rbind,links) else data.frame(cell_id=character())
   if(nrow(l)) {
@@ -69,6 +93,7 @@ lo_product_trace <- function(repo,tasks,grid,decisions,out) {
       function(r)r$requirement_id,character(1))
     l$derivation[l$requirement_id%in%rank_ids]<-
       "RANK_OF_CERTIFIED_OUTCOME_OR_JOINT_GAP_WITH_FIXED_PANEL_NO_NEW_PUPIL_TASK"
+    l$derivation[l$product=='PAPER_REGISTERED_CLAIM']<-'REGISTERED_CLAIM_EXACT_PARENT_DIFFERENCE_AND_Q08_COVARIANCE'
   }
   write.csv(l,file.path(out,"PRIVATE_ACTIVE_PRODUCT_CELL_TRACE.csv"),row.names=FALSE,na="")
   s<-do.call(rbind,spec)
@@ -90,6 +115,11 @@ lo_fixed_input_manifest <- function(repo,bundle,root,scope) {
     scope_code=file.path(repo,"06_pipeline","LO_SCOPE_DECISIONS.R"),
     country_decisions=file.path(repo,"06_pipeline","COUNTRY_PRODUCTION_APPROVALS.csv"),
     country_code=file.path(repo,"06_pipeline","LO_COUNTRY_REGISTRY.R"),
+    population_review=file.path(repo,"06_pipeline","review_20261013","POPULATION_CORRECTIONS.json"),
+    population_code=file.path(repo,"06_pipeline","LO_POPULATION_REVIEW.R"),
+    paper_policy=file.path(repo,"06_pipeline","review_20261013","PAPER_QA_CURRENT.json"),
+    paper_claims=file.path(repo,"06_pipeline","review_20261013","PAPER_CLAIMS.json"),
+    balance_policy=file.path(repo,"06_pipeline","review_20261013","BALANCED_REFERENCE_POLICY.json"),
     anchor=file.path(repo,"06_pipeline","review_20261013","NLD_POLICY_CORE_YEAR_ANCHOR.csv"),
     support=file.path(root,"master_reconciliation","SOURCE_SUPPORT_CONTRACTS.csv"),
     compute=file.path(root,"master_reconciliation","SCIENTIFIC_COMPUTE_APPROVALS.csv"),

@@ -1,6 +1,8 @@
 source('06_pipeline/tests/test_balanced_export.R')
 source('06_pipeline/LO_BALANCED_VIEWS.R')
 w<-tempfile('balance_views_');dir.create(w)
+proof<-file.path(w,'review.txt');writeLines('Actual fixture comparison review',proof)
+cert$evidence_files<-data.frame(path=proof,sha256=lo_exact_sha(proof))
 p<-file.path(w,'cert.json');jsonlite::write_json(cert,p,auto_unbox=TRUE)
 contracts$verification_path<-p;contracts$verification_sha256<-lo_exact_sha(p)
 available<-lo_balance_result_adapter(g,contracts)
@@ -9,6 +11,9 @@ view<-list(focus='AAA',view_id='gender',cell_ids=g$cell_id[g$country=='AAA'&g$sp
 x<-lo_balance_one_view(available,g,view,core_ids,c('AAA','BBB'),c('AAA','BBB'))
 stopifnot(x$status=='BALANCED_REFERENCE_AVAILABLE',identical(x$default_members,'BBB'),
   nrow(x$default_points)==6L,length(x$required_cell_ids)==24L)
+fast<-lo_balance_one_view(available,g,view,core_ids,c('AAA','BBB'),c('AAA','BBB'),
+  context=lo_balance_view_context(available,c('AAA','BBB')))
+stopifnot(isTRUE(all.equal(x,fast,check.attributes=FALSE)))
 # A missing focus boy blocks the complete selected gender comparison, but an
 # unrelated figure remains available; no shorter year set or girl-only panel.
 bad<-g;bad$status[match(tail(view$cell_ids,1),bad$cell_id)]<-'SOURCE_MAPPING_REVIEW_REQUIRED'

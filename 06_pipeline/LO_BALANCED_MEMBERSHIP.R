@@ -8,6 +8,16 @@ lo_balance_columns <- function() c("survey","age_group","domain","year",
   "ses_definition_id","peer_definition","peer_target_group","threshold_id",
   "unit","population_comparison_id","method_comparison_id")
 
+# Templates describe Dutch deck years. Other countries retain all years in
+# their own exact contracts, including years with unavailable results.
+lo_focus_product_years <- function(tasks,focus,figure) {
+  if(focus=='NLD')return(sort(unique(strsplit(figure$required_years,';',fixed=TRUE)[[1]])))
+  historical<-if('historical_figure_id'%in%names(figure))figure$historical_figure_id else figure$figure_id
+  z<-tasks[tasks$country==focus & tasks$survey==figure$survey &
+    tasks$contract_figure_id==historical,,drop=FALSE]
+  sort(unique(as.character(z$year)))
+}
+
 lo_balance_key <- function(x) {
   cols <- lo_balance_columns()
   if(!all(cols %in% names(x))) stop("BALANCE_HOLD: exact support dimensions missing")

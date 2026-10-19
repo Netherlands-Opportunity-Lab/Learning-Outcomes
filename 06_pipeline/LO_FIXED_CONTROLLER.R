@@ -1,6 +1,6 @@
 # SINGLE FIXED CONTROLLER: audit -> produce -> finalize (+ separate cleanup).
-# This file deliberately never changes the pinned scientific engine or the
-# September released website. All scientific values remain local/private.
+# Scientific candidates and review receipts are built privately. Certified
+# aggregates are deposited separately on GitHub; this controller never deploys.
 lo_fixed_remaining_targets <- function(status) sum(status!='SCIENTIFICALLY_VALIDATED' & !startsWith(status,'UNAVAILABLE_'))
 lo_fixed_status_summary <- function(repo,state,scope) {
   # Read only the saved audit. This is not a fresh source verification and an
@@ -34,9 +34,9 @@ lo_fixed_controller <- function(repo,bundle,
     Sys.getenv("USERPROFILE",unset=path.expand("~")),"Downloads","LO05_RESULTATEN"))) {
   stage<-match.arg(stage);scope<-match.arg(scope)
   for(name in c("LO_SCOPE_LOCK.R","LO_SCOPE_DECISIONS.R","LO_BALANCED_MEMBERSHIP.R",
-    "LO_COUNTRY_REGISTRY.R","LO_COUNTRY_TASKS.R","LO_GENDER_POOL_POLICY.R","MASTER_ESTIMATION_GRID.R","LO_APPROVED_EXTENSIONS.R",
+    "LO_COUNTRY_REGISTRY.R","LO_POPULATION_REVIEW.R","LO_COUNTRY_TASKS.R","LO_GENDER_POOL_POLICY.R","MASTER_ESTIMATION_GRID.R","LO_APPROVED_EXTENSIONS.R",
     "GRID_ARCHIVE_BATCH.R","LO_EXISTING_RESULT_REGISTRY.R",
-    "LO_FIXED_VALIDATION.R","LO_FIXED_PRODUCERS.R","LO_PRODUCT_TRACE.R","LO_SOURCE_UNAVAILABILITY.R","LO_PAPER_GATE_EVIDENCE.R")) {
+    "LO_FIXED_VALIDATION.R","LO_FIXED_PRODUCERS.R","LO_PRODUCT_TRACE.R","LO_SOURCE_UNAVAILABILITY.R","LO_PAPER_GATE_EVIDENCE.R","LO_SCIENTIFIC_REVIEW_BINDING.R")) {
     source(file.path(repo,"06_pipeline",name),
            local=environment(),encoding="UTF-8")
   }
@@ -87,7 +87,7 @@ lo_fixed_controller <- function(repo,bundle,
   if(nrow(tasks)!=79448L||anyDuplicated(tasks$metric_key))
     stop("FIXED_PIPELINE_HOLD: original 79448-key lock changed")
   source_support<-lo_read_source_support(file.path(root,"master_reconciliation",
-                                            "SOURCE_SUPPORT_CONTRACTS.csv"))
+                                            "SOURCE_SUPPORT_CONTRACTS.csv"),repo=repo)
   scope_info<-lo_runtime_scope(bundle,tasks,scope,source_support)
   selected<-lo_country_base_tasks(tasks,scope_info)
   scope_decisions<-lo_read_scope_decisions(repo)
@@ -102,6 +102,8 @@ lo_fixed_controller <- function(repo,bundle,
   extensions<-extensions[extensions$metric_key%in%chosen_ids,,drop=FALSE]
   state<-file.path(root,"FIXED_PRODUCTION_V1",scope)
   dir.create(state,recursive=TRUE,showWarnings=FALSE)
+  write.csv(attr(source_support,'population_exclusions'),
+    file.path(state,'POPULATION_SUPPORT_EXCLUSIONS.csv'),row.names=FALSE,na='')
   evidence_dir<-file.path(state,"FINAL_FIXED_PIPELINE")
   dir.create(evidence_dir,recursive=TRUE,showWarnings=FALSE)
   source(file.path(repo,"06_pipeline","LO_PROCESS_LOCK.R"),local=environment())
@@ -287,6 +289,12 @@ lo_fixed_controller <- function(repo,bundle,
   preparation<-lo_completion_preflight(repo,root,scope,file.path(state,'FINAL_CHECK_PREPARATION'))
   put('final-check-preparation','STABLE_SNAPSHOT_CHECKED',paste(preparation$remaining,
     'remaining cells;',preparation$certified_cells_not_in_remote_index,'certified cells awaiting remote checkpoint; scientific gates checked separately'))
+  approval<-file.path(root,'master_reconciliation/SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv')
+  science_binding<-tryCatch(lo_scientific_review_install(repo,root,rbind(selected,new_peer_tasks),approval,state),error=function(e)e)
+  if(inherits(science_binding,'error')) {
+    put('finalize','SCIENTIFIC_REVIEW_INPUT_CHANGED',conditionMessage(science_binding))
+    return(invisible(science_binding))
+  }
   balance_contract_path<-file.path(root,"master_reconciliation","BALANCE_CELL_CONTRACTS.csv")
   balance_export<-NULL
   if(file.exists(balance_contract_path)) {
@@ -300,7 +308,8 @@ lo_fixed_controller <- function(repo,bundle,
       g<-rbind(g,lo_reference_only_grid(tasks,a_ref,scope_info,scope_decisions))
     }
     bc<-read.csv(balance_contract_path,colClasses="character",na.strings=character())
-    balance_export<-lo_balanced_view_export(repo,g,bc,rbind(selected,new_peer_tasks),scope_info,state)
+    balance_export<-lo_balanced_view_export(repo,g,bc,rbind(selected,new_peer_tasks),scope_info,state,
+      checked=if(is.null(science_binding))new.env(parent=emptyenv())else attr(science_binding,'checked_files'))
   }
   # Finalize constructs a private copy of the dynamically eligible
   # guided dashboard (with truthful missing-data placeholders), even if the
@@ -317,6 +326,16 @@ lo_fixed_controller <- function(repo,bundle,
     new_peer_tasks[new_peer_tasks$country%in%scope_info$dashboard,,drop=FALSE])
   guided_approved <- if(nrow(a) && "cell_id"%in%names(a))
     a[a$cell_id%in%dashboard_tasks$metric_key,,drop=FALSE] else data.frame()
+  # A retained historical estimate is not automatically fit for a trend plot.
+  # Keep the full target/year and disclose the exclusion; do not join a line
+  # through an officially non-comparable or regional-as-national observation.
+  product_review<-lo_population_review(repo)
+  restricted<-lo_population_review_rows(dashboard_tasks,product_review)
+  excluded_products<-dashboard_tasks[!is.na(restricted),c('metric_key','country','survey','year','domain'),drop=FALSE]
+  excluded_products$review_id<-product_review$review_id[restricted[!is.na(restricted)]]
+  excluded_products$reason<-product_review$reason[restricted[!is.na(restricted)]]
+  write.csv(excluded_products,file.path(state,'GUIDED_SCIENTIFIC_USE_EXCLUSIONS.csv'),row.names=FALSE)
+  if(nrow(guided_approved))guided_approved<-guided_approved[!guided_approved$cell_id%in%excluded_products$metric_key,,drop=FALSE]
   map <- tryCatch(lo_guided_grid_export(bundle,dashboard_tasks,
                              guided_approved,state,scope_decisions=scope_decisions),error=function(e)e)
   if(inherits(map,"error")) {
@@ -358,13 +377,14 @@ lo_fixed_controller <- function(repo,bundle,
        file.path(state,"GUIDED_PREVIEW_SUMMARY.csv"),row.names=FALSE)
     put("guided-preview",preview_state,
         paste0(map$guided_focus_rows," mapped, ",map$mapping_holds,
-               " held; public September site unchanged"))
+               " held; private candidate only, current public site unchanged"))
   }
   # No count-based scientific release. Independent paper, covariance,
   # data-edition and peer denominator gates remain authoritative.
   q <- tryCatch(lo_final_quality_gate(bundle,rbind(selected,new_peer_tasks),approval,state,
                                      scope_decisions=scope_decisions,paper_policy=jsonlite::fromJSON(
-                                       file.path(repo,'06_pipeline/review_20261013/PAPER_QA_CURRENT.json'))$requirements),
+                                       file.path(repo,'06_pipeline/review_20261013/PAPER_QA_CURRENT.json'))$requirements,
+                                     repo=repo,checked_files=if(is.null(science_binding))new.env(parent=emptyenv())else attr(science_binding,'checked_files')),
                 error=function(e)e)
   if(inherits(q,"error")) {
     put("finalize","HOLD_SCIENTIFIC_GATE_ERROR",conditionMessage(q))
@@ -383,8 +403,8 @@ lo_fixed_controller <- function(repo,bundle,
   certificate <- file.path(state,"PUBLIC_RELEASE_CERTIFICATION.json")
   if(is.null(balance_export) || !file.exists(certificate) || inherits(map,"error") ||
      !exists("candidate") || !dir.exists(candidate)) {
-    put("finalize","HOLD_RELEASE_CERTIFICATE_OR_GUIDED_CANDIDATE",
-        "Missing independent SHA-pinned release evidence")
+    put("finalize","SCIENTIFIC_BASIS_REVIEWED_PRODUCT_RELEASE_PENDING",
+        "Q01-Q08 verified with qualifications; independent product/rights/release certification remains separate")
     return(invisible(q))
   }
   script <- file.path(repo,"06_pipeline","LO_FINAL_GUIDED_PUBLIC_RELEASE.py")

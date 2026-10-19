@@ -6,15 +6,20 @@ stopifnot(length(args)==3L)
 repo<-args[1];snapshot<-args[2];out<-args[3]
 source(file.path(repo,'06_pipeline/LO_BALANCED_MEMBERSHIP.R'))
 source(file.path(repo,'06_pipeline/LO_COUNTRY_REGISTRY.R'))
+source(file.path(repo,'06_pipeline/LO_POPULATION_REVIEW.R'))
 read<-function(p)read.csv(p,colClasses='character',na.strings=character(),check.names=FALSE)
 a<-read(file.path(out,'BALANCE_AVAILABLE.csv'))
 review<-jsonlite::fromJSON(file.path(out,'BALANCE_MAPPING_REVIEW.json'))
 stopifnot(digest::digest(file=file.path(out,'BALANCE_AVAILABLE.csv'),algo='sha256')==review$available_sha256)
+population_review<-lo_population_review(repo)
+a<-lo_population_filter_support(a,population_review)
 x<-lo_balance_validated(a)
 all_keys<-sort(unique(x$balance_key))
 core_targets<-read(file.path(out,'FOCUS_CORE_TARGETS.csv'))
 stopifnot(digest::digest(file=file.path(out,'FOCUS_CORE_TARGETS.csv'),algo='sha256')==review$core_targets_sha256)
 products<-read(file.path(snapshot,'public_inputs/dashboard_cells.csv'))
+tasks<-read(file.path(snapshot,'product_export/PRIVATE_TASKS.csv'))
+stopifnot(digest::digest(file=file.path(snapshot,'product_export/PRIVATE_TASKS.csv'),algo='sha256')==review$exact_tasks_sha256)
 products_by_view<-split(products,paste(products$country,products$figure_id,sep='::'))
 empty_product<-products[FALSE,,drop=FALSE]
 registry<-read(file.path(snapshot,'public_inputs/COUNTRY_SOURCE_ELIGIBILITY.csv'))
@@ -23,6 +28,7 @@ rich<-registry$country[registry$rich_candidate=='TRUE']
 figures<-jsonlite::fromJSON(file.path(out,'FIGURES.json'))$figures
 anchor<-read(file.path(repo,'06_pipeline/review_20261013/NLD_POLICY_CORE_YEAR_ANCHOR.csv'))
 admission<-lo_dashboard_eligibility(x,countries)$countries
+countries<-countries[countries%in%admission$country[admission$dashboard_eligible]]
 views<-list();n<-0L
 for(focus in sort(countries)) {
  core_ids<-core_targets$cell_id[core_targets$country==focus]
@@ -37,7 +43,11 @@ for(focus in sort(countries)) {
  for(i in seq_len(nrow(figures))) {
   f<-figures[i,];p<-products_by_view[[paste(focus,f$figure_id,sep='::')]]
   if(is.null(p))p<-empty_product
-  expected<-as.vector(outer(strsplit(f$required_years,';',fixed=TRUE)[[1]],strsplit(f$expected_series,';',fixed=TRUE)[[1]],paste,sep=':'))
+  # Required years come from the unmodified focus contracts, never from its
+  # finite plotted points or another country's Dutch template. Keep the full
+  # original Dutch deck years, and the full own-country anchor elsewhere.
+  years<-lo_focus_product_years(tasks,focus,f)
+  expected<-as.vector(outer(years,strsplit(f$expected_series,';',fixed=TRUE)[[1]],paste,sep=':'))
   actual<-paste(p$year,p$series_id,sep=':')
   ids<-p$cell_id
   v<-list(focus=focus,figure_id=f$figure_id,view_id=paste0('PUBLIC_FIGURE::',f$figure_id),
@@ -45,7 +55,7 @@ for(focus in sort(countries)) {
     focus_excluded=TRUE,country_weights='EQUAL_PER_COUNTRY',benchmark_uncertainty=FALSE)
   if(!core_good) {
    v$status<-'FOCUS_CORE_INCOMPLETE';v$missing_core_cells<-sum(!core_ids%in%x$cell_id)
-  }else if(!setequal(expected,actual)||anyDuplicated(actual)) {
+  }else if(!length(years)||!setequal(expected,actual)||anyDuplicated(actual)) {
    v$status<-'FOCUS_VIEW_INCOMPLETE';v$missing_view_points<-length(setdiff(expected,actual))
   }else if(any(!ids%in%x$cell_id)) {
    v$status<-'COMPARABILITY_PENDING';v$missing_mapping_cells<-sum(!ids%in%x$cell_id)
@@ -81,6 +91,7 @@ proof_cols<-c('cell_id','country',lo_balance_columns(),'result_hash','verificati
               'source_certificate_sha256','result_certificate_sha256')
 jsonlite::write_json(list(schema_version=3L,policy='FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3',
  dashboard_input_sha256=review$dashboard_input_sha256,mapping_evidence=review,
+ population_review_sha256=attr(population_review,'sha256'),
  key_dictionary=all_keys,cell_columns=proof_cols,cells=unname(as.matrix(a[proof_cols])),
  core_targets=core_targets,admission=admission,rich_candidates=sort(rich),views=views),
  file.path(out,'BALANCED_REFERENCE_EXPORT.json'),auto_unbox=TRUE,pretty=FALSE,na='null',digits=17)

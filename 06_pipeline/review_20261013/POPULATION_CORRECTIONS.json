@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-10-19",
+  "authority": "Official source population correction under the user's existing no-regional-substitution rule; no new analytical scope.",
+  "corrections": [
+    {
+      "review_id": "POP_CAN_PIRLS_2001",
+      "country": "CAN",
+      "survey": "PIRLS",
+      "year": "2001",
+      "disposition": "EXCLUDE_FROM_NATIONAL_SUPPORT",
+      "actual_population": "Ontario and Quebec only; less than 65 percent of the national desired population",
+      "incorrect_assumption": "The CAN file code was treated as a national fourth-grade population interchangeable with later pan-Canadian samples.",
+      "reason": "REGIONAL_POPULATION_NOT_NATIONAL",
+      "sources": [
+        {
+          "url": "https://timssandpirls.bc.edu/pirls2001i/pdf/p1_IR_book.pdf",
+          "locator": "Footnote 1 and Canada (O,Q) in achievement exhibits; Appendix A.4 population coverage"
+        },
+        {
+          "url": "https://www.cmec.ca/400/PIRLS_2011.html",
+          "locator": "Opening paragraph: 2011 is the first pan-Canadian PIRLS participation"
+        }
+      ],
+      "known_canonical_sha256": "54f4b8cbbf00fce92691f46f2132d2e5bf33b5bd18082440246020ad31090411",
+      "known_support_certificate_sha256": "9957c6c22b71dcf316dd94cf7f80fc90b24682e7d4e77bd4b5eb44376238e61f",
+      "historical_results": "Retain values, original certificates and targets with this population correction. They cannot certify Canadian national trends, admission or references. Do not relabel them as newly certified provincial estimates."
+    },
+    {
+      "review_id": "QUAL_AUT_PISA_2009",
+      "country": "AUT",
+      "survey": "PISA",
+      "year": "2009",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "Boycott-related motivation and comparability: OECD excludes this cycle from comparable trends.",
+      "incorrect_assumption": "Numerically complete official data were treated as sufficient proof of comparable time trends.",
+      "reason": "OFFICIAL_TREND_COMPARABILITY_QUALIFICATION",
+      "sources": [
+        {
+          "url": "https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html",
+          "locator": "How does the OECD treat data anomalies? AUT paragraph; retrieved 2026-10-19"
+        }
+      ],
+      "historical_results": "Keep targets and historical values. This wave cannot establish comparable-wave admission or a final balanced trend; never shorten the focus anchor to hide it."
+    },
+    {
+      "review_id": "QUAL_ESP_PISA_2018",
+      "country": "ESP",
+      "survey": "PISA",
+      "year": "2018",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "OECD warns that test motivation and overlapping high-stakes exams compromise comparability with previous cycles; exclude this wave from certified longitudinal references, retain historical cross-sectional estimates.",
+      "incorrect_assumption": "Numerically complete official data were treated as sufficient proof of comparable time trends.",
+      "reason": "OFFICIAL_TREND_COMPARABILITY_QUALIFICATION",
+      "sources": [
+        {
+          "url": "https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html",
+          "locator": "How does the OECD treat data anomalies? ESP paragraph; retrieved 2026-10-19"
+        }
+      ],
+      "historical_results": "Keep targets and historical values. This wave cannot establish comparable-wave admission or a final balanced trend; never shorten the focus anchor to hide it."
+    }
+  ]
+}

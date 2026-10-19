@@ -1,0 +1,1236 @@
+{
+  "schema_version": 1,
+  "country_aliases": {
+    "ARE": [
+      "United Arab Emirates",
+      "UAE"
+    ],
+    "AUS": [
+      "Australia"
+    ],
+    "AUT": [
+      "Austria"
+    ],
+    "AZE": [
+      "Azerbaijan"
+    ],
+    "BGR": [
+      "Bulgaria"
+    ],
+    "CAN": [
+      "Canada",
+      "Canada (O,Q)"
+    ],
+    "CZE": [
+      "Czech Republic",
+      "Czechia"
+    ],
+    "DEU": [
+      "Germany"
+    ],
+    "DNK": [
+      "Denmark"
+    ],
+    "ESP": [
+      "Spain"
+    ],
+    "FIN": [
+      "Finland"
+    ],
+    "FRA": [
+      "France"
+    ],
+    "GEO": [
+      "Georgia"
+    ],
+    "HKG": [
+      "Hong Kong",
+      "Hong Kong SAR",
+      "Hong Kong-China",
+      "Hong Kong (China)",
+      "Hong Kong-CHN"
+    ],
+    "HUN": [
+      "Hungary"
+    ],
+    "IRL": [
+      "Ireland"
+    ],
+    "ITA": [
+      "Italy"
+    ],
+    "LTU": [
+      "Lithuania"
+    ],
+    "LVA": [
+      "Latvia"
+    ],
+    "MAR": [
+      "Morocco",
+      "Morocco (Combined)"
+    ],
+    "NLD": [
+      "Netherlands",
+      "The Netherlands"
+    ],
+    "NOR": [
+      "Norway",
+      "Norway (4)"
+    ],
+    "NZL": [
+      "New Zealand"
+    ],
+    "POL": [
+      "Poland"
+    ],
+    "PRT": [
+      "Portugal"
+    ],
+    "QAT": [
+      "Qatar"
+    ],
+    "RUS": [
+      "Russian Federation",
+      "Russia"
+    ],
+    "SAU": [
+      "Saudi Arabia"
+    ],
+    "SGP": [
+      "Singapore"
+    ],
+    "SVK": [
+      "Slovak Republic",
+      "Slovakia"
+    ],
+    "SVN": [
+      "Slovenia"
+    ],
+    "SWE": [
+      "Sweden"
+    ],
+    "TWN": [
+      "Chinese Taipei"
+    ],
+    "USA": [
+      "United States",
+      "United States of America"
+    ]
+  },
+  "tables": [
+    {
+      "id": "PIRLS_2001_population",
+      "file": "PIRLS2001_technical.pdf",
+      "url": "https://timssandpirls.bc.edu/pirls2001i/pdf/p1_tr_book.pdf",
+      "sha256": "ea7b680c10168248e4489ccecc4fc7d47701f0b2bf4157c8d93d7b0310015c05",
+      "fields": {
+        "population_coverage_pct": 1,
+        "school_exclusion_pct": 2,
+        "student_exclusion_pct": 3,
+        "overall_exclusion_pct": 4
+      },
+      "pages": [
+        121
+      ],
+      "percent_columns": true
+    },
+    {
+      "id": "PIRLS_2001_response",
+      "file": "PIRLS2001_technical.pdf",
+      "url": "https://timssandpirls.bc.edu/pirls2001i/pdf/p1_tr_book.pdf",
+      "sha256": "ea7b680c10168248e4489ccecc4fc7d47701f0b2bf4157c8d93d7b0310015c05",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "student_response_pct": 3,
+        "overall_before_pct": 4,
+        "overall_after_pct": 5
+      },
+      "pages": [
+        135
+      ],
+      "percent_columns": true,
+      "official_unreported": {
+        "CAN": [
+          "overall_after_pct"
+        ]
+      }
+    },
+    {
+      "id": "PIRLS_2006_population",
+      "file": "PIRLS2006_sampling.pdf",
+      "url": "https://timssandpirls.bc.edu/PDF/P06_TR_Chapter9.pdf",
+      "sha256": "403c2ad11ce4c17060321eb508146a49d571497b6de4656902565ea64c968b4a",
+      "fields": {
+        "population_coverage_pct": 1,
+        "school_exclusion_pct": 2,
+        "student_exclusion_pct": 3,
+        "overall_exclusion_pct": 4
+      },
+      "pages": [
+        4,
+        5
+      ],
+      "percent_columns": true
+    },
+    {
+      "id": "PIRLS_2006_response",
+      "file": "PIRLS2006_sampling.pdf",
+      "url": "https://timssandpirls.bc.edu/PDF/P06_TR_Chapter9.pdf",
+      "sha256": "403c2ad11ce4c17060321eb508146a49d571497b6de4656902565ea64c968b4a",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "class_response_pct": 3,
+        "student_response_pct": 4,
+        "overall_before_pct": 5,
+        "overall_after_pct": 6
+      },
+      "pages": [
+        25
+      ],
+      "percent_columns": true
+    },
+    {
+      "id": "PIRLS_2011_population",
+      "file": "PIRLS2011_population.pdf",
+      "url": "https://timss.bc.edu/methods/pdf/P11_Pop_Coverage.pdf",
+      "sha256": "7eafd1e51a94ce37ad0a9367ac2fbc5cfbb8ade977c360cb8464c39a727fa529",
+      "fields": {
+        "population_coverage_pct": 1,
+        "school_exclusion_pct": 2,
+        "student_exclusion_pct": 3,
+        "overall_exclusion_pct": 4
+      },
+      "pages": [
+        1,
+        2
+      ],
+      "percent_columns": true
+    },
+    {
+      "id": "PIRLS_2011_response",
+      "file": "PIRLS2011_response.pdf",
+      "url": "https://timss.bc.edu/methods/pdf/P11_Standards_Sampling.pdf",
+      "sha256": "56a92615fb33c4dfa87ba0aa40dd112aa60c4b8309a89ab29cc3116dddda725d",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "class_response_pct": 3,
+        "student_response_pct": 4,
+        "overall_before_pct": 5,
+        "overall_after_pct": 6
+      },
+      "pages": [
+        2
+      ],
+      "percent_columns": true,
+      "end_marker": "prePIRLS|Exhibit\\s+3",
+      "start_marker": "Exhibit\\s+2:.*?Grade"
+    },
+    {
+      "id": "PIRLS_2016_population",
+      "file": "PIRLS2016_population_table.pdf",
+      "url": "https://timssandpirls.bc.edu/publications/pirls/2016-methods/pdf/P16_MP_Exh_5-2_Coverage_Target_Population_PIRLS.pdf",
+      "sha256": "0a62b0cb6670354adc104b79addb9897382135e4de225a19a4c64a680e3d2986",
+      "fields": {
+        "population_coverage_pct": 1,
+        "school_exclusion_pct": 2,
+        "student_exclusion_pct": 3,
+        "overall_exclusion_pct": 4
+      },
+      "pages": [
+        1,
+        2
+      ],
+      "percent_columns": true
+    },
+    {
+      "id": "PIRLS_2016_response",
+      "file": "PIRLS2016_response_table.pdf",
+      "url": "https://timssandpirls.bc.edu/publications/pirls/2016-methods/pdf/P16_MP_Exh_5-7_Participation_Rates_Weighted_PIRLS.pdf",
+      "sha256": "917ae8507c86e589f96b386fd5f63059f07cf7edb34c977fbb7fcfe8fab5f06d",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "class_response_pct": 3,
+        "student_response_pct": 4,
+        "overall_before_pct": 5,
+        "overall_after_pct": 6
+      },
+      "pages": [
+        1,
+        2
+      ],
+      "percent_columns": true
+    },
+    {
+      "id": "PIRLS_2021_population_response",
+      "file": "PIRLS2021_notes.html",
+      "url": "",
+      "sha256": "79f0eacc475b9425053cc4e410ad4d6bfd57fdc2c8c24d70147d3532aa762558",
+      "fields": {
+        "mean_age": 1,
+        "population_coverage_pct": 2,
+        "overall_exclusion_pct": 3,
+        "school_before_pct": 4,
+        "school_after_pct": 5,
+        "class_response_pct": 6,
+        "student_response_pct": 7,
+        "overall_after_pct": 8
+      },
+      "table": 1
+    },
+    {
+      "id": "TIMSS_2003_population",
+      "file": "TIMSS2003_sampling.pdf",
+      "url": "https://isc.bc.edu/PDF/t03_download/T03_TR_Chap9.pdf",
+      "sha256": "06cffe81cf4ca0036a258f55ba7d5b54ec8fe347c189da2db1fb0903cdff0d99",
+      "fields": {
+        "population_coverage_pct": 1,
+        "school_exclusion_pct": 2,
+        "student_exclusion_pct": 3,
+        "overall_exclusion_pct": 4
+      },
+      "pages": [
+        10
+      ],
+      "percent_columns": true
+    },
+    {
+      "id": "TIMSS_2003_response",
+      "file": "TIMSS2003_sampling.pdf",
+      "url": "https://isc.bc.edu/PDF/t03_download/T03_TR_Chap9.pdf",
+      "sha256": "06cffe81cf4ca0036a258f55ba7d5b54ec8fe347c189da2db1fb0903cdff0d99",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "class_response_pct": 3,
+        "student_response_pct": 4,
+        "overall_before_pct": 5,
+        "overall_after_pct": 6
+      },
+      "pages": [
+        38
+      ],
+      "percent_columns": true
+    },
+    {
+      "id": "TIMSS_2007_population",
+      "file": "TIMSS2007_sampling.pdf",
+      "url": "https://timssandpirls.bc.edu/timss2007/PDF/T07_TR_Chapter9.pdf",
+      "sha256": "8ff421f1a2b8992cb8aad9624b1e8384b997ff0bbaf9bf926fb1e0bc700a0925",
+      "fields": {
+        "population_coverage_pct": 1,
+        "school_exclusion_pct": 2,
+        "student_exclusion_pct": 3,
+        "overall_exclusion_pct": 4
+      },
+      "pages": [
+        5,
+        6
+      ],
+      "percent_columns": true
+    },
+    {
+      "id": "TIMSS_2007_response",
+      "file": "TIMSS2007_sampling.pdf",
+      "url": "https://timssandpirls.bc.edu/timss2007/PDF/T07_TR_Chapter9.pdf",
+      "sha256": "8ff421f1a2b8992cb8aad9624b1e8384b997ff0bbaf9bf926fb1e0bc700a0925",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "class_response_pct": 3,
+        "student_response_pct": 4,
+        "overall_before_pct": 5,
+        "overall_after_pct": 6
+      },
+      "pages": [
+        34
+      ],
+      "percent_columns": true
+    },
+    {
+      "id": "TIMSS_2011_population",
+      "file": "TIMSS2011_population.pdf",
+      "url": "https://timss.bc.edu/methods/pdf/T11_Pop_Coverage.pdf",
+      "sha256": "f13170364dfd8293f913a57bc5235f0b2f9025cba915bc5fb35047209f7e2589",
+      "fields": {
+        "population_coverage_pct": 1,
+        "school_exclusion_pct": 2,
+        "student_exclusion_pct": 3,
+        "overall_exclusion_pct": 4
+      },
+      "pages": [
+        2,
+        3
+      ],
+      "percent_columns": true,
+      "end_marker": "Exhibit\\s+2:"
+    },
+    {
+      "id": "TIMSS_2011_response",
+      "file": "TIMSS2011_response.pdf",
+      "url": "https://timss.bc.edu/methods/pdf/T11_Standards_Sampling.pdf",
+      "sha256": "9c3970d7a50c6b38bd5dacf662853be5d65c57df7b22fcefae06eaaef375ac4f",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "class_response_pct": 3,
+        "student_response_pct": 4,
+        "overall_before_pct": 5,
+        "overall_after_pct": 6
+      },
+      "pages": [
+        2,
+        3
+      ],
+      "percent_columns": true,
+      "end_marker": "Exhibit\\s+3"
+    },
+    {
+      "id": "TIMSS_2015_population",
+      "file": "TIMSS2015_sampling_page_13.pdf",
+      "url": "https://timssandpirls.bc.edu/publications/timss/2015-methods/pdf/T15_MP_Exh5-3_Target_Population_G4.pdf",
+      "sha256": "606ab7d8a21d159a3f17da8997e2b73c807325bd5111367d284742fb5a824b15",
+      "fields": {
+        "population_coverage_pct": 1,
+        "school_exclusion_pct": 2,
+        "student_exclusion_pct": 3,
+        "overall_exclusion_pct": 4
+      },
+      "pages": [
+        1,
+        2
+      ],
+      "percent_columns": true
+    },
+    {
+      "id": "TIMSS_2015_response",
+      "file": "TIMSS2015_sampling_page_18.pdf",
+      "url": "https://timssandpirls.bc.edu/publications/timss/2015-methods/pdf/T15_MP_Exh5-8_Participation_Rates_G4.pdf",
+      "sha256": "b9eb98889f0ccc579897b5a8d96937737c81eb5f205506125fbf9b701d2f3ac9",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "class_response_pct": 3,
+        "student_response_pct": 4,
+        "overall_before_pct": 5,
+        "overall_after_pct": 6
+      },
+      "pages": [
+        1,
+        2
+      ],
+      "percent_columns": true
+    },
+    {
+      "id": "TIMSS_2019_population",
+      "file": "TIMSS2019_sampling_page_2.pdf",
+      "url": "https://timssandpirls.bc.edu/timss2019/methods/pdf/T19_MP_Ch9-sample-implementation.pdf",
+      "sha256": "d2100f6e1fac47049a09e5cd2b23d68b1ceb5141713252ff0ad677610b2d53c8",
+      "fields": {
+        "population_coverage_pct": 1,
+        "school_exclusion_pct": 2,
+        "student_exclusion_pct": 3,
+        "overall_exclusion_pct": 4
+      },
+      "pages": [
+        7,
+        8,
+        9
+      ],
+      "percent_columns": true,
+      "continuation_lines": {
+        "Canada": 1
+      }
+    },
+    {
+      "id": "TIMSS_2019_response",
+      "file": "TIMSS2019_sampling_page_2.pdf",
+      "url": "https://timssandpirls.bc.edu/timss2019/methods/pdf/T19_MP_Ch9-sample-implementation.pdf",
+      "sha256": "d2100f6e1fac47049a09e5cd2b23d68b1ceb5141713252ff0ad677610b2d53c8",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "class_response_pct": 3,
+        "student_response_pct": 4,
+        "overall_before_pct": 5,
+        "overall_after_pct": 6
+      },
+      "pages": [
+        24,
+        25,
+        26
+      ],
+      "percent_columns": true
+    },
+    {
+      "id": "TIMSS_2023_population",
+      "file": "TIMSS2023_T23_TR_Exh9.3_PopulationCoverageExclusions_G4.xlsx",
+      "url": "https://timss2023.org/wp-content/uploads/methods/T23_TR_Exh9.3_PopulationCoverageExclusions_G4.xlsx",
+      "sha256": "ff05e3e521e25d8a09d899dc321daeccccaa61ee36b97e78b00ff9309c7a80fa",
+      "fields": {
+        "population_coverage_pct": 1,
+        "school_exclusion_pct": 3,
+        "student_exclusion_pct": 4,
+        "overall_exclusion_pct": 5
+      },
+      "sheet": "9.3",
+      "country_column": 2,
+      "proportions": true
+    },
+    {
+      "id": "TIMSS_2023_response",
+      "file": "TIMSS2023_T23_TR_Exh9.10_ParticipationRatesWeighted_G4.xlsx",
+      "url": "https://timss2023.org/wp-content/uploads/methods/T23_TR_Exh9.10_ParticipationRatesWeighted_G4.xlsx",
+      "sha256": "ae9754e3f4c6f21a1199987003e6a61228f9241ae0f90dc3b6321ef384bd8eae",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "class_response_pct": 3,
+        "student_response_pct": 4,
+        "overall_before_pct": 5,
+        "overall_after_pct": 6
+      },
+      "sheet": "9.10",
+      "country_column": 2,
+      "proportions": true
+    },
+    {
+      "id": "PISA_2003_population",
+      "file": "PISA2003_report.pdf",
+      "url": "https://nces.ed.gov/pubs2005/2005003.pdf",
+      "sha256": "1fb2605f428b52c119d7fdc38f220e7374d17679947e4d0f2477708e00e6d2ca",
+      "fields": {
+        "age15_population_n": 1,
+        "age15_coverage_pct": 2,
+        "population_coverage_pct": 3,
+        "overall_exclusion_pct": 4
+      },
+      "pages": [
+        69
+      ]
+    },
+    {
+      "id": "PISA_2003_response",
+      "file": "PISA2003_report.pdf",
+      "url": "https://nces.ed.gov/pubs2005/2005003.pdf",
+      "sha256": "1fb2605f428b52c119d7fdc38f220e7374d17679947e4d0f2477708e00e6d2ca",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "student_response_pct": 3,
+        "schools_n": 4,
+        "students_n": 5
+      },
+      "pages": [
+        70
+      ]
+    },
+    {
+      "id": "PISA_2006_population",
+      "file": "PISA2006_technical.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2009/01/pisa-2006-technical-report_g1gha795/9789264048096-en.pdf",
+      "sha256": "da5449d8d72a53313f25f04aa29617b24be8c7df54ca55691a48582d982e3a7b",
+      "fields": {
+        "overall_exclusion_pct": 6,
+        "population_coverage_pct": 8,
+        "age15_coverage_pct": 10
+      },
+      "pages": [
+        181,
+        182
+      ],
+      "numeric_column_count": 12,
+      "field_proportions": [
+        "population_coverage_pct",
+        "age15_coverage_pct"
+      ],
+      "exclude_countries": [
+        "TWN"
+      ]
+    },
+    {
+      "id": "PISA_2006_school_before",
+      "file": "PISA2006_technical.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2009/01/pisa-2006-technical-report_g1gha795/9789264048096-en.pdf",
+      "sha256": "da5449d8d72a53313f25f04aa29617b24be8c7df54ca55691a48582d982e3a7b",
+      "fields": {
+        "school_before_pct": 1
+      },
+      "pages": [
+        184,
+        185
+      ],
+      "end_marker": "table\\s+11[.]3",
+      "exclude_countries": [
+        "TWN"
+      ]
+    },
+    {
+      "id": "PISA_2006_school_after",
+      "file": "PISA2006_technical.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2009/01/pisa-2006-technical-report_g1gha795/9789264048096-en.pdf",
+      "sha256": "da5449d8d72a53313f25f04aa29617b24be8c7df54ca55691a48582d982e3a7b",
+      "fields": {
+        "school_after_pct": 1
+      },
+      "pages": [
+        186,
+        187
+      ],
+      "end_marker": "table\\s+11[.]4",
+      "exclude_countries": [
+        "TWN"
+      ]
+    },
+    {
+      "id": "PISA_2006_student_response",
+      "file": "PISA2006_technical.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2009/01/pisa-2006-technical-report_g1gha795/9789264048096-en.pdf",
+      "sha256": "da5449d8d72a53313f25f04aa29617b24be8c7df54ca55691a48582d982e3a7b",
+      "fields": {
+        "student_response_pct": 1
+      },
+      "pages": [
+        187,
+        188
+      ],
+      "start_marker": "table\\s+11[.]4"
+    },
+    {
+      "id": "PISA_2009_population",
+      "file": "PISA2009_technical.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/about/programmes/edu/pisa/publications/technical-report/PISA%202009%20Technical%20report.pdf",
+      "sha256": "764c2048d5a2973da107b6a0d5b1b39804096e309218f7b11fdbdb7fc4e8f2c0",
+      "fields": {
+        "overall_exclusion_pct": 6,
+        "population_coverage_pct": 8,
+        "age15_coverage_pct": 10
+      },
+      "pages": [
+        161,
+        163
+      ],
+      "field_proportions": [
+        "population_coverage_pct",
+        "age15_coverage_pct"
+      ],
+      "exclude_countries": [
+        "GEO",
+        "ARE"
+      ]
+    },
+    {
+      "id": "PISA_2009_school_before",
+      "file": "PISA2009_technical.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/about/programmes/edu/pisa/publications/technical-report/PISA%202009%20Technical%20report.pdf",
+      "sha256": "764c2048d5a2973da107b6a0d5b1b39804096e309218f7b11fdbdb7fc4e8f2c0",
+      "fields": {
+        "school_before_pct": 1
+      },
+      "pages": [
+        165,
+        166
+      ],
+      "end_marker": "table\\s+11[.]3",
+      "exclude_countries": [
+        "GEO",
+        "ARE"
+      ]
+    },
+    {
+      "id": "PISA_2009_school_after",
+      "file": "PISA2009_technical.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/about/programmes/edu/pisa/publications/technical-report/PISA%202009%20Technical%20report.pdf",
+      "sha256": "764c2048d5a2973da107b6a0d5b1b39804096e309218f7b11fdbdb7fc4e8f2c0",
+      "fields": {
+        "school_after_pct": 1
+      },
+      "pages": [
+        167,
+        168
+      ],
+      "end_marker": "table\\s+11[.]4",
+      "exclude_countries": [
+        "GEO",
+        "ARE"
+      ]
+    },
+    {
+      "id": "PISA_2009_student_response",
+      "file": "PISA2009_technical.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/about/programmes/edu/pisa/publications/technical-report/PISA%202009%20Technical%20report.pdf",
+      "sha256": "764c2048d5a2973da107b6a0d5b1b39804096e309218f7b11fdbdb7fc4e8f2c0",
+      "fields": {
+        "student_response_pct": 1
+      },
+      "pages": [
+        168,
+        169
+      ],
+      "start_marker": "table\\s+11[.]4",
+      "exclude_countries": [
+        "GEO",
+        "ARE"
+      ]
+    },
+    {
+      "id": "PISA_2012_school_response",
+      "file": "PISA2012_report.pdf",
+      "url": "https://nces.ed.gov/pubs2014/2014024rev.pdf",
+      "sha256": "15e78ed7cd7009a0bd2ec15d9793a449143d8dc1153c602224c5f69bfce554fb",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "schools_n": 3
+      },
+      "pages": [
+        44,
+        45
+      ]
+    },
+    {
+      "id": "PISA_2012_population_response",
+      "file": "PISA2012_response.html",
+      "url": "https://nces.ed.gov/surveys/pisa/pisa2012/pisa2012highlights_9j.asp",
+      "sha256": "be3f925e85565f0b1859eadf2faf633b1830b8bee6f31aa1f6f55b5c993202bd",
+      "fields": {
+        "age15_population_n": 1,
+        "age15_coverage_pct": 2,
+        "population_coverage_pct": 3,
+        "overall_exclusion_pct": 4,
+        "student_response_pct": 5,
+        "students_n": 6
+      },
+      "table": 0
+    },
+    {
+      "id": "PISA_2015_school_response",
+      "file": "PISA2015_response.html",
+      "url": "https://nces.ed.gov/surveys/pisa/pisa2015/pisa2015highlights_8j.asp",
+      "sha256": "8d2ce8ab6fc61e0262877fa5b790824f4304e91cc3e83250fc324ad054de83d6",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "schools_n": 3
+      },
+      "table": 0
+    },
+    {
+      "id": "PISA_2015_population_response",
+      "file": "PISA2015_response.html",
+      "url": "https://nces.ed.gov/surveys/pisa/pisa2015/pisa2015highlights_8j.asp",
+      "sha256": "8d2ce8ab6fc61e0262877fa5b790824f4304e91cc3e83250fc324ad054de83d6",
+      "fields": {
+        "age15_population_n": 1,
+        "age15_coverage_pct": 2,
+        "population_coverage_pct": 3,
+        "overall_exclusion_pct": 4,
+        "student_response_pct": 5,
+        "students_n": 6
+      },
+      "table": 2
+    },
+    {
+      "id": "PISA_2018_school_response",
+      "file": "PISA2018_response.html",
+      "url": "https://nces.ed.gov/surveys/pisa/2018technotes-11.asp",
+      "sha256": "ae818e90d3e1633877d50ca8e4b4f37dad92aec83ed7066d4451f9da8dcc902c",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "schools_n": 3
+      },
+      "table": 0
+    },
+    {
+      "id": "PISA_2018_population_response",
+      "file": "PISA2018_response.html",
+      "url": "https://nces.ed.gov/surveys/pisa/2018technotes-11.asp",
+      "sha256": "ae818e90d3e1633877d50ca8e4b4f37dad92aec83ed7066d4451f9da8dcc902c",
+      "fields": {
+        "age15_population_n": 1,
+        "age15_coverage_pct": 2,
+        "population_coverage_pct": 3,
+        "overall_exclusion_pct": 4,
+        "student_response_pct": 5,
+        "students_n": 6
+      },
+      "table": 1
+    },
+    {
+      "id": "PISA_2022_school_response",
+      "file": "PISA2022_notes.html",
+      "url": "https://nces.ed.gov/surveys/pisa/pisa2022/technical-notes/index.asp",
+      "sha256": "8fc9e896f978f7139f94c5df54e079536e5984702dcdb1d3e98b76b5edb3e168",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "schools_n": 3
+      },
+      "table": 3
+    },
+    {
+      "id": "PISA_2022_population_response",
+      "file": "PISA2022_notes.html",
+      "url": "https://nces.ed.gov/surveys/pisa/pisa2022/technical-notes/index.asp",
+      "sha256": "8fc9e896f978f7139f94c5df54e079536e5984702dcdb1d3e98b76b5edb3e168",
+      "fields": {
+        "age15_population_n": 1,
+        "age15_coverage_pct": 2,
+        "population_coverage_pct": 3,
+        "overall_exclusion_pct": 4,
+        "student_response_pct": 5,
+        "students_n": 6
+      },
+      "table": 4
+    },
+    {
+      "id": "PISA_2025_school_response",
+      "file": "PISA2025_notes.html",
+      "url": "https://nces.ed.gov/surveys/pisa/pisa2025/technical-notes/index.asp",
+      "sha256": "a0018737fa8dc7e368771e4f1b5e902373b09d8bdbd63c1c1b047f67682cac5c",
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 2,
+        "schools_n": 3
+      },
+      "table": 4
+    },
+    {
+      "id": "PISA_2025_population_response",
+      "file": "PISA2025_notes.html",
+      "url": "https://nces.ed.gov/surveys/pisa/pisa2025/technical-notes/index.asp",
+      "sha256": "a0018737fa8dc7e368771e4f1b5e902373b09d8bdbd63c1c1b047f67682cac5c",
+      "fields": {
+        "age15_population_n": 1,
+        "age15_coverage_pct": 3,
+        "population_coverage_pct": 4,
+        "overall_exclusion_pct": 5,
+        "student_response_pct": 6,
+        "students_n": 7
+      },
+      "table": 5
+    },
+    {
+      "id": "PISA_2009plus_population",
+      "pages": [
+        120
+      ],
+      "fields": {
+        "age15_population_n": 1,
+        "national_desired_n": 3,
+        "school_exclusion_pct": 5,
+        "student_exclusion_pct": 6,
+        "overall_exclusion_pct": 7
+      },
+      "file": "PISA2009plus_report.pdf",
+      "url": "https://www.acer.org/files/acer_pisa2009%2B_international_2.pdf",
+      "sha256": "3b3a00b628660e723495ac6667e406d509d89197b28f805fb028968e10ddbcf9",
+      "only_countries": [
+        "GEO",
+        "ARE"
+      ]
+    },
+    {
+      "id": "PISA_2009plus_response",
+      "pages": [
+        122
+      ],
+      "fields": {
+        "school_before_pct": 3,
+        "school_after_pct": 5
+      },
+      "file": "PISA2009plus_report.pdf",
+      "url": "https://www.acer.org/files/acer_pisa2009%2B_international_2.pdf",
+      "sha256": "3b3a00b628660e723495ac6667e406d509d89197b28f805fb028968e10ddbcf9",
+      "only_countries": [
+        "GEO",
+        "ARE"
+      ]
+    },
+    {
+      "id": "PISA_2009plus_students",
+      "pages": [
+        123
+      ],
+      "fields": {
+        "student_response_pct": 2,
+        "students_n": 4
+      },
+      "file": "PISA2009plus_report.pdf",
+      "url": "https://www.acer.org/files/acer_pisa2009%2B_international_2.pdf",
+      "sha256": "3b3a00b628660e723495ac6667e406d509d89197b28f805fb028968e10ddbcf9",
+      "only_countries": [
+        "GEO",
+        "ARE"
+      ]
+    }
+  ],
+  "cycles": {
+    "PIRLS_2001": {
+      "tables": [
+        "PIRLS_2001_population",
+        "PIRLS_2001_response"
+      ],
+      "mode": "PAPER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "International grade 4 / Netherlands group 6"
+      },
+      "country_notes": {
+        "CAN": "Ontario and Quebec only; explicitly rejected as national Canada by POP_CAN_PIRLS_2001. Historical results retained, not eligible national source."
+      }
+    },
+    "PIRLS_2006": {
+      "tables": [
+        "PIRLS_2006_population",
+        "PIRLS_2006_response"
+      ],
+      "mode": "PAPER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "International grade 4 / Netherlands group 6"
+      }
+    },
+    "PIRLS_2011": {
+      "tables": [
+        "PIRLS_2011_population",
+        "PIRLS_2011_response"
+      ],
+      "mode": "PAPER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "International grade 4 / Netherlands group 6"
+      }
+    },
+    "PIRLS_2016": {
+      "tables": [
+        "PIRLS_2016_population",
+        "PIRLS_2016_response"
+      ],
+      "mode": "PAPER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "International grade 4 / Netherlands group 6"
+      }
+    },
+    "PIRLS_2021": {
+      "tables": [
+        "PIRLS_2021_population_response"
+      ],
+      "mode": "PAPER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "International grade 4 / Netherlands group 6"
+      },
+      "country_notes": {
+        "NLD": "Official fourth-grade cohort including delayed assessment in autumn; do not filter out pupils coded in grade 5.",
+        "USA": "The official published US reading results use the paper bridge sample; verify sample-specific response rather than digital-sample rates."
+      },
+      "digital": [
+        "TWN",
+        "CZE",
+        "DNK",
+        "FIN",
+        "DEU",
+        "HUN",
+        "ITA",
+        "LTU",
+        "NZL",
+        "PRT",
+        "QAT",
+        "RUS",
+        "SAU",
+        "SGP",
+        "SVK",
+        "SVN",
+        "ESP",
+        "SWE",
+        "ARE"
+      ],
+      "country_mode": {
+        "USA": "PAPER_BRIDGE_SAMPLE_OFFICIAL_PUBLISHED_RESULTS"
+      }
+    },
+    "TIMSS_2003": {
+      "tables": [
+        "TIMSS_2003_population",
+        "TIMSS_2003_response"
+      ],
+      "mode": "PAPER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "International grade 4 / Netherlands group 6"
+      }
+    },
+    "TIMSS_2007": {
+      "tables": [
+        "TIMSS_2007_population",
+        "TIMSS_2007_response"
+      ],
+      "mode": "PAPER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "International grade 4 / Netherlands group 6"
+      }
+    },
+    "TIMSS_2011": {
+      "tables": [
+        "TIMSS_2011_population",
+        "TIMSS_2011_response"
+      ],
+      "mode": "PAPER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "International grade 4 / Netherlands group 6"
+      }
+    },
+    "TIMSS_2015": {
+      "tables": [
+        "TIMSS_2015_population",
+        "TIMSS_2015_response"
+      ],
+      "mode": "PAPER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "International grade 4 / Netherlands group 6"
+      }
+    },
+    "TIMSS_2019": {
+      "tables": [
+        "TIMSS_2019_population",
+        "TIMSS_2019_response"
+      ],
+      "mode": "PAPER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "International grade 4 / Netherlands group 6"
+      },
+      "digital": [
+        "AUT",
+        "CAN",
+        "TWN",
+        "CZE",
+        "DNK",
+        "FIN",
+        "FRA",
+        "GEO",
+        "DEU",
+        "HKG",
+        "HUN",
+        "ITA",
+        "LTU",
+        "NLD",
+        "PRT",
+        "QAT",
+        "RUS",
+        "SGP",
+        "SVK",
+        "ESP",
+        "SWE",
+        "ARE",
+        "USA"
+      ],
+      "country_mode": {}
+    },
+    "TIMSS_2023": {
+      "tables": [
+        "TIMSS_2023_population",
+        "TIMSS_2023_response"
+      ],
+      "mode": "DIGITAL_MAIN_SAMPLE_WITH_OFFICIAL_TREND_LINK",
+      "common": {
+        "target_population": "International grade 4 / Netherlands group 6"
+      }
+    },
+    "PISA_2003": {
+      "tables": [
+        "PISA_2003_population",
+        "PISA_2003_response"
+      ],
+      "mode": "PAPER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "Enrolled age 15 years 3 months to 16 years 2 months, grade 7 or higher"
+      }
+    },
+    "PISA_2006": {
+      "tables": [
+        "PISA_2006_population",
+        "PISA_2006_school_before",
+        "PISA_2006_school_after",
+        "PISA_2006_student_response"
+      ],
+      "mode": "PAPER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "Enrolled age 15 years 3 months to 16 years 2 months, grade 7 or higher"
+      },
+      "country_table_overrides": {
+        "TWN": [
+          "PISA_2006_student_response"
+        ]
+      },
+      "country_notes": {
+        "TWN": "Combined official 2006/2007 follow-up sample corrected severe initial lower-grade undercoverage and met sampling standards. Translation/adaptation issues remain noted. School response and overall exclusion numbers for the combined sample are absent from Tables 11.1-11.3; do not fabricate them. OECD Technical Report PDF pp.188 and 282 (printed 280).",
+        "ESP": "Absent pupils miscoded as ineligible; approximate response adjustments. Official adjudication says population coverage cannot be estimated correctly, though substantial bias was not expected. Numeric table values retain this qualification.",
+        "USA": "Reading invalid because of printing error; mathematics/science retained, estimated effect about one point. School nonresponse analysis accepted.",
+        "QAT": "Booklet pagination deviations and extensive missing parental occupations; blank tests treated as nonresponse.",
+        "IRL": "Longer test-session breaks in about one-third of sessions.",
+        "CAN": "High exclusions; official adjudication retained results.",
+        "HKG": "Initial school response below target; official nonresponse evaluation accepted results.",
+        "SWE": "Language-related exclusions and one mistranslated item removed.",
+        "NOR": "Language-related exclusions; some test administrators were teachers."
+      },
+      "reviewed_unreported": {
+        "TWN": [
+          "school_before_pct",
+          "school_after_pct",
+          "overall_exclusion_pct",
+          "population_coverage_pct"
+        ]
+      }
+    },
+    "PISA_2009": {
+      "tables": [
+        "PISA_2009_population",
+        "PISA_2009_school_before",
+        "PISA_2009_school_after",
+        "PISA_2009_student_response"
+      ],
+      "mode": "PAPER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "Enrolled age 15 years 3 months to 16 years 2 months, grade 7 or higher"
+      },
+      "country_table_overrides": {
+        "GEO": [
+          "PISA_2009plus_population",
+          "PISA_2009plus_response",
+          "PISA_2009plus_students"
+        ],
+        "ARE": [
+          "PISA_2009plus_population",
+          "PISA_2009plus_response",
+          "PISA_2009plus_students"
+        ]
+      },
+      "country_notes": {
+        "ARE": "Official national combined database: Dubai tested 2009 and other emirates 2010 (PISA 2009+); N=10867. Use national 2009+ sampling tables, not Dubai-only rows.",
+        "GEO": "PISA 2009+ administered 2010; excludes Armenian/Azerbaijani-language schools and Abkhazia/South Ossetia. Official exclusion rate 12.25%.",
+        "AUT": "Non-systematic boycott; retained cross-sectional source, but OECD excludes 2009 from comparable time trends.",
+        "AZE": "Unexpected booklet/item patterns and lenient coding investigated; no sufficient evidence of systematic violation; OECD retained data.",
+        "CAN": "Exclusions and student nonresponse; bias analysis supported retention.",
+        "DNK": "High exclusions including omitted international schools; results retained with qualification.",
+        "IRL": "3937 assessed students and 141 schools below usual minimum; accepted by adjudication.",
+        "NOR": "Exclusions above target; data retained.",
+        "USA": "School response and exclusions below standards; additional nonresponse analysis supported retention."
+      }
+    },
+    "PISA_2012": {
+      "tables": [
+        "PISA_2012_school_response",
+        "PISA_2012_population_response"
+      ],
+      "mode": "PAPER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "Enrolled age 15 years 3 months to 16 years 2 months, grade 7 or higher"
+      }
+    },
+    "PISA_2015": {
+      "tables": [
+        "PISA_2015_school_response",
+        "PISA_2015_population_response"
+      ],
+      "mode": "COMPUTER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "Enrolled age 15 years 3 months to 16 years 2 months, grade 7 or higher"
+      },
+      "paper": [
+        "GEO"
+      ]
+    },
+    "PISA_2018": {
+      "tables": [
+        "PISA_2018_school_response",
+        "PISA_2018_population_response"
+      ],
+      "mode": "COMPUTER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "Enrolled age 15 years 3 months to 16 years 2 months, grade 7 or higher"
+      },
+      "paper": [
+        "SAU"
+      ],
+      "country_notes": {
+        "ESP": "Potential downward bias associated with test motivation/exam overlap. Marked noncomparable for certified project trends (QUAL_ESP_PISA_2018).",
+        "NLD": "Low initial school response; exclusions and UH booklets. Core subjects retained with annotation; financial-literacy caveat does not apply to selected domains.",
+        "PRT": "Student nonresponse analysis suggests residual small upward bias; OECD retains annotated comparisons."
+      }
+    },
+    "PISA_2022": {
+      "tables": [
+        "PISA_2022_school_response",
+        "PISA_2022_population_response"
+      ],
+      "mode": "COMPUTER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "Enrolled age 15 years 3 months to 16 years 2 months, grade 7 or higher"
+      },
+      "country_notes": {
+        "CAN": "Sampling standards not met; OECD adjudication reports likely nonminimal nonresponse bias.",
+        "IRL": "Sampling standards not met; OECD adjudication reports likely nonminimal nonresponse bias.",
+        "NZL": "Sampling standards not met; OECD adjudication reports likely nonminimal nonresponse bias.",
+        "AUS": "Sampling standards not met; available bias analyses cannot rule out nonminimal bias.",
+        "DNK": "Sampling standards not met; available bias analyses cannot rule out nonminimal bias.",
+        "HKG": "Sampling standards not met; available bias analyses cannot rule out nonminimal bias.",
+        "LVA": "Sampling standards not met; available bias analyses cannot rule out nonminimal bias.",
+        "NLD": "Sampling standards not met; available bias analyses cannot rule out nonminimal bias.",
+        "USA": "Sampling standards not met; available bias analyses cannot rule out nonminimal bias."
+      }
+    },
+    "PISA_2025": {
+      "tables": [
+        "PISA_2025_school_response",
+        "PISA_2025_population_response"
+      ],
+      "mode": "COMPUTER_MAIN_SAMPLE",
+      "common": {
+        "target_population": "Enrolled age 15 years 3 months to 16 years 2 months, grade 7 or higher"
+      },
+      "country_notes": {
+        "AZE": "National Azerbaijan. Baku-only 2018/2022 were not used.",
+        "NLD": "Official asterisk: 9.3% excluded; residual student-nonresponse bias not ruled out (scenario about 11 science points). ST004D01T suppressed; approved Female / Other from MALE is explicitly distinguished.",
+        "CAN": "Official asterisk: student nonresponse implies possible upward bias; national results retained.",
+        "NZL": "Official asterisk: likely upward mean-score bias about 10-15 points; OECD considers 2022-2025 comparison unlikely materially affected.",
+        "NOR": "Official asterisk: 10.4% exclusion may bias performance upwards.",
+        "USA": "Limited reporting: low school/student response; bias direction unresolved. Student questionnaire not administered to over 40%, including nine states. Questionnaire-based estimates describe respondents with explicit qualification, not silently the full national population.",
+        "ESP": "National estimates retained; regional exclusion concerns, Catalonia not reported separately. No regional substitution."
+      }
+    }
+  },
+  "quality_source_review": [
+    {
+      "file": "PISA2006_technical.pdf",
+      "sha256": "da5449d8d72a53313f25f04aa29617b24be8c7df54ca55691a48582d982e3a7b",
+      "locator": "Chapter 14 adjudication pp.278-283; combined TWN sample p.282"
+    },
+    {
+      "file": "PISA2009_technical.pdf",
+      "sha256": "764c2048d5a2973da107b6a0d5b1b39804096e309218f7b11fdbdb7fc4e8f2c0",
+      "locator": "Chapter 14 adjudication pp.255-257"
+    },
+    {
+      "url": "https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html",
+      "locator": "Data anomalies: 2018 and 2022 annotations, AUT2009 and ESP2018 trend comparability",
+      "retrieved": "2026-10-19"
+    },
+    {
+      "url": "https://www.oecd.org/en/publications/pisa-2025-results-volume-i_73451bc5-en/full-report/reader-s-guide_0364240f.html",
+      "locator": "Reporting approach; Database used: public release 8 September 2026",
+      "retrieved": "2026-10-19"
+    }
+  ],
+  "mode_evidence": [
+    {
+      "file": "PIRLS2021_sample_page_1.pdf",
+      "sha256": "f7f2fddf2c55ef4f77a406d42a7b83c298648ccdb913721817e92d754f6f7e85",
+      "locator": "Exhibit8.11 pp.37-38 digital countries; US official published bridge results in NCES notes"
+    },
+    {
+      "file": "TIMSS2019_sampling_page_2.pdf",
+      "sha256": "d2100f6e1fac47049a09e5cd2b23d68b1ceb5141713252ff0ad677610b2d53c8",
+      "locator": "Exhibit9.22 pp.61-62 countries with eTIMSS and bridge; main samples used"
+    }
+  ]
+}

@@ -7,7 +7,9 @@ w<-tempfile("balance_export_");dir.create(w)
 g<-all_data;g$cell_id<-paste0("fixture_",seq_len(nrow(g)))
 g$result_hash<-vapply(g$cell_id,function(k)digest::digest(k,algo="sha256"),character(1))
 contracts<-cbind(cell_id=g$cell_id,g[lo_balance_columns()])
-cert<-list(status="COMPARABILITY_CERTIFIED",cells=data.frame(cell_id=g$cell_id,
+proof<-file.path(w,'review.txt');writeLines('Synthetic fixture only: exact method and population mappings',proof)
+cert<-list(schema_version=2L,status="COMPARABILITY_CERTIFIED",assessment='Synthetic fixture: reviewed mappings',
+  evidence_files=data.frame(path=proof,sha256=lo_exact_sha(proof)),cells=data.frame(cell_id=g$cell_id,
   balance_key=lo_balance_key(g),result_hash=g$result_hash))
 p<-file.path(w,"cert.json");jsonlite::write_json(cert,p,auto_unbox=TRUE)
 contracts$verification_path<-p;contracts$verification_sha256<-lo_exact_sha(p)
@@ -25,6 +27,8 @@ stopifnot(identical(out$AAA$default_members,"BBB"),identical(out$BBB$default_mem
 scope$dashboard<-"AAA";scope$reference_candidates<-c("AAA","BBB")
 out<-lo_balanced_export(".",g,contracts,scope,w)
 stopifnot(identical(names(out),"AAA"),identical(out$AAA$default_members,"BBB"))
+writeLines('Changed source or policy invalidates the comparability proof',proof)
+stopifnot(fails(lo_balance_result_adapter(g,contracts)))
 # No guessed scratch budget is enough to read a production source.
 stopifnot(fails(lo_production_space_check(p,w)))
 unlink(w,recursive=TRUE)
