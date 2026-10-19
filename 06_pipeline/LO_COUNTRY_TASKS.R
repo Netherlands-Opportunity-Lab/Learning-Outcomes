@@ -11,6 +11,11 @@ lo_country_base_tasks <- function(tasks,scope_info) {
   # Retain its reviewed target contexts; comparison eligibility remains separate.
   excluded<-attr(support,'population_exclusions')
   contexts_support<-support[c('country','survey','year')]
+  review<-attr(support,'population_review')
+  if(is.data.frame(review)&&nrow(review)) {
+    qualified<-review[review$reason=='OFFICIAL_TREND_COMPARABILITY_QUALIFICATION',c('country','survey','year'),drop=FALSE]
+    contexts_support<-unique(rbind(contexts_support,qualified))
+  }
   if(is.data.frame(excluded)&&nrow(excluded)) {
     # A qualified trend wave remains a visible gap in its original population.
     # A regional or different-grade source is a different population, not an

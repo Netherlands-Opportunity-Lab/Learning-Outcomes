@@ -52,7 +52,7 @@ lo_iea_prepare_country <- function(path,survey,year,output_dir,country,country_c
     repair_raw_sha256=digest::digest(file=path,algo='sha256'))
   obj<-list(data=d,meta=meta);dir.create(output_dir,recursive=TRUE,showWarnings=FALSE)
   output<-file.path(output_dir,paste0('canonical_',survey,'_',year,'_',country,'_',substr(digest::digest(obj,algo='sha256'),1,16),'.rds'))
-  if(!file.exists(output))saveRDS(obj,output,compress=FALSE)
+  if(!file.exists(output))saveRDS(obj,output,compress='gzip')
   else if(!identical(readRDS(output),obj))stop('IEA_CHANGED_CANONICAL_OUTPUT')
   receipt<-list(status='RAW_SAMPLE_AND_FIELDS_VERIFIED',survey=survey,year=year,country=country,n=nrow(d),
     raw_sha256=meta$repair_raw_sha256,canonical_filename=basename(output),canonical_sha256=digest::digest(file=output,algo='sha256'),

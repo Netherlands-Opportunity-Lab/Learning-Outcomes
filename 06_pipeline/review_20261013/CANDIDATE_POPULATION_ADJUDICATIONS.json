@@ -1,0 +1,15 @@
+{
+  "review_date": "2026-10-19",
+  "authority": "Official national target populations and actual raw grade codes; no pupil deletion or regional substitution",
+  "source_overrides": [
+    {"country":"OMN","survey":"TIMSS","year":2015,"allowed_grades":"4;5","population_note":"Official national fourth-grade sample, all 9,105 assessed pupils retained; IDGRADE is 4 for 9,044 and 5 for 61. Matches official Exhibit 5.5 sample n=9,105. Grade coding is not a reason to discard those pupils or this wave.","population_evidence":"https://timssandpirls.bc.edu/publications/timss/2015-methods/T15_MP_Chap5_Sample_Implementation.pdf; Exhibit 5.5, Oman fourth-grade sample n=9105"},
+    {"country":"MLT","survey":"TIMSS","year":2011,"allowed_grades":"5","population_note":"Malta Year 5 equals international fourth year of formal schooling. National source IDGRADE=5 is the intended population, not an older substituted cohort. Only 2011 and 2019 are grade-four cycles, insufficient for admission.","population_evidence":"https://curriculum.gov.mt/timss/; national Year 5 / international grade 4 and participation chronology"},
+    {"country":"MLT","survey":"PIRLS","year":2011,"allowed_grades":"5","population_note":"Malta Year 5 equals international fourth grade. The MLT main source is the English assessment; the separate MLN Maltese assessment is not silently substituted.","population_evidence":"https://curriculum.gov.mt/pirls/; Year 5 / grade 4 and language by cycle"},
+    {"country":"MLT","survey":"PIRLS","year":2016,"allowed_grades":"5","population_note":"Malta Year 5 equals international fourth grade. Maltese-only assessment in 2016 differs from the main English assessment in 2011; explicitly excluded from comparable trend support.","population_evidence":"https://curriculum.gov.mt/pirls/; 2011 English/Maltese and 2016 Maltese-only assessment"}
+  ],
+  "other_findings": [
+    {"country":"HRV","survey":"TIMSS","year":2023,"disposition":"NO_GRADE4_PARTICIPATION","evidence":"https://nces.ed.gov/timss/participation.asp; Croatia grade-four cycles 2011, 2015, 2019"},
+    {"country":"ARE","survey":"PISA","year":2009,"disposition":"OFFICIAL_MERGED_NATIONAL_SAMPLE","evidence":"https://www.acer.org/files/acer_pisa2009%2B_international_2.pdf; PDF p.20 footnote 3 and p.123 n=10867; Dubai 2009 + other emirates 2010"},
+    {"country":"LIE","survey":"PISA","year":2012,"disposition":"SHARED_SWISS_PROGRAMME_CODING_NOT_SHARED_POPULATION","evidence":"Exact CNT=LIE national raw sample n=293: PROGN 07560001=247, 07560002=9, 07560003=37; official 2012 PROGN labels describe Swiss programmes. Use these observed programme codes solely within LIE; no Swiss pupil is included."}
+  ]
+}

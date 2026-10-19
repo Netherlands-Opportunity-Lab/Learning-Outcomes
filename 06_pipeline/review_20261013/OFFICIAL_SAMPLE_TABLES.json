@@ -3,7 +3,8 @@
   "country_aliases": {
     "ARE": [
       "United Arab Emirates",
-      "UAE"
+      "UAE",
+      "United Arab Emirates 1"
     ],
     "AUS": [
       "Australia"
@@ -94,7 +95,8 @@
       "Russia"
     ],
     "SAU": [
-      "Saudi Arabia"
+      "Saudi Arabia",
+      "National Center for Assessment - Saudi Arabia"
     ],
     "SGP": [
       "Singapore"
@@ -115,6 +117,182 @@
     "USA": [
       "United States",
       "United States of America"
+    ],
+    "MDA": [
+      "Moldova",
+      "Republic of Moldova",
+      "Moldova, Republic of"
+    ],
+    "THA": [
+      "Thailand"
+    ],
+    "BRA": [
+      "Brazil"
+    ],
+    "ALB": [
+      "Albania"
+    ],
+    "GRC": [
+      "Greece"
+    ],
+    "MKD": [
+      "FYROM",
+      "North Macedonia",
+      "Macedonia",
+      "Macedonia, Republic of",
+      "Republic of Macedonia",
+      "Macedonia, Rep. of",
+      "Former Yugoslav Republic of Macedonia"
+    ],
+    "CHE": [
+      "Switzerland"
+    ],
+    "MNE": [
+      "Montenegro",
+      "Montenegro, Republic of"
+    ],
+    "ARG": [
+      "Argentina"
+    ],
+    "CRI": [
+      "Costa Rica"
+    ],
+    "BEL": [
+      "Belgium"
+    ],
+    "CHL": [
+      "Chile"
+    ],
+    "COL": [
+      "Colombia"
+    ],
+    "ISL": [
+      "Iceland"
+    ],
+    "VNM": [
+      "Vietnam",
+      "Viet Nam"
+    ],
+    "DOM": [
+      "Dominican Republic"
+    ],
+    "LBN": [
+      "Lebanon"
+    ],
+    "IDN": [
+      "Indonesia"
+    ],
+    "JPN": [
+      "Japan"
+    ],
+    "TUN": [
+      "Tunisia"
+    ],
+    "TTO": [
+      "Trinidad and Tobago",
+      "Trinidad & Tobago"
+    ],
+    "GBR": [
+      "United Kingdom"
+    ],
+    "PER": [
+      "Peru"
+    ],
+    "JOR": [
+      "Jordan"
+    ],
+    "KOR": [
+      "Korea",
+      "Republic of Korea",
+      "Korea, Republic of",
+      "Korea, Rep. of"
+    ],
+    "ISR": [
+      "Israel"
+    ],
+    "TUR": [
+      "Turkey",
+      "T\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2\u00bcrkiye",
+      "T\u00c3\u0192\u00c2\u00bcrkiye",
+      "Turkiye",
+      "T\u00fcrkiye"
+    ],
+    "MYS": [
+      "Malaysia"
+    ],
+    "MLT": [
+      "Malta"
+    ],
+    "EST": [
+      "Estonia"
+    ],
+    "ROU": [
+      "Romania"
+    ],
+    "HRV": [
+      "Croatia"
+    ],
+    "KSV": [
+      "Kosovo"
+    ],
+    "MEX": [
+      "Mexico"
+    ],
+    "LUX": [
+      "Luxembourg"
+    ],
+    "URY": [
+      "Uruguay"
+    ],
+    "KAZ": [
+      "Kazakhstan"
+    ],
+    "SRB": [
+      "Serbia",
+      "Serbia, Republic of"
+    ],
+    "PHL": [
+      "Philippines"
+    ],
+    "PAN": [
+      "Panama"
+    ],
+    "BRN": [
+      "Brunei Darussalam"
+    ],
+    "ARM": [
+      "Armenia"
+    ],
+    "KGZ": [
+      "Kyrgyzstan",
+      "Kyrgyz Republic"
+    ],
+    "BHR": [
+      "Bahrain",
+      "Bahrain (Combined)"
+    ],
+    "CYP": [
+      "Cyprus"
+    ],
+    "IRN": [
+      "Iran",
+      "Iran, Islamic Rep. of",
+      "Iran, Islamic Republic of",
+      "Iran (Islamic Republic of)",
+      "Iran, Islamic Rep. of (Combined)"
+    ],
+    "KWT": [
+      "Kuwait",
+      "Kuwait (Combined)"
+    ],
+    "OMN": [
+      "Oman"
+    ],
+    "YEM": [
+      "Yemen"
+    ],
+    "LIE": [
+      "Liechtenstein"
     ]
   },
   "tables": [
@@ -362,11 +540,11 @@
         "overall_exclusion_pct": 4
       },
       "pages": [
-        2,
-        3
+        2
       ],
       "percent_columns": true,
-      "end_marker": "Exhibit\\s+2:"
+      "end_marker": "Exhibit\\s+2:",
+      "selection_note": "Page 2 is the complete grade-four table; page 3 starts sixth-grade participants, including a second Yemen row. Visually verified 2026-10-19."
     },
     {
       "id": "TIMSS_2011_response",
@@ -386,7 +564,8 @@
         3
       ],
       "percent_columns": true,
-      "end_marker": "Exhibit\\s+3"
+      "end_marker": "TIMSS guidelines|Exhibit\\s+3",
+      "selection_note": "Fourth-grade national rows continue through Yemen on page 3; stop before sampling-guideline prose and the separate sixth-grade table."
     },
     {
       "id": "TIMSS_2015_population",
@@ -831,7 +1010,11 @@
       "sha256": "3b3a00b628660e723495ac6667e406d509d89197b28f805fb028968e10ddbcf9",
       "only_countries": [
         "GEO",
-        "ARE"
+        "ARE",
+        "CRI",
+        "MDA",
+        "MLT",
+        "MYS"
       ]
     },
     {
@@ -848,7 +1031,11 @@
       "sha256": "3b3a00b628660e723495ac6667e406d509d89197b28f805fb028968e10ddbcf9",
       "only_countries": [
         "GEO",
-        "ARE"
+        "ARE",
+        "CRI",
+        "MDA",
+        "MLT",
+        "MYS"
       ]
     },
     {
@@ -865,8 +1052,137 @@
       "sha256": "3b3a00b628660e723495ac6667e406d509d89197b28f805fb028968e10ddbcf9",
       "only_countries": [
         "GEO",
-        "ARE"
+        "ARE",
+        "CRI",
+        "MDA",
+        "MLT",
+        "MYS"
       ]
+    },
+    {
+      "id": "PISA_2003_BRA_population",
+      "file": "PISA2003_technical.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/about/programmes/edu/pisa/publications/technical-report/PISA%202003%20Technical%20report.pdf",
+      "sha256": "b93b20c92b76e4a2794e512166a5758dce27ff42c707febd7bb04aa56aa4a0b2",
+      "pages": [
+        169
+      ],
+      "fields": {
+        "overall_exclusion_pct": 6,
+        "population_coverage_pct": 8,
+        "age15_coverage_pct": 10
+      },
+      "only_countries": [
+        "BRA"
+      ],
+      "field_proportions": [
+        "population_coverage_pct",
+        "age15_coverage_pct"
+      ]
+    },
+    {
+      "id": "PISA_2003_BRA_before",
+      "file": "PISA2003_technical.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/about/programmes/edu/pisa/publications/technical-report/PISA%202003%20Technical%20report.pdf",
+      "sha256": "b93b20c92b76e4a2794e512166a5758dce27ff42c707febd7bb04aa56aa4a0b2",
+      "pages": [
+        171
+      ],
+      "fields": {
+        "school_before_pct": 1
+      },
+      "only_countries": [
+        "BRA"
+      ]
+    },
+    {
+      "id": "PISA_2003_BRA_after",
+      "file": "PISA2003_technical.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/about/programmes/edu/pisa/publications/technical-report/PISA%202003%20Technical%20report.pdf",
+      "sha256": "b93b20c92b76e4a2794e512166a5758dce27ff42c707febd7bb04aa56aa4a0b2",
+      "pages": [
+        172
+      ],
+      "fields": {
+        "school_after_pct": 1
+      },
+      "only_countries": [
+        "BRA"
+      ]
+    },
+    {
+      "id": "PISA_2003_BRA_student",
+      "file": "PISA2003_technical.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/about/programmes/edu/pisa/publications/technical-report/PISA%202003%20Technical%20report.pdf",
+      "sha256": "b93b20c92b76e4a2794e512166a5758dce27ff42c707febd7bb04aa56aa4a0b2",
+      "pages": [
+        173
+      ],
+      "fields": {
+        "student_response_pct": 1
+      },
+      "only_countries": [
+        "BRA"
+      ]
+    },
+    {
+      "id": "PISA_2018_VNM_target",
+      "file": "PISA2018_volumeII.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2019/12/pisa-2018-results-volume-ii_ac1a036f/b5fd1b8f-en.pdf",
+      "sha256": "ba9f21e2991cf06bb0f616cfdd6cb5df1e9f53d90b75f45b44f18c42bddb0d86",
+      "pages": [
+        231
+      ],
+      "fields": {
+        "age15_population_n": 1,
+        "national_desired_n": 3,
+        "school_exclusion_pct": 6,
+        "students_n": 7
+      },
+      "only_countries": [
+        "VNM"
+      ],
+      "field_proportions": []
+    },
+    {
+      "id": "PISA_2018_VNM_coverage",
+      "file": "PISA2018_volumeII.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2019/12/pisa-2018-results-volume-ii_ac1a036f/b5fd1b8f-en.pdf",
+      "sha256": "ba9f21e2991cf06bb0f616cfdd6cb5df1e9f53d90b75f45b44f18c42bddb0d86",
+      "pages": [
+        233
+      ],
+      "fields": {
+        "student_exclusion_pct": 4,
+        "overall_exclusion_pct": 5,
+        "population_coverage_pct": 6,
+        "age15_coverage_pct": 8
+      },
+      "only_countries": [
+        "VNM"
+      ],
+      "field_proportions": [
+        "population_coverage_pct",
+        "age15_coverage_pct"
+      ]
+    },
+    {
+      "id": "PISA_2018_VNM_response",
+      "file": "PISA2018_volumeII.pdf",
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2019/12/pisa-2018-results-volume-ii_ac1a036f/b5fd1b8f-en.pdf",
+      "sha256": "ba9f21e2991cf06bb0f616cfdd6cb5df1e9f53d90b75f45b44f18c42bddb0d86",
+      "pages": [
+        241
+      ],
+      "fields": {
+        "school_before_pct": 1,
+        "school_after_pct": 6,
+        "student_response_pct": 11
+      },
+      "only_countries": [
+        "VNM"
+      ],
+      "field_proportions": []
     }
   ],
   "cycles": {
@@ -938,14 +1254,19 @@
         "USA": "The official published US reading results use the paper bridge sample; verify sample-specific response rather than digital-sample rates."
       },
       "digital": [
-        "TWN",
+        "ARE",
         "CZE",
-        "DNK",
-        "FIN",
         "DEU",
+        "DNK",
+        "ESP",
+        "FIN",
+        "HRV",
         "HUN",
+        "ISR",
         "ITA",
+        "KAZ",
         "LTU",
+        "MLT",
         "NZL",
         "PRT",
         "QAT",
@@ -954,9 +1275,8 @@
         "SGP",
         "SVK",
         "SVN",
-        "ESP",
         "SWE",
-        "ARE"
+        "TWN"
       ],
       "country_mode": {
         "USA": "PAPER_BRIDGE_SAMPLE_OFFICIAL_PUBLISHED_RESULTS"
@@ -1006,6 +1326,75 @@
       "mode": "PAPER_MAIN_SAMPLE",
       "common": {
         "target_population": "International grade 4 / Netherlands group 6"
+      },
+      "reviewed_absent_tables": {
+        "ARM": {
+          "TIMSS_2015_population": {
+            "reason": "ARMENIA_LATE_2016_ASSESSMENT_OMITTED_FROM_INITIAL_2015_SAMPLING_TABLES",
+            "fields": [
+              "population_coverage_pct",
+              "school_exclusion_pct",
+              "student_exclusion_pct",
+              "overall_exclusion_pct"
+            ],
+            "evidence": [
+              {
+                "file": "TIMSS2015_sampling_page_13.pdf",
+                "url": "https://timssandpirls.bc.edu/publications/timss/2015-methods/pdf/T15_MP_Exh5-3_Target_Population_G4.pdf",
+                "sha256": "606ab7d8a21d159a3f17da8997e2b73c807325bd5111367d284742fb5a824b15",
+                "locator": "Reviewed complete relevant national table, PDF pages [1, 2]; no ARM row. Absence visually/source-text checked, not a zero."
+              },
+              {
+                "file": "TIMSS2015_database.html",
+                "sha256": "d8db89c5ce01de6e6f9088ff42953f22ee2c686cc2820da5173244297ed71794",
+                "url": "https://timssandpirls.bc.edu/timss2015/international-database/index.html",
+                "locator": "2018-04-05 database update note: Armenia administered the assessment one year later."
+              }
+            ]
+          },
+          "TIMSS_2015_response": {
+            "reason": "ARMENIA_LATE_2016_ASSESSMENT_OMITTED_FROM_INITIAL_2015_SAMPLING_TABLES",
+            "fields": [
+              "school_before_pct",
+              "school_after_pct",
+              "class_response_pct",
+              "student_response_pct",
+              "overall_before_pct",
+              "overall_after_pct"
+            ],
+            "evidence": [
+              {
+                "file": "TIMSS2015_sampling_page_18.pdf",
+                "url": "https://timssandpirls.bc.edu/publications/timss/2015-methods/pdf/T15_MP_Exh5-8_Participation_Rates_G4.pdf",
+                "sha256": "b9eb98889f0ccc579897b5a8d96937737c81eb5f205506125fbf9b701d2f3ac9",
+                "locator": "Reviewed complete relevant national table, PDF pages [1, 2]; no ARM row. Absence visually/source-text checked, not a zero."
+              },
+              {
+                "file": "TIMSS2015_database.html",
+                "sha256": "d8db89c5ce01de6e6f9088ff42953f22ee2c686cc2820da5173244297ed71794",
+                "url": "https://timssandpirls.bc.edu/timss2015/international-database/index.html",
+                "locator": "2018-04-05 database update note: Armenia administered the assessment one year later."
+              }
+            ]
+          }
+        }
+      },
+      "reviewed_unreported": {
+        "ARM": [
+          "population_coverage_pct",
+          "school_exclusion_pct",
+          "student_exclusion_pct",
+          "overall_exclusion_pct",
+          "school_before_pct",
+          "school_after_pct",
+          "class_response_pct",
+          "student_response_pct",
+          "overall_before_pct",
+          "overall_after_pct"
+        ]
+      },
+      "country_notes": {
+        "ARM": "Armenia administered this cycle in 2016; public files added 2018-04-05. Initial official 2015 sampling tables omit Armenia. Those response/exclusion fields remain explicitly unreported, never zero or borrowed from 2019."
       }
     },
     "TIMSS_2019": {
@@ -1018,18 +1407,22 @@
         "target_population": "International grade 4 / Netherlands group 6"
       },
       "digital": [
+        "ARE",
         "AUT",
         "CAN",
-        "TWN",
+        "CHL",
         "CZE",
+        "DEU",
         "DNK",
+        "ESP",
         "FIN",
         "FRA",
         "GEO",
-        "DEU",
         "HKG",
+        "HRV",
         "HUN",
         "ITA",
+        "KOR",
         "LTU",
         "NLD",
         "PRT",
@@ -1037,9 +1430,8 @@
         "RUS",
         "SGP",
         "SVK",
-        "ESP",
         "SWE",
-        "ARE",
+        "TWN",
         "USA"
       ],
       "country_mode": {}
@@ -1062,6 +1454,17 @@
       "mode": "PAPER_MAIN_SAMPLE",
       "common": {
         "target_population": "Enrolled age 15 years 3 months to 16 years 2 months, grade 7 or higher"
+      },
+      "country_table_overrides": {
+        "BRA": [
+          "PISA_2003_BRA_population",
+          "PISA_2003_BRA_before",
+          "PISA_2003_BRA_after",
+          "PISA_2003_BRA_student"
+        ]
+      },
+      "country_notes": {
+        "BRA": "OECD technical report, data adjudication: low coverage of all 15-year-olds (54%) because many were outside the enrolled eligible population. Retain the enrolled-population estimand; do not generalise to all adolescents."
       }
     },
     "PISA_2006": {
@@ -1089,7 +1492,8 @@
         "CAN": "High exclusions; official adjudication retained results.",
         "HKG": "Initial school response below target; official nonresponse evaluation accepted results.",
         "SWE": "Language-related exclusions and one mistranslated item removed.",
-        "NOR": "Language-related exclusions; some test administrators were teachers."
+        "NOR": "Language-related exclusions; some test administrators were teachers.",
+        "ISL": "Census of schools; school/student response rows are available. OECD technical report Table 11.1 omits Iceland; population coverage/exclusion fields from that table remain unreported."
       },
       "reviewed_unreported": {
         "TWN": [
@@ -1097,7 +1501,32 @@
           "school_after_pct",
           "overall_exclusion_pct",
           "population_coverage_pct"
+        ],
+        "ISL": [
+          "overall_exclusion_pct",
+          "population_coverage_pct",
+          "age15_coverage_pct"
         ]
+      },
+      "reviewed_absent_tables": {
+        "ISL": {
+          "PISA_2006_population": {
+            "reason": "ICELAND_OMITTED_FROM_OECD_2006_TABLE_11_1_POPULATION_ROWS",
+            "fields": [
+              "overall_exclusion_pct",
+              "population_coverage_pct",
+              "age15_coverage_pct"
+            ],
+            "evidence": [
+              {
+                "file": "PISA2006_technical.pdf",
+                "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2009/01/pisa-2006-technical-report_g1gha795/9789264048096-en.pdf",
+                "sha256": "da5449d8d72a53313f25f04aa29617b24be8c7df54ca55691a48582d982e3a7b",
+                "locator": "Reviewed complete relevant national table, PDF pages [181, 182]; no ISL row. Absence visually/source-text checked, not a zero."
+              }
+            ]
+          }
+        }
       }
     },
     "PISA_2009": {
@@ -1121,10 +1550,30 @@
           "PISA_2009plus_population",
           "PISA_2009plus_response",
           "PISA_2009plus_students"
+        ],
+        "CRI": [
+          "PISA_2009plus_population",
+          "PISA_2009plus_response",
+          "PISA_2009plus_students"
+        ],
+        "MDA": [
+          "PISA_2009plus_population",
+          "PISA_2009plus_response",
+          "PISA_2009plus_students"
+        ],
+        "MLT": [
+          "PISA_2009plus_population",
+          "PISA_2009plus_response",
+          "PISA_2009plus_students"
+        ],
+        "MYS": [
+          "PISA_2009plus_population",
+          "PISA_2009plus_response",
+          "PISA_2009plus_students"
         ]
       },
       "country_notes": {
-        "ARE": "Official national combined database: Dubai tested 2009 and other emirates 2010 (PISA 2009+); N=10867. Use national 2009+ sampling tables, not Dubai-only rows.",
+        "ARE": "Official combined national file: Dubai assessed in 2009 and the other emirates in 2010; the official 2009+ report explicitly merges them (PDF p.20 footnote 3; p.123 n=10,867). Preserve timing qualification; no regional substitution.",
         "GEO": "PISA 2009+ administered 2010; excludes Armenian/Azerbaijani-language schools and Abkhazia/South Ossetia. Official exclusion rate 12.25%.",
         "AUT": "Non-systematic boycott; retained cross-sectional source, but OECD excludes 2009 from comparable time trends.",
         "AZE": "Unexpected booklet/item patterns and lenient coding investigated; no sufficient evidence of systematic violation; OECD retained data.",
@@ -1132,7 +1581,11 @@
         "DNK": "High exclusions including omitted international schools; results retained with qualification.",
         "IRL": "3937 assessed students and 141 schools below usual minimum; accepted by adjudication.",
         "NOR": "Exclusions above target; data retained.",
-        "USA": "School response and exclusions below standards; additional nonresponse analysis supported retention."
+        "USA": "School response and exclusions below standards; additional nonresponse analysis supported retention.",
+        "CRI": "PISA 2009+ administered in 2010. Cycle label retained; actual fieldwork timing is explicit.",
+        "MDA": "PISA 2009+ administered in 2010. Cycle label retained; actual fieldwork timing is explicit.",
+        "MLT": "PISA 2009+ administered in 2010. Cycle label retained; actual fieldwork timing is explicit.",
+        "MYS": "PISA 2009+ administered in 2010. Cycle label retained; actual fieldwork timing is explicit."
       }
     },
     "PISA_2012": {
@@ -1155,7 +1608,21 @@
         "target_population": "Enrolled age 15 years 3 months to 16 years 2 months, grade 7 or higher"
       },
       "paper": [
-        "GEO"
+        "ALB",
+        "DZA",
+        "ARG",
+        "MKD",
+        "GEO",
+        "IDN",
+        "JOR",
+        "KAZ",
+        "KSV",
+        "LBN",
+        "MLT",
+        "MDA",
+        "ROU",
+        "TTO",
+        "VNM"
       ]
     },
     "PISA_2018": {
@@ -1168,12 +1635,27 @@
         "target_population": "Enrolled age 15 years 3 months to 16 years 2 months, grade 7 or higher"
       },
       "paper": [
-        "SAU"
+        "ARG",
+        "JOR",
+        "LBN",
+        "MDA",
+        "MKD",
+        "ROU",
+        "SAU",
+        "UKR",
+        "VNM"
       ],
       "country_notes": {
         "ESP": "Potential downward bias associated with test motivation/exam overlap. Marked noncomparable for certified project trends (QUAL_ESP_PISA_2018).",
         "NLD": "Low initial school response; exclusions and UH booklets. Core subjects retained with annotation; financial-literacy caveat does not apply to selected domains.",
         "PRT": "Student nonresponse analysis suggests residual small upward bias; OECD retains annotated comparisons."
+      },
+      "country_table_overrides": {
+        "VNM": [
+          "PISA_2018_VNM_target",
+          "PISA_2018_VNM_coverage",
+          "PISA_2018_VNM_response"
+        ]
       }
     },
     "PISA_2022": {
@@ -1195,7 +1677,13 @@
         "LVA": "Sampling standards not met; available bias analyses cannot rule out nonminimal bias.",
         "NLD": "Sampling standards not met; available bias analyses cannot rule out nonminimal bias.",
         "USA": "Sampling standards not met; available bias analyses cannot rule out nonminimal bias."
-      }
+      },
+      "paper": [
+        "KHM",
+        "GTM",
+        "PRY",
+        "VNM"
+      ]
     },
     "PISA_2025": {
       "tables": [
@@ -1277,6 +1765,21 @@
       "file": "TIMSS2019_sampling_page_2.pdf",
       "sha256": "d2100f6e1fac47049a09e5cd2b23d68b1ceb5141713252ff0ad677610b2d53c8",
       "locator": "Exhibit9.22 pp.61-62 countries with eTIMSS and bridge; main samples used"
+    },
+    {
+      "file": "PISA2015_volumeI.pdf",
+      "sha256": "49403c9d178e99e6fb626e35b5dae6d54dc5d387e2cd31918bce3f71ce7c9e68",
+      "locator": "Reading the report: 15 paper-based participants"
+    },
+    {
+      "file": "NCES_IDE_definitions_20261019.html",
+      "sha256": "8888fb19a562f5e3b1a48b4786eb54ce406778d6894d88273724102c67b4cf65",
+      "locator": "PISA assessment modes by cycle: nine paper systems in 2018; four in 2022"
+    },
+    {
+      "file": "PISA2009plus_report.pdf",
+      "sha256": "3b3a00b628660e723495ac6667e406d509d89197b28f805fb028968e10ddbcf9",
+      "locator": "PDF p.20 footnote 3: Dubai 2009 and other emirates 2010 officially merged; p.123 national n=10,867"
     }
   ]
 }

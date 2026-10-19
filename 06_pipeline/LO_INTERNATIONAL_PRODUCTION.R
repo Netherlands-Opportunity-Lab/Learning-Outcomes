@@ -59,7 +59,7 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
   for(f in c('LO_ATOMIC_CHECKPOINT.R','LO_COUNTRY_REGISTRY.R','LO_COUNTRY_TASKS.R','LO_BALANCED_MEMBERSHIP.R','LO_GENDER_POOL_POLICY.R','LO_REMOTE_CHECKPOINT.R',
     'MASTER_ESTIMATION_GRID.R','LO_SCOPE_DECISIONS.R','LO_APPROVED_EXTENSIONS.R','LO_CERTIFY_SOURCE_BLOCKS.R',
     'LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PISA_LEGACY_SOURCE.R','LO_PEER_REFERENCE.R',
-    'LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_RUN_CONFIG.R','LO_ESTIMATION_AVAILABILITY.R'))source(file.path(repo,'06_pipeline',f))
+    'LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_RUN_CONFIG.R','LO_ESTIMATION_AVAILABILITY.R','LO_PISA_PROGRAM_IDENTITY.R'))source(file.path(repo,'06_pipeline',f))
   master<-file.path(root,'master_reconciliation');international<-file.path(root,'international')
   manifest<-read.csv(file.path(international,'SOURCE_RUN_MANIFEST.csv'),colClasses='character',na.strings=character())
   support<-lo_read_source_support(file.path(master,'SOURCE_SUPPORT_CONTRACTS.csv'),repo=repo)
@@ -114,6 +114,22 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
   if(!is.null(context_ids))contexts<-contexts[paste(contexts$country,contexts$survey,contexts$year,sep='_')%in%context_ids,]
   for(i in seq_len(nrow(contexts))) {
     ctx<-contexts[i,];country<-ctx$country;s<-ctx$survey;y<-as.integer(ctx$year);id<-paste(country,s,y,sep='_')
+    q0<-t[t$country==country&t$survey==s&as.integer(t$year)==y,]
+    review<-lo_population_review(repo);restricted<-lo_population_review_rows(q0,review)
+    if(any(!is.na(restricted))) {
+      policy<-file.path(repo,'06_pipeline/review_20261013/POPULATION_CORRECTIONS.json')
+      frozen_policy<-file.path(international,'absence',paste0('POLICY_',digest::digest(file=policy,algo='sha256'),'.json'))
+      dir.create(dirname(frozen_policy),recursive=TRUE,showWarnings=FALSE)
+      if(!file.exists(frozen_policy))stopifnot(file.copy(policy,frozen_policy))
+      for(k in unique(restricted[!is.na(restricted)])) {
+        selected<-!is.na(restricted)&restricted==k
+        lo_international_absence(repo,root,q0[selected,],
+          paste('OFFICIAL_TREND_COMPARABILITY_QUALIFICATION',review$review_id[k],review$actual_population[k],sep=': '),
+          frozen_policy)
+      }
+      q0<-q0[is.na(restricted),,drop=FALSE]
+      if(!nrow(q0))next
+    }
     parent<-file.path(international,'sources',id)
     if(country=='NLD') {
       origin<-unique(support$source_path[support$country==country&support$survey==s&as.integer(support$year)==y])
@@ -124,7 +140,7 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
     if(!file.exists(srcfile))stop('INTERNATIONAL_SOURCE_CHECKPOINT_MISSING: ',id)
     src<-jsonlite::fromJSON(srcfile);canonical<-file.path(parent,src$canonical_filename)
     stopifnot(digest::digest(file=canonical,algo='sha256')==src$canonical_sha256)
-    obj<-readRDS(canonical);q0<-t[t$country==country&t$survey==s&as.integer(t$year)==y,]
+    obj<-readRDS(canonical)
     if(s=='PISA') {
       unavailable_class<-q0$module%in%c('extension_performance_class','extension_ses_class')
       if(any(unavailable_class))lo_international_absence(repo,root,q0[unavailable_class,],'PISA public-use sample has no comparable sampled actual-class identifier; school programme is not an actual classroom',srcfile)
@@ -176,10 +192,9 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
       outroot<-file.path(international,'blocks',family);out<-file.path(outroot,id);dir.create(out,recursive=TRUE,showWarnings=FALSE)
       science_obj<-lo_gender_pool_object(obj,raw,q);peers<-startsWith(family,'PEERS_')
       if(s=='PISA') {
-        numeric_country<-unique(manifest$source_country[manifest$country==country&manifest$survey!='PISA'])
-        numeric_country<-numeric_country[!numeric_country%in%'5784'];stopifnot(length(numeric_country)==1L)
-        program<-as.character(science_obj$data$PROGRAM)
-        science_obj$data$PROGRAM[!is.na(program)&!grepl(paste0('^0*',as.integer(numeric_country),'[0-9]+$'),program)]<-NA
+        program_review<-lo_pisa_program_review(repo,r,science_obj$data$PROGRAM)
+        science_obj$data$PROGRAM<-program_review$values
+        science_obj$meta$program_identity_evidence<-program_review[setdiff(names(program_review),'values')]
         if(!any(!is.na(science_obj$data$PROGRAM)&nzchar(science_obj$data$PROGRAM))) {
           no_program<-q$peer_definition=='direct_learning_environment'
           if(any(no_program))lo_international_absence(repo,root,q[no_program,],'No valid national programme identifier for the selected school-programme peer environment',srcfile)
@@ -210,7 +225,7 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
       if(startsWith(family,'BACKGROUND_'))evidence<-c(evidence,bg$proof)
       q<-lo_record_estimation_availability(repo,root,science_obj,q,evidence)
       if(!nrow(q)){lo_remote_checkpoint(repo,root);return(invisible(NULL))}
-      verifier_files<-c('LO_INTERNATIONAL_PRODUCTION.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PEER_REFERENCE.R','LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_INTERNATIONAL_SES.R','LO_GENDER_POOL_POLICY.R','LO_ESTIMATION_AVAILABILITY.R')
+      verifier_files<-c('LO_INTERNATIONAL_PRODUCTION.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PEER_REFERENCE.R','LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_INTERNATIONAL_SES.R','LO_GENDER_POOL_POLICY.R','LO_ESTIMATION_AVAILABILITY.R','LO_PISA_PROGRAM_IDENTITY.R')
       key<-digest::digest(list(q=q,parent=src$canonical_sha256,object=digest::digest(science_obj,algo='sha256'),reference=vapply(file.path(repo,'06_pipeline',verifier_files),function(p)digest::digest(file=p,algo='sha256'),character(1))),algo='sha256')
       block_id<-paste0(id,'_',substr(key,1,16));out<-file.path(outroot,block_id);dir.create(out,recursive=TRUE,showWarnings=FALSE)
       if(startsWith(family,'BACKGROUND_'))file.copy(bg$proof,file.path(out,basename(bg$proof)),overwrite=FALSE)

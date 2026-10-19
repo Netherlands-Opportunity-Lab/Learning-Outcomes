@@ -119,6 +119,164 @@
         }
       ],
       "historical_results": "Retain historical estimates and targets. Do not combine grade-3 and grade-4 waves for 6x3 admission, references or trend lines. Poland has only two released comparable PIRLS grade-4 waves, 2016 and 2021."
+    },
+    {
+      "review_id": "QUAL_GBR_PISA_2003",
+      "country": "GBR",
+      "survey": "PISA",
+      "year": "2003",
+      "domain": "all",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "School nonresponse failed international comparability requirements; OECD excludes this cycle from comparable trends.",
+      "incorrect_assumption": "An intact official source was treated as proof of comparability for every domain.",
+      "reason": "OFFICIAL_TREND_COMPARABILITY_QUALIFICATION",
+      "sources": [
+        {
+          "url": "https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html",
+          "locator": "How does the OECD treat data anomalies? GBR paragraph; retrieved 2026-10-19"
+        }
+      ],
+      "historical_results": "Retain approved target and source evidence as a visible qualified gap. Exclude only the listed domain(s) from comparable-wave admission and balanced trends. Never shorten the focus anchor."
+    },
+    {
+      "review_id": "QUAL_VNM_PISA_2018",
+      "country": "VNM",
+      "survey": "PISA",
+      "year": "2018",
+      "domain": "all",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "Item-response-model misfit prevents assurance of international comparability.",
+      "incorrect_assumption": "An intact official source was treated as proof of comparability for every domain.",
+      "reason": "OFFICIAL_TREND_COMPARABILITY_QUALIFICATION",
+      "sources": [
+        {
+          "url": "https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html",
+          "locator": "How does the OECD treat data anomalies? VNM paragraph; retrieved 2026-10-19"
+        }
+      ],
+      "historical_results": "Retain approved target and source evidence as a visible qualified gap. Exclude only the listed domain(s) from comparable-wave admission and balanced trends. Never shorten the focus anchor."
+    },
+    {
+      "review_id": "QUAL_VNM_PISA_2022_READING",
+      "country": "VNM",
+      "survey": "PISA",
+      "year": "2022",
+      "domain": "reading",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "Weak linkage of reading to the international scale; 40% of reading items have country-specific parameters. Mathematics and science are not excluded by this reading qualification.",
+      "incorrect_assumption": "An intact official source was treated as proof of comparability for every domain.",
+      "reason": "OFFICIAL_TREND_COMPARABILITY_QUALIFICATION",
+      "sources": [
+        {
+          "url": "https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html",
+          "locator": "How does the OECD treat data anomalies? VNM paragraph; retrieved 2026-10-19"
+        }
+      ],
+      "historical_results": "Retain approved target and source evidence as a visible qualified gap. Exclude only the listed domain(s) from comparable-wave admission and balanced trends. Never shorten the focus anchor."
+    },
+    {
+      "review_id": "QUAL_JOR_PISA_2022_READING",
+      "country": "JOR",
+      "survey": "PISA",
+      "year": "2022",
+      "domain": "reading",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "New link-item parameters restore cross-sectional comparability at the expense of trend comparability; OECD limits trend comparisons to mathematics.",
+      "incorrect_assumption": "An intact official source was treated as proof of comparability for every domain.",
+      "reason": "OFFICIAL_TREND_COMPARABILITY_QUALIFICATION",
+      "sources": [
+        {
+          "url": "https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html",
+          "locator": "How does the OECD treat data anomalies? JOR paragraph; retrieved 2026-10-19"
+        }
+      ],
+      "historical_results": "Retain approved target and source evidence as a visible qualified gap. Exclude only the listed domain(s) from comparable-wave admission and balanced trends. Never shorten the focus anchor."
+    },
+    {
+      "review_id": "QUAL_JOR_PISA_2022_SCIENCE",
+      "country": "JOR",
+      "survey": "PISA",
+      "year": "2022",
+      "domain": "science",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "New link-item parameters restore cross-sectional comparability at the expense of trend comparability; OECD limits trend comparisons to mathematics.",
+      "incorrect_assumption": "An intact official source was treated as proof of comparability for every domain.",
+      "reason": "OFFICIAL_TREND_COMPARABILITY_QUALIFICATION",
+      "sources": [
+        {
+          "url": "https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html",
+          "locator": "How does the OECD treat data anomalies? JOR paragraph; retrieved 2026-10-19"
+        }
+      ],
+      "historical_results": "Retain approved target and source evidence as a visible qualified gap. Exclude only the listed domain(s) from comparable-wave admission and balanced trends. Never shorten the focus anchor."
+    },
+    {
+      "review_id": "QUAL_MLT_PIRLS_2016",
+      "country": "MLT",
+      "survey": "PIRLS",
+      "year": "2016",
+      "domain": "all",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "Maltese-only assessment differs from the English main assessment in 2011. Grade code 5 itself is the correct fourth-year target population. Do not splice the different language assessments into a three-wave trend.",
+      "reason": "OFFICIAL_TREND_COMPARABILITY_QUALIFICATION",
+      "sources": [
+        {
+          "url": "https://curriculum.gov.mt/pirls/",
+          "locator": "National participation and comparability qualification"
+        }
+      ],
+      "historical_results": "Keep original evidence and the required historical target visible. This cycle cannot certify comparable trends or reference coverage."
+    },
+    {
+      "review_id": "QUAL_ARG_PISA_2015",
+      "country": "ARG",
+      "survey": "PISA",
+      "year": "2015",
+      "domain": "all",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "The national sampling frame lost substantial coverage relative to previous cycles; OECD did not report internationally comparable national results. Buenos Aires is not a substitute country.",
+      "reason": "OFFICIAL_TREND_COMPARABILITY_QUALIFICATION",
+      "sources": [
+        {
+          "url": "https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html",
+          "locator": "National participation and comparability qualification"
+        }
+      ],
+      "historical_results": "Keep original evidence and the required historical target visible. This cycle cannot certify comparable trends or reference coverage."
+    },
+    {
+      "review_id": "QUAL_KAZ_PISA_2015",
+      "country": "KAZ",
+      "survey": "PISA",
+      "year": "2015",
+      "domain": "all",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "National human marking was too lenient; OECD did not publish comparable domain results for this cycle.",
+      "reason": "OFFICIAL_TREND_COMPARABILITY_QUALIFICATION",
+      "sources": [
+        {
+          "url": "https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html",
+          "locator": "National participation and comparability qualification"
+        }
+      ],
+      "historical_results": "Keep original evidence and the required historical target visible. This cycle cannot certify comparable trends or reference coverage."
+    },
+    {
+      "review_id": "QUAL_MYS_PISA_2015",
+      "country": "MYS",
+      "survey": "PISA",
+      "year": "2015",
+      "domain": "all",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "School response was 51 percent and OECD did not publish comparable national results.",
+      "reason": "OFFICIAL_TREND_COMPARABILITY_QUALIFICATION",
+      "sources": [
+        {
+          "url": "https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html",
+          "locator": "National participation and comparability qualification"
+        }
+      ],
+      "historical_results": "Keep original evidence and the required historical target visible. This cycle cannot certify comparable trends or reference coverage."
     }
   ]
 }

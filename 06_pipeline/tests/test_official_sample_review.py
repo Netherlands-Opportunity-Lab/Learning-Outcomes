@@ -27,6 +27,7 @@ class SampleReview(unittest.TestCase):
                          '<tr><td>Norway (4)</td><td>2</td></tr></table>')
         self.assertEqual(x['IRL']['exclusion_pct'], 0)
         self.assertEqual(x['NOR']['exclusion_pct'], 2)
+        self.assertNotEqual(review.normalize('Yemen (6)'), review.normalize('Yemen'))
 
     def test_unknown_requires_explicit_documentation(self):
         html = '<table><tr><td>Ireland</td><td>—</td></tr></table>'

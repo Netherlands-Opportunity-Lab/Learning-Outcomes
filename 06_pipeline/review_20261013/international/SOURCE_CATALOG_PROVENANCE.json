@@ -1,0 +1,12 @@
+{
+  "source_contexts": 888,
+  "home_contexts": 387,
+  "source_manifest_sha256": "26bb8e7ed8131db542b864588becd851136c0bc86bc804db5a113e9e33e8c5a5",
+  "home_manifest_sha256": "82c74537ada4385703bd07929c61d910200eee42cb7acd8df30fa56876da8465",
+  "catalogue_sha256": {
+    "SOURCE_CATALOG.csv": "cc4b814a674a9ec8804837db4196f131f8196639db68879fed76c7096a86a207",
+    "HOME_SOURCE_CATALOG.csv": "487d5bd7831c34f0925aa3aa8da22b28bee911de2cb3b03bf6a68469071f61f1"
+  },
+  "producer_sha256": "773e86e2869ab6375ff30c18b1657636569bd9dcf2968857be1124a6d7fcaa74",
+  "status": "PORTABLE_SOURCE_IDENTITIES_EXPORTED_NOT_SCIENTIFIC_APPROVAL"
+}

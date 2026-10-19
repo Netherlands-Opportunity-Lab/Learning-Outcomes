@@ -109,12 +109,16 @@ def freeze(repo, root, reference_root=None):
     proof_json(root / 'cobreros_four/CALIBRATION_CERTIFICATE.json', q['Q03']['calibration_sha256'])
     proof_json(root / 'cobreros_four/PREPARATION_MANIFEST.json')
     proof_json(root / 'cobreros_four/RAW_INPUT_CLOSURE.json')
-    application = list((root / 'international/ses').glob('SES_*.json'))
-    if len(application) != 1:
-        raise ValueError('Ambiguous frozen SES application')
-    z = proof_json(application[0], q['Q03']['application_sha256'])
-    for f in z['files']:
-        add(f['path'], f['sha256'])
+    application = {sha(p):p for p in (root / 'international/ses').glob('SES_*.json')}
+    used = q['Q03']['application_sha256']
+    if isinstance(used,str):
+        used=[used]
+    if not used or len(set(used))!=len(used) or any(h not in application for h in used):
+        raise ValueError('Missing or ambiguous frozen SES application')
+    for h in used:
+        z = proof_json(application[h], h)
+        for f in z['files']:
+            add(f['path'], f['sha256'])
     add(repo / '06_pipeline/LO_FROZEN_SES_REVIEW.R', q['Q03']['review_code_sha256'])
     add(work / 'Q03_Q05/FROZEN_SES_COUNTRY_WAVE_REVIEW.csv', q['Q03']['output_sha256'])
     grid_copy = work / 'REVIEWED_MASTER_GRID.csv'

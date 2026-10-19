@@ -1,6 +1,25 @@
 # Audit-stage library. Reads only explicitly configured, hash-pinned public-use
 # sources. No analysis estimates, downloads, countries or source substitutions
 # are inferred from filenames. Manifest paths and extracts remain private.
+lo_source_pv_coverage <- function(obj,domains) {
+  d<-obj$data;w<-as.numeric(d$W)
+  rw<-grep('^RW[0-9]+$',names(d),value=TRUE)
+  m<-if(obj$meta$survey=='PISA'&&as.integer(obj$meta$year)>=2015L)10L else 5L
+  do.call(rbind,lapply(domains,function(domain) {
+    code<-switch(domain,reading='READ',mathematics='MATH',science='SCIE')
+    fields<-paste0('PV_',code,'_',seq_len(m))
+    if(!all(fields%in%names(d)))stop('SOURCE_REQUIRED_PV_FIELDS_MISSING')
+    n<-rowSums(is.finite(as.matrix(d[fields])))
+    if(any(!n%in%c(0L,m)))stop('SOURCE_PARTIAL_PV_SET')
+    observed<-n==m
+    if(any(observed)&&any(colSums(as.matrix(d[observed,c('W',rw),drop=FALSE]))<=0))
+      stop('SOURCE_OBSERVED_SAMPLE_REPLICATE_DENOMINATOR')
+    data.frame(domain=domain,pv_count=m,n_source=nrow(d),n_observed=sum(observed),
+      n_wholly_missing=sum(!observed),weighted_coverage=sum(w[observed])/sum(w),
+      status=if(any(observed))'OBSERVED_COMPLETE_PV_SETS'else'NO_OBSERVED_DOMAIN_SCORES')
+  }))
+}
+
 lo_international_cached_support <- function(existing,expected,receipt_path,contract_path) {
   if(!nrow(existing))return(FALSE)
   cols<-unique(c(lo_balance_columns(),'country','source_path','source_sha256','status'))
@@ -92,13 +111,20 @@ lo_international_sources <- function(repo,root,manifest_path) {
         v$receipt$population_review<-as.list(r[c('population_note','population_evidence')])
         jsonlite::write_json(v$receipt,receipt_path,pretty=TRUE,auto_unbox=TRUE,digits=17)
         src<-v$receipt;canonical<-file.path(block,src$canonical_filename)
-        # No partial PV pool is certified as core coverage.
-        pv<-grep('^PV_',names(v$object$data),value=TRUE)
-        if(!length(pv)||any(!is.finite(as.matrix(v$object$data[pv]))))stop('INTERNATIONAL_INCOMPLETE_PVS')
         rm(v);gc(FALSE)
       }
       domains<-if(s=='PIRLS')'reading'else if(s=='TIMSS')c('mathematics','science')else if(y==2003)c('reading','mathematics')else c('reading','mathematics','science')
       if(s=='PISA'&&!is.null(src$verified_domains))domains<-src$verified_domains
+      prior<-support[support$country==country&support$survey==s&support$year==y,,drop=FALSE]
+      coverage_path<-file.path(block,'PV_DOMAIN_COVERAGE.csv')
+      if(!nrow(prior)) {
+        coverage<-lo_source_pv_coverage(readRDS(canonical),domains)
+        write.csv(coverage,coverage_path,row.names=FALSE)
+        domains<-coverage$domain[coverage$n_observed>0]
+        if(!length(domains)) {
+          cat('SOURCE_NO_OBSERVED_DOMAIN_SCORES',id,src$n,'\n');flush.console();next
+        }
+      }
       x<-support[rep(1L,length(domains)),];x$country<-country;x$survey<-s;x$year<-as.character(y)
       x$age_group<-if(s=='PISA')'age15'else'age10';x$domain<-domains
       x$definition_id<-paste0(s,'_DOMAIN_MEAN');x$population_comparison_id<-if(s=='PISA')'PISA_AGE_TARGET_PUBLIC_USE'else paste0(s,'_GRADE4_COHORT_MAIN_WAVE')
@@ -112,12 +138,12 @@ lo_international_sources <- function(repo,root,manifest_path) {
       if(lo_international_cached_support(prior,x,receipt_path,contract_path)) {
         cat('REUSE_SOURCE_CHECKPOINT',id,src$n,'\n');flush.console();next
       }
-      check_obj<-readRDS(canonical);pv<-grep('^PV_',names(check_obj$data),value=TRUE)
-      if(!length(pv)||any(!is.finite(as.matrix(check_obj$data[pv]))))stop('INTERNATIONAL_INCOMPLETE_PVS')
-      rm(check_obj)
+      coverage<-lo_source_pv_coverage(readRDS(canonical),domains)
+      if(any(coverage$n_observed==0))stop('SOURCE_SUPPORT_WITHOUT_OBSERVED_PVS')
+      write.csv(coverage,coverage_path,row.names=FALSE)
       code_files<-file.path(repo,'06_pipeline',c('LO_INTERNATIONAL_SOURCES.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PISA_LEGACY_SOURCE.R'))
       frozen<-vapply(code_files,function(f){p<-file.path(block,paste0('VERIFIER_',substr(digest::digest(file=f,algo='sha256'),1,16),'.R'));if(!file.exists(p))stopifnot(file.copy(f,p));p},character(1))
-      ef<-normalizePath(c(receipt_path,contract_path,frozen),winslash='/');cert_path<-file.path(block,'SOURCE_SUPPORT_CERTIFICATE.json')
+      ef<-normalizePath(c(receipt_path,contract_path,coverage_path,frozen),winslash='/');cert_path<-file.path(block,'SOURCE_SUPPORT_CERTIFICATE.json')
       cert<-list(status='SOURCE_SUPPORT_VERIFIED',country=country,source_sha256=src$canonical_sha256,
         support_keys=lo_balance_key(x),comparability_evidence=paste(r$population_note,r$population_evidence),
         evidence_files=data.frame(path=ef,sha256=vapply(ef,function(f)digest::digest(file=f,algo='sha256'),character(1))))
@@ -133,5 +159,8 @@ lo_international_sources <- function(repo,root,manifest_path) {
       cat('SOURCE_REPAIR_REQUIRED',id,conditionMessage(e),'\n');flush.console()
     })
   }
+  repairs<-if(length(errors))do.call(rbind,errors)else
+    data.frame(country=character(),survey=character(),year=integer(),reason=character())
+  lo_atomic_csv(repairs,file.path(out,'SOURCE_REPAIRS_REQUIRED.csv'))
   invisible(list(support=support,errors=errors))
 }

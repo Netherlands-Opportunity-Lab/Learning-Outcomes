@@ -19,11 +19,13 @@ lo_frozen_ses_review <- function(repo,root,grid,out) {
     if(!file.exists(e$path)||sha(e$path)!=e$sha256)stop('SES_REVIEW_AUTHOR_INPUT_CHANGED')
   }
   candidates<-list.files(file.path(root,'international/ses'),pattern='^SES_[a-f0-9]+[.]json$',full.names=TRUE)
-  if(length(candidates)!=1L)stop('SES_REVIEW_EXPLICIT_APPLICATION_CERTIFICATE_REQUIRED')
-  application<-jsonlite::fromJSON(candidates)
-  if(application$author_commit!=calibration$author_commit||
-     application$model_sha256!=sha(file.path(root,'cobreros_four/irt13_model.rds'))||
-     application$status!='FROZEN_CHOSEN_SES_APPLIED_WITH_NLD_NUMERIC_PARITY')stop('SES_REVIEW_FROZEN_MODEL_CHANGED')
+  if(!length(candidates))stop('SES_REVIEW_APPLICATION_CERTIFICATE_REQUIRED')
+  applications<-setNames(lapply(candidates,jsonlite::fromJSON),vapply(candidates,sha,character(1)))
+  for(application in applications) {
+    if(application$author_commit!=calibration$author_commit||
+       application$model_sha256!=sha(file.path(root,'cobreros_four/irt13_model.rds'))||
+       application$status!='FROZEN_CHOSEN_SES_APPLIED_WITH_NLD_NUMERIC_PARITY')stop('SES_REVIEW_FROZEN_MODEL_CHANGED')
+  }
   g<-grid[grid$survey=='PISA' & grid$status=='SCIENTIFICALLY_VALIDATED' &
     grid$subgroup_variable%in%c('ses_harmonized','extension_ses_gender','extension_ses_school','ses_peer_exposure') ,]
   if(any(!grepl('Cobreros_fourwave_13item_trend_comparable',g$cell_id,fixed=TRUE))||
@@ -32,9 +34,21 @@ lo_frozen_ses_review <- function(repo,root,grid,out) {
   for(path in names(parts)) {
     z<-g[parts[[path]],];country<-unique(z$country);year<-unique(z$year)
     if(length(country)!=1L||length(year)!=1L||length(unique(z$source_edition_sha256))!=1L||sha(path)!=z$source_edition_sha256[1])stop('SES_REVIEW_RESULT_SOURCE')
+    obj<-readRDS(path);d<-obj$data
+    id<-obj$meta$calibration_sha256
+    if(is.null(id)||!id%in%names(applications)) {
+      # Early NLD sources predate the international application certificate.
+      # Resolve only when all applicable certificates identify the same exact
+      # immutable score bytes; never choose the newest file by modification time.
+      applicable<-vapply(applications,function(a)any(a$files$country==country&a$files$year==year),logical(1))
+      hashes<-unique(unlist(lapply(applications[applicable],function(a)a$files$sha256[a$files$country==country&a$files$year==year])))
+      if(length(hashes)!=1L||!any(applicable))stop('SES_REVIEW_AMBIGUOUS_APPLICATION')
+      id<-names(applications)[which(applicable)[1]]
+    }
+    application<-applications[[id]]
     f<-application$files[application$files$country==country & application$files$year==year,]
     if(nrow(f)!=1L||!file.exists(f$path)||sha(f$path)!=f$sha256)stop('SES_REVIEW_APPLICATION_OUTPUT')
-    raw<-readRDS(f$path);obj<-readRDS(path);d<-obj$data
+    raw<-readRDS(f$path)
     if(obj$meta$ses_construct_id!='Cobreros_fourwave_13item_trend_comparable')stop('SES_REVIEW_OFFICIAL_ESCS_SUBSTITUTION')
     ids<-as.character(d$SOURCE_STUDENT_ID);at<-match(ids,as.character(raw$cntstuid))
     if(anyNA(at)||anyDuplicated(ids)||length(ids)!=nrow(raw)||anyDuplicated(raw$cntstuid))stop('SES_REVIEW_PUPIL_MAPPING')
@@ -54,14 +68,14 @@ lo_frozen_ses_review <- function(repo,root,grid,out) {
       min_score=min(raw$SES,na.rm=TRUE),max_score=max(raw$SES,na.rm=TRUE),
       max_canonical_score_difference=difference,source_sha256=z$source_edition_sha256[1],
       calibrated_scores_sha256=f$sha256,calibration_sha256=sha(calibration_path),
-      model_sha256=application$model_sha256,application_sha256=sha(candidates),
+      model_sha256=application$model_sha256,application_sha256=id,
       definition='Cobreros_fourwave_13item_trend_comparable',stringsAsFactors=FALSE)
     rm(raw,obj,d);gc(FALSE)
   }
   result<-do.call(rbind,rows)
   write.csv(result,file.path(out,'FROZEN_SES_COUNTRY_WAVE_REVIEW.csv'),row.names=FALSE)
   summary<-list(status='PINNED_AUTHOR_AND_ALL_USED_CANONICAL_SCORES_VERIFIED',
-    calibration_sha256=sha(calibration_path),application_sha256=sha(candidates),author_commit=calibration$author_commit,
+    calibration_sha256=sha(calibration_path),application_sha256=unique(result$application_sha256),author_commit=calibration$author_commit,
     calibration_countries=application$calibration_countries,calibration_n=application$calibration_n,
     numerical_parameter_differences=calibration$max_parameter_difference,
     canonical_sources_checked=nrow(result),used_country_waves=nrow(unique(result[c('country','year')])),
