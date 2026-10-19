@@ -25,6 +25,7 @@ def normalize(x):
     s=re.sub(r'\(\s*3\s*\)','gradethree',str(x).lower())
     s=re.sub(r'\(\s*4\s*\)','gradefour',s)
     s=re.sub(r'\(\s*5\s*\)','gradefive',s)
+    s=re.sub(r'\(\s*6\s*\)','gradesix',s)
     return re.sub('[^a-z]', '', s)
 
 
@@ -99,7 +100,10 @@ def extract_table(directory,spec,aliases):
             # the national Irish row. Join label cells before numeric columns.
             for start in range(min(3,len(row))):
                 if start and not all(re.fullmatch(r'[\d\Wab]*',str(v)) for v in row[:start]):continue
-                for end in range(start+1,min(start+4,len(row))+1):
+                # Some official PDF fonts split a country name into individual
+                # letters. Stop only at a verified full alias followed by the
+                # first numeric column; never assume a maximum of four pieces.
+                for end in range(start+1,min(start+16,len(row))+1):
                     key=normalize(' '.join(str(v) for v in row[start:end]))
                     if key in aliases and (end==len(row) or numeric(row[end]) is not None or re.match(r'^\d',str(row[end]))):
                         row=row[:start]+[' '.join(str(v) for v in row[start:end])]+row[end:];ci=start;break
@@ -140,6 +144,7 @@ def extract_table(directory,spec,aliases):
 def main():
     a=argparse.ArgumentParser();a.add_argument('--repo',type=Path,required=True)
     a.add_argument('--root',type=Path,required=True);a.add_argument('--output',type=Path,required=True)
+    a.add_argument('--source-manifest',type=Path,help='Explicit proposed manifest for a read-only pre-admission review')
     args=a.parse_args();directory=args.root/'scientific_review_20261019/official'
     config_path=args.repo/'06_pipeline/review_20261013/OFFICIAL_SAMPLE_TABLES.json'
     config=json.loads(config_path.read_text(encoding='utf-8'))
@@ -151,7 +156,7 @@ def main():
     for spec in config['tables']:
         try:extracted[spec['id']]=extract_table(directory,spec,aliases)
         except (ValueError,KeyError,IndexError) as e:errors.append(str(e))
-    source=args.root/'international/SOURCE_RUN_MANIFEST.csv'
+    source=args.source_manifest or args.root/'international/SOURCE_RUN_MANIFEST.csv'
     with source.open(encoding='utf-8-sig',newline='') as f:contexts=list(csv.DictReader(f))
     result=[];missing=[];dependencies=[]
     for context in contexts:
@@ -161,7 +166,24 @@ def main():
         row.update(policy.get('common',{}))
         for id in policy.get('country_table_overrides',{}).get(c,policy['tables']):
             item=extracted.get(id,{}).get(c)
-            if item is None:missing.append((c,key,id));continue
+            if item is None:
+                absence=policy.get('reviewed_absent_tables',{}).get(c,{}).get(id)
+                if absence:
+                    # Absence from a reviewed official table is distinct from
+                    # failed extraction, missing microdata, and a zero rate.
+                    if any(id==s['id'] for s in config['tables']) and id not in extracted:
+                        missing.append((c,key,id));continue
+                    for evidence in absence['evidence']:
+                        if sha(directory/evidence['file'])!=evidence['sha256']:
+                            raise ValueError('Changed table-absence evidence')
+                        dependencies.append(dict(country=c,survey=survey,year=year,table_id=id,
+                            source_file=evidence['file'],source_sha256=evidence['sha256'],
+                            source_url=evidence['url'],locator=evidence['locator'],
+                            official_label=c,official_flags=absence['reason']))
+                    for name in absence['fields']:row[name]=None
+                    row['documented_table_absence']=absence['reason']
+                else:missing.append((c,key,id))
+                continue
             for k,v in item.items():
                 if k.startswith('source_') or k in ('locator','official_label','official_flags'):continue
                 if k in row and row[k]!=v:raise ValueError(f'Conflicting {k}: {c} {key}')
@@ -185,7 +207,7 @@ def main():
         notes=[]
         if row.get('overall_exclusion_pct') is not None and row['overall_exclusion_pct']>5:notes.append('EXCLUSION_ABOVE_FIVE_PERCENT')
         if row.get('school_before_pct') is not None and row['school_before_pct']<85:notes.append('SCHOOL_RESPONSE_BELOW_85_BEFORE_REPLACEMENT')
-        if row.get('student_response_pct',100)<(80 if survey=='PISA' else 85):notes.append('STUDENT_RESPONSE_BELOW_STUDY_TARGET')
+        if row.get('student_response_pct') is not None and row['student_response_pct']<(80 if survey=='PISA' else 85):notes.append('STUDENT_RESPONSE_BELOW_STUDY_TARGET')
         if row.get('population_coverage_pct') is not None and row['population_coverage_pct']<95:notes.append('TARGET_COVERAGE_BELOW_95_PERCENT')
         if survey!='PISA' and row.get('overall_after_pct') is not None and row['overall_after_pct']<75:notes.append('COMBINED_RESPONSE_BELOW_75_PERCENT')
         if any(v is None for v in row.values()):notes.append('OFFICIAL_TABLE_CONTAINS_UNREPORTED_VALUE_NOT_IMPUTED')

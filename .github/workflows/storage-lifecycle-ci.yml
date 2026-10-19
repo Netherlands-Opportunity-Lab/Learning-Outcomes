@@ -96,6 +96,10 @@ jobs:
         run: Rscript 06_pipeline/tests/test_population_review.R
       - name: Test approved country expansion without historical whitelist
         run: Rscript 06_pipeline/tests/test_country_tasks.R
+      - name: Test PISA programmes against their own source dictionaries
+        run: Rscript 06_pipeline/tests/test_pisa_program_identity.R
+      - name: Preserve certified SES imputations when appending countries
+        run: Rscript 06_pipeline/tests/test_ses_application_order.R
       - name: Test international source identity and atomic checkpoints
         run: Rscript 06_pipeline/tests/test_international_sources.R
       - name: Reuse certified results across scopes

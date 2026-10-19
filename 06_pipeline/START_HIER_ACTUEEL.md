@@ -1,5 +1,24 @@
 # Start hier — actuele besluiten en resterend werk
 
+## Uitvoering bronuitbreiding — 19 oktober 2026
+
+Alle 50 aanvullende kandidaten zijn in de echte bronbestanden beoordeeld. De
+toelating per combinatie geeft **84 landen/stelsels, 362 combinaties en 131.910
+goedgekeurde doelen**. De 888 broncontexten hebben een officiële steekproef- en
+modusbeoordeling. Vietnam 2018 heeft geen waargenomen prestatiescores in de
+onderzochte hoofdbron en blijft expliciet buiten vergelijkbare trends; België
+2025 heeft 7.455 volledig waargenomen leerlingen en één volledig ontbrekende
+leerling, die niet meetelt in prestatienoemers. De landelijke bron blijft intact.
+
+De productie en Q01–Q08 voor deze uitgebreidere selectie zijn **nog in uitvoering**.
+De hieronder beschreven afgesloten run met 34 landen is historisch bewijs, geen
+vrijgave van de uitbreiding. 280 bestaande resultaten voor peers binnen de
+directe leeromgeving zijn gericht heropend omdat officiële ontbrekende
+programmacodes eerder als geldige programma's konden meetellen. Hun oorspronkelijke
+resultaten en certificaten blijven bewaard. Zie
+[de bron- en scopebeoordeling](review_20261013/scientific_review/CANDIDATE_EXPANSION_REVIEW.json)
+en [de broncatalogus](review_20261013/international/SOURCE_CATALOG_PROVENANCE.json).
+
 ## Laatste inhoudelijke besluit — 19 oktober: toelating per leeftijd en uitkomst
 
 De gebruiker heeft de algemene 6×3-landeneis expliciet vervangen: **minstens drie vergelijkbare meetgolven per afzonderlijke leeftijd-uitkomstcombinatie**. Een land kan dus voor sommige combinaties toegelaten zijn en voor andere niet. Binnen iedere figuur geldt één vaste referentiegroep met het volledige hoofdlandanker van de gekozen combinatie en alle gezamenlijk getoonde groepen en leeromgevingen. Tussen figuren mag de groep verschillen. De rijke kandidatenpool, gelijke landgewichten, hoofdlanduitsluiting en rangregels veranderen niet. Zie [het rechtstreekse besluit](review_20261013/BALANCE_USER_DECISION_20261019.json) en [de actuele balansregel](review_20261013/BALANCED_REFERENCE_RULE_20261014.md).

@@ -109,7 +109,7 @@ lo_pisa_prepare_legacy <- function(path,control,year,country,output_dir) {
     repair_raw_sha256=if(exists('lo_pisa_source_sha',mode='function'))lo_pisa_source_sha(path)else digest::digest(file=path,algo='sha256'),control_sha256=digest::digest(file=control,algo='sha256')))
   dir.create(output_dir,recursive=TRUE,showWarnings=FALSE)
   out<-file.path(output_dir,paste0('canonical_PISA_',year,'_',country,'_',substr(digest::digest(obj,algo='sha256'),1,16),'.rds'))
-  if(!file.exists(out))saveRDS(obj,out,compress=FALSE)else stopifnot(identical(readRDS(out),obj))
+  if(!file.exists(out))saveRDS(obj,out,compress='gzip')else stopifnot(identical(readRDS(out),obj))
   receipt<-list(status='RAW_SAMPLE_AND_FIELDS_VERIFIED',survey='PISA',year=year,country=country,n=nrow(d),source_rows_scanned=scanned,
     raw_sha256=obj$meta$repair_raw_sha256,control_sha256=obj$meta$control_sha256,canonical_filename=basename(out),canonical_sha256=digest::digest(file=out,algo='sha256'),
     population=paste('All',country,'records in the official PISA age-target public-use student file'),pv_count=5L,

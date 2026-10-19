@@ -160,7 +160,7 @@ lo_pisa_verify_source <- function(raw_path,canonical_path,year,country,output_di
   }
   if(file.exists(output)) {
     if(!identical(readRDS(output),obj))stop("PISA_REPAIR_REFUSES_CHANGED_EXISTING_OUTPUT")
-  } else saveRDS(obj,output,compress=FALSE)
+  } else saveRDS(obj,output,compress='gzip')
   write.csv(checks,file.path(output_dir,"RAW_COLUMN_PARITY.csv"),row.names=FALSE)
   receipt<-list(status="RAW_SAMPLE_AND_FIELDS_VERIFIED",survey="PISA",year=year,country=country,
     exact_pupil_set=TRUE,n=nrow(d),columns_checked=nrow(checks),
@@ -234,7 +234,8 @@ lo_pisa_independent_selected <- function(raw,q) {
     probs<-sort(unique(unlist(lapply(stats,function(s)if(s=='p90_p10')c(.1,.9)else as.numeric(sub('p','',s))/100))))
     answer<-setNames(lapply(probs,function(p)matrix(NA_real_,m,81)),as.character(probs))
     for(j in seq_len(m)) {
-      order_y<-order(Y[,j])
+      observed<-which(is.finite(Y[,j]))
+      order_y<-observed[order(Y[observed,j])]
       for(r in 1:81) {
         o<-order_y[w[order_y,r]>0];weight<-w[o,r];cumulative<-cumsum(weight)
         for(p in probs)answer[[as.character(p)]][j,r]<-Y[o[which(cumulative>=p*sum(weight))[1]],j]
@@ -246,7 +247,10 @@ lo_pisa_independent_selected <- function(raw,q) {
   for(k in seq_len(nrow(q))) {
     task<-q[k,];if(!task$domain%in%names(code))stop("PISA_UNKNOWN_DOMAIN")
     y<-as.matrix(raw[paste0("PV",seq_len(m),code[[task$domain]])])
-    if(any(!is.finite(y)))stop("PISA_REFERENCE_INCOMPLETE_PVS")
+    observed_count<-rowSums(is.finite(y))
+    if(any(!observed_count%in%c(0L,m)))stop("PISA_REFERENCE_PARTIAL_PV_SET")
+    observed<-observed_count==m
+    if(!any(observed))stop("PISA_REFERENCE_NO_OBSERVED_PVS")
     include<-rep(TRUE,nrow(raw));contrast<-NULL
     if(task$module=="gender") {
       if(task$stat=="gap") {if(task$group!="girls_minus_boys")stop("PISA_GENDER_CONTRAST");include<-sex==sexmap['girl'];contrast<-sex==sexmap['boy']}
@@ -262,7 +266,8 @@ lo_pisa_independent_selected <- function(raw,q) {
         include<-mig==migmap[[focus]];contrast<-mig==migmap['native']
       } else include<-mig==migmap[[task$group]]
     }
-    include[is.na(include)]<-FALSE;if(!is.null(contrast))contrast[is.na(contrast)]<-FALSE
+    include[is.na(include)]<-FALSE;include<-include&observed
+    if(!is.null(contrast)) {contrast[is.na(contrast)]<-FALSE;contrast<-contrast&observed}
     counts[k]<-sum((include|if(is.null(contrast))FALSE else contrast)&w[,1]>0)
     cluster<-if(task$module=='extension_performance_school')as.character(raw$CNTSCHID)else NULL
     mat<-matrix(NA_real_,m,81)
@@ -274,6 +279,9 @@ lo_pisa_independent_selected <- function(raw,q) {
         if(!identical(as.numeric(task$threshold),cutoff))stop('PISA_REFERENCE_THRESHOLD_MISMATCH')
         values<-if(task$stat=='total_below')1*(y<cutoff)else 1*(y>=cutoff)
       }
+      # Entirely unobserved pupils remain in the source and coverage register,
+      # but contribute neither values nor weight to a performance estimate.
+      values[!observed,]<-0
       means<-function(group){weights<-w*group;sweep(crossprod(values,weights),2,colSums(weights),'/')}
       mat<-means(include);if(!is.null(contrast))mat<-mat-means(contrast)
     }else if(task$stat%in%c('p10','p50','p90','p90_p10'))mat<-selected_quantiles(task$domain,y)[[task$stat]]
@@ -286,7 +294,7 @@ lo_pisa_independent_selected <- function(raw,q) {
       }
       mat[j,r]<-if(task$module=="extension_performance_school") {
         if(s!="between_variance_share")stop("PISA_REFERENCE_UNKNOWN_SCHOOL_STAT")
-        ok<-!is.na(cluster)&weight>0;v<-value[ok];wt<-weight[ok];school<-cluster[ok]
+        ok<-observed&!is.na(cluster)&weight>0;v<-value[ok];wt<-weight[ok];school<-cluster[ok]
         mu<-sum(v*wt)/sum(wt);sw<-as.numeric(rowsum(wt,school,reorder=FALSE));sy<-as.numeric(rowsum(wt*v,school,reorder=FALSE))
         100*sum(sw*(sy/sw-mu)^2)/sum(wt*(v-mu)^2)
       } else if(!is.null(contrast))mean_w(value,weight*include)-mean_w(value,weight*contrast)

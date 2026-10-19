@@ -42,4 +42,16 @@ pol_admission<-lo_support_eligibility(reviewed_pol,'POL')
 stopifnot(pol_admission$countries$dashboard_eligible,
  !pol_admission$detail$combination_pass[pol_admission$detail$survey=='PIRLS'],
  nrow(reviewed_pol[reviewed_pol$survey=='PIRLS',])==2L)
-cat('PASS population/comparability correction, retained qualified trend anchors, per-combination admission and changed-download regression\n')
+specific<-expand.grid(country=c('JOR','VNM'),survey='PISA',year=c('2018','2022'),
+ domain=c('reading','mathematics','science'),stringsAsFactors=FALSE)
+idx<-lo_population_review_rows(specific,r)
+stopifnot(!is.na(idx[specific$country=='JOR'&specific$year=='2022'&specific$domain=='reading']),
+ !is.na(idx[specific$country=='JOR'&specific$year=='2022'&specific$domain=='science']),
+ is.na(idx[specific$country=='JOR'&specific$year=='2022'&specific$domain=='mathematics']),
+ all(is.na(idx[specific$country=='JOR'&specific$year=='2018'])),
+ sum(!is.na(idx[specific$country=='VNM'&specific$year=='2022']))==1L,
+ all(!is.na(idx[specific$country=='VNM'&specific$year=='2018'])))
+once<-lo_population_filter_support(specific,r)
+stopifnot(identical(once,lo_population_filter_support(once,r)),
+ inherits(try(lo_population_review_rows(specific[c('country','survey','year')],r),silent=TRUE),'try-error'))
+cat('PASS population/comparability correction, domain-specific qualifications, retained qualified anchors, per-combination admission and changed-download regression\n')

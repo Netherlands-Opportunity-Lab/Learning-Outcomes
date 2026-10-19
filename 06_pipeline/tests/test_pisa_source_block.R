@@ -60,6 +60,15 @@ boy_task<-transform(q[3,,drop=FALSE],stat='mean',group='boy')
 boy_ref<-lo_pisa_independent_selected(missing_gender,boy_task)
 stopifnot(boy_ref$results$n_unweighted==2L,boy_ref$results$estimate==605.5)
 stopifnot(inherits(try(lo_pisa_independent_selected(missing_gender,q[3,,drop=FALSE]),silent=TRUE),'try-error'))
+unobserved<-rbind(raw,raw[1,,drop=FALSE]);unobserved$CNTSTUID[5]<-5
+unobserved[5,grep('^PV',names(raw))]<-NA_real_
+no_pv<-lo_pisa_independent_selected(unobserved,q)
+stopifnot(identical(a,no_pv))
+partial<-unobserved;partial$PV1READ[5]<-500
+stopifnot(inherits(try(lo_pisa_independent_selected(partial,q),silent=TRUE),'try-error'))
+source('06_pipeline/LO_INTERNATIONAL_SOURCES.R')
+coverage<-lo_source_pv_coverage(lo_pisa_canonical_from_raw(unobserved,2025,'NLD'),c('reading','mathematics','science'))
+stopifnot(all(coverage$n_source==5),all(coverage$n_observed==4),all(coverage$weighted_coverage==.8))
 bad<-obj;bad$data$RW1[1]<-99;saveRDS(bad,parent)
 stopifnot(inherits(try(lo_pisa_verify_source(raw_path,parent,2025,'NLD',file.path(tmp,'bad')),silent=TRUE),'try-error'))
 bad<-obj;bad$data$SOURCE_STUDENT_ID[1]<-999;saveRDS(bad,parent)
