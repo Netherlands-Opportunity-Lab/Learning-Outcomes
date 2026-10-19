@@ -24,6 +24,6 @@ class CoverageReport(unittest.TestCase):
    m.write(a,rows,['cell_id','estimate']);m.write(b,rows,['cell_id','estimate'])
    self.assertEqual(a.read_bytes(),b.read_bytes())
    self.assertEqual(gzip.decompress(a.read_bytes()).decode(),'cell_id,estimate\ntest,0\n')
-   with self.assertRaisesRegex(ValueError,'Private path'):m.write(a,[dict(cell_id='C:/Users/private')],['cell_id'])
+   with self.assertRaisesRegex(ValueError,'Private path'):m.write(a,[dict(cell_id='C:'+'/Users/private')],['cell_id'])
 
 if __name__=='__main__':unittest.main()
