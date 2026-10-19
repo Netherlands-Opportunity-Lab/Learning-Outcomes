@@ -40,5 +40,91 @@
     ],
     "hard_interruption": "Durable local results uploaded before further computation on resume"
   },
-  "scientific_expansion_complete": false
+  "scientific_expansion_complete": false,
+  "reference_efficiency": {
+    "status": "REAL_SOURCE_REFERENCE_NUMERICAL_EQUIVALENCE",
+    "base_commit": "2c39826c981e62872574a3db6a251b612407e949",
+    "current_code_sha256": {
+      "LO_PEER_REFERENCE.R": "50a650933722d66dc6fc39bb31f4d753ba1739fcd0122107d9571fc65b795fbe",
+      "LO_ESTIMATION_AVAILABILITY.R": "af688cf9b03d2b0c5c566b7675b170fee6faf709027894c074bc321096869403",
+      "LO_SES_REFERENCE.R": "1b2b0585e8a3a7acadbdcad11be16c585ae80132d0bad2799153073fa21e958a"
+    },
+    "results": {
+      "peer": {
+        "cells": 30,
+        "source_sha256": "6d3ab556665b021f3b049e03dd71abb3acf22508e33e748c2cac5c2813f23574",
+        "tasks_sha256": "fecaf21649b66af1a5fa03478ddaa1424e6226868cdf0f09467b0eea189d81eb",
+        "old_seconds": 11.37,
+        "new_seconds": 8.049999999999999,
+        "max_joint_difference": 0,
+        "n_identical": true
+      },
+      "availability": {
+        "cells": 30,
+        "old_seconds": 5.43,
+        "new_seconds": 1.2099999999999973,
+        "exact_output_identical": true
+      },
+      "ses": {
+        "cells": 66,
+        "source_sha256": "9d486e5ad84686afb296d51ba598472c7555ca5e7cdf6246a30baf041439823f",
+        "tasks_sha256": "fb5b7ab22c342256136a702facc16f8658d02bbc59c048bd18c4324b742dc6b7",
+        "old_seconds": 99.72,
+        "new_seconds": 9.469999999999999,
+        "max_joint_difference": 3.183231456205249e-12,
+        "n_identical": true
+      }
+    },
+    "no_production_registry_mutation": true
+  },
+  "actual_empty_source_probe": {
+    "status": "ACTUAL_SOURCE_EMPTY_LANGUAGE_AND_SES_CONFIRMED",
+    "country": "ALB",
+    "survey": "PISA",
+    "year": 2015,
+    "source_n": 5215,
+    "observed_gender": 5215,
+    "observed_language": 0,
+    "observed_ses": 0,
+    "language_unavailable_cells": 9,
+    "ses_unavailable_cells": 66,
+    "source_sha256": "9b1a9418574684bc74359bf2b01b888a27f219232cfd6b7b288d56bc49cf7822",
+    "score_sha256": "62848e8db28c63cc1badbf7007c59af3551c0ce7722c1067267e03d8d2ad411d",
+    "application_sha256": "b1cc05fe415ad4603b1d1489f83f0ab0cdce71bed35761b1bbfe2741a8f23989",
+    "helper_sha256": "af688cf9b03d2b0c5c566b7675b170fee6faf709027894c074bc321096869403",
+    "exact_tasks_sha256": "23b211d3c1a3d46f772d68b720e43dee617a756f041f3e1723466e01f573bac3",
+    "grid_changed": false,
+    "interpretation": "Unobserved questionnaire-derived language and chosen SES construct. Valid national achievement and administrative gender remain eligible. No zero estimate or fabricated imputation."
+  },
+  "immutable_review_snapshot_probe": {
+    "status": "ACTUAL_NLD_SOURCE_CERTIFICATES_AND_EXISTING_EXPORTER_VERIFIED_TWICE",
+    "targets": 2678,
+    "certified_results": 2397,
+    "mapped_product_rows": 1899,
+    "mapping_holds": 0,
+    "identical_second_run": true,
+    "export_evidence": {
+      "export_sha256": "4a5aad6527b6ce5a3e9698ba7e6d4c98f5e3d567700f713e8a1098e3bfb7ef7d",
+      "source_grid_sha256": "0a3128c4ff04c33c7b99b73fbff578262d739c027b8bea16f5ecf2b9ebd92348",
+      "approved_registry_sha256": "c1da86a74d701627332654ac7d93c8ce344169881c4546ee7ca09cfb0ba4e61a",
+      "validated_input_cells": 2397,
+      "mapping_holds": 0,
+      "exporter_sha256": "7595ca7d26673e8e1833e7f179f87cfb0792064de24957c8f37dcae501cbf27c",
+      "figure_contract_sha256": "467feecd2fee7db8472669603d87d65163cf32fa4172941c3e779681baaf4ffe",
+      "population_policy_sha256": "55dd6ac92d63510d034141890df1a67aaa11a9c2a9f925543a035bacb446cbf1",
+      "reuse": "EXACT_SEALED_RESULTS_THROUGH_EXISTING_EXPORTER_NO_ESTIMATION",
+      "result_commit": "be46da0286392b2d249e5d9fe169f94f2087da27"
+    },
+    "artifact_verification": {
+      "status": "ACTUAL_RESULT_SOURCE_METHOD_CERTIFICATES_REVERIFIED",
+      "rows": 2397,
+      "approval_sha256": "c1da86a74d701627332654ac7d93c8ce344169881c4546ee7ca09cfb0ba4e61a",
+      "reviewed_grid_sha256": "0a3128c4ff04c33c7b99b73fbff578262d739c027b8bea16f5ecf2b9ebd92348",
+      "elapsed_seconds": 4.21,
+      "no_pupil_calculation": true,
+      "review_code_sha256": "eb4e252957bc43b9006eaa41fcb0d927b14fd9b153514c9f686feaa55a80a101",
+      "snapshot_code_sha256": "a5201e7917cc20cedf593ab78e0ffdcb065d19074091eca3d738c308b769f500"
+    },
+    "scope": "REVIEW_ADAPTER_PROBE_ONLY_NOT_EXPANDED_Q_APPROVAL"
+  }
 }

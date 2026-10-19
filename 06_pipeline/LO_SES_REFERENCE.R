@@ -25,7 +25,13 @@ lo_pisa_ses_reference <- function(obj,q) {
   for(k in seq_len(nrow(q))) {
     task<-q[k,];fixed<-task$domain=='all';m<-if(fixed)1L else 10L
     Y<-if(fixed)matrix(x,n,1)else as.matrix(d[paste0('PV_',switch(task$domain,reading='READ',mathematics='MATH',science='SCIE'), '_',1:10)])
-    if(!fixed&&any(!is.finite(Y)))stop('SES_REFERENCE_INCOMPLETE_PV')
+    observed<-rep(TRUE,n)
+    if(!fixed) {
+      counts_pv<-rowSums(is.finite(Y))
+      if(any(!counts_pv%in%c(0L,10L)))stop('SES_REFERENCE_INCOMPLETE_PV')
+      observed<-counts_pv==10L
+      if(!any(observed))stop('SES_REFERENCE_NO_OBSERVED_PV')
+    }
     sex<-rep(TRUE,n)
     if(task$module=='extension_ses_gender') {
       sex<-d$DEMO_GENDER==sub('^q[14]_','',task$group);sex[is.na(sex)]<-FALSE
@@ -38,7 +44,7 @@ lo_pisa_ses_reference <- function(obj,q) {
       if(task$peer_definition=='direct_learning_environment')unit<-ifelse(is.na(d$PROGRAM)|!nzchar(d$PROGRAM)|is.na(unit)|!nzchar(unit),NA_character_,paste(unit,d$PROGRAM,sep='::'))
       else if(task$peer_definition!='whole_school')stop('SES_REFERENCE_PEER_ENVIRONMENT')
     }
-    N<-good&sex
+    N<-good&sex&observed
     if(task$module%in%c('ses_harmonized','extension_ses_gender'))N<-N & if(gap)codes[,1]%in%c(0,3)else codes[,1]==wanted
     if(task$module=='extension_ses_school')N<-N&!is.na(unit)&nzchar(unit)
     if(task$module=='ses_peer_exposure') {
@@ -49,7 +55,24 @@ lo_pisa_ses_reference <- function(obj,q) {
     }
     counts[k]<-sum(N,na.rm=TRUE)
     a<-matrix(NA_real_,m,81)
-    for(r in 1:81)for(j in seq_len(m)) {
+    if(task$module%in%c('ses_harmonized','extension_ses_gender')) {
+      # Independent matrix evaluation of the same 81 replicate-specific
+      # quartile memberships. Reuse one outcome matrix across all weights;
+      # never fix quartiles to the full sample or discard a required PV.
+      values<-Y
+      stat<-sub('^q[14]_','',task$stat)
+      if(!gap&&stat%in%c('basic','high','below')) {
+        cut<-as.numeric(task$threshold);if(!is.finite(cut))stop('SES_REFERENCE_THRESHOLD')
+        values<-if(stat=='below')1*(values<cut)else 1*(values>=cut)
+      }else if(!gap&&stat!='mean')stop('SES_REFERENCE_STAT')
+      values[!observed,]<-0
+      means<-function(tail) {
+        keep<-codes==tail;keep[is.na(keep)]<-FALSE
+        weights<-W*keep*as.numeric(good&sex&observed)
+        sweep(crossprod(values,weights),2,colSums(weights),'/')
+      }
+      a<-if(gap)means(3L)-means(0L)else means(wanted)
+    }else for(r in 1:81)for(j in seq_len(m)) {
       w<-W[,r];y<-Y[,j];g<-codes[,r]
       if(task$module=='extension_ses_school') {
         ok<-good&!is.na(unit)&nzchar(unit)&w>0;wt<-w[ok];v<-y[ok];u<-unit[ok]
