@@ -1,0 +1,23 @@
+source('06_pipeline/LO_ATOMIC_CHECKPOINT.R')
+source('06_pipeline/LO_FINAL_EXPORT_CHECKPOINT.R')
+w<-tempfile('final_export_');dir.create(w)
+out<-file.path(w,'export.csv');calls<-0L
+compute<-function(){calls<<-calls+1L;writeLines(paste('actual',calls),out);calls}
+read_result<-function()calls
+identity<-list(source='source-sha',result='result-sha',runtime='code-sha',policy='policy-sha',targets=c('a','b'))
+run<-function(verified=TRUE)lo_final_export_checkpoint(w,'fixture',identity,'export.csv',verified,compute,read_result)
+stopifnot(run()==1L,run()==1L,calls==1L)
+writeLines('changed',out);stopifnot(run()==2L)
+identity$source<-'changed-source';stopifnot(run()==3L)
+identity$runtime<-'changed-code';stopifnot(run()==4L)
+identity$policy<-'changed-policy';stopifnot(run()==5L)
+identity$targets<-c('a','c');stopifnot(run()==6L)
+stopifnot(run(FALSE)==7L,run(FALSE)==8L)
+stopifnot(run()==9L,run()==9L)
+identity$result<-'new-result'
+fail<-function(){writeLines('partial',out);stop('INTERRUPTED_BEFORE_RECEIPT')}
+stopifnot(inherits(try(lo_final_export_checkpoint(w,'fixture',identity,'export.csv',TRUE,fail,read_result),silent=TRUE),'try-error'))
+stopifnot(run()==10L,run()==10L)
+stopifnot(startsWith(normalizePath(w,winslash='/'),paste0(normalizePath(tempdir(),winslash='/'),'/')))
+unlink(w,recursive=TRUE)
+cat('PASS exact export resume; changed source/code/policy/target/output rejection; interruption and second identical run\n')

@@ -295,6 +295,12 @@ lo_fixed_controller <- function(repo,bundle,
     put('finalize','SCIENTIFIC_REVIEW_INPUT_CHANGED',conditionMessage(science_binding))
     return(invisible(science_binding))
   }
+  source(file.path(repo,'06_pipeline/LO_ATOMIC_CHECKPOINT.R'),local=environment())
+  source(file.path(repo,'06_pipeline/LO_FINAL_EXPORT_CHECKPOINT.R'),local=environment())
+  # The successful binding freshly checks sources, certificates, runtime and
+  # policies. Unreviewed runs never reuse exports merely from matching counts.
+  review_identity<-if(is.null(science_binding))NULL else digest::digest(
+    file=file.path(state,'SCIENTIFIC_REVIEW_BINDING.json'),algo='sha256')
   balance_contract_path<-file.path(root,"master_reconciliation","BALANCE_CELL_CONTRACTS.csv")
   balance_export<-NULL
   if(file.exists(balance_contract_path)) {
@@ -308,8 +314,12 @@ lo_fixed_controller <- function(repo,bundle,
       g<-rbind(g,lo_reference_only_grid(tasks,a_ref,scope_info,scope_decisions))
     }
     bc<-read.csv(balance_contract_path,colClasses="character",na.strings=character())
-    balance_export<-lo_balanced_view_export(repo,g,bc,rbind(selected,new_peer_tasks),scope_info,state,
-      checked=if(is.null(science_binding))new.env(parent=emptyenv())else attr(science_binding,'checked_files'))
+    balance_export<-lo_final_export_checkpoint(state,'balanced_reference',
+      list(review=review_identity,grid=g,contracts=bc,tasks=rbind(selected,new_peer_tasks),scope=scope_info),
+      'BALANCED_REFERENCE_EXPORT.json',!is.null(science_binding),
+      compute=function(){lo_balanced_view_export(repo,g,bc,rbind(selected,new_peer_tasks),scope_info,state,
+        checked=if(is.null(science_binding))new.env(parent=emptyenv())else attr(science_binding,'checked_files'));TRUE},
+      read_result=function()TRUE)
   }
   # Finalize constructs a private copy of the dynamically eligible
   # guided dashboard (with truthful missing-data placeholders), even if the
@@ -336,8 +346,13 @@ lo_fixed_controller <- function(repo,bundle,
   excluded_products$reason<-product_review$reason[restricted[!is.na(restricted)]]
   write.csv(excluded_products,file.path(state,'GUIDED_SCIENTIFIC_USE_EXCLUSIONS.csv'),row.names=FALSE)
   if(nrow(guided_approved))guided_approved<-guided_approved[!guided_approved$cell_id%in%excluded_products$metric_key,,drop=FALSE]
-  map <- tryCatch(lo_guided_grid_export(bundle,dashboard_tasks,
-                             guided_approved,state,scope_decisions=scope_decisions),error=function(e)e)
+  map <- tryCatch(lo_final_export_checkpoint(state,'guided_mapping',
+    list(review=review_identity,tasks=dashboard_tasks,approved=guided_approved,decisions=scope_decisions,
+      figures=digest::digest(file=file.path(bundle,'FIGURE_SERIES_CONTRACT_20261002.csv'),algo='sha256')),
+    c('PRIVATE_GUIDED_VALIDATED_ROWS.csv','PRIVATE_APPROVED_EXTENSION_ROWS.csv',
+      'PRIVATE_GUIDED_MAPPING_HOLDS.csv','GUIDED_EXPORT_SUMMARY.csv'),!is.null(science_binding),
+    compute=function()lo_guided_grid_export(bundle,dashboard_tasks,guided_approved,state,scope_decisions=scope_decisions),
+    read_result=function()read.csv(file.path(state,'GUIDED_EXPORT_SUMMARY.csv'),stringsAsFactors=FALSE)),error=function(e)e)
   if(inherits(map,"error")) {
     put("guided-mapping","HOLD",conditionMessage(map))
   } else {

@@ -108,6 +108,8 @@ jobs:
         run: Rscript 06_pipeline/tests/test_scientific_review_binding.R
       - name: Verify batched result and absence evidence
         run: Rscript 06_pipeline/tests/test_parallel_artifact_verification.R
+      - name: Resume identical final exports and reject changed evidence or partial writes
+        run: Rscript 06_pipeline/tests/test_final_export_checkpoint.R
       - name: Test efficient view export against the complete reference engine
         run: Rscript 06_pipeline/tests/test_balanced_views.R
       - name: Test exact guided export and pending scope exclusion

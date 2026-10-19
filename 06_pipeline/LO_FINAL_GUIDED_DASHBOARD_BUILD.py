@@ -300,7 +300,16 @@ def explorer_references(balance_path,countries,figures,rows,scientific_sha=None)
   spec=importlib.util.spec_from_file_location('reference_verify',Path(__file__).with_name('LO_DASHBOARD_REFERENCE_VERIFY.py'))
   verifier=importlib.util.module_from_spec(spec);spec.loader.exec_module(verifier)
   verifier.verify(evidence,rows,countries,figures,scientific_sha)
- views=array(evidence.get("views")); output=[]
+ raw_views=evidence.get("views")
+ # jsonlite serializes the named list returned by split/lapply as an object.
+ # Accept that documented v2 R representation as well as the v3 array. Treating
+ # the object as one view silently lost every real focus/reference binding.
+ if isinstance(raw_views,dict):
+  if evidence.get('schema_version')!=2 or any(not isinstance(v,dict) or not v.get('focus') or not v.get('view_id') for v in raw_views.values()):
+   fail('invalid named R reference views')
+  views=list(raw_views.values())
+ else:views=array(raw_views)
+ output=[]
  # The immutable evidence file can be large; hash it once for the entire build.
  evidence_sha=sha(balance_path) if balance_path else None
  views_by_country=defaultdict(list)
@@ -314,6 +323,14 @@ def explorer_references(balance_path,countries,figures,rows,scientific_sha=None)
    cell_ids={r.get("cell_id") for r in current if r.get("cell_id")}
    matches=[v for v in views_by_country[country] if (v.get('figure_id')==f['figure_id'] or
        not v.get('figure_id') and cell_ids.intersection(array(v.get("view_cell_ids"))))]
+   if not matches and not current and f.get('historical_figure_id'):
+    # An entirely unavailable split still has required target years. Use its
+    # exact source contract/construct, never Dutch years or another definition.
+    for v in views_by_country[country]:
+     parts=v.get('view_id','').split('::')
+     if (len(parts)==5 and parts[0]==f['historical_figure_id'] and parts[1]==f['survey']
+         and (not f.get('outcome_construct') or parts[2]==f['outcome_construct'])):
+      matches.append(v)
    mapped=set().union(*(set(array(v.get("view_cell_ids"))) for v in matches)) if matches else set()
    # Dutch templates do not define another focus country's period. The R
    # contracts retain its own full target years, including unavailable cells.
@@ -345,7 +362,8 @@ def explorer_references(balance_path,countries,figures,rows,scientific_sha=None)
     reasons.append(dict(country=candidate,missing_cells=max((o.get('missing_cells',0) for o in bad),default=0),
       reason=bad[0]['reason'] if bad else 'FULL_BALANCED_SUPPORT' if candidate in eligible else 'FOCUS_NOT_READY',
       missing_examples=[dict(survey=k.split('|')[0],domain=k.split('|')[2],year=int(k.split('|')[3])) for k in keys[:3]]))
-   pending=next((v['status'] for v in matches if v['status'] in ('FOCUS_CORE_INCOMPLETE','FOCUS_VIEW_INCOMPLETE')),'COMPARABILITY_PENDING')
+   pending=next((v['status'] for v in matches if v['status'] in ('FOCUS_CORE_INCOMPLETE','FOCUS_VIEW_INCOMPLETE')),
+     'FOCUS_VIEW_INCOMPLETE' if matches and not figure_complete(current,focus_figure) else 'COMPARABILITY_PENDING')
    output.append(dict(focus=country,figure_id=f["figure_id"],
      status="BALANCED_REFERENCE_AVAILABLE" if ready and eligible else "NO_ELIGIBLE_REFERENCE" if ready else pending,
      eligible_members=sorted(eligible),default_members=sorted(defaults),
