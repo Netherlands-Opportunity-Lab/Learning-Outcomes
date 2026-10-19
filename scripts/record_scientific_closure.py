@@ -59,6 +59,13 @@ def record(repo, root, output, ci_path, execution_commit):
     assert stages['produce']['timestamp_utc'] < stages['finalize']['timestamp_utc']
     assert stages['guided-preview']['status'] in (
         'PRIVATE_GUIDED_CANDIDATE_BUILT', 'REUSED_IMMUTABLE_PRIVATE_CANDIDATE')
+    actual_candidate_path = work / 'ACTUAL_FINAL_REFERENCE_VERIFICATION.json'
+    actual_candidate = read_json(actual_candidate_path)
+    assert actual_candidate['status'] == 'ACTUAL_FINAL_CANDIDATE_MATCHES_INDEPENDENT_Q06'
+    assert actual_candidate['membership_differences'] == actual_candidate['required_year_differences'] == 0
+    assert actual_candidate['source_sha256'] == sha(state / 'PRIVATE_GUIDED_VALIDATED_ROWS.csv')
+    assert actual_candidate['actual_balance_export_sha256'] == sha(state / 'BALANCED_REFERENCE_EXPORT.json')
+    assert actual_candidate['builder_sha256'] == sha(repo / '06_pipeline/LO_FINAL_GUIDED_DASHBOARD_BUILD.py')
     approval = root / 'master_reconciliation/SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'
     assert sha(approval) == binding['approval_sha256'] == manifest['approval_sha256']
     for item in manifest['runtime_bindings']:
@@ -165,6 +172,8 @@ def record(repo, root, output, ci_path, execution_commit):
         actual_execution_mode=execution.get('mode', 'FULL_EXISTING_AUDIT_PRODUCE_FINALIZE'),
         reused_audit_produce_execution_commit=execution.get('reused_audit_produce_execution_commit'),
         actual_stage_provenance=stage_provenance,
+        actual_candidate_verification=actual_candidate,
+        actual_candidate_verification_sha256=sha(actual_candidate_path),
         limits=['Q04 not applicable: unused two-wave variant excluded.',
                 'Frozen SES measurement invariance outside calibration remains an assumption.',
                 'Home-SES has one usable wave per IEA study; no spliced trend.',
