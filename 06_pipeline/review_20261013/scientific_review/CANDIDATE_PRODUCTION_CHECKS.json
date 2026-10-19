@@ -1,0 +1,44 @@
+{
+  "status": "REAL_RESUME_AND_CERTIFICATION_REUSE_VERIFIED",
+  "certification": {
+    "status": "REAL_CERTIFICATION_REUSE_EQUIVALENCE",
+    "legacy": {
+      "seconds": 10.99,
+      "status": "REUSED_CERTIFIED_WITHOUT_CALCULATION",
+      "cells": 57
+    },
+    "cached": {
+      "seconds": 5.33,
+      "status": "REUSED_CERTIFIED_WITHOUT_CALCULATION",
+      "cells": 57
+    },
+    "source": "ALB_PISA_2009_PISA_CORE",
+    "master_unchanged": true,
+    "master_sha256": "83e5672bd1cccf95aa95bf2764bcbc5d524ab0425de729916e2ab693af314ed1",
+    "code_sha256": [
+      "c70ad3618a7c1d1ea1668fc4ac76800f8d296c35bf670527db5bfc48f8ed4892",
+      "795b562090b5f0bd9b285b939ba13189b0f1e73d2ec55b247effbb783f895db7"
+    ]
+  },
+  "remote_resume": {
+    "seconds": 39.3637,
+    "new_cells_restored": 34,
+    "master_unchanged": true,
+    "master_sha256": "83e5672bd1cccf95aa95bf2764bcbc5d524ab0425de729916e2ab693af314ed1",
+    "package_sha256": "469a4d8835e398e724681f7f4e31f6d736a829dc57187480d1138a552a1e7d60",
+    "files_restored": 41,
+    "restore": "DOWNLOADED_RESULTS_AND_ALL_MEMBER_BYTES_VERIFIED"
+  },
+  "checkpoint_policy": {
+    "max_new_cells": 500,
+    "max_elapsed_seconds": 180,
+    "evaluated_at": "completed_block_boundaries",
+    "force_flush": [
+      "new_country",
+      "caught_estimation_failure",
+      "normal_end"
+    ],
+    "hard_interruption": "Durable local results uploaded before further computation on resume"
+  },
+  "scientific_expansion_complete": false
+}

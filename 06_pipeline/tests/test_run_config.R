@@ -26,6 +26,11 @@ cfg<-lo_run_config("nld_only","");cfg$max_compute_units<-0L
 jsonlite::write_json(cfg,path,auto_unbox=TRUE)
 stopifnot(inherits(try(lo_run_config("nld_only"),silent=TRUE),"try-error"))
 Sys.unsetenv("LO_RUN_CONFIG")
+for(change in list(list(max_new_cells=0),list(max_elapsed_seconds=601),list(unknown=1))) {
+  cfg<-lo_run_config('nld_only','');cfg$checkpoint<-change
+  jsonlite::write_json(cfg,path,auto_unbox=TRUE)
+  stopifnot(inherits(try(lo_run_config('nld_only',path),silent=TRUE),'try-error'))
+}
 cfg<-lo_run_config("nld_only","")
 state<-file.path(work,"state");dir.create(state)
 id<-lo_run_record(".",state,"audit",cfg,"SYNTHETIC_TEST")

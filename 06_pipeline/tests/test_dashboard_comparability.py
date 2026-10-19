@@ -14,6 +14,22 @@ spec=importlib.util.spec_from_file_location('comparison_review',FILE)
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 
 class ComparisonReview(unittest.TestCase):
+    def test_population_qualifications_do_not_exclude_other_domains(self):
+        rows=[dict(country='JOR',survey='PISA',year='2022',domain=d,reason='qualified')
+              for d in ('reading','science')]
+        rows.append(dict(country='VNM',survey='PISA',year='2022',domain='reading'))
+        rows.append(dict(country='AUT',survey='PISA',year='2009'))
+        index=m.population_review_index(rows)
+        for c,d in [('JOR','reading'),('JOR','science'),('VNM','reading')]:
+            self.assertIsNotNone(m.population_review_for(index,c,'PISA',2022,d))
+        for c,d in [('JOR','mathematics'),('VNM','mathematics'),('VNM','science'),('JOR','all')]:
+            self.assertIsNone(m.population_review_for(index,c,'PISA',2022,d))
+        for d in ('reading','mathematics','science','all'):
+            self.assertIsNotNone(m.population_review_for(index,'AUT','PISA',2009,d))
+        with self.assertRaisesRegex(ValueError,'DUPLICATE'):
+            m.population_review_index(rows+rows[:1])
+        with self.assertRaisesRegex(ValueError,'OVERLAPPING'):
+            m.population_review_index(rows+[dict(country='JOR',survey='PISA',year='2022')])
     def test_complement_retains_primitive_identity_and_checks_values(self):
         row=dict(result_hash='parent',estimate='0.75',standard_error='0.02',n_unweighted='100')
         task=dict(stat='q1_basic',unit='proportion')

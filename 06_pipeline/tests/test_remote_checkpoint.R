@@ -1,4 +1,16 @@
 source('06_pipeline/LO_REMOTE_CHECKPOINT.R')
+local({
+  now<-0;calls<-0L;fail<-FALSE
+  checkpoint<-function(repo,root){calls<<-calls+1L;if(fail)stop('REMOTE_CHECKPOINT_PENDING');list(new=1L)}
+  batch<-lo_remote_checkpoint_batch('repo','root',list(max_new_cells=100L,max_elapsed_seconds=30L),checkpoint,function()now)
+  stopifnot(batch(new_cells=40L)$pending_new_cells==40L,calls==0L)
+  batch(new_cells=60L);stopifnot(calls==1L)
+  batch(changed=TRUE);now<-31;batch();stopifnot(calls==2L)
+  batch(force=TRUE);stopifnot(calls==3L)
+  fail<-TRUE
+  stopifnot(inherits(try(batch(new_cells=100L),silent=TRUE),'try-error'),calls==4L)
+  fail<-FALSE;batch();stopifnot(calls==5L)
+})
 tmp<-tempfile();dir.create(tmp);dir.create(file.path(tmp,'master_reconciliation'))
 remote_dir<-tempfile();dir.create(remote_dir)
 config<-file.path(tmp,'private.json');jsonlite::write_json(list(data_visibility='PRIVATE_ACCOUNT_ONLY',remote='private:project',rclone_binary='unused'),config,auto_unbox=TRUE)

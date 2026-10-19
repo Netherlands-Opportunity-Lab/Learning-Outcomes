@@ -76,11 +76,13 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
   # Back up prior sealed results before any new calculations; retry pending
   # transfers on resume without recomputing their scientific blocks.
   lo_remote_checkpoint(repo,root)
+  remote_checkpoint<-lo_remote_checkpoint_batch(repo,root,cfg$checkpoint)
   source(file.path(repo,'06_pipeline/LO_INTERNATIONAL_WORKLIST.R'))
   audited_path<-file.path(root,'FIXED_PRODUCTION_V1',scope,'PRIVATE_MASTER_GRID.csv')
   if(!file.exists(audited_path))stop('INTERNATIONAL_WORKLIST_AUDIT_REQUIRED')
   audited<-read.csv(audited_path,colClasses='character',na.strings=character())
   worklist<-lo_international_worklist(t,audited)
+  approval_guard<-lo_international_certification_guard(repo,root,scope,worklist)
   t<-worklist$tasks
   # Audit has already verified these exact certificates and input identities.
   # Avoid source loading and SES preparation when all selected cells are done.
@@ -114,6 +116,8 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
   if(!is.null(context_ids))contexts<-contexts[paste(contexts$country,contexts$survey,contexts$year,sep='_')%in%context_ids,]
   for(i in seq_len(nrow(contexts))) {
     ctx<-contexts[i,];country<-ctx$country;s<-ctx$survey;y<-as.integer(ctx$year);id<-paste(country,s,y,sep='_')
+    if(i>1L&&country!=contexts$country[i-1L])remote_checkpoint(force=TRUE)
+    remote_checkpoint(changed=TRUE)
     q0<-t[t$country==country&t$survey==s&as.integer(t$year)==y,]
     review<-lo_population_review(repo);restricted<-lo_population_review_rows(q0,review)
     if(any(!is.na(restricted))) {
@@ -224,7 +228,7 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
       evidence<-c(srcfile,file.path(parent,src$canonical_filename))
       if(startsWith(family,'BACKGROUND_'))evidence<-c(evidence,bg$proof)
       q<-lo_record_estimation_availability(repo,root,science_obj,q,evidence)
-      if(!nrow(q)){lo_remote_checkpoint(repo,root);return(invisible(NULL))}
+      if(!nrow(q)){remote_checkpoint(changed=TRUE);return(invisible(NULL))}
       verifier_files<-c('LO_INTERNATIONAL_PRODUCTION.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R','LO_PISA_SOURCE_BLOCK.R','LO_PEER_REFERENCE.R','LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_INTERNATIONAL_SES.R','LO_GENDER_POOL_POLICY.R','LO_ESTIMATION_AVAILABILITY.R','LO_PISA_PROGRAM_IDENTITY.R')
       key<-digest::digest(list(q=q,parent=src$canonical_sha256,object=digest::digest(science_obj,algo='sha256'),reference=vapply(file.path(repo,'06_pipeline',verifier_files),function(p)digest::digest(file=p,algo='sha256'),character(1))),algo='sha256')
       block_id<-paste0(id,'_',substr(key,1,16));out<-file.path(outroot,block_id);dir.create(out,recursive=TRUE,showWarnings=FALSE)
@@ -278,18 +282,20 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
       cat('INTERNATIONAL_PRODUCER',id,family,nrow(q),'\n');flush.console()
       lo_international_measure(repo,bundle,science_obj,q,out)
       kind<-if(family=='PISA_CORE')if(y>=2015)'PISA_MODERN'else'PISA_LEGACY'else family
-      lo_certify_verified_source_blocks(repo,bundle,root,outroot,block_id,block_id,kind,scope=scope,defer_audit=TRUE,verified_support=support)
+      lo_certify_verified_source_blocks(repo,bundle,root,outroot,block_id,block_id,kind,scope=scope,defer_audit=TRUE,verified_support=support,approval_guard=approval_guard)
       units<<-units+length(unique(paste(q$module,q$domain,q$definition,q$peer_definition,q$threshold,sep='|')))
       completed<<-completed+nrow(q);cat('INTERNATIONAL_CERTIFIED',id,family,nrow(q),'total_new',completed,'\n');flush.console()
       if(family%in%c('IEA','PISA_CORE'))lo_certify_population_baselines(repo,root,scope,q0)
-      lo_remote_checkpoint(repo,root)
+      remote_checkpoint(new_cells=nrow(q),changed=TRUE)
     })(),error=function(e) {
       if(grepl('REMOTE_CHECKPOINT|PRIVATE_DRIVE_SYNC_PENDING',conditionMessage(e)))stop(e)
       failures[[length(failures)+1L]]<<-data.frame(country=country,survey=s,year=y,family=family,reason=conditionMessage(e))
       lo_atomic_csv(do.call(rbind,failures),file.path(international,'PRODUCTION_REPAIRS_REQUIRED.csv'))
       cat('INTERNATIONAL_REPAIR_REQUIRED',id,family,conditionMessage(e),'\n');flush.console()
+      remote_checkpoint(force=TRUE)
     })
     rm(obj,raw);gc(FALSE)
   }
+  remote_checkpoint(force=TRUE)
   invisible(list(certified_new=completed,repairs=failures))
 }

@@ -99,6 +99,25 @@ Onderstaande aantallen en opmerkingen over een nog ontbrekend poolingbesluit zij
 
 ## One configuration, three existing stages
 
+De internationale productie legt ieder gecertificeerd blok onmiddellijk en
+atomisch vast. Vanaf de kandidatenuitbreiding van 19 oktober bundelt zij alleen
+de externe overdracht: `checkpoint.max_new_cells` (standaard 500) of
+`checkpoint.max_elapsed_seconds` (standaard 180), gecontroleerd bij iedere
+voltooide blokgrens. Een grens kan met hoogstens het lopende blok worden
+overschreden. Bij een nieuw land, een gevangen rekenfout en normaal einde volgt
+altijd een overdracht. De instellingen staan in ieder runrecord. Elke overdracht
+behoudt download, hashcontrole en werkelijk herstel van alle pakketbestanden.
+Een harde onderbreking kan dus nog enkele uitsluitend lokaal vastgelegde blokken
+achterlaten; hervatten draagt die eerst over en berekent ze niet opnieuw.
+Zolang dat niet bevestigd is, mogen hun lokale hervatbestanden niet weg.
+De eindcontrole eist nul gecertificeerde resultaten buiten het externe checkpoint.
+
+De certificering gebruikt binnen dezelfde run de exacte contracten uit de
+gehashte auditvoorraad. Iedere aanvraag controleert opnieuw haar contract en de
+actuele beleids-, bronindex-, configuratie- en auditbytes. Dit voorkomt een
+nieuwe opbouw van de volledige landenvoorraad voor ieder klein blok, zonder
+bron-, resultaat- of numerieke bewijscontroles weg te laten.
+
 The ordinary `START.R` action `produce-approved` now fast-forwards the reviewed branch once, freezes one code commit across audit/produce/finalize/status, then deposits the certified aggregate review snapshot and sanitized provenance on that same GitHub branch. It never force-pushes or deploys Pages. Explicit `LO_REPRODUCE_COMMIT` keeps historical reproduction immutable. See [the result-deposit contract and measured runtime](review_20261013/GITHUB_RESULTS_AND_RUNTIME_20261015.md). `GITHUB_RESULTS_VERIFIED` confirms remote branch identity; `GITHUB_RESULTS_PENDING` means local results are safe but the upload has not completed. `LO_GITHUB_RESULTS=off` explicitly opts out of the deposit.
 
 Copy `RUN_CONFIG.example.json` to a private local file and set `LO_RUN_CONFIG` to that file's absolute path. Its fields are:

@@ -55,6 +55,8 @@ if (coverage / 'manifest.json').exists():
         manifest['inputs']['generator'] if current else manifest['generator_sha256'])
     if current:
         assert hashlib.sha256((ROOT / '06_pipeline/review_20261013/POPULATION_CORRECTIONS.json').read_bytes()).hexdigest() == manifest['inputs']['population_review']
+        if 'population_lookup_code' in manifest['inputs']:
+            assert hashlib.sha256((ROOT / '06_pipeline/LO_DASHBOARD_COMPARABILITY.py').read_bytes()).hexdigest() == manifest['inputs']['population_lookup_code']
     for name, expected in (manifest['outputs'] if current else manifest['output_files']).items():
         target = (coverage / name).resolve()
         assert target.parent == coverage.resolve()

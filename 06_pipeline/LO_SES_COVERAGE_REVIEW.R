@@ -73,6 +73,13 @@ lo_ses_coverage_review <- function(repo,grid,out) {
         }
         pv<-if(r$domain=='all')character()else grep(paste0('^PV_',switch(r$domain,reading='READ',mathematics='MATH',science='SCIE'),'_[0-9]+$'),names(d),value=TRUE)
         complete<-if(length(pv))rowSums(!is.finite(as.matrix(d[pv])))==0 else rep(TRUE,nrow(d))
+        # Background membership alone is not the achievement analysis sample.
+        # A pupil with no score PVs retains background coverage but cannot enter
+        # achievement denominators. Partially observed PV sets are rejected by
+        # the source verifier before this review can consume a certified row.
+        before_score_n<-sum(member>0)
+        before_score_weight<-sum(w*member)
+        member[!complete]<-0
         observed_n<-sum(member>0)
         declared<-as.numeric(z$n_unweighted[ix])
         data.frame(country=r$country,survey=r$survey,year=r$year,domain=r$domain,
@@ -82,6 +89,8 @@ lo_ses_coverage_review <- function(repo,grid,out) {
           ses_valid_weight_sum=sum(w[valid]),weighted_ses_coverage=sum(w[valid])/sum(w),
           group_n=observed_n,group_fractional_n=sum(member),group_weight_sum=sum(w*member),
           group_share_of_source_weight=sum(w*member)/sum(w),
+          group_n_before_score_filter=before_score_n,
+          group_weight_sum_before_score_filter=before_score_weight,
           group_complete_pv_n=sum(member>0&complete),required_pv_count=length(pv),
           recorded_n_min=min(declared),recorded_n_max=max(declared),
           n_matches_selected_results=all(declared==observed_n),
@@ -103,12 +112,15 @@ lo_ses_coverage_review <- function(repo,grid,out) {
   all<-do.call(rbind,rows);all<-all[order(all$country,all$survey,all$year,all$domain,all$module,all$group),]
   write.csv(all,file.path(out,'SES_ANALYSIS_SAMPLE_COVERAGE.csv'),row.names=FALSE,na='')
   write.csv(do.call(rbind,proof),file.path(out,'SES_SOURCE_CHECKS.csv'),row.names=FALSE)
+  bindings<-g[order(g$cell_id),c('cell_id','target_contract_sha256','result_hash','source_edition_sha256','n_unweighted')]
+  write.csv(bindings,file.path(out,'SES_REVIEW_TARGET_BINDINGS.csv'),row.names=FALSE)
   summary<-list(status=if(all(all$n_matches_selected_results))'ACTUAL_SES_SAMPLE_COUNTS_VERIFIED'else'SES_SAMPLE_COUNT_DIFFERENCES_REQUIRE_REVIEW',
     selected_result_cells=nrow(g),source_files=length(groups),analysis_groups=nrow(all),
     count_mismatches=sum(!all$n_matches_selected_results),reused_source_checks=hits,
     source_rows_are_not_distinct_pupils_across_files=TRUE,
     outputs=list(coverage=digest::digest(file=file.path(out,'SES_ANALYSIS_SAMPLE_COVERAGE.csv'),algo='sha256'),
-      sources=digest::digest(file=file.path(out,'SES_SOURCE_CHECKS.csv'),algo='sha256')),
+      sources=digest::digest(file=file.path(out,'SES_SOURCE_CHECKS.csv'),algo='sha256'),
+      bindings=digest::digest(file=file.path(out,'SES_REVIEW_TARGET_BINDINGS.csv'),algo='sha256')),
     code_sha256=as.list(code),limitations='Coverage does not establish missing-at-random, measurement invariance or representativeness after nonresponse. PISA chosen SES may use the documented author imputation; observed components require their separate Q05 review.')
   jsonlite::write_json(summary,file.path(out,'SES_SAMPLE_REVIEW.json'),auto_unbox=TRUE,pretty=TRUE,digits=17)
   invisible(summary)

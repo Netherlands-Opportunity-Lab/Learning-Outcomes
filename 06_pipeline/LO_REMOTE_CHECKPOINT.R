@@ -1,7 +1,27 @@
-# Incremental private scientific checkpoints, committed after each sealed block.
+# Incremental private scientific checkpoints of locally sealed blocks.
 # No canonical pupil datasets, SQLite live copies, directory-wide uploads or
 # Git mutations during an immutable run. Results, certificates and joint
-# aggregate PV/replicate evidence are recoverable before the next block starts.
+# aggregate PV/replicate evidence are restored and checked at every transfer.
+# The international controller batches transfers within explicit run-config
+# bounds; local atomic result commits remain immediate after every block.
+lo_remote_checkpoint_batch <- function(repo,root,policy,checkpoint=lo_remote_checkpoint,
+                                      clock=function()as.numeric(Sys.time())) {
+  pending<-0L;last<-clock();dirty<-FALSE
+  function(new_cells=0L,force=FALSE,changed=FALSE) {
+    if(length(new_cells)!=1L||!is.finite(new_cells)||new_cells<0||new_cells!=floor(new_cells))
+      stop('REMOTE_CHECKPOINT_INVALID_PENDING_COUNT')
+    pending<<-pending+new_cells;dirty<<-dirty||changed||new_cells>0L
+    due<-pending>=policy$max_new_cells||clock()-last>=policy$max_elapsed_seconds
+    if(force||(dirty&&due)) {
+      # Reset only after upload, download, all inner-file restoration and index
+      # replacement succeed. A failed transfer stops production for safe resume.
+      result<-checkpoint(repo,root)
+      pending<<-0L;dirty<<-FALSE;last<<-clock()
+      return(invisible(result))
+    }
+    invisible(list(deferred=TRUE,pending_new_cells=pending))
+  }
+}
 lo_remote_checkpoint <- function(repo,root,config=Sys.getenv('LO_DRIVE_SYNC_CONFIG',''),transfer=NULL) {
   tryCatch(lo_remote_checkpoint_impl(repo,root,config,transfer),error=function(e)
     stop('REMOTE_CHECKPOINT_PENDING: ',conditionMessage(e),call.=FALSE))
@@ -45,14 +65,24 @@ lo_remote_checkpoint_impl <- function(repo,root,config,transfer) {
   selected<-all[missing,,drop=FALSE]
   # Traverse only evidence explicitly bound to a certified result. Certificates
   # can reference method certificates, which in turn reference joint evidence.
-  files<-list();members<-list();visited<-character();source_dependencies<-list()
+  files<-list();members<-list();source_dependencies<-list()
+  visited<-new.env(hash=TRUE,parent=emptyenv())
+  canonical_paths<-new.env(hash=TRUE,parent=emptyenv())
   add<-function(path,expected) {
-    path<-normalizePath(path,winslash='/',mustWork=TRUE)
-    if(path%in%visited)return(invisible(NULL))
+    # The same source proof is referenced by many cells. Resolve each spelling
+    # once per checkpoint and check every unique file's actual bytes. Repeated
+    # Windows filesystem resolution used to dominate small-block checkpoints.
+    raw_path<-path
+    if(exists(raw_path,canonical_paths,inherits=FALSE))path<-get(raw_path,canonical_paths,inherits=FALSE)
+    else {path<-normalizePath(raw_path,winslash='/',mustWork=TRUE);assign(raw_path,path,canonical_paths)}
+    if(exists(path,visited,inherits=FALSE)) {
+      if(!identical(get(path,visited,inherits=FALSE),expected))stop('REMOTE_CHECKPOINT_CONFLICTING_EVIDENCE_HASH')
+      return(invisible(NULL))
+    }
     if(!grepl('^[a-f0-9]{64}$',expected)||hash(path)!=expected)stop('REMOTE_CHECKPOINT_EVIDENCE_CHANGED')
+    assign(path,expected,visited)
     name<-basename(path);ext<-tolower(tools::file_ext(name))
     if(!ext%in%c('r','csv','json') && name!='JOINT_REFERENCE_PV_REPLICATES.rds') {
-      visited<<-c(visited,path)
       source_dependencies[[length(source_dependencies)+1L]]<<-list(path=path,sha256=expected,
         archived=FALSE,reason='Non-joint binary source dependency retained locally or rebuilt from retained raw input; aggregate checkpoint excludes pupil data')
       return(invisible(NULL))
@@ -63,7 +93,6 @@ lo_remote_checkpoint_impl <- function(repo,root,config,transfer) {
       stop('REMOTE_CHECKPOINT_PUPIL_DATA_FORBIDDEN: ',name)
     bytes<-file.info(path)$size
     if(!is.finite(bytes)||bytes>64*1024^2)stop('REMOTE_CHECKPOINT_FILE_BOUND')
-    visited<<-c(visited,path)
     members[[length(members)+1L]]<<-data.frame(original_path=path,sha256=expected,bytes=bytes)
     if(is.null(files[[expected]]))files[[expected]]<<-readBin(path,'raw',n=bytes)
     if(ext=='json') {

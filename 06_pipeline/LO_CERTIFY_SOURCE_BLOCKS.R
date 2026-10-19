@@ -3,7 +3,7 @@
 # Call only after independent source proof and a measured pilot exist in each
 # explicitly named block directory. Paths are private caller configuration.
 lo_certify_verified_source_blocks <- function(repo,bundle,root,block_root,
-  blocks,pilot_id,kind=c("PISA_MODERN","PISA_LEGACY","PISA_SES","IEA","IEA_BOOKS","PEERS_PISA","PEERS_IEA","BACKGROUND_PISA","BACKGROUND_IEA"),scope="nld_only",defer_audit=FALSE,verified_support=NULL) {
+  blocks,pilot_id,kind=c("PISA_MODERN","PISA_LEGACY","PISA_SES","IEA","IEA_BOOKS","PEERS_PISA","PEERS_IEA","BACKGROUND_PISA","BACKGROUND_IEA"),scope="nld_only",defer_audit=FALSE,verified_support=NULL,approval_guard=NULL) {
   kind<-match.arg(kind)
   peers<-startsWith(kind,"PEERS_");pisa<-grepl("PISA",kind,fixed=TRUE)
   stopifnot(length(blocks)>=1L,!anyDuplicated(blocks),pilot_id%in%blocks,
@@ -24,11 +24,12 @@ allowed_modules<-if(peers)c('peer_below_basic','high_proficiency_peer_exposure')
 if(startsWith(kind,'BACKGROUND_'))allowed_modules<-c('migration','migration_generation','migration_binary_peer','migration_peer_exposure','language_frequency_binary','home_language_frequency_peer','home_language_peer_exposure','ses_peer_exposure','peer_baseline','extension_home_ses')
 if(any(!requested$module%in%allowed_modules)||anyDuplicated(requested$metric_key))stop('CERTIFICATION_UNREVIEWED_SCOPE')
 if(kind=='PISA_SES'&&any(requested$definition!='Cobreros_fourwave_13item_trend_comparable'))stop('CERTIFICATION_WRONG_SES_CONSTRUCT')
-base<-read.csv(file.path(bundle,'engine/TASKS.csv'),colClasses='character',na.strings=character())
 support<-if(is.null(verified_support))lo_read_source_support(file.path(master,'SOURCE_SUPPORT_CONTRACTS.csv'),repo=repo)else verified_support
 source(file.path(repo,'06_pipeline/LO_POPULATION_REVIEW.R'))
 support<-lo_population_filter_support(support,lo_population_review(repo))
 lo_population_require_national(requested,lo_population_review(repo))
+if(is.null(approval_guard)) {
+base<-read.csv(file.path(bundle,'engine/TASKS.csv'),colClasses='character',na.strings=character())
 info<-lo_runtime_scope(bundle,base,scope,support)
 lo_country_production_approval(repo,unique(requested$country),info$dashboard)
 base<-lo_country_base_tasks(base,info);base<-base[base$country%in%unique(requested$country),];decisions<-lo_read_scope_decisions(repo)
@@ -36,6 +37,11 @@ base<-lo_scope_active_tasks(rbind(base,lo_extension_tasks(base,decisions),lo_sco
 base<-lo_gender_pool_tasks(base,support)
 allowed<-lo_grid_from_tasks(base);want<-lo_grid_from_tasks(requested);ix<-match(want$cell_id,allowed$cell_id)
 if(anyNA(ix)||any(want$target_contract_sha256!=allowed$target_contract_sha256[ix]))stop('CERTIFICATION_TASK_NOT_EXACTLY_APPROVED')
+}else {
+  if(!is.function(approval_guard))stop('CERTIFICATION_INVALID_APPROVAL_GUARD')
+  approval_guard(requested,scope)
+  want<-lo_grid_from_tasks(requested)
+}
 if(all(want$cell_id%in%old$cell_id)) {
   check<-lo_grid_verify_result_artifacts(old[match(want$cell_id,old$cell_id),])
   if(!isTRUE(check))stop('CERTIFICATION_EXISTING_EVIDENCE_INVALID')
