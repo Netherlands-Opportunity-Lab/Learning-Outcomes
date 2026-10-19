@@ -67,15 +67,15 @@ lo_product_trace <- function(repo,tasks,grid,decisions,out) {
     for(claim in claims) {
       ids<-unique(Filter(nzchar,unlist(claim[c('parent_a','parent_b','gap_cell')])))
       i<-match(ids,selected$metric_key)
-      if(anyNA(i))stop('PAPER_CLAIM_UNAPPROVED_PARENT: ',claim$claim_id)
-      links[[length(links)+1L]]<-data.frame(requirement_id=claim$claim_id,
+      outside<-ids[is.na(i)];ids<-ids[!is.na(i)];i<-i[!is.na(i)]
+      if(length(i))links[[length(links)+1L]]<-data.frame(requirement_id=claim$claim_id,
         product='PAPER_REGISTERED_CLAIM',source_locator=paste0('PAPER_CLAIMS.json#',claim$claim_id),
         approved_placement='PAPER',figure_id=selected$contract_figure_id[i],cell_id=ids)
       spec[[length(spec)+1L]]<-data.frame(requirement_id=claim$claim_id,
         product='PAPER_REGISTERED_CLAIM',source_locator=paste0('PAPER_CLAIMS.json#',claim$claim_id),
         approved_placement='PAPER',role='A17_LIMITED_RETROSPECTIVE_CLAIM',active_cell_links=length(ids),
-        supplemental_dependencies='Q02;Q08;exact_parent_covariance;linking_uncertainty',pending_choices='',
-        status='EXACT_CLAIM_PARENTS_AND_SEPARATE_Q08_REVIEW')
+        supplemental_dependencies=paste(c('Q02','Q08','exact_parent_covariance','linking_uncertainty',outside),collapse=';'),pending_choices='',
+        status=if(length(outside))'REGISTERED_CLAIM_PARENTS_OUTSIDE_SELECTED_RUN'else'EXACT_CLAIM_PARENTS_AND_SEPARATE_Q08_REVIEW')
     }
   }
   l<-if(length(links))do.call(rbind,links) else data.frame(cell_id=character())
