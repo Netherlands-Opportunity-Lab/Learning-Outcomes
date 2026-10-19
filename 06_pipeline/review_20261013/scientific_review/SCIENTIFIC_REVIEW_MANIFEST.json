@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "REVIEWED_SCIENTIFIC_BASIS_WITH_EXPLICIT_LIMITATIONS",
   "result_basis": "ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2",
-  "private_manifest_sha256": "15556ca4f64d01b5a1d5a9fca9f6b7d42416971606c9de5a47974a052ad39ca9",
+  "private_manifest_sha256": "3ff23fad66963c41e5c71128a38c64b0ca19b3bd84f7ee71e6bebbe6773b2a14",
   "approval_sha256": "11e88b29916a96786728edfba25678bc1bb9d3742e1aeb744c16a228d490a821",
   "reviewed_target_count": 77611,
   "scientific_review_requirements": 8,
@@ -224,7 +224,7 @@
     },
     {
       "path": "06_pipeline/LO_EVIDENCE_HASHES.R",
-      "sha256": "e97a14ae44a624b1ff85f320229c6206bc6c59a456fa714db3869c860cfbade6"
+      "sha256": "b8d3503af8c7c8b7c8743830b7c8cd4f2997a7c63cec453a8fc997cf48701df7"
     },
     {
       "path": "06_pipeline/LO_EXACT_BOOT.R",

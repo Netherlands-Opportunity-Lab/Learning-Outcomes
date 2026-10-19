@@ -1,7 +1,7 @@
 # Fresh exact-byte verification; bounded parallel I/O for large evidence sets.
 # The checked environment is invocation-local, never a timestamp-based cache.
 lo_verify_evidence_files <- function(files,checked=new.env(parent=emptyenv()),
-  repo=Sys.getenv('LO_REPO_ROOT',getwd()),temp_dir=tempdir()) {
+  repo=Sys.getenv('LO_REPO_ROOT',getwd()),temp_dir=tempdir(check=TRUE)) {
   if(!is.data.frame(files)||!all(c('path','sha256')%in%names(files)))stop('EVIDENCE_FILE_SCHEMA')
   if(!nrow(files))return(invisible(checked))
   if(anyNA(files[c('path','sha256')])||any(!nzchar(files$path))||
@@ -11,6 +11,11 @@ lo_verify_evidence_files <- function(files,checked=new.env(parent=emptyenv()),
   if(!nrow(todo))return(invisible(checked))
   script<-file.path(repo,'06_pipeline/LO_EVIDENCE_HASHES.py')
   if(nrow(todo)>=128L&&file.exists(script)) {
+    # Long-running Windows sessions can lose their scratch directory to an
+    # external cleaner. Recreate only the caller's scratch directory; never
+    # weaken attachment verification or accept a missing evidence file.
+    if(!dir.exists(temp_dir))dir.create(temp_dir,recursive=TRUE,showWarnings=FALSE)
+    if(!dir.exists(temp_dir))stop('EVIDENCE_SCRATCH_DIRECTORY_UNAVAILABLE')
     p<-tempfile('evidence_hashes_',tmpdir=temp_dir,fileext='.csv')
     on.exit(if(file.exists(p))unlink(p),add=TRUE)
     write.csv(todo,p,row.names=FALSE,na='')

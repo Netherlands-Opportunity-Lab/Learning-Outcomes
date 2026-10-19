@@ -4,6 +4,16 @@ w<-tempfile('parallel_actual_verifier_');dir.create(w)
 sha<-function(p)digest::digest(file=p,algo='sha256')
 proofs<-data.frame(path=file.path(w,paste0('proof_',1:130,'.txt')),sha256='')
 for(i in seq_len(nrow(proofs))){writeLines(as.character(i),proofs$path[i]);proofs$sha256[i]<-sha(proofs$path[i])}
+source('06_pipeline/LO_EVIDENCE_HASHES.R')
+scratch<-file.path(w,'removed_scratch')
+# Simulate loss of a session's scratch subdirectory between pipeline stages.
+dir.create(scratch);stopifnot(startsWith(normalizePath(scratch,winslash='/'),paste0(normalizePath(w,winslash='/'),'/')))
+unlink(scratch,recursive=TRUE)
+lo_verify_evidence_files(proofs,temp_dir=scratch)
+stopifnot(dir.exists(scratch),!length(list.files(scratch,all.files=FALSE)))
+writeLines('changed',proofs$path[130])
+stopifnot(inherits(try(lo_verify_evidence_files(proofs,temp_dir=scratch),silent=TRUE),'try-error'))
+writeLines('130',proofs$path[130])
 cells<-data.frame(cell_id=paste0('cell',1:130),estimate=0,standard_error=1,n_unweighted=12,
  sample_id='synthetic',method_version='fixture',target_contract_sha256='target',
  source_edition_sha256=proofs$sha256,input_fingerprint='input',code_fingerprint='code',
