@@ -18,7 +18,8 @@ for(p in c('LO_FIXED_CONTROLLER.R','LO_RUN_CONFIG.R','MASTER_ESTIMATION_GRID.R',
 for(p in c('LO04_COMMON.R','LO04_CACHE.R'))source(file.path(bundle,'code',p))
 for(p in c('REPAIRS.R','EXTENSIONS.R'))source(file.path(bundle,'engine',p))
 lo_exact_boot(bundle)
-old<-read.csv(file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),stringsAsFactors=FALSE,na.strings=character())
+source(file.path(repo,'06_pipeline/LO_ATOMIC_CHECKPOINT.R'))
+old<-lo_scientific_registry_read(file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'))
 requested<-do.call(rbind,lapply(blocks,function(b)read.csv(file.path(block_root,b,'EXACT_SELECTED_TASKS.csv'),colClasses='character',na.strings=character())))
 allowed_modules<-if(peers)c('peer_below_basic','high_proficiency_peer_exposure')else if(kind=='PISA_SES')c('ses_harmonized','extension_ses_gender','extension_ses_school','ses_peer_exposure','peer_baseline')else if(pisa)c('core','gender','language_exact','migration_generation','extension_performance_school')else switch(kind,IEA=c('core','gender','extension_performance_school','extension_performance_class'),IEA_BOOKS=c('ses_national','extension_ses_gender','extension_ses_school','extension_ses_class'))
 if(startsWith(kind,'BACKGROUND_'))allowed_modules<-c('migration','migration_generation','migration_binary_peer','migration_peer_exposure','language_frequency_binary','home_language_frequency_peer','home_language_peer_exposure','ses_peer_exposure','peer_baseline','extension_home_ses')
@@ -158,7 +159,7 @@ bind_columns<-function(...) {xs<-list(...);cols<-unique(unlist(lapply(xs,names))
 combined<-bind_columns(old,pilot_closed)
 # The science registry is a durable checkpoint: replace only after a complete write.
 source(file.path(repo,'06_pipeline/LO_ATOMIC_CHECKPOINT.R'))
-lo_atomic_csv(combined,file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'))
+lo_atomic_csv(combined,file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),fast=TRUE)
 if(length(blocks)==1L) {
   if(peers) {
     ctx<-unique(tasks[tasks$module=='peer_below_basic',c('country','survey','year','domain','peer_definition')]);ctx$scientific_status<-'PASS'

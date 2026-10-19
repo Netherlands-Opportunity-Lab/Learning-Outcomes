@@ -1,0 +1,19 @@
+{
+  "status": "REAL_REGISTRY_ROUNDTRIP_IDENTICAL",
+  "rows": 70204,
+  "columns": 42,
+  "original_sha256": "d2415d1d325528670a8ed01d70efcf2e21ed77488c2bd062585b0d2d452dec8d",
+  "source_unchanged": true,
+  "base_read_seconds": 4.53,
+  "fast_read_seconds": 2.05,
+  "base_write_seconds": 8.21,
+  "fast_write_seconds": 0.5399999999999991,
+  "base_bytes": 104140681,
+  "fast_bytes": 104070476,
+  "scalar_values_and_types_identical": true,
+  "code_sha256": {
+    "LO_ATOMIC_CHECKPOINT.R": "326e916e970ad2cfb9bd88778e1689f53fdd4e802b8b45cb0415abf513eb2e67",
+    "LO_CERTIFY_SOURCE_BLOCKS.R": "72e0a8e8f9c1bca406649559b99c20c75069b7659dbc7f818ae4b78ce4027012"
+  },
+  "test": "tests/test_registry_io.R; tests/atomic_sharing_check.py"
+}
