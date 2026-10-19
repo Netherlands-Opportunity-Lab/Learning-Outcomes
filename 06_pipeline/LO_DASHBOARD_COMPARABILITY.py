@@ -21,9 +21,9 @@ def sha(path):
 def readcsv(path):
     with Path(path).open(encoding='utf-8-sig',newline='') as f:return list(csv.DictReader(f))
 
-def writecsv(path, rows):
+def writecsv(path, rows, fields=None):
     with Path(path).open('w',encoding='utf-8',newline='') as f:
-        w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
+        w=csv.DictWriter(f,fieldnames=fields if fields is not None else list(rows[0]));w.writeheader();w.writerows(rows)
 
 def put(path,data):
     Path(path).write_text(json.dumps(data,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8',newline='\n')
@@ -125,19 +125,32 @@ def checked_lineage(path,expected):
     VERIFIED_FILES[str(path)] = expected
     return {r['cell_id']:r for r in readcsv(path)}
 
-def map_cell(product,row,task,support,grid=None):
-    if row['status']!='SCIENTIFICALLY_VALIDATED':
-        raise ValueError('RESULT_BINDING')
+def product_binding(product,row,task):
+    """Keep primitive identity distinct from an approved affine display product."""
+    scale=1; intercept=0; transform='IDENTITY'; output_unit=task['unit']
     if row['result_hash']!=product['result_hash']:
         # The established R export hashes its below-basic complement as a
         # derived product. Bind it to the exact parent, unit and linear transform.
         if (not product['figure_id'].startswith('GP_SES_BASIC_') or task['stat'] not in ('base_share','q1_basic','q4_basic')
             or task['unit'] not in ('percent','proportion') or product['source_id']!='GRID:SHA256:'+row['result_hash']):
             raise ValueError('RESULT_BINDING')
-        scale=100 if task['unit']=='proportion' else 1
-        expected=100-float(row['estimate'])*scale
-        if not math.isclose(float(product['estimate']),expected,abs_tol=1e-9) or not math.isclose(float(product['se']),float(row['standard_error'])*scale,abs_tol=1e-9):
-            raise ValueError('COMPLEMENT_NUMERIC_BINDING')
+        scale=-100 if task['unit']=='proportion' else -1
+        intercept=100; transform='BELOW_BASIC_COMPLEMENT_V1'; output_unit='percent'
+    expected=intercept+scale*float(row['estimate'])
+    if (product['source_id']!='GRID:SHA256:'+row['result_hash']
+        or not math.isclose(float(product['estimate']),expected,rel_tol=1e-12,abs_tol=1e-9)
+        or not math.isclose(float(product['se']),abs(scale)*float(row['standard_error']),rel_tol=1e-12,abs_tol=1e-9)
+        or float(product['n_unweighted'])!=float(row['n_unweighted'])):
+        raise ValueError('PRODUCT_NUMERIC_PARENT_BINDING')
+    return dict(result_hash=row['result_hash'],source_record_id=row['result_hash'],
+        product_result_hash=product['result_hash'],product_transform=transform,
+        product_multiplier=scale,product_intercept=intercept,product_unit=output_unit,
+        product_estimate=product['estimate'],product_standard_error=product['se'])
+
+def map_cell(product,row,task,support,grid=None):
+    if row['status']!='SCIENTIFICALLY_VALIDATED':
+        raise ValueError('RESULT_BINDING')
+    product_identity=product_binding(product,row,task)
     cert=certificate_cells(row['certification_path'],row['certification_sha256'])
     cell=cert.get(row['cell_id'])
     if not cell or cell['result_hash']!=row['result_hash']:raise ValueError('RESULT_CERTIFICATE_IDENTITY')
@@ -227,9 +240,9 @@ def map_cell(product,row,task,support,grid=None):
         support['population_comparison_id'],comparison_method]))
     result.update(cell_id=row['cell_id'],country=row['country'],estimate=row['estimate'],
         standard_error=row['standard_error'],n_unweighted=row['n_unweighted'],status=row['status'],
-        result_hash=product['result_hash'],source_record_id=product['result_hash'],
         verification_id=fingerprint([row['certification_sha256'],cell['certification_sha256'],support['certificate_sha256'],ah,bh]),
         source_certificate_sha256=support['certificate_sha256'],result_certificate_sha256=row['certification_sha256'])
+    result.update(product_identity)
     return result
 
 def build(snapshot,output,previous=None):
@@ -299,6 +312,12 @@ def build(snapshot,output,previous=None):
         if (i+1)%5000==0:print('COMPARABILITY_CHECKED',i+1,'mapped',len(results),'unresolved',len(issues),flush=True)
     if not results:raise ValueError('NO_PROVEN_COMPARISON_CELLS')
     writecsv(output/'BALANCE_AVAILABLE.csv',results)
+    derivation_fields=['cell_id','country','survey','year','unit','estimate','standard_error',
+        'result_hash','product_result_hash','product_transform','product_multiplier',
+        'product_intercept','product_unit','product_estimate','product_standard_error']
+    derivations=[{k:r[k] for k in derivation_fields} for r in results
+        if r.get('product_transform','IDENTITY')!='IDENTITY']
+    writecsv(output/'PRODUCT_DERIVATION_REVIEW.csv',derivations,derivation_fields)
     writecsv(output/'CELL_MAPPING_SIGNATURES.csv',signatures)
     writecsv(output/'PRIVATE_MAPPING_EVIDENCE.csv',[dict(path=p,sha256=h) for p,h in sorted(VERIFIED_FILES.items())])
     if issues:writecsv(output/'BALANCE_MAPPING_ISSUES.csv',issues)
@@ -313,6 +332,9 @@ def build(snapshot,output,previous=None):
         mapping_code_sha256=code_sha,previous_audit_sha256=sha(previous/'BALANCE_MAPPING_REVIEW.json') if previous else None,
         population_review_sha256=sha(policy_path),signatures_sha256=sha(output/'CELL_MAPPING_SIGNATURES.csv'),
         source_projection_review_sha256=projection_sha,
+        derivation_review_sha256=sha(output/'PRODUCT_DERIVATION_REVIEW.csv'),
+        derived_product_cells=len(derivations),identity_product_cells=len(results)-len(derivations),
+        product_numeric_review='ALL_IDENTITY_AND_AFFINE_PRODUCTS_BOUND_TO_EXACT_PRIMITIVE',
         evidence_index_sha256=sha(output/'PRIVATE_MAPPING_EVIDENCE.csv'),
         no_pupil_recalculation=True,no_new_scientific_freeze=True)
     if sha(__file__)!=code_sha:raise ValueError('MAPPING_IMPLEMENTATION_CHANGED_DURING_REVIEW')

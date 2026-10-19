@@ -91,7 +91,9 @@ lo_balanced_view_export <- function(repo,grid,contracts,tasks,scope_info,out,che
   products<-lapply(views,function(view) {
     core<-tasks$metric_key[tasks$country==view$focus & tasks$module=='core' & tasks$stat=='mean']
     if(!length(core))stop('BALANCE_VIEW_CORE_ANCHOR_MISSING')
-    lo_balance_one_view(available,grid,view,core,candidates,scope_info$comparator,anchor,context)
+    result<-lo_balance_one_view(available,grid,view,core,candidates,scope_info$comparator,anchor,context)
+    result$required_years<-sort(unique(as.character(grid$year[match(view$cell_ids,grid$cell_id)])))
+    result
   })
   jsonlite::write_json(list(schema_version=2L,policy='FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3',
     grid_sha256=digest::digest(grid,algo='sha256'),views=products,

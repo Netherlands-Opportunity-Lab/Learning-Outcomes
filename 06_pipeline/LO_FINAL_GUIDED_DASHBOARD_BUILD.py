@@ -315,7 +315,13 @@ def explorer_references(balance_path,countries,figures,rows,scientific_sha=None)
    matches=[v for v in views_by_country[country] if (v.get('figure_id')==f['figure_id'] or
        not v.get('figure_id') and cell_ids.intersection(array(v.get("view_cell_ids"))))]
    mapped=set().union(*(set(array(v.get("view_cell_ids"))) for v in matches)) if matches else set()
-   ready=bool(matches) and len(cell_ids)==len(current) and cell_ids<=mapped and figure_complete(current,f)
+   # Dutch templates do not define another focus country's period. The R
+   # contracts retain its own full target years, including unavailable cells.
+   required_years=f['required_years']
+   if country!='NLD' and matches and all('required_years' in v for v in matches):
+    required_years=';'.join(sorted({str(y) for v in matches for y in array(v['required_years'])}))
+   focus_figure=dict(f,required_years=required_years)
+   ready=bool(matches) and len(cell_ids)==len(current) and cell_ids<=mapped and figure_complete(current,focus_figure)
    ready=ready and all(v.get("status") in ("BALANCED_REFERENCE_AVAILABLE","NO_ELIGIBLE_REFERENCE") for v in matches)
    eligible=set(countries)-{country};defaults=set(eligible)
    if ready:
@@ -327,7 +333,7 @@ def explorer_references(balance_path,countries,figures,rows,scientific_sha=None)
      eligible &= allowed
      defaults &= set(array(v.get("default_members")))
     # Publishing a member also requires a complete exact figure payload.
-    eligible={c for c in eligible if figure_complete(by_country[c][f["figure_id"]],f)}
+    eligible={c for c in eligible if figure_complete(by_country[c][f["figure_id"]],focus_figure)}
     defaults &= eligible
    else:eligible=set();defaults=set()
    reasons=[]
@@ -345,7 +351,7 @@ def explorer_references(balance_path,countries,figures,rows,scientific_sha=None)
      eligible_members=sorted(eligible),default_members=sorted(defaults),
      eligibility=reasons,
      evidence_sha256=evidence_sha,
-     view_ids=sorted(v["view_id"] for v in matches),required_years=f["required_years"],
+     view_ids=sorted(v["view_id"] for v in matches),required_years=required_years,
      expected_series=f["expected_series"],focus_excluded=True,country_weights="EQUAL_PER_COUNTRY",benchmark_uncertainty=False))
  return dict(schema_version=1,policy="FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3",figures=output)
 

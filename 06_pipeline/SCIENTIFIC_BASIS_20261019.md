@@ -54,6 +54,8 @@ AUT 2009 en ESP 2018 blijven historische resultaten, maar worden wegens de expli
 
 De referentie is steeds een gelijkgewogen gemiddelde van landen, exclusief het hoofdland, met constante volledige dekking van het hoofdlandanker plus de gezamenlijk gekozen figuurreeksen. De tijdelijke available-cases-website is geen bewijs van deze definitieve balans. De bestaande publieke vormgeving en laatste UI-code worden behouden voor de daaropvolgende productstap.
 
+Bronresultaten en afgeleide weergaven hebben afzonderlijke hashes. Bij SES-percentages onder basisniveau wordt de oorspronkelijke cel met het aandeel boven de grens bewaard; de afleiding bevat de exacte omzetting naar het complement en de meegeschaalde standaardfout. `PRODUCT_DERIVATION_REVIEW.csv` maakt deze koppelingen zichtbaar. De publicatiecontrole controleert ook de waarden en doeljaren; Nederlandse figuursjablonen verkorten of verlengen het eigen hoofdlandanker van een ander land niet.
+
 Rang gebruikt precies de geselecteerde referentielanden plus het hoofdland eenmaal als rangbasis. Bij rang wordt geen groepslijn, groepsrang of groepsinterval geproduceerd. Een eventuele tweede landlijn moet tot dezelfde basis behoren. Bij gemiddelde, percentielscores en hoog/gevorderd staat de grootste waarde op rang 1; bij onder basisniveau, P90–P10 en de absolute kloofgrootte de kleinste. Dit behoudt de bestaande dashboardregels. Het teken van een kloof blijft in het bronresultaat bewaard. Gelijke ongeronde waarden na de expliciete transformatie krijgen de gemiddelde rang. Een rangverschil is geen bewijs van een statistisch significant verschil. Peer-rangen worden niet aangeboden. Een ranglijsttabel hoort alleen in de paper.
 
 ## Q01–Q08: inhoud en bewijs

@@ -24,6 +24,7 @@ def publish(repo, root):
         'Q02_OFFICIAL_SAMPLE_REVIEW.json': 'Q02/OFFICIAL_SAMPLE_REVIEW.json',
         'Q03_Q05_FROZEN_SES_REVIEW.json': 'Q03_Q05/FROZEN_SES_REVIEW.json',
         'Q06_REFERENCE_REVIEW.json': 'Q06/REFERENCE_REVIEW.json',
+        'Q06_PUBLICATION_REFERENCE_VERIFICATION.json': 'Q06/PUBLICATION_REFERENCE_VERIFICATION.json',
         'Q08_PAPER_CLAIM_REVIEW.json': 'Q08/PAPER_CLAIM_REVIEW.json',
         'RESULT_ARTIFACT_VERIFICATION.json': 'RESULT_ARTIFACT_VERIFICATION.json',
     }
@@ -47,7 +48,7 @@ def publish(repo, root):
             'Q03_Q05/FROZEN_SES_COUNTRY_WAVE_REVIEW.csv', 'Q06/REFERENCE_BY_VIEW.csv',
             'Q06/REFERENCE_NUMERICAL_PROBES.csv', 'Q06/RANK_NUMERICAL_PROBES.csv',
             'Q06/REFERENCE_DEPENDENCIES.csv', 'Q08/PAPER_CLAIM_RESULTS.csv',
-            'Q08/PAPER_CLAIM_DEPENDENCIES.csv']
+            'Q08/PAPER_CLAIM_DEPENDENCIES.csv', 'Q06_mapping_final/PRODUCT_DERIVATION_REVIEW.csv']
     for relative in csvs:
         p = w / relative
         raw = p.read_bytes()
