@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "scope": "all_required",
+  "configuration": {
+    "schema_version": 1,
+    "scope": "all_required",
+    "selection": {
+      "surveys": [],
+      "years": [],
+      "domains": [],
+      "modules": [],
+      "countries": [],
+      "stats": [],
+      "groups": [],
+      "definitions": [],
+      "peer_environments": [],
+      "cell_ids": []
+    },
+    "max_compute_units": 100000
+  },
+  "audited_input_sha256": {
+    "tasks": "8fb89079cfcb6425fe09d98644af313def25f4a294b99383748323782802afd2",
+    "pool": "a1fa557b06db9a603c953b30e07c9ef1ef7be2261d0faa1b775893e4027f3a43",
+    "environment": "d575c2abbaee6392379995f9ab358bbb4af82429ca8700bd82f1a667a67c66d3",
+    "decisions": "b8149f28d4c287120bf6259b6e10bfd9cff5622b889962aa9014c2802fd5cb5f",
+    "products": "57f40577f0da0d0d487f46fdaa5a8db70bb043f688699c7884716449d0a589be",
+    "rank_product": "f6e2071b4ab2bb309938107f2b6426b0c36d81dbabd3af1ea8a056eb6738fc7f",
+    "extensions": "00773d41caa9e493e5a250931d5dbc84b62eafc24bb0e8a7788548ad11083bd6",
+    "gender_policy": "dbc0a3f20d4d28d5d80b3bd16ee67a10dcec93acb1aff885f78de8f7e1d86e94",
+    "scope_code": "13cee7b621322ab2d7091e6257dce0178ff0773239a672bfbaa73d0f52d306e3",
+    "country_decisions": "aa0cdfc75ade819b7aada518872ee817b97e994be18b52bfd8f35e6ef94c7e9b",
+    "country_code": "54340337097860d1ad0a0f7aaed4898a5966867cbf6f4171eeb0338ead7f3d46",
+    "anchor": "baa2cd6b3221a043a713b7fc2c605d736bdf39a9f5c95855f226984910a82bca",
+    "support": "fe4dd32f5d7a5365886383bab0de7f03afed14b3e6ab6f7f0a3ac686a364a154",
+    "compute": "652fabe25f4d97e0dac5519ef5308164530b4254e1d61aa05958da585e6563ae",
+    "validated": "11e88b29916a96786728edfba25678bc1bb9d3742e1aeb744c16a228d490a821",
+    "unavailable": "b65700621a830a4cd5723d07d955623207dd213ed2596759d5f6fbf0a66f41a6",
+    "run_configuration": "ced0c2319b860b3736cb8a967e32b461ff754bda49fab61df8b1d61a6721d2bf",
+    "run_config_code": "71727bd6d3006808ed6ac0cb38e9a39471f93b7db716e02a373245884d859b2f"
+  },
+  "configuration_sha256": "ced0c2319b860b3736cb8a967e32b461ff754bda49fab61df8b1d61a6721d2bf",
+  "validated_rows": 69775,
+  "target_rows": 77611,
+  "status_counts": {
+    "SCIENTIFICALLY_VALIDATED": 69775,
+    "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE": 3312,
+    "UNAVAILABLE_VERIFIED_ANALYTIC_SAMPLE": 97,
+    "UNAVAILABLE_VERIFIED_SOURCE_FIELD": 4427
+  },
+  "publication_status": "RESEARCH_REVIEW_NOT_PRODUCT_RELEASE",
+  "raw_or_pupil_data_included": false,
+  "producer_identity": "Per-cell producer_fingerprint and linked historical run records; export checkout is not producer identity",
+  "historical_producer_code": "06_pipeline/archive_or_superseded/LO05_CODE_LOCK_20261010/SOURCE_CODE_ORIGINAL_VS_PUBLIC_SHA256.csv",
+  "files": [
+    {
+      "file": "derivations.csv",
+      "sha256": "a27d514bbbe2e31c8e9e81c9ff369c1697e809d7b6a4dddb8a866f00821ae878",
+      "bytes": 639656
+    },
+    {
+      "file": "execution_receipts.csv",
+      "sha256": "117b3ca9a88a43c0ab68983e4f4e6bbed0210ccb5127afd464b32d55bbe6c2cf",
+      "bytes": 504206
+    },
+    {
+      "file": "measured_execution_receipts.csv",
+      "sha256": "986bffd048c69a0cc478a0c3201215ae0d6a0a7e3d7dd6e8d2b1c94e5fcf5328",
+      "bytes": 16884019
+    },
+    {
+      "file": "result_run_links.csv",
+      "sha256": "db50abed84fdb0da65f2bd507bbafb49da92285e7892f0b081133a1d5ecabc54",
+      "bytes": 18130827
+    },
+    {
+      "file": "results.csv",
+      "sha256": "81866e5b1aa573988be0124fb4bcb3947ae27db843523bab5c790607645896f2",
+      "bytes": 84922367
+    },
+    {
+      "file": "run_provenance.json",
+      "sha256": "ffc23d7f80ede372aa9331e7bc8021e4976c48a9e2dc9aeef287a051deb1fa03",
+      "bytes": 79052
+    },
+    {
+      "file": "scripts.csv",
+      "sha256": "df5c3555defc4431f8abd4244ca670c564257f04294aa006c4361e36d4b33659",
+      "bytes": 1711
+    },
+    {
+      "file": "target_status.csv",
+      "sha256": "14930cf115db1f561b3405e5955ec3dd088006170fecdb0be2f583f801dc4a71",
+      "bytes": 12083190
+    }
+  ]
+}
