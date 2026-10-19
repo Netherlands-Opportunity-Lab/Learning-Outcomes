@@ -62,6 +62,11 @@ def publish(repo, root):
             raise ValueError('Private path in aggregate table: ' + p.name)
         name = p.name + ('.gz' if len(raw) > 2_000_000 else '')
         (out / name).write_bytes(gzip.compress(raw, mtime=0) if name.endswith('.gz') else raw)
+        # A growing table can cross the compression threshold. Keep one
+        # current representation; its previous bytes remain in Git history.
+        obsolete = out / (p.name if name.endswith('.gz') else p.name + '.gz')
+        if obsolete.is_file():
+            obsolete.unlink()
         source_hashes[name] = sha(p)
     with (w / 'REVIEWED_MASTER_GRID.csv').open(encoding='utf-8-sig', newline='') as f:
         grid = list(csv.DictReader(f))

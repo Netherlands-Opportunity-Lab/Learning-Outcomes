@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "REVIEWED_SCIENTIFIC_BASIS_WITH_EXPLICIT_LIMITATIONS",
   "result_basis": "ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2",
-  "private_manifest_sha256": "660edf1ab4fafd8c2b7170b686d1b96bcaf7c0a2f4a729b5c464854404e8f8ca",
+  "private_manifest_sha256": "d50d201b6c130209b60bf86a1ea7660a0f0bfd9eee587a5a99fb2ab337449a9f",
   "approval_sha256": "11e88b29916a96786728edfba25678bc1bb9d3742e1aeb744c16a228d490a821",
   "reviewed_target_count": 77611,
   "scientific_review_requirements": 8,
@@ -10,8 +10,8 @@
     "Q01_SES_SAMPLE_REVIEW.json": "0a3b084dbf988a335c79a05a4896be4fa62f533eb6bfc2504d4434f75b26f884",
     "Q02_OFFICIAL_SAMPLE_REVIEW.json": "aeb7164f7b98c6412a2e9b423b6fdb550206c310bb31718ede3e39a198e77bff",
     "Q03_Q05_FROZEN_SES_REVIEW.json": "0f78af110b90d62e1ce97883094539a3f624135925759766b39c0824a1db35e4",
-    "Q06_REFERENCE_REVIEW.json": "54ad2abcca8c97b135a9094a2d8f03d978e5dd121c1806fdc73cbc419633609c",
-    "Q06_PUBLICATION_REFERENCE_VERIFICATION.json": "3f73ff914f475190c5fc47b00d87dd7b56ffc9c00d022f17335be21466c12e80",
+    "Q06_REFERENCE_REVIEW.json": "2688ef239fd6af145b68437792f6ffad0b978e4e734b7517a4772381cde43988",
+    "Q06_PUBLICATION_REFERENCE_VERIFICATION.json": "599159875c831fd89e88d84e8cdb1a5f6cd3e4f1e8a75efa3af9ccff98be3123",
     "Q08_PAPER_CLAIM_REVIEW.json": "8b51a45f19566bb007ff1461670c74cef62892cbeaa1648a8a01529bb98dbc4d",
     "RESULT_ARTIFACT_VERIFICATION.json": "47cd00401d22ffd254f197982142f57f6c83b2f8bbd35e0079753edd72c37f58",
     "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz": "d39ba1d9d61516db06cfcacc62696c98a45d7e9f34168285188eadf3836a00d3",
@@ -19,13 +19,13 @@
     "COUNTRY_CYCLE_SAMPLE_QUALITY.csv": "acabe62e68b503964ba6d8fb161e160839ed2af197557ce4ff731b4adc3f30fe",
     "OFFICIAL_SAMPLE_TABLE_DEPENDENCIES.csv": "335048cfd10c0b933b89d6b67001efffb5676d3d6205cc7aa84d5d76dbcd3489",
     "FROZEN_SES_COUNTRY_WAVE_REVIEW.csv": "00ca196d812fe07588891a25762b2673853a475a25a2c37c84790fc1dbcb0b06",
-    "REFERENCE_BY_VIEW.csv": "77cdaf03e849d8d2c4194ec22fbbc75df7a7e778b348b13864017b76c1956317",
-    "REFERENCE_NUMERICAL_PROBES.csv": "62e0335297d5b14226f76818f59dc83ae320844759035a63338bb4a41fed3019",
-    "RANK_NUMERICAL_PROBES.csv": "b1649b925591b1dbd8296d1b0fddfeaf8daaa1201f966ef4b6c95267428db784",
-    "REFERENCE_DEPENDENCIES.csv": "3d58a892c7089bc373f338114118ae421c50048aa736c6192a74db985dac6c7f",
+    "REFERENCE_BY_VIEW.csv": "06ee6e37e7292e867665ef126d4957cf7e3bb4dbefd1528b616c23944dd4abb4",
+    "REFERENCE_NUMERICAL_PROBES.csv": "836170999f403141cb4c9ea004bc9ddb13be499c18aaad4c7224e9f219ad123f",
+    "RANK_NUMERICAL_PROBES.csv": "8b1a28952cb3634988cb53851e8cf1a63fe999558cd0b9be81f5369cf08c9386",
+    "REFERENCE_DEPENDENCIES.csv.gz": "7c13c2f617752ab0a07e1e9e4ca46112046a3e37613f401e973bfdeb89c11f51",
     "PAPER_CLAIM_RESULTS.csv": "44f4b03364ae39efb8207c363cbd76bc7d842e34a05180f7e2be4514ea99d2f5",
     "PAPER_CLAIM_DEPENDENCIES.csv": "ae0719561bc344687bf5d008b469d773339c9d6134a4873f5c2a5bfbad54c819",
-    "PRODUCT_DERIVATION_REVIEW.csv": "a5c86493ee1f0287a839441182b23028d30f1dea3390870a6996587887f6ec79"
+    "PRODUCT_DERIVATION_REVIEW.csv": "efc4f4fb3b018a7df65bbf1b02a49545b1b11b14f2b6b389bb785b33ce9e5853"
   },
   "assessments": [
     {
@@ -60,9 +60,9 @@
     },
     {
       "requirement_id": "Q06",
-      "assessment": "Full focus anchors and jointly selected series/peer definitions enforced; admission is six combinations with three comparable waves. Equal-country means and country ranks numerically tested. Empty references stay empty; no benchmark/rank CI or group rank line.",
+      "assessment": "User decision 19 October: admission is per age-domain combination with three comparable waves. Full selected-combination focus anchors and jointly selected series/peer definitions are enforced; membership is fixed within a figure and may differ between figures. Equal-country means and ranks are numerically tested. Empty references stay empty; no benchmark/rank CI or group rank line.",
       "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
-      "report_sha256": "54ad2abcca8c97b135a9094a2d8f03d978e5dd121c1806fdc73cbc419633609c"
+      "report_sha256": "2688ef239fd6af145b68437792f6ffad0b978e4e734b7517a4772381cde43988"
     },
     {
       "requirement_id": "Q07",
@@ -92,7 +92,7 @@
     },
     {
       "path": "06_pipeline/COUNTRY_PRODUCTION_APPROVALS.csv",
-      "sha256": "aa0cdfc75ade819b7aada518872ee817b97e994be18b52bfd8f35e6ef94c7e9b"
+      "sha256": "7c30d5883c6ca10033a0bcd534dcc3d1ea9b9d88a60f842fb8bf16259a0268cf"
     },
     {
       "path": "06_pipeline/drive_sync.py",
@@ -136,15 +136,15 @@
     },
     {
       "path": "06_pipeline/LO_BALANCED_EXPORT.R",
-      "sha256": "df98cc0c56811a0768f5835c2dfa288c03828acb406b7053436f61199ccd3379"
+      "sha256": "565223fc60046763bd2da7e7af856a241d988cf2fc2248a01edf04d149ce6364"
     },
     {
       "path": "06_pipeline/LO_BALANCED_MEMBERSHIP.R",
-      "sha256": "a0ebdcb0ca68a042a1a008bb4d17d0014d1f98496975ec40087e102893f919d7"
+      "sha256": "4930aa3e8efe03a31df2cac6838eaae3fbb7aeeb2bea8f12b78ffc3a4c5afc70"
     },
     {
       "path": "06_pipeline/LO_BALANCED_VIEWS.R",
-      "sha256": "95eaf40ed27f9e96b32e79ccb08eee94237dd3684b0e44426b81880f5a814217"
+      "sha256": "ecd76aeb9461897d5161c5f8edd2caa53ade9cdc6e8f773f9188beffd58c5826"
     },
     {
       "path": "06_pipeline/LO_BUILD_BYTE_INDEX.py",
@@ -184,15 +184,15 @@
     },
     {
       "path": "06_pipeline/LO_COUNTRY_REGISTRY.R",
-      "sha256": "3991b9c8d8f40e86016be27238a8f6e70e8700acc6004560b61652732f763982"
+      "sha256": "901b260d70d0c8a13b16a1ad7aa127ca0e17cc3f87603be055140ba11bf3955e"
     },
     {
       "path": "06_pipeline/LO_COUNTRY_TASKS.R",
-      "sha256": "d89f7197466ad9569cf7bd319afab5c1f3386f8376257b3d004a8b68449174fd"
+      "sha256": "e3e17aab89ae702d32a7ffb40c7059062d93b870ea108026048074e7d6c12b7f"
     },
     {
       "path": "06_pipeline/LO_DASHBOARD_COMPARABILITY.py",
-      "sha256": "3e513b50a7a872a86badbef65a0ecc7aa1a4738744b741d0741134875e080b52"
+      "sha256": "c7ec992ff2b8231e2ac2556ad45fa5557b669c0647bf6ac27dc2b36a645740ac"
     },
     {
       "path": "06_pipeline/LO_DASHBOARD_PUBLIC_PACKAGE.py",
@@ -200,11 +200,11 @@
     },
     {
       "path": "06_pipeline/LO_DASHBOARD_REFERENCE_EXPORT.R",
-      "sha256": "b85c48cdf928852ba947f84e9c330d364828bc1ec33441c31e6fd2b79862809d"
+      "sha256": "aa9cb1e05619f601b0cca089c6adaa51c95efddfae7edcc095498fbc1e49fccf"
     },
     {
       "path": "06_pipeline/LO_DASHBOARD_REFERENCE_VERIFY.py",
-      "sha256": "b45e124367c832d80fc3dc5e7d19faf13b62ac9728507b103bf599b963a6859d"
+      "sha256": "0725e6e33baa4fccb994f96cc8ad5d9eae560b9a76657772f7d8f93215036bdc"
     },
     {
       "path": "06_pipeline/LO_DERIVE_POPULATION_BASELINES.R",
@@ -256,7 +256,7 @@
     },
     {
       "path": "06_pipeline/LO_FINAL_GUIDED_DASHBOARD_BUILD.py",
-      "sha256": "1286ccd996d48ac526ba558b4791d99bef66ae6ec264eebf25447a07183e0411"
+      "sha256": "f55c2b022f7355d33cdb9cd7bff3088a585e1c463dd752c33991ea43049c2b81"
     },
     {
       "path": "06_pipeline/LO_FINAL_GUIDED_EXPORT.R",
@@ -264,7 +264,7 @@
     },
     {
       "path": "06_pipeline/LO_FINAL_GUIDED_PUBLIC_RELEASE.py",
-      "sha256": "393561a24d412d92b4105c41845c36d94d0041d18e1bde7d4a23d02b26da9b58"
+      "sha256": "46253df8582c7f90597bc45b068814f5a18a03fb4076133baefeebcb07b7aba6"
     },
     {
       "path": "06_pipeline/LO_FINAL_PUBLIC_GITHUB.py",
@@ -340,7 +340,7 @@
     },
     {
       "path": "06_pipeline/LO_PARTIAL_DASHBOARD_RELEASE.py",
-      "sha256": "d5e7db0396018b817d6a7f61b78d86183f379a09eda242daf55d4988ee10b328"
+      "sha256": "a1bd3e8a67f730cfeec24fcba93eb5b7873b33ddaac07fdb222496601078093d"
     },
     {
       "path": "06_pipeline/LO_PEER_REFERENCE.R",
@@ -380,7 +380,7 @@
     },
     {
       "path": "06_pipeline/LO_REFERENCE_REVIEW.R",
-      "sha256": "674f57a381c023bc624adc0ce758609bd0dc9da1358b6030b611b02b13e217f3"
+      "sha256": "19b29a4dffb0827356412531bddb84dff2386fd790161667e79ddf9f73d039ff"
     },
     {
       "path": "06_pipeline/LO_REMOTE_CHECKPOINT.R",
@@ -392,7 +392,7 @@
     },
     {
       "path": "06_pipeline/LO_SCIENTIFIC_REVIEW_BINDING.R",
-      "sha256": "20248d92fdb644edc3cf73e24abe78003c09f047784d6e0fbce271ea76cae639"
+      "sha256": "910be97437b53fbae7352a1065e5fc992f3686e13f613290b2800c0dbd3e1770"
     },
     {
       "path": "06_pipeline/LO_SCOPE_DECISIONS.R",
@@ -495,8 +495,12 @@
       "sha256": "8ac3a374dd0ca8ba8d78f79b8e619dedc6d893ff2f9325d8f03d633096789949"
     },
     {
+      "path": "06_pipeline/review_20261013/BALANCE_USER_DECISION_20261019.json",
+      "sha256": "efcbd76a0f3404343c9442275692f8405461489d12e1ca70406f392ace1928c9"
+    },
+    {
       "path": "06_pipeline/review_20261013/BALANCED_REFERENCE_POLICY.json",
-      "sha256": "9e15efa531dea6012712c4d409228da495e185f310eccd536d2a8ef66625b25b"
+      "sha256": "77445b86f3f3fe3a2235707b697f5c1a60426655154111c790fd363646cd75b9"
     },
     {
       "path": "06_pipeline/review_20261013/GENDER_POOL_USER_DECISION.json",
@@ -512,7 +516,7 @@
     },
     {
       "path": "06_pipeline/review_20261013/PAPER_QA_CURRENT.json",
-      "sha256": "96638a1b1506ca9b6f5f163a3ab67559c687aecfc5670d85c39f686fa11ad22e"
+      "sha256": "33fa80f17c8c26611a770841a7acfca8ccba64ff53ff11dde7d4e8914d06d632"
     },
     {
       "path": "06_pipeline/review_20261013/POPULATION_CORRECTIONS.json",
@@ -524,7 +528,7 @@
     },
     {
       "path": "06_pipeline/review_20261013/RANK_PRODUCT_CONTRACT.json",
-      "sha256": "6427113cad05117464b51ce290dc171de365f733f19b6399962f70e4a05956a9"
+      "sha256": "31be4b02ccfcd21a0cbdaaf061b182f31caf3f4d84b86eee33661db620b1b325"
     },
     {
       "path": "06_pipeline/review_20261013/SOURCE_PROJECTION_REVIEWS.json",
@@ -552,44 +556,48 @@
     },
     {
       "path": "scripts/freeze_scientific_review.py",
-      "sha256": "53b7db5b9420ddfe455425df58a2e1e6159e146534ae9abedd51274f27c2b22d"
+      "sha256": "26bad0cc697753e3386c130ff2dfb76f81fdd1b006c2c832a7d136425929ca78"
     },
     {
       "path": "scripts/verify_reference_review_export.py",
-      "sha256": "41e7267e7d755d71b3050620ce6c64c08615d9e49eeb85997a530e43a7157b33"
+      "sha256": "338d92b1c9c7c20f0ed511cf70dc92889b0953f7ba352865af383652739755a8"
     }
   ],
   "outputs": {
+    "COMBINATION_CANDIDATE_SCREEN.json": "ece4d52cbad85d9cd57128b68e3729539f7863e9ea44b4d254a4a7b857056cc4",
+    "COMBINATION_SCOPE_IMPACT.json": "9133541d76973deb87989072170a44c575f328d58f4ca6b7da9d318a951a6e5e",
     "COUNTRY_CYCLE_SAMPLE_QUALITY.csv": "acabe62e68b503964ba6d8fb161e160839ed2af197557ce4ff731b4adc3f30fe",
-    "COUNTRY_PARTICIPATION_CLARIFICATIONS.json": "1fc69fd8180e1e1ff504308283d54ffa2fbbbdcdf82438308f2756a9b3756ce7",
-    "COUNTRY_REVIEW.csv": "665cf11edf7a5bc597214c0fd3c3c2f94fc2e0d87d3e6c5b37539ea42deea857",
-    "COUNTRY_REVIEW_MANIFEST.json": "9329d6c60f2650a433d64f610b945b2305e3c1c6a695ae90753a48f19b989394",
-    "COUNTRY_SIX_COMBINATIONS.csv": "115446ecec061e43c684bc1e11b077cb7868b6b6d433dd2c5f181773bb5a2083",
+    "COUNTRY_PARTICIPATION_CLARIFICATIONS.json": "f5815184fba738123d310bae3e9b6b898579d69c94c2042ab3143ec69442635c",
+    "COUNTRY_REVIEW.csv": "9642b85316df225aa0c222bf5e4debf2291565f870115c0ba3ec079e296cee7c",
+    "COUNTRY_REVIEW_MANIFEST.json": "92c789e6d7b1fc880d84e15e2b079dc6fd16a30f241d356f3d9636068ae454a9",
+    "COUNTRY_SIX_COMBINATIONS.csv": "a869f4c4f8a341ad9f829c1de6a0d601a85468fd70ce6d55c0b07277c8c5d4ef",
     "FROZEN_SES_COUNTRY_WAVE_REVIEW.csv": "00ca196d812fe07588891a25762b2673853a475a25a2c37c84790fc1dbcb0b06",
     "METHOD_CONTRACTS.csv": "83807f1911e73f6c442186517f468dc84ca4f7eec85a87cc0eea234b2331fee8",
     "MIGRATION_RECORDED_ANALYSIS_SAMPLES.csv": "b251b35cfd72af91555c815917d61265c58e68daf7975ab85af42b2ee47a1964",
-    "NLD_CORE_REFERENCE_REVIEW.csv": "e9416098a9d8f23fac77e39bef5dea94e6364591486f678f123ae523b328e84f",
+    "NLD_COMBINATION_REFERENCE_REVIEW.csv": "4337800b0b94b5be11204cfa462fc1482ff36bd6ef0b1538337d6fbb6c5b8493",
+    "NLD_CORE_REFERENCE_REVIEW.csv": "0ab89e7c73398e163b6108e5c44854256a9db4bef24755f7ff2b5a8f475b76fb",
     "OFFICIAL_SAMPLE_TABLE_DEPENDENCIES.csv": "335048cfd10c0b933b89d6b67001efffb5676d3d6205cc7aa84d5d76dbcd3489",
     "PAPER_CLAIM_DEPENDENCIES.csv": "ae0719561bc344687bf5d008b469d773339c9d6134a4873f5c2a5bfbad54c819",
     "PAPER_CLAIM_RESULTS.csv": "44f4b03364ae39efb8207c363cbd76bc7d842e34a05180f7e2be4514ea99d2f5",
-    "PRODUCT_DERIVATION_REVIEW.csv": "a5c86493ee1f0287a839441182b23028d30f1dea3390870a6996587887f6ec79",
+    "PRODUCT_DERIVATION_REVIEW.csv": "efc4f4fb3b018a7df65bbf1b02a49545b1b11b14f2b6b389bb785b33ce9e5853",
     "Q01_SES_SAMPLE_REVIEW.json": "43c2e9548a22af359e8cbee6d3845d9b0f0d48e396fd57aeb320bf4b604c24f2",
     "Q02_OFFICIAL_SAMPLE_REVIEW.json": "79e3daa82d46b14cf261b6f5b1bf257c3f1006b9904cf3b3e5fe56d9e59ed0cc",
     "Q03_Q05_FROZEN_SES_REVIEW.json": "0da048708590b74410ee9757ece821838d3530f4d35cc3e8b7a7717830c9f49d",
-    "Q06_PUBLICATION_REFERENCE_VERIFICATION.json": "58a1462d38148f020e8729cc55eaf6325a984696c0c4b45d0580ab384b83db20",
-    "Q06_REFERENCE_REVIEW.json": "63d17656eb70e5d7090cab456a783620911273f444e6d29924a422e24f3a29b9",
+    "Q06_PUBLICATION_REFERENCE_VERIFICATION.json": "38bf2f6a7053027a0b39ecb745037401d19671d9a1371fffbc2b7e81573f2a1b",
+    "Q06_REFERENCE_REVIEW.json": "909f1aa99a608c921acd10b7d9c973e1135945655576197dc07e55c5eceaa2ae",
     "Q08_PAPER_CLAIM_REVIEW.json": "06e7b5a94a2732dc4af1c2f2fb284303b845f68d5fdfd7280bd865b4d785f69d",
-    "RANK_NUMERICAL_PROBES.csv": "b1649b925591b1dbd8296d1b0fddfeaf8daaa1201f966ef4b6c95267428db784",
-    "REFERENCE_BY_VIEW.csv": "77cdaf03e849d8d2c4194ec22fbbc75df7a7e778b348b13864017b76c1956317",
-    "REFERENCE_DEPENDENCIES.csv": "3d58a892c7089bc373f338114118ae421c50048aa736c6192a74db985dac6c7f",
-    "REFERENCE_NUMERICAL_PROBES.csv": "62e0335297d5b14226f76818f59dc83ae320844759035a63338bb4a41fed3019",
+    "RANK_NUMERICAL_PROBES.csv": "8b1a28952cb3634988cb53851e8cf1a63fe999558cd0b9be81f5369cf08c9386",
+    "REFERENCE_BY_VIEW.csv": "06ee6e37e7292e867665ef126d4957cf7e3bb4dbefd1528b616c23944dd4abb4",
+    "REFERENCE_DEPENDENCIES.csv.gz": "f2078008d58aedaf3cfdf89cf12899d1199e51c2fa7f305aa2a933f83c0f6e3e",
+    "REFERENCE_NUMERICAL_PROBES.csv": "836170999f403141cb4c9ea004bc9ddb13be499c18aaad4c7224e9f219ad123f",
     "REGIONAL_SOURCE_IDENTITIES.csv": "0ebd683308008a149a19a12fab69cdba17205487cb0d9b93742c434a2d49fa13",
     "RESULT_ARTIFACT_VERIFICATION.json": "54ca38d6ea06819cdf119a8b3b7e3ca1bcd20f3d4693837fdad18a86f1b3dbfb",
-    "RESULT_USE_RESTRICTIONS.csv": "a595bbd17f877433ffd3f58c973926426bc9bd0444f03fde348366614634415c",
+    "RESULT_USE_RESTRICTIONS.csv": "c4ef67559eabd1df683181d937c4ba1251a22cf2f7dae403172374db39550405",
     "SCOPE_METHOD_REVIEW.json": "f677411a6eb4990d2107d5f56d9aa87e8bd64d83fc821f46d53454d2dd3d4173",
     "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz": "cc995d09b53e551e796466684be37e37ff6212154e6e18b0769c6e8abe1d6e22",
     "SES_SOURCE_CHECKS.csv": "b6b8019c8c1a99878ee41cb15ff26a2aaf05ad5f849e2611aeb34f1609d69a8e",
-    "VERIFIED_COUNTRY_ADMISSION.csv": "5e8e03609d0cabcbabcf7ffef8f7cab1dc2e654223ceec5bf0a63987b957ce08",
-    "VERIFIED_COUNTRY_SIX_COMBINATIONS.csv": "115446ecec061e43c684bc1e11b077cb7868b6b6d433dd2c5f181773bb5a2083"
+    "VERIFIED_COUNTRY_ADMISSION.csv": "3fa21e61e364e58a72a556c8e432efaf90eb5fec6cbab825cbc13381130eeecc",
+    "VERIFIED_COUNTRY_COMBINATIONS.csv": "a869f4c4f8a341ad9f829c1de6a0d601a85468fd70ce6d55c0b07277c8c5d4ef",
+    "VERIFIED_COUNTRY_SIX_COMBINATIONS.csv": "a869f4c4f8a341ad9f829c1de6a0d601a85468fd70ce6d55c0b07277c8c5d4ef"
   }
 }

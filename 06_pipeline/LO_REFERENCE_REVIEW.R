@@ -35,11 +35,16 @@ lo_reference_review <- function(repo,audit,out) {
     for(selection in c('DEFAULT_RICH','ALL_ELIGIBLE')) {
       selected<-if(selection=='DEFAULT_RICH')unlist(v$default_members)else eligible
       if(!length(selected))next
-      derived<-lo_dashboard_reference_points(checked,req,selected,'NLD')$points
+      # The full figure requirements already contain its unchanged core years
+      # and every jointly compared group. Unrelated figures/countries cannot
+      # affect this derivation. Retain ALL required keys and the whole selected
+      # universe, then exercise the same admission/average/rank functions.
+      selected_cells<-checked[checked$country%in%c('NLD',selected)&checked$balance_key%in%keys,,drop=FALSE]
+      derived<-lo_dashboard_reference_points(selected_cells,req,selected,'NLD')$points
       derived<-derived[derived$balance_key%in%plot,,drop=FALSE]
       if(nrow(derived)!=length(unique(plot)))stop('REFERENCE_REVIEW_TRUNCATED_PLOT')
       for(k in seq_len(nrow(derived))) {
-        z<-checked[checked$country%in%selected & checked$balance_key==derived$balance_key[k],]
+        z<-selected_cells[selected_cells$country%in%selected & selected_cells$balance_key==derived$balance_key[k],]
         if(nrow(z)!=length(selected)||abs(sum(z$estimate/length(selected))-derived$estimate[k])>1e-10)
           stop('REFERENCE_REVIEW_COUNTRY_WEIGHTING')
         parents[[length(parents)+1L]]<-data.frame(figure_id=v$figure_id,selection=selection,
@@ -52,12 +57,13 @@ lo_reference_review <- function(repo,audit,out) {
       # above; the UI does not offer peer ranks.
       if(grepl('^(TR_MEAN|GP_SES_GAP)_',v$figure_id)) {
         rule<-rank_rules[[if(startsWith(v$figure_id,'TR_MEAN_'))'mean_score'else'gap']]
-        rank<-lo_country_rank_series(checked,req,plot,selected,'NLD',rule$direction,
+        rank<-lo_country_rank_series(selected_cells,req,plot,selected,'NLD',rule$direction,
           sort(selected)[1],transform=rule$transform)
         stopifnot(!rank$reference_group_plotted,!rank$group_rank_produced,
           all(rank$rows$n_ranked==length(selected)+1L))
         z<-rank$rows;z$figure_id<-v$figure_id;z$selection<-selection;ranks[[length(ranks)+1L]]<-z
       }
+      cat('REFERENCE_NUMERICAL_PROBE ',v$figure_id,' ',selection,' ',nrow(selected_cells),' exact cells\n',sep='');flush.console()
     }
   }
   dir.create(out,recursive=TRUE,showWarnings=FALSE)

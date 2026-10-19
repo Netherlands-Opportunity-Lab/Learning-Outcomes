@@ -90,12 +90,35 @@ def main_reason(row):
     return "VALIDATION_OR_CALCULATION_PENDING"
 
 
-def build(state, output, review_path=None, trace_state=None):
+def project_exact_reuse(grid,links,reuse):
+    original={r['cell_id']:r for r in grid};selected={r['cell_id']:r for r in reuse}
+    if len(original)!=len(grid) or len(selected)!=len(reuse):raise ValueError('Duplicate reuse/grid target')
+    if not selected or not selected.keys()<=original.keys():raise ValueError('Unreviewed projection target')
+    if any(r['cell_id'] not in original for r in links):raise ValueError('Uncontracted product link')
+    for cid,r in selected.items():
+        prior=original[cid]
+        if any(r[k]!=prior[k] for k in ['status','target_contract_sha256']) or r['prior_result_hash']!=prior['result_hash']:
+            raise ValueError('Changed projected target/status/result')
+    return [r for r in grid if r['cell_id'] in selected],[r for r in links if r['cell_id'] in selected]
+
+
+def build(state, output, review_path=None, trace_state=None, projection_root=None):
     files = ["PRIVATE_MASTER_GRID.csv", "PRIVATE_ACTIVE_PRODUCT_CELL_TRACE.csv",
              "COUNTRY_SOURCE_ELIGIBILITY.csv", "ACTIVE_REQUIREMENT_REGISTER.csv"]
     paths = {name: (trace_state if trace_state and name in
         ["PRIVATE_ACTIVE_PRODUCT_CELL_TRACE.csv", "ACTIVE_REQUIREMENT_REGISTER.csv"] else state) / name for name in files}
+    if projection_root:
+        paths['PRIVATE_MASTER_GRID.csv']=projection_root.parent/'REVIEWED_MASTER_GRID.csv'
+        paths['COUNTRY_SOURCE_ELIGIBILITY.csv']=projection_root/state.name/'COUNTRY_SOURCE_ELIGIBILITY.csv'
     inputs = {name: sha(path) for name, path in paths.items()}
+    if projection_root:
+        reuse_path=projection_root/(state.name+'_TARGET_REUSE.csv')
+        impact_path=projection_root/'COMBINATION_SCOPE_IMPACT.json'
+        impact=json.loads(impact_path.read_text(encoding='utf-8'))
+        if (impact['historical_review_grid_sha256']!=inputs['PRIVATE_MASTER_GRID.csv'] or
+            impact['modes'][state.name]['target_reuse_sha256']!=sha(reuse_path)):
+            raise ValueError('Changed scope reuse evidence')
+        inputs.update(scope_reuse=sha(reuse_path),scope_impact=sha(impact_path))
     inputs["generator"] = sha(Path(__file__))
     review = json.loads(review_path.read_text(encoding="utf-8-sig")) if review_path else {"corrections": []}
     if review_path:
@@ -108,6 +131,7 @@ def build(state, output, review_path=None, trace_state=None):
                 for k, v in previous.get("outputs", {}).items()) and previous.get("outputs"):
             return dict(previous, cache="EXACT_INPUT_AND_OUTPUT_HASH_REUSE")
     grid, links, countries, requirements = [read(paths[name]) for name in files]
+    if projection_root:grid,links=project_exact_reuse(grid,links,read(reuse_path))
     by_id = {r["cell_id"]: r for r in grid}
     if len(by_id) != len(grid):
         raise ValueError("Duplicate grid cell")
@@ -191,6 +215,8 @@ def build(state, output, review_path=None, trace_state=None):
         "- MISSING_CELLS.csv: alle onbeschikbare en onafgehandelde doelen; geen doel is verwijderd om deze tabel te maken.", "",
         "Er is pas een definitieve dashboardvergelijking als de toegelaten landen het hele hoofdlandanker en alle gezamenlijk getoonde groepen/leeromgevingen dekken. Gewichten zijn gelijk per land, hoofdland uitgesloten. Rang gebruikt diezelfde vaste groep plus het hoofdland, zonder groepslijn of rang-CI. De tijdelijke available-cases-publicatie vormt geen bewijs van definitieve balans.", "",
         "Herhaal deze generator met dezelfde --state en --output. Alle input- en outputbytes worden gehasht; alleen een exact identieke controle wordt hergebruikt. De generator berekent geen leerlingstatistieken en verleent geen wetenschappelijke goedkeuring.", ""]
+    if projection_root:
+        lines[4]='Deze dekkingsprojectie past het expliciete besluit van 19 oktober toe op exact dezelfde historische doel- en resultaathashes. Zij is geen nieuwe productierun of resultaatdepositie. Er is geen leerlingstatistiek herberekend. Alleen combinaties met minstens drie vergelijkbare golven zijn opgenomen; het volledige hoofdlandanker en alle gezamenlijke groepen gelden binnen iedere figuur. De aanvullende bronkandidaten blijven afzonderlijk te certificeren.'
     (output / "README.md").write_text("\n".join(lines), encoding="utf-8")
     # Remove only superseded files emitted by this same report, inside output.
     # Original results and audit sources are never deleted or moved.
@@ -199,6 +225,7 @@ def build(state, output, review_path=None, trace_state=None):
         if stale.exists():
             stale.unlink()
     manifest = dict(schema_version=2, scope=state.name, targets=len(grid), counts=dict(counts),
+        report_kind='CURRENT_COMBINATION_SCOPE_EXACT_HISTORICAL_REUSE' if projection_root else 'SAVED_RUN_COVERAGE',
         main_reasons=dict(collections.Counter(r["main_reason"] for r in cells)), orphan_cells=0,
         population_corrected_cells=sum(bool(r["population_review_id"]) for r in cells),
         complete_international_dashboard=False, completion_reason="SCIENTIFIC_AND_REFERENCE_REVIEW_SEPARATE",
@@ -213,6 +240,7 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--population-review", type=Path)
     parser.add_argument("--trace-state", type=Path, help="Updated exact product trace without copying the immutable result grid")
+    parser.add_argument('--projection-root',type=Path,help='Read-only exact target-reuse report; not a new production run')
     args = parser.parse_args()
-    result = build(args.state, args.output, args.population_review, args.trace_state)
+    result = build(args.state, args.output, args.population_review, args.trace_state,args.projection_root)
     print(json.dumps({k: result[k] for k in ["targets", "counts", "orphan_cells", "population_corrected_cells", "cache"]}))

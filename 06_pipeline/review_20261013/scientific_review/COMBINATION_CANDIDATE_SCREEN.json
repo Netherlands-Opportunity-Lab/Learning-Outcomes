@@ -81,19 +81,7 @@
     "VNM": "Viet Nam",
     "ZMB": "Zambia"
   },
-  "newly_screened_outside_old_country_catalogue": [
-    "BRN",
-    "DOM",
-    "KGZ",
-    "KSV",
-    "LBN",
-    "LIE",
-    "MYS",
-    "PAN",
-    "PER",
-    "URY",
-    "VNM"
-  ],
+  "newly_screened_outside_old_country_catalogue": [],
   "codes_needing_separate_population_identity_review": [
     "AAD",
     "ABA",
@@ -5093,7 +5081,7 @@
     }
   ],
   "input_sha256": {
-    "COUNTRY_REVIEW.csv": "82291fad379c1795b72375e8984a014b4c4cb3ac59c32b9d60174fc83b2015b6",
+    "COUNTRY_REVIEW.csv": "9642b85316df225aa0c222bf5e4debf2291565f870115c0ba3ec079e296cee7c",
     "POPULATION_CORRECTIONS.json": "3a0c2c89ac658574408869018a20c59d69e34fc1d5b1769bf76ada2b3f47c33b",
     "IEA_POPULATION_REVIEW.csv": "84f64254b05c25f1878b4d38df3b0f1b4321a8ea255ee7c7ac75661e6b4afefc",
     "SOURCE_RUN_MANIFEST.csv": "d18d15d0da2b0cc64dfa4e03867be93f1dd504d46b9b0389d0f3c4cba741f556",

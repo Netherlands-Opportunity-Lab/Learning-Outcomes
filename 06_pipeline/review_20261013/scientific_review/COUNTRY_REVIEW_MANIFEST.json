@@ -12,7 +12,7 @@
   "user_decision_sha256": "efcbd76a0f3404343c9442275692f8405461489d12e1ca70406f392ace1928c9",
   "admitted_combinations": 202,
   "additional_candidates_pending_source_certification": ["ALB", "ARG", "ARM", "BEL", "BHR", "BRA", "BRN", "CHE", "CHL", "COL", "CRI", "CYP", "DOM", "EST", "GBR", "GRC", "HRV", "IDN", "IRN", "ISL", "ISR", "JOR", "JPN", "KAZ", "KGZ", "KOR", "KSV", "KWT", "LBN", "LIE", "LUX", "MDA", "MEX", "MKD", "MLT", "MNE", "MYS", "OMN", "PAN", "PER", "PHL", "ROU", "SRB", "THA", "TTO", "TUN", "TUR", "URY", "VNM", "YEM"],
-  "inventory_screen_sha256": "0edc94d351e40e307a9fb27db176ed4ef3b245092395af082f079d1ad71d4564",
+  "inventory_screen_sha256": "ece4d52cbad85d9cd57128b68e3729539f7863e9ea44b4d254a4a7b857056cc4",
   "whole_catalogue_reference_is_diagnostic_only": true,
   "source_only_not_final_result_balance": true
 }

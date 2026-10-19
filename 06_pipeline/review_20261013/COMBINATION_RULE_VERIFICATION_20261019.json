@@ -1,0 +1,38 @@
+{
+  "status": "ALL_EXISTING_SOURCE_CERTIFIED_COUNTRY_VIEWS_REVALIDATED",
+  "countries": 34,
+  "views": 5916,
+  "scientific_product_rows": 54095,
+  "policy": "FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3",
+  "source_registry_sha256": "21ceb5b7c550d8709429ef303bc12f1d4a265cf107b5195a1e7537b60342ccad",
+  "exact_tasks_sha256": "b20356557b17d0ad042c0aa38deb1f475dbe889ec711ae9a2829637b978ad2eb",
+  "reference_export_sha256": "f43552712e6f59825741a8329135879568b44034bc1f0a4326e666734ac9230e",
+  "reference_table_sha256": "83c3e722ff6c447774ea5f8b2e3af1bf8a78dc2472634cc0ce73571f61c899c4",
+  "independent_verifier_sha256": "0725e6e33baa4fccb994f96cc8ad5d9eae560b9a76657772f7d8f93215036bdc",
+  "builder_sha256": "f55c2b022f7355d33cdb9cd7bff3088a585e1c463dd752c33991ea43049c2b81",
+  "review_script_sha256": "ec8c0c61787565e87108ce470b0025a6567d05dfae07784eb7c659670aa621e8",
+  "pupil_recalculation": false,
+  "public_deployment": false,
+  "limitation": "This verifies the currently source-certified countries. Additional source candidates require separate certification and any new approved estimates.",
+  "verified_at_utc": "2026-10-19T16:44:46.392377+00:00",
+  "q06_review_sha256": "2688ef239fd6af145b68437792f6ffad0b978e4e734b7517a4772381cde43988",
+  "q06_numerical_probe_views": 42,
+  "scientific_manifest_sha256": "d50d201b6c130209b60bf86a1ea7660a0f0bfd9eee587a5a99fb2ab337449a9f",
+  "scope_impact_sha256": "9133541d76973deb87989072170a44c575f328d58f4ca6b7da9d318a951a6e5e",
+  "new_production_deposit": false,
+  "browser_checks": [
+    "CAN TIMSS mathematics: complete own years 2015/2019/2023, 11 rich reference members, both lines and focus uncertainty visible",
+    "CAN PIRLS: explicitly unavailable because fewer than three comparable national grade-4 waves",
+    "NLD PISA reading: complete 2003-2025 anchor, 10 rich default members including CAN",
+    "Uncheck CAN: custom nine-country group and URL saved; restore default returns ten",
+    "Rank: same ten-country reference basis, Netherlands line only, no group line or rank interval",
+    "NL/EN language roundtrip preserves country/outcome/statistic/rank/reference selection",
+    "No browser console warnings or errors in the tested flows"
+  ],
+  "browser_code_sha256": {
+    "app-shell.js": "273257d1f2c1e08d073d2039ab89d5b3cd38988b6ce79a510d353335d9ca10f7",
+    "explorer.mjs": "413a55a8f9b0d08c62f5d17988bb3ff6e4fa4a31e032064d9d2a187835685e68"
+  },
+  "browser_screenshot_sha256": "b0eb877471c3cd97a4137ca67024719ef8750c251193100ecdc22b4f3728cd88",
+  "unit_test_result": "68 Python tests passed; native R scientific-review binding and Node explorer tests passed. Cross-platform CI is recorded separately."
+}

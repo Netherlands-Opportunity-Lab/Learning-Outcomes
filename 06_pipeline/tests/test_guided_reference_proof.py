@@ -55,6 +55,16 @@ class ReferenceProof(unittest.TestCase):
         e['core_targets']=[t for t in e['core_targets'] if t['cell_id']!='NLD|TIMSS|2003|science|core|mean|total|total|||score_points|']
         with self.assertRaisesRegex(ValueError,'Dutch anchor'):m.verify(e,r,c,f)
 
+    def test_unrelated_missing_combinations_do_not_exclude_reference(self):
+        e,r,c,f=self.fixture()
+        ci=e['cell_columns'].index('country');si=e['cell_columns'].index('survey')
+        e['cells']=[row for row in e['cells'] if row[ci]!='BBB' or row[si]=='PIRLS']
+        retained={row[e['cell_columns'].index('cell_id')] for row in e['cells']}
+        e['core_targets']=[t for t in e['core_targets'] if t['cell_id'] in retained]
+        r=[row for row in r if row['cell_id'] in retained]
+        e['mapping_evidence']['mapped_cells']=len(e['cells'])
+        self.assertEqual(m.verify(e,r,c,f)['status'],'PASS')
+        self.assertTrue(next(o for o in e['views'][0]['options'] if o['country']=='BBB')['eligible'])
     def test_own_period_is_bound_to_full_target_contracts(self):
         e,r,c,f=self.fixture()
         for v in e['views']:

@@ -18,6 +18,21 @@ def sha(p):
  with p.open("rb") as f:
   for block in iter(lambda:f.read(1048576),b""):h.update(block)
  return h.hexdigest()
+def verify_reference_payloads(site,ids,recomputed):
+ # The browser lazily loads per-country contracts. A correct global export
+ # cannot certify a changed country file, even with a fresh self-manifest.
+ expected_index=dict(schema_version=2,policy=recomputed['policy'],
+   country_files={c:f'data/references/{c}.json' for c in sorted(ids)})
+ index=site/'data/explorer_references.json'
+ if not index.is_file() or json.loads(index.read_text(encoding='utf-8'))!=expected_index:
+  fail('reference index differs from independently verified country scope')
+ for country in ids:
+  path=site/f'data/references/{country}.json'
+  expected=dict(schema_version=1,policy=recomputed['policy'],
+    figures=[v for v in recomputed['figures'] if v['focus']==country])
+  if not path.is_file() or json.loads(path.read_text(encoding='utf-8'))!=expected:
+   fail('reference options differ from independently verified per-combination support: '+country)
+
 def verify(site,cert_file):
  if not site.is_dir() or not cert_file.is_file():
   fail("missing guided dashboard or source-verified certificate")
@@ -95,9 +110,7 @@ def verify(site,cert_file):
   builder=importlib.util.module_from_spec(spec);spec.loader.exec_module(builder)
   rows=[r for c in ids for r in json.loads((site/f'data/countries/{c}.json').read_text(encoding='utf-8'))['records']]
   recomputed=builder.explorer_references(balance_path,ids,fig,rows,source_lock)
-  references=site/'data/explorer_references.json'
-  if not references.is_file() or json.loads(references.read_text(encoding='utf-8'))!=recomputed:
-   fail('reference options differ from independently verified per-combination support')
+  verify_reference_payloads(site,ids,recomputed)
   iterator=[] # All v3 keys, missing views and membership were verified above.
  elif balance.get("schema_version")==2:
   if balance.get("policy")!="FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3":fail("unknown per-view reference policy")
