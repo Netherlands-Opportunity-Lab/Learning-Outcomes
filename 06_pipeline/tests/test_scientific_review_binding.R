@@ -46,5 +46,13 @@ stopifnot(inherits(try(lo_scientific_review_install(repo,root,tasks,approval,sta
 writeLines('Synthetic reviewed evidence for receipt regression',proof)
 write.csv(data.frame(cell_id=tasks$metric_key,estimate=501),approval,row.names=FALSE)
 stopifnot(inherits(try(lo_scientific_review_install(repo,root,tasks,approval,state),silent=TRUE),'try-error'))
+file.copy('06_pipeline/LO_EVIDENCE_HASHES.py',file.path(repo,'06_pipeline/LO_EVIDENCE_HASHES.py'))
+batch<-data.frame(path=file.path(w,paste0('parallel_',1:130,'.txt')),sha256='')
+for(i in seq_len(nrow(batch))) {
+  writeLines(as.character(i),batch$path[i]);batch$sha256[i]<-sha(batch$path[i])
+}
+lo_science_check_files_batch(repo,batch,w,new.env(parent=emptyenv()))
+writeLines('changed same-length proof',batch$path[130])
+stopifnot(inherits(try(lo_science_check_files_batch(repo,batch,w,new.env(parent=emptyenv())),silent=TRUE),'try-error'))
 unlink(w,recursive=TRUE)
 cat('PASS immutable Q receipts, exact second-run reuse, changed policy/source/target/result rejection\n')
