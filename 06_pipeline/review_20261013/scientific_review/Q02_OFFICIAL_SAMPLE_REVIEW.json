@@ -1,0 +1,16 @@
+{
+  "status": "OFFICIAL_COUNTRY_CYCLE_REVIEW_COMPLETE",
+  "contexts": 544,
+  "complete": 544,
+  "documented_unreported_contexts": 1,
+  "missing": [],
+  "errors": [],
+  "config_sha256": "d01f774c24ca43b883796f7197a65757d427be4cf0d0ce8aa6e0a35acae9a923",
+  "source_manifest_sha256": "d18d15d0da2b0cc64dfa4e03867be93f1dd504d46b9b0389d0f3c4cba741f556",
+  "code_sha256": "d1b93bf3cd42391348eddd97c7eef27100904d29d63e9deeae6a77b7b67ee10d",
+  "output_sha256": {
+    "COUNTRY_CYCLE_SAMPLE_QUALITY.csv": "b0d5cec8726baffb5677364111999da69b1a38efd05c289def0e7cff63d55d73",
+    "OFFICIAL_SAMPLE_TABLE_DEPENDENCIES.csv": "335048cfd10c0b933b89d6b67001efffb5676d3d6205cc7aa84d5d76dbcd3489"
+  },
+  "private_full_review_sha256": "3519bd89d8858588005ef72a60af8f47024ba2804604d21760a44ca3384d6c07"
+}

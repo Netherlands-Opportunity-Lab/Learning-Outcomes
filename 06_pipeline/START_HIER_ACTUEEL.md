@@ -4,6 +4,20 @@ Bijgewerkt: 19 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproduc
 
 ## Afgesloten run en drie afrondingsopdrachten — 19 oktober 2026
 
+**Actuele inhoudelijke beoordeling:** lees eerst
+[Wetenschappelijke basis en definitieve scope](SCIENTIFIC_BASIS_20261019.md),
+het [volledige dekkingsrapport](review_20261013/grid_coverage/README.md) en de
+[bewijsmanifesten en Q-dossiers](review_20261013/scientific_review/SCIENTIFIC_REVIEW_MANIFEST.json).
+De eerdere runstand hieronder blijft historische herkomst. De huidige beoordeling
+geeft 33 toegelaten landen/stelsels; de rijke kandidatenlijst blijft ongewijzigd.
+Canada 2001 was regionaal, AUT 2009 en ESP 2018 hebben officiële trendvoorbehouden.
+Vereiste jaren en historische resultaten blijven bewaard, met expliciete
+gebruiksbeperkingen. De definitieve Nederlandse rijke basisreferentie is Italië;
+iedere uitsplitsing moet daarnaast de gezamenlijke groepsdekking doorstaan.
+De controller kan nu werkelijke Q01-Q08-dossiers aan exacte runcontracten en
+resultaten binden. Alleen het actuele uitvoeringsbewijs bevestigt acceptatie;
+nieuwe input of code maakt verouderde bewijsbinding ongeldig.
+
 De run is afgesloten: **69.775 geregistreerd gevalideerde resultaten, 7.836
 onderbouwd onbeschikbare doelen en nul resterende rekentaken** in het huidige
 34-landengrid. Resultaatcommit `ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2` is
@@ -16,8 +30,10 @@ zonder mappingblokkades. Dat is een ander telobject dan de 69.775 resultaatcelle
 Herhalen van dezelfde productierun sluit die bewijsdossiers niet vanzelf.
 De gebruiker heeft om drie uitgebreide vervolginstructies gevraagd:
 [DRIE_AFRONDINGSOPDRACHTEN_20261019.md](DRIE_AFRONDINGSOPDRACHTEN_20261019.md).
-Deze vervangen de eerdere vierdelige werkindeling, behouden de bestaande
-R-keten en alle inhoudelijke besluiten, en zijn in deze beurt niet uitgevoerd.
+Deze vervangen de eerdere vierdelige werkindeling en behouden de bestaande
+R-keten en alle inhoudelijke besluiten. De eerste opdracht wordt gedocumenteerd
+in het actuele wetenschappelijke dossier hierboven; de volgende regels beschrijven
+de stand vóór die inhoudelijke beoordeling.
 
 Werk achtereenvolgens aan wetenschap/landen/balans, de daadwerkelijke producten,
 en volledige replicatie/publicatie/opslag. Een voorbereidend claimregister in
@@ -223,7 +239,7 @@ Aanvulling 15 oktober: RStudio haalt scripts vóór een gewone `produce-approved
 De volledige route is daadwerkelijk uitgevoerd: 422,23 seconden inclusief één gecontroleerde private Drive-overdracht. De tweede identieke GitHub-depositie maakte geen nieuwe commit. Alle openbare resultaatmanifesten en 24 historische R-codekopieën zijn vanuit Git-blobs geverifieerd; Windows/Linux-checks zijn groen. Zie [het uitvoerings- en depositiebewijs](review_20261013/GITHUB_RESULT_DEPOSIT_PROOF_20261015.json). De resultaat-CSV telt 2.625.730 bytes; het openbare resultaat-/herkomstpakket 4.300.920 bytes.
 
 1. De laatste rechtstreekse gebruikersinstructies, daarna dit besluitregister.
-2. [De vier resterende opdrachten](VIER_RESTERENDE_OPDRACHTEN_20261014.md) en [acceptatie/voortgang](ACCEPTATIE_EN_VOORTGANG.csv).
+2. [De drie actuele afrondingsopdrachten](DRIE_AFRONDINGSOPDRACHTEN_20261019.md) en [acceptatie/voortgang](ACCEPTATIE_EN_VOORTGANG.csv); de eerdere vierdeling is historische herkomst.
 3. [Afzonderlijke inhoudelijke besluiten A01–A17](SCOPE_APPROVALS.csv), met toelichting in [de scopecorrectie](review_20261013/USER_SCOPE_AMENDMENT_20261014.md).
 4. [De balansregel](review_20261013/BALANCED_REFERENCE_RULE_20261014.md), het [machinebeleid](review_20261013/BALANCED_REFERENCE_POLICY.json) en het [Nederlandse jaaranker](review_20261013/NLD_POLICY_CORE_YEAR_ANCHOR.csv).
 5. [De afgeronde bewijsaudit](review_20261013/AUDIT_CLOSURE_20261013.md), [productvereisten](review_20261013/PRODUCT_REQUIREMENTS.json), [productafhankelijkheden](review_20261013/PRODUCT_GRID_DEPENDENCIES.csv) en [resultaatbewijs](review_20261013/EVIDENCE_AUDIT_SUMMARY.json).

@@ -6,6 +6,13 @@ Finish the reproducible, grid-first research pipeline, its validated products an
 The latest direct human instruction prevails over this file, older plans, source documents, slides and assistant proposals. The 247 mapped product/source records are not 247 approved statistics. Keep historical source identity; correct active implementations. Record new decisions with date, direct evidence and affected product/cell IDs. Substantive additions A01–A17 require item-by-item decisions; pending, deferred and rejected items create no required production.
 
 ## Current country and comparison rules
+
+Current scientific instruction, 19 October: close actual Q01-Q08 evidence and
+apply the definitive rules below. The interim live site's available-cases policy
+is historical product behavior, not a scientific approval. Read
+`06_pipeline/SCIENTIFIC_BASIS_20261019.md` and its hash-bound evidence. Preserve
+the current UI overlay and independent result commits. Corrected source waves
+must remain explicit historical targets; they must not silently shorten anchors.
 Latest direct decision, 18 October: temporarily use the available published results and defer completeness/balance review until production finishes. `05_publication/REFERENCE_POLICY.json` explicitly enables `AVAILABLE_CASES_PROVISIONAL` for this interim website only. Select countries with any approved data for the figure; derive each year/series from available selected countries, excluding the focus. Show contributors/omissions and varying rank denominators. The latest UI request connects adjacent available reference points with a dashed line and a visible membership caveat; missing waves/construct changes and varying rank bases still break lines. Never zero-fill, infer missing groups or certify balanced/final science. The strict rules below remain the final target and the scientific pipeline is unchanged.
 
 - Dashboard admission: at least three distinct verified comparable cycles in each of six age-domain combinations. No exception for the PPP20 candidate pool.

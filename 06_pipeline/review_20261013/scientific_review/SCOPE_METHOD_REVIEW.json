@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "status": "ACTUAL_SELECTED_SCOPE_AND_PRODUCT_PLACEMENT_VERIFIED",
+  "input_sha256": {
+    "tasks": "9366f5fba29f36fe8ca3422942ef7f37389c8cd98c8c8d4eeb291c3ff0212f65",
+    "grid": "2cf2a63a7b62f7736ffe1c7b66ca69ada394153de41d8d78c4a4795a81e104e8",
+    "decisions": "b8149f28d4c287120bf6259b6e10bfd9cff5622b889962aa9014c2802fd5cb5f",
+    "products": "e70912ea418298fbcf30e70cf04f9dd25c4b25b50476712ddfacc909c6596e6c",
+    "author_preparation": "ac83b4ca9765d3d799b8e356c108ba145f3700b0244c37129b6c0cd8f8a05c36",
+    "dashboard": "3269624cb59328ad2bff02d5d04a4c2265017d960463f923d5e6b0e34dcdabc0",
+    "gender_policy": "07d5072a7a107825a6957c0dd69c4cde823e9d82b6bbf01feb4fe483254d9e61",
+    "review_code": "5bf1ed7509edaa45821a9204a943c611da3d817fb67acbe3e3c36f05e000f1e0"
+  },
+  "tasks": 77611,
+  "grid_cells": 77611,
+  "chosen_PISA_SES_targets": 8127,
+  "chosen_PISA_SES_definition": "Cobreros_fourwave_13item_trend_comparable",
+  "two_wave_analysis_targets": 0,
+  "official_PISA_ESCS_analysis_targets": 0,
+  "forbidden_targets": 0,
+  "Q04_disposition": "NOT_APPLICABLE_TO_SELECTED_METHOD; exclusion demonstrated from every exact task identity and pinned author preparation",
+  "home_SES_coverage": [
+    {
+      "survey": "PIRLS",
+      "year": "2001",
+      "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
+      "cells": 162
+    },
+    {
+      "survey": "PIRLS",
+      "year": "2006",
+      "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
+      "cells": 216
+    },
+    {
+      "survey": "PIRLS",
+      "year": "2011",
+      "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
+      "cells": 288
+    },
+    {
+      "survey": "PIRLS",
+      "year": "2011",
+      "status": "UNAVAILABLE_VERIFIED_SOURCE_FIELD",
+      "cells": 9
+    },
+    {
+      "survey": "PIRLS",
+      "year": "2016",
+      "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
+      "cells": 297
+    },
+    {
+      "survey": "PIRLS",
+      "year": "2016",
+      "status": "UNAVAILABLE_VERIFIED_SOURCE_FIELD",
+      "cells": 9
+    },
+    {
+      "survey": "PIRLS",
+      "year": "2021",
+      "status": "SCIENTIFICALLY_VALIDATED",
+      "cells": 270
+    },
+    {
+      "survey": "PIRLS",
+      "year": "2021",
+      "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
+      "cells": 9
+    },
+    {
+      "survey": "PIRLS",
+      "year": "2021",
+      "status": "UNAVAILABLE_VERIFIED_SOURCE_FIELD",
+      "cells": 9
+    },
+    {
+      "survey": "TIMSS",
+      "year": "2003",
+      "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
+      "cells": 234
+    },
+    {
+      "survey": "TIMSS",
+      "year": "2007",
+      "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
+      "cells": 414
+    },
+    {
+      "survey": "TIMSS",
+      "year": "2011",
+      "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
+      "cells": 522
+    },
+    {
+      "survey": "TIMSS",
+      "year": "2011",
+      "status": "UNAVAILABLE_VERIFIED_SOURCE_FIELD",
+      "cells": 18
+    },
+    {
+      "survey": "TIMSS",
+      "year": "2015",
+      "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
+      "cells": 540
+    },
+    {
+      "survey": "TIMSS",
+      "year": "2015",
+      "status": "UNAVAILABLE_VERIFIED_SOURCE_FIELD",
+      "cells": 18
+    },
+    {
+      "survey": "TIMSS",
+      "year": "2019",
+      "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
+      "cells": 576
+    },
+    {
+      "survey": "TIMSS",
+      "year": "2023",
+      "status": "SCIENTIFICALLY_VALIDATED",
+      "cells": 504
+    },
+    {
+      "survey": "TIMSS",
+      "year": "2023",
+      "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
+      "cells": 54
+    }
+  ],
+  "home_SES_usable_cells": 774,
+  "home_SES_temporal_claim": "One released comparable Home-SES wave per study in current scope; no within-study Home-SES trend and no cross-study joined scale.",
+  "dashboard_cells": 54771,
+  "appendix_leaks": 0,
+  "unmapped_chosen_products": 0,
+  "migration_definitions": [
+    "MIGRATION_ANY_PARENT_ABROAD",
+    "MIGRATION_BOTH_PARENTS_ABROAD",
+    "MIGRATION_GENERATION_SOURCE_LABELLED"
+  ],
+  "modules": {
+    "core": 8169,
+    "ses_national": 3227,
+    "gender": 3501,
+    "language_frequency_binary": 1383,
+    "migration": 7002,
+    "ses_peer_exposure": 1720,
+    "home_language_frequency_peer": 602,
+    "migration_binary_peer": 2176,
+    "high_proficiency_peer_exposure": 4668,
+    "peer_baseline": 7318,
+    "migration_generation": 5835,
+    "migration_peer_exposure": 2176,
+    "language_exact": 2118,
+    "home_language_peer_exposure": 486,
+    "ses_harmonized": 2709,
+    "extension_performance_school": 1167,
+    "extension_ses_school": 430,
+    "extension_performance_class": 1167,
+    "extension_ses_class": 430,
+    "extension_ses_gender": 10176,
+    "extension_home_ses": 4149,
+    "peer_below_basic": 7002
+  },
+  "limitations": "Task-level scope audit; scientific numerical and sample validity require the separately linked Q dossiers. Historical slide titles are not approved empirical claims."
+}

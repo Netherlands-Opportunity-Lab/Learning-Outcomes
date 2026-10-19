@@ -27,7 +27,7 @@ def publish(repo, root):
         'Q08_PAPER_CLAIM_REVIEW.json': 'Q08/PAPER_CLAIM_REVIEW.json',
     }
     source_hashes = {}
-    private_pattern = r'[A-Za-z]:[/\\]|/Users/|/home/'
+    private_pattern = r'(?<![A-Za-z0-9])[A-Za-z]:[/\\]|/Users/|/home/'
     for name, relative in mappings.items():
         p = w / relative
         z = json.loads(p.read_text(encoding='utf-8'))

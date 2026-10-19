@@ -1,0 +1,140 @@
+{
+  "status": "REGISTERED_CLAIMS_AND_JOINT_COVARIANCE_VERIFIED",
+  "claim_count": 12,
+  "formal_tests": 3,
+  "multiplicity": "HOLM_THREE_PISA_LONG_TERM_MEAN_CLAIMS",
+  "limitations": [
+    "This register is made after results exist; it is not confirmatory preregistration.",
+    "Formal tests limited to three PISA long-term mean changes, with Holm adjustment across those three.",
+    "IEA long-term changes are descriptive; the conditional sampling/PV intervals exclude unquantified long-period linking error.",
+    "SES gaps use joint within-cycle covariance and are conditional on chosen SES measurement/calibration.",
+    "Sample nonresponse, exclusions, mode and omitted uncertainty cannot be repaired by small p-values."
+  ],
+  "registration_sha256": "c01daa802fa77e9f40637207ca168dafdae3b5fd930c2d3f626730556563537a",
+  "review_code_sha256": "cf9f9cd45ca2f83a2028f70f253987c1d3a84b40ea91b0f7873e62f084048860",
+  "result_sha256": "44f4b03364ae39efb8207c363cbd76bc7d842e34a05180f7e2be4514ea99d2f5",
+  "dependencies_sha256": "ae0719561bc344687bf5d008b469d773339c9d6134a4873f5c2a5bfbad54c819",
+  "evidence_files": [
+    {
+      "file": "NLD_IEA_SELECTED_180_RESULT_CERTIFICATE.json",
+      "sha256": "90158270674b4ac6b65e1cfaf6ed3ce64e2d500d97a83df9fd97acfaecf82671"
+    },
+    {
+      "file": "METHOD_2f7ad7d7c7c5b133.json",
+      "sha256": "60e3e8fe97d21c3cabb24b797cd7c9bd2145f39f8999daf360ad3f77e3c89317"
+    },
+    {
+      "file": "METHOD_c6d5f0cc4e3cdb9f.json",
+      "sha256": "05709d054b6966af38545b65c9f356b25580b89a824c0ce6ca939cfbd2a897c6"
+    },
+    {
+      "file": "PIRLS2021_se_page_0.pdf",
+      "sha256": "2dfe1dd6076fac99fa8c31eb3f71ac9748b488a54ccd3c42258a6f36dd63cf1b"
+    },
+    {
+      "file": "IEA_BOOKS_SELECTED_CONTROLLER_RESULT_CERTIFICATE.json",
+      "sha256": "ceae2a8ee330bdce868dc08dc3ca4cf8808f9963307d142e92bb38350d0e7ffb"
+    },
+    {
+      "file": "METHOD_74daab20003d8e9e.json",
+      "sha256": "678d5499b99e2a92b4addb1e2527797802976d1037f218bedf5c548ef504334d"
+    },
+    {
+      "file": "JOINT_REFERENCE_PV_REPLICATES.rds",
+      "sha256": "f341bc56bc8473f9f8f6f9ba98da9525d4c2395232ec125cc6ce361d3d652ae4"
+    },
+    {
+      "file": "METHOD_5bf3158806f5023a.json",
+      "sha256": "909aadc0739b9a73f0f27e17df444db40381585d93e1cbeff76a139d789dd113"
+    },
+    {
+      "file": "METHOD_ff9196be607beb73.json",
+      "sha256": "0d9937b965602e84e0ddde1a18f35c778e08a4dc40feb27972fb983297b62aaf"
+    },
+    {
+      "file": "TIMSS2023_se_page_0.pdf",
+      "sha256": "0b252111219290d270aeafb0939e42bed625994cee85e0f25a888daa5882fb66"
+    },
+    {
+      "file": "METHOD_a22412e51de44a3e.json",
+      "sha256": "cd963c1625d1d999d49f2a2678ad13a4f9311b76468f0b1a4811663607353be8"
+    },
+    {
+      "file": "JOINT_REFERENCE_PV_REPLICATES.rds",
+      "sha256": "6d784ae68a7b1a761b1a048ae4347072fbd17d97f03fc5dfc456689dafe154b5"
+    },
+    {
+      "file": "METHOD_661b17996e5a7a5e.json",
+      "sha256": "a9957fd873c9f037748585ce3df2ba0668f5e4b8bf791a6dbab3db1f61151020"
+    },
+    {
+      "file": "METHOD_7e52e91aa687cf07.json",
+      "sha256": "637098011dd9a2ef79c586e489b2e35c0e0a3732bff5139a7901d95116b16af1"
+    },
+    {
+      "file": "METHOD_b91dad9a110aa8f4.json",
+      "sha256": "e3f3549fbc8963b0561ccfc4af9847dd784f3d185a80ba0ba1ac10f0845f1a7c"
+    },
+    {
+      "file": "PISA_LEGACY_RECOVERED_128_RESULT_CERTIFICATE.json",
+      "sha256": "6d2666c5726af6b044cd582ee05d7f89d3e7f12df41b533934d72b44e81c38c0"
+    },
+    {
+      "file": "METHOD_627b41f7050cd915.json",
+      "sha256": "46aec115fa9b6332554f42bbb60fdf88d7e2c1d30f60e26b4759e0a6005093c1"
+    },
+    {
+      "file": "NLD2025_SELECTED_48_RESULT_CERTIFICATE.json",
+      "sha256": "19f46b280fd7842efccd5d3680d7d960c74014dbcfe07a47e968bb84bcd53c9d"
+    },
+    {
+      "file": "METHOD_023d3a4554ec710e.json",
+      "sha256": "16fe9d947f99621f3328f7114e3557e27eb6a9b5563eee27bdefd1c4e77574eb"
+    },
+    {
+      "file": "PISA2025_notes.html",
+      "sha256": "a0018737fa8dc7e368771e4f1b5e902373b09d8bdbd63c1c1b047f67682cac5c"
+    },
+    {
+      "file": "PISA_SES_2025_SELECTED_RESULT_CERTIFICATE.json",
+      "sha256": "7e52f61aa80ade057fa7242a5dcf9b5edeb92d7d1c5eb000cfbd9d1b5da1c5ef"
+    },
+    {
+      "file": "METHOD_d6f1537b64ae6c7c.json",
+      "sha256": "73dcd7a6505c16c6fe15159560f80a17f82c005e1e0e574c43231a0b3c7f8f8a"
+    },
+    {
+      "file": "JOINT_REFERENCE_PV_REPLICATES.rds",
+      "sha256": "3a1e060a2c19bca4d106f058e7f9f78e7fa2ea808da817d2b358cbecc0501b91"
+    },
+    {
+      "file": "METHOD_9e47d5e57dd6d5dd.json",
+      "sha256": "1c9f6fd6ac8c73ed9b4343c6dc88eb6708d7463e26afcc006bdbdcefbad112c1"
+    },
+    {
+      "file": "METHOD_e9c8aafaff7073a6.json",
+      "sha256": "9e9521d55e86a23893123be05c8cd8a1ff520d646678de0f8ec28644117fb20d"
+    },
+    {
+      "file": "METHOD_e0eb1a349f2049b4.json",
+      "sha256": "8267a34f575c851daac9df4502271f9010961afaa7bac33be9a795fe75d577a4"
+    },
+    {
+      "file": "PISA_LEGACY_2006_SELECTED_RESULT_CERTIFICATE.json",
+      "sha256": "87e88a1df35ea88c6c2b6034475923857ef62d2a8d85344e4160edeca1babe30"
+    },
+    {
+      "file": "METHOD_7a587ef270dc5f20.json",
+      "sha256": "1d194955c4bf9d725817ece4fe5e4406fce1275b4fb6e817984c98d7116c2ee0"
+    },
+    {
+      "file": "METHOD_b6127327644ec584.json",
+      "sha256": "7dbf5bd139c295dde32140af4c111bb25145e9ee583133cc63f46bdeb5e93b45"
+    },
+    {
+      "file": "METHOD_dccefde98307709f.json",
+      "sha256": "23978104c56001e882acb2552df187b95b0738356f54c6358c1e75bcd30170cd"
+    }
+  ],
+  "private_full_review_sha256": "8b51a45f19566bb007ff1461670c74cef62892cbeaa1648a8a01529bb98dbc4d"
+}
