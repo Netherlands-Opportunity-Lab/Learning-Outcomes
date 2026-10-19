@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "review_date": "2026-10-19",
+  "review_date": "2026-10-20",
   "authority": "Official source population correction under the user's existing no-regional-substitution rule; no new analytical scope.",
   "corrections": [
     {
@@ -277,6 +277,27 @@
         }
       ],
       "historical_results": "Keep original evidence and the required historical target visible. This cycle cannot certify comparable trends or reference coverage."
+    },
+    {
+      "review_id": "QUAL_YEM_TIMSS_2003",
+      "country": "YEM",
+      "survey": "TIMSS",
+      "year": "2003",
+      "domain": "all",
+      "disposition": "EXCLUDE_FROM_COMPARABLE_TREND_SUPPORT",
+      "actual_population": "Fourth-grade sample; official review rejected within-class pupil subsampling as unsuitable for international comparison. Presence in the public database and appendix does not establish a comparable wave.",
+      "incorrect_assumption": "Complete pupil data and response tables were incorrectly treated as sufficient evidence of a third comparable Yemen wave.",
+      "reason": "OFFICIAL_SAMPLING_PLAN_NOT_COMPARABLE",
+      "sources": [
+        {
+          "file": "YEM_TIMSS2003_UNDP_evaluation.pdf",
+          "sha256": "2729d28770ef5379685aa84a81ca8d09000205721462b0bc971923b32c80717b",
+          "url": "https://www.iea.nl/sites/default/files/2019-04/Aggarwala_UNDP_Evaluation_Report_2004.pdf",
+          "locator": "Annex D, printed pp.47-51: Yemen student subsampling was not defensible; excluded from the international report, with descriptive results retained in an appendix.",
+          "retrieved": "2026-10-20"
+        }
+      ],
+      "historical_results": "Keep the historical source, candidate targets and exclusion evidence. Yemen 2007 and 2011 remain genuine fourth-grade waves, but two waves do not meet admission. No sixth-grade substitution or new Yemen calculations."
     }
   ]
 }

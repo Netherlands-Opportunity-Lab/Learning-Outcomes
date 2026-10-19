@@ -511,7 +511,7 @@
 "XKX","PISA","age15","science",0,FALSE
 "YEM","PIRLS","age10","reading",0,FALSE
 "YEM","PISA","age15","reading",0,FALSE
-"YEM","TIMSS","age10","mathematics",3,TRUE
+"YEM","TIMSS","age10","mathematics",2,FALSE
 "YEM","PISA","age15","mathematics",0,FALSE
-"YEM","TIMSS","age10","science",3,TRUE
+"YEM","TIMSS","age10","science",2,FALSE
 "YEM","PISA","age15","science",0,FALSE

@@ -101,7 +101,8 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
   if(is.null(families_keep)||'PISA_SES'%in%families_keep) {
     source(file.path(repo,'06_pipeline/LO_INTERNATIONAL_SES.R'))
     author<-Sys.getenv('LO_COBREROS_ROOT','');if(!nzchar(author))stop('LO_COBREROS_ROOT_REQUIRED')
-    ses<-lo_prepare_international_ses(repo,author,root,partitions,info$selected)
+    ses<-lo_prepare_international_ses(repo,author,root,partitions,
+      lo_ses_application_country_keys(info$selected,manifest))
   }
   contexts<-unique(t[c('country','survey','year')]);failures<-list();completed<-0L;units<-0L
   repairs_path<-file.path(international,'PRODUCTION_REPAIRS_REQUIRED.csv')

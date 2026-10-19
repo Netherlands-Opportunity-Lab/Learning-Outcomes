@@ -55,3 +55,17 @@ once<-lo_population_filter_support(specific,r)
 stopifnot(identical(once,lo_population_filter_support(once,r)),
  inherits(try(lo_population_review_rows(specific[c('country','survey','year')],r),silent=TRUE),'try-error'))
 cat('PASS population/comparability correction, domain-specific qualifications, retained qualified anchors, per-combination admission and changed-download regression\n')
+# A public-use file and reported response rates cannot override an officially
+# rejected sampling plan. The separate sixth-grade sample is never substituted.
+yemen<-expand.grid(country='YEM',survey='TIMSS',year=c('2003','2007','2011'),
+ domain=c('mathematics','science'),stringsAsFactors=FALSE)
+for(k in setdiff(lo_balance_columns(),names(yemen)))yemen[[k]]<-'none'
+yemen$age_group<-'age10';yemen$outcome<-'mean_score'
+yemen$split_group<-'total';yemen$unit<-'score_points'
+stopifnot(lo_support_eligibility(yemen,'YEM')$countries$dashboard_eligible)
+reviewed_yemen<-lo_population_filter_support(yemen,r)
+stopifnot(nrow(reviewed_yemen)==4L,
+ !lo_support_eligibility(reviewed_yemen,'YEM')$countries$dashboard_eligible,
+ all(attr(reviewed_yemen,'population_exclusions')$year=='2003'),
+ setequal(reviewed_yemen$year,c('2007','2011')))
+cat('PASS Yemen rejected sampling plan cannot supply a third comparable wave\n')
