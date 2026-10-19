@@ -82,6 +82,7 @@ def record(repo, root, output, ci_path, execution_commit):
     assert actual_candidate['source_sha256'] == sha(state / 'PRIVATE_GUIDED_VALIDATED_ROWS.csv')
     assert actual_candidate['actual_balance_export_sha256'] == sha(state / 'BALANCED_REFERENCE_EXPORT.json')
     assert actual_candidate['builder_sha256'] == sha(repo / '06_pipeline/LO_FINAL_GUIDED_DASHBOARD_BUILD.py')
+    assert actual_candidate['verification_script_sha256'] == sha(repo / 'scripts/verify_final_scientific_candidate.py')
     approval = root / 'master_reconciliation/SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'
     assert sha(approval) == binding['approval_sha256'] == manifest['approval_sha256']
     for item in manifest['runtime_bindings']:
