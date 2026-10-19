@@ -1,0 +1,162 @@
+{
+  "date": "2026-10-19",
+  "scope": "all_required",
+  "executed_code_commit": "331349ec64cc23ba71c2f7221d52e32b0baaf681",
+  "result_commit": "ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2",
+  "result_commit_verification": "Actual analysis checkout clean at this HEAD; git ls-remote confirms the same development-branch HEAD",
+  "target_rows": 77611,
+  "result_rows": 69775,
+  "disjoint_target_status_counts": {
+    "SCIENTIFICALLY_VALIDATED": 69775,
+    "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE": 3312,
+    "UNAVAILABLE_VERIFIED_ANALYTIC_SAMPLE": 97,
+    "UNAVAILABLE_VERIFIED_SOURCE_FIELD": 4427
+  },
+  "remaining": 0,
+  "latest_stages": [
+    {
+      "stage": "audit",
+      "scope": "all_required",
+      "status": "COMPLETED_WITH_SCIENCE_GATES",
+      "timestamp_utc": "2026-10-18T20:40:11Z",
+      "detail": "77611 target rows; 0 candidates, 69775 validated; 0 approved batches"
+    },
+    {
+      "stage": "produce",
+      "scope": "all_required",
+      "status": "ALL_SELECTED_TARGETS_ACCOUNTED_FOR",
+      "timestamp_utc": "2026-10-18T20:40:35Z",
+      "detail": "332 new independently certified international cells; 0 remaining targets; 0 repair records. Publication gates remain separate."
+    },
+    {
+      "stage": "final-check-preparation",
+      "scope": "all_required",
+      "status": "STABLE_SNAPSHOT_CHECKED",
+      "timestamp_utc": "2026-10-18T20:44:27Z",
+      "detail": "0 remaining cells; 0 certified cells awaiting remote checkpoint; scientific gates checked separately"
+    },
+    {
+      "stage": "guided-preview",
+      "scope": "all_required",
+      "status": "PRIVATE_GUIDED_CANDIDATE_BUILT",
+      "timestamp_utc": "2026-10-18T21:43:38Z",
+      "detail": "54771 mapped, 0 held; public September site unchanged"
+    },
+    {
+      "stage": "finalize",
+      "scope": "all_required",
+      "status": "HOLD_SCIENTIFIC_GATES",
+      "timestamp_utc": "2026-10-18T22:15:27Z",
+      "detail": "0 active grid gaps; Q01-Q08 0/8; primary peers PASS"
+    }
+  ],
+  "finalize_completed_europe_amsterdam": "2026-10-19T00:15:27+02:00",
+  "scientific_quality_summary": {
+    "scope_contracts": "77611",
+    "active_primitive_contracts": "69775",
+    "validated_active_primitives": "69775",
+    "active_missing": "0",
+    "documented_unavailable_extensions": "3366",
+    "documented_unavailable_source_fields": "4412",
+    "documented_unavailable_analytic_samples": "97",
+    "new_below_basic_peer_targets": "7002",
+    "documented_unavailable_low_peers": "15",
+    "new_below_basic_peer_verified": "6987",
+    "paper_gates_pass": "0",
+    "paper_gates_required": "8",
+    "primary_peer_gate": "PASS",
+    "scientific_freeze": "HOLD",
+    "publication_authorized": "NO_RIGHTS_AND_REPLICATION_REVIEW_PENDING",
+    "reason": ";Q01_Q08_OPEN"
+  },
+  "private_preview_summary": {
+    "scope": "all_required",
+    "rendered_source_rows": "54771",
+    "unmapped_validated_source_rows": "0",
+    "preview_id": "ece77d7a0ed52bcf8a",
+    "preview_status": "PRIVATE_GUIDED_CANDIDATE_BUILT",
+    "public_release": "NOT_AUTHORIZED"
+  },
+  "user_reported_drive_finish": {
+    "recoverable_cell_versions": 69775,
+    "report_files": 11,
+    "manifest": "20261018T224742Z_b271d9d78a56733c",
+    "run_report_completeness": "FIXED_SCOPE_AGGREGATES_ONLY"
+  },
+  "backup_file_coverage": [
+    {
+      "file": "PRIVATE_MASTER_GRID.csv",
+      "status": "OVERSIZE_NOT_BACKED_UP",
+      "bytes": "107401012",
+      "scope": "all_required"
+    },
+    {
+      "file": "PRIVATE_BATCH_PLAN.csv",
+      "status": "ELIGIBLE_PRIVATE_SHA_READBACK",
+      "bytes": "31",
+      "scope": "all_required"
+    },
+    {
+      "file": "PRIVATE_GUIDED_VALIDATED_ROWS.csv",
+      "status": "ELIGIBLE_PRIVATE_SHA_READBACK",
+      "bytes": "43544368",
+      "scope": "all_required"
+    },
+    {
+      "file": "PRIVATE_GUIDED_MAPPING_HOLDS.csv",
+      "status": "ELIGIBLE_PRIVATE_SHA_READBACK",
+      "bytes": "3353655",
+      "scope": "all_required"
+    },
+    {
+      "file": "PRIVATE_GRID_MATCH_STATUS.csv",
+      "status": "ELIGIBLE_PRIVATE_SHA_READBACK",
+      "bytes": "15937702",
+      "scope": "all_required"
+    },
+    {
+      "file": "PRIVATE_ARCHIVE_EVIDENCE.csv",
+      "status": "OVERSIZE_NOT_BACKED_UP",
+      "bytes": "70364594",
+      "scope": "all_required"
+    },
+    {
+      "file": "PRIVATE_V8_V9_CANDIDATE_MATCH.csv",
+      "status": "ELIGIBLE_PRIVATE_SHA_READBACK",
+      "bytes": "12819329",
+      "scope": "all_required"
+    },
+    {
+      "file": "PRIVATE_FIXED_COMPARATOR_POINTS.csv",
+      "status": "MISSING_NOT_BACKED_UP",
+      "bytes": "0",
+      "scope": "all_required"
+    },
+    {
+      "file": "PRIVATE_ACTIVE_CELL_GAPS.csv",
+      "status": "ELIGIBLE_PRIVATE_SHA_READBACK",
+      "bytes": "22",
+      "scope": "all_required"
+    }
+  ],
+  "backup_interpretation": "Cell checkpoint coverage does not imply every large private CSV has been copied. Prove reconstruction or bounded transfer before deleting any unique required state. Historical comparator output may be intentionally absent; assess dependencies rather than requiring obsolete outputs.",
+  "evidence_sha256": {
+    "FIXED_STAGE_STATUS.csv": "85a019e6740b2ea84f2b6a7f73bc415f9ce5f325057f608db049a4b1288af18b",
+    "SCIENTIFIC_QUALITY_SUMMARY.csv": "acd21155c45ffdfea0dda1fdcd7370ea6564ba53501db7efa033c214519df0d5",
+    "PAPER_Q01_Q08_GATES.csv": "bb82d61f956f8eda2d0fa9b032c8659eef74ab2dd306a28e928352c8a3e45b73",
+    "GUIDED_PREVIEW_SUMMARY.csv": "24d326470ed44a6efb4dd59625ae0b0c7693cd674b8ea69348bedb666dd85c8c",
+    "PRIVATE_AGGREGATE_BACKUP_COVERAGE.csv": "29c6a20ad166929e62b34242bb11e49c21cc402de1a1a7e5879fd69d7c53d0e0",
+    "GITHUB_REVIEW_EXPORT/manifest.json": "f49607ceb972540d25c91b4311b954df528e902b1caaa8fa22a8b84c05693ab3"
+  },
+  "requested_next_work": "Three sequential execution prompts: scientific source/scope/balance acceptance; actual dashboard/deck/paper; independent replication/release/storage closure",
+  "canonical_instructions": "06_pipeline/DRIE_AFRONDINGSOPDRACHTEN_20261019.md",
+  "not_executed_in_this_planning_turn": [
+    "Scientific Q01-Q08 closure",
+    "New production",
+    "Final product build",
+    "Full clean-room replication",
+    "Public deployment",
+    "File cleanup"
+  ],
+  "no_scientific_or_publication_approval_inferred": true
+}

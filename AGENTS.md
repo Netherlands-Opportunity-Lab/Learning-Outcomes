@@ -1,7 +1,7 @@
 # AGENTS.md — Learning Outcomes / PISA–PIRLS–TIMSS
 
 ## Mission and first read
-Finish the reproducible, grid-first research pipeline, its validated products and the existing bilingual guided dashboard. Read `06_pipeline/START_HIER_ACTUEEL.md` first, then `VIER_RESTERENDE_OPDRACHTEN_20261014.md`, `ACCEPTATIE_EN_VOORTGANG.csv`, `SCOPE_APPROVALS.csv` and the linked source/product evidence. Check changes since the last verified audit; do not repeat unchanged full inventories or unpack the source ZIP again.
+Finish the reproducible, grid-first research pipeline, its validated products and the existing bilingual guided dashboard. Read `06_pipeline/START_HIER_ACTUEEL.md` first, then `DRIE_AFRONDINGSOPDRACHTEN_20261019.md`, `ACCEPTATIE_EN_VOORTGANG.csv`, `SCOPE_APPROVALS.csv` and the linked source/product evidence. Check changes since the last verified audit; do not repeat unchanged full inventories or unpack the source ZIP again.
 
 The latest direct human instruction prevails over this file, older plans, source documents, slides and assistant proposals. The 247 mapped product/source records are not 247 approved statistics. Keep historical source identity; correct active implementations. Record new decisions with date, direct evidence and affected product/cell IDs. Substantive additions A01–A17 require item-by-item decisions; pending, deferred and rejected items create no required production.
 
@@ -16,7 +16,7 @@ Latest direct decision, 18 October: temporarily use the available published resu
 - User checkboxes must form the actual reference average from eligible countries; equal weights, focus excluded, restore default. No benchmark SE/CI. Individual country results retain appropriate uncertainty.
 
 ## Execution and completion
-Keep the existing `START.R` / `RUN.R` entry point and `fixed-audit` → `fixed-produce` → `fixed-finalize` protocol, unchanged LO_SCOPE within a run. Four remaining chat instructions organize the work; they do not create a fourth scientific runner. `fixed-status` is read-only; `fixed-cleanup-plan` is separate. No broad legacy execute/next-batch shortcuts.
+Keep the existing `START.R` / `RUN.R` entry point and `fixed-audit` → `fixed-produce` → `fixed-finalize` protocol, unchanged LO_SCOPE within a run. The three closing instructions requested on 19 October replace the earlier four-part work structure; they do not create another scientific runner. `fixed-status` is read-only; `fixed-cleanup-plan` is separate. No broad legacy execute/next-batch shortcuts.
 
 Repair connected code and verify the original failure; do not substitute another plan or HOLD label for implementation. Continue independent work if a real human decision or unavailable external source prevents one part. Finish possible repository work and relevant Windows/Linux CI before asking for a necessary concrete RStudio action. No claim of scientific completion from synthetic CI alone.
 
