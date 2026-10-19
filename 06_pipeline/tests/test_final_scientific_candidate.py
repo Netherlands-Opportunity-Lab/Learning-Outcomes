@@ -54,6 +54,23 @@ class ActualCandidateProof(unittest.TestCase):
             row['required_years'] = '2018;2022'
             (state / 'PRIVATE_GUIDED_VALIDATED_ROWS.csv').write_text('changed', encoding='utf-8')
             with self.assertRaises(AssertionError): check()
+            (state / 'PRIVATE_GUIDED_VALIDATED_ROWS.csv').write_text('source', encoding='utf-8')
+            # Canada/Poland PIRLS are intentionally not admitted: an empty
+            # serialized anchor is zero years, not one blank year. All three
+            # sources of evidence must agree that the combination is absent.
+            csv_file(expected / 'REFERENCE_BY_VIEW.csv', [dict(country='NLD', figure_id='f',
+                eligible_countries='', default_countries='', status='AGE_DOMAIN_NOT_ADMITTED')])
+            independent_row = dict(focus='NLD', figure_id='f', required_years=[], status='AGE_DOMAIN_NOT_ADMITTED')
+            json_file(work / 'BALANCED_REFERENCE_EXPORT.json', dict(views=[independent_row]))
+            row.update(eligible_members=[], default_members=[], required_years='', status='AGE_DOMAIN_NOT_ADMITTED')
+            self.assertEqual(check()['nonadmitted_empty_anchor_views'], 1)
+            row['status'] = 'BALANCED_REFERENCE_AVAILABLE'
+            with self.assertRaises(AssertionError): check()
+            row['status'] = 'AGE_DOMAIN_NOT_ADMITTED'; row['required_years'] = '2022'
+            with self.assertRaises(AssertionError): check()
+            row['required_years'] = ''; independent_row['required_years'] = ['2022']
+            json_file(work / 'BALANCED_REFERENCE_EXPORT.json', dict(views=[independent_row]))
+            with self.assertRaises(AssertionError): check()
 
 
 if __name__ == '__main__':

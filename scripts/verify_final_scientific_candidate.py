@@ -63,13 +63,21 @@ def verify(repo, root, output):
         years = independent_views[key]['required_years']
         if isinstance(years, str):
             years = [years]
-        assert set(row['required_years'].split(';')) == {str(y) for y in years}, (key, 'full required years')
+        actual_years = set(row['required_years'].split(';')) if row['required_years'] else set()
+        assert actual_years == {str(y) for y in years}, (key, 'full required years')
+        if not actual_years:
+            # A deliberately unavailable combination has zero years. Splitting
+            # an empty text otherwise invents one empty year. Never permit an
+            # empty anchor for a view that either independent proof admits.
+            assert (row['status'] == want['status'] == independent_views[key]['status']
+                    == 'AGE_DOMAIN_NOT_ADMITTED'), (key, 'unexplained empty anchor')
         assert row['focus'] not in row['eligible_members']
         assert row['focus_excluded'] and row['country_weights'] == 'EQUAL_PER_COUNTRY'
         assert row['benchmark_uncertainty'] is False
     result = dict(status='ACTUAL_FINAL_CANDIDATE_MATCHES_INDEPENDENT_Q06',
         candidate_id=summary['preview_id'], views=len(actual),
         membership_differences=0, required_year_differences=0,
+        nonadmitted_empty_anchor_views=sum(not r['required_years'] for r in actual.values()),
         actual_status_counts=dict(Counter(r['status'] for r in actual.values())),
         checked_candidate_files=len(manifest), scientific_data_rows=qa['scientific_data_rows'],
         source_sha256=qa['scientific_source_sha256'],
