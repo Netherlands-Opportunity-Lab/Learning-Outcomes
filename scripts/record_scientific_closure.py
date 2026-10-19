@@ -123,6 +123,7 @@ def record(repo, root, output, ci_path, execution_commit):
     remote = git('ls-remote', 'origin', 'refs/heads/' + branch).split()[0]
     assert head == remote, 'Result commit not remotely verified'
     git('merge-base', '--is-ancestor', manifest['historical_result_commit'], head)
+    git('merge-base', '--is-ancestor', manifest.get('reviewed_result_commit',manifest['historical_result_commit']), head)
     git('merge-base', '--is-ancestor', execution_commit, head)
     public = repo / '04_results/review/all_required'
     deposited = read_json(public / 'manifest.json')
@@ -178,9 +179,11 @@ def record(repo, root, output, ci_path, execution_commit):
         deposited_result_commit=result_commit, remote_result_commit_verified=result_commit,
         remote_branch_head_verified=remote,
         scope='all_required', current_targets=len(current), status_counts=dict(counts),
-        remaining_compute_targets=0, new_pupil_calculations=0,
+        remaining_compute_targets=0, new_pupil_calculations_during_review_and_finalize=0,
+        reviewed_result_commit=manifest.get('reviewed_result_commit',manifest['historical_result_commit']),
+        production_history='See exact audit/produce run records and result versions; this review does not imply that expanded production performed zero pupil calculations.',
         original_target_count=len(before), historical_approved_master_rows=sum(1 for _ in rows(approval)),
-        historical_approved_master_unchanged=True, approval_sha256=sha(approval),
+        reviewed_approved_master_unchanged=True, approval_sha256=sha(approval),
         historical_targets_outside_current_dashboard_scope=dict(collections.Counter(before[k]['country'] for k in removed)),
         scope_exclusion_reasons=dict(collections.Counter(r['reason'] for r in exclusions)),
         admission_count=len(admitted), admitted_countries=admitted,

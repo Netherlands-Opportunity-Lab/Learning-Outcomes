@@ -9,6 +9,7 @@ import csv
 import hashlib
 import json
 import math
+import re
 import shutil
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -52,6 +53,17 @@ def verify_review_bindings(reviewed_grid, ses_bindings, ses_sources, claim_depen
     got_claims=[(r['claim_id'],r['cell_id']) for r in claim_dependencies]
     if len(got_claims)!=len(set(got_claims)) or set(got_claims)!=wanted_claims:
         raise ValueError('Q08 dependencies do not match the exact registered claims')
+
+
+def verified_snapshot_result_basis(snapshot, export, approval_sha256):
+    commit = snapshot.get('result_commit', '')
+    if (not re.fullmatch('[0-9a-f]{40}', commit)
+            or export.get('result_commit') != commit
+            or not snapshot.get('stable')
+            or snapshot.get('inputs', {}).get('master_reconciliation/SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv') != approval_sha256
+            or export.get('approved_registry_sha256') != approval_sha256):
+        raise ValueError('Snapshot result commit or reviewed registry identity differs')
+    return commit
 
 
 def freeze(repo, root, reference_root=None, work=None):
@@ -191,6 +203,8 @@ def freeze(repo, root, reference_root=None, work=None):
     add(repo / '06_pipeline/GRID_ARCHIVE_BATCH.R', artifact['review_code_sha256'])
     add(repo / 'scripts/prepare_scientific_review_snapshot.R', artifact['snapshot_code_sha256'])
     export_proof = proof_json(work / 'snapshot/product_export/SNAPSHOT_EXPORT_EVIDENCE.json')
+    snapshot_proof = proof_json(work / 'snapshot/SNAPSHOT.json')
+    reviewed_result_commit = verified_snapshot_result_basis(snapshot_proof, export_proof, artifact['approval_sha256'])
     add(scope_inputs['dashboard'], export_proof['export_sha256'])
     add(scope_inputs['grid'], export_proof['source_grid_sha256'])
     add(repo / '06_pipeline/LO_FINAL_GUIDED_EXPORT.R', export_proof['exporter_sha256'])
@@ -269,6 +283,7 @@ def freeze(repo, root, reference_root=None, work=None):
         'Q08': 'Twelve retrospectively registered Dutch claims checked against exact parents and joint PV/replicate covariance. Three PISA trend tests include linking variance and Holm correction; IEA long-term intervals are explicitly conditional, with no formal trend test.'}
     manifest = dict(schema_version=1, status='REVIEWED_SCIENTIFIC_BASIS_WITH_EXPLICIT_LIMITATIONS',
                     historical_result_commit='ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2',
+                    reviewed_result_commit=reviewed_result_commit, reviewed_grid_sha256=sha(grid_copy),
                     review_work_directory=work.as_posix(),
                     reference_mapping_directory=mapping_dir.as_posix(), reference_review_directory=q06_dir.as_posix(),
                     approval_sha256=add(approval), target_contracts_path=contracts.as_posix(),

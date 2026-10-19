@@ -7,6 +7,15 @@ spec=importlib.util.spec_from_file_location('freeze_review',path)
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 
 class ScientificDependencies(unittest.TestCase):
+    def test_current_review_result_commit_is_not_the_historical_anchor(self):
+        snapshot=dict(result_commit='b'*40,stable=True,inputs={'master_reconciliation/SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv':'approval'})
+        export=dict(result_commit='b'*40,approved_registry_sha256='approval')
+        self.assertEqual(m.verified_snapshot_result_basis(snapshot,export,'approval'),'b'*40)
+        for a,b,h in [(dict(snapshot,result_commit='a'*40),export,'approval'),
+                      (snapshot,dict(export,result_commit='bad'),'approval'),
+                      (snapshot,export,'changed'),(dict(snapshot,stable=False),export,'approval')]:
+            with self.assertRaises(ValueError):m.verified_snapshot_result_basis(a,b,h)
+
     def test_changed_results_sources_and_claim_registration_are_rejected(self):
         row=dict(cell_id='cell',status='SCIENTIFICALLY_VALIDATED',survey='PISA',subgroup_variable='ses_harmonized',
             result_hash='result',target_contract_sha256='target',source_edition_sha256='source',n_unweighted='2',
