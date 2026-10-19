@@ -53,6 +53,9 @@ for(focus in sort(countries)) {
   actual<-paste(p$year,p$series_id,sep=':')
   ids<-p$cell_id
   v<-list(focus=focus,figure_id=f$figure_id,view_id=paste0('PUBLIC_FIGURE::',f$figure_id),
+    required_years=years,
+    target_cell_ids=tasks$metric_key[tasks$country==focus & tasks$survey==f$survey &
+      tasks$contract_figure_id==f$historical_figure_id],
     view_cell_ids=ids,default_members=character(),default_points=list(),
     focus_excluded=TRUE,country_weights='EQUAL_PER_COUNTRY',benchmark_uncertainty=FALSE)
   if(!core_good) {
@@ -90,12 +93,18 @@ for(focus in sort(countries)) {
 }
 # Public proof has aggregate identities and hashes, never local evidence paths.
 proof_cols<-c('cell_id','country',lo_balance_columns(),'result_hash','verification_id',
-              'source_certificate_sha256','result_certificate_sha256')
+              'source_certificate_sha256','result_certificate_sha256',
+              'estimate','standard_error','n_unweighted','product_result_hash',
+              'product_transform','product_multiplier','product_intercept',
+              'product_unit','product_estimate','product_standard_error')
+export_cells<-a[a$country%in%countries,,drop=FALSE]
 jsonlite::write_json(list(schema_version=3L,policy='FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3',
  figure_registry_sha256=figure_sha,
  dashboard_input_sha256=review$dashboard_input_sha256,mapping_evidence=review,
  population_review_sha256=attr(population_review,'sha256'),
- key_dictionary=all_keys,cell_columns=proof_cols,cells=unname(as.matrix(a[proof_cols])),
- core_targets=core_targets,admission=admission,rich_candidates=sort(rich),views=views),
+ scope_countries=sort(countries),exported_mapped_cells=nrow(export_cells),
+ key_dictionary=all_keys,cell_columns=proof_cols,cells=unname(as.matrix(export_cells[proof_cols])),
+ core_targets=core_targets[core_targets$country%in%countries,,drop=FALSE],
+ admission=admission[admission$country%in%countries,,drop=FALSE],rich_candidates=sort(rich),views=views),
  file.path(out,'BALANCED_REFERENCE_EXPORT.json'),auto_unbox=TRUE,pretty=FALSE,na='null',digits=17)
 cat('PASS reference options use existing R membership engine; no pupil recalculation\n')

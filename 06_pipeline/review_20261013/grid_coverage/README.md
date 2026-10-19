@@ -1,6 +1,6 @@
 # Actuele resultaatdekking
 
-Scope `all_required`: 77,611 doelen; 69,775 geregistreerd gevalideerd, 7,836 gedocumenteerd onbeschikbaar, 0 nog niet afgehandeld.
+Scope `all_required`: 73,321 doelen; 65,881 geregistreerd gevalideerd, 7,440 gedocumenteerd onbeschikbaar, 0 nog niet afgehandeld.
 
 Dit rapport beschrijft de opgeslagen run. Een latere populatiecorrectie staat afzonderlijk bij ieder getroffen doel; historische certificaten worden niet herschreven. Rekenkundige afhandeling is geen wetenschappelijke vrijgave. De landselectie en Q01-Q08 worden afzonderlijk inhoudelijk beoordeeld.
 
@@ -26,7 +26,6 @@ Meetgolven zijn geen jaarlijkse observaties. Internationaal leerjaar 4 is Nederl
 | AUT | 2112 | 1867 | 245 | 0 |
 | AZE | 1207 | 1038 | 169 | 0 |
 | BGR | 2112 | 1939 | 173 | 0 |
-| CAN | 2020 | 1884 | 136 | 0 |
 | CZE | 2428 | 2199 | 229 | 0 |
 | DEU | 2520 | 2275 | 245 | 0 |
 | DNK | 2428 | 2192 | 236 | 0 |
@@ -44,7 +43,6 @@ Meetgolven zijn geen jaarlijkse observaties. Internationaal leerjaar 4 is Nederl
 | NLD | 2678 | 2397 | 281 | 0 |
 | NOR | 2270 | 2048 | 222 | 0 |
 | NZL | 2678 | 2401 | 277 | 0 |
-| POL | 2270 | 2010 | 260 | 0 |
 | PRT | 2178 | 1976 | 202 | 0 |
 | QAT | 2336 | 2100 | 236 | 0 |
 | RUS | 1876 | 1648 | 228 | 0 |
@@ -62,28 +60,28 @@ COUNTRY_CANDIDATES.csv bewaart de toenmalige toelatingsstand. Nieuwe broncorrect
 
 | Familie | Doelen | Gevalideerd | Onbeschikbaar | Open |
 |---|---:|---:|---:|---:|
-| core | 8169 | 8162 | 7 | 0 |
-| extension_home_ses | 4149 | 774 | 3375 | 0 |
-| extension_performance_class | 1167 | 461 | 706 | 0 |
-| extension_performance_school | 1167 | 1166 | 1 | 0 |
-| extension_ses_class | 430 | 301 | 129 | 0 |
-| extension_ses_gender | 10176 | 10176 | 0 | 0 |
-| extension_ses_school | 430 | 430 | 0 | 0 |
-| gender | 3501 | 3498 | 3 | 0 |
-| high_proficiency_peer_exposure | 4668 | 4634 | 34 | 0 |
-| home_language_frequency_peer | 602 | 546 | 56 | 0 |
-| home_language_peer_exposure | 486 | 485 | 1 | 0 |
-| language_exact | 2118 | 2115 | 3 | 0 |
-| language_frequency_binary | 1383 | 1296 | 87 | 0 |
-| migration | 7002 | 6030 | 972 | 0 |
-| migration_binary_peer | 2176 | 1654 | 522 | 0 |
-| migration_generation | 5835 | 5019 | 816 | 0 |
-| migration_peer_exposure | 2176 | 1652 | 524 | 0 |
-| peer_baseline | 7318 | 6735 | 583 | 0 |
-| peer_below_basic | 7002 | 6987 | 15 | 0 |
-| ses_harmonized | 2709 | 2709 | 0 | 0 |
-| ses_national | 3227 | 3227 | 0 | 0 |
-| ses_peer_exposure | 1720 | 1718 | 2 | 0 |
+| core | 7700 | 7693 | 7 | 0 |
+| extension_home_ses | 3960 | 729 | 3231 | 0 |
+| extension_performance_class | 1100 | 440 | 660 | 0 |
+| extension_performance_school | 1100 | 1099 | 1 | 0 |
+| extension_ses_class | 408 | 287 | 121 | 0 |
+| extension_ses_gender | 9636 | 9636 | 0 | 0 |
+| extension_ses_school | 408 | 408 | 0 | 0 |
+| gender | 3300 | 3297 | 3 | 0 |
+| high_proficiency_peer_exposure | 4400 | 4366 | 34 | 0 |
+| home_language_frequency_peer | 574 | 520 | 54 | 0 |
+| home_language_peer_exposure | 454 | 453 | 1 | 0 |
+| language_exact | 1980 | 1977 | 3 | 0 |
+| language_frequency_binary | 1320 | 1236 | 84 | 0 |
+| migration | 6600 | 5682 | 918 | 0 |
+| migration_binary_peer | 2056 | 1562 | 494 | 0 |
+| migration_generation | 5500 | 4735 | 765 | 0 |
+| migration_peer_exposure | 2056 | 1562 | 494 | 0 |
+| peer_baseline | 6916 | 6363 | 553 | 0 |
+| peer_below_basic | 6600 | 6585 | 15 | 0 |
+| ses_harmonized | 2541 | 2541 | 0 | 0 |
+| ses_national | 3080 | 3080 | 0 | 0 |
+| ses_peer_exposure | 1632 | 1630 | 2 | 0 |
 
 De gekozen scope is geen volledig kruisproduct van alle splits en maten. A02/A04/A06 en A14 behouden hun appendixplaatsing; A11/A12/A13 zijn wetenschappelijke uitbreidingen. Geen nieuwe absolute SES, taal x migratie, oude rangpanels, cross-age/cohortanalyse of Theil-H. SCOPE_APPROVALS.csv blijft beslissend.
 
@@ -91,14 +89,14 @@ De gekozen scope is geen volledig kruisproduct van alle splits en maten. A02/A04
 
 | Reden | Doelen |
 |---|---:|
-| ANALYTIC_GROUP_UNUSABLE | 97 |
+| ANALYTIC_GROUP_UNUSABLE | 55 |
 | DOMAIN_NOT_VALID_IN_SOURCE | 37 |
-| GROUP_DEFINITION_NOT_OBSERVED | 168 |
-| LEARNING_ENVIRONMENT_NOT_OBSERVED | 862 |
+| GROUP_DEFINITION_NOT_OBSERVED | 161 |
+| LEARNING_ENVIRONMENT_NOT_OBSERVED | 808 |
 | QUESTIONNAIRE_NOT_ADMINISTERED | 63 |
-| REQUIRED_FIELD_NOT_OBSERVED | 3306 |
-| RESULT_AVAILABLE | 69775 |
-| SCALE_NOT_DEFINED_IN_CYCLE | 3303 |
+| REQUIRED_FIELD_NOT_OBSERVED | 3157 |
+| RESULT_AVAILABLE | 65881 |
+| SCALE_NOT_DEFINED_IN_CYCLE | 3159 |
 
 Deze hoofdredenen tellen precies tot alle doelen op. Niet-afgenomen vragenlijsten zijn iets anders dan niet-geobserveerde velden, niet-bestaande schalen of lege analysegroepen. Een geldige schatting nul blijft RESULT_AVAILABLE. Populatie-, respons-, modus- en vergelijkbaarheidsnotities staan afzonderlijk; ze zijn geen extra ontbrekende cellen.
 

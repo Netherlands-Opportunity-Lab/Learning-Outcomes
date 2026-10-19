@@ -14,6 +14,24 @@ spec=importlib.util.spec_from_file_location('comparison_review',FILE)
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 
 class ComparisonReview(unittest.TestCase):
+    def test_complement_retains_primitive_identity_and_checks_values(self):
+        row=dict(result_hash='parent',estimate='0.75',standard_error='0.02',n_unweighted='100')
+        task=dict(stat='q1_basic',unit='proportion')
+        product=dict(result_hash='display',figure_id='GP_SES_BASIC_age10_reading',
+            source_id='GRID:SHA256:parent',estimate='25',se='2',n_unweighted='100')
+        binding=m.product_binding(product,row,task)
+        self.assertEqual(binding['result_hash'],'parent')
+        self.assertEqual(binding['source_record_id'],'parent')
+        self.assertEqual(binding['product_result_hash'],'display')
+        self.assertEqual(binding['product_multiplier'],-100)
+        self.assertEqual(binding['product_unit'],'percent')
+        for changed in [dict(estimate='75'),dict(se='0.02'),dict(n_unweighted='99')]:
+            with self.assertRaisesRegex(ValueError,'PRODUCT_NUMERIC_PARENT_BINDING'):
+                m.product_binding(dict(product,**changed),row,task)
+        identity=dict(product,result_hash='parent',estimate='0.75',se='0.02')
+        self.assertEqual(m.product_binding(identity,row,task)['product_transform'],'IDENTITY')
+        with self.assertRaisesRegex(ValueError,'PRODUCT_NUMERIC_PARENT_BINDING'):
+            m.product_binding(dict(identity,estimate='0.8'),row,task)
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.root=Path(self.temp.name)
         self.code=self.root/'06_pipeline/LO_DASHBOARD_COMPARABILITY.py'

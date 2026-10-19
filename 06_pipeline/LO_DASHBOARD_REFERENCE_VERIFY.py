@@ -5,7 +5,7 @@ rebinds its cells to the actual public results, and rejects changed membership,
 periods, groups, defaults, or admission. Used at build and release time.
 """
 from collections import Counter, defaultdict
-import hashlib, json, re
+import hashlib, json, math, re
 
 COLS=('survey age_group domain year outcome split_dimension split_group definition_id '
       'ses_definition_id peer_definition peer_target_group threshold_id unit '
@@ -23,6 +23,32 @@ def fail(reason):raise ValueError('REFERENCE_PROOF_INVALID: '+reason)
 def key(row):return '|'.join(str(row[k]) for k in COLS)
 def fingerprint(parts):return hashlib.sha256(json.dumps(parts,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
 
+def verify_product(c,p):
+    """Validate the displayed affine product without losing its primitive hash."""
+    if p.get('source_id')!='GRID:SHA256:'+c['result_hash']:
+        fail('changed primitive parent')
+    transform=c.get('product_transform');scale=float(c.get('product_multiplier','nan'))
+    intercept=float(c.get('product_intercept','nan'))
+    if transform=='IDENTITY':
+        if (scale,intercept)!=(1,0) or c.get('product_unit')!=c['unit'] or c.get('product_result_hash')!=c['result_hash']:
+            fail('changed identity transform')
+    elif transform=='BELOW_BASIC_COMPLEMENT_V1':
+        parts=c['cell_id'].split('|')
+        expected_scale={'proportion':-100,'percent':-1}.get(c['unit'])
+        if (not p['figure_id'].startswith('GP_SES_BASIC_') or len(parts)!=12 or parts[5] not in ('base_share','q1_basic','q4_basic')
+            or expected_scale is None or (scale,intercept)!=(expected_scale,100)
+            or c.get('product_unit')!='percent' or c.get('product_result_hash')==c['result_hash']):
+            fail('changed complement transform')
+    else:fail('unreviewed product transform')
+    for field,expected in [('estimate',intercept+scale*float(c['estimate'])),
+                           ('se',abs(scale)*float(c['standard_error'])),
+                           ('n_unweighted',float(c['n_unweighted']))]:
+        if not math.isclose(float(p[field]),expected,rel_tol=1e-12,abs_tol=1e-9):
+            fail('changed displayed '+field)
+    if (not math.isclose(float(c['product_estimate']),float(p['estimate']),rel_tol=1e-12,abs_tol=1e-9)
+        or not math.isclose(float(c['product_standard_error']),float(p['se']),rel_tol=1e-12,abs_tol=1e-9)):
+        fail('changed reviewed product value')
+
 def verify(evidence,rows,countries,figures,input_sha=None):
     if evidence.get('schema_version')!=3 or evidence.get('policy')!=POLICY:fail('schema/policy')
     review=evidence.get('mapping_evidence',{})
@@ -31,11 +57,18 @@ def verify(evidence,rows,countries,figures,input_sha=None):
     actual={r['cell_id']:r for r in rows}
     if len(actual)!=len(rows):fail('duplicate public cell')
     cells={};support=defaultdict(set);core_cycles=defaultdict(set)
+    if 'scope_countries' in evidence and set(arr(evidence['scope_countries']))!=set(countries):fail('changed country scope')
     for values in evidence['cells']:
         c=dict(zip(evidence['cell_columns'],values));cid=c['cell_id'];p=actual.get(cid)
         if cid in cells or p is None:fail('unapproved/duplicate mapping cell')
-        if c['result_hash']!=p['result_hash'] or c['country']!=p['country_id'].split(':')[-1] or int(c['year'])!=p['year']:
+        if 'scope_countries' in evidence and c['country'] not in countries:fail('mapping outside country scope')
+        affine_review=review.get('product_numeric_review')=='ALL_IDENTITY_AND_AFFINE_PRODUCTS_BOUND_TO_EXACT_PRIMITIVE'
+        displayed_hash=c.get('product_result_hash') if affine_review else c['result_hash']
+        if displayed_hash!=p['result_hash'] or c['country']!=p['country_id'].split(':')[-1] or int(c['year'])!=p['year']:
             fail('changed result binding')
+        if affine_review:
+            if not re.fullmatch('[a-f0-9]{64}',displayed_hash or ''):fail('missing display evidence')
+            verify_product(c,p)
         for field in ('result_hash','verification_id','source_certificate_sha256','result_certificate_sha256'):
             if not re.fullmatch('[a-f0-9]{64}',c.get(field,'')):fail('missing cell evidence')
         parts=cid.split('|')
@@ -57,7 +90,7 @@ def verify(evidence,rows,countries,figures,input_sha=None):
         if core:
             identity=tuple(c[v] for v in ('country','survey','age_group','domain','population_comparison_id','method_comparison_id','definition_id','unit'))
             core_cycles[identity].add(c['year'])
-    if len(cells)!=review.get('mapped_cells'):fail('mapping audit count')
+    if len(cells)!=evidence.get('exported_mapped_cells',review.get('mapped_cells')):fail('mapping audit count')
     admission={}
     for country in countries:
         counts=defaultdict(int)
@@ -85,9 +118,19 @@ def verify(evidence,rows,countries,figures,input_sha=None):
             v=views[(country,f['figure_id'])];current=byfigure[(country,f['figure_id'])]
             ids={r['cell_id'] for r in current}
             if set(arr(v['view_cell_ids']))!=ids:fail('view mapping changed')
-            expected={(int(y),g) for y in f['required_years'].split(';') for g in f['expected_series'].split(';')}
+            years=set(f['required_years'].split(';'))
+            if country!='NLD' and 'required_years' in v:
+                targets_for_view=[cid.split('|') for cid in arr(v.get('target_cell_ids'))]
+                if any(len(p)!=12 and p[0]!='NEW_PEER_BELOW_BASIC' for p in targets_for_view):fail('invalid focus target contract')
+                own_years={p[3] if p[0]=='NEW_PEER_BELOW_BASIC' else p[2] for p in targets_for_view}
+                if any((p[1] if p[0]=='NEW_PEER_BELOW_BASIC' else p[0])!=country for p in targets_for_view):fail('other focus target contract')
+                if set(str(y) for y in arr(v['required_years']))!=own_years:fail('shortened own-country years')
+                years=own_years
+            elif 'required_years' in v and set(str(y) for y in arr(v['required_years']))!=years:
+                fail('shortened Dutch figure years')
+            expected={(int(y),g) for y in years for g in f['expected_series'].split(';')}
             present={(r['year'],r['series_id']) for r in current}
-            incomplete='FOCUS_CORE_INCOMPLETE' if not core<=cells.keys() else 'FOCUS_VIEW_INCOMPLETE' if expected!=present else 'COMPARABILITY_PENDING' if not ids<=cells.keys() else None
+            incomplete='FOCUS_CORE_INCOMPLETE' if not core<=cells.keys() else 'FOCUS_VIEW_INCOMPLETE' if not years or expected!=present else 'COMPARABILITY_PENDING' if not ids<=cells.keys() else None
             if incomplete:
                 if v['status']!=incomplete or arr(v.get('default_members')) or arr(v.get('options')):fail('unproved view enabled')
                 continue

@@ -7,6 +7,19 @@ s=importlib.util.spec_from_file_location('verify',ROOT/'06_pipeline/LO_DASHBOARD
 m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
 
 class ReferenceProof(unittest.TestCase):
+    def test_display_complement_keeps_parent_and_checks_se(self):
+        c=dict(cell_id='NLD|PISA|2025|reading|ses_national|q1_basic|q1|books||level2|proportion|',
+            result_hash='a'*64,product_result_hash='b'*64,unit='proportion',
+            product_unit='percent',product_transform='BELOW_BASIC_COMPLEMENT_V1',
+            product_multiplier='-100',product_intercept='100',estimate='0.75',
+            standard_error='0.02',n_unweighted='100',product_estimate='25',product_standard_error='2')
+        p=dict(figure_id='GP_SES_BASIC_age15_reading',source_id='GRID:SHA256:'+'a'*64,
+            estimate=25,se=2,n_unweighted=100)
+        m.verify_product(c,p)
+        for change in [dict(estimate=75),dict(se=.02),dict(n_unweighted=99),dict(source_id='GRID:SHA256:'+'b'*64)]:
+            with self.assertRaises(ValueError):m.verify_product(c,dict(p,**change))
+        with self.assertRaisesRegex(ValueError,'complement transform'):
+            m.verify_product(dict(c,product_multiplier='100'),p)
     def fixture(self):
         countries=['NLD','AAA','BBB'];cells=[];rows=[];targets=[]
         f=dict(figure_id='TR_MEAN_age10_reading',required_years='2001;2006;2011;2016;2021',expected_series='total')
@@ -41,6 +54,15 @@ class ReferenceProof(unittest.TestCase):
         e,r,c,f=self.fixture();self.assertEqual(m.verify(e,r,c,f,'e'*64)['status'],'PASS')
         e['core_targets']=[t for t in e['core_targets'] if t['cell_id']!='NLD|TIMSS|2003|science|core|mean|total|total|||score_points|']
         with self.assertRaisesRegex(ValueError,'Dutch anchor'):m.verify(e,r,c,f)
+
+    def test_own_period_is_bound_to_full_target_contracts(self):
+        e,r,c,f=self.fixture()
+        for v in e['views']:
+            v['target_cell_ids']=v['view_cell_ids']
+            v['required_years']=f[0]['required_years'].split(';')
+        self.assertEqual(m.verify(e,r,c,f)['status'],'PASS')
+        e['views'][1]['required_years'].pop()
+        with self.assertRaisesRegex(ValueError,'shortened own-country years'):m.verify(e,r,c,f)
 
     def test_changed_result_or_input_rejected(self):
         e,r,c,f=self.fixture();r[0]['result_hash']='f'*64

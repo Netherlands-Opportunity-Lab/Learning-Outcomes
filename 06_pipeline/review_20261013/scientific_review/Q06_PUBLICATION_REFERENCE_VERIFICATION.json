@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "mapped_cells": 51405,
+  "views": 5568,
+  "admitted_result_countries": 32,
+  "reference_export_sha256": "a943483c3c0503b3329df29966a91c4c935c8005399e7cf78b8e9bdca11b2db9",
+  "figure_registry_sha256": "7abd68f0beb3ea69aff32bbdb567c0e9101ef0a48482c42664feacb68680a512",
+  "original_product_export_sha256": "3269624cb59328ad2bff02d5d04a4c2265017d960463f923d5e6b0e34dcdabc0",
+  "code_sha256": {
+    "LO_FINAL_GUIDED_DASHBOARD_BUILD.py": "6c779c3482b857b885ab38bee8a264365f8a6132918f5ee83cbbbba8a9ce2688",
+    "LO_DASHBOARD_REFERENCE_VERIFY.py": "b45e124367c832d80fc3dc5e7d19faf13b62ac9728507b103bf599b963a6859d"
+  },
+  "verification_script_sha256": "41e7267e7d755d71b3050620ce6c64c08615d9e49eeb85997a530e43a7157b33",
+  "no_pupil_recalculation": true,
+  "public_deployment": false,
+  "private_full_review_sha256": "04bc44b757adbd417820ed5d615d26ebcc551ee48a811961ef6df45c15822c01"
+}

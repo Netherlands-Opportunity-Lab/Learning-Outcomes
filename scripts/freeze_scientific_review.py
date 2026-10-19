@@ -8,6 +8,7 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 import shutil
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -138,6 +139,17 @@ def freeze(repo, root):
     add(repo / '06_pipeline/review_20261013/SOURCE_PROJECTION_REVIEWS.json', mapping['source_projection_review_sha256'])
     add(mapping_dir / 'PRIVATE_MAPPING_EVIDENCE.csv', mapping['evidence_index_sha256'])
     add(mapping_dir / 'BALANCE_AVAILABLE.csv', mapping['available_sha256'])
+    add(mapping_dir / 'PRODUCT_DERIVATION_REVIEW.csv', mapping['derivation_review_sha256'])
+    # The reference engine consumes primitive cells. A complemented display
+    # percentage has its own hash and must never replace its parent's identity.
+    reviewed_grid = {r['cell_id']: r for r in read(scope_inputs['grid'])}
+    for cell in read(mapping_dir / 'BALANCE_AVAILABLE.csv'):
+        parent = reviewed_grid[cell['cell_id']]
+        if cell['result_hash'] != parent['result_hash'] or cell['source_record_id'] != parent['result_hash']:
+            raise ValueError('Comparison mapping is not bound to its primitive result')
+        for key in ['estimate', 'standard_error', 'n_unweighted']:
+            if not math.isclose(float(cell[key]), float(parent[key]), rel_tol=1e-12, abs_tol=1e-9):
+                raise ValueError('Comparison primitive numeric mismatch: ' + key)
     add(mapping_dir / 'FOCUS_CORE_TARGETS.csv', mapping['core_targets_sha256'])
     for f in read(mapping_dir / 'PRIVATE_MAPPING_EVIDENCE.csv'):
         add(f['path'], f['sha256'])
@@ -151,6 +163,13 @@ def freeze(repo, root):
         add(repo / '06_pipeline' / n, h)
     for n, h in q['Q06']['output_sha256'].items():
         add(work / 'Q06' / (n + '.csv'), h)
+    public_reference = proof_json(work / 'Q06/PUBLICATION_REFERENCE_VERIFICATION.json')
+    if public_reference['status'] != 'PASS' or public_reference['views'] != q['Q06']['views']:
+        raise ValueError('Actual publication reference verification failed')
+    add(mapping_dir / 'BALANCED_REFERENCE_EXPORT.json', public_reference['reference_export_sha256'])
+    for n, h in public_reference['code_sha256'].items():
+        add(repo / '06_pipeline' / n, h)
+    add(repo / 'scripts/verify_reference_review_export.py', public_reference['verification_script_sha256'])
     proof_json(reports['Q08'])
     add(repo / '06_pipeline/review_20261013/PAPER_CLAIMS.json', q['Q08']['registration_sha256'])
     add(repo / '06_pipeline/LO_PAPER_CLAIM_REVIEW.R', q['Q08']['review_code_sha256'])
@@ -178,7 +197,8 @@ def freeze(repo, root):
                     'GENDER_POOL_USER_DECISION.json', 'SOURCE_PROJECTION_REVIEWS.json', 'NLD_POLICY_CORE_YEAR_ANCHOR.csv']
     code += [repo / '06_pipeline/review_20261013' / n for n in policy_names]
     code += [repo / '06_pipeline/SCOPE_APPROVALS.csv', repo / '06_pipeline/COUNTRY_PRODUCTION_APPROVALS.csv',
-             repo / 'renv.lock', repo / 'scripts/freeze_scientific_review.py']
+             repo / 'renv.lock', repo / 'scripts/freeze_scientific_review.py',
+             repo / 'scripts/verify_reference_review_export.py']
     bindings = [{'path': p.relative_to(repo).as_posix(), 'sha256': add(p)} for p in sorted(code)]
     assessments = {
         'Q01': 'Actual weighted/unweighted analysis groups, SES missingness and saved result N verified; coverage is not a missing-at-random or representativeness claim.',
