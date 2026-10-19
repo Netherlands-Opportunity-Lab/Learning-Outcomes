@@ -31,6 +31,19 @@ class ReleaseGate(unittest.TestCase):
    for f in p.rglob('*') if f.is_file() and f.name!='BUILD_SHA256_MANIFEST.json']
   (p/'BUILD_SHA256_MANIFEST.json').write_text(json.dumps(entries),encoding='utf-8')
   cert['candidate_manifest_sha256']=m.sha(p/'BUILD_SHA256_MANIFEST.json')
+ def test_lazy_country_contracts_match_independent_proof(self):
+  with tempfile.TemporaryDirectory() as d:
+   site=Path(d);(site/'data/references').mkdir(parents=True)
+   verified=dict(policy='FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3',figures=[
+    dict(focus='NLD',figure_id='f',required_years='2018;2022;2025',eligible_members=['CAN'])])
+   (site/'data/explorer_references.json').write_text(json.dumps(dict(schema_version=2,policy=verified['policy'],country_files={'NLD':'data/references/NLD.json'})))
+   path=site/'data/references/NLD.json'
+   payload=dict(schema_version=1,policy=verified['policy'],figures=verified['figures'])
+   path.write_text(json.dumps(payload));m.verify_reference_payloads(site,['NLD'],verified)
+   changed=json.loads(path.read_text());changed['figures'][0]['required_years']='2022;2025'
+   path.write_text(json.dumps(changed))
+   with self.assertRaisesRegex(ValueError,'independently verified'):
+    m.verify_reference_payloads(site,['NLD'],verified)
  def test_dynamic_country_and_mutations(self):
   with tempfile.TemporaryDirectory() as d:
    root=Path(d);p=root/'site';p.mkdir();c=self.fixture(p);cf=root/'cert.json'

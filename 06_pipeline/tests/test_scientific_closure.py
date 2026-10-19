@@ -13,6 +13,16 @@ spec.loader.exec_module(closure)
 
 
 class ClosureCodeEquivalence(unittest.TestCase):
+    def test_only_explicit_combination_or_population_exclusions(self):
+        row=dict(country='CAN',survey='PIRLS',year='2016',domain='reading')
+        self.assertEqual(closure.reviewed_scope_exclusions({'cell':row},{},[],[])[0]['reason'],'AGE_DOMAIN_NOT_ADMITTED')
+        passed=[dict(row,combination_pass='TRUE')]
+        with self.assertRaisesRegex(AssertionError,'Approved target removed'):
+            closure.reviewed_scope_exclusions({'cell':row},{},passed,[])
+        correction=dict(row,reason='REGIONAL_POPULATION_NOT_NATIONAL',review_id='official')
+        self.assertEqual(closure.reviewed_scope_exclusions({'cell':row},{},passed,[correction])[0]['review_id'],'official')
+        with self.assertRaisesRegex(AssertionError,'Approved target removed'):
+            closure.reviewed_scope_exclusions({'cell':row},{},passed,[dict(correction,reason='OFFICIAL_TREND_COMPARABILITY_QUALIFICATION')])
     def test_report_only_commit_is_allowed_but_changed_runtime_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             repo = Path(directory)

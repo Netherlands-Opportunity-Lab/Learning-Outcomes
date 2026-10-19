@@ -7,6 +7,7 @@
     "unavailable": 7440,
     "unresolved": 0
   },
+  "report_kind": "SAVED_RUN_COVERAGE",
   "main_reasons": {
     "RESULT_AVAILABLE": 65881,
     "REQUIRED_FIELD_NOT_OBSERVED": 3157,
@@ -26,7 +27,7 @@
     "PRIVATE_ACTIVE_PRODUCT_CELL_TRACE.csv": "ba4b889c82132e4b505f80604dcb6b60a6ce9b79c054bae1bcfa0b7d0a767646",
     "COUNTRY_SOURCE_ELIGIBILITY.csv": "d363125ea60b8cef4bfb04d8efbb2a9f3400ca41089a60cf547408693d48fcb3",
     "ACTIVE_REQUIREMENT_REGISTER.csv": "f07ef58f1d030b443924b4fa5e1385fc2bde1d53d8f65ff3c504e080edd6ee77",
-    "generator": "396e4624f314b5d32c5b13ef3e7bbdf14c7465f6a53065380e8b8df0a649c463",
+    "generator": "bc90a004fcc332571ea9186bb2e5c332f88a2ffc5b8798d347bb927d5ed32d4d",
     "population_review": "3a0c2c89ac658574408869018a20c59d69e34fc1d5b1769bf76ada2b3f47c33b"
   },
   "outputs": {

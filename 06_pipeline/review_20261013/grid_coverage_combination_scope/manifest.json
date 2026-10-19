@@ -1,0 +1,48 @@
+{
+  "schema_version": 2,
+  "scope": "all_required",
+  "targets": 76809,
+  "counts": {
+    "validated": 69201,
+    "unavailable": 7608,
+    "unresolved": 0
+  },
+  "report_kind": "CURRENT_COMBINATION_SCOPE_EXACT_HISTORICAL_REUSE",
+  "main_reasons": {
+    "RESULT_AVAILABLE": 69201,
+    "REQUIRED_FIELD_NOT_OBSERVED": 3157,
+    "SCALE_NOT_DEFINED_IN_CYCLE": 3231,
+    "LEARNING_ENVIRONMENT_NOT_OBSERVED": 862,
+    "QUESTIONNAIRE_NOT_ADMINISTERED": 63,
+    "GROUP_DEFINITION_NOT_OBSERVED": 161,
+    "ANALYTIC_GROUP_UNUSABLE": 97,
+    "DOMAIN_NOT_VALID_IN_SOURCE": 37
+  },
+  "orphan_cells": 0,
+  "population_corrected_cells": 327,
+  "complete_international_dashboard": false,
+  "completion_reason": "SCIENTIFIC_AND_REFERENCE_REVIEW_SEPARATE",
+  "inputs": {
+    "PRIVATE_MASTER_GRID.csv": "2cf2a63a7b62f7736ffe1c7b66ca69ada394153de41d8d78c4a4795a81e104e8",
+    "PRIVATE_ACTIVE_PRODUCT_CELL_TRACE.csv": "9d6cd47096ff8fa436e0c5ca00c76d271aec91abf40ec531311974a5524a5372",
+    "COUNTRY_SOURCE_ELIGIBILITY.csv": "21ceb5b7c550d8709429ef303bc12f1d4a265cf107b5195a1e7537b60342ccad",
+    "ACTIVE_REQUIREMENT_REGISTER.csv": "b3d57da742e4e41e177049764bde3959706993a39bdcfe15ab7110f3911ba34b",
+    "scope_reuse": "ff4b3cbf8fa544ab9268306def832c8c02f802f09f0cad06d8cc1f487144365c",
+    "scope_impact": "9133541d76973deb87989072170a44c575f328d58f4ca6b7da9d318a951a6e5e",
+    "generator": "bc90a004fcc332571ea9186bb2e5c332f88a2ffc5b8798d347bb927d5ed32d4d",
+    "population_review": "3a0c2c89ac658574408869018a20c59d69e34fc1d5b1769bf76ada2b3f47c33b"
+  },
+  "outputs": {
+    "BY_COUNTRY.csv": "82b8886ba6421de14fc8a6b962ae73aa26cbd332b279212348924ffbed9d06b4",
+    "BY_EXACT_COMBINATION.csv": "43e3219056c63d3300c80844424dca47c0df3ce77dfcda0379614d2a93bac046",
+    "BY_FAMILY.csv": "c16ca0a9f75cc68a388afc4c7fdbc8fb00f963470345fcd2ee32129e6bf0635a",
+    "BY_MISSING_REASON.csv": "0c395eb7a6fd88e222f4bf6e67e333e6378fab113ea38dcaad48de16b863b8b9",
+    "BY_WAVE.csv": "4ea9ca511b85ca2729bb8f02f89dac3121187997702750482d64685e693d9fd7",
+    "COUNTRY_CANDIDATES.csv": "fc0e1917ce00af42aa8fc16468d5622502539fccdd10773cfe329a9f2112a3c8",
+    "EXACT_CELL_COVERAGE.csv.gz": "53c5ec0888f55095173da6b84ad3b4f18b4cd58a3b9347a10098232cde41bff5",
+    "MISSING_CELLS.csv": "b26543a1e47126d503d5b342ea943cf9d8be0fa31bbd067607ad06cf6eac58ec",
+    "PRODUCT_CELL_TRACE.csv.gz": "e10b3df4f8241ad48c3da9ac56f181657c6b94ff879cd8efc4af685b56cedd31",
+    "README.md": "08d7dcd4b4cf58de0e39919801e6cd16e2164876add79336081f037da25b9b75",
+    "REQUIREMENT_COVERAGE.csv": "76628bff4c73ecb2afd8d6f9c518194a86cf71699f60057f1bfbe3865e239dee"
+  }
+}

@@ -81,7 +81,14 @@ lo_scientific_review_install <- function(repo,root,tasks,approval_csv,state) {
   if(!file.exists(dest)||!identical(read.csv(dest,stringsAsFactors=FALSE),rows))lo_atomic_csv(rows,dest)
   # The comparison adapter consumes actual reviewed cell mappings, not a PASS
   # label or merely the count of scientifically validated results.
-  map_path<-file.path(root,'scientific_review_20261019/Q06_mapping_final/BALANCE_AVAILABLE.csv')
+  mapping_dir<-z$reference_mapping_directory
+  if(is.null(mapping_dir))mapping_dir<-file.path(root,'scientific_review_20261019/Q06_mapping_final')
+  map_path<-file.path(mapping_dir,'BALANCE_AVAILABLE.csv')
+  # The active review selects the exact mapping. Never silently fall back to
+  # the historical all-six comparison proof after a changed human decision.
+  same_path<-gsub('\\','/',z$evidence_files$path,fixed=TRUE)==gsub('\\','/',map_path,fixed=TRUE)
+  if(sum(same_path)!=1L)stop('SCIENCE_REVIEW_MAPPING_NOT_HASH_BOUND')
+  lo_science_check_files(z$evidence_files[same_path,,drop=FALSE],checked)
   map<-read.csv(map_path,colClasses='character',na.strings=character())
   balance_cert<-list(schema_version=2L,status='COMPARABILITY_CERTIFIED',
     assessment=z$reviews$assessment[z$reviews$requirement_id=='Q06'],

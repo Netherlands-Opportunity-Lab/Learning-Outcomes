@@ -18,6 +18,17 @@ class CoverageReport(unittest.TestCase):
   for reason,expected in cases:self.assertEqual(m.main_reason(dict(status='UNAVAILABLE_VERIFIED_SOURCE_FIELD',hold_reason=reason)),expected)
   self.assertEqual(m.main_reason(dict(status='UNAVAILABLE_VERIFIED_ANALYTIC_SAMPLE',hold_reason='EMPTY_TARGET_IN_REQUIRED_SURVEY_REPLICATE')),'ANALYTIC_GROUP_UNUSABLE')
   self.assertEqual(m.main_reason(dict(status='NEEDS_COMPUTE',hold_reason='')),'SOURCE_LINK_MISSING')
+ def test_projection_preserves_exact_target_status_result_and_trace(self):
+  grid=[dict(cell_id=c,status='SCIENTIFICALLY_VALIDATED',target_contract_sha256='target'+c,result_hash='result'+c) for c in ['a','b']]
+  links=[dict(cell_id=c) for c in ['a','b']]
+  reuse=[dict(grid[0],prior_result_hash=grid[0]['result_hash'])]
+  selected,trace=m.project_exact_reuse(grid,links,reuse)
+  self.assertEqual(selected,[grid[0]]);self.assertEqual(trace,[links[0]])
+  for field in ['status','target_contract_sha256','prior_result_hash']:
+   with self.assertRaisesRegex(ValueError,'Changed projected'):
+    m.project_exact_reuse(grid,links,[dict(reuse[0],**{field:'changed'})])
+  with self.assertRaisesRegex(ValueError,'Uncontracted'):
+   m.project_exact_reuse(grid,links+[dict(cell_id='unknown')],reuse)
  def test_compressed_exact_grid_deterministic_and_private_paths_rejected(self):
   with tempfile.TemporaryDirectory() as tmp:
    a=Path(tmp)/'a.csv.gz';b=Path(tmp)/'different.csv.gz';rows=[dict(cell_id='test',estimate='0')]

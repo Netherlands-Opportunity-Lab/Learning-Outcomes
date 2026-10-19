@@ -41,6 +41,22 @@ def verify_ci_runtime(repo, execution_commit, ci_commit, bindings):
                 bindings_sha256=hashlib.sha256(json.dumps(bindings, sort_keys=True).encode()).hexdigest())
 
 
+def reviewed_scope_exclusions(before,current,combinations,corrections):
+    passed={(r['country'],r['survey'],r['domain']) for r in combinations if str(r['combination_pass']).lower()=='true'}
+    population={(r['country'],r['survey'],str(r['year'])):r for r in corrections
+                if r['reason'] in ('REGIONAL_POPULATION_NOT_NATIONAL','OFFICIAL_GRADE_CHANGE_NOT_COMPARABLE')}
+    removed=[]
+    for cid in sorted(before.keys()-current.keys()):
+        r=before[cid];admitted=(r['country'],r['survey'],r['domain']) in passed
+        if r['domain']=='all':admitted=any(c==r['country'] and s==r['survey'] for c,s,d in passed)
+        correction=population.get((r['country'],r['survey'],str(r['year'])))
+        if admitted and not correction:raise AssertionError('Approved target removed: '+cid)
+        removed.append(dict(cell_id=cid,country=r['country'],survey=r['survey'],domain=r['domain'],year=r['year'],
+            reason=correction['reason'] if correction else 'AGE_DOMAIN_NOT_ADMITTED',
+            review_id=correction['review_id'] if correction else 'USER_20261019_COMBINATION_ADMISSION_FIXED_VIEW_PANEL'))
+    return removed
+
+
 def record(repo, root, output, ci_path, execution_commit):
     state = root / 'FIXED_PRODUCTION_V1/all_required'
     work = root / 'scientific_review_20261019'
@@ -71,7 +87,7 @@ def record(repo, root, output, ci_path, execution_commit):
     for item in manifest['runtime_bindings']:
         assert sha(repo / item['path']) == item['sha256'], item['path']
 
-    fields = ['country', 'status', 'target_contract_sha256', 'result_hash']
+    fields = ['country', 'survey', 'domain', 'year', 'status', 'target_contract_sha256', 'result_hash']
     def keyed(path):
         result = {}
         for row in rows(path):
@@ -87,7 +103,9 @@ def record(repo, root, output, ci_path, execution_commit):
     assert admitted == reviewed
     assert not (current.keys() - before.keys()), 'Unreviewed new targets'
     removed = before.keys() - current.keys()
-    assert all(before[k]['country'] not in admitted for k in removed), 'Approved target removed'
+    exclusions=reviewed_scope_exclusions(before,current,
+        list(rows(repo / '06_pipeline/review_20261013/scientific_review/VERIFIED_COUNTRY_COMBINATIONS.csv')),
+        read_json(repo / '06_pipeline/review_20261013/POPULATION_CORRECTIONS.json')['corrections'])
     assert all(current[k] == before[k] for k in current), 'Changed target/status/result'
     counts = collections.Counter(r['status'] for r in current.values())
     assert all(k == 'SCIENTIFICALLY_VALIDATED' or k.startswith('UNAVAILABLE_') for k in counts)
@@ -162,6 +180,7 @@ def record(repo, root, output, ci_path, execution_commit):
         original_target_count=len(before), historical_approved_master_rows=sum(1 for _ in rows(approval)),
         historical_approved_master_unchanged=True, approval_sha256=sha(approval),
         historical_targets_outside_current_dashboard_scope=dict(collections.Counter(before[k]['country'] for k in removed)),
+        scope_exclusion_reasons=dict(collections.Counter(r['reason'] for r in exclusions)),
         admission_count=len(admitted), admitted_countries=admitted,
         scientific_binding=binding, quality_summary=quality, latest_stages=stages,
         q_receipts=[{k: r[k] for k in ['requirement_id', 'status', 'evidence_sha256']} for r in receipts],
