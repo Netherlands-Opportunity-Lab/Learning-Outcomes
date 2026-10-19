@@ -20,6 +20,7 @@ empty_reference<-lo_reference_only_grid(t,data.frame(),
   list(selected='NLD',reference_candidates='NLD'),dec)
 stopifnot(nrow(empty_reference)==0L,identical(names(empty_reference),lo_grid_schema()))
 source('06_pipeline/LO_GENDER_POOL_POLICY.R')
+source('06_pipeline/LO_BALANCED_MEMBERSHIP.R')
 source('06_pipeline/LO_COUNTRY_TASKS.R')
 local({
   # The constructor must find the certified pooled foreign ID in nld_only.
@@ -35,12 +36,21 @@ local({
   b$contract_figure_id<-'GP_GENDER_age15_reading'
   b$metric_key<-'NLD|PISA|2025|reading|gender|mean_score|girl'
   id<-paste0(sub('^NLD','AUS',b$metric_key),';',lo_gender_pool_id())
-  support<-data.frame(country='AUS',survey='PISA',year='2025',
-    source_path=file.path(d,'fixture.rds'),source_sha256=h)
+  support<-as.data.frame(setNames(rep(list(rep('fixture',3L)),length(lo_balance_columns())),
+    lo_balance_columns()),stringsAsFactors=FALSE)
+  support$country<-'AUS';support$survey<-'PISA';support$age_group<-'age15'
+  support$year<-c('2018','2022','2025');support$domain<-'reading'
+  support$outcome<-'mean_score';support$split_dimension<-'none'
+  support$split_group<-'total';support$peer_definition<-'none'
+  support$source_path<-file.path(d,support$year,'fixture.rds')
+  support$source_path[support$year=='2025']<-file.path(d,'fixture.rds');support$source_sha256<-h
   lo_grid_archive_fill<-function(grid,candidates,verify_files) {
     stopifnot(verify_files,identical(grid$cell_id,candidates$cell_id));grid
   }
   ref<-lo_reference_only_grid;environment(ref)<-environment()
+  one_wave<-ref(b,data.frame(cell_id=id),list(selected='NLD',reference_candidates=c('NLD','AUS'),
+    source_support=support[support$year=='2025',,drop=FALSE]),dec)
+  stopifnot(nrow(one_wave)==0L)
   got<-ref(b,data.frame(cell_id=id),list(selected='NLD',reference_candidates=c('NLD','AUS'),source_support=support),dec)
   stopifnot(nrow(got)==1L,got$cell_id==id)
 })
