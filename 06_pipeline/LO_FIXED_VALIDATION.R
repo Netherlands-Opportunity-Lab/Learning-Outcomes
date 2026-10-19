@@ -1,6 +1,7 @@
 # Final scientific acceptance: no automatic promotion from old source/metric.
 lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
-                                  scope_decisions=NULL,paper_policy=NULL) {
+                                  scope_decisions=NULL,paper_policy=NULL,repo=NULL,
+                                  checked_files=new.env(parent=emptyenv())) {
   dir.create(out,recursive=TRUE,showWarnings=FALSE)
   family <- sub("_age.*$","",tasks$contract_figure_id)
   active <- !(family %in% c("TR_BASIC","TR_POSITION","GP_SES_HIGH","EN_PERFORMANCE_PEER"))
@@ -85,7 +86,7 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
      anyDuplicated(received$requirement_id))
     stop("SCIENTIFIC_GATE_HOLD: invalid Q01-Q08 gate file")
   if(any(received$status=='PASS')&&!exists('lo_paper_gate_evidence',mode='function'))stop('SCIENTIFIC_GATE_PAPER_EVIDENCE_VERIFIER_REQUIRED')
-  passed<-if(any(received$status=='PASS'))lo_paper_gate_evidence(received,tasks,approval_csv,policy_sha)else character()
+  passed<-if(any(received$status=='PASS'))lo_paper_gate_evidence(received,tasks,approval_csv,policy_sha,repo,checked_files)else character()
   paper$validated <- paper$requirement_id %in% passed
   write.csv(paper[,intersect(c("requirement_id","requirement","scope_disposition","evidence","historical_requirement","validated"),names(paper))],
       file.path(out,"PAPER_Q01_Q08_GATES.csv"),row.names=FALSE)
@@ -168,10 +169,12 @@ lo_final_quality_gate <- function(bundle, tasks, approval_csv, out,
     validated_active_primitives=nrow(approved)+nrow(peer_approved),
     active_missing=length(missing)+length(peer_missing),
     documented_unavailable_extensions=length(unavailable_ids),
-    documented_unavailable_source_fields=length(setdiff(source_unavailable_ids,analytic_unavailable_ids)),
-    documented_unavailable_analytic_samples=length(analytic_unavailable_ids),
+    documented_unavailable_source_fields=length(setdiff(source_unavailable_ids,union(analytic_unavailable_ids,unavailable_ids))),
+    documented_unavailable_analytic_samples=length(setdiff(analytic_unavailable_ids,unavailable_ids)),
     new_below_basic_peer_targets=low_peer_total,
     documented_unavailable_low_peers=nrow(peer_absent),
+    documented_unavailable_total=length(unique(c(unavailable_ids,source_unavailable_ids,peer_absent$metric_key))),
+    unavailable_accounting='DISJOINT_EXTENSIONS_THEN_ANALYTIC_THEN_OTHER_SOURCE_THEN_LOW_PEERS',
     new_below_basic_peer_verified=length(peer_ids)-length(peer_missing),
     paper_gates_pass=sum(paper$validated),
     paper_gates_required=8L,

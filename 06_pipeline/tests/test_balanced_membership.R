@@ -61,3 +61,12 @@ o<-lo_dashboard_reference_options(bad_admission,required,c("AAA","BBB"),"NLD")
 stopifnot(identical(o$eligible,c(TRUE,FALSE)),o$reason[2]=="FAIL_DASHBOARD_6x3",
   fails(lo_dashboard_reference_points(bad_admission,required,c("AAA","BBB"),"NLD")))
 cat("PASS 6x3 eligibility; joint balanced support; exact constructs; no focus; no partial means\n")
+# Own-country contracts cannot be shortened to finite plotted observations or
+# inherited from the Dutch figure template.
+source('06_pipeline/LO_BALANCED_MEMBERSHIP.R')
+own_tasks<-data.frame(country=c('ITA','ITA','ITA','NLD'),survey='PISA',
+  contract_figure_id='TR_MEAN',year=c('2003','2018','2025','2022'))
+own_figure<-data.frame(figure_id='DISPLAY',historical_figure_id='TR_MEAN',survey='PISA',required_years='2003;2006;2009;2012;2015;2018;2022;2025')
+stopifnot(identical(lo_focus_product_years(own_tasks,'ITA',own_figure),c('2003','2018','2025')),
+  length(lo_focus_product_years(own_tasks,'NLD',own_figure))==8L,
+  length(lo_focus_product_years(own_tasks,'FRA',own_figure))==0L)

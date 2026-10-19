@@ -25,7 +25,10 @@ if(startsWith(kind,'BACKGROUND_'))allowed_modules<-c('migration','migration_gene
 if(any(!requested$module%in%allowed_modules)||anyDuplicated(requested$metric_key))stop('CERTIFICATION_UNREVIEWED_SCOPE')
 if(kind=='PISA_SES'&&any(requested$definition!='Cobreros_fourwave_13item_trend_comparable'))stop('CERTIFICATION_WRONG_SES_CONSTRUCT')
 base<-read.csv(file.path(bundle,'engine/TASKS.csv'),colClasses='character',na.strings=character())
-support<-if(is.null(verified_support))lo_read_source_support(file.path(master,'SOURCE_SUPPORT_CONTRACTS.csv'))else verified_support
+support<-if(is.null(verified_support))lo_read_source_support(file.path(master,'SOURCE_SUPPORT_CONTRACTS.csv'),repo=repo)else verified_support
+source(file.path(repo,'06_pipeline/LO_POPULATION_REVIEW.R'))
+support<-lo_population_filter_support(support,lo_population_review(repo))
+lo_population_require_national(requested,lo_population_review(repo))
 info<-lo_runtime_scope(bundle,base,scope,support)
 lo_country_production_approval(repo,unique(requested$country),info$dashboard)
 base<-lo_country_base_tasks(base,info);base<-base[base$country%in%unique(requested$country),];decisions<-lo_read_scope_decisions(repo)

@@ -37,8 +37,8 @@
     "ranking_universe": "Derive ranks relative to the selected international reference group, with explicit constant membership over all required years and jointly compared groups; existing full-focus and 6x3 rules apply. No separate ranking-group selection.",
     "legacy_fixed_panels_authorized": false,
     "group_rank_definition": "NOT_APPLICABLE: no group rank or average rank is produced",
-    "rank_direction": "Explicit per outcome, not inferred from higher-is-better",
-    "ties": "Must be specified in derivation version",
+    "rank_direction": "largest_first or smallest_first must be explicit per chosen outcome; ordering is descriptive, not a welfare judgement",
+    "ties": "AVERAGE_EXACT_STORED_VALUES; use unrounded stored estimates, average ranks for exact ties",
     "uncertainty": "Do not reuse score SE as rank SE; no comparison-group CI; point ranks do not prove significant differences",
     "ranked_country_membership": "The focus country is evaluated relative to the selected reference group and is not a member of its own reference group. Include the focus result once when determining its position relative to those countries; do not require the user to check it into the reference group. An optional single-country comparison uses the same disclosed rank basis."
   },
@@ -48,7 +48,7 @@
     "user_wording": "groep 4 of 15 jaar",
     "status": "CONFIRMED_INTERNATIONAL_GRADE4_NLD_GROUP6"
   },
-  "implementation_status": "PRODUCT_CONTRACT_AND_PARENT_TRACE_RECORDED;NUMERICAL_COUNTRY_RANK_DERIVATION_AND_DASHBOARD_CONTROLS_NOT_YET_BUILT",
+  "implementation_status": "COUNTRY_RANK_ENGINE_AND_SHARED_DASHBOARD_CONTROLS_IMPLEMENTED; ACTUAL_AGGREGATE_DERIVATIONS_REVIEWED_20261019",
   "clarifying_user_evidence": "rang vergelijken we niet met een groep. Mogelijk wel met een enkel ander land. Rang is wel op basis van een gekozen landengroep",
   "population_confirmation": "Ja: vierde leerjaar / Nederlandse groep 6",
   "latest_user_evidence": "nee bij de rangfiguren plotten we niet de internationale vergelijkingsgroep. Maar de rang van NL is wel relatief tot de vergelijkingsgroep"

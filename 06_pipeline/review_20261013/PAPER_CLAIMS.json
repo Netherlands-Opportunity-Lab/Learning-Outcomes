@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "registration_type": "RETROSPECTIVE_BEFORE_PAPER_WRITING",
+  "registered_on": "2026-10-19",
+  "authority": "A17 and direct instruction to register the limited intended Dutch paper claims. No systematic testing suite.",
+  "review_when": "Any change to parent cells, years, estimand, wording, claim family or uncertainty must re-run Q08 before use in paper.",
+  "limitations": [
+    "This register is made after results exist; it is not confirmatory preregistration.",
+    "Formal tests limited to three PISA long-term mean changes, with Holm adjustment across those three.",
+    "IEA long-term changes are descriptive; the conditional sampling/PV intervals exclude unquantified long-period linking error.",
+    "SES gaps use joint within-cycle covariance and are conditional on chosen SES measurement/calibration.",
+    "Sample nonresponse, exclusions, mode and omitted uncertainty cannot be repaired by small p-values."
+  ],
+  "evidence": [
+    {
+      "id": "PISA2025_LINK_TABLE",
+      "file": "PISA2025_notes.html",
+      "url": "https://nces.ed.gov/surveys/pisa/pisa2025/technical-notes/index.asp",
+      "locator": "Table of linking errors for mean comparisons between PISA 2025 and earlier cycles; table index 3 in retained parser output",
+      "sha256": "a0018737fa8dc7e368771e4f1b5e902373b09d8bdbd63c1c1b047f67682cac5c"
+    },
+    {
+      "id": "PIRLS_OFFICIAL_SE",
+      "file": "PIRLS2021_se_page_0.pdf",
+      "url": "https://pirls2021.org/wp-content/uploads/2023/08/P21_MP_Ch13-standard-errors.pdf",
+      "locator": "Chapter 13: Estimating standard errors for comparing independent/dependent results",
+      "sha256": "2dfe1dd6076fac99fa8c31eb3f71ac9748b488a54ccd3c42258a6f36dd63cf1b"
+    },
+    {
+      "id": "TIMSS_OFFICIAL_SE",
+      "file": "TIMSS2023_se_page_0.pdf",
+      "url": "https://timss2023.org/wp-content/uploads/2024/12/T23_TR_Chap13.pdf",
+      "locator": "Chapter 13, pp.13.7-13.8: independent/dependent samples and omitted trend linking error",
+      "sha256": "0b252111219290d270aeafb0939e42bed625994cee85e0f25a888daa5882fb66"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "NLD_TREND_PIRLS_READING",
+      "type": "LONG_TERM_MEAN_CHANGE",
+      "parent_a": "NLD|PIRLS|2001|reading|core|mean|total|total|||score_points|",
+      "parent_b": "NLD|PIRLS|2021|reading|core|mean|total|total|||score_points|",
+      "gap_cell": "",
+      "linking_se": null,
+      "test": false,
+      "uncertainty_evidence": "PIRLS_OFFICIAL_SE",
+      "uncertainty_scope": "SAMPLING_PV_ONLY_CONDITIONAL_ON_LINKED_SCALE",
+      "claim_text": "Describe the Dutch PIRLS reading mean change between 2001 and 2021.",
+      "quality_note": "Repeated cross-sections; no individual cohort or causal claim. Country-cycle response and mode qualifications from Q02 apply. IEA does not supply a total long-period linking-error variance here; descriptive change and sampling/PV interval only, no formal significance claim."
+    },
+    {
+      "claim_id": "NLD_SES_GAP_PIRLS_READING",
+      "type": "LATEST_SES_GAP",
+      "parent_a": "NLD|PIRLS|2021|reading|ses_national|q1_mean|q1|books5_fractional|||score_points|",
+      "parent_b": "NLD|PIRLS|2021|reading|ses_national|q4_mean|q4|books5_fractional|||score_points|",
+      "gap_cell": "NLD|PIRLS|2021|reading|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|",
+      "linking_se": 0,
+      "test": false,
+      "uncertainty_evidence": "PIRLS_OFFICIAL_SE",
+      "uncertainty_scope": "JOINT_PV_REPLICATE_WITHIN_CYCLE_CONTRAST",
+      "claim_text": "Describe the Dutch PIRLS reading Q4-minus-Q1 mean gap in 2021.",
+      "quality_note": "Conditional on the chosen SES construction; books and Cobreros measures are different constructs. No between-age or causal contrast."
+    },
+    {
+      "claim_id": "NLD_TREND_TIMSS_MATHEMATICS",
+      "type": "LONG_TERM_MEAN_CHANGE",
+      "parent_a": "NLD|TIMSS|2003|mathematics|core|mean|total|total|||score_points|",
+      "parent_b": "NLD|TIMSS|2023|mathematics|core|mean|total|total|||score_points|",
+      "gap_cell": "",
+      "linking_se": null,
+      "test": false,
+      "uncertainty_evidence": "TIMSS_OFFICIAL_SE",
+      "uncertainty_scope": "SAMPLING_PV_ONLY_CONDITIONAL_ON_LINKED_SCALE",
+      "claim_text": "Describe the Dutch TIMSS mathematics mean change between 2003 and 2023.",
+      "quality_note": "Repeated cross-sections; no individual cohort or causal claim. Country-cycle response and mode qualifications from Q02 apply. IEA does not supply a total long-period linking-error variance here; descriptive change and sampling/PV interval only, no formal significance claim."
+    },
+    {
+      "claim_id": "NLD_SES_GAP_TIMSS_MATHEMATICS",
+      "type": "LATEST_SES_GAP",
+      "parent_a": "NLD|TIMSS|2023|mathematics|ses_national|q1_mean|q1|books5_fractional|||score_points|",
+      "parent_b": "NLD|TIMSS|2023|mathematics|ses_national|q4_mean|q4|books5_fractional|||score_points|",
+      "gap_cell": "NLD|TIMSS|2023|mathematics|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|",
+      "linking_se": 0,
+      "test": false,
+      "uncertainty_evidence": "TIMSS_OFFICIAL_SE",
+      "uncertainty_scope": "JOINT_PV_REPLICATE_WITHIN_CYCLE_CONTRAST",
+      "claim_text": "Describe the Dutch TIMSS mathematics Q4-minus-Q1 mean gap in 2023.",
+      "quality_note": "Conditional on the chosen SES construction; books and Cobreros measures are different constructs. No between-age or causal contrast."
+    },
+    {
+      "claim_id": "NLD_TREND_TIMSS_SCIENCE",
+      "type": "LONG_TERM_MEAN_CHANGE",
+      "parent_a": "NLD|TIMSS|2003|science|core|mean|total|total|||score_points|",
+      "parent_b": "NLD|TIMSS|2023|science|core|mean|total|total|||score_points|",
+      "gap_cell": "",
+      "linking_se": null,
+      "test": false,
+      "uncertainty_evidence": "TIMSS_OFFICIAL_SE",
+      "uncertainty_scope": "SAMPLING_PV_ONLY_CONDITIONAL_ON_LINKED_SCALE",
+      "claim_text": "Describe the Dutch TIMSS science mean change between 2003 and 2023.",
+      "quality_note": "Repeated cross-sections; no individual cohort or causal claim. Country-cycle response and mode qualifications from Q02 apply. IEA does not supply a total long-period linking-error variance here; descriptive change and sampling/PV interval only, no formal significance claim."
+    },
+    {
+      "claim_id": "NLD_SES_GAP_TIMSS_SCIENCE",
+      "type": "LATEST_SES_GAP",
+      "parent_a": "NLD|TIMSS|2023|science|ses_national|q1_mean|q1|books5_fractional|||score_points|",
+      "parent_b": "NLD|TIMSS|2023|science|ses_national|q4_mean|q4|books5_fractional|||score_points|",
+      "gap_cell": "NLD|TIMSS|2023|science|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|",
+      "linking_se": 0,
+      "test": false,
+      "uncertainty_evidence": "TIMSS_OFFICIAL_SE",
+      "uncertainty_scope": "JOINT_PV_REPLICATE_WITHIN_CYCLE_CONTRAST",
+      "claim_text": "Describe the Dutch TIMSS science Q4-minus-Q1 mean gap in 2023.",
+      "quality_note": "Conditional on the chosen SES construction; books and Cobreros measures are different constructs. No between-age or causal contrast."
+    },
+    {
+      "claim_id": "NLD_TREND_PISA_READING",
+      "type": "LONG_TERM_MEAN_CHANGE",
+      "parent_a": "NLD|PISA|2003|reading|core|mean|total|total|||score_points|",
+      "parent_b": "NLD|PISA|2025|reading|core|mean|total|total|||score_points|",
+      "gap_cell": "",
+      "linking_se": 5.363,
+      "test": true,
+      "uncertainty_evidence": "PISA2025_LINK_TABLE",
+      "uncertainty_scope": "SAMPLING_PV_AND_OFFICIAL_LINKING",
+      "claim_text": "Describe the Dutch PISA reading mean change between 2003 and 2025.",
+      "quality_note": "Repeated cross-sections; no individual cohort or causal claim. Country-cycle response and mode qualifications from Q02 apply."
+    },
+    {
+      "claim_id": "NLD_SES_GAP_PISA_READING",
+      "type": "LATEST_SES_GAP",
+      "parent_a": "NLD|PISA|2025|reading|ses_harmonized|q1_mean|q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+      "parent_b": "NLD|PISA|2025|reading|ses_harmonized|q4_mean|q4|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+      "gap_cell": "NLD|PISA|2025|reading|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+      "linking_se": 0,
+      "test": false,
+      "uncertainty_evidence": "PISA2025_LINK_TABLE",
+      "uncertainty_scope": "JOINT_PV_REPLICATE_WITHIN_CYCLE_CONTRAST",
+      "claim_text": "Describe the Dutch PISA reading Q4-minus-Q1 mean gap in 2025.",
+      "quality_note": "Conditional on the chosen SES construction; books and Cobreros measures are different constructs. No between-age or causal contrast."
+    },
+    {
+      "claim_id": "NLD_TREND_PISA_MATHEMATICS",
+      "type": "LONG_TERM_MEAN_CHANGE",
+      "parent_a": "NLD|PISA|2003|mathematics|core|mean|total|total|||score_points|",
+      "parent_b": "NLD|PISA|2025|mathematics|core|mean|total|total|||score_points|",
+      "gap_cell": "",
+      "linking_se": 5.673,
+      "test": true,
+      "uncertainty_evidence": "PISA2025_LINK_TABLE",
+      "uncertainty_scope": "SAMPLING_PV_AND_OFFICIAL_LINKING",
+      "claim_text": "Describe the Dutch PISA mathematics mean change between 2003 and 2025.",
+      "quality_note": "Repeated cross-sections; no individual cohort or causal claim. Country-cycle response and mode qualifications from Q02 apply."
+    },
+    {
+      "claim_id": "NLD_SES_GAP_PISA_MATHEMATICS",
+      "type": "LATEST_SES_GAP",
+      "parent_a": "NLD|PISA|2025|mathematics|ses_harmonized|q1_mean|q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+      "parent_b": "NLD|PISA|2025|mathematics|ses_harmonized|q4_mean|q4|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+      "gap_cell": "NLD|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+      "linking_se": 0,
+      "test": false,
+      "uncertainty_evidence": "PISA2025_LINK_TABLE",
+      "uncertainty_scope": "JOINT_PV_REPLICATE_WITHIN_CYCLE_CONTRAST",
+      "claim_text": "Describe the Dutch PISA mathematics Q4-minus-Q1 mean gap in 2025.",
+      "quality_note": "Conditional on the chosen SES construction; books and Cobreros measures are different constructs. No between-age or causal contrast."
+    },
+    {
+      "claim_id": "NLD_TREND_PISA_SCIENCE",
+      "type": "LONG_TERM_MEAN_CHANGE",
+      "parent_a": "NLD|PISA|2006|science|core|mean|total|total|||score_points|",
+      "parent_b": "NLD|PISA|2025|science|core|mean|total|total|||score_points|",
+      "gap_cell": "",
+      "linking_se": 4.822,
+      "test": true,
+      "uncertainty_evidence": "PISA2025_LINK_TABLE",
+      "uncertainty_scope": "SAMPLING_PV_AND_OFFICIAL_LINKING",
+      "claim_text": "Describe the Dutch PISA science mean change between 2006 and 2025.",
+      "quality_note": "Repeated cross-sections; no individual cohort or causal claim. Country-cycle response and mode qualifications from Q02 apply."
+    },
+    {
+      "claim_id": "NLD_SES_GAP_PISA_SCIENCE",
+      "type": "LATEST_SES_GAP",
+      "parent_a": "NLD|PISA|2025|science|ses_harmonized|q1_mean|q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+      "parent_b": "NLD|PISA|2025|science|ses_harmonized|q4_mean|q4|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+      "gap_cell": "NLD|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+      "linking_se": 0,
+      "test": false,
+      "uncertainty_evidence": "PISA2025_LINK_TABLE",
+      "uncertainty_scope": "JOINT_PV_REPLICATE_WITHIN_CYCLE_CONTRAST",
+      "claim_text": "Describe the Dutch PISA science Q4-minus-Q1 mean gap in 2025.",
+      "quality_note": "Conditional on the chosen SES construction; books and Cobreros measures are different constructs. No between-age or causal contrast."
+    }
+  ]
+}

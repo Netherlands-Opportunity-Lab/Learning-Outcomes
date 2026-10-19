@@ -13,6 +13,7 @@ from pathlib import Path
 COLS = ('survey age_group domain year outcome split_dimension split_group '
         'definition_id ses_definition_id peer_definition peer_target_group '
         'threshold_id unit population_comparison_id method_comparison_id').split()
+VERIFIED_FILES = {}
 
 def sha(path):
     with Path(path).open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
@@ -33,6 +34,7 @@ def array(x):return x if isinstance(x,list) else [] if x is None else [x]
 def checked(path, expected):
     if not re.fullmatch('[a-f0-9]{64}',expected) or sha(path)!=expected:
         raise ValueError('CHANGED_EVIDENCE: '+Path(path).name)
+    VERIFIED_FILES[str(path)] = expected
     return json.loads(Path(path).read_text(encoding='utf-8-sig'))
 
 @lru_cache(maxsize=None)
@@ -97,9 +99,30 @@ def method_family(row):
 
 def fingerprint(parts):return hashlib.sha256(json.dumps(parts,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
 
+def reviewed_gender_projection(row, supports):
+    path=Path(__file__).parent/'review_20261013/SOURCE_PROJECTION_REVIEWS.json'
+    if not path.exists():return []
+    h=sha(path);review=checked(str(path),h);found=[]
+    code=path.parent.parent/'LO_SOURCE_PROJECTION_REVIEW.R'
+    if sha(code)!=review.get('review_code_sha256'):
+        raise ValueError('PROJECTION_REVIEW_IMPLEMENTATION_CHANGED')
+    VERIFIED_FILES[str(code)]=review['review_code_sha256']
+    for p in review.get('projections',[]):
+        if (p.get('status')!='EXACT_COHORT_DESIGN_PV_PROJECTION_VERIFIED'
+            or p.get('allowed_method')!=row['method_version']
+            or p.get('child_sha256')!=row['source_edition_sha256']
+            or any(str(p.get(k))!=row[k] for k in ('country','survey','year'))):continue
+        if (p.get('all_other_columns_identical') is not True or p.get('original_order_and_identifiers_identical') is not True
+            or set(p.get('changed_columns',[]))!={'GENDER','DEMO_GENDER'}):raise ValueError('PROJECTION_REVIEW_INVALID')
+        for parent,ph in supports:
+            if parent.get('canonical_sha256')==p['parent_sha256'] and parent.get('n')==p['n']:
+                found.append((dict(parent,canonical_sha256=p['child_sha256'],projection_review_sha256=h),h))
+    return found
+
 @lru_cache(maxsize=None)
 def checked_lineage(path,expected):
     if sha(path)!=expected:raise ValueError('CHANGED_DERIVATION_LINEAGE')
+    VERIFIED_FILES[str(path)] = expected
     return {r['cell_id']:r for r in readcsv(path)}
 
 def map_cell(product,row,task,support,grid=None):
@@ -163,6 +186,7 @@ def map_cell(product,row,task,support,grid=None):
               if x.get('canonical_sha256')==row['source_edition_sha256']
               and x.get('country')==row['country'] and str(x.get('year'))==row['year']]
     supports=support_receipts(support['certificate_path'],support['certificate_sha256'],support['source_sha256'])
+    receipts.extend(reviewed_gender_projection(row,supports))
     # The earliest Dutch core certificate has a direct identical canonical
     # source binding; later projections need the raw-byte/sample equivalence.
     identical_source=row['source_edition_sha256']==support['source_sha256']
@@ -209,6 +233,16 @@ def map_cell(product,row,task,support,grid=None):
     return result
 
 def build(snapshot,output,previous=None):
+    code_sha=sha(__file__)
+    # Per-call caches never hide changed attachments in an interactive process.
+    for fn in (checked, certificate_cells, source_receipts, support_receipts, checked_lineage):
+        fn.cache_clear()
+    VERIFIED_FILES.clear()
+    policy_path=Path(__file__).parent/'review_20261013/POPULATION_CORRECTIONS.json'
+    policy=json.loads(policy_path.read_text(encoding='utf-8-sig'))
+    projection_path=policy_path.with_name('SOURCE_PROJECTION_REVIEWS.json')
+    projection_sha=sha(projection_path) if projection_path.exists() else 'ABSENT'
+    population_corrections={(r['country'],r['survey'],str(r['year'])):r for r in policy['corrections']}
     output.mkdir(parents=True,exist_ok=False)
     proof=json.loads((snapshot/'product_export/SNAPSHOT_EXPORT_EVIDENCE.json').read_text(encoding='utf-8-sig'))
     product_path=snapshot/'public_inputs/dashboard_cells.csv'
@@ -216,40 +250,72 @@ def build(snapshot,output,previous=None):
     frozen=json.loads((snapshot/'SNAPSHOT.json').read_text(encoding='utf-8-sig'))
     for name,expected in frozen['inputs'].items():
         if sha(snapshot/name)!=expected:raise ValueError('FROZEN_INPUT_CHANGED: '+name)
+    task_path=snapshot/'product_export/PRIVATE_TASKS.csv'
+    if frozen['inputs'].get('product_export/PRIVATE_TASKS.csv')!=sha(task_path):
+        raise ValueError('FROZEN_EXACT_TASKS_REQUIRED')
     grid={r['cell_id']:r for r in readcsv(snapshot/'master_reconciliation/SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv')}
-    tasks={r['metric_key']:r for r in readcsv(snapshot/'product_export/PRIVATE_TASKS.csv')}
+    task_rows=readcsv(task_path)
+    tasks={r['metric_key']:r for r in task_rows}
+    if len(tasks)!=len(task_rows):raise ValueError('DUPLICATE_EXACT_TARGET')
     support={(r['country'],r['survey'],r['year'],r['domain']):r for r in readcsv(snapshot/'master_reconciliation/SOURCE_SUPPORT_CONTRACTS.csv')}
-    results=[];issues=[]
+    results=[];issues=[];previous_rows={};previous_signatures={};signatures=[]
     if previous is not None:
         prior=json.loads((previous/'BALANCE_MAPPING_REVIEW.json').read_text())
-        if prior['dashboard_input_sha256']!=sha(product_path) or prior['available_sha256']!=sha(previous/'BALANCE_AVAILABLE.csv'):
+        if prior['available_sha256']!=sha(previous/'BALANCE_AVAILABLE.csv'):
             raise ValueError('CHANGED_PREVIOUS_MAPPING')
-        results=readcsv(previous/'BALANCE_AVAILABLE.csv')
-    mapped={r['cell_id'] for r in results}
+        # Reuse is tied to the complete mapping implementation, policy, exact
+        # cell inputs and every evidence attachment, not only a display CSV.
+        if (prior.get('mapping_code_sha256')==code_sha and prior.get('population_review_sha256')==sha(policy_path)
+            and prior.get('source_projection_review_sha256')==projection_sha):
+            for name,key in [('CELL_MAPPING_SIGNATURES.csv','signatures_sha256'),('PRIVATE_MAPPING_EVIDENCE.csv','evidence_index_sha256')]:
+                if not (previous/name).exists() or sha(previous/name)!=prior.get(key):
+                    raise ValueError('CHANGED_PREVIOUS_MAPPING_DEPENDENCIES')
+            for e in readcsv(previous/'PRIVATE_MAPPING_EVIDENCE.csv'):
+                if not Path(e['path']).exists() or sha(e['path'])!=e['sha256']:
+                    raise ValueError('CHANGED_PREVIOUS_MAPPING_EVIDENCE')
+                VERIFIED_FILES[e['path']]=e['sha256']
+            previous_rows={r['cell_id']:r for r in readcsv(previous/'BALANCE_AVAILABLE.csv')}
+            previous_signatures={r['cell_id']:r['signature'] for r in readcsv(previous/'CELL_MAPPING_SIGNATURES.csv')}
+    reused=0
     for i,p in enumerate(readcsv(product_path)):
-        if p['cell_id'] in mapped:continue
         r=grid[p['cell_id']]; t=tasks[p['cell_id']]
         key=tuple(r[k] for k in ('country','survey','year','domain'))
         s=support.get(key)
         if s is None and r['domain']=='all':
             s=next((v for k,v in support.items() if k[:3]==key[:3]),None)
         try:
+            if key[:3] in population_corrections:
+                correction=population_corrections[key[:3]]
+                raise ValueError(correction['reason']+':'+correction['review_id'])
             if s is None:raise ValueError('NO_SOURCE_SUPPORT')
-            results.append(map_cell(p,r,t,s,grid))
+            signature=fingerprint([p,r,t,s,sha(policy_path),projection_sha])
+            if previous_signatures.get(r['cell_id'])==signature and r['cell_id'] in previous_rows:
+                result=previous_rows[r['cell_id']];reused+=1
+            else:
+                result=map_cell(p,r,t,s,grid)
+            results.append(result)
+            signatures.append(dict(cell_id=r['cell_id'],signature=signature))
         except ValueError as e:issues.append(dict(cell_id=r['cell_id'],country=r['country'],reason=str(e)))
         if (i+1)%5000==0:print('COMPARABILITY_CHECKED',i+1,'mapped',len(results),'unresolved',len(issues),flush=True)
     if not results:raise ValueError('NO_PROVEN_COMPARISON_CELLS')
     writecsv(output/'BALANCE_AVAILABLE.csv',results)
+    writecsv(output/'CELL_MAPPING_SIGNATURES.csv',signatures)
+    writecsv(output/'PRIVATE_MAPPING_EVIDENCE.csv',[dict(path=p,sha256=h) for p,h in sorted(VERIFIED_FILES.items())])
     if issues:writecsv(output/'BALANCE_MAPPING_ISSUES.csv',issues)
     core=[dict(country=t['country'],cell_id=t['metric_key']) for t in tasks.values() if t['module']=='core' and t['stat']=='mean']
     writecsv(output/'FOCUS_CORE_TARGETS.csv',core)
     evidence=dict(schema_version=1,status='EXACT_SOURCE_RESULT_METHOD_COMPARABILITY_BINDINGS',
         dashboard_input_sha256=sha(product_path),snapshot_sha256=sha(snapshot/'SNAPSHOT.json'),
+        exact_tasks_sha256=sha(task_path),
         scientific_export_evidence_sha256=sha(snapshot/'product_export/SNAPSHOT_EXPORT_EVIDENCE.json'),
-        mapped_cells=len(results),unresolved_cells=len(issues),reasons=dict(Counter(r['reason'] for r in issues)),
+        mapped_cells=len(results),reused_mapping_cells=reused,unresolved_cells=len(issues),reasons=dict(Counter(r['reason'] for r in issues)),
         available_sha256=sha(output/'BALANCE_AVAILABLE.csv'),core_targets_sha256=sha(output/'FOCUS_CORE_TARGETS.csv'),
-        mapping_code_sha256=sha(__file__),previous_audit_sha256=sha(previous/'BALANCE_MAPPING_REVIEW.json') if previous else None,
+        mapping_code_sha256=code_sha,previous_audit_sha256=sha(previous/'BALANCE_MAPPING_REVIEW.json') if previous else None,
+        population_review_sha256=sha(policy_path),signatures_sha256=sha(output/'CELL_MAPPING_SIGNATURES.csv'),
+        source_projection_review_sha256=projection_sha,
+        evidence_index_sha256=sha(output/'PRIVATE_MAPPING_EVIDENCE.csv'),
         no_pupil_recalculation=True,no_new_scientific_freeze=True)
+    if sha(__file__)!=code_sha:raise ValueError('MAPPING_IMPLEMENTATION_CHANGED_DURING_REVIEW')
     put(output/'BALANCE_MAPPING_REVIEW.json',evidence)
     print(json.dumps(evidence))
 

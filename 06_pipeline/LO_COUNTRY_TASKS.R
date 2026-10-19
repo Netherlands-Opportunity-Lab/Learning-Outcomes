@@ -6,9 +6,16 @@ lo_country_base_tasks <- function(tasks,scope_info) {
   template<-tasks[tasks$country=='NLD',,drop=FALSE]
   if(!nrow(template))stop('COUNTRY_TEMPLATE_MISSING')
   support<-scope_info$source_support
+  # Admission excludes corrected populations/non-comparable waves. A correction
+  # must not silently shorten an admitted focus country's historical anchor.
+  # Retain its reviewed target contexts; comparison eligibility remains separate.
+  excluded<-attr(support,'population_exclusions')
+  contexts_support<-support[c('country','survey','year')]
+  if(is.data.frame(excluded)&&nrow(excluded))contexts_support<-unique(rbind(
+    contexts_support,excluded[c('country','survey','year')]))
   parts<-list(template[template$country%in%scope_info$selected,,drop=FALSE])
   for(country in setdiff(scope_info$selected,'NLD')) {
-    contexts<-unique(support[support$country==country,c('survey','year')])
+    contexts<-unique(contexts_support[contexts_support$country==country,c('survey','year')])
     keys<-paste(contexts$survey,contexts$year)
     z<-template[paste(template$survey,template$year)%in%keys,,drop=FALSE]
     if(!nrow(z))stop('COUNTRY_HAS_NO_REVIEWED_CYCLE_CONTRACT: ',country)

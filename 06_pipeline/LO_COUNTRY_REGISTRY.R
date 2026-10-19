@@ -5,7 +5,7 @@ lo_empty_support <- function() {
     "certificate_path","certificate_sha256","status"))
   as.data.frame(setNames(rep(list(character()),length(cols)),cols),stringsAsFactors=FALSE)
 }
-lo_read_source_support <- function(path) {
+lo_read_source_support <- function(path,repo=NULL) {
   if(!file.exists(path))return(lo_empty_support())
   x<-read.csv(path,colClasses="character",stringsAsFactors=FALSE,
              check.names=FALSE,na.strings=character())
@@ -37,12 +37,20 @@ lo_read_source_support <- function(path) {
       stop("SOURCE_SUPPORT_EVIDENCE_REQUIRED")
     for(j in seq_len(nrow(cert$evidence_files))) {
       p<-cert$evidence_files$path[j];h<-cert$evidence_files$sha256[j]
-      if(!file.exists(p)||!grepl("^[a-f0-9]{64}$",h)||
-         digest::digest(file=p,algo="sha256")!=h)stop("SOURCE_SUPPORT_EVIDENCE_CHANGED")
+      key<-paste(p,h)
+      if(!exists(key,checked,inherits=FALSE)) {
+        if(!file.exists(p)||!grepl("^[a-f0-9]{64}$",h)||
+           digest::digest(file=p,algo="sha256")!=h)stop("SOURCE_SUPPORT_EVIDENCE_CHANGED")
+        assign(key,TRUE,checked)
+      }
     }
   }
   if(anyDuplicated(paste(verified$country,lo_balance_key(verified))))
     stop("SOURCE_SUPPORT_DUPLICATE_EDITION")
+  if(!is.null(repo)) {
+    source(file.path(repo,'06_pipeline/LO_POPULATION_REVIEW.R'),local=environment())
+    verified<-lo_population_filter_support(verified,lo_population_review(repo))
+  }
   verified
 }
 lo_runtime_scope <- function(bundle,tasks,scope,source_support) {

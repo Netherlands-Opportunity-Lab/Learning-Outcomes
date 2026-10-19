@@ -62,7 +62,7 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
     'LO_INTERNATIONAL_BACKGROUND.R','LO_BACKGROUND_REFERENCE.R','LO_SES_REFERENCE.R','LO_RUN_CONFIG.R','LO_ESTIMATION_AVAILABILITY.R'))source(file.path(repo,'06_pipeline',f))
   master<-file.path(root,'master_reconciliation');international<-file.path(root,'international')
   manifest<-read.csv(file.path(international,'SOURCE_RUN_MANIFEST.csv'),colClasses='character',na.strings=character())
-  support<-lo_read_source_support(file.path(master,'SOURCE_SUPPORT_CONTRACTS.csv'))
+  support<-lo_read_source_support(file.path(master,'SOURCE_SUPPORT_CONTRACTS.csv'),repo=repo)
   base<-read.csv(file.path(bundle,'engine/TASKS.csv'),colClasses='character',na.strings=character())
   info<-lo_runtime_scope(bundle,base,scope,support);lo_country_production_approval(repo,info$selected,info$dashboard)
   t<-lo_country_base_tasks(base,info);dec<-lo_read_scope_decisions(repo)

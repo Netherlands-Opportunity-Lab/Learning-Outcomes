@@ -92,6 +92,8 @@ jobs:
         run: Rscript 06_pipeline/tests/test_environment.R
       - name: Test dynamic source eligibility beyond historical country lists
         run: Rscript 06_pipeline/tests/test_country_registry.R
+      - name: Reject regional source populations as national admission
+        run: Rscript 06_pipeline/tests/test_population_review.R
       - name: Test approved country expansion without historical whitelist
         run: Rscript 06_pipeline/tests/test_country_tasks.R
       - name: Test international source identity and atomic checkpoints
@@ -100,6 +102,12 @@ jobs:
         run: Rscript 06_pipeline/tests/test_scope_result_reuse.R
       - name: Test certified balance adapter and full-focus export
         run: Rscript 06_pipeline/tests/test_balanced_export.R
+      - name: Test registered paper claims and joint covariance
+        run: Rscript 06_pipeline/tests/test_paper_claim_review.R
+      - name: Test real-review receipt binding and stale evidence rejection
+        run: Rscript 06_pipeline/tests/test_scientific_review_binding.R
+      - name: Test efficient view export against the complete reference engine
+        run: Rscript 06_pipeline/tests/test_balanced_views.R
       - name: Test exact guided export and pending scope exclusion
         run: Rscript 06_pipeline/tests/test_final_guided_export.R
       - name: Test approved extension contracts and exact selected estimators
