@@ -1,32 +1,45 @@
 {
-  "schema_version": 1,
-  "scope": "nld_only",
-  "countries_in_grid": [
-    "NLD"
-  ],
-  "targets": 2678,
+  "schema_version": 2,
+  "scope": "all_required",
+  "targets": 77611,
   "counts": {
-    "validated": 2397,
-    "unavailable": 281,
+    "validated": 69775,
+    "unavailable": 7836,
     "unresolved": 0
   },
-  "orphan_cells": 0,
-  "complete_international_dashboard": false,
-  "evidence": "SAVED_AUDITED_GRID_NOT_A_NEW_SCIENTIFIC_CERTIFICATION",
-  "source_files": {
-    "PRIVATE_MASTER_GRID.csv": "96ed7bf25dd3d48664e26edf1144863bb28de1e53bbc5f1ea49c117b52141e97",
-    "PRIVATE_ACTIVE_PRODUCT_CELL_TRACE.csv": "3c2c160b80a8052c97611291eb622c9c350b96053a879fea1e196086e8676f56",
-    "COUNTRY_SOURCE_ELIGIBILITY.csv": "d4c0d295d6802d2272dac9a9fe8de0c12558efb604b107901770950d021a23c6",
-    "ACTIVE_REQUIREMENT_REGISTER.csv": "40076c1d79c3e42e49d5a556356fcc5b290bed631ba0c6d6fd043642e78a0a10"
+  "main_reasons": {
+    "RESULT_AVAILABLE": 69775,
+    "REQUIRED_FIELD_NOT_OBSERVED": 3306,
+    "SCALE_NOT_DEFINED_IN_CYCLE": 3303,
+    "LEARNING_ENVIRONMENT_NOT_OBSERVED": 862,
+    "QUESTIONNAIRE_NOT_ADMINISTERED": 63,
+    "GROUP_DEFINITION_NOT_OBSERVED": 168,
+    "ANALYTIC_GROUP_UNUSABLE": 97,
+    "DOMAIN_NOT_VALID_IN_SOURCE": 37
   },
-  "generator_sha256": "24a1021bf5cda0cb61d0dbf19601c0e17ee042b0eafc463608448688f76268c8",
-  "output_files": {
-    "BY_EXACT_COMBINATION.csv": "80a3ee6aff1d358ff96a1f7ece39208e8897fcdd889ae15c9d8d4d2b5c8698b1",
-    "BY_FAMILY.csv": "862711c19a2c75508d2bc7f337cb25dd3fe4d0ae0a4542a127d5c8015729ecc7",
-    "BY_WAVE.csv": "95f99df84f771391a8dd3162e9c07794bb3ff42ec54e2955b24ce112fa83cea9",
-    "COUNTRY_CANDIDATES.csv": "36ae40d9fb0576f176f2d197803cb886e61e585a1eb649acb4d59c6eb80804a3",
-    "EXACT_CELL_COVERAGE.csv": "51905b1d8cef8c5d13ce18a5a4732ce8fcbe34d959a166897d0a2bda93e2f410",
-    "MISSING_CELLS.csv": "27cd6c67aa29ff5acdc66645ddad8842ee22376819b6f522673658b5fcd1ab1a",
-    "REQUIREMENT_COVERAGE.csv": "558ad0fb630876e846f84008a0701491f28f1f9c24e04910f5677d3b33b0790c"
+  "orphan_cells": 0,
+  "population_corrected_cells": 419,
+  "complete_international_dashboard": false,
+  "completion_reason": "SCIENTIFIC_AND_REFERENCE_REVIEW_SEPARATE",
+  "inputs": {
+    "PRIVATE_MASTER_GRID.csv": "2cf2a63a7b62f7736ffe1c7b66ca69ada394153de41d8d78c4a4795a81e104e8",
+    "PRIVATE_ACTIVE_PRODUCT_CELL_TRACE.csv": "9d6cd47096ff8fa436e0c5ca00c76d271aec91abf40ec531311974a5524a5372",
+    "COUNTRY_SOURCE_ELIGIBILITY.csv": "fa497c2525ee05badd2b1c7759375e4becdbe32649a78c5ea6ad29af98a616af",
+    "ACTIVE_REQUIREMENT_REGISTER.csv": "b3d57da742e4e41e177049764bde3959706993a39bdcfe15ab7110f3911ba34b",
+    "generator": "f6d951777557456e299ee715173ef51c355890b9a74e571368632b9a652a9d5d",
+    "population_review": "b6ca95b94165c0a0a5465fafbce45a5048e9aebcd4b7f3242f96de5567c4ca5a"
+  },
+  "outputs": {
+    "BY_COUNTRY.csv": "8c594b1005fde5a24222f32f277a06ace512b44e90866406aa1d507eb7caf15b",
+    "BY_EXACT_COMBINATION.csv": "9a248b333e5bb0b4f745afa8ac20a9feb94d2f6ff9577fd0cc766c2cf9cf1ef9",
+    "BY_FAMILY.csv": "8c7bdd18422e9068f9bc5405bf410fdf813e88f29e4895455998a8a8909b7a20",
+    "BY_MISSING_REASON.csv": "5edec76b68d5278ee4f780e3c82c0b6e51b835301bd7aea048aa4b286a4e63b6",
+    "BY_WAVE.csv": "dc0c6676705af1cba3cc42b175ad40216a063c4aa2d37d80052c84b1dd509c05",
+    "COUNTRY_CANDIDATES.csv": "9fd4c369b48ba7409212f066cc9ca7cf5909bd66b864b7a77a300d3430b8381a",
+    "EXACT_CELL_COVERAGE.csv.gz": "ca587e4302079bb3714b1c060c5f5cfa641a9cbce25c8fd16a9805c9fb07ce39",
+    "MISSING_CELLS.csv": "4f3e0fb9179fd84f0d363891c086f4f339476a4845ac8a16e4fafdb5fcb05f90",
+    "PRODUCT_CELL_TRACE.csv.gz": "993d9ee6527844df32549f0fe6d4394e2d31180215617da2d2e13209b874d038",
+    "README.md": "841a96c3ad2b351d0327ddcda3062dd8aaa8d3f28f123c54e14a686e82902333",
+    "REQUIREMENT_COVERAGE.csv": "b6ea52902541741cc0b8c7e02900d807a07a7ecbe1a0e0a543d6f935b75cd37b"
   }
 }
