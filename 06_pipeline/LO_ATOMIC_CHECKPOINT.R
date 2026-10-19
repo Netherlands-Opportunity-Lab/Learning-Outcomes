@@ -22,11 +22,32 @@ lo_atomic_replace <- function(tmp,path,attempts=80L,delay_ms=250L) {
 }
 
 # File.Replace also retains the immediately previous checkpoint on Windows.
-lo_atomic_csv <- function(x,path) {
+lo_atomic_csv <- function(x,path,fast=FALSE) {
   dir.create(dirname(path),recursive=TRUE,showWarnings=FALSE)
   tmp<-tempfile('checkpoint_',tmpdir=dirname(path),fileext='.csv')
   on.exit(if(file.exists(tmp))unlink(tmp),add=TRUE)
-  write.csv(x,tmp,row.names=FALSE,na='')
+  if(isTRUE(fast))data.table::fwrite(x,tmp,sep=',',quote=TRUE,qmethod='double',na='',eol='\n',nThread=1L)
+  else write.csv(x,tmp,row.names=FALSE,na='')
   lo_atomic_replace(tmp,path)
   invisible(path)
+}
+
+# Registry fields are ordinary CSV scalars; no formulas, factors or list columns.
+# Match read.csv(..., stringsAsFactors=FALSE, na.strings=character()) semantics.
+# One parser thread bounds RAM and avoids oversubscribing the scientific worker.
+lo_scientific_registry_read <- function(path,colClasses=NULL) {
+  if(!is.null(colClasses)&&!identical(colClasses,'character'))stop('REGISTRY_COLUMN_CLASS_UNSUPPORTED')
+  x<-data.table::fread(path,data.table=FALSE,na.strings=NULL,nThread=1L,
+    colClasses='character',check.names=TRUE,strip.white=FALSE)
+  for(k in names(x)) {
+    # The registry writer quotes every string and doubles embedded quotes.
+    # fread retains those escape pairs whereas read.csv decodes them.
+    quoted<-grepl('""',x[[k]],fixed=TRUE)
+    if(any(quoted))x[[k]][quoted]<-gsub('""','"',x[[k]][quoted],fixed=TRUE)
+    # read.csv normalizes embedded Windows line endings; fread preserves them.
+    i<-grepl('\r\n',x[[k]],fixed=TRUE)
+    if(any(i))x[[k]][i]<-gsub('\r\n','\n',x[[k]][i],fixed=TRUE)
+    if(is.null(colClasses))x[[k]]<-type.convert(x[[k]],as.is=TRUE,na.strings=character())
+  }
+  x
 }

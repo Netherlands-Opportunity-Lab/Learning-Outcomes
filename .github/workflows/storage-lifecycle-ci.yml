@@ -138,6 +138,8 @@ jobs:
         run: Rscript 06_pipeline/tests/test_remote_checkpoint.R
       - name: Test transient Windows readers and persistent checkpoint locks
         run: python 06_pipeline/tests/atomic_sharing_check.py
+      - name: Test exact scientific registry fast I/O and atomic replacement
+        run: Rscript 06_pipeline/tests/test_registry_io.R
       - name: Test complete approved production orchestration
         run: Rscript 06_pipeline/tests/test_approved_orchestration.R
       - name: Test balanced individual country rank derivation

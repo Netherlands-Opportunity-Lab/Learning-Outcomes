@@ -170,7 +170,7 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
         BACKGROUND_PISA=c('migration','migration_binary_peer','migration_peer_exposure','home_language_peer_exposure','peer_baseline'),
         BACKGROUND_IEA=c('migration','migration_generation','migration_binary_peer','migration_peer_exposure','language_frequency_binary','home_language_frequency_peer','ses_peer_exposure','peer_baseline','extension_home_ses'),
         c('peer_below_basic','high_proficiency_peer_exposure'))
-      old<-read.csv(file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),colClasses='character',na.strings=character())
+      old<-lo_scientific_registry_read(file.path(master,'SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv'),colClasses='character')
       q<-q0[q0$module%in%modules&!q0$metric_key%in%old$cell_id,];if(!nrow(q))return(invisible(NULL))
       if(family=='BACKGROUND_PISA')q<-q[q$definition!='Cobreros_fourwave_13item_trend_comparable',]
       if(family=='PISA_SES')q<-q[q$definition=='Cobreros_fourwave_13item_trend_comparable',]
