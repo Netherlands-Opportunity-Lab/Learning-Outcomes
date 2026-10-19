@@ -26,7 +26,7 @@
   # sealed results with the SAME existing aggregate exporter, without waiting
   # for that finalizer's not-yet-reviewed product checkpoint (a dependency loop).
   # This does not run an estimator, install a gate or create a public candidate.
-  for(f in c('GRID_ARCHIVE_BATCH.R','LO_SCOPE_DECISIONS.R','LO_POPULATION_REVIEW.R','LO_GENDER_POOL_POLICY.R','LO_FINAL_GUIDED_EXPORT.R'))
+  for(f in c('GRID_ARCHIVE_BATCH.R','LO_SCOPE_DECISIONS.R','LO_POPULATION_REVIEW.R','LO_GENDER_POOL_POLICY.R','LO_FINAL_GUIDED_EXPORT.R','LO_ANALYSIS_SUPPORT_REVIEW.R','LO_ANALYSIS_SUPPORT_POLICY.R'))
     source(file.path(repo,'06_pipeline',f))
   approval_path<-file.path(root,'master_reconciliation/SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv')
   approval_sha<-sha(approval_path)
@@ -40,11 +40,16 @@
     elapsed_seconds=unname(proc.time()[3]-started),no_pupil_calculation=TRUE,
     review_code_sha256=sha(file.path(repo,'06_pipeline/GRID_ARCHIVE_BATCH.R')),
     snapshot_code_sha256=sha(file.path(repo,'scripts/prepare_scientific_review_snapshot.R')))
+  support_out<-file.path(work,'Q01_ANALYSIS_SUPPORT')
+  support_review<-lo_analysis_support_review(repo,tasks,grid,support_out)
+  if(support_review$n_mismatches!=0L)stop('SCIENTIFIC_SNAPSHOT_ANALYSIS_SUPPORT_COUNT_MISMATCH')
+  support<-read.csv(file.path(support_out,'ANALYSIS_SUPPORT.csv'),stringsAsFactors=FALSE,na.strings=character())
   restricted<-lo_population_review_rows(tasks,lo_population_review(repo))
   approved<-approved[!approved$cell_id%in%tasks$metric_key[!is.na(restricted)],,drop=FALSE]
   temporary<-tempfile('review_export_',tmpdir=work);dir.create(temporary)
   on.exit(unlink(temporary,recursive=TRUE),add=TRUE)
-  guided<-lo_guided_grid_export(bundle,tasks,approved,temporary,scope_decisions=lo_read_scope_decisions(repo))
+  matched_support<-lo_analysis_support_match(repo,tasks,approved,support)
+  guided<-lo_guided_grid_export(bundle,tasks,approved,temporary,scope_decisions=lo_read_scope_decisions(repo),analysis_support=matched_support)
   stopifnot(nrow(guided)==1L,guided$mapping_holds==0L,guided$validated_input_cells==nrow(approved))
   export_path<-file.path(temporary,'PRIVATE_GUIDED_VALIDATED_ROWS.csv');export<-read(export_path)
   stopifnot(all(export$cell_id%in%approved$cell_id),approval_sha==sha(approval_path))
@@ -83,6 +88,9 @@
     exporter_sha256=sha(file.path(repo,'06_pipeline/LO_FINAL_GUIDED_EXPORT.R')),
     figure_contract_sha256=sha(file.path(bundle,'FIGURE_SERIES_CONTRACT_20261002.csv')),
     population_policy_sha256=sha(file.path(repo,'06_pipeline/review_20261013/POPULATION_CORRECTIONS.json')),
+    analysis_support_sha256=sha(file.path(support_out,'ANALYSIS_SUPPORT.csv')),
+    support_policy_sha256=sha(file.path(repo,'06_pipeline/review_20261013/ANALYSIS_SUPPORT_POLICY.json')),
+    quality_restricted_rows=guided$quality_restricted_rows,
     reuse='EXACT_SEALED_RESULTS_THROUGH_EXISTING_EXPORTER_NO_ESTIMATION',result_commit=args[4])
   write_immutable(proof,file.path(snapshot,'product_export/SNAPSHOT_EXPORT_EVIDENCE.json'))
   write_immutable(list(inputs=as.list(before),result_commit=args[4],stable=TRUE,

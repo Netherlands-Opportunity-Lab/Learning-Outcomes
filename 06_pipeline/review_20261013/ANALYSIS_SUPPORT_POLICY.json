@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "policy_id": "MINIMUM_COMPONENT_SUPPORT_30_PUPILS_5_SCHOOLS_V1",
+  "review_date": "2026-10-20",
+  "kind": "PRODUCT_QUALITY_CONDITION_NOT_ANALYSIS_SCOPE",
+  "minimum_pupils": 30,
+  "minimum_schools": 5,
+  "require_known_school_for_each_target_pupil": true,
+  "apply_to": "Every displayed estimate and every component of a displayed contrast, in every required plausible value; use focal peer targets rather than the full peer frame.",
+  "treatment": "Retain the approved task, its estimate, certificate and provenance. Mark insufficient support as a separate product-quality restriction; do not plot it, use it in a reference mean or rank, replace it by zero, shorten the anchor, or relabel it as a missing questionnaire.",
+  "source": {
+    "title": "OECD PISA 2022 Results Volume I, Reader's Guide: data underlying the figures",
+    "url": "https://www.oecd.org/en/publications/pisa-2022-results-volume-i_53f23881-en/full-report/reader-s-guide_47156c95.html",
+    "finding": "OECD denotes estimates based on fewer than 30 students or fewer than five schools with valid data as insufficiently reliable to report."
+  },
+  "iea_application": "The same minimum is an explicit conservative project reporting condition for IEA results, not a claim that IEA officially uses this cutoff. IEA nonresponse, design and population qualifications remain separate.",
+  "scope_effect": "No new statistic, no deleted target and no additional pupil-level estimation. A valid zero with sufficient analysis support remains a displayed result.",
+  "limitations": "Passing this minimum does not establish representativeness, measurement invariance, normality or adequate precision. Existing design/PV uncertainty and official sample qualifications still apply."
+}

@@ -351,7 +351,11 @@ lo_fixed_controller <- function(repo,bundle,
       figures=digest::digest(file=file.path(bundle,'FIGURE_SERIES_CONTRACT_20261002.csv'),algo='sha256')),
     c('PRIVATE_GUIDED_VALIDATED_ROWS.csv','PRIVATE_APPROVED_EXTENSION_ROWS.csv',
       'PRIVATE_GUIDED_MAPPING_HOLDS.csv','GUIDED_EXPORT_SUMMARY.csv'),!is.null(science_binding),
-    compute=function()lo_guided_grid_export(bundle,dashboard_tasks,guided_approved,state,scope_decisions=scope_decisions),
+    compute=function() {
+      source(file.path(repo,'06_pipeline/LO_ANALYSIS_SUPPORT_POLICY.R'),local=environment())
+      support<-lo_analysis_support_load(repo,root,dashboard_tasks,guided_approved)
+      lo_guided_grid_export(bundle,dashboard_tasks,guided_approved,state,scope_decisions=scope_decisions,analysis_support=support)
+    },
     read_result=function()read.csv(file.path(state,'GUIDED_EXPORT_SUMMARY.csv'),stringsAsFactors=FALSE)),error=function(e)e)
   if(inherits(map,"error")) {
     put("guided-mapping","HOLD",conditionMessage(map))

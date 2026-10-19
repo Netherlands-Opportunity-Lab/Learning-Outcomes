@@ -26,6 +26,7 @@ def publish(repo, root):
     w = Path(manifest.get('review_work_directory',w))
     mappings = {
         'Q01_SES_SAMPLE_REVIEW.json': 'Q01/SES_SAMPLE_REVIEW.json',
+        'Q01_ANALYSIS_SUPPORT_REVIEW.json': 'Q01_ANALYSIS_SUPPORT/ANALYSIS_SUPPORT_REVIEW.json',
         'Q02_OFFICIAL_SAMPLE_REVIEW.json': 'Q02/OFFICIAL_SAMPLE_REVIEW.json',
         'Q03_Q05_FROZEN_SES_REVIEW.json': 'Q03_Q05/FROZEN_SES_REVIEW.json',
         'Q06_REFERENCE_REVIEW.json': 'Q06/REFERENCE_REVIEW.json',
@@ -55,6 +56,7 @@ def publish(repo, root):
         (out / name).write_text(text, encoding='utf-8')
         source_hashes[name] = sha(p)
     csvs = ['Q01/SES_ANALYSIS_SAMPLE_COVERAGE.csv', 'Q01/SES_SOURCE_CHECKS.csv','Q01/SES_REVIEW_TARGET_BINDINGS.csv',
+            'Q01_ANALYSIS_SUPPORT/ANALYSIS_SUPPORT.csv', 'Q01_ANALYSIS_SUPPORT/ANALYSIS_SUPPORT_SOURCES.csv',
             'Q02/COUNTRY_CYCLE_SAMPLE_QUALITY.csv', 'Q02/OFFICIAL_SAMPLE_TABLE_DEPENDENCIES.csv',
             'Q03_Q05/FROZEN_SES_COUNTRY_WAVE_REVIEW.csv', 'Q06/REFERENCE_BY_VIEW.csv',
             'Q06/REFERENCE_NUMERICAL_PROBES.csv', 'Q06/RANK_NUMERICAL_PROBES.csv',

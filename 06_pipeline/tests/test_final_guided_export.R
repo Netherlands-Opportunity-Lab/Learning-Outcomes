@@ -157,6 +157,32 @@ ma<-approved[rep(1,4),];ma$cell_id<-mt$metric_key;ma$target_contract_sha256<-lo_
 mo<-file.path(work,'migration_context');mx<-lo_guided_grid_export(bundle,mt,ma,mo)
 mr<-read.csv(file.path(mo,'PRIVATE_GUIDED_VALIDATED_ROWS.csv'))
 stopifnot(mx$mapping_holds==0L,nrow(mr)==4L,length(unique(mr$figure_id))==4L,all(mr$series_id=='population_reference_share'),identical(mr$outcome_id,mt$definition))
+source('06_pipeline/LO_ANALYSIS_SUPPORT_POLICY.R')
+support<-data.frame(cell_id=ma$cell_id,result_hash=ma$result_hash,
+ target_contract_sha256=ma$target_contract_sha256,source_sha256=ma$source_edition_sha256,
+ recorded_n=ma$n_unweighted,recorded_n_matches=TRUE,
+ min_component_n=c(29,30,50,50),min_component_school_n=c(5,5,4,5),max_missing_school_n=0)
+matched<-lo_analysis_support_match('.',mt,ma,support)
+stopifnot(identical(matched$publication_eligible,c(FALSE,TRUE,FALSE,TRUE)))
+small_out<-file.path(work,'small_samples')
+small<-lo_guided_grid_export(bundle,mt,ma,small_out,analysis_support=matched)
+visible<-read.csv(file.path(small_out,'PRIVATE_GUIDED_VALIDATED_ROWS.csv'))
+stopifnot(small$mapping_holds==0L,small$quality_restricted_rows==2L,
+ identical(visible$cell_id,ma$cell_id[c(2,4)]),nrow(ma)==4L)
+changed<-support;changed$result_hash[1]<-sha('9')
+stopifnot(inherits(try(lo_analysis_support_match('.',mt,ma,changed),silent=TRUE),'try-error'))
+stopifnot(inherits(try(lo_analysis_support_match('.',mt,ma,support[-1,]),silent=TRUE),'try-error'))
+review_root<-file.path(work,'review_root');review_work<-file.path(review_root,'scientific_review_20261019')
+support_dir<-file.path(review_work,'Q01_ANALYSIS_SUPPORT');dir.create(support_dir,recursive=TRUE)
+support_path<-file.path(support_dir,'ANALYSIS_SUPPORT.csv');write.csv(support,support_path,row.names=FALSE)
+jsonlite::write_json(list(review_work_directory=normalizePath(review_work,winslash='/'),
+ evidence_files=data.frame(path=normalizePath(support_path,winslash='/'),sha256=digest::digest(file=support_path,algo='sha256'))),
+ file.path(review_work,'SCIENTIFIC_REVIEW_MANIFEST.json'),auto_unbox=TRUE)
+loaded<-lo_analysis_support_load('.',review_root,mt,ma)
+stopifnot(identical(loaded$publication_eligible,matched$publication_eligible))
+writeLines('changed evidence',support_path)
+stopifnot(inherits(try(lo_analysis_support_load('.',review_root,mt,ma),silent=TRUE),'try-error'))
+cat('PASS exact sample-quality bindings, minimum boundary and explicit product restriction without deleting a result\n')
 unlink(work,recursive=TRUE)
 cat("PASS validated guided export, fixed source IDs and high-peer exclusion\n")
 
