@@ -106,6 +106,8 @@ jobs:
         run: Rscript 06_pipeline/tests/test_paper_claim_review.R
       - name: Test real-review receipt binding and stale evidence rejection
         run: Rscript 06_pipeline/tests/test_scientific_review_binding.R
+      - name: Verify batched result and absence evidence
+        run: Rscript 06_pipeline/tests/test_parallel_artifact_verification.R
       - name: Test efficient view export against the complete reference engine
         run: Rscript 06_pipeline/tests/test_balanced_views.R
       - name: Test exact guided export and pending scope exclusion

@@ -14,9 +14,19 @@ lo_read_source_support <- function(path,repo=NULL) {
   if(anyNA(x$country)||any(!grepl("^[A-Z0-9]{3}$",x$country)))stop("SOURCE_SUPPORT_COUNTRY_INVALID")
   verified<-x[x$status=="SOURCE_SUPPORT_VERIFIED",,drop=FALSE]
   checked<-new.env(parent=emptyenv())
+  helper_repo<-if(is.null(repo))Sys.getenv('LO_REPO_ROOT',getwd())else repo
+  helper<-file.path(helper_repo,'06_pipeline/LO_EVIDENCE_HASHES.R')
+  if(file.exists(helper))source(helper,local=environment())
+  bulk<-exists('lo_verify_evidence_files',mode='function')
+  attached<-list();parsed<-new.env(parent=emptyenv())
+  if(bulk) {
+    files<-rbind(data.frame(path=verified$source_path,sha256=verified$source_sha256),
+                 data.frame(path=verified$certificate_path,sha256=verified$certificate_sha256))
+    lo_verify_evidence_files(files,checked,repo=helper_repo)
+  }
   for(i in seq_len(nrow(verified))) {
     row<-verified[i,,drop=FALSE]
-    for(pair in list(c("source_path","source_sha256"),c("certificate_path","certificate_sha256"))) {
+    if(!bulk)for(pair in list(c("source_path","source_sha256"),c("certificate_path","certificate_sha256"))) {
       path<-row[[pair[1]]];hash<-row[[pair[2]]]
       key<-paste(path,hash)
       if(!exists(key,checked,inherits=FALSE)) {
@@ -25,7 +35,9 @@ lo_read_source_support <- function(path,repo=NULL) {
         assign(key,TRUE,checked)
       }
     }
-    cert<-jsonlite::fromJSON(row$certificate_path,simplifyVector=TRUE)
+    cert_key<-paste(row$certificate_path,row$certificate_sha256)
+    if(!exists(cert_key,parsed,inherits=FALSE))assign(cert_key,jsonlite::fromJSON(row$certificate_path,simplifyVector=TRUE),parsed)
+    cert<-get(cert_key,parsed,inherits=FALSE)
     if(!identical(cert$status,"SOURCE_SUPPORT_VERIFIED") ||
        !identical(cert$source_sha256,row$source_sha256) ||
        !identical(cert$country,row$country) ||
@@ -35,7 +47,8 @@ lo_read_source_support <- function(path,repo=NULL) {
     if(!is.data.frame(cert$evidence_files) || !nrow(cert$evidence_files) ||
        !all(c("path","sha256")%in%names(cert$evidence_files)))
       stop("SOURCE_SUPPORT_EVIDENCE_REQUIRED")
-    for(j in seq_len(nrow(cert$evidence_files))) {
+    attached[[length(attached)+1L]]<-cert$evidence_files[c('path','sha256')]
+    if(!bulk)for(j in seq_len(nrow(cert$evidence_files))) {
       p<-cert$evidence_files$path[j];h<-cert$evidence_files$sha256[j]
       key<-paste(p,h)
       if(!exists(key,checked,inherits=FALSE)) {
@@ -45,6 +58,7 @@ lo_read_source_support <- function(path,repo=NULL) {
       }
     }
   }
+  if(bulk&&length(attached))lo_verify_evidence_files(unique(do.call(rbind,attached)),checked,repo=helper_repo)
   if(anyDuplicated(paste(verified$country,lo_balance_key(verified))))
     stop("SOURCE_SUPPORT_DUPLICATE_EDITION")
   if(!is.null(repo)) {

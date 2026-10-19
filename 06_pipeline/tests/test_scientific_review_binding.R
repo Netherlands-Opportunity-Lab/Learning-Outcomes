@@ -47,6 +47,7 @@ writeLines('Synthetic reviewed evidence for receipt regression',proof)
 write.csv(data.frame(cell_id=tasks$metric_key,estimate=501),approval,row.names=FALSE)
 stopifnot(inherits(try(lo_scientific_review_install(repo,root,tasks,approval,state),silent=TRUE),'try-error'))
 file.copy('06_pipeline/LO_EVIDENCE_HASHES.py',file.path(repo,'06_pipeline/LO_EVIDENCE_HASHES.py'))
+file.copy('06_pipeline/LO_EVIDENCE_HASHES.R',file.path(repo,'06_pipeline/LO_EVIDENCE_HASHES.R'))
 batch<-data.frame(path=file.path(w,paste0('parallel_',1:130,'.txt')),sha256='')
 for(i in seq_len(nrow(batch))) {
   writeLines(as.character(i),batch$path[i]);batch$sha256[i]<-sha(batch$path[i])

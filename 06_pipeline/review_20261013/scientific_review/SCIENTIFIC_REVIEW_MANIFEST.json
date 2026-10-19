@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "REVIEWED_SCIENTIFIC_BASIS_WITH_EXPLICIT_LIMITATIONS",
   "result_basis": "ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2",
-  "private_manifest_sha256": "f7c76a736c21a74350bdd5fa66f5c6423c0a1ba3e2cdbd49826f9c6789adddc8",
+  "private_manifest_sha256": "ec1cab0a0debdbd99283b5f99bcba664ab86a321f441b0913c4b165cc727e0b0",
   "approval_sha256": "11e88b29916a96786728edfba25678bc1bb9d3742e1aeb744c16a228d490a821",
   "reviewed_target_count": 77611,
   "scientific_review_requirements": 8,
@@ -12,6 +12,7 @@
     "Q03_Q05_FROZEN_SES_REVIEW.json": "0f78af110b90d62e1ce97883094539a3f624135925759766b39c0824a1db35e4",
     "Q06_REFERENCE_REVIEW.json": "958070535d80fce50256cb620851a6f011a9d4e66a303071ca23a6ded2011899",
     "Q08_PAPER_CLAIM_REVIEW.json": "8b51a45f19566bb007ff1461670c74cef62892cbeaa1648a8a01529bb98dbc4d",
+    "RESULT_ARTIFACT_VERIFICATION.json": "47cd00401d22ffd254f197982142f57f6c83b2f8bbd35e0079753edd72c37f58",
     "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz": "d39ba1d9d61516db06cfcacc62696c98a45d7e9f34168285188eadf3836a00d3",
     "SES_SOURCE_CHECKS.csv": "b6b8019c8c1a99878ee41cb15ff26a2aaf05ad5f849e2611aeb34f1609d69a8e",
     "COUNTRY_CYCLE_SAMPLE_QUALITY.csv": "b0d5cec8726baffb5677364111999da69b1a38efd05c289def0e7cff63d55d73",
@@ -113,7 +114,7 @@
     },
     {
       "path": "06_pipeline/GRID_ARCHIVE_BATCH.R",
-      "sha256": "f60b53f6c503337155621aa8123313b881e6472ed734fc5f8879774b980b7169"
+      "sha256": "eb4e252957bc43b9006eaa41fcb0d927b14fd9b153514c9f686feaa55a80a101"
     },
     {
       "path": "06_pipeline/LO_APPROVED_EXTENSIONS.R",
@@ -181,7 +182,7 @@
     },
     {
       "path": "06_pipeline/LO_COUNTRY_REGISTRY.R",
-      "sha256": "f475dde4929657396d1efbd9967f6363d9bad946cab00756ec9febd4b7d959c5"
+      "sha256": "3991b9c8d8f40e86016be27238a8f6e70e8700acc6004560b61652732f763982"
     },
     {
       "path": "06_pipeline/LO_COUNTRY_TASKS.R",
@@ -218,6 +219,10 @@
     {
       "path": "06_pipeline/LO_EVIDENCE_HASHES.py",
       "sha256": "8ca2beb0792031dff7b99801e8f3a69c90cfbbb47b94df60a962fa5b881028f1"
+    },
+    {
+      "path": "06_pipeline/LO_EVIDENCE_HASHES.R",
+      "sha256": "e97a14ae44a624b1ff85f320229c6206bc6c59a456fa714db3869c860cfbade6"
     },
     {
       "path": "06_pipeline/LO_EXACT_BOOT.R",
@@ -381,7 +386,7 @@
     },
     {
       "path": "06_pipeline/LO_SCIENTIFIC_REVIEW_BINDING.R",
-      "sha256": "5a3055ae43ecaf1b1afde497e0d46a53dafc5da7a32c44f0c74d30052781fbfc"
+      "sha256": "20248d92fdb644edc3cf73e24abe78003c09f047784d6e0fbce271ea76cae639"
     },
     {
       "path": "06_pipeline/LO_SCOPE_DECISIONS.R",
@@ -417,7 +422,7 @@
     },
     {
       "path": "06_pipeline/LO_SOURCE_UNAVAILABILITY.R",
-      "sha256": "88ebe897245dc0b8d4b00f9df989c485592c6246e5a2f05bbc08316b9039658d"
+      "sha256": "d2eb0c59ea1ed5b7b212870294d18e358541e72881691f7733445d07dacc4668"
     },
     {
       "path": "06_pipeline/LO_VERIFY_PISA_CORE.R",
@@ -566,6 +571,7 @@
     "REFERENCE_DEPENDENCIES.csv": "3d58a892c7089bc373f338114118ae421c50048aa736c6192a74db985dac6c7f",
     "REFERENCE_NUMERICAL_PROBES.csv": "62e0335297d5b14226f76818f59dc83ae320844759035a63338bb4a41fed3019",
     "REGIONAL_SOURCE_IDENTITIES.csv": "0ebd683308008a149a19a12fab69cdba17205487cb0d9b93742c434a2d49fa13",
+    "RESULT_ARTIFACT_VERIFICATION.json": "54ca38d6ea06819cdf119a8b3b7e3ca1bcd20f3d4693837fdad18a86f1b3dbfb",
     "RESULT_USE_RESTRICTIONS.csv": "fb1789948f76d4dbb5e53e6da6ba604584dfdfd8c0d29f9d8b12f77bfe0eb505",
     "SCOPE_METHOD_REVIEW.json": "f677411a6eb4990d2107d5f56d9aa87e8bd64d83fc821f46d53454d2dd3d4173",
     "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz": "cc995d09b53e551e796466684be37e37ff6212154e6e18b0769c6e8abe1d6e22",
