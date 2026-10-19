@@ -24,17 +24,17 @@
     "environment": "d575c2abbaee6392379995f9ab358bbb4af82429ca8700bd82f1a667a67c66d3",
     "decisions": "b8149f28d4c287120bf6259b6e10bfd9cff5622b889962aa9014c2802fd5cb5f",
     "products": "e70912ea418298fbcf30e70cf04f9dd25c4b25b50476712ddfacc909c6596e6c",
-    "rank_product": "6427113cad05117464b51ce290dc171de365f733f19b6399962f70e4a05956a9",
+    "rank_product": "31be4b02ccfcd21a0cbdaaf061b182f31caf3f4d84b86eee33661db620b1b325",
     "extensions": "5434924a5d4b58644fff77efc4adb614ae073856ea5ead76e7d6c0ec72b991f5",
     "gender_policy": "dbc0a3f20d4d28d5d80b3bd16ee67a10dcec93acb1aff885f78de8f7e1d86e94",
     "scope_code": "13cee7b621322ab2d7091e6257dce0178ff0773239a672bfbaa73d0f52d306e3",
-    "country_decisions": "aa0cdfc75ade819b7aada518872ee817b97e994be18b52bfd8f35e6ef94c7e9b",
-    "country_code": "3991b9c8d8f40e86016be27238a8f6e70e8700acc6004560b61652732f763982",
+    "country_decisions": "7c30d5883c6ca10033a0bcd534dcc3d1ea9b9d88a60f842fb8bf16259a0268cf",
+    "country_code": "901b260d70d0c8a13b16a1ad7aa127ca0e17cc3f87603be055140ba11bf3955e",
     "population_review": "3a0c2c89ac658574408869018a20c59d69e34fc1d5b1769bf76ada2b3f47c33b",
     "population_code": "ca3f10a90b86540c589a26008436c741d42bcca849e05d48f98dc3a3d50c10c5",
-    "paper_policy": "96638a1b1506ca9b6f5f163a3ab67559c687aecfc5670d85c39f686fa11ad22e",
+    "paper_policy": "33fa80f17c8c26611a770841a7acfca8ccba64ff53ff11dde7d4e8914d06d632",
     "paper_claims": "c01daa802fa77e9f40637207ca168dafdae3b5fd930c2d3f626730556563537a",
-    "balance_policy": "9e15efa531dea6012712c4d409228da495e185f310eccd536d2a8ef66625b25b",
+    "balance_policy": "77445b86f3f3fe3a2235707b697f5c1a60426655154111c790fd363646cd75b9",
     "anchor": "baa2cd6b3221a043a713b7fc2c605d736bdf39a9f5c95855f226984910a82bca",
     "support": "fe4dd32f5d7a5365886383bab0de7f03afed14b3e6ab6f7f0a3ac686a364a154",
     "compute": "652fabe25f4d97e0dac5519ef5308164530b4254e1d61aa05958da585e6563ae",
@@ -44,13 +44,13 @@
     "run_config_code": "71727bd6d3006808ed6ac0cb38e9a39471f93b7db716e02a373245884d859b2f"
   },
   "configuration_sha256": "ced0c2319b860b3736cb8a967e32b461ff754bda49fab61df8b1d61a6721d2bf",
-  "validated_rows": 65881,
-  "target_rows": 73321,
+  "validated_rows": 69201,
+  "target_rows": 76809,
   "status_counts": {
-    "SCIENTIFICALLY_VALIDATED": 65881,
-    "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE": 3168,
-    "UNAVAILABLE_VERIFIED_ANALYTIC_SAMPLE": 55,
-    "UNAVAILABLE_VERIFIED_SOURCE_FIELD": 4217
+    "SCIENTIFICALLY_VALIDATED": 69201,
+    "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE": 3240,
+    "UNAVAILABLE_VERIFIED_ANALYTIC_SAMPLE": 97,
+    "UNAVAILABLE_VERIFIED_SOURCE_FIELD": 4271
   },
   "publication_status": "RESEARCH_REVIEW_NOT_PRODUCT_RELEASE",
   "raw_or_pupil_data_included": false,
@@ -59,8 +59,8 @@
   "files": [
     {
       "file": "derivations.csv",
-      "sha256": "925f73c076ab60503aeebfbab33af7e13410024be750cea27a33da000a8d8eab",
-      "bytes": 602673
+      "sha256": "425862a244d726114a60d80c8bdb69d7ad80c40ed0439178e462256cd9e136b7",
+      "bytes": 634771
     },
     {
       "file": "execution_receipts.csv",
@@ -69,18 +69,18 @@
     },
     {
       "file": "measured_execution_receipts.csv",
-      "sha256": "76b7a6e8c4fc57a983625a0c5c1a6b37746d12b8be5322a5a30a46194bb847d0",
-      "bytes": 15907398
+      "sha256": "800548b872e848030de0b384102a79904eb3152c4784b7cd748960e58c9a1ced",
+      "bytes": 16740709
     },
     {
       "file": "result_run_links.csv",
-      "sha256": "451a3fee94f4699bdaa5e7d19a51960e4817cdddcde18281101f4799bee763b9",
-      "bytes": 17118797
+      "sha256": "a2f92f71607af99150265e7f96bc6d72208b344eeb079ba37e125f648282eedc",
+      "bytes": 17982802
     },
     {
       "file": "results.csv",
-      "sha256": "8751a058ac7b36b44b4659559c7d1fcaf0f687e98eb89073a352e22206fd93b9",
-      "bytes": 80177071
+      "sha256": "15b258bc58797f32d341ce08f753c4094e1913c6f1d051cfae768b1a511686e7",
+      "bytes": 84226565
     },
     {
       "file": "run_provenance.json",
@@ -94,8 +94,8 @@
     },
     {
       "file": "target_status.csv",
-      "sha256": "522a10a66f462ebc0c04138aea8804cf6216c0b62d0c17f5ef69114648548958",
-      "bytes": 11415282
+      "sha256": "a790a8d047ae75246825ea14561ffaeb320d2a9a7d65f83a11af3577882045b6",
+      "bytes": 11954730
     }
   ]
 }
