@@ -1,4 +1,4 @@
-# A view keeps the complete focus-country core anchor plus the union of every
+# A view keeps the complete selected age-domain focus core plus the union of every
 # series actually compared in that figure. Unrelated appendix figures do not
 # restrict its reference group. Missing focus results block that view explicitly.
 lo_balance_task_views <- function(tasks) {
@@ -20,11 +20,15 @@ lo_balance_view_context <- function(available,candidates) {
   x<-lo_balance_validated(available)
   list(x=x,lookup=setNames(seq_len(nrow(x)),paste(x$country,x$balance_key,sep='::')),
     by_country=split(x$balance_key,x$country),
-    admission=lo_support_eligibility(x,candidates)$countries)
+    admission=lo_support_eligibility(x,candidates))
 }
 
 lo_balance_one_view <- function(available,grid,view,focus_core_ids,candidates,rich,nld_anchor=NULL,context=NULL) {
   focus<-view$focus
+  view_rows<-grid[match(view$cell_ids,grid$cell_id),,drop=FALSE]
+  core_rows<-grid[match(focus_core_ids,grid$cell_id),,drop=FALSE]
+  if(anyNA(view_rows$cell_id)||anyNA(core_rows$cell_id))stop('BALANCE_VIEW_UNKNOWN_TARGET')
+  focus_core_ids<-focus_core_ids[lo_combination_key(core_rows)%in%unique(lo_combination_key(view_rows))]
   ids<-unique(c(focus_core_ids,view$cell_ids))
   i<-match(ids,grid$cell_id)
   if(anyNA(i)||any(grid$country[i]!=focus))stop('BALANCE_VIEW_UNAPPROVED_OR_OTHER_FOCUS')
@@ -39,18 +43,18 @@ lo_balance_one_view <- function(available,grid,view,focus_core_ids,candidates,ri
   if(is.null(context))options<-lo_dashboard_reference_options(available,required,candidates,focus) else {
     # The context is built from the full verified input once per export, never
     # persisted or reused by timestamp. View filtering cannot relax admission.
-    if(!isTRUE(context$admission$dashboard_eligible[match(focus,context$admission$country)]))
-      stop('BALANCE_HOLD: focus does not satisfy certified dashboard 6x3 rule')
+    if(!isTRUE(unname(lo_combination_admitted(context$admission,required,focus))))
+      stop('BALANCE_HOLD: focus fails selected combination minimum of three comparable waves')
     keys<-sort(unique(lo_balance_key(required)))
     candidates<-sort(unique(candidates))
     missing<-lapply(candidates,function(c)setdiff(keys,context$by_country[[c]]))
     counts<-lengths(missing)
-    admitted<-context$admission$dashboard_eligible[match(candidates,context$admission$country)]
+    admitted<-unname(lo_combination_admitted(context$admission,required,candidates))
     if(anyNA(admitted))stop('BALANCE_VIEW_CONTEXT_CANDIDATES_CHANGED')
     options<-data.frame(country=candidates,focus_country=focus,required_cells=length(keys),
       covered_cells=length(keys)-counts,missing_cells=counts,
       eligible=candidates!=focus & admitted & counts==0L,
-      reason=ifelse(candidates==focus,'FOCUS_EXCLUDED',ifelse(!admitted,'FAIL_DASHBOARD_6x3',
+      reason=ifelse(candidates==focus,'FOCUS_EXCLUDED',ifelse(!admitted,'FAIL_SELECTED_COMBINATION_MIN3',
         ifelse(counts>0L,'MISSING_OR_INCOMPATIBLE_REQUIRED_CELLS','FULL_BALANCED_SUPPORT'))),
       missing_keys=vapply(missing,paste,character(1),collapse=';'),dashboard_eligible=admitted)
   }
@@ -89,14 +93,18 @@ lo_balanced_view_export <- function(repo,grid,contracts,tasks,scope_info,out,che
   if(is.null(candidates))candidates<-scope_info$dashboard
   context<-lo_balance_view_context(available,unique(c(candidates,scope_info$dashboard)))
   products<-lapply(views,function(view) {
-    core<-tasks$metric_key[tasks$country==view$focus & tasks$module=='core' & tasks$stat=='mean']
-    if(!length(core))stop('BALANCE_VIEW_CORE_ANCHOR_MISSING')
+    view_tasks<-tasks[tasks$metric_key%in%view$cell_ids,,drop=FALSE]
+    combinations<-unique(lo_combination_key(view_tasks))
+    core_tasks<-tasks[tasks$country==view$focus & tasks$module=='core' & tasks$stat=='mean',,drop=FALSE]
+    core<-core_tasks$metric_key[lo_combination_key(core_tasks)%in%combinations]
+    if(!length(core)&&!all(view_tasks$domain=='all'))stop('BALANCE_VIEW_CORE_ANCHOR_MISSING')
     result<-lo_balance_one_view(available,grid,view,core,candidates,scope_info$comparator,anchor,context)
     result$required_years<-sort(unique(as.character(grid$year[match(view$cell_ids,grid$cell_id)])))
     result
   })
-  jsonlite::write_json(list(schema_version=2L,policy='FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3',
+  jsonlite::write_json(list(schema_version=2L,policy='FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3',
     grid_sha256=digest::digest(grid,algo='sha256'),views=products,
+    combination_admission=context$admission$detail,
     unavailable_cells=grid[grid$status!='SCIENTIFICALLY_VALIDATED',intersect(c('cell_id','country','survey','year','status','hold_reason'),names(grid)),drop=FALSE]),
     file.path(out,'BALANCED_REFERENCE_EXPORT.json'),auto_unbox=TRUE,pretty=TRUE,na='null',digits=17)
   invisible(products)

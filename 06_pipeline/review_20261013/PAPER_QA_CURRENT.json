@@ -1,14 +1,54 @@
 {
-  "version": "2026-10-18",
+  "version": "2026-10-19",
   "authority": "Latest explicit user decisions; SCOPE_APPROVALS.csv; balanced reference policy. Historical paper requirements remain provenance, not permission for extra production.",
   "requirements": [
-    {"requirement_id":"Q01","requirement":"Coverage and missingness of the selected SES definitions and actual analysis samples","scope_disposition":"QUALITY_CONDITION","evidence":"Source/mapping coverage, weighted and unweighted valid samples, missing-year reasons; no substitution of SES constructs."},
-    {"requirement_id":"Q02","requirement":"Population, response, exclusions, mode and national sample qualifications","scope_disposition":"QUALITY_CONDITION","evidence":"Official cycle/country documentation joined to exact source and target population; keep quality qualifications visible."},
-    {"requirement_id":"Q03","requirement":"Verify the chosen Cobreros four-wave SES implementation against its pinned author evidence","scope_disposition":"METHOD_VALIDATION_NOT_A_FIXED_PRODUCTION_PANEL","evidence":"Pinned author code/parameters and numerical parity for the used implementation. Historical 34-system replication is not dashboard membership."},
-    {"requirement_id":"Q04","requirement":"Document applicability of the historical two-wave Cobreros validation to the chosen method","scope_disposition":"APPLICABILITY_REVIEW_NO_NEW_TWO_WAVE_PRODUCTION","evidence":"Method dependency audit. If the two-wave variant is unused, demonstrate exclusion; do not add it or force 36 countries to satisfy an old slide."},
-    {"requirement_id":"Q05","requirement":"Verify fixed-parameter harmonization and source mappings used beyond the author calibration sample","scope_disposition":"QUALITY_CONDITION_FOR_USED_EXTENSION","evidence":"Parameter/calibration fingerprints, source-field overlap, missingness and comparability for actual project years/countries."},
-    {"requirement_id":"Q06","requirement":"Exact balanced references, country uncertainty and rank dependencies","scope_disposition":"CURRENT_REFERENCE_RULE","evidence":"Full focus years/outcomes/ages/groups and class/school composition; focus excluded; equal-country reference means without benchmark SE/CI; individual uncertainty preserved. No reference-group rank line."},
-    {"requirement_id":"Q07","requirement":"Check SES scope discipline and approved Home-SES appendix comparability","scope_disposition":"NO_UNAPPROVED_OFFICIAL_PISA_SES_ROBUSTNESS","evidence":"PISA uses the chosen Innovamat/Cobreros method; do not add official wave-specific ESCS analyses from the old scientific deck. A04 permits official IEA Home SES in appendix only, with harmonized definitions and explicit unavailable years."},
-    {"requirement_id":"Q08","requirement":"Correct uncertainty for necessary, registered paper claims","scope_disposition":"A17_SELECTED_PAPER_CLAIMS_ONLY","evidence":"Claim IDs, exact parent cells, joint covariance and linking uncertainty where applicable. No automatic systematic trend-test suite or inferred cohort effects."}
+    {
+      "requirement_id": "Q01",
+      "requirement": "Coverage and missingness of the selected SES definitions and actual analysis samples",
+      "scope_disposition": "QUALITY_CONDITION",
+      "evidence": "Source/mapping coverage, weighted and unweighted valid samples, missing-year reasons; no substitution of SES constructs."
+    },
+    {
+      "requirement_id": "Q02",
+      "requirement": "Population, response, exclusions, mode and national sample qualifications",
+      "scope_disposition": "QUALITY_CONDITION",
+      "evidence": "Official cycle/country documentation joined to exact source and target population; keep quality qualifications visible."
+    },
+    {
+      "requirement_id": "Q03",
+      "requirement": "Verify the chosen Cobreros four-wave SES implementation against its pinned author evidence",
+      "scope_disposition": "METHOD_VALIDATION_NOT_A_FIXED_PRODUCTION_PANEL",
+      "evidence": "Pinned author code/parameters and numerical parity for the used implementation. Historical 34-system replication is not dashboard membership."
+    },
+    {
+      "requirement_id": "Q04",
+      "requirement": "Document applicability of the historical two-wave Cobreros validation to the chosen method",
+      "scope_disposition": "APPLICABILITY_REVIEW_NO_NEW_TWO_WAVE_PRODUCTION",
+      "evidence": "Method dependency audit. If the two-wave variant is unused, demonstrate exclusion; do not add it or force 36 countries to satisfy an old slide."
+    },
+    {
+      "requirement_id": "Q05",
+      "requirement": "Verify fixed-parameter harmonization and source mappings used beyond the author calibration sample",
+      "scope_disposition": "QUALITY_CONDITION_FOR_USED_EXTENSION",
+      "evidence": "Parameter/calibration fingerprints, source-field overlap, missingness and comparability for actual project years/countries."
+    },
+    {
+      "requirement_id": "Q06",
+      "requirement": "Exact balanced references, country uncertainty and rank dependencies",
+      "scope_disposition": "CURRENT_REFERENCE_RULE",
+      "evidence": "Admission per country/age/domain with at least three comparable waves. Full selected-combination focus years and all jointly shown groups and class/school composition; fixed membership within a figure, allowed to differ between figures. Domain-independent composition retains its own study/population and complete figure years/groups. Equal-country mean, focus excluded, same rank basis, no group rank line."
+    },
+    {
+      "requirement_id": "Q07",
+      "requirement": "Check SES scope discipline and approved Home-SES appendix comparability",
+      "scope_disposition": "NO_UNAPPROVED_OFFICIAL_PISA_SES_ROBUSTNESS",
+      "evidence": "PISA uses the chosen Innovamat/Cobreros method; do not add official wave-specific ESCS analyses from the old scientific deck. A04 permits official IEA Home SES in appendix only, with harmonized definitions and explicit unavailable years."
+    },
+    {
+      "requirement_id": "Q08",
+      "requirement": "Correct uncertainty for necessary, registered paper claims",
+      "scope_disposition": "A17_SELECTED_PAPER_CLAIMS_ONLY",
+      "evidence": "Claim IDs, exact parent cells, joint covariance and linking uncertainty where applicable. No automatic systematic trend-test suite or inferred cohort effects."
+    }
   ]
 }

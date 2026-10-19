@@ -40,15 +40,21 @@ stopifnot(!lo_balanced_membership(held,required,"AAA","NLD")$eligible,
   fails(lo_balanced_reference_points(cells,required,"NLD","NLD")),
   fails(lo_balanced_reference_points(cells,required,character(),"NLD")),
   fails(lo_balanced_membership(rbind(cells,cells[1,]),required,"AAA","NLD")))
-# Six combinations with >=3 distinct comparable cycles, not 18 arbitrary cells.
+# Each combination needs >=3 comparable cycles; other combinations are independent.
 full <- do.call(rbind,lapply(c("age10","age15"),function(age)
   do.call(rbind,lapply(c("reading","mathematics","science"),function(domain)
     do.call(rbind,lapply(c(2015,2018,2022),function(y)make("NLD",y,age=age,domain=domain)))))))
 stopifnot(lo_dashboard_eligibility(full,"NLD")$countries$dashboard_eligible)
 short <- full[-1,]
-stopifnot(!lo_dashboard_eligibility(short,"NLD")$countries$dashboard_eligible)
+ad<-lo_dashboard_eligibility(short,'NLD')
+stopifnot(ad$countries$dashboard_eligible,ad$countries$admitted_combinations==5L,
+ !lo_combination_admitted(ad,full[1,],'NLD'))
 incomparable <- full;incomparable$population_comparison_id[1] <- "DIFFERENT_TARGET_POPULATION"
-stopifnot(!lo_dashboard_eligibility(incomparable,"NLD")$countries$dashboard_eligible)
+ad<-lo_dashboard_eligibility(incomparable,'NLD')
+stopifnot(ad$countries$dashboard_eligible,ad$countries$admitted_combinations==5L,
+ !lo_combination_admitted(ad,full[1,],'NLD'))
+one_combination<-full[full$survey=='PISA' & full$domain=='reading',]
+stopifnot(lo_dashboard_eligibility(one_combination,'NLD')$countries$dashboard_eligible)
 stopifnot(!lo_dashboard_eligibility(full[FALSE,],"NLD")$countries$dashboard_eligible)
 all_core <- do.call(rbind,lapply(c("NLD","AAA","BBB"),function(country) {
   z<-full;z$country<-country;z$source_record_id<-paste(country,z$source_record_id);z
@@ -58,9 +64,24 @@ stopifnot(all(lo_dashboard_reference_options(all_data,required,c("AAA","BBB"),"N
 bad_admission <- all_data[!(all_data$country=="BBB" & all_data$age_group=="age10" &
   all_data$domain=="science" & all_data$year=="2015"),]
 o<-lo_dashboard_reference_options(bad_admission,required,c("AAA","BBB"),"NLD")
-stopifnot(identical(o$eligible,c(TRUE,FALSE)),o$reason[2]=="FAIL_DASHBOARD_6x3",
-  fails(lo_dashboard_reference_points(bad_admission,required,c("AAA","BBB"),"NLD")))
-cat("PASS 6x3 eligibility; joint balanced support; exact constructs; no focus; no partial means\n")
+stopifnot(all(o$eligible)) # missing primary science must not veto PISA reading
+bad_selected<-all_data[!(all_data$country=='BBB' & all_data$survey=='PISA' &
+ all_data$domain=='reading' & all_data$split_group=='total' & all_data$year=='2015'),]
+o<-lo_dashboard_reference_options(bad_selected,required,c('AAA','BBB'),'NLD')
+stopifnot(identical(o$eligible,c(TRUE,FALSE)),o$reason[2]=='FAIL_SELECTED_COMBINATION_MIN3',
+ fails(lo_dashboard_reference_points(bad_selected,required,c('AAA','BBB'),'NLD')))
+neutral<-cells;neutral$domain<-'all';neutral$outcome<-'peer_composition'
+neutral$split_dimension<-'ses';neutral$peer_definition<-'school';neutral$unit<-'percent'
+neutral_required<-neutral[neutral$country=='NLD',lo_balance_columns()]
+with_neutral<-rbind(bad_selected,neutral)
+stopifnot(all(lo_dashboard_reference_options(with_neutral,neutral_required,c('AAA','BBB'),'NLD')$eligible))
+no_study<-with_neutral[!(with_neutral$country=='BBB' & with_neutral$survey=='PISA' &
+ with_neutral$outcome=='mean_score' & with_neutral$split_group=='total'),]
+stopifnot(!lo_dashboard_reference_options(no_study,neutral_required,'BBB','NLD')$eligible)
+missing_peer<-with_neutral[!(with_neutral$country=='BBB' & with_neutral$domain=='all' &
+ with_neutral$split_group=='boy' & with_neutral$year=='2018'),]
+stopifnot(!lo_dashboard_reference_options(missing_peer,neutral_required,'BBB','NLD')$eligible)
+cat('PASS per-combination minimum; fixed joint panel; independent outcomes; exact constructs; no partial means\n')
 # Own-country contracts cannot be shortened to finite plotted observations or
 # inherited from the Dutch figure template.
 source('06_pipeline/LO_BALANCED_MEMBERSHIP.R')

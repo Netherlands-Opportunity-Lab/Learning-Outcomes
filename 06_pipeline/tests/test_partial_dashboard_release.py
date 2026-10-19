@@ -29,7 +29,7 @@ class PartialRelease(unittest.TestCase):
         put("data/countries/NLD.json",{"records":b.product_rows(csvfile,["NLD"],[f])})
         put("data/availability/NLD.json",{"figures":[dict(figure_id=f["figure_id"],display_state="PARTIAL",
             available_points=1,required_points=2,missing_points=[dict(year=2022,series_id="total")])]})
-        put("data/explorer_references.json",dict(policy="FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3",figures=[dict(
+        put("data/explorer_references.json",dict(policy="FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3",figures=[dict(
             focus="NLD",figure_id=f["figure_id"],status="COMPARABILITY_PENDING",eligible_members=[],default_members=[],evidence_sha256=None)]))
         qa=dict(scientific_data_rows=1,availability_counts={"PARTIAL":1},review_release=dict(kind=m.KIND,full_scientific_release=False,source_commit="d"*40))
         for key in ("country_registry_sha256","figure_contract_sha256","scope_decisions_sha256"):qa[key]="a"*64
@@ -47,7 +47,7 @@ class PartialRelease(unittest.TestCase):
             for name,data in content.items():z.writestr(name,data)
         cert=dict(release_kind=m.KIND,authorization="USER_2026_10_18_PUBLISH_AVAILABLE_LEAVE_MISSING_OPEN",
                   full_scientific_release=False,eligible_countries=["NLD"],approved_figure_ids=[f["figure_id"]])
-        for field in ("displayed_cell_validation","rights_boundary","scope_decisions","dashboard_6x3","static_site_QA","dashboard_reproduction"):cert[field]="PASS"
+        for field in ("displayed_cell_validation","rights_boundary","scope_decisions","dashboard_combination_admission","static_site_QA","dashboard_reproduction"):cert[field]="PASS"
         cert.update({k:v for k,v in qa.items() if k.endswith("_sha256")})
         return cert
 

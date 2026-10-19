@@ -32,8 +32,8 @@
     }
   ],
   "conclusions": {
-    "POL": "Only PIRLS 2016 and 2021 have the consistent national fourth-grade population; excluded by the existing 6x3 rule.",
-    "MLT": "PIRLS participation is greater than the locally inventoried file list; official TIMSS primary participation still has only two waves, 2011 and 2019. No dashboard admission."
+    "POL": "PIRLS 2016/2021 are the two consistent national grade-4 waves: this combination is not admitted. PISA and grade-4 TIMSS remain separately eligible under the 19 October decision.",
+    "MLT": "Official PIRLS 2011/2016/2021 participation exceeds the local file list and needs source recovery/verification. Primary TIMSS 2011/2019 has only two waves. PISA is assessed separately."
   },
   "additional_primary_source_checks": [
     {

@@ -20,6 +20,11 @@ stopifnot(digest::digest(file=file.path(out,'FOCUS_CORE_TARGETS.csv'),algo='sha2
 products<-read(file.path(snapshot,'public_inputs/dashboard_cells.csv'))
 tasks<-read(file.path(snapshot,'product_export/PRIVATE_TASKS.csv'))
 stopifnot(digest::digest(file=file.path(snapshot,'product_export/PRIVATE_TASKS.csv'),algo='sha256')==review$exact_tasks_sha256)
+core_index<-match(core_targets$cell_id,tasks$metric_key)
+stopifnot(!anyNA(core_index))
+core_targets$survey<-tasks$survey[core_index]
+core_targets$domain<-tasks$domain[core_index]
+core_targets$age_group<-ifelse(core_targets$survey=='PISA','age15','age10')
 products_by_view<-split(products,paste(products$country,products$figure_id,sep='::'))
 empty_product<-products[FALSE,,drop=FALSE]
 registry<-read(file.path(snapshot,'public_inputs/COUNTRY_SOURCE_ELIGIBILITY.csv'))
@@ -29,13 +34,10 @@ figure_path<-file.path(out,'FIGURES.json')
 figure_sha<-digest::digest(file=figure_path,algo='sha256')
 figures<-jsonlite::fromJSON(figure_path)$figures
 anchor<-read(file.path(repo,'06_pipeline/review_20261013/NLD_POLICY_CORE_YEAR_ANCHOR.csv'))
-admission<-lo_dashboard_eligibility(x,countries)$countries
-countries<-countries[countries%in%admission$country[admission$dashboard_eligible]]
+admission<-lo_dashboard_eligibility(x,countries)
+countries<-countries[countries%in%admission$countries$country[admission$countries$dashboard_eligible]]
 views<-list();n<-0L
 for(focus in sort(countries)) {
- core_ids<-core_targets$cell_id[core_targets$country==focus]
- core<-x[match(core_ids,x$cell_id),,drop=FALSE]
- core_good<-length(core_ids)>0L && !anyNA(core$cell_id)
  # The existing engine evaluates the complete verified focus support once.
  # Each figure takes an exact subset of that missing-key matrix, with the
  # unchanged full core added. This avoids thousands of repeated revalidations.
@@ -45,6 +47,12 @@ for(focus in sort(countries)) {
  for(i in seq_len(nrow(figures))) {
   f<-figures[i,];p<-products_by_view[[paste(focus,f$figure_id,sep='::')]]
   if(is.null(p))p<-empty_product
+  selected_combination<-data.frame(survey=f$survey,domain=f$domain)
+  core_ids<-core_targets$cell_id[core_targets$country==focus &
+    lo_combination_key(core_targets)%in%lo_combination_key(selected_combination)]
+  core<-x[match(core_ids,x$cell_id),,drop=FALSE]
+  core_good<-f$domain=='all' || length(core_ids)>0L && !anyNA(core$cell_id)
+  combination_ok<-isTRUE(unname(lo_combination_admitted(admission,selected_combination,focus)))
   # Required years come from the unmodified focus contracts, never from its
   # finite plotted points or another country's Dutch template. Keep the full
   # original Dutch deck years, and the full own-country anchor elsewhere.
@@ -58,7 +66,9 @@ for(focus in sort(countries)) {
       tasks$contract_figure_id==f$historical_figure_id],
     view_cell_ids=ids,default_members=character(),default_points=list(),
     focus_excluded=TRUE,country_weights='EQUAL_PER_COUNTRY',benchmark_uncertainty=FALSE)
-  if(!core_good) {
+  if(!combination_ok) {
+   v$status<-'AGE_DOMAIN_NOT_ADMITTED'
+  }else if(!core_good) {
    v$status<-'FOCUS_CORE_INCOMPLETE';v$missing_core_cells<-sum(!core_ids%in%x$cell_id)
   }else if(!length(years)||!setequal(expected,actual)||anyDuplicated(actual)) {
    v$status<-'FOCUS_VIEW_INCOMPLETE';v$missing_view_points<-length(setdiff(expected,actual))
@@ -68,16 +78,15 @@ for(focus in sort(countries)) {
    comp<-x[match(ids,x$cell_id),,drop=FALSE]
    required<-lo_focus_required_support(core,comp,focus,anchor)
    keys<-sort(unique(lo_balance_key(required)))
-   # Filtering to requested keys is computational only: the unmodified global
-   # 6x3 admission test above still gates every candidate below.
+   # Minimum-wave admission and full support both concern this exact view.
    candidates<-sort(countries)
    missing<-lapply(candidates,function(c)sort(intersect(keys,missing_index[[c]])))
    counts<-lengths(missing)
-   admitted<-admission$dashboard_eligible[match(candidates,admission$country)]
+   admitted<-unname(lo_combination_admitted(admission,required,candidates))
    opts<-data.frame(country=candidates,focus_country=focus,required_cells=length(keys),
       covered_cells=length(keys)-counts,missing_cells=counts,
       eligible=candidates!=focus & admitted & counts==0L,
-      reason=ifelse(candidates==focus,'FOCUS_EXCLUDED',ifelse(!admitted,'FAIL_DASHBOARD_6x3',ifelse(counts>0L,'MISSING_OR_INCOMPATIBLE_REQUIRED_CELLS','FULL_BALANCED_SUPPORT'))),
+      reason=ifelse(candidates==focus,'FOCUS_EXCLUDED',ifelse(!admitted,'FAIL_SELECTED_COMBINATION_MIN3',ifelse(counts>0L,'MISSING_OR_INCOMPATIBLE_REQUIRED_CELLS','FULL_BALANCED_SUPPORT'))),
       missing_keys=vapply(missing,paste,character(1),collapse=';'),dashboard_eligible=admitted)
    # Store a small example, not an O(countries x figures x missing keys) dump.
    # Full missing sets are independently recomputed from the cell dictionary.
@@ -98,13 +107,15 @@ proof_cols<-c('cell_id','country',lo_balance_columns(),'result_hash','verificati
               'product_transform','product_multiplier','product_intercept',
               'product_unit','product_estimate','product_standard_error')
 export_cells<-a[a$country%in%countries,,drop=FALSE]
-jsonlite::write_json(list(schema_version=3L,policy='FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3',
+jsonlite::write_json(list(schema_version=3L,policy='FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3',
  figure_registry_sha256=figure_sha,
  dashboard_input_sha256=review$dashboard_input_sha256,mapping_evidence=review,
  population_review_sha256=attr(population_review,'sha256'),
  scope_countries=sort(countries),exported_mapped_cells=nrow(export_cells),
  key_dictionary=all_keys,cell_columns=proof_cols,cells=unname(as.matrix(export_cells[proof_cols])),
  core_targets=core_targets[core_targets$country%in%countries,,drop=FALSE],
- admission=admission[admission$country%in%countries,,drop=FALSE],rich_candidates=sort(rich),views=views),
+ admission=admission$countries[admission$countries$country%in%countries,,drop=FALSE],
+ combination_admission=admission$detail[admission$detail$country%in%countries,,drop=FALSE],
+ rich_candidates=sort(rich),views=views),
  file.path(out,'BALANCED_REFERENCE_EXPORT.json'),auto_unbox=TRUE,pretty=FALSE,na='null',digits=17)
 cat('PASS reference options use existing R membership engine; no pupil recalculation\n')

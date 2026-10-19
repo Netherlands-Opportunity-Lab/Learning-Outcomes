@@ -1,4 +1,12 @@
-# Wetenschappelijke basis en definitieve scope — 19 oktober 2026
+# Wetenschappelijke basis en actuele scope — 19 oktober 2026
+
+Het nieuwste gebruikersbesluit vervangt de toelating voor alle zes combinaties door **toelating per leeftijd en domein, met minstens drie vergelijkbare meetgolven**. Referentielanden moeten binnen de figuur het volledige bijbehorende hoofdlandanker en alle gezamenlijk getoonde groepen dekken. Tussen figuren mag de groep verschillen. [Het directe besluit](review_20261013/BALANCE_USER_DECISION_20261019.json) is leidend.
+
+De oude eindcontrole is werkelijk geslaagd op code `1c562073`, resultaatcommit `095d53e5`: Q01–Q08 8/8, 65.881 gevalideerde en 7.440 onderbouwd onbeschikbare doelen, geen resterende rekentaken. Dat is [historisch uitvoeringsbewijs](review_20261013/SCIENTIFIC_EXECUTION_OLD_RULE_20261019.json) onder de vorige regel. Het is geen automatische vrijgave van de nieuwe selectie.
+
+De nieuwe regel is tegen de echte bronnen en exacte bestaande celcontracten getoetst: **34 landen/stelsels, 202 toegelaten combinaties, 76.809 doelen**. Daarvan hebben 69.201 een bestaand gevalideerd resultaat en 7.608 een bestaand afwezigheidsbewijs; geen nieuw of gewijzigd doel binnen deze bronmatig geverifieerde selectie. Zie [COMBINATION_SCOPE_IMPACT.json](review_20261013/scientific_review/COMBINATION_SCOPE_IMPACT.json). Dit is een gecontroleerde hergebruikvoorraad, geen nieuw uitgevoerde productierun.
+
+De nieuwe regel verruimt ook het kandidatenonderzoek: de bronindices bevatten **50 aanvullende kandidaten** met mogelijk minstens één drie-golvencombinatie. Zij zijn nog geen toegelaten landen. Geldige scores, officiële populatie, vergelijking en ontbrekende bestanden moeten afzonderlijk worden gecontroleerd; de aanwezige vragenlijstrecords bewijzen dat niet. De definitieve landeninventaris en de bijbehorende totale productie zijn daarom nog niet afgesloten. De live website blijft de expliciet voorlopige release; deze wetenschappelijke wijziging is geen deployment.
 
 Dit dossier beoordeelt de afgesloten resultaatbasis `ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2` inhoudelijk. De historische run bevat 77.611 doelen: 69.775 geregistreerd gevalideerde resultaten, 7.836 onderbouwd onbeschikbare doelen en nul open rekentaken. Die rekenkundige stand blijft bewaard. Latere uitsluitingen voor landen en vergelijkbaarheid staan afzonderlijk; een correctie herschrijft geen historisch resultaatcertificaat.
 
@@ -25,30 +33,35 @@ Ontbrekende doelen krijgen precies één hoofdreden: ontbrekende bronkoppeling, 
 
 ## Landen en referenties
 
-De beoordeelde kandidateninventaris bevat 116 broncodes/landen/stelsels; dat zijn niet 116 soevereine landen. Ook systemen buiten COMMON42 zijn gecontroleerd. [COUNTRY_REVIEW.csv](review_20261013/scientific_review/COUNTRY_REVIEW.csv) geeft per kandidaat de uitkomst en reden; de zes afzonderlijke tellers staan in `VERIFIED_COUNTRY_SIX_COMBINATIONS.csv`. Ontbrekende certificering is op zichzelf geen bewijs van niet-deelname.
+De huidige broncertificering omvat 34 landen/stelsels. Canada en Polen hebben ieder vijf toegelaten combinaties; de overige 32 hebben zes. De volledige uitsplitsing staat in [VERIFIED_COUNTRY_COMBINATIONS.csv](review_20261013/scientific_review/VERIFIED_COUNTRY_COMBINATIONS.csv). `COUNTRY_REVIEW.csv` onderscheidt geverifieerde combinaties, nog te certificeren kandidaten en regionale broncodes. Een ontbrekend certificaat is geen bewijs van niet-deelname. [De brede kandidatencontrole](review_20261013/scientific_review/COMBINATION_CANDIDATE_SCREEN.json) leest de bewaarde bronindices, ook buiten de oude COMMON42 en de eerdere IEA-gerichte inventaris.
 
-Er voldoen 32 landen/stelsels aan ten minste drie vergelijkbare meetgolven in elk van de zes combinaties: **ARE, AUS, AUT, AZE, BGR, CZE, DEU, DNK, ESP, FIN, FRA, GEO, HKG, HUN, IRL, ITA, LTU, LVA, MAR, NLD, NOR, NZL, PRT, QAT, RUS, SAU, SGP, SVK, SVN, SWE, TWN en USA**. Hongkong en Chinees Taipei blijven hun consequent gedefinieerde onderwijsstelsel; ze worden niet omgedoopt tot China. Voor Noorwegen tellen uitsluitend de passende leerjaar-4-bestanden, waaronder de officiële aanvullende steekproeven, niet de leerjaar-5-populatie.
-
-| Kandidaat | Inhoudelijke uitkomst |
+| Kandidaat | Gevolg van de nieuwe regel |
 |---|---|
-| CAN | De als nationaal gecertificeerde PIRLS-2001-bron omvat Ontario en Québec. Na correctie blijven twee passende nationale leesgolven over; Canada voldoet niet aan 6×3. Historische resultaten blijven bewaard. |
-| POL | PIRLS 2006/2011 en TIMSS 2011 betreffen de Poolse derde klas. PIRLS gebruikt vanaf 2016 de vierde klas, TIMSS vanaf 2015. De leerjaarwisseling is geen vergelijkbare tijdreeks; slechts twee vrijgegeven PIRLS-golven betreffen de consistente vierde-klaspopulatie. |
-| BEL | Vlaamse/Franse onderwijsgemeenschappen in IEA zijn niet uitwisselbaar met nationaal PISA-België. Geen stilzwijgende regionale of nationale reconstructie. |
-| GBR | Engeland, Schotland en Noord-Ierland in IEA zijn niet hetzelfde als nationaal PISA-Verenigd Koninkrijk. |
-| CHE en KOR | Geen drie PIRLS-leesgolven in de beoordeelde vrijgegeven cycli; TIMSS-deelname levert geen leesuitkomst. |
-| ISL | Twee PIRLS-golven: 2001 en 2006. |
-| LUX | Eén PIRLS-golf, 2006; de afwijkende lokale leerjaaraanduiding maakt daar geen drie golven van. |
-| IRN en OMN | Voldoende IEA-golven, maar geen drie PISA-golven in de beoordeelde cyclusbestanden. |
-| MKD | Drie PIRLS-golven, maar slechts twee passende TIMSS-leerjaar-4-golven. |
-| MLT | De officiële deelname is ruimer dan de lokale bestandsinventaris: PIRLS 2011/2016/2021, maar slechts twee TIMSS-golven op het primaire niveau, 2011/2019. TIMSS 2023 betreft het voortgezet onderwijs en telt niet mee. |
+| CAN | PISA en TIMSS toegelaten; PIRLS niet: 2001 is regionaal, 2011/2016 zijn twee passende nationale golven. TIMSS 2015/2019/2023 is bruikbaar als eigen reeks, maar dekt niet het Nederlandse anker vanaf 2003. |
+| POL | PISA en TIMSS leerjaar 4 toegelaten. PIRLS 2006/2011 en TIMSS 2011 zijn derde-klaspopulaties; zij worden niet aan de vierde-klasreeks gekoppeld. PIRLS 2016/2021 zijn slechts twee golven. |
+| BEL en GBR | Nationale PISA-bronnen kunnen onafhankelijk van ontbrekende nationale IEA-reeksen worden onderzocht. Vlaamse/Franse gemeenschappen en Engeland/Schotland/Noord-Ierland worden niet tot nationale IEA-reeksen omgedoopt. |
+| CHE, ISL, KOR en LUX | Ontbrekende of te korte PIRLS-reeksen sluiten hun mogelijke PISA- of TIMSS-reeksen niet meer uit. De aanvullende broncertificering moet nog worden uitgevoerd. |
+| IRN, OMN en andere IEA-kandidaten | Geen PISA-deelname is geen reden meer om een bewezen PIRLS- of TIMSS-combinatie uit te sluiten. |
+| MLT | Officiële PIRLS-deelname in 2011/2016/2021 is ruimer dan de lokale bestandenlijst. Een ontbrekende bron moet worden gekoppeld, niet als niet-deelname gemarkeerd. Primaire TIMSS heeft twee golven (2011/2019); TIMSS 2023 betreft het voortgezet onderwijs. |
 
-De [Poolse nationale bron](https://ibe.edu.pl/en/assessments/assessments-international-large-scale-assessments/pirls-international-assessments) en het gepinde nationale rapport onderscheiden de leerjaren expliciet. Een algemene internationale code voor leerjaar 4 is hier onvoldoende bewijs van een ongewijzigde nationale populatie. Bij Malta bevestigt de [nationale TIMSS-deelnamelijst](https://curriculum.gov.mt/timss/) het onderscheid tussen beide onderwijsniveaus. `COUNTRY_PARTICIPATION_CLARIFICATIONS.json` legt vast dat aanwezige bronbestanden, officiële deelname en vergelijkbare golven verschillende tellers zijn.
+De [Poolse nationale bron](https://ibe.edu.pl/en/assessments/assessments-international-large-scale-assessments/pirls-international-assessments) en het gepinde nationale rapport onderscheiden de leerjaren. Bij Malta bevestigt de [nationale TIMSS-deelnamelijst](https://curriculum.gov.mt/timss/) de verschillende onderwijsniveaus. Hongkong en Chinees Taipei behouden hun bestaande, consequent gedefinieerde onderwijsstelsel. Een nieuw regionaal bestand geeft geen toestemming om het als land te behandelen.
 
 De rijke kandidatenlijst is ongewijzigd: AUS, AUT, BEL, CAN, CHE, DEU, DNK, ESP, FIN, FRA, GBR, IRL, ISL, ITA, KOR, LUX, NLD, NOR, SWE en USA. De historische constructie is **OESO-lidmaatschap en bbp per hoofd in koopkrachtpariteit in 2024 strikt boven Tsjechië**, uit World Bank `NY.GDP.PCAP.PP.CD`; dit is niet de algemene World Bank-inkomensclassificatie. De teruggevonden bron en drempel zijn afzonderlijk gepind. Het getal twintig verleent geen toelating.
 
 De drie modi blijven `nld_only`, `nld_plus_19` en `all_required`; de tweede naam is een historische naam voor de toegelaten rijke kandidaten. De bestaande toestemming voor alle bronmatig toegelaten landen geldt. Er worden geen extra landen of regio's onder een nieuwe inhoudelijke definitie toegevoegd.
 
-Binnen de rijke kandidaten dekt **alleen Italië** het volledige Nederlandse basisanker. Buiten die kandidaten dekken ook Hongkong, Hongarije en Nieuw-Zeeland dat basisanker. Dit is nog geen universele referentie voor iedere uitsplitsing: de vereiste gezamenlijke groeps- en peercompositie kan de set verkleinen of leeg maken. [REFERENCE_BY_VIEW.csv](review_20261013/scientific_review/REFERENCE_BY_VIEW.csv) legt voor ieder hoofdland en iedere dashboardfiguur de uiteindelijke passende en standaardleden vast. Een leeg veld blijft een lege referentie.
+De Nederlandse standaardreferentie wordt per gekozen combinatie vastgesteld. De huidige **bronmatig** passende rijke kandidaten zijn:
+
+| Combinatie | Kandidaten met volledig Nederlands basisanker |
+|---|---|
+| PIRLS lezen | DEU, FRA, ITA, SWE, USA |
+| TIMSS wiskunde | AUS, ITA, USA |
+| TIMSS natuurwetenschappen | AUS, ITA, USA |
+| PISA lezen | AUS, CAN, DEU, DNK, FIN, FRA, IRL, ITA, NOR, SWE |
+| PISA wiskunde | AUS, CAN, DEU, DNK, FIN, FRA, IRL, ITA, NOR, SWE, USA |
+| PISA natuurwetenschappen | AUS, CAN, DEU, DNK, FIN, FRA, IRL, ITA, NOR, SWE, USA |
+
+Dit is [bronbewijs per combinatie](review_20261013/scientific_review/NLD_COMBINATION_REFERENCE_REVIEW.csv), nog geen universele ledenlijst voor alle splits. De hele gezamenlijk getoonde groeps- en leeromgevingdekking kan de groep verder beperken. `NLD_CORE_REFERENCE_REVIEW.csv` met alle 40 basiscombinaties is voortaan uitsluitend een catalogusdiagnose; zij is geen toelatingspoort voor één figuur. De vroegere `REFERENCE_BY_VIEW.csv` en Q06-manifesten zijn herkenbaar aan de oude beleidsidentiteit. De nieuwe controletabellen hebben de prefix `COMBINATION_`.
 
 AUT 2009 en ESP 2018 blijven historische resultaten, maar worden wegens de expliciete officiële trendvoorbehouden uitgesloten van gecertificeerde vergelijkbare trenddekking. Hun vereiste jaren verdwijnen niet uit het hoofdlandanker. De private definitieve productexport laat zulke punten open en bewaart de reden. Dit is een voorzichtige toepassing van de afgesproken vergelijkbaarheidsregel; het is geen bewering dat de OESO alle dwarsdoorsnederesultaten van die cycli heeft ingetrokken. Zie de [OESO-toelichting op afwijkende afnames](https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html).
 
@@ -67,7 +80,7 @@ Rang gebruikt precies de geselecteerde referentielanden plus het hoofdland eenma
 | Q03 | Auteurscommit `1da4b26097e84e732973af672355a1c3103d5d33`, viergolvenmodel met 13 items; kalibratie N=1.079.563; maximale parameterafwijking <8,2×10⁻¹¹. Alle 130 gebruikte canonieke scorebestanden sluiten exact aan op de gepinde toepassing. | Het auteursvalidatiepanel bepaalt onze dashboardlanden niet. |
 | Q04 | Alle exacte taken en methodeafhankelijkheden onderzocht: nul gebruikte tweegolfanalyses. | Niet van toepassing, aantoonbaar uitgesloten; geen extra analyse om een historische eis af te vinken. |
 | Q05 | Vaste parameters, velden, gewichten, scoreprojectie, ontbrekende componenten en imputatie gecontroleerd in 129 gebruikte land-golven, waaronder 41 buiten de oorspronkelijke kalibratielanden. | Meetinvariantie en negeerbare missingness buiten kalibratie blijven aannames; numerieke pariteit bewijst die niet. |
-| Q06 | Exacte bron/resultaat/methodekoppelingen, volledige ankers, 6×3, gezamenlijke splits en leeromgevingen; echte referentiegemiddelden en rangafleidingen met oudercellen en gewichten. | Geen referentie- of rang-CI. Een onvolledig hoofdlandanker of onvolledige split blijft zichtbaar onvergelijkbaar. |
+| Q06 | Historische toets met de oude 6×3-regel; de nieuwe controle gebruikt drie golven per combinatie, volledige figuurankers en gezamenlijke groepen. De nieuwe bron- en hergebruikproeven staan in de COMBINATION-tabellen. | Geen referentie- of rang-CI. Een onvolledig hoofdlandanker of onvolledige split blijft zichtbaar onvergelijkbaar. |
 | Q07 | Gekozen PISA-SES behouden; geen officiële ESCS-robuustheidsanalyse. 774 bruikbare Home-SES-cellen: PIRLS 2021 en TIMSS 2023, uitsluitend appendix. | Geen Home-SES-trend: één bruikbare golf per studie. Oudere Home Resources is een ander construct en wordt niet eraan vastgeplakt. |
 | Q08 | Twaalf retrospectief geregistreerde Nederlandse claims: zes langetermijngemiddelden en zes laatste SES-kloven; gezamenlijke PV/replicatiecovariantie voor de kloven. | Alleen drie PISA-trendtoetsen, met linking-onzekerheid en Holm-correctie. IEA-trendintervallen zijn conditioneel op de gelinkte schaal, zonder formele trendtoets. Hercontrole bij gewijzigde paperclaims. |
 
@@ -89,6 +102,6 @@ PISA en IEA, de SES-constructen en de twee leeftijden blijven afzonderlijke reek
 
 ## Vervolg binnen dezelfde keten
 
-`START.R` en `RUN.R` blijven de ingang; `fixed-audit → fixed-produce → fixed-finalize` en de drie modi blijven intact. Er is geen nieuwe brede analyseopdracht. Herberekening is uitsluitend nodig als een geautoriseerde cel nieuw, ongeldig of aantoonbaar ontbrekend is. De inhoudelijke correcties hierboven vragen geen nieuwe leerlingberekeningen. De afsluiting bouwt wel opnieuw de betrokken bron-/scope-/referentie- en productkoppelingen.
+`START.R` en `RUN.R` blijven de ingang; `fixed-audit → fixed-produce → fixed-finalize` en de drie modi blijven intact. Er is geen nieuwe brede analyseopdracht. Herberekening is uitsluitend nodig als een geautoriseerde cel nieuw, ongeldig of aantoonbaar ontbrekend is. Voor de huidige 34 bronmatig geverifieerde landen zijn geen nieuwe leerlingberekeningen nodig. Aanvullende toegelaten bronkandidaten kunnen wel nieuwe goedgekeurde cellen opleveren. De afsluiting moet de gewijzigde scope-/referentie- en productkoppelingen opnieuw aan het werkelijke uitvoeringsbewijs binden.
 
 De volgende productstap maakt dashboard, 21-slide-presentatie en Nederlandse paper uit deze gepinde basis. Zij moet de actuele publicatie-overlay behouden, de definitieve vergelijkingsregels aansluiten, de daadwerkelijke paperclaims opnieuw toetsen en de afzonderlijke product-/rechten-/replicatiecontroles afronden. Dat is geen reden om Q01–Q08 zonder bewijs open te laten of om al een definitieve publieke release te claimen.

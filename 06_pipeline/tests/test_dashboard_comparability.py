@@ -94,6 +94,25 @@ class ComparisonReview(unittest.TestCase):
             self.assertEqual(mapper.call_count,2);self.assertEqual(proof['reused_mapping_cells'],0)
             self.attachment.write_text('{}')
             with self.assertRaisesRegex(ValueError,'CHANGED_PREVIOUS_MAPPING_EVIDENCE'):self.run_build(snap,'fourth',third)
+    def test_parallel_hash_checks_changed_and_conflicting_evidence(self):
+        path=self.root/'proof.json';path.write_text('{}')
+        row=dict(path=str(path),sha256=m.sha(path))
+        self.assertEqual(m.verify_previous_mapping_evidence([row,row]),{str(path):row['sha256']})
+        with self.assertRaisesRegex(ValueError,'CONFLICTING_PREVIOUS'):
+            m.verify_previous_mapping_evidence([row,dict(row,sha256='0'*64)])
+        path.write_text('{"changed":true}')
+        with self.assertRaisesRegex(ValueError,'CHANGED_PREVIOUS'):
+            m.verify_previous_mapping_evidence([row])
+    def test_policy_edit_during_build_cannot_be_certified(self):
+        snap=self.fixture()
+        def changed(*args):
+            result=self.mapped(*args)
+            m.put(self.policy/'POPULATION_CORRECTIONS.json',{'corrections':[],'changed':True})
+            return result
+        with patch.object(m,'map_cell',side_effect=changed):
+            with self.assertRaisesRegex(ValueError,'MAPPING_POLICY_CHANGED_DURING_REVIEW'):
+                self.run_build(snap,'concurrent_policy_edit')
+        self.assertFalse((self.root/'concurrent_policy_edit/BALANCE_MAPPING_REVIEW.json').exists())
     def test_unpinned_task_and_modified_export_rejected(self):
         snap=self.fixture();self.task['choice']='changed'
         m.writecsv(snap/'product_export/PRIVATE_TASKS.csv',[self.task])

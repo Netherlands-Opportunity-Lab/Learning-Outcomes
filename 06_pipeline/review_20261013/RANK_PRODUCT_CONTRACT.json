@@ -34,7 +34,7 @@
     "new_pupil_tasks": false,
     "product_placement": "Rank view uses only outcomes approved for that product; appendix and scientific-only extensions do not become main-dashboard outcomes",
     "parents": "Exact certified outcome cells or certified joint-gap derivations; preserve IDs, hashes, definitions, source, population and uncertainty",
-    "ranking_universe": "Derive ranks relative to the selected international reference group, with explicit constant membership over all required years and jointly compared groups; existing full-focus and 6x3 rules apply. No separate ranking-group selection.",
+    "ranking_universe": "Derive ranks relative to the selected international reference group, with constant membership over all required focus years and jointly compared groups within the selected age-domain combination. User decision 2026-10-19 requires at least three comparable waves per selected combination, not all six. Different figures may have different disclosed bases. No separate ranking-group selection.",
     "legacy_fixed_panels_authorized": false,
     "group_rank_definition": "NOT_APPLICABLE: no group rank or average rank is produced",
     "rank_direction": "largest_first or smallest_first must be explicit per chosen outcome; ordering is descriptive, not a welfare judgement",

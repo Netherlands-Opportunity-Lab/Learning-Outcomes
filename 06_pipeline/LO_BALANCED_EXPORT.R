@@ -71,7 +71,7 @@ lo_balanced_export <- function(repo,grid,contracts,scope_info,out) {
       default_status=if(length(selected))"BALANCED_REFERENCE_AVAILABLE" else "NO_ELIGIBLE_REFERENCE",
       focus_excluded=TRUE,country_weights="EQUAL_PER_COUNTRY",benchmark_uncertainty=FALSE)
   }
-  jsonlite::write_json(list(schema_version=1L,policy="FULL_FOCUS_SUPPORT_6x3",
+  jsonlite::write_json(list(schema_version=1L,policy="FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3",
     grid_sha256=digest::digest(grid,algo="sha256"),focuses=products,
     unavailable_cells=grid[absent,intersect(c("cell_id","country","survey","year","hold_reason"),names(grid)),drop=FALSE]),
     file.path(out,"BALANCED_REFERENCE_EXPORT.json"),auto_unbox=TRUE,pretty=TRUE,na="null")

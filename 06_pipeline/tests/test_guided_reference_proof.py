@@ -22,7 +22,7 @@ class ReferenceProof(unittest.TestCase):
             m.verify_product(dict(c,product_multiplier='100'),p)
     def fixture(self):
         countries=['NLD','AAA','BBB'];cells=[];rows=[];targets=[]
-        f=dict(figure_id='TR_MEAN_age10_reading',required_years='2001;2006;2011;2016;2021',expected_series='total')
+        f=dict(figure_id='TR_MEAN_age10_reading',survey='PIRLS',domain='reading',required_years='2001;2006;2011;2016;2021',expected_series='total')
         for country in countries:
             for (survey,domain),years in m.ANCHOR.items():
                 for year in years:
@@ -38,7 +38,7 @@ class ReferenceProof(unittest.TestCase):
         cols=list(cells[0]);views=[]
         for country in countries:
             ids=[r['cell_id'] for r in rows if r['country_id']=='iso3:'+country and r['figure_id']==f['figure_id']]
-            keys=sorted({m.key(c) for c in cells if c['country']==country})
+            keys=sorted({m.key(c) for c in cells if c['country']==country and c['survey']=='PIRLS'})
             views.append(dict(focus=country,figure_id=f['figure_id'],view_cell_ids=ids,
                 status='BALANCED_REFERENCE_AVAILABLE',required_keys=keys,
                 default_members=['AAA'] if country!='AAA' else [],

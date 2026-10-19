@@ -7,7 +7,7 @@ class ReferenceBinding(unittest.TestCase):
  def test_foreign_focus_uses_its_full_contract_period(self):
   with tempfile.TemporaryDirectory() as temp:
    p=Path(temp)/'balance.json'
-   f=dict(figure_id='f',required_years='2018;2022;2025',expected_series='girl;boy')
+   f=dict(figure_id='f',survey='PISA',domain='reading',required_years='2018;2022;2025',expected_series='girl;boy')
    rows=[dict(figure_id='f',country_id='iso3:'+c,year=y,series_id=g,series_role='focus',cell_id=f'{c}_{y}_{g}')
          for c,ys in [('SWE',[2018,2022]),('NLD',[2018,2022,2025])] for y in ys for g in ['girl','boy']]
    v=dict(focus='SWE',view_id='gender',view_cell_ids=[r['cell_id'] for r in rows if r['country_id']=='iso3:SWE'],
@@ -37,7 +37,7 @@ class ReferenceBinding(unittest.TestCase):
  def test_exact_cells_joint_groups_and_missing_mapping(self):
   with tempfile.TemporaryDirectory() as temp:
    p=Path(temp)/'balance.json'
-   f={'figure_id':'f','required_years':'2018;2022','expected_series':'girl;boy'}
+   f={'figure_id':'f','survey':'PISA','domain':'reading','required_years':'2018;2022','expected_series':'girl;boy'}
    rows=[dict(figure_id='f',country_id='iso3:'+c,year=y,series_id=g,series_role='focus',cell_id=f'{c}_{y}_{g}') for c in ['NLD','AUT','CAN'] for y in [2018,2022] for g in ['girl','boy']]
    ids=[r['cell_id'] for r in rows if r['country_id']=='iso3:NLD']
    v=dict(focus='NLD',view_id='gender',view_cell_ids=ids,required_keys=['core','gender_all_years'],status='BALANCED_REFERENCE_AVAILABLE',focus_excluded=True,country_weights='EQUAL_PER_COUNTRY',benchmark_uncertainty=False,default_members=['AUT'],options=[{'country':c,'eligible':True,'dashboard_eligible':True} for c in ['AUT','CAN']])

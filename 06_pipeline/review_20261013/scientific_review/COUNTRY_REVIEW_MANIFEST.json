@@ -1,12 +1,18 @@
 {
   "result_basis": "ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2",
-  "candidate_count": 116,
-  "eligible_count": 32,
+  "candidate_count": 127,
+  "eligible_count": 34,
   "candidate_entities_are_not_all_sovereign_countries": true,
   "rich_pool_unchanged": ["AUS", "AUT", "BEL", "CAN", "CHE", "DEU", "DNK", "ESP", "FIN", "FRA", "GBR", "IRL", "ISL", "ITA", "KOR", "LUX", "NLD", "NOR", "SWE", "USA"],
   "verified_support_rows": 1155,
   "population_review_sha256": "3a0c2c89ac658574408869018a20c59d69e34fc1d5b1769bf76ada2b3f47c33b",
   "source_support_sha256": "fe4dd32f5d7a5365886383bab0de7f03afed14b3e6ab6f7f0a3ac686a364a154",
-  "code_sha256": "0484e8f4311cb13e65cf59a004b75bbacc1896aa11b07c0f1adc703ae61a3650",
+  "code_sha256": "7f97bfeb1e636ba5b779bea3b9d35fcaeae6f06e4176a12822dcdd54be7f6432",
+  "policy": "COUNTRY_AGE_DOMAIN_MIN3_FULL_FOCUS_COMBINATION_AND_JOINT_VIEW",
+  "user_decision_sha256": "efcbd76a0f3404343c9442275692f8405461489d12e1ca70406f392ace1928c9",
+  "admitted_combinations": 202,
+  "additional_candidates_pending_source_certification": ["ALB", "ARG", "ARM", "BEL", "BHR", "BRA", "BRN", "CHE", "CHL", "COL", "CRI", "CYP", "DOM", "EST", "GBR", "GRC", "HRV", "IDN", "IRN", "ISL", "ISR", "JOR", "JPN", "KAZ", "KGZ", "KOR", "KSV", "KWT", "LBN", "LIE", "LUX", "MDA", "MEX", "MKD", "MLT", "MNE", "MYS", "OMN", "PAN", "PER", "PHL", "ROU", "SRB", "THA", "TTO", "TUN", "TUR", "URY", "VNM", "YEM"],
+  "inventory_screen_sha256": "0edc94d351e40e307a9fb27db176ed4ef3b245092395af082f079d1ad71d4564",
+  "whole_catalogue_reference_is_diagnostic_only": true,
   "source_only_not_final_result_balance": true
 }

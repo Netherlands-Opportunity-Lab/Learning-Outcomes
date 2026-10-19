@@ -1,0 +1,53 @@
+{
+  "status": "HISTORICAL_SUCCESSFUL_EXECUTION_UNDER_SUPERSEDED_POLICY",
+  "execution_commit": "1c562073db4e226f02b4303bc269c88151aad11e",
+  "result_commit": "095d53e5d3c3187346310b4265cb8f2b8506a9d6",
+  "integrated_commit": "b7a7067bd6df7089382db4460930378082ae9797",
+  "policy": "FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3",
+  "targets": 73321,
+  "validated": 65881,
+  "documented_unavailable": 7440,
+  "remaining": 0,
+  "quality_requirements_accepted": 8,
+  "quality_requirements_required": 8,
+  "finalize_status": "SCIENTIFIC_BASIS_REVIEWED_PRODUCT_RELEASE_PENDING",
+  "candidate": {
+    "status": "ACTUAL_FINAL_CANDIDATE_MATCHES_INDEPENDENT_Q06",
+    "candidate_id": "8e53643b2464dacb6d",
+    "views": 5568,
+    "membership_differences": 0,
+    "required_year_differences": 0,
+    "actual_status_counts": {
+      "BALANCED_REFERENCE_AVAILABLE": 4111,
+      "FOCUS_VIEW_INCOMPLETE": 929,
+      "NO_ELIGIBLE_REFERENCE": 6,
+      "FOCUS_CORE_INCOMPLETE": 522
+    },
+    "checked_candidate_files": 385,
+    "scientific_data_rows": 51405,
+    "source_sha256": "229b23927b24136eca5230716eb5585e19b333c30a51788c2a0fda68d0d623c2",
+    "actual_balance_export_sha256": "89a6098255d5ede5c3b76f10ce8b6c35ea5e8979827e36e9274e565ce18a6d01",
+    "independent_q06_export_sha256": "a943483c3c0503b3329df29966a91c4c935c8005399e7cf78b8e9bdca11b2db9",
+    "reference_table_sha256": "77cdaf03e849d8d2c4194ec22fbbc75df7a7e778b348b13864017b76c1956317",
+    "candidate_manifest_sha256": "df3d05928f58273a5e41dc1909b8ecfd0a3da7ddef147eade36399738adbe441",
+    "builder_sha256": "1286ccd996d48ac526ba558b4791d99bef66ae6ec264eebf25447a07183e0411",
+    "verification_script_sha256": "7fc458def05e7773a76b5d932525776b8ce7d9456c1dfb7bc8a5d0380ea40d5c",
+    "no_pupil_recalculation": true,
+    "public_deployment": false
+  },
+  "execution_metrics": {
+    "started_utc": "2026-10-19T13:45:33.4870483Z",
+    "finished_utc": "2026-10-19T14:38:08.8390020Z",
+    "elapsed_seconds": 3155.3519537,
+    "exit_code": 0,
+    "free_bytes_before": 10824364032,
+    "free_bytes_after": 10003730432,
+    "execution_commit": "1c562073db4e226f02b4303bc269c88151aad11e",
+    "mode": "RESUMED_EXISTING_FIXED_FINALIZE_AND_EXISTING_REMOTE_DEPOSITS",
+    "reused_audit_produce_execution_commit": "b0affca653fd0c1a9e6de7f4137417146b353501",
+    "maintenance_command_sha256": "1faa4a86493b1cb82388e6fd1f9d09c7d20f7f36f282c3e214dddc33d32dc300"
+  },
+  "source_manifest_sha256": "660edf1ab4fafd8c2b7170b686d1b96bcaf7c0a2f4a729b5c464854404e8f8ca",
+  "superseded_by": "BALANCE_USER_DECISION_20261019.json",
+  "no_current_policy_approval_inferred": true
+}

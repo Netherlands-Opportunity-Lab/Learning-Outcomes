@@ -135,7 +135,7 @@ export function breakBetween(previous,current,f) {
 export const provisional = contract => contract?.mode==='AVAILABLE_CASES_PROVISIONAL';
 export function referenceStatus(contract, focus, members) {
   if (!contract || !(contract.status==='BALANCED_REFERENCE_AVAILABLE'||provisional(contract)&&contract.status==='PROVISIONAL_REFERENCE_AVAILABLE')) return {ok:false,reason:({
-    NO_AVAILABLE_REFERENCE:'available_missing',
+    AGE_DOMAIN_NOT_ADMITTED:'admission',NO_AVAILABLE_REFERENCE:'available_missing',
     NO_ELIGIBLE_REFERENCE:'coverage',FOCUS_CORE_INCOMPLETE:'focus_core',FOCUS_VIEW_INCOMPLETE:'focus_view'
   })[contract?.status]||'pending'};
   if(!members.length)return {ok:false,reason:'empty'};
@@ -150,18 +150,29 @@ export function referenceOption(contract,focus,country) {
   if(contract?.status==='FOCUS_CORE_INCOMPLETE')return {allowed:false,reason:'focus_core'};
   if(contract?.status==='FOCUS_VIEW_INCOMPLETE')return {allowed:false,reason:'focus_view'};
   const detail=list(contract?.eligibility).find(r=>r.country===country);
-  if(detail?.reason==='FAIL_DASHBOARD_6x3')return {allowed:false,reason:'admission'};
+  if(contract?.status==='AGE_DOMAIN_NOT_ADMITTED'||['FAIL_SELECTED_COMBINATION_MIN3','FAIL_DASHBOARD_6x3'].includes(detail?.reason))return {allowed:false,reason:'admission'};
   if(detail?.missing_cells>0)return {allowed:false,reason:'missing',detail};
   return {allowed:false,reason:'pending'};
 }
 // A selected member must have every year × series. No yearwise reweighting,
 // stale precomputed average, silently dropped member, or averaged uncertainty.
+// The certified focus contract defines the period. Extra years of a reference
+// country are irrelevant; none of the required focus years/groups may disappear.
+export function focusFigure(figure,contract) {
+  if(!figure)return null;
+  if(contract && Object.hasOwn(contract,'required_years'))return {...figure,required_years:contract.required_years};
+  return {...figure};
+}
+function requiredReferenceRows(payload,f) {
+  const years=words(f.required_years),groups=words(f.expected_series);
+  return list(payload?.records).filter(r=>r.figure_id===f.figure_id && r.series_role!=='comparator' && years.includes(String(r.year)) && groups.includes(r.series_id));
+}
 export function referenceRows(f, focus, members, payloads, contract) {
   if(provisional(contract))return provisionalReferenceRows(f,focus,members,payloads,contract);
   const status=referenceStatus(contract,focus,members);
   if(!status.ok)throw new Error('REFERENCE_'+status.reason.toUpperCase());
   const tables = members.map(c=>{
-    const rows=list(payloads[c]?.records).filter(r=>r.figure_id===f.figure_id && r.series_role!=='comparator');
+    const rows=requiredReferenceRows(payloads[c],f);
     if(!completeRows(rows,f))throw new Error('REFERENCE_INCOMPLETE_'+c);
     return new Map(rows.map(r=>[`${r.year}:${r.series_id}`,r]));
   });
@@ -179,7 +190,7 @@ export function rankRows(f, statistic, focus, members, payloads, contract, other
   if(other && !members.includes(other))throw new Error('RANK_OTHER_NOT_IN_REFERENCE');
   const rule=RANK_RULES[statistic];if(!rule)throw new Error('RANK_RULE_UNDEFINED');
   const universe=[focus,...members], tables=new Map();
-  for(const c of universe){const rows=list(payloads[c]?.records).filter(r=>r.figure_id===f.figure_id&&r.series_role!=='comparator');if(!completeRows(rows,f))throw new Error('RANK_INCOMPLETE_'+c);tables.set(c,new Map(rows.map(r=>[`${r.year}:${r.series_id}`,r])));}
+  for(const c of universe){const rows=requiredReferenceRows(payloads[c],f);if(!completeRows(rows,f))throw new Error('RANK_INCOMPLETE_'+c);tables.set(c,new Map(rows.map(r=>[`${r.year}:${r.series_id}`,r])));}
   const transform=v=>rule.transform==='absolute'?Math.abs(v):v;
   return [focus,...(other?[other]:[])].flatMap(country=>words(f.required_years).flatMap(year=>words(f.expected_series).map(group=>{
     const key=`${year}:${group}`, row=tables.get(country).get(key), value=transform(number(row.estimate));

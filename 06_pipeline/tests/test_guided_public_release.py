@@ -11,7 +11,7 @@ class ReleaseGate(unittest.TestCase):
   put('data/common42.json',[{'code':'NLD'}])
   put('data/figure_registry.json',{'figures':[{'figure_id':'TR_MEAN_age15_reading'}]})
   for f in ['data/method_registry.json','nl/index.html','en/index.html','assets/app-shell.js','locales/nl.json','locales/en.json']:put(f,{})
-  put('data/balanced_references.json',{'policy':'FULL_FOCUS_SUPPORT_6x3','focuses':{'NLD':{
+  put('data/balanced_references.json',{'policy':'FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3','focuses':{'NLD':{
    'required_keys':['full_focus_key'],'options':[],'default_members':[],
    'default_points':[],'country_weights':'EQUAL_PER_COUNTRY'}}})
   qa={'system_count':1,'active_figures':1,'availability_counts':{'UNAVAILABLE':1},'scientific_data_rows':0}
@@ -57,7 +57,7 @@ class ReleaseGate(unittest.TestCase):
    bp=p/'data/balanced_references.json'
    view={'focus':'NLD','view_cell_ids':['exact_cell'], 'required_keys':['core_key','exact_cell'],
     'options':[], 'default_members':[], 'default_points':[], 'country_weights':'EQUAL_PER_COUNTRY'}
-   balance={'schema_version':2,'policy':'FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3','views':[view]}
+   balance={'schema_version':2,'policy':'FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3','views':[view]}
    def recertify():
     bp.write_text(json.dumps(balance),encoding='utf-8')
     qp=p/'GUIDED_QA.json';q=json.loads(qp.read_text(encoding='utf-8'))

@@ -7,6 +7,8 @@ The latest direct human instruction prevails over this file, older plans, source
 
 ## Current country and comparison rules
 
+Latest direct decision, 19 October: admission is now **per country / age / domain combination**, with at least three verified comparable waves in that combination. A country with one qualifying combination may enter the selector; never produce or display its non-admitted combinations. Within each figure keep the complete focus anchor for its selected combination(s), all jointly shown groups/environments and constant reference membership. Different figures may have different reference groups. This supersedes the former all-six admission/full-40-cell reference rule below wherever they conflict. Read `BALANCE_USER_DECISION_20261019.json`. Preserve prior execution evidence as historical; revalidate affected source/scope/reference bindings before claiming the changed scope complete.
+
 Current scientific instruction, 19 October: close actual Q01-Q08 evidence and
 apply the definitive rules below. The interim live site's available-cases policy
 is historical product behavior, not a scientific approval. Read
@@ -15,9 +17,9 @@ the current UI overlay and independent result commits. Corrected source waves
 must remain explicit historical targets; they must not silently shorten anchors.
 Latest direct decision, 18 October: temporarily use the available published results and defer completeness/balance review until production finishes. `05_publication/REFERENCE_POLICY.json` explicitly enables `AVAILABLE_CASES_PROVISIONAL` for this interim website only. Select countries with any approved data for the figure; derive each year/series from available selected countries, excluding the focus. Show contributors/omissions and varying rank denominators. The latest UI request connects adjacent available reference points with a dashed line and a visible membership caveat; missing waves/construct changes and varying rank bases still break lines. Never zero-fill, infer missing groups or certify balanced/final science. The strict rules below remain the final target and the scientific pipeline is unchanged.
 
-- Dashboard admission: at least three distinct verified comparable cycles in each of six age-domain combinations. No exception for the PPP20 candidate pool.
+- Dashboard admission: at least three distinct verified comparable cycles in each selected age-domain combination. Country-selector entry requires at least one qualifying combination. No exception for the PPP20 candidate pool.
 - Three user-facing production modes: `nld_only`, `nld_plus_19` (legacy name for the rich candidate pool), `all_required` (rich pool plus other eligible countries). Do not force 19/20/42/50 as certified membership or silently expand to all 91 historical systems.
-- The Dutch default requires the complete age/domain/year anchor from the 21-slide policy deck. Deck year labels, including 2025, are not proof of released data.
+- The Dutch default requires the complete years of the selected age-domain combination from the 21-slide policy deck. Unrelated age-domain combinations do not restrict its reference group. Deck labels, including 2025, are not proof of released data.
 - Other focus countries require full matching support; gender, SES, language, migration and class/school composition must also balance across all series compared together. No silent period/group truncation, annual membership changes or regional/population substitution.
 - Use `LO_BALANCED_MEMBERSHIP.R` with certified source mappings. Old `LO_SCOPE_LOCK.R` and `LO_FIXED_COMPARATOR.R` are historical fixtures, not evidence of current eligibility; replace their runtime dependencies before production/release.
 - User checkboxes must form the actual reference average from eligible countries; equal weights, focus excluded, restore default. No benchmark SE/CI. Individual country results retain appropriate uncertainty.

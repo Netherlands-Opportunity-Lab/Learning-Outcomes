@@ -99,7 +99,7 @@ lo_runtime_scope <- function(bundle,tasks,scope,source_support) {
   list(scope=scope,selected=sort(unique(selected)),dashboard=sort(intersect(selected,eligible)),
     comparator=rich,foreign_reference=setdiff(rich,"NLD"),
     additional_reference=setdiff(rich,eligible),countries=countries,cycle_detail=admission$detail,
-    source_support=source_support,reference_candidates=sort(eligible),membership_policy="FULL_FOCUS_SUPPORT_6x3")
+    source_support=source_support,reference_candidates=sort(eligible),membership_policy="FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3")
 }
 
 lo_country_production_approval <- function(repo,countries,eligible=character()) {
@@ -124,13 +124,19 @@ lo_runtime_scope_evidence <- function(info,out) {
   write.csv(info$cycle_detail,file.path(out,"COUNTRY_CYCLE_COUNTS.csv"),row.names=FALSE)
   invisible(info$countries)
 }
-# A display slice never changes the baseline gate. Each comparison adds the
-# union of its approved subgroup/peer support to the complete focus core.
+# The approved 19 October rule balances the full focus anchor for the selected
+# age-domain combination(s), plus every jointly shown group/environment.
+# Unrelated outcomes and ages do not restrict this figure's reference group.
 lo_focus_required_support <- function(core,comparison,focus,nld_anchor=NULL) {
   base<-core[core$country==focus,,drop=FALSE]
-  if(!nrow(base))stop("FOCUS_CORE_ANCHOR_EMPTY")
+  combinations<-if(nrow(comparison))unique(lo_combination_key(comparison))else unique(lo_combination_key(base))
+  base<-base[lo_combination_key(base)%in%combinations,,drop=FALSE]
+  domain_free<-nrow(comparison)>0L && all(comparison$domain=='all')
+  if(!nrow(base)&&!domain_free)stop("FOCUS_CORE_ANCHOR_EMPTY")
   if(focus=="NLD") {
-    if(is.null(nld_anchor))stop("NLD_DECK_ANCHOR_REQUIRED")
+    if(is.null(nld_anchor)&&!domain_free)stop("NLD_DECK_ANCHOR_REQUIRED")
+    if(is.null(nld_anchor))nld_anchor<-core[FALSE,,drop=FALSE]
+    nld_anchor<-nld_anchor[lo_combination_key(nld_anchor)%in%combinations,,drop=FALSE]
     expected<-unlist(lapply(seq_len(nrow(nld_anchor)),function(i)
       paste(nld_anchor$survey[i],nld_anchor$age_group[i],nld_anchor$domain[i],
         strsplit(nld_anchor$years[i],";",fixed=TRUE)[[1]],sep="|")))

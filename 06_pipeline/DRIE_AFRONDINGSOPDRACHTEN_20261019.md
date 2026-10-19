@@ -1,5 +1,7 @@
 # Drie opdrachten om Learning Outcomes af te ronden
 
+**Latere expliciete wijziging op 19 oktober:** toelating geldt voortaan per afzonderlijke leeftijd-uitkomstcombinatie (minstens drie vergelijkbare golven), met een vast volledig hoofdlandanker en alle gezamenlijke groepen binnen iedere figuur. Tussen figuren mag de referentiegroep verschillen. Dit vervangt de oude zes-combinaties-eis in de historische opdrachten hieronder. Zie [het besluit](review_20261013/BALANCE_USER_DECISION_20261019.json).
+
 Vastgelegd op 19 oktober 2026 op verzoek van de gebruiker. Voer de opdrachten
 achtereenvolgens uit in de bestaande chat met repositorytoegang. Dit vervangt
 de indeling in vier resterende opdrachten, niet de inhoudelijke besluiten of

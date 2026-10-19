@@ -1,0 +1,20 @@
+{
+  "decision_id": "USER_20261019_COMBINATION_ADMISSION_FIXED_VIEW_PANEL",
+  "decision_date": "2026-10-19",
+  "authority": "Direct human answer in this project chat",
+  "question": "Wil je de oude toelatingseis voor alle zes leeftijd-uitkomstcombinaties vervangen door toelating per afzonderlijke combinatie met minstens drie vergelijkbare meetgolven? Dan kan Canada bijvoorbeeld bij PISA en TIMSS meedoen, maar niet bij PIRLS als daar slechts twee vergelijkbare nationale golven zijn. Binnen elke figuur blijft de referentiegroep vast en moet ieder land alle hoofdlandjaren en gezamenlijk getoonde groepen dekken; tussen figuren mag de groep verschillen.",
+  "answer": "Ja, voer deze algemene regel in",
+  "minimum_comparable_waves_per_combination": 3,
+  "all_six_required_for_country_admission": false,
+  "reference_rule": "Full focus anchor within the selected age-domain combination(s), plus every jointly compared group and class/school composition; fixed membership for the whole figure",
+  "between_figure_membership_may_differ": true,
+  "unmodified_requirements": [
+    "No regional/national or grade-population substitution",
+    "No silent truncation of valid focus years or jointly shown groups",
+    "Equal-country weights, focus excluded",
+    "Unchanged historical rich candidate pool; candidates are not automatically eligible",
+    "Rank relative to the same selected group with no group rank line",
+    "A01-A17 decisions and source/method/uncertainty requirements"
+  ],
+  "superseded_evidence": "The 32-country six-combination result deposit 095d53e5d3c3187346310b4265cb8f2b8506a9d6 remains valid historical execution evidence, not approval of membership under this new rule."
+}

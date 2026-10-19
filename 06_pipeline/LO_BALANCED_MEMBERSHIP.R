@@ -1,4 +1,4 @@
-# Country eligibility and balanced reference panels, user rule 14 Oct 2026.
+# Country/combination eligibility and balanced reference panels, 19 Oct 2026.
 # Input is certified aggregate support, never raw pupils or historical labels.
 # Comparison IDs must already certify compatible populations and methods;
 # country-specific sample IDs and source hashes remain on the source records.
@@ -55,6 +55,40 @@ lo_dashboard_eligibility <- function(available,candidates) {
   lo_support_eligibility(lo_balance_validated(available),candidates)
 }
 
+lo_combination_key <- function(x, country=FALSE) {
+  if(!all(c('survey','domain')%in%names(x)))stop('COMBINATION_IDENTITY_REQUIRED')
+  age<-if('age_group'%in%names(x))as.character(x$age_group)else ifelse(x$survey=='PISA','age15','age10')
+  if(any(!x$survey%in%c('PISA','PIRLS','TIMSS')) ||
+     any(age!=ifelse(x$survey=='PISA','age15','age10')) ||
+     any(x$survey=='PISA' & !x$domain%in%c('reading','mathematics','science','all')) ||
+     any(x$survey=='PIRLS' & !x$domain%in%c('reading','all')) ||
+     any(x$survey=='TIMSS' & !x$domain%in%c('mathematics','science','all')))
+    stop('COMBINATION_POPULATION_OR_DOMAIN_INVALID')
+  key<-paste(x$survey,age,x$domain,sep='|')
+  if(country) {
+    if(!'country'%in%names(x))stop('COMBINATION_COUNTRY_REQUIRED')
+    key<-paste(x$country,key,sep='|')
+  }
+  key
+}
+
+# A country may enter the selector if at least one combination qualifies.
+# Every selected figure separately requires ALL its combinations to qualify.
+lo_combination_admitted <- function(admission,required,candidates) {
+  if(!is.list(admission)||is.null(admission$detail))stop('COMBINATION_ADMISSION_DETAIL_REQUIRED')
+  needed<-unique(lo_combination_key(required))
+  if(!length(needed))stop('EMPTY_COMPARISON_IS_NOT_ADMISSION')
+  d<-admission$detail
+  d<-d[d$combination_pass,,drop=FALSE]
+  passed<-lo_combination_key(d,country=TRUE)
+  # SES/language/migration composition is estimated once per study/population,
+  # not once per achievement domain. It may be produced if any combination of
+  # that study is admitted; its own full years/groups remain mandatory.
+  neutral<-d;neutral$domain<-rep('all',nrow(neutral))
+  passed<-union(passed,lo_combination_key(neutral,country=TRUE))
+  vapply(candidates,function(c)all(paste(c,needed,sep='|')%in%passed),logical(1))
+}
+
 # Shared combinatorial rule; callers must verify either source or result evidence.
 lo_support_eligibility <- function(x,candidates) {
   lo_balance_key(x)
@@ -81,9 +115,11 @@ lo_support_eligibility <- function(x,candidates) {
   d <- if(length(detail))do.call(rbind,detail) else
     data.frame(country=character(),survey=character(),age_group=character(),
       domain=character(),verified_comparable_cycles=integer(),combination_pass=logical())
-  eligible <- vapply(sort(unique(candidates)),function(c)
-    sum(d$country==c)==6L && all(d$combination_pass[d$country==c]),logical(1))
+  qualified <- vapply(sort(unique(candidates)),function(c)
+    sum(d$combination_pass[d$country==c]),integer(1))
+  eligible <- qualified>0L
   list(countries=data.frame(country=names(eligible),dashboard_eligible=unname(eligible),
+      admitted_combinations=unname(qualified),all_six_combinations=unname(qualified==6L),
       row.names=NULL),detail=d)
 }
 
@@ -135,14 +171,14 @@ lo_balanced_reference_points <- function(available,required,selected,focus) {
 # Dashboard adapter: enforce BOTH admission and comparison support. A checkbox
 # caller must use this combined gate, not just the lower-level panel helper.
 lo_dashboard_reference_options <- function(available,required,candidates,focus) {
-  admission <- lo_dashboard_eligibility(available,unique(c(candidates,focus)))$countries
-  if(!isTRUE(admission$dashboard_eligible[match(focus,admission$country)]))
-    stop("BALANCE_HOLD: focus does not satisfy certified dashboard 6x3 rule")
+  admission <- lo_dashboard_eligibility(available,unique(c(candidates,focus)))
+  if(!isTRUE(unname(lo_combination_admitted(admission,required,focus))))
+    stop("BALANCE_HOLD: focus needs three comparable waves in each selected age-domain combination")
   options <- lo_balanced_membership(available,required,candidates,focus)
-  options$dashboard_eligible <- admission$dashboard_eligible[match(options$country,admission$country)]
+  options$dashboard_eligible <- unname(lo_combination_admitted(admission,required,options$country))
   bad <- !options$dashboard_eligible & options$country!=focus
   options$eligible[bad] <- FALSE
-  options$reason[bad] <- "FAIL_DASHBOARD_6x3"
+  options$reason[bad] <- "FAIL_SELECTED_COMBINATION_MIN3"
   options
 }
 

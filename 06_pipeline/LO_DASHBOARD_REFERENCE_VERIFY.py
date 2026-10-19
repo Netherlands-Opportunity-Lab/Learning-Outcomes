@@ -10,7 +10,7 @@ import hashlib, json, math, re
 COLS=('survey age_group domain year outcome split_dimension split_group definition_id '
       'ses_definition_id peer_definition peer_target_group threshold_id unit '
       'population_comparison_id method_comparison_id').split()
-POLICY='FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3'
+POLICY='FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3'
 ANCHOR={('PIRLS','reading'):[2001,2006,2011,2016,2021],
         ('TIMSS','mathematics'):[2003,2007,2011,2015,2019,2023],
         ('TIMSS','science'):[2003,2007,2011,2015,2019,2023],
@@ -91,15 +91,21 @@ def verify(evidence,rows,countries,figures,input_sha=None):
             identity=tuple(c[v] for v in ('country','survey','age_group','domain','population_comparison_id','method_comparison_id','definition_id','unit'))
             core_cycles[identity].add(c['year'])
     if len(cells)!=evidence.get('exported_mapped_cells',review.get('mapped_cells')):fail('mapping audit count')
-    admission={}
+    admission={}; combination_counts={}
     for country in countries:
         counts=defaultdict(int)
         for identity,years in core_cycles.items():
             if identity[0]==country:counts[identity[1:4]]=max(counts[identity[1:4]],len(years))
-        admission[country]=all(counts[(s,age,d)]>=3 for s,age,d in (
+        combination_counts[country]=counts
+        admission[country]=any(counts[(s,age,d)]>=3 for s,age,d in (
             ('PIRLS','age10','reading'),('TIMSS','age10','mathematics'),('TIMSS','age10','science'),
             ('PISA','age15','reading'),('PISA','age15','mathematics'),('PISA','age15','science')))
-    if {a['country']:a['dashboard_eligible'] for a in evidence['admission']}!=admission:fail('6x3 admission')
+    if {a['country']:a['dashboard_eligible'] for a in evidence['admission']}!=admission:fail('per-combination admission')
+    if 'combination_admission' in evidence:
+        for r in arr(evidence['combination_admission']):
+            n=combination_counts[r['country']][(r['survey'],r['age_group'],r['domain'])]
+            if int(r['verified_comparable_cycles'])!=n or bool(r['combination_pass'])!=(n>=3):
+                fail('changed combination cycle counts')
     targets=defaultdict(set)
     for row in evidence['core_targets']:targets[row['country']].add(row['cell_id'])
     byfigure=defaultdict(list)
@@ -109,12 +115,19 @@ def verify(evidence,rows,countries,figures,input_sha=None):
     def decode(value):return dictionary[int(value)-1] if dictionary is not None else value
     if len(views)!=len(evidence['views']) or set(views)!={(c,f['figure_id']) for c in countries for f in figures}:fail('view scope')
     for country in countries:
-        core=targets[country]
-        if not core:fail('empty focus core')
+        full_core=targets[country]
+        if not full_core:fail('empty focus core')
         if country=='NLD':
             required={f'NLD|{s}|{y}|{d}|core|mean|total|total|||score_points|' for (s,d),ys in ANCHOR.items() for y in ys}
-            if not required<=core:fail('shortened Dutch anchor')
+            if not required<=full_core:fail('shortened Dutch anchor')
         for f in figures:
+            combination=(f['survey'],'age15' if f['survey']=='PISA' else 'age10',f['domain'])
+            core={cid for cid in full_core if (cid.split('|')[1],cid.split('|')[3])==(f['survey'],f['domain'])}
+            def admitted_for(candidate):
+                counts=combination_counts[candidate]
+                if f['domain']=='all':return any(n>=3 for k,n in counts.items() if k[:2]==combination[:2])
+                return counts[combination]>=3
+            combination_ok=admitted_for(country)
             v=views[(country,f['figure_id'])];current=byfigure[(country,f['figure_id'])]
             ids={r['cell_id'] for r in current}
             if set(arr(v['view_cell_ids']))!=ids:fail('view mapping changed')
@@ -130,7 +143,7 @@ def verify(evidence,rows,countries,figures,input_sha=None):
                 fail('shortened Dutch figure years')
             expected={(int(y),g) for y in years for g in f['expected_series'].split(';')}
             present={(r['year'],r['series_id']) for r in current}
-            incomplete='FOCUS_CORE_INCOMPLETE' if not core<=cells.keys() else 'FOCUS_VIEW_INCOMPLETE' if not years or expected!=present else 'COMPARABILITY_PENDING' if not ids<=cells.keys() else None
+            incomplete='AGE_DOMAIN_NOT_ADMITTED' if not combination_ok else 'FOCUS_CORE_INCOMPLETE' if f['domain']!='all' and (not core or not core<=cells.keys()) else 'FOCUS_VIEW_INCOMPLETE' if not years or expected!=present else 'COMPARABILITY_PENDING' if not ids<=cells.keys() else None
             if incomplete:
                 if v['status']!=incomplete or arr(v.get('default_members')) or arr(v.get('options')):fail('unproved view enabled')
                 continue
@@ -141,9 +154,10 @@ def verify(evidence,rows,countries,figures,input_sha=None):
             allowed=[]
             for candidate in countries:
                 missing=required-support[candidate]
-                eligible=candidate!=country and admission[candidate] and not missing
+                candidate_admitted=admitted_for(candidate)
+                eligible=candidate!=country and candidate_admitted and not missing
                 o=options[candidate]
-                if (o['eligible']!=eligible or o['dashboard_eligible']!=admission[candidate]
+                if (o['eligible']!=eligible or o['dashboard_eligible']!=candidate_admitted
                     or o['missing_cells']!=len(missing) or o['required_cells']!=len(required)
                     or {decode(k) for k in filter(None,o['missing_keys'].split(';'))} !=
                        (set(sorted(missing)[:3]) if dictionary is not None else missing)):fail('membership/coverage differs')

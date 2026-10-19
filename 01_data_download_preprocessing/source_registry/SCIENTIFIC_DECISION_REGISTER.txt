@@ -1,5 +1,22 @@
+HISTORICAL SOURCE REGISTER — active approvals are in 06_pipeline/SCOPE_APPROVALS.csv and the latest direct decision records. Earlier proposal text below does not authorize extra analyses.
+
 SORTING_MAIN_DECISION_UNRESOLVED_APPROVAL_TRACE
 Canonical lock v1.2 E0: modal-ISCED main. Later RC1-SORT-001 change register: all-target main.
 No explicit user approval of this specific lock change located. Compute and preserve both.
 No PIRLS year pairs substituted for TIMSS; candidate plan requires empirical timing review.
 RC1 milestone immutable; PIRLS 2001/2006/2011 core is separately re-estimated with cycle-aware JRR; new supplements for all waves.
+
+USER_20261019_COMBINATION_ADMISSION_FIXED_VIEW_PANEL
+Direct answer: "Ja, voer deze algemene regel in".
+Admission replaces all-six eligibility with >=3 comparable waves per separate
+country / age / outcome combination. At least one admitted combination permits
+country-selector entry. Non-admitted combinations remain unavailable.
+Each figure retains the complete focus anchor for its selected combination and
+all jointly compared groups and class/school composition. Reference membership
+is fixed within a figure; it may differ between figures. No silent truncation.
+Unchanged: rich candidate pool, equal country weights, focus excluded, rank
+relative to that selected pool with no group line, and all A01-A17 decisions.
+Primary evidence: 06_pipeline/review_20261013/BALANCE_USER_DECISION_20261019.json.
+Existing source-certified coverage: 34 countries/systems, 202 combinations.
+Additional source candidates are not admitted by a participant code or filename.
+The prior whole-country execution remains historical evidence only.
