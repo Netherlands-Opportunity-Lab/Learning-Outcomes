@@ -1,6 +1,7 @@
 """Verify committed national aggregate snapshots and historical code copies."""
 from pathlib import Path
 import csv
+import gzip
 import hashlib
 import json
 import math
@@ -9,7 +10,8 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 
 def rows(path):
-    with path.open(encoding="utf-8-sig", newline="") as handle:
+    with (gzip.open(path, 'rt', encoding='utf-8-sig', newline='') if path.suffix == '.gz'
+          else path.open(encoding="utf-8-sig", newline="")) as handle:
         return list(csv.DictReader(handle))
 
 snapshots = sorted((ROOT / "04_results/review").glob("*/manifest.json"))
@@ -48,12 +50,16 @@ print(f"PASS {len(snapshots)} certified result snapshot(s), exact bytes and arch
 coverage = ROOT / '06_pipeline/review_20261013/grid_coverage'
 if (coverage / 'manifest.json').exists():
     manifest = json.loads((coverage / 'manifest.json').read_text(encoding='utf-8'))
-    assert hashlib.sha256((ROOT / 'scripts/report_grid_coverage.py').read_bytes()).hexdigest() == manifest['generator_sha256']
-    for name, expected in manifest['output_files'].items():
+    current = manifest.get('schema_version') == 2
+    assert hashlib.sha256((ROOT / 'scripts/report_grid_coverage.py').read_bytes()).hexdigest() == (
+        manifest['inputs']['generator'] if current else manifest['generator_sha256'])
+    if current:
+        assert hashlib.sha256((ROOT / '06_pipeline/review_20261013/POPULATION_CORRECTIONS.json').read_bytes()).hexdigest() == manifest['inputs']['population_review']
+    for name, expected in (manifest['outputs'] if current else manifest['output_files']).items():
         target = (coverage / name).resolve()
         assert target.parent == coverage.resolve()
         assert hashlib.sha256(target.read_bytes()).hexdigest() == expected, name
-    cells = rows(coverage / 'EXACT_CELL_COVERAGE.csv')
+    cells = rows(coverage / ('EXACT_CELL_COVERAGE.csv.gz' if current else 'EXACT_CELL_COVERAGE.csv'))
     statuses = rows(ROOT / '04_results/review' / manifest['scope'] / 'target_status.csv')
     assert len(cells) == len({r['cell_id'] for r in cells}) == manifest['targets']
     assert {r['cell_id']: r['status'] for r in cells} == {r['cell_id']: r['status'] for r in statuses}
