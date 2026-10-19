@@ -56,8 +56,8 @@ jobs:
           python-version: '3.12'
       - name: Fetch reviewed preparation from a single-branch clone without changing results
         run: python 06_pipeline/tests/prepared_fetch_check.py
-      - name: Install minimal R JSON dependency
-        run: Rscript -e "install.packages(c('jsonlite','digest','zip','DBI','RSQLite','haven','filelock'), repos='https://cloud.r-project.org')"
+      - name: Install R dependencies for source-free regression checks
+        run: Rscript -e "install.packages(c('jsonlite','digest','zip','DBI','RSQLite','haven','filelock','data.table'), repos='https://cloud.r-project.org')"
       - name: Kill a real R writer and resume committed grid transactions
         run: python 06_pipeline/tests/crash_resume_check.py
       - name: Guard checkout before Git updates and recover after process death
