@@ -1,5 +1,15 @@
 # The saved, audited grid remains authoritative for international producers.
 # An unavailable appendix cell must not block unrelated background statistics.
+lo_ses_application_country_keys <- function(selected,manifest) {
+  if(!all(c('country','survey')%in%names(manifest)))stop('SES_CONTEXT_MANIFEST_REQUIRED')
+  # Legacy SES cache keys included non-PISA countries. They have no source rows
+  # in this estimator and cannot affect calibration, imputation or saved scores.
+  # Keep these inert keys when an IEA-only admission changes; do not re-score
+  # millions of unchanged PISA pupils, or add an unselected PISA country.
+  no_pisa<-setdiff(unique(manifest$country),unique(manifest$country[manifest$survey=='PISA']))
+  sort(unique(c(selected,no_pisa)))
+}
+
 lo_international_worklist <- function(tasks,grid) {
   if(!all(c('cell_id','status','target_contract_sha256')%in%names(grid)) ||
      anyDuplicated(grid$cell_id))stop('INTERNATIONAL_WORKLIST_INVALID_GRID')

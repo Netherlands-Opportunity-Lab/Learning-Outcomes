@@ -212,10 +212,10 @@
     ],
     "TUR": [
       "Turkey",
-      "T\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2\u00bcrkiye",
-      "T\u00c3\u0192\u00c2\u00bcrkiye",
+      "TÃƒÆ’Ã‚Â¼rkiye",
+      "TÃƒÂ¼rkiye",
       "Turkiye",
-      "T\u00fcrkiye"
+      "Türkiye"
     ],
     "MYS": [
       "Malaysia"
@@ -1290,6 +1290,9 @@
       "mode": "PAPER_MAIN_SAMPLE",
       "common": {
         "target_population": "International grade 4 / Netherlands group 6"
+      },
+      "country_notes": {
+        "YEM": "OFFICIAL_SAMPLING_PLAN_NOT_COMPARABLE: pupil subsampling failed TIMSS standards; appendix-only descriptive results, not an admitted comparable wave. See UNDP evaluation Annex D pp.47-51."
       }
     },
     "TIMSS_2007": {
@@ -1315,7 +1318,8 @@
         "POL": "Polish national grade 3; not interchangeable with the later grade-4 population"
       },
       "country_notes": {
-        "POL": "OFFICIAL_GRADE_CHANGE_NOT_COMPARABLE: national grade 3 here; PIRLS moved to grade 4 in 2016 and TIMSS in 2015. Retained historical results cannot certify stable grade-4 admission or trends."
+        "POL": "OFFICIAL_GRADE_CHANGE_NOT_COMPARABLE: national grade 3 here; PIRLS moved to grade 4 in 2016 and TIMSS in 2015. Retained historical results cannot certify stable grade-4 admission or trends.",
+        "YEM": "The verified source contains 8058 fourth-grade pupils. Yemen also assessed a separate sixth-grade population, which is not used or substituted here."
       }
     },
     "TIMSS_2015": {
@@ -1753,6 +1757,13 @@
       "sha256": "4ce3f42d6457fd93fbd20da4f53c2c72ef279317f84d81b10313960d3de3a678",
       "locator": "National department: 2011, 2016, 2021 PIRLS participation; 2026 is not a released wave.",
       "retrieved": "2026-10-19"
+    },
+    {
+      "file": "YEM_TIMSS2003_UNDP_evaluation.pdf",
+      "sha256": "2729d28770ef5379685aa84a81ca8d09000205721462b0bc971923b32c80717b",
+      "url": "https://www.iea.nl/sites/default/files/2019-04/Aggarwala_UNDP_Evaluation_Report_2004.pdf",
+      "locator": "Annex D, printed pp.47-51: Yemen student subsampling was not defensible; excluded from the international report, with descriptive results retained in an appendix.",
+      "retrieved": "2026-10-20"
     }
   ],
   "mode_evidence": [

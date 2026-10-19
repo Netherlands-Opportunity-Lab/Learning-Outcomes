@@ -2,8 +2,8 @@
 
 ## Uitvoering bronuitbreiding — 19 oktober 2026
 
-Alle 50 aanvullende kandidaten zijn in de echte bronbestanden beoordeeld. De
-toelating per combinatie geeft **84 landen/stelsels, 362 combinaties en 131.910
+Alle 50 aanvullende kandidaten zijn in de echte bronbestanden beoordeeld. Jemen valt na correctie van de officieel afgewezen steekproef uit 2003 af: 2007 en 2011 leveren slechts twee vergelijkbare golven. Van deze kandidaten zijn er 49 toegelaten. De
+toelating per combinatie geeft **83 landen/stelsels, 360 combinaties en 131.436
 goedgekeurde doelen**. De 888 broncontexten hebben een officiële steekproef- en
 modusbeoordeling. Vietnam 2018 heeft geen waargenomen prestatiescores in de
 onderzochte hoofdbron en blijft expliciet buiten vergelijkbare trends; België

@@ -1,5 +1,10 @@
 source('06_pipeline/MASTER_ESTIMATION_GRID.R')
 source('06_pipeline/LO_INTERNATIONAL_WORKLIST.R')
+manifest<-data.frame(country=c('ALB','YEM','BRA'),survey=c('PISA','TIMSS','PISA'))
+stopifnot(identical(lo_ses_application_country_keys('ALB',manifest),c('ALB','YEM')),
+ identical(lo_ses_application_country_keys(c('YEM','ALB'),manifest),c('ALB','YEM')))
+# Removing the non-PISA candidate must not rescore unchanged PISA rows; an
+# unselected PISA candidate must not enter the application on that pretext.
 q<-data.frame(metric_key=c('source','home','language'),country='AAA',survey='PIRLS',year=2021,
  domain='reading',module=c('core','extension_home_ses','language_frequency_binary'),stat='mean',
  group=c('total','lower','always_almost'),definition=c('total','IEA_OFFICIAL_HOME_SES_CYCLE_SPECIFIC','frequency_always_almost_vs_sometimes_never'),
