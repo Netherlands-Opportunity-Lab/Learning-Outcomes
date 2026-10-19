@@ -2,7 +2,7 @@
 
 Scope `all_required`: 77,611 doelen; 69,775 geregistreerd gevalideerd, 7,836 gedocumenteerd onbeschikbaar, 0 nog niet afgehandeld.
 
-Dit rapport beschrijft de opgeslagen run. Een latere populatiecorrectie staat afzonderlijk bij ieder getroffen doel; historische certificaten worden niet herschreven. Rekenkundige afhandeling is geen wetenschappelijke vrijgave. De landselectie en Q01â€“Q08 worden afzonderlijk inhoudelijk beoordeeld.
+Dit rapport beschrijft de opgeslagen run. Een latere populatiecorrectie staat afzonderlijk bij ieder getroffen doel; historische certificaten worden niet herschreven. Rekenkundige afhandeling is geen wetenschappelijke vrijgave. De landselectie en Q01-Q08 worden afzonderlijk inhoudelijk beoordeeld.
 
 ## Nederlands jaaranker
 
@@ -85,7 +85,7 @@ COUNTRY_CANDIDATES.csv bewaart de toenmalige toelatingsstand. Nieuwe broncorrect
 | ses_national | 3227 | 3227 | 0 | 0 |
 | ses_peer_exposure | 1720 | 1718 | 2 | 0 |
 
-De gekozen scope is geen volledig kruisproduct van alle splits en maten. A02/A04/A06 en A14 behouden hun appendixplaatsing; A11/A12/A13 zijn wetenschappelijke uitbreidingen. Geen nieuwe absolute SES, taalÃ—migratie, oude rangpanels, cross-age/cohortanalyse of Theil-H. SCOPE_APPROVALS.csv blijft beslissend.
+De gekozen scope is geen volledig kruisproduct van alle splits en maten. A02/A04/A06 en A14 behouden hun appendixplaatsing; A11/A12/A13 zijn wetenschappelijke uitbreidingen. Geen nieuwe absolute SES, taal x migratie, oude rangpanels, cross-age/cohortanalyse of Theil-H. SCOPE_APPROVALS.csv blijft beslissend.
 
 ## Onderling uitsluitende hoofdredenen
 
@@ -106,7 +106,7 @@ Deze hoofdredenen tellen precies tot alle doelen op. Niet-afgenomen vragenlijste
 
 - BY_WAVE.csv en BY_EXACT_COMBINATION.csv: alle landen, leeftijden, domeinen, jaren en splits.
 - REQUIREMENT_COVERAGE.csv: product/slide/figuur en aantallen unieke doelcellen.
-- PRODUCT_CELL_TRACE.csv.gz: iedere exacte productâ€“celverbinding en geregistreerde afleiding.
+- PRODUCT_CELL_TRACE.csv.gz: iedere exacte product-celverbinding en geregistreerde afleiding.
 - EXACT_CELL_COVERAGE.csv.gz: broneditie, populatie, methode, onzekerheidsregel, bewijs- en codehashes per cel. Schattingen en SE staan in de gepinde 04_results/review/<scope>/results.csv, gekoppeld via cell_id en result_hash.
 - MISSING_CELLS.csv: alle onbeschikbare en onafgehandelde doelen; geen doel is verwijderd om deze tabel te maken.
 

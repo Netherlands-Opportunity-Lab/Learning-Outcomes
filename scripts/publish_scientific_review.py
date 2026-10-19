@@ -25,6 +25,7 @@ def publish(repo, root):
         'Q03_Q05_FROZEN_SES_REVIEW.json': 'Q03_Q05/FROZEN_SES_REVIEW.json',
         'Q06_REFERENCE_REVIEW.json': 'Q06/REFERENCE_REVIEW.json',
         'Q08_PAPER_CLAIM_REVIEW.json': 'Q08/PAPER_CLAIM_REVIEW.json',
+        'RESULT_ARTIFACT_VERIFICATION.json': 'RESULT_ARTIFACT_VERIFICATION.json',
     }
     source_hashes = {}
     private_pattern = r'(?<![A-Za-z0-9])[A-Za-z]:[/\\]|/Users/|/home/'

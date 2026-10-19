@@ -166,7 +166,7 @@ def build(state, output, review_path=None, trace_state=None):
         if r["country"] == "NLD" and r["subgroup_variable"] == "core":
             years[(r["survey"], r["age"], r["domain"])].add(int(r["year"]))
     lines = ["# Actuele resultaatdekking", "", f"Scope `{state.name}`: {len(grid):,} doelen; {counts['validated']:,} geregistreerd gevalideerd, {counts['unavailable']:,} gedocumenteerd onbeschikbaar, {counts['unresolved']:,} nog niet afgehandeld.", "",
-        "Dit rapport beschrijft de opgeslagen run. Een latere populatiecorrectie staat afzonderlijk bij ieder getroffen doel; historische certificaten worden niet herschreven. Rekenkundige afhandeling is geen wetenschappelijke vrijgave. De landselectie en Q01â€“Q08 worden afzonderlijk inhoudelijk beoordeeld.", "",
+        "Dit rapport beschrijft de opgeslagen run. Een latere populatiecorrectie staat afzonderlijk bij ieder getroffen doel; historische certificaten worden niet herschreven. Rekenkundige afhandeling is geen wetenschappelijke vrijgave. De landselectie en Q01-Q08 worden afzonderlijk inhoudelijk beoordeeld.", "",
         "## Nederlands jaaranker", "", "| Bron | Populatie | Domein | Meetgolven |", "|---|---|---|---|"]
     for (survey, age, domain), y in sorted(years.items()):
         lines.append(f"| {survey} | {age} | {domain} | {', '.join(map(str, sorted(y)))} |")
@@ -178,7 +178,7 @@ def build(state, output, review_path=None, trace_state=None):
         "## Families", "", "| Familie | Doelen | Gevalideerd | Onbeschikbaar | Open |", "|---|---:|---:|---:|---:|"]
     for r in summaries["BY_FAMILY"]:
         lines.append('| ' + ' | '.join(str(r[k]) for k in ["subgroup_variable", "targets", "validated", "unavailable", "unresolved"]) + ' |')
-    lines += ["", "De gekozen scope is geen volledig kruisproduct van alle splits en maten. A02/A04/A06 en A14 behouden hun appendixplaatsing; A11/A12/A13 zijn wetenschappelijke uitbreidingen. Geen nieuwe absolute SES, taalÃ—migratie, oude rangpanels, cross-age/cohortanalyse of Theil-H. SCOPE_APPROVALS.csv blijft beslissend.", "",
+    lines += ["", "De gekozen scope is geen volledig kruisproduct van alle splits en maten. A02/A04/A06 en A14 behouden hun appendixplaatsing; A11/A12/A13 zijn wetenschappelijke uitbreidingen. Geen nieuwe absolute SES, taal x migratie, oude rangpanels, cross-age/cohortanalyse of Theil-H. SCOPE_APPROVALS.csv blijft beslissend.", "",
         "## Onderling uitsluitende hoofdredenen", "", "| Reden | Doelen |", "|---|---:|"]
     for r in summaries["BY_MISSING_REASON"]:
         lines.append(f"| {r['main_reason']} | {r['targets']} |")
@@ -186,7 +186,7 @@ def build(state, output, review_path=None, trace_state=None):
         "## Volledige herleidbaarheid", "",
         "- BY_WAVE.csv en BY_EXACT_COMBINATION.csv: alle landen, leeftijden, domeinen, jaren en splits.",
         "- REQUIREMENT_COVERAGE.csv: product/slide/figuur en aantallen unieke doelcellen.",
-        "- PRODUCT_CELL_TRACE.csv.gz: iedere exacte productâ€“celverbinding en geregistreerde afleiding.",
+        "- PRODUCT_CELL_TRACE.csv.gz: iedere exacte product-celverbinding en geregistreerde afleiding.",
         "- EXACT_CELL_COVERAGE.csv.gz: broneditie, populatie, methode, onzekerheidsregel, bewijs- en codehashes per cel. Schattingen en SE staan in de gepinde 04_results/review/<scope>/results.csv, gekoppeld via cell_id en result_hash.",
         "- MISSING_CELLS.csv: alle onbeschikbare en onafgehandelde doelen; geen doel is verwijderd om deze tabel te maken.", "",
         "Er is pas een definitieve dashboardvergelijking als de toegelaten landen het hele hoofdlandanker en alle gezamenlijk getoonde groepen/leeromgevingen dekken. Gewichten zijn gelijk per land, hoofdland uitgesloten. Rang gebruikt diezelfde vaste groep plus het hoofdland, zonder groepslijn of rang-CI. De tijdelijke available-cases-publicatie vormt geen bewijs van definitieve balans.", "",

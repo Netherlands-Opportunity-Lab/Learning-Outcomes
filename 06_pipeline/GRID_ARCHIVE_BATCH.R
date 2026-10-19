@@ -74,34 +74,34 @@ lo_grid_verify_result_artifacts <- function(rows) {
   fields<-c("source_path","source_edition_sha256","certification_path","certification_sha256")
   if(!all(fields%in%names(rows)))stop("GRID_RESULT_ARTIFACTS_REQUIRED")
   checked<-new.env(parent=emptyenv())
+  helper<-file.path(Sys.getenv('LO_REPO_ROOT',getwd()),'06_pipeline/LO_EVIDENCE_HASHES.R')
+  if(file.exists(helper))source(helper,local=environment())
+  check_files<-function(files) {
+    if(exists('lo_verify_evidence_files',mode='function'))return(lo_verify_evidence_files(files,checked))
+    for(i in seq_len(nrow(files))) {
+      p<-files$path[i];h<-files$sha256[i];key<-paste(p,h)
+      if(!exists(key,checked,inherits=FALSE)) {
+        if(is.na(p)||!nzchar(p)||!file.exists(p)||!grepl('^[a-f0-9]{64}$',h)||
+           digest::digest(file=p,algo='sha256')!=h)stop('GRID_RESULT_CHANGED_ARTIFACT')
+        assign(key,TRUE,checked)
+      }
+    }
+  }
   # Group by immutable certificate instead of revisiting its evidence and
   # schema for every cell. Every file is still hashed on this invocation and
   # every selected cell/value/design field is still compared exactly.
   for(pair in list(c('source_path','source_edition_sha256'),c('certification_path','certification_sha256'))) {
     files<-unique(rows[pair])
-    for(i in seq_len(nrow(files))) {
-      p<-files[[pair[1]]][i];h<-files[[pair[2]]][i];key<-paste(p,h)
-      if(!exists(key,checked,inherits=FALSE)) {
-        if(is.na(p)||!nzchar(p)||!file.exists(p)||!grepl("^[a-f0-9]{64}$",h)||
-           digest::digest(file=p,algo="sha256")!=h)stop("GRID_RESULT_CHANGED_ARTIFACT")
-        assign(key,TRUE,checked)
-      }
-    }
+    names(files)<-c('path','sha256');check_files(files)
   }
   groups<-split(seq_len(nrow(rows)),paste(rows$certification_path,rows$certification_sha256))
+  attached<-list()
   for(ix in groups) {
     cert<-jsonlite::fromJSON(rows$certification_path[ix[1]],simplifyVector=TRUE)
     evidence<-cert$evidence_files
     if(!is.data.frame(evidence)||!nrow(evidence)||!all(c("path","sha256")%in%names(evidence)))
       stop("GRID_RESULT_CERTIFICATE_WITHOUT_EVIDENCE")
-    for(e in seq_len(nrow(evidence))) {
-      p<-evidence$path[e];h<-evidence$sha256[e];key<-paste(p,h)
-      if(!exists(key,checked,inherits=FALSE)) {
-        if(is.na(p)||!nzchar(p)||!file.exists(p)||!grepl("^[a-f0-9]{64}$",h)||
-           digest::digest(file=p,algo="sha256")!=h)stop("GRID_RESULT_CHANGED_EVIDENCE")
-        assign(key,TRUE,checked)
-      }
-    }
+    attached[[length(attached)+1L]]<-evidence[c('path','sha256')]
     cols<-c("cell_id","estimate","standard_error","n_unweighted","sample_id","method_version",
       "target_contract_sha256","source_edition_sha256","input_fingerprint","code_fingerprint","result_hash",
       "weight_design","pv_rule","variance_rule")
@@ -112,6 +112,7 @@ lo_grid_verify_result_artifacts <- function(rows) {
     for(k in cols)if(!identical(as.character(rows[[k]][ix]),as.character(cert$cells[[k]][j])))
       stop("GRID_RESULT_CERTIFICATE_CHANGED_VALUE_",k)
   }
+  if(length(attached))check_files(unique(do.call(rbind,attached)))
   invisible(TRUE)
 }
 

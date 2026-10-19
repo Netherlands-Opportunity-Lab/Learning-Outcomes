@@ -11,6 +11,9 @@ lo_source_unavailability <- function(grid, path) {
   x$classification[!nzchar(x$classification)]<-'SOURCE_UNAVAILABLE_VERIFIED'
   if(any(!x$classification%in%c('SOURCE_UNAVAILABLE_VERIFIED','SOURCE_MAPPING_REVIEW_REQUIRED','ESTIMATION_UNAVAILABLE_VERIFIED')))
     stop('SOURCE_REVIEW_UNKNOWN_CLASSIFICATION')
+  helper<-file.path(Sys.getenv('LO_REPO_ROOT',getwd()),'06_pipeline/LO_EVIDENCE_HASHES.R')
+  if(file.exists(helper))source(helper,local=environment())
+  attached<-list()
   for(p in unique(x$evidence_path)) {
     z<-x[x$evidence_path==p,,drop=FALSE]
     if(length(unique(z$evidence_sha256))!=1L||!file.exists(p)||
@@ -19,11 +22,7 @@ lo_source_unavailability <- function(grid, path) {
     if(length(unique(z$classification))!=1L||!identical(cert$status,z$classification[1])||!is.data.frame(cert$cells)||
        !all(c("cell_id","target_contract_sha256","reason")%in%names(cert$cells))||
        !is.data.frame(cert$evidence_files)||!nrow(cert$evidence_files))stop("SOURCE_UNAVAILABILITY_CERTIFICATE_INVALID")
-    for(j in seq_len(nrow(cert$evidence_files))) {
-      f<-cert$evidence_files[j,]
-      if(!file.exists(f$path)||digest::digest(file=f$path,algo="sha256")!=f$sha256)
-        stop("SOURCE_UNAVAILABILITY_PROOF_CHANGED")
-    }
+    attached[[length(attached)+1L]]<-cert$evidence_files[c('path','sha256')]
     i<-match(z$cell_id,cert$cells$cell_id)
     if(anyNA(i)||any(z$target_contract_sha256!=cert$cells$target_contract_sha256[i])||
        any(z$reason!=cert$cells$reason[i]))stop("SOURCE_UNAVAILABILITY_CELL_MISMATCH")
@@ -40,6 +39,12 @@ lo_source_unavailability <- function(grid, path) {
          any(!grepl('^[0-9]+(;[0-9]+)*$',d$empty_weight_indices))||
          any(!is.finite(as.numeric(d$full_weight)))||any(as.numeric(d$full_weight)<0))stop('ESTIMATION_ABSENCE_DIAGNOSTIC_INVALID')
     }
+  }
+  if(length(attached)) {
+    files<-unique(do.call(rbind,attached))
+    if(exists('lo_verify_evidence_files',mode='function'))lo_verify_evidence_files(files)else
+      for(j in seq_len(nrow(files)))if(!file.exists(files$path[j])||
+        digest::digest(file=files$path[j],algo='sha256')!=files$sha256[j])stop('SOURCE_UNAVAILABILITY_PROOF_CHANGED')
   }
   i<-match(x$cell_id,grid$cell_id)
   if(any(x$target_contract_sha256!=grid$target_contract_sha256[i]))stop("SOURCE_UNAVAILABILITY_TARGET_CHANGED")
