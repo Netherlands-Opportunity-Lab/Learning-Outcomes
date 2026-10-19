@@ -27,9 +27,30 @@ lo_science_manifest_verify <- function(path,hash,repo,checked=new.env(parent=emp
      any(grepl('(^/|^[A-Za-z]:|[.][.]|\\\\)',bindings$path)))stop('SCIENCE_REVIEW_REPO_BINDING_INVALID')
   bindings$path<-file.path(repo,bindings$path)
   lo_science_check_files(bindings,checked)
-  lo_science_check_files(z$evidence_files,checked)
+  lo_science_check_files_batch(repo,z$evidence_files,dirname(path),checked)
   lo_science_check_files(data.frame(path=z$reviews$report_path,sha256=z$reviews$report_sha256),checked)
   z
+}
+
+lo_science_check_files_batch <- function(repo,files,temp_dir,checked) {
+  keys<-paste(files$path,files$sha256)
+  missing<-!vapply(keys,exists,logical(1),envir=checked,inherits=FALSE)
+  todo<-unique(files[missing,c('path','sha256'),drop=FALSE])
+  if(!nrow(todo))return(invisible(checked))
+  if(nrow(todo)<128L)return(lo_science_check_files(todo,checked))
+  p<-tempfile('evidence_hashes_',tmpdir=temp_dir,fileext='.csv')
+  on.exit(if(file.exists(p))unlink(p),add=TRUE)
+  write.csv(todo,p,row.names=FALSE,na='')
+  py<-Sys.getenv('LO_PYTHON','python')
+  script<-file.path(repo,'06_pipeline/LO_EVIDENCE_HASHES.py')
+  output<-suppressWarnings(system2(py,shQuote(c(script,'--table',p)),stdout=TRUE,stderr=TRUE))
+  status<-attr(output,'status')
+  if(!is.null(status)&&status!=0L)stop('SCIENCE_REVIEW_BATCH_ATTACHMENT_CHANGED: ',paste(tail(output,2L),collapse=' '))
+  result<-jsonlite::fromJSON(paste(output,collapse='\n'))
+  if(result$status!='EXACT_ATTACHMENT_BYTES_VERIFIED'||result$files!=nrow(todo)||
+     result$table_sha256!=digest::digest(file=p,algo='sha256'))stop('SCIENCE_REVIEW_BATCH_IDENTITY')
+  for(key in paste(todo$path,todo$sha256))assign(key,TRUE,checked)
+  invisible(checked)
 }
 
 lo_scientific_review_install <- function(repo,root,tasks,approval_csv,state) {

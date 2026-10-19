@@ -9,6 +9,7 @@ import csv
 import hashlib
 import json
 import shutil
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 
@@ -52,10 +53,22 @@ def freeze(repo, root):
             or q['Q07']['official_PISA_ESCS_analysis_targets'] or q['Q07']['forbidden_targets']
             or q['Q08']['claim_count'] != 12 or q['Q08']['formal_tests'] != 3):
         raise ValueError('Scientific numerical/scope review failed')
+    # Windows realpath resolution per repeated cell can dominate runtime.
+    # Inputs below are absolute canonical paths; hash unique files once using
+    # bounded I/O concurrency, then check every claimed expected hash.
+    initial = read(work / 'Q06_mapping_final/PRIVATE_MAPPING_EVIDENCE.csv')
+    grid_for_sources = read(root / 'FIXED_PRODUCTION_V1/all_required/PRIVATE_MASTER_GRID.csv')
+    paths = {Path(f['path']).as_posix() for f in initial}
+    paths.update(Path(r['source_path']).as_posix() for r in grid_for_sources if r['status'] == 'SCIENTIFICALLY_VALIDATED')
     evidence = {}
+    with ThreadPoolExecutor(max_workers=16) as pool:
+        for n, (path, value) in enumerate(pool.map(lambda p: (p, sha(p)), sorted(paths)), 1):
+            evidence[path] = value
+            if n % 5000 == 0:
+                print('REVIEW_EVIDENCE_HASHED', n, 'of', len(paths), flush=True)
 
     def add(p, expected_hash=None):
-        p = Path(p).resolve()
+        p = Path(p)
         key = p.as_posix()
         if key not in evidence:
             evidence[key] = sha(p)
