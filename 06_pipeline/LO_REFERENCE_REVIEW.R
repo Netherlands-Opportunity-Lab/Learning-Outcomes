@@ -7,11 +7,17 @@ lo_reference_review <- function(repo,audit,out) {
   sha<-function(p)digest::digest(file=p,algo='sha256')
   file<-file.path(audit,'BALANCED_REFERENCE_EXPORT.json')
   export<-jsonlite::fromJSON(file,simplifyVector=FALSE)
+  if(is.null(export$figure_registry_sha256)||
+     sha(file.path(audit,'FIGURES.json'))!=export$figure_registry_sha256)
+    stop('REFERENCE_REVIEW_CHANGED_FIGURE_REGISTRY')
   available<-read.csv(file.path(audit,'BALANCE_AVAILABLE.csv'),colClasses='character',na.strings=character())
   checked<-lo_balance_validated(available)
   if(sha(file.path(audit,'BALANCE_AVAILABLE.csv'))!=export$mapping_evidence$available_sha256)
     stop('REFERENCE_REVIEW_CHANGED_INPUT')
   dictionary<-unlist(export$key_dictionary);rows<-list();ranks<-list();parents<-list();counts<-list()
+  rank_policy<-file.path(repo,'06_pipeline/review_20261013/RANK_PRODUCT_CONTRACT.json')
+  rank_rules<-jsonlite::fromJSON(rank_policy,simplifyVector=FALSE)$computation$outcome_rank_rules
+  if(is.null(rank_rules))stop('REFERENCE_REVIEW_RANK_RULES_MISSING')
   for(v in export$views) {
     opts<-v$options
     counts[[length(counts)+1L]]<-data.frame(country=v$focus,figure_id=v$figure_id,status=v$status,
@@ -41,10 +47,17 @@ lo_reference_review <- function(repo,audit,out) {
           result_hash=z$result_hash,verification_id=z$verification_id,weight=1/length(selected))
       }
       derived$figure_id<-v$figure_id;derived$selection<-selection;rows[[length(rows)+1L]]<-derived
-      rank<-lo_country_rank_series(checked,req,plot,selected,'NLD','largest_first',sort(selected)[1])
-      stopifnot(!rank$reference_group_plotted,!rank$group_rank_produced,
-        all(rank$rows$n_ranked==length(selected)+1L))
-      z<-rank$rows;z$figure_id<-v$figure_id;z$selection<-selection;ranks[[length(ranks)+1L]]<-z
+      # Rank only approved dashboard rank measures, using the same explicit
+      # direction/transform as the retained display. Peer means are tested
+      # above; the UI does not offer peer ranks.
+      if(grepl('^(TR_MEAN|GP_SES_GAP)_',v$figure_id)) {
+        rule<-rank_rules[[if(startsWith(v$figure_id,'TR_MEAN_'))'mean_score'else'gap']]
+        rank<-lo_country_rank_series(checked,req,plot,selected,'NLD',rule$direction,
+          sort(selected)[1],transform=rule$transform)
+        stopifnot(!rank$reference_group_plotted,!rank$group_rank_produced,
+          all(rank$rows$n_ranked==length(selected)+1L))
+        z<-rank$rows;z$figure_id<-v$figure_id;z$selection<-selection;ranks[[length(ranks)+1L]]<-z
+      }
     }
   }
   dir.create(out,recursive=TRUE,showWarnings=FALSE)
@@ -57,6 +70,8 @@ lo_reference_review <- function(repo,audit,out) {
     views=length(counts),probe_views=length(rows),policy=export$policy,
     mapping_review_sha256=sha(file.path(audit,'BALANCE_MAPPING_REVIEW.json')),
     reference_export_sha256=sha(file),admitted_countries=sum(vapply(export$admission,function(x)isTRUE(x$dashboard_eligible),logical(1))),
+    figure_registry_sha256=export$figure_registry_sha256,
+    rank_rule_policy_sha256=sha(rank_policy),
     code_sha256=as.list(vapply(c('LO_REFERENCE_REVIEW.R','LO_COUNTRY_RANKS.R','LO_BALANCED_MEMBERSHIP.R',
       'LO_DASHBOARD_REFERENCE_EXPORT.R'),function(n)sha(file.path(repo,'06_pipeline',n)),character(1))),
     output_sha256=as.list(vapply(files,function(n)sha(file.path(out,n)),character(1))),

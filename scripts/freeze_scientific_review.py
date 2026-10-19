@@ -131,6 +131,8 @@ def freeze(repo, root):
     mapping_dir = work / 'Q06_mapping_final'
     mapping = proof_json(mapping_dir / 'BALANCE_MAPPING_REVIEW.json', q['Q06']['mapping_review_sha256'])
     add(mapping_dir / 'BALANCED_REFERENCE_EXPORT.json', q['Q06']['reference_export_sha256'])
+    add(mapping_dir / 'FIGURES.json', q['Q06']['figure_registry_sha256'])
+    add(repo / '06_pipeline/review_20261013/RANK_PRODUCT_CONTRACT.json', q['Q06']['rank_rule_policy_sha256'])
     add(repo / '06_pipeline/LO_DASHBOARD_COMPARABILITY.py', mapping['mapping_code_sha256'])
     add(repo / '06_pipeline/review_20261013/POPULATION_CORRECTIONS.json', mapping['population_review_sha256'])
     add(repo / '06_pipeline/review_20261013/SOURCE_PROJECTION_REVIEWS.json', mapping['source_projection_review_sha256'])
@@ -141,7 +143,8 @@ def freeze(repo, root):
         add(f['path'], f['sha256'])
     # All unresolved public mappings must have an explicit reviewed exclusion.
     if any(not reason.startswith(('REGIONAL_POPULATION_NOT_NATIONAL:',
-                                  'OFFICIAL_TREND_COMPARABILITY_QUALIFICATION:'))
+                                  'OFFICIAL_TREND_COMPARABILITY_QUALIFICATION:',
+                                  'OFFICIAL_GRADE_CHANGE_NOT_COMPARABLE:'))
            for reason in mapping['reasons']):
         raise ValueError('Unresolved comparison mapping without a reviewed scientific reason')
     for n, h in q['Q06']['code_sha256'].items():
@@ -179,7 +182,7 @@ def freeze(repo, root):
     bindings = [{'path': p.relative_to(repo).as_posix(), 'sha256': add(p)} for p in sorted(code)]
     assessments = {
         'Q01': 'Actual weighted/unweighted analysis groups, SES missingness and saved result N verified; coverage is not a missing-at-random or representativeness claim.',
-        'Q02': 'Official population, response, exclusions, mode and cycle qualifications reviewed for every used context. Documented unreported percentages remain unknown. AUT2009/ESP2018 trend qualifications and CAN2001 regional population exclude comparable support without deleting historical targets.',
+        'Q02': 'Official population, response, exclusions, mode and cycle qualifications reviewed for every used context. Documented unreported percentages remain unknown. AUT2009/ESP2018 trend qualifications, CAN2001 regional population and POL early grade-3 to grade-4 changes exclude comparable support without deleting historical targets.',
         'Q03': 'Pinned four-wave author code and parameter parity, plus every used canonical SES score and weight projection verified numerically. Author calibration countries are not dashboard admission.',
         'Q04': 'NOT_APPLICABLE_PROVEN: no selected two-wave dependencies or targets; no historical two-wave rerun authorized or performed.',
         'Q05': 'Frozen parameters, input mappings, observed components, imputation and extension-country coverage reviewed. Measurement invariance outside calibration remains a stated assumption, not an empirical finding.',

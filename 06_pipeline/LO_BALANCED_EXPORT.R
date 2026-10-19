@@ -82,11 +82,14 @@ lo_balanced_export <- function(repo,grid,contracts,scope_info,out) {
 # foreign compute tasks. The full exact contract and artifact checks still apply.
 lo_reference_only_grid <- function(tasks,approved,scope_info,decisions) {
   countries<-setdiff(scope_info$reference_candidates,scope_info$selected)
+  if(!length(countries))return(lo_grid_from_tasks(tasks[FALSE,,drop=FALSE]))
   reference_scope<-scope_info;reference_scope$selected<-countries
   source<-lo_country_base_tasks(tasks,reference_scope)
   additions<-lo_scoped_low_peer_tasks(source,decisions)
   source<-lo_scope_active_tasks(source,decisions)
   source<-rbind(source,additions,lo_extension_tasks(source,decisions))
+  if(!exists('lo_gender_pool_tasks',mode='function'))stop('REFERENCE_GENDER_POLICY_REQUIRED')
+  source<-lo_gender_pool_tasks(source,scope_info$source_support)
   source<-source[source$metric_key%in%approved$cell_id,,drop=FALSE]
   grid<-lo_grid_from_tasks(source)
   if(!nrow(grid))return(grid)

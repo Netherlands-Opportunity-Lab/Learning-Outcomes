@@ -26,4 +26,22 @@ stopifnot(fails(lo_country_rank_series(all_data,required_full,plot_keys,'AAA','N
   fails(lo_country_rank_series(all_data,required_full,plot_keys,'AAA','NLD','higher_is_better')))
 missing<-all_data[!(all_data$country=='BBB'&all_data$year=='2018'&all_data$split_group=='boy'),]
 stopifnot(fails(lo_country_rank_series(missing,required_full,plot_keys,c('AAA','BBB'),'NLD','largest_first')))
-cat('PASS country-only ranks, exact ties, explicit direction, unchanged full panel, provenance and no group rank\n')
+# A signed gap is ordered by explicit magnitude, matching the retained UI.
+gap<-all_data
+gap$estimate[gap$country=='NLD'&gap$split_dimension=='gender']<--20
+gap$estimate[gap$country=='AAA'&gap$split_dimension=='gender']<-10
+gap$estimate[gap$country=='BBB'&gap$split_dimension=='gender']<-20
+z<-lo_country_rank_series(gap,required_full,plot_keys,c('AAA','BBB'),'NLD',
+  'smallest_first','BBB',transform='absolute')
+stopifnot(all(z$rows$rank==2.5),all(z$rows$source_estimate[z$rows$country=='NLD']==-20),
+  all(z$rows$transform=='absolute'),
+  fails(lo_country_rank_series(gap,required_full,plot_keys,'AAA','NLD','smallest_first',transform='round')))
+policy<-jsonlite::fromJSON('06_pipeline/review_20261013/RANK_PRODUCT_CONTRACT.json')$computation$outcome_rank_rules
+js<-paste(readLines('05_publication/preview_overlay/assets/explorer.mjs',warn=FALSE),collapse='\n')
+for(measure in names(policy)) {
+  rule<-policy[[measure]]
+  direction<-if(rule$direction=='largest_first')'descending'else'ascending'
+  needle<-paste0(measure,":{direction:'",direction,"',transform:'",rule$transform,"'}")
+  stopifnot(grepl(needle,js,fixed=TRUE))
+}
+cat('PASS country-only ranks, exact transformed ties, UI-policy parity, full panel and no group rank\n')

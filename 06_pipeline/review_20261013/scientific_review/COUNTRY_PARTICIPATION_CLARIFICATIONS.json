@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-10-19",
+  "sources": [
+    {
+      "file": "POL_PIRLS2016_national.pdf",
+      "url": "https://pirls.ibe.edu.pl/wp-content/uploads/2020/10/Raport-PIRLS-2016.pdf",
+      "sha256": "a66ae343d570b138bc309033fe2a6b7373c9f645465b732e7039ffb812b8784a",
+      "locator": "National PIRLS report, printed p47 Table 3.10: grade 3 in 2006/2011, grade 4 in 2016.",
+      "retrieved": "2026-10-19"
+    },
+    {
+      "file": "POL_PIRLS2016_national.pdf",
+      "url": "https://pirls.ibe.edu.pl/wp-content/uploads/2020/10/Raport-PIRLS-2016.pdf",
+      "sha256": "a66ae343d570b138bc309033fe2a6b7373c9f645465b732e7039ffb812b8784a",
+      "locator": "National report, printed p47 accompanying discussion: TIMSS similarly compared third and fourth grades; national TIMSS coordinator page confirms 2011 vs 2015.",
+      "retrieved": "2026-10-19"
+    },
+    {
+      "file": "MLT_TIMSS_participation.review.json",
+      "url": "https://curriculum.gov.mt/timss/",
+      "sha256": "490439aa1b987cc315629fc8f0bc83f87b8ec50bb878f7e3402dea2b6436a75e",
+      "locator": "National department: grade-4 equivalent Year 5 in 2011 and 2019; 2007/2015/2023 are grade-8 equivalents.",
+      "retrieved": "2026-10-19"
+    },
+    {
+      "file": "MLT_PIRLS_participation.review.json",
+      "url": "https://curriculum.gov.mt/pirls/",
+      "sha256": "4ce3f42d6457fd93fbd20da4f53c2c72ef279317f84d81b10313960d3de3a678",
+      "locator": "National department: 2011, 2016, 2021 PIRLS participation; 2026 is not a released wave.",
+      "retrieved": "2026-10-19"
+    }
+  ],
+  "conclusions": {
+    "POL": "Only PIRLS 2016 and 2021 have the consistent national fourth-grade population; excluded by the existing 6x3 rule.",
+    "MLT": "PIRLS participation is greater than the locally inventoried file list; official TIMSS primary participation still has only two waves, 2011 and 2019. No dashboard admission."
+  },
+  "additional_primary_source_checks": [
+    {
+      "country": "AZE",
+      "url": "https://www.oecd.org/en/publications/pisa-2025-results-volume-i-country-notes_2d4ff9ea-en/azerbaijan_c77370c9-en.html",
+      "reviewed_on": "2026-10-19",
+      "evidence_kind": "PRIMARY_WEB_PAGE_REVIEW; no full-page file hash claimed",
+      "finding": "The national 2025 report explicitly distinguishes national Azerbaijan 2006/2009/2025 from Baku-only participation in 2018/2022. The exact source manifest uses the three national waves and does not substitute Baku. No population correction or new computation is needed."
+    }
+  ],
+  "distinction": "Verified source files, official study participation and comparable-wave eligibility are separate counts."
+}

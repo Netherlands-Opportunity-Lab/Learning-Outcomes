@@ -31,5 +31,12 @@ writeLines('Changed source or policy invalidates the comparability proof',proof)
 stopifnot(fails(lo_balance_result_adapter(g,contracts)))
 # No guessed scratch budget is enough to read a production source.
 stopifnot(fails(lo_production_space_check(p,w)))
+source('06_pipeline/LO_REFERENCE_REVIEW.R')
+fig<-file.path(w,'FIGURES.json');writeLines('{"figures":[]}',fig)
+jsonlite::write_json(list(figure_registry_sha256=lo_exact_sha(fig)),
+  file.path(w,'BALANCED_REFERENCE_EXPORT.json'),auto_unbox=TRUE)
+writeLines('{"figures":["unapproved-change"]}',fig)
+err<-tryCatch(lo_reference_review('.',w,w),error=function(e)e)
+stopifnot(inherits(err,'error'),identical(conditionMessage(err),'REFERENCE_REVIEW_CHANGED_FIGURE_REGISTRY'))
 unlink(w,recursive=TRUE)
 cat("PASS exact certified result adapter, unshrunk full-focus reference export, measured space prerequisite\n")

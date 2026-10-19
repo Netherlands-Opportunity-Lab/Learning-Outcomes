@@ -9,8 +9,9 @@ Bijgewerkt: 19 oktober 2026. Dit is het ingangspunt voor de nieuwe oktoberproduc
 het [volledige dekkingsrapport](review_20261013/grid_coverage/README.md) en de
 [bewijsmanifesten en Q-dossiers](review_20261013/scientific_review/SCIENTIFIC_REVIEW_MANIFEST.json).
 De eerdere runstand hieronder blijft historische herkomst. De huidige beoordeling
-geeft 33 toegelaten landen/stelsels; de rijke kandidatenlijst blijft ongewijzigd.
-Canada 2001 was regionaal, AUT 2009 en ESP 2018 hebben officiële trendvoorbehouden.
+geeft 32 toegelaten landen/stelsels; de rijke kandidatenlijst blijft ongewijzigd.
+Canada 2001 was regionaal; Polen wisselde van derde naar vierde klas en heeft
+slechts twee vergelijkbare PIRLS-golven. AUT 2009 en ESP 2018 hebben officiële trendvoorbehouden.
 Vereiste jaren en historische resultaten blijven bewaard, met expliciete
 gebruiksbeperkingen. De definitieve Nederlandse rijke basisreferentie is Italië;
 iedere uitsplitsing moet daarnaast de gezamenlijke groepsdekking doorstaan.

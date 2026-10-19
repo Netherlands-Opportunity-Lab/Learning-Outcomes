@@ -174,6 +174,11 @@ def main():
         if c in policy.get('paper',[]):row['assessment_mode']='PAPER_MAIN_SAMPLE'
         row['assessment_mode']=policy.get('country_mode',{}).get(c,row['assessment_mode'])
         row['population_qualification']=policy.get('country_notes',{}).get(c,'')
+        # A national grade change can invalidate the generic source label even
+        # when the downloaded file and numerical certificate are unchanged.
+        if c in policy.get('country_population',{}):
+            row['target_population']=policy['country_population'][c]
+            row['source_population_note']='Historical source label: '+row['source_population_note']+'; superseded by the reviewed population qualification.'
         unreported=policy.get('reviewed_unreported',{}).get(c,[])
         for name in unreported:row[name]=None
         row['official_unreported_fields']=';'.join(unreported)

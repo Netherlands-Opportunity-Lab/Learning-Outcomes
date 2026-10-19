@@ -198,5 +198,5 @@ status_grid$status[3]<-"SCIENTIFICALLY_VALIDATED";write.csv(status_grid,status_g
 stopifnot(lo_fixed_status_summary(".",status_state,"nld_only")$grid=="CHANGED_REAUDIT_REQUIRED")
 if(is.na(prior_config))Sys.unsetenv("LO_RUN_CONFIG")else Sys.setenv(LO_RUN_CONFIG=prior_config)
 unlink(work,recursive=TRUE)
-cat("PASS fixed 1/20/50 scope, scientific gates, no-compute preview and dashboard mapping\n")
+cat("PASS historical scope fixtures, scientific gates, no-compute preview and dashboard mapping\n")
 

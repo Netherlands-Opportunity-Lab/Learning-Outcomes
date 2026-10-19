@@ -1,6 +1,8 @@
 # Read-only aggregate/source-identity review; not another production runner.
 # Rscript scripts/review_scientific_scope.R <repo> <private-root> <source-bundle>
-args<-commandArgs(trailingOnly=TRUE);stopifnot(length(args)==3L)
+args<-commandArgs(trailingOnly=TRUE);stopifnot(length(args)%in%c(3L,4L))
+country_only<-length(args)==4L&&identical(args[4],'--country-only')
+if(length(args)==4L&&!country_only)stop('UNKNOWN_REVIEW_OPTION')
 repo<-normalizePath(args[1],winslash='/');root<-normalizePath(args[2],winslash='/')
 bundle<-normalizePath(args[3],winslash='/')
 work<-file.path(root,'scientific_review_20261019')
@@ -8,6 +10,8 @@ read<-function(p)read.csv(p,colClasses='character',na.strings=character(),check.
 sha<-function(p)digest::digest(file=p,algo='sha256')
 for(n in c('LO_BALANCED_MEMBERSHIP.R','LO_COUNTRY_REGISTRY.R','LO_SCOPE_DECISIONS.R','LO_PRODUCT_TRACE.R'))
   source(file.path(repo,'06_pipeline',n))
+trace<-NULL
+if(!country_only) {
 tasks<-read(file.path(work,'snapshot/product_export/PRIVATE_TASKS.csv'))
 gp<-file.path(work,'REVIEWED_MASTER_GRID.csv')
 if(!file.exists(gp))gp<-file.path(root,'FIXED_PRODUCTION_V1/all_required/PRIVATE_MASTER_GRID.csv')
@@ -16,6 +20,7 @@ stopifnot(setequal(tasks$metric_key,grid$cell_id))
 out<-file.path(work,'product_trace');dir.create(out,showWarnings=FALSE)
 trace<-lo_product_trace(repo,tasks,grid,lo_read_scope_decisions(repo),out)
 stopifnot(sum(trace$product=='PAPER_REGISTERED_CLAIM')==12L)
+}
 public<-file.path(repo,'06_pipeline/review_20261013/scientific_review')
 support_path<-file.path(root,'master_reconciliation/SOURCE_SUPPORT_CONTRACTS.csv')
 support<-lo_read_source_support(support_path,repo)
@@ -56,5 +61,5 @@ jsonlite::write_json(list(result_basis='ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2
   population_review_sha256=attr(support,'population_review_sha256'),
   source_support_sha256=sha(support_path),code_sha256=sha(file.path(repo,'scripts/review_scientific_scope.R')),
   source_only_not_final_result_balance=TRUE),file.path(public,'COUNTRY_REVIEW_MANIFEST.json'),pretty=TRUE,auto_unbox=TRUE)
-cat('REVIEWED_PRODUCTS ',nrow(trace),'; COUNTRY_ADMISSION ',sum(countries$proposed_dashboard_admission),
+cat('REVIEWED_PRODUCTS ',if(is.null(trace))'UNCHANGED_TRACE_REUSED'else nrow(trace),'; COUNTRY_ADMISSION ',sum(countries$proposed_dashboard_admission),
   '; RICH_NLD_CORE_REFERENCE ',paste(reference$country[reference$eligible & reference$rich_candidate],collapse=';'),'\n',sep='')

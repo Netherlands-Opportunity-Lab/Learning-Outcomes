@@ -1,12 +1,12 @@
 {
   "result_basis": "ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2",
   "candidate_count": 116,
-  "eligible_count": 33,
+  "eligible_count": 32,
   "candidate_entities_are_not_all_sovereign_countries": true,
   "rich_pool_unchanged": ["AUS", "AUT", "BEL", "CAN", "CHE", "DEU", "DNK", "ESP", "FIN", "FRA", "GBR", "IRL", "ISL", "ITA", "KOR", "LUX", "NLD", "NOR", "SWE", "USA"],
-  "verified_support_rows": 1159,
-  "population_review_sha256": "b6ca95b94165c0a0a5465fafbce45a5048e9aebcd4b7f3242f96de5567c4ca5a",
+  "verified_support_rows": 1155,
+  "population_review_sha256": "3a0c2c89ac658574408869018a20c59d69e34fc1d5b1769bf76ada2b3f47c33b",
   "source_support_sha256": "fe4dd32f5d7a5365886383bab0de7f03afed14b3e6ab6f7f0a3ac686a364a154",
-  "code_sha256": "32e7a246a5272281c5d7f7a7811b6e06c6026af17c3c07432580636fa52cad66",
+  "code_sha256": "0484e8f4311cb13e65cf59a004b75bbacc1896aa11b07c0f1adc703ae61a3650",
   "source_only_not_final_result_balance": true
 }

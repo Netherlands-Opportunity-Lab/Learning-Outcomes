@@ -27,7 +27,7 @@ lo_extension_tasks <- function(tasks,decisions) {
       "weighted_descriptive_between_share","percent",level)
     ses<-tasks[tasks$module%in%c("ses_national","ses_harmonized") & tasks$stat=="q1_mean",,drop=FALSE]
     # SES has no achievement domain: deduplicate repeated maths/science rows.
-    ses$domain<-"all"
+    ses$domain<-rep("all",nrow(ses))
     ses<-ses[!duplicated(ses[c("country","survey","year","definition")]),,drop=FALSE]
     add(ses,if(level=="school")"A13" else "A14",paste0("EX_SES_",toupper(level)),
       paste0("extension_ses_",level),"between_variance_share","total",ses$definition,"percent",level)

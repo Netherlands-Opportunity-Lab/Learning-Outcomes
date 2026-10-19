@@ -9,6 +9,41 @@ t<-data.frame(country="NLD",survey="TIMSS",year="2023",domain="math",module=c("c
  peer_definition="",threshold="",unit="score_points",calculation_policy="",metric_key=c("base","ses"),
  outcome="mean_score",contract_figure_id=c("TR_MEAN_age10_math","GP_SES_LEVELS_age10_math"))
 x<-lo_extension_tasks(t,dec)
+# Actual all_required finalization has no countries outside the selected scope.
+# Empty references and legitimate core-only selections must preserve zero rows.
+stopifnot(nrow(lo_extension_tasks(t[FALSE,,drop=FALSE],dec))==0L)
+core_only<-lo_extension_tasks(t[t$module=='core',,drop=FALSE],dec)
+stopifnot(nrow(core_only)>0L,!any(grepl('extension_ses',core_only$module)))
+source('06_pipeline/MASTER_ESTIMATION_GRID.R')
+source('06_pipeline/LO_BALANCED_EXPORT.R')
+empty_reference<-lo_reference_only_grid(t,data.frame(),
+  list(selected='NLD',reference_candidates='NLD'),dec)
+stopifnot(nrow(empty_reference)==0L,identical(names(empty_reference),lo_grid_schema()))
+source('06_pipeline/LO_GENDER_POOL_POLICY.R')
+source('06_pipeline/LO_COUNTRY_TASKS.R')
+local({
+  # The constructor must find the certified pooled foreign ID in nld_only.
+  # Artifact verification itself is exercised by the separate archive tests.
+  d<-tempfile('reference_pool_');dir.create(d);on.exit(unlink(d,recursive=TRUE))
+  h<-paste(rep('a',64),collapse='')
+  jsonlite::write_json(list(country='AUS',year=2025,canonical_sha256=h,
+    gender_status='PARTIAL_SOURCE_GENDER_GIRL_UNRESOLVED',
+    source_value_labels=list(MALE=list('Female / Other'=0,Male=1))),
+    file.path(d,'SOURCE_VERIFICATION.json'),auto_unbox=TRUE)
+  b<-t[1,,drop=FALSE];b$survey<-'PISA';b$year<-'2025';b$domain<-'reading'
+  b$module<-'gender';b$stat<-'mean_score';b$group<-'girl';b$definition<-'gender'
+  b$contract_figure_id<-'GP_GENDER_age15_reading'
+  b$metric_key<-'NLD|PISA|2025|reading|gender|mean_score|girl'
+  id<-paste0(sub('^NLD','AUS',b$metric_key),';',lo_gender_pool_id())
+  support<-data.frame(country='AUS',survey='PISA',year='2025',
+    source_path=file.path(d,'fixture.rds'),source_sha256=h)
+  lo_grid_archive_fill<-function(grid,candidates,verify_files) {
+    stopifnot(verify_files,identical(grid$cell_id,candidates$cell_id));grid
+  }
+  ref<-lo_reference_only_grid;environment(ref)<-environment()
+  got<-ref(b,data.frame(cell_id=id),list(selected='NLD',reference_candidates=c('NLD','AUS'),source_support=support),dec)
+  stopifnot(nrow(got)==1L,got$cell_id==id)
+})
 stopifnot(nrow(x)==15L,!anyDuplicated(x$metric_key),
  all(lo_extension_availability(x)$status=="UNAVAILABLE_HOME_QUESTIONNAIRE_NOT_ADMINISTERED"))
 old<-t;old$survey<-"PIRLS";old$year<-"2006"

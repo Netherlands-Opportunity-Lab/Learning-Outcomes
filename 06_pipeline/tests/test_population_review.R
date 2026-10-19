@@ -26,4 +26,15 @@ filtered<-lo_population_filter_support(support,r)
 stopifnot(nrow(filtered)==1L)
 retained<-lo_country_base_tasks(historical,list(selected=c('NLD','AUT'),source_support=filtered))
 stopifnot(nrow(retained)==4L,'AUT|PISA|2009|reading'%in%retained$metric_key)
+# Polish third-grade waves cannot be added to later fourth-grade waves to
+# reach the three-wave admission threshold, regardless of generic file labels.
+pol<-expand.grid(country='POL',age_group=c('age10','age15'),
+ domain=c('reading','mathematics','science'),year=c('2006','2011','2016','2021'),stringsAsFactors=FALSE)
+pol$survey<-ifelse(pol$age_group=='age15','PISA',ifelse(pol$domain=='reading','PIRLS','TIMSS'))
+for(k in setdiff(lo_balance_columns(),names(pol)))pol[[k]]<-'none'
+pol$outcome<-'mean_score';pol$split_group<-'total';pol$unit<-'score_points'
+stopifnot(lo_support_eligibility(pol,'POL')$countries$dashboard_eligible)
+reviewed_pol<-lo_population_filter_support(pol,r)
+stopifnot(!lo_support_eligibility(reviewed_pol,'POL')$countries$dashboard_eligible,
+ nrow(reviewed_pol[reviewed_pol$survey=='PIRLS',])==2L)
 cat('PASS population/comparability correction, historical target retention, 6x3 and changed-download regression\n')
