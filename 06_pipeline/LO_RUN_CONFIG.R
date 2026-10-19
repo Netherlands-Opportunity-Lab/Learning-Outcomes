@@ -3,7 +3,8 @@ lo_run_config <- function(scope, path=Sys.getenv("LO_RUN_CONFIG", "")) {
   cfg<-list(schema_version=1L,scope=scope,selection=list(surveys=character(),
     years=character(),domains=character(),modules=character(),countries=character(),
     stats=character(),groups=character(),definitions=character(),peer_environments=character(),cell_ids=character()),
-    max_compute_units=1L)
+    max_compute_units=1L,
+    checkpoint=list(max_new_cells=500L,max_elapsed_seconds=180L))
   if(nzchar(path)) {
     if(!file.exists(path))stop("RUN_CONFIG_NOT_FOUND: ",path)
     x<-jsonlite::fromJSON(path,simplifyVector=TRUE)
@@ -16,6 +17,11 @@ lo_run_config <- function(scope, path=Sys.getenv("LO_RUN_CONFIG", "")) {
       for(k in names(x$selection))cfg$selection[[k]]<-x$selection[[k]]
     }
     if(!is.null(x$max_compute_units))cfg$max_compute_units<-x$max_compute_units
+    if(!is.null(x$checkpoint)) {
+      if(!is.list(x$checkpoint)||any(!names(x$checkpoint)%in%names(cfg$checkpoint)))
+        stop('RUN_CONFIG_UNKNOWN_CHECKPOINT_FIELD')
+      for(k in names(x$checkpoint))cfg$checkpoint[[k]]<-x$checkpoint[[k]]
+    }
   }
   if(!cfg$scope%in%c("nld_only","nld_plus_19","all_required"))stop("RUN_CONFIG_INVALID_SCOPE")
   for(k in names(cfg$selection)) {
@@ -28,6 +34,11 @@ lo_run_config <- function(scope, path=Sys.getenv("LO_RUN_CONFIG", "")) {
   n<-cfg$max_compute_units
   if(!is.numeric(n)||length(n)!=1L||!is.finite(n)||n<1||n!=floor(n))
     stop("RUN_CONFIG_POSITIVE_INTEGER_BATCH_REQUIRED")
+  for(k in names(cfg$checkpoint)) {
+    n<-cfg$checkpoint[[k]];bound<-if(k=='max_new_cells')1000L else 600L
+    if(!is.numeric(n)||length(n)!=1L||!is.finite(n)||n<1||n!=floor(n)||n>bound)
+      stop('RUN_CONFIG_INVALID_CHECKPOINT_BOUND: ',k)
+  }
   cfg
 }
 lo_run_config_hash <- function(cfg) digest::digest(

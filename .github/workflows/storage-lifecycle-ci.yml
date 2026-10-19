@@ -108,6 +108,8 @@ jobs:
         run: Rscript 06_pipeline/tests/test_balanced_export.R
       - name: Test registered paper claims and joint covariance
         run: Rscript 06_pipeline/tests/test_paper_claim_review.R
+      - name: Test SES analysis counts with missing achievement scores
+        run: Rscript 06_pipeline/tests/test_ses_coverage_review.R
       - name: Test real-review receipt binding and stale evidence rejection
         run: Rscript 06_pipeline/tests/test_scientific_review_binding.R
       - name: Verify batched result and absence evidence

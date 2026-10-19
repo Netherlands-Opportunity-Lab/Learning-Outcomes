@@ -1,11 +1,16 @@
 # Read-only aggregate/source-identity review; not another production runner.
 # Rscript scripts/review_scientific_scope.R <repo> <private-root> <source-bundle>
-args<-commandArgs(trailingOnly=TRUE);stopifnot(length(args)%in%c(3L,4L))
-country_only<-length(args)==4L&&identical(args[4],'--country-only')
-if(length(args)==4L&&!country_only)stop('UNKNOWN_REVIEW_OPTION')
+args<-commandArgs(trailingOnly=TRUE);stopifnot(length(args)>=3L)
+extra<-args[-seq_len(3L)]
+country_only<-'--country-only'%in%extra
+if(any(extra!='--country-only'&!startsWith(extra,'--work=')))stop('UNKNOWN_REVIEW_OPTION')
 repo<-normalizePath(args[1],winslash='/');root<-normalizePath(args[2],winslash='/')
 bundle<-normalizePath(args[3],winslash='/')
 work<-file.path(root,'scientific_review_20261019')
+if(any(startsWith(extra,'--work='))) {
+  stopifnot(sum(startsWith(extra,'--work='))==1L)
+  work<-normalizePath(sub('^--work=','',extra[startsWith(extra,'--work=')]),winslash='/')
+}
 read<-function(p)read.csv(p,colClasses='character',na.strings=character(),check.names=FALSE)
 sha<-function(p)digest::digest(file=p,algo='sha256')
 for(n in c('LO_BALANCED_MEMBERSHIP.R','LO_COUNTRY_REGISTRY.R','LO_SCOPE_DECISIONS.R','LO_PRODUCT_TRACE.R'))
@@ -57,6 +62,28 @@ pending<-if(is.null(impact))character()else setdiff(impact$new_candidate_countri
 countries$main_reason[countries$country%in%pending]<-'ADDITIONAL_COMBINATION_CANDIDATE_AWAITING_SOURCE_CERTIFICATION'
 countries$quality_note[countries$country=='AUT']<-'PISA 2009 boycott/motivation qualification: retained historical target, excluded from comparable trend support. Full focus anchor is not shortened.'
 countries$quality_note[countries$country=='ESP']<-'PISA 2018 exam-timing/motivation qualification: retained historical target, excluded from comparable trend support. Full focus anchor is not shortened.'
+if(!is.null(impact)) {
+  newly_verified<-intersect(impact$new_candidate_countries,support$country)
+  countries$quality_note[countries$country%in%newly_verified]<-
+    'Actual source identities, domain scores, target populations and comparable waves verified. Admission is per combination; result-level reference membership is checked separately in Q06. Official response, exclusions, mode and unreported fields remain in Q02.'
+}
+policy<-jsonlite::fromJSON(file.path(repo,'06_pipeline/review_20261013/POPULATION_CORRECTIONS.json'))$corrections
+for(c in intersect(unique(policy$country),countries$country)) {
+  z<-policy[policy$country==c,]
+  countries$quality_note[countries$country==c]<-paste(vapply(seq_len(nrow(z)),function(i)
+    paste(z$survey[i],z$year[i],if(is.na(z$domain[i])||!nzchar(z$domain[i]))'all domains'else z$domain[i],':',z$actual_population[i]),character(1)),collapse=' | ')
+}
+special<-list(
+  BEL='National PISA retained; Flemish/French IEA communities are not substituted for Belgium. In 2025 one pupil lacks all domain scores and is excluded from achievement denominators; observed Female/Other remains explicitly labelled.',
+  GBR='National PISA retained; England/Northern Ireland IEA populations are not substituted for the UK. PISA 2003 has an official nonresponse trend qualification and cannot certify reference balance.',
+  ALB='PISA 2015 cognitive and administrative gender fields remain observed; unlinked questionnaire background fields are not reconstructed. SES and background availability are assessed from actual source fields.',
+  ARM='TIMSS 2015 assessment was administered in 2016 and added to the official database in 2018. Original sampling tables omit Armenia; unreported response/coverage values remain unknown.',
+  LIE='PISA 2012 uses Swiss programme labels within the national Liechtenstein sample (293 pupils); no Swiss pupils are substituted.',
+  KOR='No PIRLS participation in the reviewed cycles. PISA and the four comparable TIMSS primary waves are assessed independently.',
+  HRV='TIMSS primary 2011/2015/2019; no reviewed 2023 grade-four participation. No invented fourth primary wave.',
+  OMN='The official TIMSS 2015 national sample retains all 9105 pupils, including 61 with source grade code 5; official population identity determines inclusion.',
+  TUR='TIMSS 2019/2023 grade-five populations cannot extend the two earlier grade-four waves. PIRLS 2001/2021 also has only two waves; PISA admission is independent.')
+for(c in intersect(names(special),countries$country))countries$quality_note[countries$country==c]<-special[[c]]
 regions<-read(file.path(public,'REGIONAL_SOURCE_IDENTITIES.csv'))
 # An IEA regional code must not reclassify an independently national PISA
 # population (e.g. Belgium or the UK). Preserve the reviewed entity identities.
@@ -101,7 +128,7 @@ per_combination<-do.call(rbind,lapply(seq_len(nrow(anchor)),function(i) {
   }))
 }))
 write.csv(per_combination,file.path(public,'NLD_COMBINATION_REFERENCE_REVIEW.csv'),row.names=FALSE)
-jsonlite::write_json(list(result_basis='ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2',
+jsonlite::write_json(list(historical_result_basis='ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2',
   candidate_count=nrow(countries),eligible_count=sum(countries$proposed_dashboard_admission),
   candidate_entities_are_not_all_sovereign_countries=TRUE,
   rich_pool_unchanged=runtime$comparator,verified_support_rows=nrow(support),

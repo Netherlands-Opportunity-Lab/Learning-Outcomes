@@ -6,13 +6,14 @@ def sha(p):
  with p.open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
 def read(p):
  with p.open(encoding='utf-8-sig',newline='') as f:return list(csv.DictReader(f))
-def build(repo,root,output):
- files={'tasks':root/'international/EXACT_ALL_REQUIRED_TASKS.csv',
-  'grid':root/'FIXED_PRODUCTION_V1/all_required/PRIVATE_MASTER_GRID.csv',
+def build(repo,root,output,work=None):
+ work=work or root/'scientific_review_20261019'
+ files={'tasks':work/'snapshot/product_export/PRIVATE_TASKS.csv',
+  'grid':work/'REVIEWED_MASTER_GRID.csv',
   'decisions':repo/'06_pipeline/SCOPE_APPROVALS.csv',
   'products':repo/'06_pipeline/review_20261013/PRODUCT_REQUIREMENTS.json',
   'author_preparation':root/'cobreros_four/PREPARATION_MANIFEST.json',
-  'dashboard':root/'scientific_review_20261019/snapshot/public_inputs/dashboard_cells.csv',
+  'dashboard':work/'snapshot/public_inputs/dashboard_cells.csv',
   'gender_policy':repo/'06_pipeline/review_20261013/GENDER_POOL_USER_DECISION.json',
   'review_code':Path(__file__)}
  tasks=read(files['tasks']);grid=read(files['grid']);by={r['metric_key']:r for r in tasks}
@@ -56,5 +57,6 @@ def build(repo,root,output):
 
 if __name__=='__main__':
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--root',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
- a=p.parse_args();r=build(Path(__file__).resolve().parents[1],a.root,a.output)
+ p.add_argument('--work',type=Path)
+ a=p.parse_args();r=build(Path(__file__).resolve().parents[1],a.root,a.output,a.work)
  print(r['status'],r['tasks'],'tasks;',r['home_SES_usable_cells'],'Home-SES cells')

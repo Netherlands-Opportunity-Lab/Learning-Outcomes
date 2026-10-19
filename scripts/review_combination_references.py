@@ -14,6 +14,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'06_pipeline'))
+from LO_DASHBOARD_COMPARABILITY import population_review_index, population_review_for
+
 
 def sha(p):
     with p.open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
@@ -49,9 +52,10 @@ def main(repo,root,rscript):
     shutil.copyfile(out/'EXACT_ALL_REQUIRED_TASKS.csv',target);inputs[name]=sha(target)
     ids={r['metric_key'] for r in read(target)}
     corrections=json.loads((repo/'06_pipeline/review_20261013/POPULATION_CORRECTIONS.json').read_text())
-    excluded={(r['country'],r['survey'],str(r['year'])) for r in corrections['corrections']}
+    excluded=population_review_index(corrections['corrections'])
     original_rows=read(old/'public_inputs/dashboard_cells.csv')
-    rows=[r for r in original_rows if r['cell_id'] in ids and (r['country'],r['survey'],r['year']) not in excluded]
+    rows=[r for r in original_rows if r['cell_id'] in ids and not
+          population_review_for(excluded,r['country'],r['survey'],r['year'],r['domain'])]
     write(snapshot/'public_inputs/dashboard_cells.csv',rows)
     source_registry=out/'all_required/COUNTRY_SOURCE_ELIGIBILITY.csv'
     name='public_inputs/COUNTRY_SOURCE_ELIGIBILITY.csv'

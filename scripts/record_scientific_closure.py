@@ -95,7 +95,8 @@ def record(repo, root, output, ci_path, execution_commit):
             assert row['cell_id'] not in result
             result[row['cell_id']] = {k: row[k] for k in fields}
         return result
-    before = keyed(work / 'REVIEWED_MASTER_GRID.csv')
+    reviewed_work = Path(manifest.get('review_work_directory',work))
+    before = keyed(reviewed_work / 'REVIEWED_MASTER_GRID.csv')
     current = keyed(state / 'PRIVATE_MASTER_GRID.csv')
     admitted = sorted(r['country'] for r in rows(state / 'COUNTRY_SOURCE_ELIGIBILITY.csv')
                       if r['dashboard_eligible'].lower() == 'true')

@@ -24,8 +24,39 @@ def read(p):
         return list(csv.DictReader(f))
 
 
-def freeze(repo, root, reference_root=None):
-    work = root / 'scientific_review_20261019'
+def verify_review_bindings(reviewed_grid, ses_bindings, ses_sources, claim_dependencies, claims):
+    # A review of an earlier scope cannot certify newly added results merely
+    # because its summary says zero errors. Compare every reviewed dependency.
+    ses_modules={'ses_national','ses_harmonized','extension_ses_gender',
+                 'extension_home_ses','extension_ses_school','extension_ses_class'}
+    wanted_ses={cid:r for cid,r in reviewed_grid.items()
+                if r['status']=='SCIENTIFICALLY_VALIDATED' and r['subgroup_variable'] in ses_modules}
+    if len(ses_bindings)!=len(wanted_ses) or {r['cell_id'] for r in ses_bindings}!=wanted_ses.keys():
+        raise ValueError('Q01 does not cover the exact selected result set')
+    for row in ses_bindings:
+        parent=wanted_ses[row['cell_id']]
+        if any(row[k]!=parent[k] for k in ('target_contract_sha256','result_hash','source_edition_sha256')) or float(row['n_unweighted'])!=float(parent['n_unweighted']):
+            raise ValueError('Q01 reviewed result dependency changed')
+    chosen_ses={'ses_harmonized','extension_ses_gender','extension_ses_school','ses_peer_exposure'}
+    wanted_sources={r['source_edition_sha256'] for r in reviewed_grid.values()
+                    if r['status']=='SCIENTIFICALLY_VALIDATED' and r['survey']=='PISA' and r['subgroup_variable'] in chosen_ses}
+    if {r['source_sha256'] for r in ses_sources}!=wanted_sources:
+        raise ValueError('Q03/Q05 does not cover every used chosen-SES source')
+    for row in claim_dependencies:
+        parent=reviewed_grid.get(row['cell_id'])
+        if not parent or parent['status']!='SCIENTIFICALLY_VALIDATED' or any(
+            row[k]!=parent[v] for k,v in {'result_hash':'result_hash','target_contract_sha256':'target_contract_sha256',
+              'source_sha256':'source_edition_sha256','input_fingerprint':'input_fingerprint','code_fingerprint':'code_fingerprint'}.items()):
+            raise ValueError('Q08 claim dependency is not a current certified result')
+    wanted_claims={(q['claim_id'],q[k]) for q in claims for k in ('parent_a','parent_b','gap_cell') if q.get(k)}
+    got_claims=[(r['claim_id'],r['cell_id']) for r in claim_dependencies]
+    if len(got_claims)!=len(set(got_claims)) or set(got_claims)!=wanted_claims:
+        raise ValueError('Q08 dependencies do not match the exact registered claims')
+
+
+def freeze(repo, root, reference_root=None, work=None):
+    work = work or root / 'scientific_review_20261019'
+    official_dir = root / 'scientific_review_20261019/official'
     mapping_dir = reference_root / 'reference_mapping' if reference_root else work / 'Q06_mapping_final'
     q06_dir = reference_root / 'Q06' if reference_root else work / 'Q06'
     reports = {
@@ -95,7 +126,8 @@ def freeze(repo, root, reference_root=None):
         add(repo / '06_pipeline' / Path(p).name, h)
     for n, h in q['Q01']['outputs'].items():
         add(work / 'Q01' / {'coverage': 'SES_ANALYSIS_SAMPLE_COVERAGE.csv',
-                            'sources': 'SES_SOURCE_CHECKS.csv'}[n], h)
+                            'sources': 'SES_SOURCE_CHECKS.csv',
+                            'bindings': 'SES_REVIEW_TARGET_BINDINGS.csv'}[n], h)
     q2cfg = repo / '06_pipeline/review_20261013/OFFICIAL_SAMPLE_TABLES.json'
     add(q2cfg, q['Q02']['config_sha256'])
     add(repo / 'scripts/review_official_samples.py', q['Q02']['code_sha256'])
@@ -103,7 +135,7 @@ def freeze(repo, root, reference_root=None):
     official = json.loads(q2cfg.read_text(encoding='utf-8'))
     for f in official['tables'] + official['quality_source_review'] + official['mode_evidence']:
         if 'file' in f:
-            add(work / 'official' / f['file'], f['sha256'])
+            add(official_dir / f['file'], f['sha256'])
     for n, h in q['Q02']['output_sha256'].items():
         add(work / 'Q02' / n, h)
     proof_json(root / 'cobreros_four/CALIBRATION_CERTIFICATE.json', q['Q03']['calibration_sha256'])
@@ -150,6 +182,11 @@ def freeze(repo, root, reference_root=None):
     # The reference engine consumes primitive cells. A complemented display
     # percentage has its own hash and must never replace its parent's identity.
     reviewed_grid = {r['cell_id']: r for r in read(scope_inputs['grid'])}
+    verify_review_bindings(reviewed_grid,
+        read(work/'Q01/SES_REVIEW_TARGET_BINDINGS.csv'),
+        read(work/'Q03_Q05/FROZEN_SES_COUNTRY_WAVE_REVIEW.csv'),
+        read(work/'Q08/PAPER_CLAIM_DEPENDENCIES.csv'),
+        json.loads((repo/'06_pipeline/review_20261013/PAPER_CLAIMS.json').read_text(encoding='utf-8'))['claims'])
     for cell in read(mapping_dir / 'BALANCE_AVAILABLE.csv'):
         parent = reviewed_grid[cell['cell_id']]
         if cell['result_hash'] != parent['result_hash'] or cell['source_record_id'] != parent['result_hash']:
@@ -218,6 +255,7 @@ def freeze(repo, root, reference_root=None):
         'Q08': 'Twelve retrospectively registered Dutch claims checked against exact parents and joint PV/replicate covariance. Three PISA trend tests include linking variance and Holm correction; IEA long-term intervals are explicitly conditional, with no formal trend test.'}
     manifest = dict(schema_version=1, status='REVIEWED_SCIENTIFIC_BASIS_WITH_EXPLICIT_LIMITATIONS',
                     historical_result_commit='ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2',
+                    review_work_directory=work.as_posix(),
                     reference_mapping_directory=mapping_dir.as_posix(), reference_review_directory=q06_dir.as_posix(),
                     approval_sha256=add(approval), target_contracts_path=contracts.as_posix(),
                     target_contracts_sha256=add(contracts), reviewed_target_count=len(grid),
@@ -240,5 +278,7 @@ if __name__ == '__main__':
     p.add_argument('--repo', type=Path, required=True)
     p.add_argument('--root', type=Path, required=True)
     p.add_argument('--reference-root',type=Path)
+    p.add_argument('--work',type=Path,help='New immutable review directory; preserve preceding scope evidence')
     a = p.parse_args()
-    freeze(a.repo.resolve(), a.root.resolve(), a.reference_root.resolve() if a.reference_root else None)
+    freeze(a.repo.resolve(), a.root.resolve(), a.reference_root.resolve() if a.reference_root else None,
+           a.work.resolve() if a.work else None)

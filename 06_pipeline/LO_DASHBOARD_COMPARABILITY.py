@@ -16,6 +16,25 @@ COLS = ('survey age_group domain year outcome split_dimension split_group '
         'threshold_id unit population_comparison_id method_comparison_id').split()
 VERIFIED_FILES = {}
 
+
+def population_review_index(rows):
+    """Keep domain qualifications distinct; reject ambiguous policy entries."""
+    index = {}
+    for row in rows:
+        key = (row['country'], row['survey'], str(row['year']), row.get('domain') or 'all')
+        if key in index or key[3] not in ('all', 'reading', 'mathematics', 'science'):
+            raise ValueError('DUPLICATE_OR_INVALID_POPULATION_POLICY')
+        index[key] = row
+    if any(k[3] != 'all' and (*k[:3], 'all') in index for k in index):
+        raise ValueError('OVERLAPPING_POPULATION_POLICY')
+    return index
+
+
+def population_review_for(index, country, survey, year, domain):
+    """An all-domain outcome is excluded only by a whole-context qualification."""
+    key = (country, survey, str(year), domain)
+    return index.get(key) or index.get((*key[:3], 'all'))
+
 def sha(path):
     with Path(path).open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
 
@@ -298,7 +317,7 @@ def build(snapshot,output,previous=None):
         policy_hashes.update({str(projection_path):projection_sha,str(projection_code):projection_code_sha})
         VERIFIED_FILES[str(projection_code)]=projection_code_sha
         projection_context=(projection_sha,projection)
-    population_corrections={(r['country'],r['survey'],str(r['year'])):r for r in policy['corrections']}
+    population_corrections=population_review_index(policy['corrections'])
     output.mkdir(parents=True,exist_ok=False)
     proof=json.loads((snapshot/'product_export/SNAPSHOT_EXPORT_EVIDENCE.json').read_text(encoding='utf-8-sig'))
     product_path=snapshot/'public_inputs/dashboard_cells.csv'
@@ -337,8 +356,8 @@ def build(snapshot,output,previous=None):
         if s is None and r['domain']=='all':
             s=next((v for k,v in support.items() if k[:3]==key[:3]),None)
         try:
-            if key[:3] in population_corrections:
-                correction=population_corrections[key[:3]]
+            correction=population_review_for(population_corrections,*key)
+            if correction:
                 raise ValueError(correction['reason']+':'+correction['review_id'])
             if s is None:raise ValueError('NO_SOURCE_SUPPORT')
             signature=fingerprint([p,r,t,s,policy_sha,projection_sha])

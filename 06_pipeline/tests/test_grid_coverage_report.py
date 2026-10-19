@@ -11,6 +11,7 @@ class CoverageReport(unittest.TestCase):
  def test_disjoint_reason_and_zero_are_not_missing(self):
   self.assertEqual(m.main_reason(dict(status='SCIENTIFICALLY_VALIDATED',estimate='0',standard_error='0')),'RESULT_AVAILABLE')
   cases=[('Home Questionnaire not administered','QUESTIONNAIRE_NOT_ADMINISTERED'),
+   ('OFFICIAL_TREND_COMPARABILITY_QUALIFICATION: QUAL_JOR_PISA_2022_READING','OFFICIAL_TREND_NOT_COMPARABLE'),
    ('Older Home Resources for Learning is a different construct; do not splice or backfill','SCALE_NOT_DEFINED_IN_CYCLE'),
    ('Required parents birthplace fields absent; home language cannot identify this construct','REQUIRED_FIELD_NOT_OBSERVED'),
    ('No valid national programme identifier for the selected school-programme peer environment','LEARNING_ENVIRONMENT_NOT_OBSERVED'),

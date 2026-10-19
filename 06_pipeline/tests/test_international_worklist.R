@@ -14,3 +14,27 @@ fails<-function(x)inherits(tryCatch({force(x);NULL},error=function(e)e),'error')
 stopifnot(fails(lo_international_worklist(bad,g)),fails(lo_international_worklist(q,g[-1,])),
  fails(lo_international_worklist(q,rbind(g,g[1,]))))
 cat('PASS exact saved international worklist; proven absent appendix cannot block available language; changed targets rejected\n')
+
+local({
+  root<-tempfile('guard_');dir.create(root);on.exit(unlink(root,recursive=TRUE),add=TRUE)
+  repo<-file.path(root,'repo');state<-file.path(root,'FIXED_PRODUCTION_V1/all_required')
+  dir.create(state,recursive=TRUE)
+  names<-c('SCOPE_APPROVALS.csv','COUNTRY_PRODUCTION_APPROVALS.csv',
+    'review_20261013/POPULATION_CORRECTIONS.json','LO_COUNTRY_TASKS.R','LO_COUNTRY_REGISTRY.R',
+    'LO_SCOPE_DECISIONS.R','LO_APPROVED_EXTENSIONS.R','LO_GENDER_POOL_POLICY.R',
+    'LO_INTERNATIONAL_WORKLIST.R','MASTER_ESTIMATION_GRID.R','LO_POPULATION_REVIEW.R',
+    'LO_BALANCED_MEMBERSHIP.R','LO_RUN_CONFIG.R')
+  for(n in names) {p<-file.path(repo,'06_pipeline',n);dir.create(dirname(p),recursive=TRUE,showWarnings=FALSE);file.copy(file.path('06_pipeline',n),p)}
+  path<-file.path(state,'PRIVATE_MASTER_GRID.csv');write.csv(g,path,row.names=FALSE)
+  manifest<-file.path(state,'FIXED_INPUT_MANIFEST.json')
+  jsonlite::write_json(list(scope='all_required',grid_sha256=digest::digest(file=path,algo='sha256')),manifest,auto_unbox=TRUE)
+  x<-lo_international_worklist(q,g)
+  guard<-lo_international_certification_guard(repo,root,'all_required',x)
+  stopifnot(isTRUE(guard(q[c(1,3),],'all_required')),fails(guard(q,'all_required')),
+    fails(guard(bad[1,],'all_required')),fails(guard(q[1,],'nld_only')))
+  writeLines('changed policy',file.path(repo,'06_pipeline/SCOPE_APPROVALS.csv'))
+  stopifnot(fails(guard(q[1,],'all_required')))
+  g$target_contract_sha256[1]<-'changed';write.csv(g,path,row.names=FALSE)
+  stopifnot(fails(lo_international_certification_guard(repo,root,'all_required',x)))
+})
+cat('PASS cached exact approval guard rejects changed scope, targets, policy, absent cells and audit bytes\n')

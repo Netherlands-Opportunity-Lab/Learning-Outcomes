@@ -1,0 +1,24 @@
+repo<-normalizePath('.',winslash='/')
+source(file.path(repo,'06_pipeline/LO_SES_COVERAGE_REVIEW.R'))
+root<-tempfile('ses_coverage_');dir.create(root)
+source_path<-file.path(root,'canonical.rds')
+d<-data.frame(W=c(1,1,1),SES=c(2,2,2),PV_READ_1=c(400,500,NA),PV_READ_2=c(410,490,NA))
+saveRDS(list(data=d,meta=list()),source_path)
+grid<-data.frame(cell_id='test_books_q1',country='TST',survey='PIRLS',year='2021',domain='reading',
+  subgroup_variable='ses_national',subgroup_level='q1',ses_construct_id='books5_fractional',
+  status='SCIENTIFICALLY_VALIDATED',source_path=source_path,
+  source_edition_sha256=digest::digest(file=source_path,algo='sha256'),
+  target_contract_sha256='target',result_hash='result',n_unweighted='2')
+out<-file.path(root,'review')
+result<-lo_ses_coverage_review(repo,grid,out)
+row<-read.csv(file.path(out,'SES_ANALYSIS_SAMPLE_COVERAGE.csv'))
+stopifnot(result$count_mismatches==0L,row$source_n==3L,row$ses_valid_n==3L,
+  row$group_n_before_score_filter==3L,row$group_n==2L,row$group_complete_pv_n==2L,
+  abs(row$group_weight_sum-0.5)<1e-12,abs(row$group_weight_sum_before_score_filter-0.75)<1e-12)
+second<-lo_ses_coverage_review(repo,grid,out)
+stopifnot(second$reused_source_checks==1L)
+grid$n_unweighted<-'3'
+third<-lo_ses_coverage_review(repo,grid,out)
+stopifnot(third$count_mismatches==1L,third$reused_source_checks==0L)
+unlink(root,recursive=TRUE)
+cat('PASS actual SES analysis denominators, missing scores and changed-result cache\n')

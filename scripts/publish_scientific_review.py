@@ -5,7 +5,11 @@ import gzip
 import hashlib
 import json
 import re
+import sys
 from pathlib import Path
+
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'06_pipeline'))
+from LO_DASHBOARD_COMPARABILITY import population_review_index, population_review_for
 
 
 def sha(p):
@@ -19,6 +23,7 @@ def publish(repo, root):
     out.mkdir(exist_ok=True)
     manifest_path = w / 'SCIENTIFIC_REVIEW_MANIFEST.json'
     manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+    w = Path(manifest.get('review_work_directory',w))
     mappings = {
         'Q01_SES_SAMPLE_REVIEW.json': 'Q01/SES_SAMPLE_REVIEW.json',
         'Q02_OFFICIAL_SAMPLE_REVIEW.json': 'Q02/OFFICIAL_SAMPLE_REVIEW.json',
@@ -49,7 +54,7 @@ def publish(repo, root):
             raise ValueError('Private path in review export: ' + name)
         (out / name).write_text(text, encoding='utf-8')
         source_hashes[name] = sha(p)
-    csvs = ['Q01/SES_ANALYSIS_SAMPLE_COVERAGE.csv', 'Q01/SES_SOURCE_CHECKS.csv',
+    csvs = ['Q01/SES_ANALYSIS_SAMPLE_COVERAGE.csv', 'Q01/SES_SOURCE_CHECKS.csv','Q01/SES_REVIEW_TARGET_BINDINGS.csv',
             'Q02/COUNTRY_CYCLE_SAMPLE_QUALITY.csv', 'Q02/OFFICIAL_SAMPLE_TABLE_DEPENDENCIES.csv',
             'Q03_Q05/FROZEN_SES_COUNTRY_WAVE_REVIEW.csv', 'Q06/REFERENCE_BY_VIEW.csv',
             'Q06/REFERENCE_NUMERICAL_PROBES.csv', 'Q06/RANK_NUMERICAL_PROBES.csv',
@@ -71,7 +76,7 @@ def publish(repo, root):
     with (w / 'REVIEWED_MASTER_GRID.csv').open(encoding='utf-8-sig', newline='') as f:
         grid = list(csv.DictReader(f))
     corrections = json.loads((repo / '06_pipeline/review_20261013/POPULATION_CORRECTIONS.json').read_text(encoding='utf-8'))
-    correction = {(r['country'], r['survey'], str(r['year'])): r for r in corrections['corrections']}
+    correction = population_review_index(corrections['corrections'])
     with (out / 'VERIFIED_COUNTRY_ADMISSION.csv').open(encoding='utf-8-sig', newline='') as f:
         admitted = {r['country'] for r in csv.DictReader(f) if r['dashboard_eligible'].lower() == 'true'}
     with (out / 'VERIFIED_COUNTRY_COMBINATIONS.csv').open(encoding='utf-8-sig', newline='') as f:
@@ -87,7 +92,7 @@ def publish(repo, root):
             migration_samples.append({k: r[k] for k in ['cell_id', 'country', 'survey', 'year', 'domain',
                 'subgroup_variable', 'subgroup_level', 'statistic', 'n_unweighted', 'source_edition_sha256',
                 'result_hash', 'certification_sha256']})
-        correction_row = correction.get((r['country'], r['survey'], r['year']))
+        correction_row = population_review_for(correction,r['country'],r['survey'],r['year'],r['domain'])
         combination_ok=(r['country'],r['survey'],r['domain']) in combinations
         if r['domain']=='all':combination_ok=any(c==r['country'] and s==r['survey'] for c,s,d in combinations)
         if correction_row or not combination_ok:

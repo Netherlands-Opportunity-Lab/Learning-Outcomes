@@ -8,8 +8,12 @@ import argparse
 import csv
 import hashlib
 import json
+import sys
 from collections import defaultdict
 from pathlib import Path
+
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'06_pipeline'))
+from LO_DASHBOARD_COMPARABILITY import population_review_index, population_review_for
 
 
 def read(path):
@@ -38,12 +42,13 @@ def build(repo,root,output):
     national.update(EXTRA);national.update(('BEL','GBR','CHE','ISL','KOR','LUX'))
     national.discard('MAC')  # No new regional system silently made a country.
     corrections=json.loads(files[1].read_text(encoding='utf-8'))['corrections']
-    excluded={(r['country'],r['survey'],str(r['year'])) for r in corrections}
+    excluded=population_review_index(corrections)
     waves=defaultdict(set);raw_codes=set()
     for r in read(files[2]):
         raw_codes.add(r['country'])
-        if r['country'] in national and r['source_context_status']=='CORE_POPULATION_CHECKED' and (r['country'],r['survey'],r['year']) not in excluded:
+        if r['country'] in national and r['source_context_status']=='CORE_POPULATION_CHECKED':
             for d in (['reading'] if r['survey']=='PIRLS' else ['mathematics','science']):
+                if population_review_for(excluded,r['country'],r['survey'],r['year'],d):continue
                 waves[r['country'],r['survey'],d].add(int(r['year']))
     for year in [2003,2006,2009,2012,2015,2018,2022,2025]:
         path=private/(f'PISA_{year}_BYTE_INDEX.json' if year<2015 else f'PISA_{year}_COUNTRY_COUNTS.csv')
@@ -52,9 +57,10 @@ def build(repo,root,output):
         raw_codes.update(codes)
         for code in codes:
             country='TWN' if code=='TAP' else code
-            if country not in national or (country,'PISA',str(year)) in excluded:continue
+            if country not in national:continue
             if country=='AZE' and year in (2018,2022):continue  # Baku is not national Azerbaijan.
             for d in (['reading','mathematics'] if year==2003 else ['reading','mathematics','science']):
+                if population_review_for(excluded,country,'PISA',year,d):continue
                 if country=='USA' and year==2006 and d=='reading':continue
                 waves[country,'PISA',d].add(year)
     passed={k:sorted(v) for k,v in waves.items() if len(v)>=3}
@@ -71,6 +77,7 @@ def build(repo,root,output):
         combinations=[dict(country=k[0],survey=k[1],domain=k[2],years=v,prior_source_registry=k[0] in verified)
             for k,v in sorted(passed.items())],
         input_sha256={p.name:sha(p) for p in files},review_script_sha256=sha(Path(__file__)),
+        population_lookup_code_sha256=sha(repo/'06_pipeline/LO_DASHBOARD_COMPARABILITY.py'),
         limitations=['Indices can contain questionnaire records without valid released domain scores. Exact PV/source verification determines final eligibility.',
             'Historical national coverage, mode, scale linkage and official qualifications require Q02 review for every newly used wave.',
             'No regional system has been renamed or substituted. Official participation can exceed locally available files (e.g. Maltese PIRLS).',

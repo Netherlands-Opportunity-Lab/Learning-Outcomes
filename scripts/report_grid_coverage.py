@@ -13,7 +13,11 @@ import csv
 import hashlib
 import json
 import re
+import sys
 from pathlib import Path
+
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'06_pipeline'))
+from LO_DASHBOARD_COMPARABILITY import population_review_index, population_review_for
 
 
 def read(path):
@@ -71,6 +75,8 @@ def main_reason(row):
     if row["status"] == "SCIENTIFICALLY_VALIDATED":
         return "RESULT_AVAILABLE"
     reason = row.get("hold_reason", "").lower()
+    if "official_trend_comparability_qualification" in reason:
+        return "OFFICIAL_TREND_NOT_COMPARABLE"
     if "not administered" in reason or "did not administer" in reason:
         return "QUESTIONNAIRE_NOT_ADMINISTERED"
     if "older home resources" in reason or "did not exist" in reason:
@@ -120,6 +126,7 @@ def build(state, output, review_path=None, trace_state=None, projection_root=Non
             raise ValueError('Changed scope reuse evidence')
         inputs.update(scope_reuse=sha(reuse_path),scope_impact=sha(impact_path))
     inputs["generator"] = sha(Path(__file__))
+    inputs["population_lookup_code"] = sha(Path(__file__).resolve().parents[1]/'06_pipeline/LO_DASHBOARD_COMPARABILITY.py')
     review = json.loads(review_path.read_text(encoding="utf-8-sig")) if review_path else {"corrections": []}
     if review_path:
         inputs["population_review"] = sha(review_path)
@@ -148,7 +155,7 @@ def build(state, output, review_path=None, trace_state=None, projection_root=Non
         exact_links.add(tuple(r.get(k, "") for k in ["requirement_id", "product", "source_locator", "approved_placement", "figure_id", "cell_id", "derivation"]))
     if by_id.keys() - trace.keys():
         raise ValueError("Active grid cells without product trace")
-    corrections = {(r["country"], r["survey"], str(r["year"])): r for r in review["corrections"]}
+    corrections = population_review_index(review['corrections'])
     counts = collections.Counter(category(r) for r in grid)
     for k in ["validated", "unavailable", "unresolved"]:
         counts.setdefault(k, 0)
@@ -159,7 +166,7 @@ def build(state, output, review_path=None, trace_state=None, projection_root=Non
         "input_fingerprint", "code_fingerprint", "result_hash", "certification_sha256"]
     cells = []
     for r in sorted(grid, key=lambda z: z["cell_id"]):
-        correction = corrections.get((r["country"], r["survey"], r["year"]))
+        correction = population_review_for(corrections,r['country'],r['survey'],r['year'],r['domain'])
         cell = {k: r.get(k, "") for k in cols}
         cell.update(main_reason=main_reason(r), product_requirements=";".join(sorted(trace[r["cell_id"]])),
             population_review_id=correction["review_id"] if correction else "",
