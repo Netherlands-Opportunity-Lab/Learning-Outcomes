@@ -2,7 +2,7 @@
 
 Scope `all_required`: 76,809 doelen; 69,201 geregistreerd gevalideerd, 7,608 gedocumenteerd onbeschikbaar, 0 nog niet afgehandeld.
 
-Dit rapport beschrijft de opgeslagen run. Een latere populatiecorrectie staat afzonderlijk bij ieder getroffen doel; historische certificaten worden niet herschreven. Rekenkundige afhandeling is geen wetenschappelijke vrijgave. De landselectie en Q01-Q08 worden afzonderlijk inhoudelijk beoordeeld.
+Deze dekkingsprojectie past het expliciete besluit van 19 oktober toe op exact dezelfde historische doel- en resultaathashes. Zij is geen nieuwe productierun of resultaatdepositie. Er is geen leerlingstatistiek herberekend. Alleen combinaties met minstens drie vergelijkbare golven zijn opgenomen; het volledige hoofdlandanker en alle gezamenlijke groepen gelden binnen iedere figuur. De aanvullende bronkandidaten blijven afzonderlijk te certificeren.
 
 ## Nederlands jaaranker
 
@@ -101,6 +101,10 @@ De gekozen scope is geen volledig kruisproduct van alle splits en maten. A02/A04
 | SCALE_NOT_DEFINED_IN_CYCLE | 3231 |
 
 Deze hoofdredenen tellen precies tot alle doelen op. Niet-afgenomen vragenlijsten zijn iets anders dan niet-geobserveerde velden, niet-bestaande schalen of lege analysegroepen. Een geldige schatting nul blijft RESULT_AVAILABLE. Populatie-, respons-, modus- en vergelijkbaarheidsnotities staan afzonderlijk; ze zijn geen extra ontbrekende cellen.
+
+## Afzonderlijke kwaliteit van analysegroepen
+
+De bron- en productcontroles bevatten de afzonderlijke analysekwalificaties; deze historische dekkingsrapportage bindt nog geen nieuwe tabel met groepsgroottes.
 
 ## Volledige herleidbaarheid
 

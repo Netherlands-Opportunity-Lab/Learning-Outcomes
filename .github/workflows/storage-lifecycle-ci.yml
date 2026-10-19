@@ -140,6 +140,8 @@ jobs:
         run: python 06_pipeline/tests/atomic_sharing_check.py
       - name: Test exact scientific registry fast I/O and atomic replacement
         run: Rscript 06_pipeline/tests/test_registry_io.R
+      - name: Test component and PV-specific pupil and school support
+        run: Rscript 06_pipeline/tests/test_analysis_support_review.R
       - name: Test complete approved production orchestration
         run: Rscript 06_pipeline/tests/test_approved_orchestration.R
       - name: Test balanced individual country rank derivation

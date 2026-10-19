@@ -1,7 +1,7 @@
 # Build a GUIDED-frontend figure-product candidate from independently
 # validated primitive estimates. Source task and figure IDs remain immutable.
 # Old high-peer results cannot fill new primary below-basic peer graphs.
-lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL) {
+lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL,analysis_support=NULL) {
   if(any(grepl('FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015',tasks$metric_key,fixed=TRUE))&&
      !exists('lo_gender_display',mode='function'))stop('GUIDED_EXPORT_GENDER_LABEL_POLICY_REQUIRED')
   if(!exists("lo_grid_validate_fill",mode="function"))
@@ -36,6 +36,9 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
   matched <- match(approved$cell_id,tasks$metric_key)
   if(anyNA(matched))stop("GUIDED_EXPORT_HOLD: unknown science cell")
   source<-tasks[matched,,drop=FALSE]
+  if(!is.null(analysis_support)&&(!identical(as.character(analysis_support$cell_id),as.character(approved$cell_id))||
+    any(analysis_support$result_hash!=approved$result_hash)||anyNA(analysis_support$publication_eligible)))
+    stop('GUIDED_EXPORT_ANALYSIS_SUPPORT_IDENTITY_CHANGED')
   map_fig<-match(source$contract_figure_id,figures$figure_id)
   rec<-list();omissions<-list()
   omit<-function(i,reason) {
@@ -81,6 +84,9 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
     }
     if(family=="GP_SES_HIGH") {
       omit(i,"APPROVED_APPENDIX_OR_SCIENCE_EXTENSION_SEPARATE_EXPORT");next
+    }
+    if(!is.null(analysis_support)&&!analysis_support$publication_eligible[i]) {
+      omit(i,analysis_support$publication_restriction[i]);next
     }
     value<-as.numeric(approved$estimate[i]);se<-as.numeric(approved$standard_error[i])
     low<-if("ci_low"%in%names(approved))as.character(approved$ci_low[i]) else ""
@@ -244,6 +250,10 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
   # provenance; dashboard figure contracts cannot silently rename these rows.
   ext<-startsWith(source$module,"extension_") | grepl("^GP_SES_HIGH_age",source$contract_figure_id)
   appendix<-cbind(source[ext,,drop=FALSE],approved[ext,setdiff(names(approved),names(source)),drop=FALSE])
+  if(!is.null(analysis_support)) {
+    appendix$publication_eligible<-analysis_support$publication_eligible[ext]
+    appendix$publication_restriction<-analysis_support$publication_restriction[ext]
+  }
   if(exists('lo_gender_display',mode='function')) {
     appendix$group_label_nl<-lo_gender_display(appendix$metric_key,appendix$group,'nl')
     appendix$group_label_en<-lo_gender_display(appendix$metric_key,appendix$group,'en')
@@ -253,7 +263,8 @@ lo_guided_grid_export <- function(bundle,tasks,approved,out,scope_decisions=NULL
             row.names=FALSE)
   stats<-data.frame(validated_input_cells=nrow(approved),
     guided_focus_rows=nrow(result),
-    mapping_holds=sum(skipped$reason!="APPROVED_APPENDIX_OR_SCIENCE_EXTENSION_SEPARATE_EXPORT"),
+    mapping_holds=sum(skipped$reason!="APPROVED_APPENDIX_OR_SCIENCE_EXTENSION_SEPARATE_EXPORT"&!startsWith(skipped$reason,'QUALITY_')),
+    quality_restricted_rows=sum(startsWith(skipped$reason,'QUALITY_')),
     separate_appendix_or_science_rows=sum(skipped$reason=="APPROVED_APPENDIX_OR_SCIENCE_EXTENSION_SEPARATE_EXPORT"),
     requires_new_below_basic_peer=if(!is.null(scope_decisions) && lo_scope_is_approved(scope_decisions,"A01"))"YES" else "NO",
     publication_status="PRIVATE_REVIEW_ONLY",stringsAsFactors=FALSE)

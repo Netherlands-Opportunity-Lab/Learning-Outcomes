@@ -8,6 +8,21 @@ s=importlib.util.spec_from_file_location('coverage_report',FILE)
 m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
 
 class CoverageReport(unittest.TestCase):
+ def test_quality_is_not_a_missing_result_and_requires_exact_evidence(self):
+  grid=[dict(cell_id='a',status='SCIENTIFICALLY_VALIDATED',result_hash='result',target_contract_sha256='task',
+    source_edition_sha256='source',n_unweighted='60',estimate='0')]
+  rows=[dict(cell_id='a',result_hash='result',target_contract_sha256='task',source_sha256='source',recorded_n='60',
+    recorded_n_matches='TRUE',min_component_n='29',min_component_school_n='5',max_missing_school_n='0')]
+  policy=dict(minimum_pupils=30,minimum_schools=5,require_known_school_for_each_target_pupil=True)
+  result=m.support_qualifications(grid,rows,policy)['a']
+  self.assertEqual(result['analysis_support_note'],'QUALITY_FEWER_THAN_30_TARGET_PUPILS')
+  self.assertFalse(result['analysis_support_allows_publication'])
+  self.assertEqual(m.main_reason(grid[0]),'RESULT_AVAILABLE')
+  rows[0]['min_component_n']='30'
+  self.assertTrue(m.support_qualifications(grid,rows,policy)['a']['analysis_support_allows_publication'])
+  rows[0]['result_hash']='changed'
+  with self.assertRaisesRegex(ValueError,'dependency changed'):m.support_qualifications(grid,rows,policy)
+  with self.assertRaisesRegex(ValueError,'exact validated'):m.support_qualifications(grid,[],policy)
  def test_disjoint_reason_and_zero_are_not_missing(self):
   self.assertEqual(m.main_reason(dict(status='SCIENTIFICALLY_VALIDATED',estimate='0',standard_error='0')),'RESULT_AVAILABLE')
   cases=[('Home Questionnaire not administered','QUESTIONNAIRE_NOT_ADMINISTERED'),

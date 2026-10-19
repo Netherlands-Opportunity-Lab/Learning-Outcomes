@@ -57,6 +57,13 @@ if (coverage / 'manifest.json').exists():
         assert hashlib.sha256((ROOT / '06_pipeline/review_20261013/POPULATION_CORRECTIONS.json').read_bytes()).hexdigest() == manifest['inputs']['population_review']
         if 'population_lookup_code' in manifest['inputs']:
             assert hashlib.sha256((ROOT / '06_pipeline/LO_DASHBOARD_COMPARABILITY.py').read_bytes()).hexdigest() == manifest['inputs']['population_lookup_code']
+        if 'analysis_support_policy' in manifest['inputs']:
+            assert hashlib.sha256((ROOT / '06_pipeline/review_20261013/ANALYSIS_SUPPORT_POLICY.json').read_bytes()).hexdigest() == manifest['inputs']['analysis_support_policy']
+            support = ROOT / '06_pipeline/review_20261013/scientific_review/ANALYSIS_SUPPORT.csv'
+            if not support.exists():
+                support = support.with_suffix('.csv.gz')
+            with (gzip.open(support, 'rb') if support.suffix == '.gz' else support.open('rb')) as handle:
+                assert hashlib.file_digest(handle, 'sha256').hexdigest() == manifest['inputs']['analysis_support']
     for name, expected in (manifest['outputs'] if current else manifest['output_files']).items():
         target = (coverage / name).resolve()
         assert target.parent == coverage.resolve()

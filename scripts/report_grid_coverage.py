@@ -108,7 +108,30 @@ def project_exact_reuse(grid,links,reuse):
     return [r for r in grid if r['cell_id'] in selected],[r for r in links if r['cell_id'] in selected]
 
 
-def build(state, output, review_path=None, trace_state=None, projection_root=None):
+def support_qualifications(grid, rows, policy):
+    valid = {r['cell_id']: r for r in grid if r['status'] == 'SCIENTIFICALLY_VALIDATED'}
+    if len(rows) != len(valid) or {r['cell_id'] for r in rows} != valid.keys():
+        raise ValueError('Analysis support does not cover the exact validated result set')
+    if policy['minimum_pupils'] != 30 or policy['minimum_schools'] != 5 or not policy['require_known_school_for_each_target_pupil']:
+        raise ValueError('Unreviewed analysis support policy')
+    out = {}
+    for row in rows:
+        parent = valid[row['cell_id']]
+        if (any(row[k] != parent[k] for k in ('result_hash', 'target_contract_sha256'))
+            or row['source_sha256'] != parent['source_edition_sha256']
+            or float(row['recorded_n']) != float(parent['n_unweighted'])
+            or row['recorded_n_matches'] != 'TRUE'):
+            raise ValueError('Analysis support result dependency changed')
+        note = ('QUALITY_SCHOOL_ID_NOT_OBSERVED' if float(row['max_missing_school_n']) > 0 else
+                'QUALITY_FEWER_THAN_30_TARGET_PUPILS' if float(row['min_component_n']) < policy['minimum_pupils'] else
+                'QUALITY_FEWER_THAN_5_TARGET_SCHOOLS' if float(row['min_component_school_n']) < policy['minimum_schools'] else '')
+        out[row['cell_id']] = dict(analysis_min_component_n=row['min_component_n'],
+            analysis_min_component_school_n=row['min_component_school_n'],analysis_support_note=note,
+            analysis_support_allows_publication=not bool(note))
+    return out
+
+
+def build(state, output, review_path=None, trace_state=None, projection_root=None, analysis_support=None):
     files = ["PRIVATE_MASTER_GRID.csv", "PRIVATE_ACTIVE_PRODUCT_CELL_TRACE.csv",
              "COUNTRY_SOURCE_ELIGIBILITY.csv", "ACTIVE_REQUIREMENT_REGISTER.csv"]
     paths = {name: (trace_state if trace_state and name in
@@ -126,6 +149,10 @@ def build(state, output, review_path=None, trace_state=None, projection_root=Non
             raise ValueError('Changed scope reuse evidence')
         inputs.update(scope_reuse=sha(reuse_path),scope_impact=sha(impact_path))
     inputs["generator"] = sha(Path(__file__))
+    support_policy = Path(__file__).resolve().parents[1]/'06_pipeline/review_20261013/ANALYSIS_SUPPORT_POLICY.json'
+    if analysis_support:
+        inputs['analysis_support'] = sha(analysis_support)
+        inputs['analysis_support_policy'] = sha(support_policy)
     inputs["population_lookup_code"] = sha(Path(__file__).resolve().parents[1]/'06_pipeline/LO_DASHBOARD_COMPARABILITY.py')
     review = json.loads(review_path.read_text(encoding="utf-8-sig")) if review_path else {"corrections": []}
     if review_path:
@@ -139,6 +166,7 @@ def build(state, output, review_path=None, trace_state=None, projection_root=Non
             return dict(previous, cache="EXACT_INPUT_AND_OUTPUT_HASH_REUSE")
     grid, links, countries, requirements = [read(paths[name]) for name in files]
     if projection_root:grid,links=project_exact_reuse(grid,links,read(reuse_path))
+    quality = support_qualifications(grid, read(analysis_support), json.loads(support_policy.read_text(encoding='utf-8'))) if analysis_support else {}
     by_id = {r["cell_id"]: r for r in grid}
     if len(by_id) != len(grid):
         raise ValueError("Duplicate grid cell")
@@ -172,10 +200,16 @@ def build(state, output, review_path=None, trace_state=None, projection_root=Non
             population_review_id=correction["review_id"] if correction else "",
             national_use=correction["disposition"] if correction else "NO_REGISTERED_POPULATION_CORRECTION",
             quality_notes=correction["actual_population"] if correction else "SEE_Q02_AND_SOURCE_DOSSIER")
+        cell.update(quality.get(r['cell_id'], dict(analysis_min_component_n='',analysis_min_component_school_n='',
+            analysis_support_note='NOT_A_REVIEWED_RESULT' if r['status']!='SCIENTIFICALLY_VALIDATED' else 'SEE_SEPARATE_ANALYSIS_SUPPORT_REVIEW',
+            analysis_support_allows_publication='')))
         cells.append(cell)
     extra = ["main_reason", "product_requirements", "population_review_id", "national_use", "quality_notes"]
+    extra += ['analysis_min_component_n','analysis_min_component_school_n','analysis_support_note','analysis_support_allows_publication']
     write(output / "EXACT_CELL_COVERAGE.csv.gz", cells, cols + extra)
     write(output / "MISSING_CELLS.csv", [r for r in cells if r["main_reason"] != "RESULT_AVAILABLE"], cols + extra)
+    restrictions = [r for r in cells if r['analysis_support_note'].startswith('QUALITY_')]
+    write(output / 'ANALYSIS_SUPPORT_RESTRICTIONS.csv', restrictions, cols + extra)
     write(output / "PRODUCT_CELL_TRACE.csv.gz", [dict(zip(["requirement_id", "product", "source_locator", "approved_placement", "figure_id", "cell_id", "derivation"], r)) for r in sorted(exact_links)],
         ["requirement_id", "product", "source_locator", "approved_placement", "figure_id", "cell_id", "derivation"])
     summaries = {}
@@ -214,6 +248,8 @@ def build(state, output, review_path=None, trace_state=None, projection_root=Non
     for r in summaries["BY_MISSING_REASON"]:
         lines.append(f"| {r['main_reason']} | {r['targets']} |")
     lines += ["", "Deze hoofdredenen tellen precies tot alle doelen op. Niet-afgenomen vragenlijsten zijn iets anders dan niet-geobserveerde velden, niet-bestaande schalen of lege analysegroepen. Een geldige schatting nul blijft RESULT_AVAILABLE. Populatie-, respons-, modus- en vergelijkbaarheidsnotities staan afzonderlijk; ze zijn geen extra ontbrekende cellen.", "",
+        "## Afzonderlijke kwaliteit van analysegroepen", "",
+        f"{len(restrictions):,} berekende resultaten hebben een beperking wegens onvoldoende leerlingen/scholen of ontbrekende schoolidentificatie. Deze resultaten blijven in het grid en tellen niet als ontbrekende bron. De productvoorwaarde geldt per kloofcomponent en per plausible value; bij peers telt de eigen doelgroep. Zie ANALYSIS_SUPPORT_RESTRICTIONS.csv. Dit is een extra kwaliteitsvoorwaarde, geen bewijs dat alle overige resultaten representatief zijn." if analysis_support else "De bron- en productcontroles bevatten de afzonderlijke analysekwalificaties; deze historische dekkingsrapportage bindt nog geen nieuwe tabel met groepsgroottes.", "",
         "## Volledige herleidbaarheid", "",
         "- BY_WAVE.csv en BY_EXACT_COMBINATION.csv: alle landen, leeftijden, domeinen, jaren en splits.",
         "- REQUIREMENT_COVERAGE.csv: product/slide/figuur en aantallen unieke doelcellen.",
@@ -234,6 +270,7 @@ def build(state, output, review_path=None, trace_state=None, projection_root=Non
     manifest = dict(schema_version=2, scope=state.name, targets=len(grid), counts=dict(counts),
         report_kind='CURRENT_COMBINATION_SCOPE_EXACT_HISTORICAL_REUSE' if projection_root else 'SAVED_RUN_COVERAGE',
         main_reasons=dict(collections.Counter(r["main_reason"] for r in cells)), orphan_cells=0,
+        analysis_support_restricted_results=len(restrictions),
         population_corrected_cells=sum(bool(r["population_review_id"]) for r in cells),
         complete_international_dashboard=False, completion_reason="SCIENTIFIC_AND_REFERENCE_REVIEW_SEPARATE",
         inputs=inputs, outputs={p.name: sha(p) for p in sorted(output.iterdir()) if p.is_file() and p.name != "manifest.json"})
@@ -248,6 +285,7 @@ if __name__ == "__main__":
     parser.add_argument("--population-review", type=Path)
     parser.add_argument("--trace-state", type=Path, help="Updated exact product trace without copying the immutable result grid")
     parser.add_argument('--projection-root',type=Path,help='Read-only exact target-reuse report; not a new production run')
+    parser.add_argument('--analysis-support',type=Path,help='Exact reviewed pupil/school counts; separate from missing-source accounting')
     args = parser.parse_args()
-    result = build(args.state, args.output, args.population_review, args.trace_state,args.projection_root)
+    result = build(args.state, args.output, args.population_review, args.trace_state,args.projection_root,args.analysis_support)
     print(json.dumps({k: result[k] for k in ["targets", "counts", "orphan_cells", "population_corrected_cells", "cache"]}))

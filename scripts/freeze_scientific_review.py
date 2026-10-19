@@ -140,6 +140,14 @@ def freeze(repo, root, reference_root=None, work=None):
         add(work / 'Q01' / {'coverage': 'SES_ANALYSIS_SAMPLE_COVERAGE.csv',
                             'sources': 'SES_SOURCE_CHECKS.csv',
                             'bindings': 'SES_REVIEW_TARGET_BINDINGS.csv'}[n], h)
+    support_dir = work / 'Q01_ANALYSIS_SUPPORT'
+    support_report = proof_json(support_dir / 'ANALYSIS_SUPPORT_REVIEW.json')
+    if support_report['status'] != 'ACTUAL_ANALYSIS_SUPPORT_REVIEWED' or support_report['n_mismatches']:
+        raise ValueError('Actual analysis-group support has not been verified')
+    for p, h in support_report['code_sha256'].items():
+        add(repo / '06_pipeline' / Path(p).name, h)
+    add(support_dir / 'ANALYSIS_SUPPORT.csv', support_report['outputs']['coverage'])
+    add(support_dir / 'ANALYSIS_SUPPORT_SOURCES.csv', support_report['outputs']['sources'])
     q2cfg = repo / '06_pipeline/review_20261013/OFFICIAL_SAMPLE_TABLES.json'
     add(q2cfg, q['Q02']['config_sha256'])
     add(repo / 'scripts/review_official_samples.py', q['Q02']['code_sha256'])
@@ -252,6 +260,17 @@ def freeze(repo, root, reference_root=None, work=None):
     # The actual source inputs for appendix results as well as the dashboard.
     # Rehash each unique source once; no fitting or pupil-output publication.
     grid = read(scope_inputs['grid'])
+    support = read(support_dir / 'ANALYSIS_SUPPORT.csv')
+    valid = {r['cell_id']: r for r in grid if r['status'] == 'SCIENTIFICALLY_VALIDATED'}
+    if len(support) != len(valid) or {r['cell_id'] for r in support} != valid.keys():
+        raise ValueError('Analysis support does not cover every selected result')
+    for r in support:
+        parent = valid[r['cell_id']]
+        if (any(r[k] != parent[k] for k in ('result_hash', 'target_contract_sha256'))
+                or r['source_sha256'] != parent['source_edition_sha256']
+                or float(r['recorded_n']) != float(parent['n_unweighted'])
+                or r['recorded_n_matches'] != 'TRUE'):
+            raise ValueError('Analysis support dependency differs from its sealed result')
     for r in grid:
         if r['status'] == 'SCIENTIFICALLY_VALIDATED':
             add(r['source_path'], r['source_edition_sha256'])
@@ -266,14 +285,15 @@ def freeze(repo, root, reference_root=None, work=None):
     code = list((repo / '06_pipeline').glob('*.R')) + list((repo / '06_pipeline').glob('*.py'))
     policy_names = ['PAPER_QA_CURRENT.json', 'PAPER_CLAIMS.json', 'BALANCED_REFERENCE_POLICY.json', 'BALANCE_USER_DECISION_20261019.json',
                     'POPULATION_CORRECTIONS.json', 'PRODUCT_REQUIREMENTS.json', 'RANK_PRODUCT_CONTRACT.json',
-                    'GENDER_POOL_USER_DECISION.json', 'SOURCE_PROJECTION_REVIEWS.json', 'NLD_POLICY_CORE_YEAR_ANCHOR.csv']
+                    'GENDER_POOL_USER_DECISION.json', 'SOURCE_PROJECTION_REVIEWS.json', 'NLD_POLICY_CORE_YEAR_ANCHOR.csv',
+                    'ANALYSIS_SUPPORT_POLICY.json']
     code += [repo / '06_pipeline/review_20261013' / n for n in policy_names]
     code += [repo / '06_pipeline/SCOPE_APPROVALS.csv', repo / '06_pipeline/COUNTRY_PRODUCTION_APPROVALS.csv',
              repo / 'renv.lock', repo / 'scripts/freeze_scientific_review.py',
              repo / 'scripts/verify_reference_review_export.py']
     bindings = [{'path': p.relative_to(repo).as_posix(), 'sha256': add(p)} for p in sorted(code)]
     assessments = {
-        'Q01': 'Actual weighted/unweighted analysis groups, SES missingness and saved result N verified; coverage is not a missing-at-random or representativeness claim.',
+        'Q01': 'Actual weighted/unweighted SES groups and missingness verified. Every sealed result also has independently counted pupils and schools per contrast component and PV; insufficient support is a separate reporting restriction, never a deleted target or fabricated missing source. Coverage is not a missing-at-random or representativeness claim.',
         'Q02': 'Official population, response, exclusions, mode and cycle qualifications reviewed for every used context. Documented unreported percentages remain unknown. AUT2009/ESP2018 trend qualifications, CAN2001 regional population and POL early grade-3 to grade-4 changes exclude comparable support without deleting historical targets.',
         'Q03': 'Pinned four-wave author code and parameter parity, plus every used canonical SES score and weight projection verified numerically. Author calibration countries are not dashboard admission.',
         'Q04': 'NOT_APPLICABLE_PROVEN: no selected two-wave dependencies or targets; no historical two-wave rerun authorized or performed.',
