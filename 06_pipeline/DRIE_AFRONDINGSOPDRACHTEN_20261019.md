@@ -1,5 +1,7 @@
 # Drie opdrachten om Learning Outcomes af te ronden
 
+**Hercontrole stap 2, 20 oktober:** de bestaande producten zijn beoordeeld en de paper is gericht hersteld. Zie [het productdossier](review_20261013/release47_20261020/STEP2_REVIEW_20261020.md). Opdracht 3 gebruikt de nieuwe paperhash; herhaal geen leerlingproductie of uitgestelde bronreplicatie.
+
 **Latere gebruikersafbakening, 20 oktober:** controleer de drie opdrachten beurtelings op het al afgeronde werk, zonder de 36 uitgestelde landen en zonder de volledige nieuwe bronreplicatie. Hergebruik ongewijzigd bewijs en herstel concrete fouten. De wetenschappelijke toelating blijft per leeftijd-uitkomstcombinatie met minstens drie vergelijkbare meetgolven. Zie [de vastgelegde keuze](review_20261013/release47_20261020/REVIEW_EXECUTION_DECISION_20261020.json).
 
 Latest direct phase decision, 20 October: finish steps 1–3 for the explicit current47 selection; keep the deferred36 targets/results intact and run them in R only after those steps. This changes execution/release timing, not scientific admission, definitions, the rich candidate pool or full within-figure balance. See `06_pipeline/review_20261013/release47_20261020/RELEASE_PHASE_DECISION.json` (repository-relative).

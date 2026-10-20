@@ -72,12 +72,14 @@
   "slides": 22,
   "registered_paper_claims": 12,
   "formal_tests": 3,
+  "paper_panels_full_anchor_checked": 36,
+  "traced_prose_statements": 53,
   "new_formal_tests": 0,
   "pupil_estimations": 0,
   "original_template_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
-  "paper_trace_sha256": "777ab4715a3f3e1f64ed72dd1ddea0bb90013ee5e3b28803a6e9a8dfaef9c69a",
+  "paper_trace_sha256": "75bccd5a209819a40f5d69f54959d26bced7657a76b4e07102078b717a683090",
   "deck_trace_sha256": "136e0342fade1db8345c0568161740e92b9f338d82d1ecaea719729bdf206b18",
   "pptx_sha256": "b80ec02032627e125a9839895a73516f43da744235a2d78acfc92ac83cc1df41",
-  "verifier_sha256": "07205f47a23e92bbf6181df0bd0c2c27fb59bfd600e968be88480e436bf0ca93",
+  "verifier_sha256": "274034cb4ee9bf2e76fa365156af4b2b75b07a39f05abf3983bfd377e789b75a",
   "scope": "Numerical product reconstruction and written Q08 claims; visual and browser QA are separate."
 }

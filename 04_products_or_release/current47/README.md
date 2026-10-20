@@ -80,3 +80,52 @@ diezelfde groep en krijgt geen groepslijn of betrouwbaarheidsinterval.
 Code: MIT, zie de repositorylicentie. Lettertypen: SIL OFL, meegeleverd in `fonts/`.
 Bron-, merk- en logovoorwaarden blijven afzonderlijk van toepassing. Leerling- en
 schoolbestanden worden niet verspreid. Gebruik de repositorycitatie in `CITATION.cff`.
+
+
+## Aanvullende inhoudelijke productreview — 20 oktober
+
+De paper is opnieuw opgebouwd met het volledige jaaranker in alle 36 panelen.
+Een ontbrekend begin- of eindjaar blijft op de as staan, ook zonder waarneming.
+`*_anchors.csv` en `PAPER_FIGURE_MANIFEST.json` registreren de werkelijk door
+ggplot getrainde as, ontbrekende jaren en de hashes van punten en figuren.
+Kleuren van de drie peerreeksen zijn nu onderling verschillend en sluiten aan
+op de goedgekeurde semantiek. Geen schatting of onderzoeksdefinitie is gewijzigd.
+
+`PAPER_PRODUCT_TRACE.json` bevat naast tabellen en figuren ook 53 afzonderlijke
+tekst-ID's. Empirische tekstclaims verwijzen naar de exacte oudercellen van de
+twaalf bestaande claims. `PAPER_WRITTEN_Q08_REVIEW.json` sluit de geschreven
+claims opnieuw aan op het bestaande wetenschappelijke bewijs. De zeven gebruikte
+referenties staan tevens in het bewerkbare `paper/BIBLIOGRAPHY.md`.
+
+`scripts/test_product_contracts.py` test de echte aggregaten en verwerpt onder
+meer een verkort jaaranker, verdwenen ontbrekende jaren en veranderde tekstclaims.
+`05_publication/tests/verify_current47_selections.mjs` controleert onafhankelijk
+alle 174 dashboardcontracten, 204 dropdowncombinaties en 8.178 land-figuurkeuzes
+tegen de actuele gedeelde selectielogica en de strikte export.
+
+De nieuwe paper-PDF is een beoordeelde releasekandidaat op de ontwikkelbranch.
+De bestaande live website en presentatie blijven gelijk. Opdracht 3 moet de
+gewijzigde paper en het bijgewerkte pakket publiceren en de online hashes controleren.
+De uitgestelde 36 landen en volledige nieuwe leerlingbronreplicatie zijn niet
+uitgevoerd en worden door deze productreconstructie niet gecertificeerd.
+
+Precisie: het wetenschappelijke `results.csv` bewaart 17 significante cijfers.
+De bestaande openbare JSON-export bevat 15 significante cijfers, zonder de
+afronding van schermlabels. In de daadwerkelijk gedownloade zestien hoofdlandpunten
+is het grootste verschil 4,55 × 10⁻¹³ scorepunt en voor de SE minder dan
+5 × 10⁻¹⁵. Numerieke productaansluiting gebruikt de vaste absolute tolerantie
+1 × 10⁻⁹; dit is geen bewering van bitgelijke JSON/CSV-getallen. Resultaathashes
+blijven exact gelijk en verwijzen naar de wetenschappelijke waarden.
+
+
+## Nieuwe velden in de productherkomst
+
+| Veld/bestand | Definitie |
+|---|---|
+| `PAPER_TEXT_###` | Stabiele paragraafpositie in deze manuscriptversie; teksthash voorkomt stilzwijgend hergebruik na een wijziging. |
+| `registered_claim_ids` | De bestaande Q08-claims waarop een empirische paragraaf steunt; leeg bij uitsluitend methoden, scope of context. |
+| `exact_parent_records` | Exacte claimoudercellen inclusief resultaatidentiteiten; geen koppeling uitsluitend op een figuurnaam. |
+| `source_tables_sha256` | De concrete tabelversie die bij schrijven is gebruikt. |
+| `rendered_axis_proof` | Door ggplot werkelijk getrainde as, alle vereiste jaren en afwezige jaren per paneel. |
+| `*_anchors.csv` | Vereiste jaartallen met ontbrekende y-waarde; deze rijen zijn geen waarnemingen of nulresultaten. |
+| `PRODUCT_TRACE_INDEX.json` | Eén ingang naar de dashboard-, slide-, figuur-, appendix- en tekstherkomst. |

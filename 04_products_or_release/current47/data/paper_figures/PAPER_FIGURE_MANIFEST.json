@@ -64,95 +64,327 @@
   },
   "figures": {
     "mean_trends": {
-      "figure_ids": [
-        "TR_MEAN_age10_reading",
-        "TR_MEAN_age10_mathematics",
-        "TR_MEAN_age10_science",
-        "TR_MEAN_age15_reading",
-        "TR_MEAN_age15_mathematics",
-        "TR_MEAN_age15_science"
-      ],
+      "figure_ids": ["TR_MEAN_age10_reading", "TR_MEAN_age10_mathematics", "TR_MEAN_age10_science", "TR_MEAN_age15_reading", "TR_MEAN_age15_mathematics", "TR_MEAN_age15_science"],
       "svg_sha256": "6b985c83cfbd3737818ffcbaa8b83f37b2210caf903bdf6e69281c49ab9cb96f",
       "png_sha256": "62de19d5d61547e80319ed1de30c26d42da6d70c166ff6d8e18e73c97ac6fc43",
       "points": 80,
+      "points_sha256": "e101ea99afc3c00365f56c387261d0a5a24cbf0245f193c11a1edc48efd5e169",
+      "anchors_sha256": "6d6f881e3f1f917a34c8a3b3717b6cf58ebf3da909ae53b9e5016eb0acaf466d",
+      "rendered_axis_proof": [
+        {
+          "figure_id": "TR_MEAN_age10_reading",
+          "required_years": [2001, 2006, 2011, 2016, 2021],
+          "trained_x_range": [2001, 2021],
+          "missing_years": []
+        },
+        {
+          "figure_id": "TR_MEAN_age10_mathematics",
+          "required_years": [2003, 2007, 2011, 2015, 2019, 2023],
+          "trained_x_range": [2003, 2023],
+          "missing_years": []
+        },
+        {
+          "figure_id": "TR_MEAN_age10_science",
+          "required_years": [2003, 2007, 2011, 2015, 2019, 2023],
+          "trained_x_range": [2003, 2023],
+          "missing_years": []
+        },
+        {
+          "figure_id": "TR_MEAN_age15_reading",
+          "required_years": [2003, 2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2003, 2025],
+          "missing_years": []
+        },
+        {
+          "figure_id": "TR_MEAN_age15_mathematics",
+          "required_years": [2003, 2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2003, 2025],
+          "missing_years": []
+        },
+        {
+          "figure_id": "TR_MEAN_age15_science",
+          "required_years": [2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2006, 2025],
+          "missing_years": []
+        }
+      ],
+      "series_colors": {
+        "Vergelijkingsgroep": "#8B9298",
+        "Nederland": "#315D8A"
+      },
       "values": "Existing aggregate presentation transform; no new estimates",
       "intervals": "Existing standard errors times 1.96; no reference intervals"
     },
     "basic_levels": {
-      "figure_ids": [
-        "TR_BELOW_age10_reading",
-        "TR_BELOW_age10_mathematics",
-        "TR_BELOW_age10_science",
-        "TR_BELOW_age15_reading",
-        "TR_BELOW_age15_mathematics",
-        "TR_BELOW_age15_science"
-      ],
+      "figure_ids": ["TR_BELOW_age10_reading", "TR_BELOW_age10_mathematics", "TR_BELOW_age10_science", "TR_BELOW_age15_reading", "TR_BELOW_age15_mathematics", "TR_BELOW_age15_science"],
       "svg_sha256": "d5da212f9501bcbdd6f18e0214c976876e5824b81e15253495470ca6fed920d7",
       "png_sha256": "0d6523a30ec086dbea3e32827f791702552dcd58f103c4afd918a539769cfffc",
       "points": 40,
+      "points_sha256": "c8893f31f2c6524341080aa335d58f03b5249f579e6922423733212e6be1fe27",
+      "anchors_sha256": "48ba1c27386b96b2e033f0f23eccaac0e3c5a87ea975e9394e177a9c1e4cdbc3",
+      "rendered_axis_proof": [
+        {
+          "figure_id": "TR_BELOW_age10_reading",
+          "required_years": [2001, 2006, 2011, 2016, 2021],
+          "trained_x_range": [2001, 2021],
+          "missing_years": []
+        },
+        {
+          "figure_id": "TR_BELOW_age10_mathematics",
+          "required_years": [2003, 2007, 2011, 2015, 2019, 2023],
+          "trained_x_range": [2003, 2023],
+          "missing_years": []
+        },
+        {
+          "figure_id": "TR_BELOW_age10_science",
+          "required_years": [2003, 2007, 2011, 2015, 2019, 2023],
+          "trained_x_range": [2003, 2023],
+          "missing_years": []
+        },
+        {
+          "figure_id": "TR_BELOW_age15_reading",
+          "required_years": [2003, 2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2003, 2025],
+          "missing_years": []
+        },
+        {
+          "figure_id": "TR_BELOW_age15_mathematics",
+          "required_years": [2003, 2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2003, 2025],
+          "missing_years": []
+        },
+        {
+          "figure_id": "TR_BELOW_age15_science",
+          "required_years": [2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2006, 2025],
+          "missing_years": []
+        }
+      ],
+      "series_colors": {
+        "Nederland": "#315D8A"
+      },
       "values": "Existing aggregate presentation transform; no new estimates",
       "intervals": "Existing standard errors times 1.96; no reference intervals"
     },
     "ses_levels": {
-      "figure_ids": [
-        "GP_SES_LEVELS_age10_reading",
-        "GP_SES_LEVELS_age10_mathematics",
-        "GP_SES_LEVELS_age10_science",
-        "GP_SES_LEVELS_age15_reading",
-        "GP_SES_LEVELS_age15_mathematics",
-        "GP_SES_LEVELS_age15_science"
-      ],
+      "figure_ids": ["GP_SES_LEVELS_age10_reading", "GP_SES_LEVELS_age10_mathematics", "GP_SES_LEVELS_age10_science", "GP_SES_LEVELS_age15_reading", "GP_SES_LEVELS_age15_mathematics", "GP_SES_LEVELS_age15_science"],
       "svg_sha256": "fc86dbc648c6e617915bd0ea0e676bc639de279af771d9e146b195dedb96e5ad",
       "png_sha256": "6cbba0e6634f1e942be7b242abf1f8a8c901c532efbba7a569432090686e0b12",
       "points": 58,
+      "points_sha256": "44e7aa485deb986bc96bd4278d0ac43199ac180910592c48cbfcd1844c61d515",
+      "anchors_sha256": "b463a531dc712a0ed3144bd78cd2480c21514879539082010f9b468d05256b72",
+      "rendered_axis_proof": [
+        {
+          "figure_id": "GP_SES_LEVELS_age10_reading",
+          "required_years": [2001, 2006, 2011, 2016, 2021],
+          "trained_x_range": [2001, 2021],
+          "missing_years": []
+        },
+        {
+          "figure_id": "GP_SES_LEVELS_age10_mathematics",
+          "required_years": [2003, 2007, 2011, 2015, 2019, 2023],
+          "trained_x_range": [2003, 2023],
+          "missing_years": []
+        },
+        {
+          "figure_id": "GP_SES_LEVELS_age10_science",
+          "required_years": [2003, 2007, 2011, 2015, 2019, 2023],
+          "trained_x_range": [2003, 2023],
+          "missing_years": []
+        },
+        {
+          "figure_id": "GP_SES_LEVELS_age15_reading",
+          "required_years": [2015, 2018, 2022, 2025],
+          "trained_x_range": [2015, 2025],
+          "missing_years": []
+        },
+        {
+          "figure_id": "GP_SES_LEVELS_age15_mathematics",
+          "required_years": [2015, 2018, 2022, 2025],
+          "trained_x_range": [2015, 2025],
+          "missing_years": []
+        },
+        {
+          "figure_id": "GP_SES_LEVELS_age15_science",
+          "required_years": [2015, 2018, 2022, 2025],
+          "trained_x_range": [2015, 2025],
+          "missing_years": []
+        }
+      ],
+      "series_colors": {
+        "Onderste kwart SES": "#9A6D00",
+        "Bovenste kwart SES": "#6A4C93"
+      },
       "values": "Existing aggregate presentation transform; no new estimates",
       "intervals": "Existing standard errors times 1.96; no reference intervals"
     },
     "gender_levels": {
-      "figure_ids": [
-        "GP_GENDER_LEVELS_age10_reading",
-        "GP_GENDER_LEVELS_age10_mathematics",
-        "GP_GENDER_LEVELS_age10_science",
-        "GP_GENDER_LEVELS_age15_reading",
-        "GP_GENDER_LEVELS_age15_mathematics",
-        "GP_GENDER_LEVELS_age15_science"
-      ],
+      "figure_ids": ["GP_GENDER_LEVELS_age10_reading", "GP_GENDER_LEVELS_age10_mathematics", "GP_GENDER_LEVELS_age10_science", "GP_GENDER_LEVELS_age15_reading", "GP_GENDER_LEVELS_age15_mathematics", "GP_GENDER_LEVELS_age15_science"],
       "svg_sha256": "fc178dccb31db2cdd469d3e9d93a5527205a088f0f012f9453f284092bd98448",
       "png_sha256": "53bf0d87e5a4f322a8d65acb30f5826724a1e2faa38c1be8f400e6ab7c8800d3",
       "points": 80,
+      "points_sha256": "4663e3bb9fc882dcb188a3fa552df4f1efca695f0718cf759536e4fcad12c0bc",
+      "anchors_sha256": "03101f184c9dffec4584c6fc3276c1ef57124d772d07c6c602ebc50a72978bab",
+      "rendered_axis_proof": [
+        {
+          "figure_id": "GP_GENDER_LEVELS_age10_reading",
+          "required_years": [2001, 2006, 2011, 2016, 2021],
+          "trained_x_range": [2001, 2021],
+          "missing_years": []
+        },
+        {
+          "figure_id": "GP_GENDER_LEVELS_age10_mathematics",
+          "required_years": [2003, 2007, 2011, 2015, 2019, 2023],
+          "trained_x_range": [2003, 2023],
+          "missing_years": []
+        },
+        {
+          "figure_id": "GP_GENDER_LEVELS_age10_science",
+          "required_years": [2003, 2007, 2011, 2015, 2019, 2023],
+          "trained_x_range": [2003, 2023],
+          "missing_years": []
+        },
+        {
+          "figure_id": "GP_GENDER_LEVELS_age15_reading",
+          "required_years": [2003, 2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2003, 2025],
+          "missing_years": []
+        },
+        {
+          "figure_id": "GP_GENDER_LEVELS_age15_mathematics",
+          "required_years": [2003, 2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2003, 2025],
+          "missing_years": []
+        },
+        {
+          "figure_id": "GP_GENDER_LEVELS_age15_science",
+          "required_years": [2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2006, 2025],
+          "missing_years": []
+        }
+      ],
+      "series_colors": {
+        "Jongens": "#315D8A",
+        "Meisjes": "#6A4C93",
+        "Meisjes + other": "#6A4C93"
+      },
       "values": "Existing aggregate presentation transform; no new estimates",
       "intervals": "Existing standard errors times 1.96; no reference intervals"
     },
     "migration_levels": {
-      "figure_ids": [
-        "GP_MIGRATION_LEVELS_age10_reading",
-        "GP_MIGRATION_LEVELS_age10_mathematics",
-        "GP_MIGRATION_LEVELS_age10_science",
-        "GP_MIGRATION_LEVELS_age15_reading",
-        "GP_MIGRATION_LEVELS_age15_mathematics",
-        "GP_MIGRATION_LEVELS_age15_science"
-      ],
-      "svg_sha256": "53738ebeaa85007061af7f8ac7b46a44980026d2b7ceb742f87edc7011338a75",
-      "png_sha256": "bcb300ff72ee251b0e97e3904021243d423fdd2450accf4044436aa6163c70ab",
+      "figure_ids": ["GP_MIGRATION_LEVELS_age10_reading", "GP_MIGRATION_LEVELS_age10_mathematics", "GP_MIGRATION_LEVELS_age10_science", "GP_MIGRATION_LEVELS_age15_reading", "GP_MIGRATION_LEVELS_age15_mathematics", "GP_MIGRATION_LEVELS_age15_science"],
+      "svg_sha256": "ea0935d2948256a805ad33be624791050df5e88b0d157bfbc818fe5d70df0ffd",
+      "png_sha256": "bb1ad4614cc5e8cbbdccecc7b18540f2bc753b6c0476d20ff4ac0c26423a745d",
       "points": 105,
+      "points_sha256": "76b89ac6298cec8ba1cb5f1e984cd85e6a8d4365f1338246355561d5c2d1000c",
+      "anchors_sha256": "fff1b6d7beba59578234afd824d2dc8e7c7cd2088b7738770ae7000d80331f24",
+      "rendered_axis_proof": [
+        {
+          "figure_id": "GP_MIGRATION_LEVELS_age10_reading",
+          "required_years": [2001, 2006, 2011, 2016, 2021],
+          "trained_x_range": [2001, 2021],
+          "missing_years": [
+            2011,
+            2016,
+            2021
+          ]
+        },
+        {
+          "figure_id": "GP_MIGRATION_LEVELS_age10_mathematics",
+          "required_years": [2003, 2007, 2011, 2015, 2019, 2023],
+          "trained_x_range": [2003, 2023],
+          "missing_years": [
+            2011
+          ]
+        },
+        {
+          "figure_id": "GP_MIGRATION_LEVELS_age10_science",
+          "required_years": [2003, 2007, 2011, 2015, 2019, 2023],
+          "trained_x_range": [2003, 2023],
+          "missing_years": [
+            2011
+          ]
+        },
+        {
+          "figure_id": "GP_MIGRATION_LEVELS_age15_reading",
+          "required_years": [2003, 2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2003, 2025],
+          "missing_years": []
+        },
+        {
+          "figure_id": "GP_MIGRATION_LEVELS_age15_mathematics",
+          "required_years": [2003, 2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2003, 2025],
+          "missing_years": []
+        },
+        {
+          "figure_id": "GP_MIGRATION_LEVELS_age15_science",
+          "required_years": [2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2006, 2025],
+          "missing_years": []
+        }
+      ],
+      "series_colors": {
+        "Eerste generatie": "#6A4C93",
+        "Geen migratieachtergrond": "#315D8A",
+        "Tweede generatie": "#2C807F"
+      },
       "values": "Existing aggregate presentation transform; no new estimates",
       "intervals": "Existing standard errors times 1.96; no reference intervals"
     },
     "peer_basic": {
-      "figure_ids": [
-        "EN_PERFORMANCE_PEER_age10_reading_direct_learning_environment",
-        "EN_PERFORMANCE_PEER_age10_mathematics_direct_learning_environment",
-        "EN_PERFORMANCE_PEER_age10_science_direct_learning_environment",
-        "EN_PERFORMANCE_PEER_age15_reading_direct_learning_environment",
-        "EN_PERFORMANCE_PEER_age15_mathematics_direct_learning_environment",
-        "EN_PERFORMANCE_PEER_age15_science_direct_learning_environment"
-      ],
-      "svg_sha256": "93f49b0edaf3538502f9ed682b1d48e9a015d9e539453cd157419e0e5116dcc9",
-      "png_sha256": "d9835edeee0b2ec1e33384311b4b20a79418f3167ee4d29ff5fb7ea4a0fcb96f",
+      "figure_ids": ["EN_PERFORMANCE_PEER_age10_reading_direct_learning_environment", "EN_PERFORMANCE_PEER_age10_mathematics_direct_learning_environment", "EN_PERFORMANCE_PEER_age10_science_direct_learning_environment", "EN_PERFORMANCE_PEER_age15_reading_direct_learning_environment", "EN_PERFORMANCE_PEER_age15_mathematics_direct_learning_environment", "EN_PERFORMANCE_PEER_age15_science_direct_learning_environment"],
+      "svg_sha256": "a82e7149135bf05cf6aa122de237444f2741ec5b586e3cce84054e02d85818b3",
+      "png_sha256": "19c799ae0ea0e05771c083c30426bd34612462dbd54343ab55d808075449849d",
       "points": 120,
+      "points_sha256": "044b859861ecd45fd4a3e33f19545fbd34cd50e87e5f6d2f7a505e958079af59",
+      "anchors_sha256": "7b8433761bbd9756f9a38c493a86a8d280e8c711480acd068818fc7252cad41f",
+      "rendered_axis_proof": [
+        {
+          "figure_id": "EN_PERFORMANCE_PEER_age10_reading_direct_learning_environment",
+          "required_years": [2001, 2006, 2011, 2016, 2021],
+          "trained_x_range": [2001, 2021],
+          "missing_years": []
+        },
+        {
+          "figure_id": "EN_PERFORMANCE_PEER_age10_mathematics_direct_learning_environment",
+          "required_years": [2003, 2007, 2011, 2015, 2019, 2023],
+          "trained_x_range": [2003, 2023],
+          "missing_years": []
+        },
+        {
+          "figure_id": "EN_PERFORMANCE_PEER_age10_science_direct_learning_environment",
+          "required_years": [2003, 2007, 2011, 2015, 2019, 2023],
+          "trained_x_range": [2003, 2023],
+          "missing_years": []
+        },
+        {
+          "figure_id": "EN_PERFORMANCE_PEER_age15_reading_direct_learning_environment",
+          "required_years": [2003, 2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2003, 2025],
+          "missing_years": []
+        },
+        {
+          "figure_id": "EN_PERFORMANCE_PEER_age15_mathematics_direct_learning_environment",
+          "required_years": [2003, 2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2003, 2025],
+          "missing_years": []
+        },
+        {
+          "figure_id": "EN_PERFORMANCE_PEER_age15_science_direct_learning_environment",
+          "required_years": [2006, 2009, 2012, 2015, 2018, 2022, 2025],
+          "trained_x_range": [2006, 2025],
+          "missing_years": []
+        }
+      ],
+      "series_colors": {
+        "Zelf op/boven basisniveau": "#2C807F",
+        "Zelf onder basisniveau": "#6A4C93",
+        "Alle leerlingen": "#315D8A"
+      },
       "values": "Existing aggregate presentation transform; no new estimates",
       "intervals": "Existing standard errors times 1.96; no reference intervals"
     }
   },
-  "code_sha256": "cd6c4b581bf6038258053e6cfde74fa7966ae21bf0395e24d74f16afb83eb5fc"
+  "code_sha256": "f3ddc4f7d12015a188e1320605989e5adf70cd79648a9c0ec7b97ce81f577c57"
 }
