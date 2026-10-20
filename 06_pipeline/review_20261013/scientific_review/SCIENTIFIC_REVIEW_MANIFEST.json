@@ -3,7 +3,7 @@
   "status": "REVIEWED_SCIENTIFIC_BASIS_WITH_EXPLICIT_LIMITATIONS",
   "result_basis": "d36eea18980101ce354ebb05ce5f5d91280a70f8",
   "historical_result_commit": "ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2",
-  "private_manifest_sha256": "bc7f6bd94e36a5c6ba92b6431d2052c8a0f732d1988794aee373a13fef34ef02",
+  "private_manifest_sha256": "8dd48869214d3753e2b4496c53cd62413e914432e991b7223ee14094cb2c8a4a",
   "approval_sha256": "bc6a6c78e0e4030b761a82fcb68a8742c27bb7b769a29ab9f6cd9fdcc99ed5ec",
   "reviewed_target_count": 90829,
   "scientific_review_requirements": 8,
@@ -12,8 +12,8 @@
     "Q01_ANALYSIS_SUPPORT_REVIEW.json": "5c8ad655a2ce321b2b4d8cd8e6bea08bf935942d81bafe9612328a8ddfd0dcc5",
     "Q02_OFFICIAL_SAMPLE_REVIEW.json": "586fb54de717129cc7a977cbbebc06338623d7e30186cc40161a27c9420ebf8d",
     "Q03_Q05_FROZEN_SES_REVIEW.json": "f2c6bc97b4e0a94ff28ec74e197b7a0c34acfff2f2efa6edbaf8f57ab5ee7906",
-    "Q06_REFERENCE_REVIEW.json": "32e4054d7abd72d57dc43d5fcc681443683c3dc3d61f1c2087610c592cac9df3",
-    "Q06_PUBLICATION_REFERENCE_VERIFICATION.json": "828cd1419aa1cd2c6b87d308ce6e401d3e01c0411dfc580e71e770b47e028151",
+    "Q06_REFERENCE_REVIEW.json": "02c11e1987006aea9f8780a15838abde4a4c17cbcdf36751444010d80cfab2a8",
+    "Q06_PUBLICATION_REFERENCE_VERIFICATION.json": "2c7eda82d3da3f910526f39a2d60f94fbe64030d39c113964b69f066a8616062",
     "Q08_PAPER_CLAIM_REVIEW.json": "8b51a45f19566bb007ff1461670c74cef62892cbeaa1648a8a01529bb98dbc4d",
     "RESULT_ARTIFACT_VERIFICATION.json": "c8c92f9ae669f31fc8a83109e82bedabc17c40289a72b1b23239c3290f1bee18",
     "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz": "768b91990ae8a6f40ecbb5edb8ae13db9b0c0621b54e2644940e467fafe17ca1",
@@ -24,10 +24,10 @@
     "COUNTRY_CYCLE_SAMPLE_QUALITY.csv": "e6733b234945689284142bb325cd66b6049c50eb7faa97b5fe3dbd6a43830181",
     "OFFICIAL_SAMPLE_TABLE_DEPENDENCIES.csv": "418cbbb85b2f2f0baed98966701b4529b22ed08c733091ae1fa98a5877f4d8bb",
     "FROZEN_SES_COUNTRY_WAVE_REVIEW.csv": "f6d90cb80c0709fd0702f942b1003a72b2915950e2ec3071848bdd8b3671ca66",
-    "REFERENCE_BY_VIEW.csv": "4e5d6ac093ccb2b920a4f2638589caead996cea22b75e191e159fab9814cb65c",
-    "REFERENCE_NUMERICAL_PROBES.csv": "944b33ab5d6097e36d61096891ea23c28b094a7f6398ae690c41b460ebeb9923",
-    "RANK_NUMERICAL_PROBES.csv": "240c35d4f8b4c7f6b1bc82581c44597c8665c35f39747a50f86ee8bbdb90e8a3",
-    "REFERENCE_DEPENDENCIES.csv.gz": "134edd759cbbdf2b081a08b7fd2d43ef781d91a4efd33b6a9d7a4dd89ec14253",
+    "REFERENCE_BY_VIEW.csv": "f17721cd5eb1bffe21c8086d4304a06655c3fcc629d7e284d4a92c51e9514cf3",
+    "REFERENCE_NUMERICAL_PROBES.csv": "37aa631343f6bf8b42ea76ef3ce32092b9f753b6011c4bbdbd3d3d9cd3cd8715",
+    "RANK_NUMERICAL_PROBES.csv": "6dba02b44fb72be99c1d26422c3ba9515cf5c98c103b2c8d3c949416c55e4f7c",
+    "REFERENCE_DEPENDENCIES.csv.gz": "065f879dc128e3126e74b34be6b06ef052128cc1f410d166f34a7e52dab987b5",
     "PAPER_CLAIM_RESULTS.csv": "44f4b03364ae39efb8207c363cbd76bc7d842e34a05180f7e2be4514ea99d2f5",
     "PAPER_CLAIM_DEPENDENCIES.csv": "ae0719561bc344687bf5d008b469d773339c9d6134a4873f5c2a5bfbad54c819",
     "PRODUCT_DERIVATION_REVIEW.csv": "9cb17da50b8f1600155fe03ec693b50154c69a481da55ce09d571f1c1bd6f6eb"
@@ -67,7 +67,7 @@
       "requirement_id": "Q06",
       "assessment": "User decision 19 October: admission is per age-domain combination with three comparable waves. Full selected-combination focus anchors and jointly selected series/peer definitions are enforced; membership is fixed within a figure and may differ between figures. Equal-country means and ranks are numerically tested. Empty references stay empty; no benchmark/rank CI or group rank line.",
       "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
-      "report_sha256": "32e4054d7abd72d57dc43d5fcc681443683c3dc3d61f1c2087610c592cac9df3"
+      "report_sha256": "02c11e1987006aea9f8780a15838abde4a4c17cbcdf36751444010d80cfab2a8"
     },
     {
       "requirement_id": "Q07",
@@ -85,7 +85,7 @@
   "runtime_bindings": [
     {
       "path": "06_pipeline/BUNDLE_DISCOVERY.R",
-      "sha256": "40e8c3f6b1f851a1392dd43cb1378b7ea9364bcd9630920791273ece0c146961"
+      "sha256": "adaf97e687b5a7d60157ee580d2b9cfdc48fc9cb2326c09113a2ac068dee408b"
     },
     {
       "path": "06_pipeline/CANONICAL_RESULT_RECONCILIATION.R",
@@ -105,7 +105,7 @@
     },
     {
       "path": "06_pipeline/DRIVE_SYNC.R",
-      "sha256": "da5de493e59026e82eda9fb5bb20ce85c9345a37b73e862b596a40e4386ca3d8"
+      "sha256": "71ee7dc3391baacc32dbdabc3618d4e26f8b8634e4ec2d3e75c28987af002364"
     },
     {
       "path": "06_pipeline/EXISTING_LO02_EXPORT.R",
@@ -178,6 +178,10 @@
     {
       "path": "06_pipeline/LO_COBREROS_PREPARE.R",
       "sha256": "ebea074bde1c3fa1289078553b794e3aa5848f4cd36aee654b7ccf97308f1154"
+    },
+    {
+      "path": "06_pipeline/LO_COBREROS_RAW_CLOSURE.R",
+      "sha256": "b6a442b8227262d34fbc1a7e56f0c9847ae843738128eb67a475eae03689add3"
     },
     {
       "path": "06_pipeline/LO_COMPACT_GRID_STORE.R",
@@ -253,7 +257,7 @@
     },
     {
       "path": "06_pipeline/LO_EXISTING_RESULT_REGISTRY.R",
-      "sha256": "5f493e3bdf3d4be49bc268ccbbff7e74611aabe28206ae514bf32223a20a0ac7"
+      "sha256": "922295a3cfc883f0911189c5700ea18f82b9d7e8ce04dc22cbc89a35e4afa7b7"
     },
     {
       "path": "06_pipeline/LO_FINAL_DASHBOARD_BUILD.py",
@@ -269,7 +273,7 @@
     },
     {
       "path": "06_pipeline/LO_FINAL_GUIDED_DASHBOARD_BUILD.py",
-      "sha256": "f55c2b022f7355d33cdb9cd7bff3088a585e1c463dd752c33991ea43049c2b81"
+      "sha256": "dc677d7e9225348f67400cb7e6433c05381eef2250bc9e2969ceb6f03e2e394e"
     },
     {
       "path": "06_pipeline/LO_FINAL_GUIDED_EXPORT.R",
@@ -277,7 +281,7 @@
     },
     {
       "path": "06_pipeline/LO_FINAL_GUIDED_PUBLIC_RELEASE.py",
-      "sha256": "46253df8582c7f90597bc45b068814f5a18a03fb4076133baefeebcb07b7aba6"
+      "sha256": "726b22ee3cd3d1f6a4f4c36f88b1e6da5fa0b16a20e55eaebbdccdb187203a2a"
     },
     {
       "path": "06_pipeline/LO_FINAL_PUBLIC_GITHUB.py",
@@ -293,7 +297,7 @@
     },
     {
       "path": "06_pipeline/LO_FIXED_CONTROLLER.R",
-      "sha256": "3f68fc0ab6b94425a484a1d6f5823ed2557fbd72bb9a5f0bd5f98e9ce0982c3b"
+      "sha256": "c0c19acbeeab250abd8200bb6cfcaea0d84888ac6e89290666ac806f373a2b4e"
     },
     {
       "path": "06_pipeline/LO_FIXED_PRODUCERS.R",
@@ -329,7 +333,7 @@
     },
     {
       "path": "06_pipeline/LO_INTERNATIONAL_PRODUCTION.R",
-      "sha256": "e5bdaa8f371db36c65f1a49b51a3a3a94244b488fcdcf9cdd11381ee4a7688d6"
+      "sha256": "785273cd4401c88edbbc73cbf9a7951ee7a44015a18b89fe6630fbda3ce59a5e"
     },
     {
       "path": "06_pipeline/LO_INTERNATIONAL_SES.R",
@@ -337,7 +341,7 @@
     },
     {
       "path": "06_pipeline/LO_INTERNATIONAL_SOURCES.R",
-      "sha256": "a5239c7724f4c8d20be4e0829d7cfd9f22bae2e7314118f0a2107a5057d78f84"
+      "sha256": "06d87eda9b8a1052b9bed3124b33a2b5375e381a0768efc404ac841a0e2a69bc"
     },
     {
       "path": "06_pipeline/LO_INTERNATIONAL_WORKLIST.R",
@@ -389,7 +393,7 @@
     },
     {
       "path": "06_pipeline/LO_PRODUCT_TRACE.R",
-      "sha256": "a28efe5c7567696ef2c84443655081fa9e0e5f0829df0a5098b3300f93d35941"
+      "sha256": "0526939892c22a25a3aae6a3eade30063b11ee39024a863937a9609e1204e92d"
     },
     {
       "path": "06_pipeline/LO_PRODUCTION_SPACE.R",
@@ -433,7 +437,7 @@
     },
     {
       "path": "06_pipeline/LO_SOURCE_BINDINGS.R",
-      "sha256": "790909f8de2c51a26052b67d211b728b59e875c1adb5b44698b5f4a64ce34134"
+      "sha256": "b0bc7e43d9ee1c9055f727fb486de6ccc83b2b4fbc89f12805936a00d94f8ed2"
     },
     {
       "path": "06_pipeline/LO_SOURCE_PROJECTION_REVIEW.R",
@@ -617,13 +621,13 @@
     "Q01_SES_SAMPLE_REVIEW.json": "283d805c8f533b16fb1f887331c8c522c74f6fe185c550b5a6bb71e0dbfbe202",
     "Q02_OFFICIAL_SAMPLE_REVIEW.json": "ef90ba9feb8e92bc6dddd5c888e1143d9f45388b0847575bf7cc5e3da83dfd5a",
     "Q03_Q05_FROZEN_SES_REVIEW.json": "4f5adbf643a55931f158767cddc983bafde3f71eaadae2c8262caffd613f55d8",
-    "Q06_PUBLICATION_REFERENCE_VERIFICATION.json": "db4d7a001b54173bdb84206bf88c1315316c83d0b33055829b32974ebdf22238",
-    "Q06_REFERENCE_REVIEW.json": "02df015292fb9763b7c091fa90d5ae7f3205c859258f5c1a1c0c7f427c446a3c",
+    "Q06_PUBLICATION_REFERENCE_VERIFICATION.json": "8b09e3ff611cd9c0f56c1cc68157d87600c7eeca0b12ce082b6abcb5d535c029",
+    "Q06_REFERENCE_REVIEW.json": "ad73619632ad168635425990f9760b7609ba78cf9949d20254d23c23d1984509",
     "Q08_PAPER_CLAIM_REVIEW.json": "06e7b5a94a2732dc4af1c2f2fb284303b845f68d5fdfd7280bd865b4d785f69d",
-    "RANK_NUMERICAL_PROBES.csv": "240c35d4f8b4c7f6b1bc82581c44597c8665c35f39747a50f86ee8bbdb90e8a3",
-    "REFERENCE_BY_VIEW.csv": "4e5d6ac093ccb2b920a4f2638589caead996cea22b75e191e159fab9814cb65c",
-    "REFERENCE_DEPENDENCIES.csv.gz": "524b5e4c4ff98a8bacaee68295d9f6e0ed9a45e366d8c8a44ef0b4c1dc35bc79",
-    "REFERENCE_NUMERICAL_PROBES.csv": "944b33ab5d6097e36d61096891ea23c28b094a7f6398ae690c41b460ebeb9923",
+    "RANK_NUMERICAL_PROBES.csv": "6dba02b44fb72be99c1d26422c3ba9515cf5c98c103b2c8d3c949416c55e4f7c",
+    "REFERENCE_BY_VIEW.csv": "f17721cd5eb1bffe21c8086d4304a06655c3fcc629d7e284d4a92c51e9514cf3",
+    "REFERENCE_DEPENDENCIES.csv.gz": "bab1f72b9d06749e4c1cd4255cb5ed4ef5218cd664ded081b3ca2fc0d19b5a05",
+    "REFERENCE_NUMERICAL_PROBES.csv": "37aa631343f6bf8b42ea76ef3ce32092b9f753b6011c4bbdbd3d3d9cd3cd8715",
     "REGIONAL_SOURCE_IDENTITIES.csv": "0ebd683308008a149a19a12fab69cdba17205487cb0d9b93742c434a2d49fa13",
     "REGISTRY_IO_VALIDATION.json": "3da52dd7353807e0dd8994a86e6a3612bcbe45cfec1de9182129e3ba03a245aa",
     "RESULT_ARTIFACT_VERIFICATION.json": "74fdcfdfa3efef2460d7b7998c4205707252d068d24715dc397af512ddd58731",

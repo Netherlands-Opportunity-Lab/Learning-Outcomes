@@ -1,12 +1,12 @@
 {
   "status": "FULL_ANCHORS_AND_ACTUAL_MEAN_RANK_DERIVATIONS_VERIFIED",
   "views": 8178,
-  "probe_views": 42,
+  "probe_views": 48,
   "policy": "FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3",
   "mapping_review_sha256": "cb621b89641a53fe6e9e58fd56fabf5f5340e1b371a387d909b497c9d85a9a9a",
-  "reference_export_sha256": "076bdbbc862a359b748589324550c8539a3ced22b644ceeaee2381d20407bc73",
+  "reference_export_sha256": "a26627b176ff7246b5ab202af16cb65a3c1e84256d041712e84a3e54ec17579a",
   "admitted_countries": 47,
-  "figure_registry_sha256": "7abd68f0beb3ea69aff32bbdb567c0e9101ef0a48482c42664feacb68680a512",
+  "figure_registry_sha256": "2503f9774c7d23f3a871a727ccd068e23d57323ddd9814ed69a6eb506163a260",
   "rank_rule_policy_sha256": "31be4b02ccfcd21a0cbdaaf061b182f31caf3f4d84b86eee33661db620b1b325",
   "code_sha256": {
     "LO_REFERENCE_REVIEW.R": "19b29a4dffb0827356412531bddb84dff2386fd790161667e79ddf9f73d039ff",
@@ -15,12 +15,12 @@
     "LO_DASHBOARD_REFERENCE_EXPORT.R": "aa9cb1e05619f601b0cca089c6adaa51c95efddfae7edcc095498fbc1e49fccf"
   },
   "output_sha256": {
-    "REFERENCE_BY_VIEW": "4e5d6ac093ccb2b920a4f2638589caead996cea22b75e191e159fab9814cb65c",
-    "REFERENCE_NUMERICAL_PROBES": "944b33ab5d6097e36d61096891ea23c28b094a7f6398ae690c41b460ebeb9923",
-    "RANK_NUMERICAL_PROBES": "240c35d4f8b4c7f6b1bc82581c44597c8665c35f39747a50f86ee8bbdb90e8a3",
-    "REFERENCE_DEPENDENCIES": "134edd759cbbdf2b081a08b7fd2d43ef781d91a4efd33b6a9d7a4dd89ec14253"
+    "REFERENCE_BY_VIEW": "f17721cd5eb1bffe21c8086d4304a06655c3fcc629d7e284d4a92c51e9514cf3",
+    "REFERENCE_NUMERICAL_PROBES": "37aa631343f6bf8b42ea76ef3ce32092b9f753b6011c4bbdbd3d3d9cd3cd8715",
+    "RANK_NUMERICAL_PROBES": "6dba02b44fb72be99c1d26422c3ba9515cf5c98c103b2c8d3c949416c55e4f7c",
+    "REFERENCE_DEPENDENCIES": "065f879dc128e3126e74b34be6b06ef052128cc1f410d166f34a7e52dab987b5"
   },
   "no_pupil_recalculation": true,
   "benchmark_or_rank_ci": false,
-  "private_full_review_sha256": "32e4054d7abd72d57dc43d5fcc681443683c3dc3d61f1c2087610c592cac9df3"
+  "private_full_review_sha256": "02c11e1987006aea9f8780a15838abde4a4c17cbcdf36751444010d80cfab2a8"
 }

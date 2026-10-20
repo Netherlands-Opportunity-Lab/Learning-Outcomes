@@ -5,7 +5,7 @@
 De gebruiker stelt de **36 nog niet afgehandelde landen uit tot na stap 1, 2 en 3**.
 De huidige afrondingsscope bestaat uit 47 landen/stelsels: **90.829 doelen,
 82.142 gevalideerde resultaten, 8.687 onderbouwd onbeschikbare doelen, nul open
-rekentaken**. Q01–Q08 zijn nu inhoudelijk op deze exacte resultaatbasis beoordeeld; 8.178 referentiecontracten, 42 numerieke probes en 63.384 productrijen sluiten aan. De bestaande eindcontrole bindt dit bewijs aan de uitvoeringsstatus. Dashboard, deck, paper, volledige herstelcontrole en publicatie worden afzonderlijk afgerond.
+rekentaken**. Q01–Q08 zijn nu inhoudelijk op deze exacte resultaatbasis beoordeeld; 8.178 referentiecontracten, 48 numerieke probes en 63.384 productrijen sluiten aan. De bestaande eindcontrole bindt dit bewijs aan de uitvoeringsstatus. Dashboard, deck, paper, volledige herstelcontrole en publicatie worden afzonderlijk afgerond.
 De bestaande R-keten gebruikt `all_required` met een expliciete landenfilter;
 de controller past dezelfde filter toe op producten en referentiekandidaten.
 De bronmatige toelating van 83 landen blijft behouden. De 36 uitgestelde landen
