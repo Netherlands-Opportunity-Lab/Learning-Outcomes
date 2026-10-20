@@ -1,0 +1,25 @@
+{
+  "checked_date": "2026-10-20",
+  "official_pages": [
+    {
+      "url": "https://www.oecd.org/en/data/datasets/pisa-2025-database.html",
+      "finding": "Public use data download and draft technical report listed; final technical report expected in 2027."
+    },
+    {
+      "url": "https://www.oecd.org/en/about/programmes/pisa/pisa-frequently-asked-questions-faqs.html",
+      "finding": "2025 assessment data released 8 September 2026."
+    }
+  ],
+  "source_edition_evidence": "Existing local edition/source certificates retained; this page check is not a remote cryptographic comparison of the full microdata.",
+  "retained_nces_linking_evidence": {
+    "url": "https://nces.ed.gov/surveys/pisa/pisa2025/technical-notes/index.asp",
+    "filename": "PISA2025_notes.html",
+    "expected_sha256": "a0018737fa8dc7e368771e4f1b5e902373b09d8bdbd63c1c1b047f67682cac5c",
+    "local_readback": "SHA256_MATCH",
+    "current_web_fetch": "TIMEOUT_EXISTING_OFFICIAL_DOCUMENT_RETAINED"
+  },
+  "local_grid_sha256": "a3f41d058b94dd5d4136a1186cdbda2bcccd5285c34d7aa8acfb7f6934b1f38f",
+  "reviewed_grid_same_as_current": true,
+  "local_approved_registry_sha256": "bc6a6c78e0e4030b761a82fcb68a8742c27bb7b769a29ab9f6cd9fdcc99ed5ec",
+  "no_source_recalculation": true
+}

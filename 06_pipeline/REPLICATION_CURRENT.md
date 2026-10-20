@@ -1,5 +1,7 @@
 # Current replication entry point — 20 October 2026
 
+**Latere gebruikersafbakening, 20 oktober:** controleer de drie opdrachten beurtelings op het al afgeronde werk, zonder de 36 uitgestelde landen en zonder de volledige nieuwe bronreplicatie. Hergebruik ongewijzigd bewijs en herstel concrete fouten. De wetenschappelijke toelating blijft per leeftijd-uitkomstcombinatie met minstens drie vergelijkbare meetgolven. Zie [de vastgelegde keuze](review_20261013/release47_20261020/REVIEW_EXECUTION_DECISION_20261020.json).
+
 The current phase is **current47**, with the other 36 countries explicitly
 deferred. Step 1 is closed against 90,829 targets: 82,142 validated results,
 8,687 documented unavailable targets and zero remaining computations. The real

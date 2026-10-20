@@ -1,0 +1,38 @@
+name: scientific-evidence-reuse
+on:
+  pull_request:
+    paths:
+      - "scripts/verify_step1_current_release.py"
+      - "scripts/test_step1_current_release.py"
+      - "06_pipeline/*.R"
+      - "06_pipeline/*.py"
+      - "START.R"
+      - "RUN.R"
+      - "06_pipeline/review_20261013/release47_20261020/**"
+      - "06_pipeline/review_20261013/scientific_review/**"
+      - "06_pipeline/review_20261013/grid_coverage/**"
+      - "04_results/review/all_required/**"
+      - ".github/workflows/scientific-evidence.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Reject changed evidence, unapproved results and removed targets
+        run: python scripts/test_step1_current_release.py
+      - name: Recheck sealed results and scientific evidence without pupil calculations
+        run: python scripts/verify_step1_current_release.py --repo . --output step1-proof.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: step1-evidence-${{ matrix.os }}
+          path: step1-proof.json
