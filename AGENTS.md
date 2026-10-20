@@ -1,5 +1,7 @@
 # AGENTS.md — Learning Outcomes / PISA–PIRLS–TIMSS
 
+Latest direct phase decision, 20 October: finish steps 1–3 for the explicit current47 selection; keep the deferred36 targets/results intact and run them in R only after those steps. This changes execution/release timing, not scientific admission, definitions, the rich candidate pool or full within-figure balance. See `06_pipeline/review_20261013/release47_20261020/RELEASE_PHASE_DECISION.json` (repository-relative).
+
 ## Mission and first read
 Finish the reproducible, grid-first research pipeline, its validated products and the existing bilingual guided dashboard. Read `06_pipeline/START_HIER_ACTUEEL.md` first, then `DRIE_AFRONDINGSOPDRACHTEN_20261019.md`, `ACCEPTATIE_EN_VOORTGANG.csv`, `SCOPE_APPROVALS.csv` and the linked source/product evidence. Check changes since the last verified audit; do not repeat unchanged full inventories or unpack the source ZIP again.
 

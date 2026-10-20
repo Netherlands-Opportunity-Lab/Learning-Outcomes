@@ -56,6 +56,25 @@ lo_run_select <- function(tasks,cfg) {
   if(nrow(tasks)&&!any(keep))stop("RUN_CONFIG_EMPTY_INTERSECTION")
   tasks[keep,,drop=FALSE]
 }
+# A country selection also bounds products and comparison candidates. Source
+# admission and the approved long-term scope remain intact in the inventory.
+# Without this projection a 47-country run could expose deferred countries in
+# its selector, or pull their already cached cells into reference-only exports.
+lo_run_scope <- function(info,cfg) {
+  wanted<-cfg$selection$countries
+  if(!length(wanted))return(info)
+  if(any(!wanted%in%info$selected))stop("RUN_CONFIG_UNKNOWN_OR_UNAPPROVED_SELECTION: countries")
+  info$selected<-sort(intersect(info$selected,wanted))
+  info$dashboard<-sort(intersect(info$dashboard,wanted))
+  info$reference_candidates<-sort(intersect(info$reference_candidates,wanted))
+  info$foreign_reference<-sort(intersect(info$foreign_reference,wanted))
+  info$additional_reference<-sort(intersect(info$additional_reference,wanted))
+  # comparator is the original rich candidate pool, never a newly defined pool.
+  info$countries$selected_for_production<-info$countries$country%in%info$selected
+  info$countries$execution_selection<-ifelse(info$countries$selected_for_production,
+    "SELECTED_THIS_RUN","OUTSIDE_THIS_RUN_NOT_SOURCE_REJECTED")
+  info
+}
 lo_run_record <- function(repo,state,stage,cfg,outcome) {
   hash_file<-function(p)if(file.exists(p))digest::digest(file=p,algo="sha256")else "ABSENT"
   paths<-c(input="FIXED_INPUT_MANIFEST.json",grid="PRIVATE_MASTER_GRID.csv",

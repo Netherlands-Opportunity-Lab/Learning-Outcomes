@@ -28,6 +28,22 @@ empty_ses<-obj;empty_ses$data$SES<-NA_real_
 absent_ses<-lo_estimation_availability(empty_ses,s)
 stopifnot(nrow(absent_ses$unavailable)==3L,!nrow(absent_ses$tasks),
   all(absent_ses$diagnostics$component=='SES_SOURCE_OBSERVED'))
+# Missing school identities prevent school/peer estimands, not their valid
+# national siblings. Keep absent SES as the primary reason when both are absent.
+missing_school<-list(data=d,meta=list(survey='PISA',year=2025))
+missing_school$data$SCHOOL<-NA_character_
+school_tasks<-q[c(4,4,4),];school_tasks$metric_key<-c('national','school_variance','ses_peer')
+school_tasks$module<-c('core','extension_performance_school','ses_peer_exposure')
+school_tasks$stat<-c('mean','between_variance_share','q1_target_pct_q4_peers')
+school_tasks$peer_definition<-c('','','whole_school')
+guard<-lo_estimation_availability(missing_school,school_tasks)
+stopifnot(identical(guard$tasks$metric_key,'national'),
+ setequal(guard$unavailable$metric_key,c('school_variance','ses_peer')),
+ all(guard$unavailable$absence_reason=='NO_OBSERVED_LEARNING_ENVIRONMENT_ID'))
+missing_school$data$SES<-NA_real_
+guard<-lo_estimation_availability(missing_school,school_tasks)
+stopifnot(guard$unavailable$absence_reason[guard$unavailable$metric_key=='ses_peer']==
+ 'NO_OBSERVED_ANALYTIC_TARGET_IN_REQUIRED_PV')
 # Entirely missing achievement remains in the SES population for quartiles,
 # but never contributes to achievement denominators. A partial PV set is invalid.
 for(j in 1:10)obj$data[[paste0('PV_READ_',j)]][1]<-NA_real_

@@ -1,0 +1,84 @@
+country,name_nl,group,targets,validated,unavailable,remaining,admitted_combinations
+ALB,Albanië,additional_49,1048,902,146,0,3
+ARG,Argentinië,additional_49,1178,960,218,0,3
+ARM,Armenië,additional_49,948,818,130,0,2
+AUS,Australië,previous_34,2494,2229,265,0,6
+AZE,Azerbeidzjan,previous_34,1207,1038,169,0,6
+BHR,Bahrein,additional_49,632,544,88,0,2
+BEL,België,additional_49,1270,1243,27,0,3
+BRA,Brazilië,additional_49,1270,1243,27,0,3
+BRN,Brunei,additional_49,591,579,12,0,3
+BGR,Bulgarije,previous_34,2112,1939,173,0,6
+CAN,Canada,previous_34,1744,1681,63,0,5
+CHL,Chili,additional_49,1810,1697,113,0,5
+TWN,Chinees Taipei (Taiwan),previous_34,2494,2242,252,0,6
+COL,Colombia,additional_49,1178,1153,25,0,3
+CRI,Costa Rica,additional_49,1048,544,14,490,3
+CYP,Cyprus,additional_49,632,0,54,578,2
+DNK,Denemarken,previous_34,2428,2192,236,0,6
+DOM,Dominicaanse Republiek,additional_49,788,0,0,788,3
+DEU,Duitsland,previous_34,2520,2275,245,0,6
+EST,Estland,additional_49,1178,0,0,1178,3
+PHL,Filipijnen,additional_49,591,0,0,591,3
+FIN,Finland,previous_34,2178,1976,202,0,6
+FRA,Frankrijk,previous_34,2204,2029,175,0,6
+GEO,Georgië,previous_34,2076,1848,228,0,6
+GRC,Griekenland,additional_49,1270,0,0,1270,3
+HUN,Hongarije,previous_34,2678,2415,263,0,6
+HKG,Hongkong,previous_34,2678,2415,263,0,6
+ISL,IJsland,additional_49,1270,0,0,1270,3
+IRL,Ierland,previous_34,2178,1976,202,0,6
+IDN,Indonesië,additional_49,1270,0,0,1270,3
+IRN,Iran,additional_49,1408,0,126,1282,3
+ISR,Israël,additional_49,1638,0,36,1602,4
+ITA,Italië,previous_34,2678,2415,263,0,6
+JPN,Japan,additional_49,2218,0,90,2128,5
+JOR,Jordanië,additional_49,1178,0,0,1178,3
+KAZ,Kazachstan,additional_49,1838,0,72,1766,5
+KGZ,Kirgizië,additional_49,457,0,0,457,3
+KWT,Koeweit,additional_49,790,0,72,718,2
+KSV,Kosovo,additional_49,788,0,0,788,3
+HRV,Kroatië,additional_49,1652,0,54,1598,5
+LVA,Letland,previous_34,2270,2109,161,0,6
+LBN,Libanon,additional_49,591,0,0,591,3
+LIE,Liechtenstein,additional_49,482,471,11,0,3
+LTU,Litouwen,previous_34,2586,2325,261,0,6
+LUX,Luxemburg,additional_49,1073,935,138,0,3
+MYS,Maleisië,additional_49,1048,0,0,1048,3
+MLT,Malta,additional_49,918,0,0,918,3
+MAR,Marokko,previous_34,1999,1731,268,0,6
+MEX,Mexico,additional_49,1270,0,0,1270,3
+MDA,Moldavië,additional_49,918,0,0,918,3
+MNE,Montenegro,additional_49,1178,0,0,1178,3
+NLD,Nederland,previous_34,2678,2397,281,0,6
+NZL,Nieuw-Zeeland,previous_34,2678,2401,277,0,6
+MKD,Noord-Macedonië,additional_49,1064,0,18,1046,4
+NOR,Noorwegen,previous_34,2270,2048,222,0,6
+OMN,Oman,additional_49,908,0,72,836,3
+AUT,Oostenrijk,previous_34,2112,1867,245,0,6
+PAN,Panama,additional_49,524,0,0,524,3
+PER,Peru,additional_49,1048,0,0,1048,3
+POL,Polen,previous_34,1744,1639,105,0,5
+PRT,Portugal,previous_34,2178,1976,202,0,6
+QAT,Qatar,previous_34,2336,2100,236,0,6
+ROU,Roemenië,additional_49,1454,0,27,1427,4
+RUS,Rusland,previous_34,1876,1648,228,0,6
+SAU,Saoedi-Arabië,previous_34,1499,1312,187,0,6
+SRB,Servië,additional_49,1613,0,54,1559,5
+SGP,Singapore,previous_34,2456,2198,258,0,6
+SVN,Slovenië,previous_34,2086,1869,217,0,6
+SVK,Slowakije,previous_34,2520,2275,245,0,6
+ESP,Spanje,previous_34,2270,2052,218,0,6
+THA,Thailand,additional_49,1270,0,0,1270,3
+TTO,Trinidad en Tobago,additional_49,276,0,27,249,1
+CZE,Tsjechië,previous_34,2428,2199,229,0,6
+TUN,Tunesië,additional_49,1153,0,54,1099,5
+TUR,Turkije,additional_49,1270,0,0,1270,3
+URY,Uruguay,additional_49,1270,0,0,1270,3
+GBR,Verenigd Koninkrijk,additional_49,1270,1153,117,0,3
+ARE,Verenigde Arabische Emiraten,previous_34,1956,1759,197,0,6
+USA,Verenigde Staten,previous_34,2678,2351,327,0,6
+VNM,Vietnam,additional_49,918,0,0,918,3
+KOR,Zuid-Korea,additional_49,1902,0,54,1848,5
+SWE,Zweden,previous_34,2520,2275,245,0,6
+CHE,Zwitserland,additional_49,1270,1243,27,0,3

@@ -15,6 +15,20 @@ stopifnot(setequal(x$selected,c("NLD","AUT","Z99")),setequal(x$dashboard,c("NLD"
  "X98"%in%x$countries$country,!x$countries$dashboard_eligible[x$countries$country=="X98"])
 stopifnot(identical(lo_runtime_scope(work,tasks,"nld_only",base)$selected,"NLD"),
  setequal(lo_runtime_scope(work,tasks,"nld_plus_19",base)$selected,c("NLD","AUT")))
+source("06_pipeline/LO_RUN_CONFIG.R")
+cfg<-lo_run_config("all_required","")
+stopifnot(identical(lo_run_scope(x,cfg),x))
+cfg$selection$countries<-c("NLD","Z99")
+phased<-lo_run_scope(x,cfg)
+stopifnot(setequal(phased$selected,c("NLD","Z99")),
+ setequal(phased$dashboard,c("NLD","Z99")),
+ setequal(phased$reference_candidates,c("NLD","Z99")),
+ !"AUT"%in%phased$foreign_reference,identical(phased$comparator,x$comparator),
+ identical(phased$source_support,x$source_support),
+ phased$countries$dashboard_eligible[phased$countries$country=="AUT"],
+ !phased$countries$selected_for_production[phased$countries$country=="AUT"])
+cfg$selection$countries<-"X98"
+stopifnot(inherits(try(lo_run_scope(x,cfg),silent=TRUE),"try-error"))
 missing<-base[!(base$country=="AUT" & base$age_group=="age10" & base$domain=="reading" & base$year=="2015"),]
 y<-lo_runtime_scope(work,tasks,"all_required",missing)
 stopifnot('AUT'%in%y$selected,'AUT'%in%y$dashboard,
