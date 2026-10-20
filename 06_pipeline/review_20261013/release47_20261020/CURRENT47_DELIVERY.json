@@ -1,5 +1,5 @@
 {
-  "status": "VERIFIED_CURRENT47_PRODUCTS_STAGED",
+  "status": "CURRENT47_SCIENCE_AND_PRODUCTS_DELIVERED_FULL_SOURCE_REPLICATION_REMAINS",
   "release": {
     "candidate_manifest_sha256": "ce55760e9df4f4b4428e3520776c4ffb273ce04f4abf9f165878c06fa175ff33",
     "systems": 47,
@@ -8,7 +8,7 @@
     "release_kind": "PARTIAL_VERIFIED_RESULTS",
     "release_gate": "PASS_PARTIAL_DISPLAY_ONLY_FULL_SCIENCE_INCOMPLETE",
     "release_id": "ce55760e9df4f4b4428e",
-    "status": "STAGED_ON_FEATURE_BRANCH_NOT_DEPLOYED",
+    "status": "LIVE_ON_GITHUB_PAGES",
     "storage": {
       "status": "EXACT_CANDIDATE_STORED_LOSSLESSLY",
       "compressed_files": 1,
@@ -36,6 +36,48 @@
     "working_directory_kind": "New empty directory, package-only dependencies"
   },
   "deferred36_calculated": false,
-  "deployment_status": "NOT_YET_DEPLOYED",
-  "full_step3_complete": false
+  "deployment_status": "LIVE_HTTPS_AND_BROWSER_VERIFIED",
+  "full_step3_complete": false,
+  "deployment_commit": "fa9f12ba12c91ef399579de8bde0d048db9b419f",
+  "deployment_workflow": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39461388061",
+  "verified_at_utc": "2026-10-20T16:56:30.803124+00:00",
+  "steps": {
+    "1": "COMPLETE_CURRENT47",
+    "2": "COMPLETE_CURRENT47",
+    "3": "PACKAGE_REBUILD_RESTORE_PUBLICATION_VERIFIED_FULL_SOURCE_RUN_REMAINS"
+  },
+  "remaining_required_check": "Complete fresh pupil-source replication of the same current47 selection, with parity against the sealed results; no deferred36 production.",
+  "new_source_run_started": false,
+  "live_verification": {
+    "files": 557,
+    "bytes": 381989780,
+    "browser_checks": [
+      "Dutch default: 47 focus countries; five fully balanced rich PIRLS references; both switches on",
+      "Live selector changes five-country default to four-country custom comparison",
+      "English switch preserves the four countries and uncertainty setting",
+      "English methods page exposes the reviewed paper, editable presentation and package"
+    ],
+    "all_assets_sha256_matched": true,
+    "september_archive_preserved": true
+  },
+  "latest_ci": {
+    "commit": "7d7fa3662c28828d9668dd3516a2cb62456e0f02",
+    "all_success": true,
+    "workflows": {
+      "repository": 39459695647,
+      "products_windows_linux": 39459695477,
+      "public_dashboard": 39459695747,
+      "storage_and_replication": 39459695462
+    }
+  },
+  "cleanup": {
+    "status": "EXACT_TEMPORARY_PRODUCTS_REMOVED_AFTER_REMOTE_VERIFICATION",
+    "files": 1179,
+    "logical_bytes_removed": 695746945,
+    "free_bytes_before": 1434943488,
+    "free_bytes_after": 2046578688,
+    "actual_free_increase": 611635200,
+    "retained": "Official source files, scientific registries/evidence, source code, GitHub products, live package, removal hashes",
+    "selection_manifest_sha256": "86fec022af429d5f5bee1fd4141fdf1312d65da3cab2139c9f9776d8f4e017f0"
+  }
 }

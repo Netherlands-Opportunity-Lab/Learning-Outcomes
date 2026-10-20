@@ -1,6 +1,20 @@
 # 05 — Dashboardcode, resultaten en publicatie
 
-Bijgewerkt: 18 oktober 2026. De vijfkeuze-interface en gecontroleerde resultaten staan op GitHub Pages. De laatste gebruikerskeuze activeert tijdelijk vergelijkingen met beschikbare punten via [REFERENCE_POLICY.json](REFERENCE_POLICY.json). Ieder vergelijkingspunt registreert de daadwerkelijk gebruikte landen; de definitieve balanscontrole volgt na volledige productie. [Actuele versie](INTERIM_CURRENT.json) en [uitvoeringsbewijs](../06_pipeline/review_20261013/DASHBOARD_PROVISIONAL_20261018.json).
+Bijgewerkt: 20 oktober 2026. De huidige 47-landenversie
+`ce55760e9df4f4b4428e` staat live. De referentiegroep is volledig passend en vast
+binnen iedere figuur; de tijdelijke available-cases-regel van 18 oktober is
+historisch. Alle 557 online bestanden zijn op SHA256 teruggelezen. De 36
+uitgestelde landen blijven uitgesloten. Paper, presentatie en replicatiepakket
+zijn via de methodenpagina beschikbaar. De volledige nieuwe leerlingbronreplicatie
+blijft een afzonderlijke open eindcontrole.
+
+GitHub Pages accepteert uitsluitend de bestaande branch `main`. Publicatiecommit
+`fa9f12ba12c91ef399579de8bde0d048db9b419f` neemt uitsluitend exact geteste
+publicatiebestanden over; ontwikkel-PR #5 blijft afzonderlijk behouden.
+De beveiligingsregel is niet gewijzigd.
+
+[Actuele versie](INTERIM_CURRENT.json) ·
+[afleveringsbewijs op de ontwikkelbranch](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/blob/feat/reproducible-storage-and-cleanup-20261010/06_pipeline/review_20261013/release47_20261020/CURRENT47_DELIVERY.json)
 
 ## Actieve code en uitleg
 
@@ -29,8 +43,8 @@ Bijgewerkt: 18 oktober 2026. De vijfkeuze-interface en gecontroleerde resultaten
    inclusief wetenschappelijke, scope-, rechten-, replicatie- en productcontroles.
    Een geslaagde kandidaat wordt opgeslagen onder
    `verified_guided_candidates/<candidate-id>/`.
-4. Na review en de toepasselijke publicatiegoedkeuring worden de benodigde
-   wijzigingen via PR #5 overgenomen. De handmatige GitHub Actions-workflow
+4. Na review en de toepasselijke publicatiegoedkeuring worden uitsluitend de
+   geteste publicatiebestanden naar de toegestane branch `main` overgenomen. De handmatige GitHub Actions-workflow
    `publish-verified-dashboard-pages` krijgt het exacte candidate-ID van 20
    hexadecimale tekens. Zij controleert en publiceert uitsluitend die bestanden.
 

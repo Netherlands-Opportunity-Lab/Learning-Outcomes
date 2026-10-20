@@ -1,5 +1,31 @@
 # Start hier — actuele besluiten en resterend werk
 
+## Afgeleverd — 20 oktober: huidige 47, uitgestelde 36 blijven buiten beeld
+
+**Stap 1 en stap 2 zijn afgesloten voor current47.** Gebruik het bestaande bewijs;
+herhaal geen broninventarisatie, berekeningen of ongewijzigde productcontroles.
+De Nederlandstalige paper (29 pagina's), bewerkbare presentatie (22 slides) en
+het dashboard zijn beoordeeld en gereconstrueerd op Windows en Linux.
+
+Het dashboard staat live in Nederlands en Engels als `ce55760e9df4f4b4428e`,
+met strikte referentiebalans en 63.384 figuurpunten. Alle **557 online bestanden**
+zijn op SHA256 gecontroleerd, inclusief producten en het circa 98 MB grote
+replicatiepakket. De septemberroute blijft behouden. De hoofdland-/referentiekeuze
+en taalwisseling zijn ook op de live site gecontroleerd.
+
+Van stap 3 zijn pakketcontrole, aggregaatherbouw, volledig Drive-herstel en
+publicatie uitgevoerd. **De volledige nieuwe leerlingbronreplicatie van alle
+47 landen is nog niet uitgevoerd.** De 58 bronproeven en onafhankelijke
+blokcertificering vervangen deze afzonderlijke eindcontrole niet. Er is geen
+nieuwe lange R-run gestart en de 36 uitgestelde landen worden niet hervat.
+De laatste selectieve opruiming verwijderde 1.179 tijdelijke productbestanden
+na hash- en remotecontrole; noodzakelijke bronnen en wetenschappelijk bewijs
+zijn behouden. Controleer de ruimte vóór een schone bronrun.
+
+[Live dashboard](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/nl/)
+· [Paper, presentatie en pakket](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/info/nl/)
+· [Exact aflever-, test- en resterendewerkdossier](review_20261013/release47_20261020/CURRENT47_DELIVERY.json).
+
 ## Actuele fasering — 20 oktober: eerst 47 landen afronden
 
 De gebruiker stelt de **36 nog niet afgehandelde landen uit tot na stap 1, 2 en 3**.
