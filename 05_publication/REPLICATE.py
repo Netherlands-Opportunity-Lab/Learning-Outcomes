@@ -3,7 +3,7 @@
 No route implicitly starts pupil estimation. The source route delegates to the
 existing versioned START.R/RUN.R controller only with --run and private settings.
 """
-import argparse, collections, csv, hashlib, json, os, subprocess, sys, time
+import argparse, collections, csv, gzip, hashlib, json, os, subprocess, sys, time
 from pathlib import Path
 
 def sha(path):
@@ -30,7 +30,17 @@ def inspect(root,manifest):
     if len(ids)!=len(set(ids)):raise ValueError('Duplicate exact target identity')
     counts=collections.Counter(r['status'] for r in rows)
     allowed=set(m['configuration']['selection']['countries'])
-    if {i.split('|')[0] for i in ids}!=allowed:raise ValueError('Country scope differs')
+    # Cell identifiers are opaque: approved peer cells use a different prefix.
+    # Join exact identities to the hash-verified coverage table, never parse labels.
+    target={r['cell_id']:r['status'] for r in rows};found=set();countries=set()
+    with gzip.open(root/'release_inputs/EXACT_CELL_COVERAGE.csv.gz','rt',encoding='utf-8',newline='') as f:
+        for row in csv.DictReader(f):
+            key=row['cell_id']
+            if key not in target:continue
+            if key in found:raise ValueError('Duplicate exact coverage identity')
+            if row['status']!=target[key]:raise ValueError('Coverage/result status differs')
+            found.add(key);countries.add(row['country'])
+    if found!=set(ids) or countries!=allowed:raise ValueError('Exact country coverage differs')
     return dict(status='SEALED_RESULTS_AND_PACKAGE_VERIFIED',targets=len(ids),statuses=dict(counts),
         countries=sorted(allowed),package_source_commit=manifest['source_commit'],
         production_identity='Per-cell fingerprints and result_run_links.csv; not the export commit',
