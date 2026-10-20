@@ -311,7 +311,25 @@ lo_fixed_controller <- function(repo,bundle,
     file=file.path(state,'SCIENTIFIC_REVIEW_BINDING.json'),algo='sha256')
   balance_contract_path<-file.path(root,"master_reconciliation","BALANCE_CELL_CONTRACTS.csv")
   balance_export<-NULL
-  if(file.exists(balance_contract_path)) {
+  reviewed_reference<-attr(science_binding,'reviewed_reference_export')
+  if(!is.null(reviewed_reference)) {
+    # Reuse the finished independent Q06 export, after the binding has freshly
+    # checked its sources, exact targets, runtime, policies and output hash.
+    # The Python builder also verifies every version-3 figure contract.
+    balance_export<-lo_final_export_checkpoint(state,'balanced_reference',
+      list(review=review_identity,reviewed_export_sha256=reviewed_reference$sha256),
+      'BALANCED_REFERENCE_EXPORT.json',TRUE,
+      compute=function() {
+        tmp<-tempfile('reviewed_reference_',tmpdir=state,fileext='.json')
+        on.exit(if(file.exists(tmp))unlink(tmp),add=TRUE)
+        if(!file.copy(reviewed_reference$path,tmp)||
+           digest::digest(file=tmp,algo='sha256')!=reviewed_reference$sha256)
+          stop('REVIEWED_REFERENCE_COPY_FAILED')
+        lo_atomic_replace(tmp,file.path(state,'BALANCED_REFERENCE_EXPORT.json'))
+        cat('REVIEWED_REFERENCE_REUSED: independent Q06 figure export; no repeated reference calculation\n')
+        TRUE
+      },read_result=function()TRUE)
+  } else if(file.exists(balance_contract_path)) {
     source(file.path(repo,"06_pipeline","LO_EXACT_DISPATCH.R"),local=environment())
     source(file.path(repo,"06_pipeline","LO_BALANCED_EXPORT.R"),local=environment())
     source(file.path(repo,"06_pipeline","LO_BALANCED_VIEWS.R"),local=environment())

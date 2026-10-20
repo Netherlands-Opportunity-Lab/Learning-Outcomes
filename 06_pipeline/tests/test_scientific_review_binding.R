@@ -24,6 +24,8 @@ map$year<-'2025';map$cell_id<-tasks$metric_key;map$result_hash<-'synthetic-resul
 map_path<-file.path(root,'scientific_review_20261019/combination_scope/reference_mapping/BALANCE_AVAILABLE.csv')
 dir.create(dirname(map_path),recursive=TRUE)
 write.csv(map,map_path,row.names=FALSE)
+export_path<-file.path(dirname(map_path),'BALANCED_REFERENCE_EXPORT.json')
+jsonlite::write_json(list(schema_version=3L,views=list()),export_path,auto_unbox=TRUE)
 writeLines('old unrelated historical mapping',file.path(root,'scientific_review_20261019/Q06_mapping_final/BALANCE_AVAILABLE.csv'))
 z<-list(schema_version=1L,status='REVIEWED_SCIENTIFIC_BASIS_WITH_EXPLICIT_LIMITATIONS',
  reference_mapping_directory=dirname(map_path),
@@ -31,10 +33,11 @@ z<-list(schema_version=1L,status='REVIEWED_SCIENTIFIC_BASIS_WITH_EXPLICIT_LIMITA
  runtime_bindings=data.frame(path='review_policy.txt',sha256=sha(binding)),
  reviews=data.frame(requirement_id=sprintf('Q%02d',1:8),assessment='Synthetic meaningful fixture proof',
    applicability='APPLICABLE_REVIEWED_WITH_QUALIFICATIONS',report_path=proof,report_sha256=sha(proof)),
- evidence_files=data.frame(path=c(proof,map_path),sha256=c(sha(proof),sha(map_path))))
+ evidence_files=data.frame(path=c(proof,map_path,export_path),sha256=c(sha(proof),sha(map_path),sha(export_path))))
 manifest<-file.path(root,'scientific_review_20261019/SCIENTIFIC_REVIEW_MANIFEST.json')
 jsonlite::write_json(z,manifest,auto_unbox=TRUE)
 first<-lo_scientific_review_install(repo,root,tasks,approval,state)
+stopifnot(attr(first,'reviewed_reference_export')$sha256==sha(export_path))
 times<-file.info(first$evidence_path)$mtime
 again<-lo_scientific_review_install(repo,root,tasks,approval,state)
 stopifnot(identical(first$evidence_sha256,again$evidence_sha256),identical(times,file.info(again$evidence_path)$mtime))
@@ -43,6 +46,9 @@ stopifnot(length(lo_paper_gate_evidence(first,tasks,approval,digest::digest(poli
 writeLines('changed current mapping',map_path)
 stopifnot(inherits(try(lo_scientific_review_install(repo,root,tasks,approval,state),silent=TRUE),'try-error'))
 write.csv(map,map_path,row.names=FALSE)
+writeLines('changed reviewed figure export',export_path)
+stopifnot(inherits(try(lo_scientific_review_install(repo,root,tasks,approval,state),silent=TRUE),'try-error'))
+jsonlite::write_json(list(schema_version=3L,views=list()),export_path,auto_unbox=TRUE)
 bad<-tasks;bad$unit<-'changed'
 stopifnot(inherits(try(lo_scientific_review_install(repo,root,bad,approval,state),silent=TRUE),'try-error'))
 writeLines('changed policy',binding)

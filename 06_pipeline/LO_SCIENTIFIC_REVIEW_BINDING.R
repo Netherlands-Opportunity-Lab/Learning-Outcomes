@@ -89,6 +89,13 @@ lo_scientific_review_install <- function(repo,root,tasks,approval_csv,state) {
   same_path<-gsub('\\','/',z$evidence_files$path,fixed=TRUE)==gsub('\\','/',map_path,fixed=TRUE)
   if(sum(same_path)!=1L)stop('SCIENCE_REVIEW_MAPPING_NOT_HASH_BOUND')
   lo_science_check_files(z$evidence_files[same_path,,drop=FALSE],checked)
+  # Q06 already built and independently checked the exact public figure views,
+  # including views with no target years (e.g. Liechtenstein's four-wave SES).
+  # A second export of historical task groups cannot invent those empty views.
+  export_path<-file.path(mapping_dir,'BALANCED_REFERENCE_EXPORT.json')
+  export_match<-gsub('\\','/',z$evidence_files$path,fixed=TRUE)==gsub('\\','/',export_path,fixed=TRUE)
+  if(sum(export_match)!=1L)stop('SCIENCE_REVIEW_REFERENCE_EXPORT_NOT_HASH_BOUND')
+  lo_science_check_files(z$evidence_files[export_match,,drop=FALSE],checked)
   map<-read.csv(map_path,colClasses='character',na.strings=character())
   balance_cert<-list(schema_version=2L,status='COMPARABILITY_CERTIFIED',
     assessment=z$reviews$assessment[z$reviews$requirement_id=='Q06'],
@@ -109,6 +116,9 @@ lo_scientific_review_install <- function(repo,root,tasks,approval_csv,state) {
     reviewed_targets=nrow(reviewed),current_targets=nrow(current),requirements=8L,
     no_pupil_recalculation=TRUE),file.path(state,'SCIENTIFIC_REVIEW_BINDING.json'),pretty=TRUE,auto_unbox=TRUE)
   attr(rows,'checked_files')<-checked
+  attr(rows,'reviewed_reference_export')<-list(
+    path=normalizePath(export_path,winslash='/'),
+    sha256=z$evidence_files$sha256[export_match])
   cat('SCIENTIFIC_REVIEW_BOUND: Q01-Q08; ',nrow(current),' exact targets; no pupil recalculation\n',sep='')
   invisible(rows)
 }
