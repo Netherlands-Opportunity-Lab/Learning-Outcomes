@@ -1,4 +1,5 @@
 import csv
+import gzip
 import importlib.util
 import json
 import tempfile
@@ -47,6 +48,16 @@ class ActualCandidateProof(unittest.TestCase):
                 json_file(candidate / 'BUILD_SHA256_MANIFEST.json', [dict(path=p.relative_to(candidate).as_posix(), sha256=m.sha(p), bytes=p.stat().st_size) for p in files])
                 return m.verify(repo, root, root / 'proof.json')
             self.assertEqual(check()['membership_differences'], 0)
+            # Expanded country sets cross the publication compression boundary.
+            # The identical table remains mandatory, with no CSV/GZIP ambiguity.
+            original = expected / 'REFERENCE_BY_VIEW.csv'
+            compressed = original.with_suffix('.csv.gz')
+            raw = original.read_bytes()
+            compressed.write_bytes(gzip.compress(raw, mtime=0))
+            with self.assertRaisesRegex(AssertionError, 'Ambiguous'): check()
+            original.unlink()
+            self.assertEqual(check()['membership_differences'], 0)
+            original.write_bytes(raw); compressed.unlink()
             row['eligible_members'] = []
             with self.assertRaises(AssertionError): check()
             row['eligible_members'] = ['ITA']; row['required_years'] = '2022'

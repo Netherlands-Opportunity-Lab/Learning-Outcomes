@@ -3,7 +3,7 @@
 lo_analysis_support_match <- function(repo,tasks,approved,review) {
   policy<-jsonlite::fromJSON(file.path(repo,'06_pipeline/review_20261013/ANALYSIS_SUPPORT_POLICY.json'))
   if(policy$minimum_pupils!=30L||policy$minimum_schools!=5L||
-     !isTRUE(policy$require_known_school_for_each_target_pupil))stop('SUPPORT_UNREVIEWED_POLICY')
+     !identical(policy$require_known_school_for_each_target_pupil,FALSE))stop('SUPPORT_UNREVIEWED_POLICY')
   if(anyDuplicated(review$cell_id))stop('SUPPORT_DUPLICATE_RESULT')
   at<-match(approved$cell_id,review$cell_id)
   if(anyNA(at))stop('SUPPORT_REVIEW_MISSING_CURRENT_RESULT')
@@ -15,10 +15,11 @@ lo_analysis_support_match <- function(repo,tasks,approved,review) {
      any(rows$recorded_n!=as.numeric(approved$n_unweighted))||!all(rows$recorded_n_matches))
     stop('SUPPORT_REVIEW_RESULT_OR_CONTRACT_CHANGED')
   rows$publication_eligible<-rows$min_component_n>=policy$minimum_pupils&
-    rows$min_component_school_n>=policy$minimum_schools&rows$max_missing_school_n==0
+    rows$min_component_school_n>=policy$minimum_schools
+  # Known distinct schools provide a lower bound. Additional unknown school
+  # IDs do not undo proof of five schools; preserve their count as a caveat.
   rows$publication_restriction<-ifelse(rows$publication_eligible,'',
-    ifelse(rows$max_missing_school_n>0,'QUALITY_SCHOOL_ID_NOT_OBSERVED',
-      ifelse(rows$min_component_n<policy$minimum_pupils,'QUALITY_FEWER_THAN_30_TARGET_PUPILS','QUALITY_FEWER_THAN_5_TARGET_SCHOOLS')))
+    ifelse(rows$min_component_n<policy$minimum_pupils,'QUALITY_FEWER_THAN_30_TARGET_PUPILS','QUALITY_FEWER_THAN_5_IDENTIFIED_TARGET_SCHOOLS'))
   rows
 }
 

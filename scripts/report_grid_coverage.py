@@ -112,7 +112,7 @@ def support_qualifications(grid, rows, policy):
     valid = {r['cell_id']: r for r in grid if r['status'] == 'SCIENTIFICALLY_VALIDATED'}
     if len(rows) != len(valid) or {r['cell_id'] for r in rows} != valid.keys():
         raise ValueError('Analysis support does not cover the exact validated result set')
-    if policy['minimum_pupils'] != 30 or policy['minimum_schools'] != 5 or not policy['require_known_school_for_each_target_pupil']:
+    if policy['minimum_pupils'] != 30 or policy['minimum_schools'] != 5 or policy['require_known_school_for_each_target_pupil']:
         raise ValueError('Unreviewed analysis support policy')
     out = {}
     for row in rows:
@@ -122,9 +122,8 @@ def support_qualifications(grid, rows, policy):
             or float(row['recorded_n']) != float(parent['n_unweighted'])
             or row['recorded_n_matches'] != 'TRUE'):
             raise ValueError('Analysis support result dependency changed')
-        note = ('QUALITY_SCHOOL_ID_NOT_OBSERVED' if float(row['max_missing_school_n']) > 0 else
-                'QUALITY_FEWER_THAN_30_TARGET_PUPILS' if float(row['min_component_n']) < policy['minimum_pupils'] else
-                'QUALITY_FEWER_THAN_5_TARGET_SCHOOLS' if float(row['min_component_school_n']) < policy['minimum_schools'] else '')
+        note = ('QUALITY_FEWER_THAN_30_TARGET_PUPILS' if float(row['min_component_n']) < policy['minimum_pupils'] else
+                'QUALITY_FEWER_THAN_5_IDENTIFIED_TARGET_SCHOOLS' if float(row['min_component_school_n']) < policy['minimum_schools'] else '')
         out[row['cell_id']] = dict(analysis_min_component_n=row['min_component_n'],
             analysis_min_component_school_n=row['min_component_school_n'],analysis_support_note=note,
             analysis_support_allows_publication=not bool(note))

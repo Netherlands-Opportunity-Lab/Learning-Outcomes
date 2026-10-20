@@ -164,6 +164,9 @@ support<-data.frame(cell_id=ma$cell_id,result_hash=ma$result_hash,
  min_component_n=c(29,30,50,50),min_component_school_n=c(5,5,4,5),max_missing_school_n=0)
 matched<-lo_analysis_support_match('.',mt,ma,support)
 stopifnot(identical(matched$publication_eligible,c(FALSE,TRUE,FALSE,TRUE)))
+unknown_school<-support;unknown_school$max_missing_school_n<-1
+stopifnot(identical(lo_analysis_support_match('.',mt,ma,unknown_school)$publication_eligible,
+  matched$publication_eligible)) # Five known schools remain a proven lower bound.
 small_out<-file.path(work,'small_samples')
 small<-lo_guided_grid_export(bundle,mt,ma,small_out,analysis_support=matched)
 visible<-read.csv(file.path(small_out,'PRIVATE_GUIDED_VALIDATED_ROWS.csv'))
