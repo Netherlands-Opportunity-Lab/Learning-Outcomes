@@ -1,0 +1,26 @@
+{
+  "status": "ACTUAL_FINAL_CANDIDATE_MATCHES_INDEPENDENT_Q06",
+  "candidate_id": "2595b633d43e04532b",
+  "views": 8178,
+  "membership_differences": 0,
+  "required_year_differences": 0,
+  "nonadmitted_empty_anchor_views": 1265,
+  "actual_status_counts": {
+    "AGE_DOMAIN_NOT_ADMITTED": 1254,
+    "BALANCED_REFERENCE_AVAILABLE": 5079,
+    "FOCUS_VIEW_INCOMPLETE": 1473,
+    "NO_ELIGIBLE_REFERENCE": 12,
+    "FOCUS_CORE_INCOMPLETE": 360
+  },
+  "checked_candidate_files": 550,
+  "scientific_data_rows": 63384,
+  "source_sha256": "6cc44a216c3568bf942e3f454438f3b3612ef816891ef1aa38a2f3c8940eda98",
+  "actual_balance_export_sha256": "a26627b176ff7246b5ab202af16cb65a3c1e84256d041712e84a3e54ec17579a",
+  "independent_q06_export_sha256": "a26627b176ff7246b5ab202af16cb65a3c1e84256d041712e84a3e54ec17579a",
+  "reference_table_sha256": "f17721cd5eb1bffe21c8086d4304a06655c3fcc629d7e284d4a92c51e9514cf3",
+  "candidate_manifest_sha256": "ca0b7e80fe0a3574df71bc43c54f3bba6f068e48f1fa234bb765f0bf68e37708",
+  "builder_sha256": "dc677d7e9225348f67400cb7e6433c05381eef2250bc9e2969ceb6f03e2e394e",
+  "verification_script_sha256": "aebe813ba9cb5920cfe684ec3578ea5a6773fb6b94e48c07cbece08c23e3f743",
+  "no_pupil_recalculation": true,
+  "public_deployment": false
+}

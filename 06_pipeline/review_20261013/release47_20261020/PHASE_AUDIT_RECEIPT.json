@@ -1,0 +1,17 @@
+{
+  "status": "CURRENT47_EXISTING_RESULTS_REAUDITED_AND_DEPOSITED",
+  "targets": 90829,
+  "validated": 82142,
+  "unavailable": 8687,
+  "remaining": 0,
+  "result_deposit": {
+    "changed": false,
+    "commit": "48f6b242ec20cc0f6ebea102e0d4de95255149a0",
+    "path": "04_results/review/all_required"
+  },
+  "production_started": false,
+  "approval_sha256": "bc6a6c78e0e4030b761a82fcb68a8742c27bb7b769a29ab9f6cd9fdcc99ed5ec",
+  "grid_sha256": "a3f41d058b94dd5d4136a1186cdbda2bcccd5285c34d7aa8acfb7f6934b1f38f",
+  "configuration_sha256": "548c93d9f9619dc21b14c431c795e0758d3f689c3148510fd59285ce12fb3064",
+  "code_commit": "48f6b242ec20cc0f6ebea102e0d4de95255149a0"
+}

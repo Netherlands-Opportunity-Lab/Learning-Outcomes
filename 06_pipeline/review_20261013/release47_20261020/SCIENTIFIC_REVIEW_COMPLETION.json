@@ -1,5 +1,5 @@
 {
-  "status": "CURRENT47_Q01_Q08_REVIEWED_EXISTING_FINALIZER_NEXT",
+  "status": "CURRENT47_STEP1_COMPLETE_WITH_DOCUMENTED_LIMITATIONS",
   "reviewed_result_commit": "d36eea18980101ce354ebb05ce5f5d91280a70f8",
   "code_baseline": "b930be3172fcc517dc7adc97a1d8b384c195fe8b",
   "targets": 90829,
@@ -25,5 +25,16 @@
   "unchanged_numeric_results_redeposited_commit": "afd8bb1155c84d78e49dc3751f80b37c620abade",
   "corrected_figure_contracts": 9,
   "removed_phantom_product_points": 55,
-  "reviewed_export_integration": "Q06_EXPORT_INTEGRATION_REPAIR.json"
+  "reviewed_export_integration": "Q06_EXPORT_INTEGRATION_REPAIR.json",
+  "actual_finalizer_code_commit": "48f6b242ec20cc0f6ebea102e0d4de95255149a0",
+  "actual_candidate_id": "2595b633d43e04532b",
+  "actual_candidate_manifest_sha256": "ca0b7e80fe0a3574df71bc43c54f3bba6f068e48f1fa234bb765f0bf68e37708",
+  "actual_reference_verification_sha256": "6ee5b21071d050bc692579c09cd5454e96fef4917095262a72e6c3032bb53617",
+  "actual_audit_receipt_sha256": "578cf0888a3bd629ed46b97c358ad18caf56a5cc1186421a7d125a0abee7d8b8",
+  "scientific_quality_summary_sha256": "7d022d2fd1e37397be2cb01532cfeff313ebef9e2c67b95f6c72576a0cc145a5",
+  "actual_finalizer_passed": true,
+  "no_pupil_recalculation": true,
+  "step2_status": "PRODUCTS_REVIEWED_VERSIONED_DELIVERY_IN_PROGRESS",
+  "step3_status": "FULL_FRESH_SOURCE_REPLICATION_NOT_CERTIFIED",
+  "full_project_complete": false
 }

@@ -1,0 +1,95 @@
+{
+  "pdf_sha256": "f44f08da725103fdd918bc384365ea0107cb5f0b7b0c226979e0ab045a555eea",
+  "trace_sha256": "95c3af6664e5f2b2c55291ba273fc4566c1abb8a0165dfc392b51217a1c8f696",
+  "renders": [
+    {
+      "slide": 1,
+      "sha256": "458a6af07927e88449f1a81393ad31184764c7f73aa513e3acefc808c9ae3ba2"
+    },
+    {
+      "slide": 2,
+      "sha256": "1522ebe11eace5588265194bdbb5ea3c0718e875e22c73357a94e93aadf46352"
+    },
+    {
+      "slide": 3,
+      "sha256": "755ffa6e79a82d953b92316ff0828d9f257e63c75b4aa42eefe5b0d3f550f774"
+    },
+    {
+      "slide": 4,
+      "sha256": "59360aa740518c14706faf02db3d3edb42aace89831db532f7d28a1ce749b9ea"
+    },
+    {
+      "slide": 5,
+      "sha256": "9ca685b2ab4a6222857a41df3539ba41125b202c05eee9ad370fee7f4ea36957"
+    },
+    {
+      "slide": 6,
+      "sha256": "f7a41d4044c897e4cd8041a4554dcbf21671b3a0f8f45f934f42aac8d49ef1ba"
+    },
+    {
+      "slide": 7,
+      "sha256": "71b8b39a04a9ff4ca76e372f80a70813f9c781a2dc06254312243f932418d2ef"
+    },
+    {
+      "slide": 8,
+      "sha256": "fa1381fd1779822d7413b87687526b129c263ffa93ecd4d1716430ee01c0658b"
+    },
+    {
+      "slide": 9,
+      "sha256": "c4d8963332dd6e541ba22c625517a19459896335190742753380bbb963e7ca5f"
+    },
+    {
+      "slide": 10,
+      "sha256": "3de04a4029c310326e8745b2ad924d71773d6e3c9b671cd339517d3e1157bdc4"
+    },
+    {
+      "slide": 11,
+      "sha256": "a6dbe14517f54086d443d470dd7e6d85aa1f2e7c09f3109a5e3a9a1a79a1e45b"
+    },
+    {
+      "slide": 12,
+      "sha256": "6a8a9347e72fd21026231a0e77eb32c35d2d9e1ee806d9cf0f9be5427f8d9d78"
+    },
+    {
+      "slide": 13,
+      "sha256": "ceeda2386d71450fb53644e7746da2801d4f2f432ff37d26387a9a34d719585f"
+    },
+    {
+      "slide": 14,
+      "sha256": "24f8e6d65034b01f586d443c226ab33768505d607163897b36e14fbf9f4b0319"
+    },
+    {
+      "slide": 15,
+      "sha256": "9456738f815c1d3ea85be43b54f6754ce56a3c34e9cfe03ed36b8eeb9f10f2a1"
+    },
+    {
+      "slide": 16,
+      "sha256": "24d7cef56dcd28443cce417a931fd78801a9488b82a1a69172d0b3a814277fd6"
+    },
+    {
+      "slide": 17,
+      "sha256": "042bcb8b0703f07e4adf7960e9c1b7fc9c9f46806f8499b01a0e94bb21031d9a"
+    },
+    {
+      "slide": 18,
+      "sha256": "abeca2c90f8500e6d56f39c1082e75d53136db699aa8d768d6f4c7f6cf3223bf"
+    },
+    {
+      "slide": 19,
+      "sha256": "ee70282da99b08878cb61fffa3d064c4a130e114aafd27e8f89f8a33af17657c"
+    },
+    {
+      "slide": 20,
+      "sha256": "3313554d3d1fdc1f647b226cb6c60a3a3b1099584743f5894b2cc7c45a26502c"
+    },
+    {
+      "slide": 21,
+      "sha256": "4d428d34dd6a4707c56ec73d0ddc354747bbdc4184d63c9e166e41f4d1fd78d6"
+    },
+    {
+      "slide": 22,
+      "sha256": "70e2a0dca7ca6b57ef66bfbf0ae84504800e80064cb79f7f8eccad37a411d7cf"
+    }
+  ],
+  "format": "Rendered PDF; editable native charts in accompanying PPTX"
+}

@@ -1,0 +1,44 @@
+{
+  "status": "ALL_CURRENT_PAPER_PAGES_AND_PRESENTATION_SLIDES_VISUALLY_REVIEWED",
+  "paper_pages": 29,
+  "slides": 22,
+  "clipped_or_overlapping_content": 0,
+  "correction": "Table notes are kept with the final data row; isolated note-only page removed.",
+  "pdf_sha256": "2134701a5d74f5e05a2a78012f56fda08f68bde328fa83510100418d82eb7bd4",
+  "pptx_sha256": "b80ec02032627e125a9839895a73516f43da744235a2d78acfc92ac83cc1df41",
+  "original_native_finalizer_receipt_sha256": "3c8c01976f175e86971248ae9d9b9351e59c76891910adf9d8534587cf28b946",
+  "native_chart_count": 90,
+  "native_layout_findings": 0,
+  "font_policy": {
+    "checked_text_script_count": 497,
+    "native_font_rendering_verified": false,
+    "observed_font_families": [
+      "Oswald",
+      "Oswald Light",
+      "Oswald Medium"
+    ],
+    "observed_font_use_counts": {
+      "Oswald": 359,
+      "Oswald Light": 22,
+      "Oswald Medium": 116
+    },
+    "passed": true,
+    "performed": true
+  },
+  "notes_only_provenance_amendment": true,
+  "review_images": {
+    "deck-01.png": "6726fd05acf9554d0f757a41be79ebfd7875b1c63c806f58d7baea86fa9d26d7",
+    "deck-02.png": "5ce658f396bf298917600654773db94d0cc7a99d72add6af54ef0d45b7b4324b",
+    "deck-03.png": "b11810e327ec40f7e9fa19d234869d26487809429bddf2dab65ccd84f7a0e5f9",
+    "deck-04.png": "2cacead9687ad94a3a54423e6040ce3a9bf5b5e5ed684f3c7a707a4dbc78f2ee",
+    "paper-01.png": "710f7eb77ed198841fe68481897df0da04591c93f7ac33ed41e8dc466db68f46",
+    "paper-02.png": "8b442bb698f8df17c4c41496b95ef09375cd15c40223133d9ca9860dae51e51e",
+    "paper-03.png": "b1948a542f6214cc87a933b910272c14b06b0764188b0178b51937e718b72838",
+    "paper-04.png": "91ff2cde3bcaa5a37fdda4e8abee8e2248b268a7d4355959a71d576e003c0532",
+    "paper-05.png": "d68aa7343f93232eec48b021ff108d5bfbc3bfc517abf43cc1274409e14fb9e7",
+    "paper-06.png": "1f70bdcd60de48e5de6ce7c427611d0883d506c3b24805e792f49d517caa48a0",
+    "paper-07.png": "762e91071cb63e524b0d1a3a0b707994da300a384d094affd48273a5d7009beb",
+    "paper-08.png": "1a202d359abbf8a2f5fee6df4a28ee0cbf1bb66eb8f79c3c5956d20eba26da43"
+  },
+  "boundary": "Visual review of rendered products and structural package checks; no claim of native Microsoft PowerPoint rendering."
+}
