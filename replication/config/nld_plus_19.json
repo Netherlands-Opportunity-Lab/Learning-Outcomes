@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "scope": "nld_plus_19",
+  "selection": {
+    "surveys": [],
+    "years": [],
+    "domains": [],
+    "modules": [],
+    "countries": [
+      "AUS",
+      "AUT",
+      "BEL",
+      "CAN",
+      "CHE",
+      "DEU",
+      "DNK",
+      "ESP",
+      "FIN",
+      "FRA",
+      "GBR",
+      "IRL",
+      "ITA",
+      "LUX",
+      "NLD",
+      "NOR",
+      "SWE",
+      "USA"
+    ],
+    "stats": [],
+    "groups": [],
+    "definitions": [],
+    "peer_environments": [],
+    "cell_ids": []
+  },
+  "max_compute_units": 100000,
+  "checkpoint": {
+    "max_new_cells": 1000,
+    "max_elapsed_seconds": 600
+  }
+}

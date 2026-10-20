@@ -1,0 +1,6 @@
+{
+  "status": "WITHDRAWN_DO_NOT_REDEPLOY",
+  "reason": "Owner requires private-only documents; previous package and three direct document downloads removed.",
+  "replacement": "05_publication/INTERIM_CURRENT.json",
+  "historic_manifest_retained_for_provenance": true
+}

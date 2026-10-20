@@ -2,7 +2,7 @@
 
 **Nieuw expliciet besluit, 20 oktober: paper en slides uitsluitend voor eigen gebruik, nog niet online.** Dit vervangt eerdere publicatieopdrachten voor deze documenten. Bewaar eigen exemplaren; publiceer ze niet op GitHub Pages, in een openbare repository of in een publiek downloadpakket. Eerdere versies staan al online; stap 3 begint met het zorgvuldig terugtrekken daarvan. Verwijderde links zijn geen bewijs van privacy zolang bestanden in pakketten of Git-geschiedenis bereikbaar blijven. De website mag publiek blijven. De 36 uitgestelde landen en volledige bronreplicatie blijven uitgesteld. Zie `review_20261013/release47_20261020/PRIVATE_PRODUCTS_USER_DECISION_20261020.json`.
 
-## Huidige opdracht — stap 2 opnieuw inhoudelijk en technisch beoordeeld
+## Huidige opdracht — openbare dashboardrelease en private documenten
 
 **20 oktober: de releasekandidaten voor current47 zijn bijgewerkt.** Het dashboard
 is gecontroleerd over alle 174 figuurcontracten en 8.178 land-figuurkeuzes. De
@@ -12,11 +12,13 @@ jaarassen bij ontbrekende golven, onderscheidende peerkleuren en tekst-ID's met
 exacte claimouders. De twaalf claims en drie formele toetsen blijven ongewijzigd.
 Zie [de productreview](review_20261013/release47_20261020/STEP2_REVIEW_20261020.md).
 
-De bestaande live dashboardapplicatie blijft gelijk. **De nieuw gecorrigeerde
-paper is nog een branchkandidaat; de live paper en het downloadpakket bevatten
-tot opdracht 3 de vorige versie.** De onderstaande historische online hashcontrole
-blijft alleen bewijs voor die vorige publicatie. Publiceer en controleer de nieuwe
-producthashes bij opdracht 3. Er is nu geen RStudio-handeling nodig.
+De bestaande dashboardapplicatie en onderzoeksresultaten blijven gelijk. De
+paper en slides worden uitsluitend privé geleverd. De huidige opdracht trekt
+hun openbare bestanden, pakketkopieën en CI-downloads terug en beveiligt de
+nieuwe dashboardrelease tegen herpublicatie. De private kopie is volledig vanuit
+Drive teruggehaald en op 145 bestandshashes gecontroleerd. Git-geschiedenis en
+caches zijn een afzonderlijke openbaarheidsgrens; daarvoor wordt geen privacy
+geclaimd op basis van verwijderde links. Er is geen RStudio-bronrun nodig.
 
 De 36 uitgestelde landen én de volledige nieuwe leerlingbronreplicatie blijven
 uitgesteld. Het controleren en reconstrueren van deze aggregaatproducten start
@@ -30,7 +32,7 @@ resultaat of onderzoeksdefinitie; inhoudelijke A-besluiten blijven ongewijzigd.
 
 **Stap 1 is opnieuw gecontroleerd en afgesloten voor current47.** De [inhoudelijke eindreview](review_20261013/release47_20261020/STEP1_REVIEW_20261020.md) en [uitvoerbare bewijscontrole](review_20261013/release47_20261020/STEP1_EVIDENCE_RECHECK.json) sluiten aan op 90.829 doelen, 82.142 resultaten en 8.687 onderbouwd onbeschikbare doelen. Er zijn nul nieuwe leerlingberekeningen nodig. De twaalf paperclaims zijn opnieuw numeriek gecontroleerd. Voer nu geen RStudio-bronrun uit; de twee uitgestelde onderdelen blijven bewaard voor later. De onderstaande aflever- en historische uitvoeringsstanden zijn geen nieuwe rekenopdracht.
 
-## Afgeleverd — 20 oktober: huidige 47, uitgestelde 36 blijven buiten beeld
+## Historische aflevering vóór de private-documentbeslissing — niet opnieuw publiceren
 
 **Stap 1 en stap 2 zijn afgesloten voor current47.** Gebruik het bestaande bewijs;
 herhaal geen broninventarisatie, berekeningen of ongewijzigde productcontroles.

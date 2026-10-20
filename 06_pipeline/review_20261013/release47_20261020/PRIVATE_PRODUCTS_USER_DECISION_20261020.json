@@ -24,6 +24,8 @@
   ],
   "subsequent_publication_requires": "A new explicit user decision for paper/slides",
   "deferred36_and_fresh_source_replication": "Remain deferred; do not start either run",
-  "step3_started": false,
-  "overrides": "Earlier instructions to publish the paper, presentation or an all-product replication ZIP during step 3"
+  "step3_started": true,
+  "overrides": "Earlier instructions to publish the paper, presentation or an all-product replication ZIP during step 3",
+  "execution_decision": "USER_2026_10_20_WITHDRAW_PUBLIC_DOCUMENTS_KEEP_PRIVATE_DASHBOARD_ONLINE",
+  "private_restore_evidence": "PRIVATE_DOCUMENT_RESTORE_PROOF.json"
 }

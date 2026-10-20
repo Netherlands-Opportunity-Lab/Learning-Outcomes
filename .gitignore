@@ -55,3 +55,16 @@ dist/
 
 # Generated publication build
 public_site_dist/
+
+# Private-only documents: keep the owned bundle outside this public checkout.
+/04_products_or_release/current47/paper/Leerprestaties*
+/04_products_or_release/current47/paper/page-*.png
+/04_products_or_release/current47/paper/PAPER_PRODUCT_TRACE.json
+/04_products_or_release/current47/deck/final/*.pdf
+/04_products_or_release/current47/deck/final/*.pptx
+/04_products_or_release/current47/deck/renders/slide-*.png
+/04_products_or_release/current47/deck/POLICY_DECK_TRACE.json
+/04_products_or_release/current47/visual_review/
+/04_products_or_release/current47/scripts/build_paper.py
+/04_products_or_release/current47/scripts/build_policy_deck.mjs
+/private_products/

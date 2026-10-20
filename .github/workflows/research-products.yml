@@ -1,12 +1,11 @@
-name: research-product-reconstruction
+name: public-product-reconstruction
 on:
   pull_request:
     paths:
-      - "04_products_or_release/current47/**"
+      - "05_publication/**"
+      - "replication/**"
       - "04_results/review/all_required/**"
-      - "06_pipeline/review_20261013/scientific_review/SCIENTIFIC_REVIEW_MANIFEST.json"
       - ".github/workflows/research-products.yml"
-      - "05_publication/tests/verify_current47_selections.mjs"
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,24 +21,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: pip
-          cache-dependency-path: 04_products_or_release/current47/requirements.txt
-      - name: Install recorded product libraries
-        run: python -m pip install -r 04_products_or_release/current47/requirements.txt
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
-      - name: Check paper anchors and written-claim regression cases
-        run: python 04_products_or_release/current47/scripts/test_product_contracts.py
-      - name: Check all actual dashboard selection contracts
-        run: node 05_publication/tests/verify_current47_selections.mjs . 05_publication/verified_guided_candidates/ce55760e9df4f4b4428e dashboard-selection-proof.json
-      - name: Rebuild the paper and native-chart presentation from sealed aggregates
-        run: python 04_products_or_release/current47/REBUILD_PRODUCTS.py --output rebuilt_products
+      - name: Reject private document and nested archive regressions
+        run: python -m unittest discover -s 05_publication/tests -p test_public_distribution.py -v
+      - name: Check all actual public selection contracts
+        run: python 05_publication/tests/check_current_public.py
+      - name: Reconstruct downloadable dashboard and inspect sealed results
+        run: python 05_publication/tests/verify_interim_candidate.py
       - uses: actions/upload-artifact@v4
         with:
-          name: product-proof-${{ matrix.os }}
-          path: |
-            dashboard-selection-proof.json
-            rebuilt_products/PRODUCT_VALUES_AND_CLAIMS_REVIEW.json
-            rebuilt_products/deck/final/*.rebuild.json
-            rebuilt_products/paper/PAPER_PRODUCT_TRACE.json
+          name: dashboard-proof-${{ matrix.os }}
+          path: dashboard-selection-proof.json

@@ -23,7 +23,7 @@ assert.equal(hash(path.join(repo,runtime)),hash(path.join(site,'assets/explorer.
 const E=await import(pathToFileURL(path.join(repo,runtime)).href);
 const figures=asset('data/figure_registry.json').figures;
 const countries=asset('data/common42.json');
-const expected=read(path.join(repo,'04_products_or_release/current47/data/RESEARCH_PRODUCT_DATA.json')).provenance.countries;
+const expected=read(path.join(repo,'06_pipeline/review_20261013/release47_20261020/RELEASE_PHASE_DECISION.json')).current_countries;
 assert.deepEqual(countries.map(x=>x.code).sort(),[...expected].sort());
 const index=asset('data/explorer_references.json');
 assert.equal(index.policy,'FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3');
