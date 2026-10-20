@@ -13,6 +13,10 @@ KIND = "PARTIAL_VERIFIED_RESULTS"
 PACKAGE = "replication/learning-outcomes-replication.zip"
 FORBIDDEN = {".sav", ".zsav", ".dta", ".rds", ".rda", ".rdata", ".parquet",
              ".sqlite", ".db", ".sas7bdat", ".xls", ".xlsx", ".gz"}
+# Only the two explicitly hash-bound aggregate coverage tables may be gzip
+# members. Other opaque archives and every pupil-file format remain forbidden.
+PUBLIC_COVERAGE = {"release_inputs/EXACT_CELL_COVERAGE.csv.gz",
+                   "release_inputs/PRODUCT_CELL_TRACE.csv.gz"}
 
 def sha(path):
     with path.open("rb") as stream:
@@ -34,9 +38,11 @@ def verify_package(path):
         names = archive.namelist()
         if len(names) != len(set(names)) or any(not safe_relative(n) for n in names):
             fail("unsafe replication package member")
-        if any(Path(n).suffix.lower() in FORBIDDEN | {".zip"} for n in names):
+        if any(Path(n).suffix.lower() in FORBIDDEN | {".zip"} and n not in PUBLIC_COVERAGE for n in names):
             fail("source/binary archive in replication package")
-        if sum(z.file_size for z in archive.infolist()) > 150_000_000:
+        # The reviewed 47-country reference evidence alone is 134 MB. Keep a
+        # finite expanded bound while allowing that proof and the sealed data.
+        if sum(z.file_size for z in archive.infolist()) > 750_000_000:
             fail("unexpected replication package size")
         manifest = json.loads(archive.read("PACKAGE_MANIFEST.json"))
         files = manifest["files"]
@@ -101,6 +107,14 @@ def verify(site, certificate):
         fail("package code version differs")
     if package["files"]["release_inputs/dashboard_cells.csv"] != qa["scientific_source_sha256"]:
         fail("replication data differs from verified public input")
+    if PUBLIC_COVERAGE & set(package["files"]):
+        for name, key in (("EXACT_CELL_COVERAGE.csv.gz", "coverage_sha256"),
+                          ("PRODUCT_CELL_TRACE.csv.gz", "product_trace_sha256")):
+            if package["files"].get("release_inputs/" + name) != cert.get(key):
+                fail("unbound aggregate coverage archive " + name)
+        spec=importlib.util.spec_from_file_location("absence_verifier",Path(__file__).with_name("LO_FINAL_GUIDED_PUBLIC_RELEASE.py"))
+        absence=importlib.util.module_from_spec(spec);spec.loader.exec_module(absence)
+        absence.verify_reviewed_absence(site,cert,qa)
     countries = read(site / "data/common42.json")
     ids = [c["code"] for c in countries]
     figures = read(site / "data/figure_registry.json")["figures"]
@@ -198,7 +212,8 @@ def verify(site, certificate):
             missing = {(v["year"], v["series_id"]) for v in a["missing_points"]}
             if not present <= required or missing != required - present or len(missing) != len(a["missing_points"]):
                 fail("missing points differ from exact grid")
-            state = "UNAVAILABLE" if reference['status']=='AGE_DOMAIN_NOT_ADMITTED' else "VALIDATED" if not missing else "PARTIAL" if present else a["display_state"]
+            unobserved_view = reference['status'] in ('AGE_DOMAIN_NOT_ADMITTED', 'FOCUS_VIEW_INCOMPLETE') and not required
+            state = "UNAVAILABLE" if unobserved_view else "VALIDATED" if not missing else "PARTIAL" if present else a["display_state"]
             if reference['status']=='AGE_DOMAIN_NOT_ADMITTED' and present:
                 fail('numeric points outside admitted age-domain combination')
             if state != a["display_state"] or (not present and state not in ("PLACEHOLDER", "UNAVAILABLE")):
