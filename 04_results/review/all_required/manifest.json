@@ -44,6 +44,7 @@
     "compute": "652fabe25f4d97e0dac5519ef5308164530b4254e1d61aa05958da585e6563ae",
     "validated": "bc6a6c78e0e4030b761a82fcb68a8742c27bb7b769a29ab9f6cd9fdcc99ed5ec",
     "unavailable": "74c693f7b77a34a8c515416debb0dd72c24d03e4d505ab6ec98b1bbfdc756533",
+    "fresh_source_replication": "DISABLED",
     "run_configuration": "b7066d2ee8cee2afb8397734c0d99dfd6a04b8a5d0a11ee0f23c4c489e2d9966",
     "run_config_code": "18be6eb2a24aace25c8f6293c130c8824be90c9754f73c960f7f7e1988f7b0c0"
   },
@@ -93,7 +94,7 @@
     },
     {
       "file": "scripts.csv",
-      "sha256": "ac0def3d486a499bf577826b16341689b2648525ef4399b6eb8eb00a558bcce4",
+      "sha256": "b8abc39755579c9541586bf402db37fb448ae3c14a322c549fb76b3f076601b8",
       "bytes": 1711
     },
     {
