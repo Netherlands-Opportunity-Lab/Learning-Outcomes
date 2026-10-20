@@ -1,0 +1,10 @@
+{
+  "status": "EXACT_TEMPORARY_PRODUCTS_REMOVED_AFTER_REMOTE_VERIFICATION",
+  "files": 1179,
+  "logical_bytes_removed": 695746945,
+  "free_bytes_before": 1434943488,
+  "free_bytes_after": 2046578688,
+  "actual_free_increase": 611635200,
+  "retained": "Official source files, scientific registries/evidence, source code, GitHub products, live package, removal hashes",
+  "selection_manifest_sha256": "86fec022af429d5f5bee1fd4141fdf1312d65da3cab2139c9f9776d8f4e017f0"
+}
