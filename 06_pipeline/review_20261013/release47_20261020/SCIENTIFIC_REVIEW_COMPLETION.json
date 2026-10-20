@@ -8,8 +8,8 @@
   "pending": 0,
   "selected_countries": 47,
   "deferred_countries": 36,
-  "scientific_private_manifest_sha256": "8dd48869214d3753e2b4496c53cd62413e914432e991b7223ee14094cb2c8a4a",
-  "scientific_public_manifest_sha256": "63b9dc73e1d363427e4d812e79600a804dc2048b11a71be5b898a45f2a21ff39",
+  "scientific_private_manifest_sha256": "2d0ccd2d02ac6e6a57a42d2a20c1c77e89d7c321567a51bd11a335948ae9e2b7",
+  "scientific_public_manifest_sha256": "c205f624793a9d55fc25ced02540f91466e5e0e78a8b69fe8c801b229c928965",
   "coverage_manifest_sha256": "9259d38f9f9e176f74571c59a2e517f0a0769402e9121b4614902f64ef3b3a77",
   "q_requirements": 8,
   "reference_views": 8178,
@@ -24,5 +24,6 @@
   "products_complete": false,
   "unchanged_numeric_results_redeposited_commit": "afd8bb1155c84d78e49dc3751f80b37c620abade",
   "corrected_figure_contracts": 9,
-  "removed_phantom_product_points": 55
+  "removed_phantom_product_points": 55,
+  "reviewed_export_integration": "Q06_EXPORT_INTEGRATION_REPAIR.json"
 }
