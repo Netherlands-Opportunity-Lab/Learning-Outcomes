@@ -14,6 +14,10 @@ the export commit is not necessarily the producer commit.
 
 ## Three distinct reproduction routes
 
+On Windows, extract to a short directory name (for example `C:/LO47`) to avoid
+legacy path-length limits in older ZIP extraction tools. Use a new empty output
+directory; never extract over an existing result run.
+
 1. **Dashboard from aggregates:** Python 3.12, standard library only:
 
    ```sh

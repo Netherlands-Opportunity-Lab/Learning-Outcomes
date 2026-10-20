@@ -1,0 +1,17 @@
+{
+  "status": "DOWNLOADED_PACKAGE_DASHBOARD_AND_RESEARCH_TABLES_REPRODUCED",
+  "source_commit": "92d5e38016cde66923c02d59c4e6b9730dd546a3",
+  "package_sha256": "69703942a078647b1395b3fe063985c23c1416d82809112614bffc565f0bdd3d",
+  "package_bytes": 97992084,
+  "unpacked_bytes": 471646252,
+  "package_files": 458,
+  "scientific_source_data_used": false,
+  "pupil_estimations": 0,
+  "full_fresh_source_replication_certified": false,
+  "dashboard_core_manifest_sha256": "01fb231a91525d3ac9b806038ca040d043f08e33472a101120fc41516567026f",
+  "rebuilt_research_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+  "original_research_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+  "exact_research_table_parity": true,
+  "elapsed_seconds": 73.3,
+  "working_directory_kind": "New empty directory, package-only dependencies"
+}

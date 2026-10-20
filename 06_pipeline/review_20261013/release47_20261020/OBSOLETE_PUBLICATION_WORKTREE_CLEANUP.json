@@ -1,0 +1,11 @@
+{
+  "status": "OBSOLETE_CLEAN_PUBLICATION_WORKTREE_REMOVED",
+  "commit": "d9592dee1da062cc55e5ffcd2e200cbb9f1efa0e",
+  "remote_history_retained": true,
+  "untracked_files": 0,
+  "ignored_files": 0,
+  "free_before": 1146613760,
+  "free_after": 1883299840,
+  "main_checkout_retained": true,
+  "raw_sources_and_results_unchanged": true
+}
