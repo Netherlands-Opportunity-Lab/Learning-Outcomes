@@ -1,0 +1,15 @@
+{
+  "status": "EXACT_CURRENT47_PRIVATE_SOURCE_BINDINGS_PREPARED_NOT_EXECUTED",
+  "selected_countries": 47,
+  "source_contexts_including_calibration": 741,
+  "source_files_located": 597,
+  "missing_source_paths": 0,
+  "source_bytes_rehashed_by_controller_at_run": true,
+  "new_output_root": true,
+  "prior_results_used_for_estimation": false,
+  "original_private_checkpoint_overwritten": false,
+  "github_result_deposit": "OFF_UNTIL_PARITY_REVIEW",
+  "initial_conservative_free_space_bytes": 8589934592,
+  "command_basename": "RUN_CURRENT47_SOURCE_REPLICATION.R",
+  "deferred36_started": false
+}

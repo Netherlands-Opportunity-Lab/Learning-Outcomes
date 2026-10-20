@@ -22,6 +22,16 @@ De laatste selectieve opruiming verwijderde 1.179 tijdelijke productbestanden
 na hash- en remotecontrole; noodzakelijke bronnen en wetenschappelijk bewijs
 zijn behouden. Controleer de ruimte vóór een schone bronrun.
 
+De afzonderlijke bronrun is nu voorbereid met 597 bestaande bronbestanden,
+de exacte current47-configuratie, een lege gecomprimeerde werkmap en een
+afzonderlijke private Drive-bestemming. De bestaande resultaatbasis wordt niet
+overschreven. `RUN_CURRENT47_SOURCE_REPLICATION.R` is het lokale RStudio-ingangspunt;
+zie [de uitleg en resterende aftekening](review_20261013/release47_20261020/FRESH_SOURCE_RUN.md).
+Het commando weigert een verkeerde scope, gewijzigde instellingen of onvoldoende
+ruimte. Het is een nieuwe verplichte replicatiecontrole, geen herhaling van de
+al afgesloten inventarisatie of productbouw. Start de 36 uitgestelde landen pas
+nadat deze bronreplicatie en de aansluiting van haar afleidingen zijn beoordeeld.
+
 [Live dashboard](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/nl/)
 · [Paper, presentatie en pakket](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/info/nl/)
 · [Exact aflever-, test- en resterendewerkdossier](review_20261013/release47_20261020/CURRENT47_DELIVERY.json).

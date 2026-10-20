@@ -1,0 +1,11 @@
+{
+  "status": "RETAINED_CHECKOUT_AND_PARTITIONS_LOSSLESSLY_COMPRESSED",
+  "files": 517,
+  "logical_bytes_unchanged": 2431455923.0,
+  "free_bytes_before": 7275384832,
+  "free_bytes_after": 8485371904,
+  "measured_free_difference": 1209987072,
+  "deleted_files": 0,
+  "scientific_results_changed": 0,
+  "hashes_verified_before_and_after": true
+}

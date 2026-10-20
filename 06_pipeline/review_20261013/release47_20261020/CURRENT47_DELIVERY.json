@@ -78,6 +78,27 @@
     "free_bytes_after": 2046578688,
     "actual_free_increase": 611635200,
     "retained": "Official source files, scientific registries/evidence, source code, GitHub products, live package, removal hashes",
-    "selection_manifest_sha256": "86fec022af429d5f5bee1fd4141fdf1312d65da3cab2139c9f9776d8f4e017f0"
+    "selection_manifest_sha256": "86fec022af429d5f5bee1fd4141fdf1312d65da3cab2139c9f9776d8f4e017f0",
+    "additional_evidence": [
+      "COMPLETED_PREPARATION_WORKTREE_CLEANUP.json",
+      "RETAINED_PISA_SOURCE_COMPRESSION.json",
+      "VERIFIED_CACHE_COMPRESSION.json",
+      "CHECKOUT_PARTITION_COMPRESSION.json",
+      "GIT_STORAGE_REPACK.json"
+    ],
+    "free_bytes_last_measured": 8701497344
+  },
+  "fresh_source_launcher": {
+    "status": "PRIVATE_CONFIGURATION_PREPARED_SYNTHETIC_LAUNCHER_TEST_PASSED_SOURCE_RUN_NOT_STARTED",
+    "script": "scripts/START_FRESH_SOURCE_REPLICATION.R",
+    "script_sha256": "842607098ac45c4c56ac26aa173d19d06a51b9e1676599fd9c49c119bc775a29",
+    "source_files_located": 597,
+    "selected_countries": 47,
+    "deferred_countries_excluded": 36,
+    "private_entrypoint_basename": "RUN_CURRENT47_SOURCE_REPLICATION.R",
+    "initial_space_reserve_bytes": 8589934592,
+    "published_package_rebuilt_again": false,
+    "published_package_remains_pinned_to": "92d5e38016cde66923c02d59c4e6b9730dd546a3",
+    "note": "The optional launcher is added to repository code; the immutable published package already documents the same START.R fresh-source route."
   }
 }
