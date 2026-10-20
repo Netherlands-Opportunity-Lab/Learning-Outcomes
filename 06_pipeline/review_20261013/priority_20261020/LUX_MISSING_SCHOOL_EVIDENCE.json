@@ -1,0 +1,21 @@
+{
+  "status": "VERIFIED_SOURCE_LIMITATION_RECORDED",
+  "country": "LUX",
+  "survey": "PISA",
+  "year": 2025,
+  "exact_selected_targets": 48,
+  "newly_documented_targets": 3,
+  "existing_unavailability_retained": 45,
+  "canonical_sha256": "22eb4eb0f04df94d38dffecc0acd3362db6e4b52ed426ff2d63cb580e3b25589",
+  "raw_sha256": "6f6fa1e1ecce23d39183d44ec82ba05b245fe88a2416c8d8dc1b016d556fc379",
+  "raw_partition_sha256": "c6ac89fe8da4dabd6b76331f534a08893c59c1463c8472f085a6377efcdccb93",
+  "missing_school_ids": 6078,
+  "source_field": "CNTSCHID",
+  "reason": "SCHOOL_IDENTIFIER_UNOBSERVED_IN_VERIFIED_SOURCE: LUX PISA 2025 CNTSCHID missing for all 6078 pupils; no alternative school identifier field. School variance and school/programme peer environments are not identifiable; national pupil statistics remain eligible.",
+  "valid_result_registry_unchanged": true,
+  "code_commit": "5fb49472682db7f5a65f241f18f2cd759639a500",
+  "probe_sha256": "8711bb25ead42dce1136a545432b8d6df9e1a0dae9b63a1b19d339a526843b0c",
+  "exact_targets_sha256": "06784a866527b11d4ca2e1b270c7a4251191c6b11f27eb75e8793fd1a1254aec",
+  "script_sha256": "7402857b292d7a20daca748529ee5ba5ccba7285d554b6cbc8aa1fda57379599",
+  "absence_registry_sha256": "74c693f7b77a34a8c515416debb0dd72c24d03e4d505ab6ec98b1bbfdc756533"
+}
