@@ -1,6 +1,6 @@
 # AGENTS.md — Learning Outcomes / PISA–PIRLS–TIMSS
 
-Latest direct user decision, 20 October: paper and slides are for private personal delivery only, not online. This supersedes earlier step-3 publication authorization for those products, their editable content and public package copies. Prior versions are already publicly accessible; step 3 must withdraw them while preserving private copies and the public dashboard. Link removal alone does not remove Git history or caches. Do not destructively rewrite history or change whole-repository visibility without a specific decision. See `06_pipeline/review_20261013/release47_20261020/PRIVATE_PRODUCTS_USER_DECISION_20261020.json`. Neither deferred36 nor fresh-source replication is resumed.
+Latest direct user decision, 20 October: paper and slides are for private personal delivery only, not online. This supersedes earlier step-3 publication authorization for those products, their editable content and public package copies. Current public copies and CI packages are withdrawn and the public-only release verified. Older Git commits can still expose documents; the specific history-rewrite decision remains pending. Preserve the private originals and public dashboard. Link removal alone does not remove Git history or caches. Do not destructively rewrite history or change whole-repository visibility without a specific decision. See `06_pipeline/review_20261013/release47_20261020/PRIVATE_PRODUCTS_USER_DECISION_20261020.json`. Neither deferred36 nor fresh-source replication is resumed.
 
 Latest direct review instruction, 20 October: check the three steps against completed current47 work, excluding both deferred36 production and the full fresh-source replication exercise. Do not start either deferred run. Reuse unchanged scientific evidence and repair actual findings. See `06_pipeline/review_20261013/release47_20261020/REVIEW_EXECUTION_DECISION_20261020.json`.
 
@@ -64,5 +64,5 @@ The dashboard builds one figure at a time with years on the x-axis and selected 
 - End each task with actual evidence, commit/PR/test links, unresolved dependencies and next action. Update the canonical registers rather than creating competing handoff plans.
 
 ## Branch
-Development branch: `feat/reproducible-storage-and-cleanup-20261010`; draft PR #5; issue #6 contains historical execution evidence. Verify current head before writing. Commit substantial changes without overwriting concurrent work.
+Development branch: `feat/reproducible-storage-and-cleanup-20261010`; PR #5 merged on 20 October 2026. Main, development and preparation branches share the reviewed delivery; issue #6 contains historical execution evidence. Verify current head before writing. Commit substantial changes without overwriting concurrent work.
 

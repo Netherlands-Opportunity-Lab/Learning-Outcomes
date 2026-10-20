@@ -1,0 +1,186 @@
+{
+  "status": "PASS",
+  "tested_commit": "6ee45ef41da9ab23b2a4d6f167f4ebba881df6f7",
+  "checked_at_utc": "2026-10-20T21:14:01.304785+00:00",
+  "runs": [
+    {
+      "id": 39497231870,
+      "head_sha": "6ee45ef41da9ab23b2a4d6f167f4ebba881df6f7",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497231870",
+      "name": "repository-checks",
+      "event": "pull_request",
+      "jobs": [
+        {
+          "id": 118885317633,
+          "name": "validate",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497231870/job/118885317633"
+        }
+      ]
+    },
+    {
+      "id": 39497231906,
+      "head_sha": "6ee45ef41da9ab23b2a4d6f167f4ebba881df6f7",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497231906",
+      "name": "public-dashboard-checks",
+      "event": "pull_request",
+      "jobs": [
+        {
+          "id": 118885317835,
+          "name": "interim-dashboard (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497231906/job/118885317835"
+        },
+        {
+          "id": 118885318352,
+          "name": "interim-dashboard (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497231906/job/118885318352"
+        },
+        {
+          "id": 118885318427,
+          "name": "public-dashboard",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497231906/job/118885318427"
+        }
+      ]
+    },
+    {
+      "id": 39497232159,
+      "head_sha": "6ee45ef41da9ab23b2a4d6f167f4ebba881df6f7",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232159",
+      "name": "fresh-source-launcher-contract",
+      "event": "pull_request",
+      "jobs": [
+        {
+          "id": 118885318160,
+          "name": "isolated-launcher (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232159/job/118885318160"
+        },
+        {
+          "id": 118885319292,
+          "name": "isolated-launcher (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232159/job/118885319292"
+        }
+      ]
+    },
+    {
+      "id": 39497232002,
+      "head_sha": "6ee45ef41da9ab23b2a4d6f167f4ebba881df6f7",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232002",
+      "name": "public-product-reconstruction",
+      "event": "pull_request",
+      "jobs": [
+        {
+          "id": 118885317954,
+          "name": "reproduce (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232002/job/118885317954"
+        },
+        {
+          "id": 118885318908,
+          "name": "reproduce (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232002/job/118885318908"
+        }
+      ]
+    },
+    {
+      "id": 39497232196,
+      "head_sha": "6ee45ef41da9ab23b2a4d6f167f4ebba881df6f7",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232196",
+      "name": "scientific-evidence-reuse",
+      "event": "pull_request",
+      "jobs": [
+        {
+          "id": 118885318083,
+          "name": "verify (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232196/job/118885318083"
+        },
+        {
+          "id": 118885318259,
+          "name": "verify (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232196/job/118885318259"
+        }
+      ]
+    },
+    {
+      "id": 39497232345,
+      "head_sha": "6ee45ef41da9ab23b2a4d6f167f4ebba881df6f7",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232345",
+      "name": "storage-and-replication-contract",
+      "event": "pull_request",
+      "jobs": [
+        {
+          "id": 118885318823,
+          "name": "locked-environment (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232345/job/118885318823"
+        },
+        {
+          "id": 118885319363,
+          "name": "r-entrypoint-parse (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232345/job/118885319363"
+        },
+        {
+          "id": 118885319407,
+          "name": "r-entrypoint-parse (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232345/job/118885319407"
+        },
+        {
+          "id": 118885319476,
+          "name": "storage-tests (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232345/job/118885319476"
+        },
+        {
+          "id": 118885319512,
+          "name": "locked-environment (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232345/job/118885319512"
+        },
+        {
+          "id": 118885319574,
+          "name": "storage-tests (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39497232345/job/118885319574"
+        }
+      ]
+    }
+  ],
+  "source_replication": "NOT_RUN; platform software, aggregate reconstruction and locked environment checks only"
+}

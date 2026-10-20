@@ -1,0 +1,13 @@
+{
+  "status": "VERSIONED_PUBLIC_RELEASE_AND_ASSET_READBACK_VERIFIED",
+  "tag": "v2026.10.20-current47-dashboard.1",
+  "target_commit": "6ee45ef41da9ab23b2a4d6f167f4ebba881df6f7",
+  "release_id": 418891327,
+  "release_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/releases/tag/v2026.10.20-current47-dashboard.1",
+  "asset_id": 660518078,
+  "asset_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/releases/download/v2026.10.20-current47-dashboard.1/learning-outcomes-replication.zip",
+  "package_sha256": "fe6924fe726a92e2c114ab78b9318d978264c4a51b01d1876e19850cace07158",
+  "package_bytes": 71470480,
+  "private_documents_included": false,
+  "doi": null
+}

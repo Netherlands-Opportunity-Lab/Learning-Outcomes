@@ -1,0 +1,17 @@
+{
+  "status": "WINDOWS_RSTUDIO_COMPATIBLE_INSPECTION_VERIFIED",
+  "package_sha256": "fe6924fe726a92e2c114ab78b9318d978264c4a51b01d1876e19850cace07158",
+  "targets": 90829,
+  "validated": 82142,
+  "unavailable": 8687,
+  "total_seconds": 11.35,
+  "inspection_seconds": 5.267,
+  "transfer_seconds_included": false,
+  "maximum_archive_expansion_bytes": 524288000,
+  "extracted_files_removed": true,
+  "pupil_calculations": 0,
+  "linux_wrapper_tested": false,
+  "first_local_package_script_sha256": "94fd0981364bdb6838c81f52223116ccfe64c0edbf0d5c2e41fb9ec645f77a14",
+  "current_script_sha256": "e523bc44f37be3f370ab0fcb96e6a93a9a54853a377308bd384c1ad1cf04adbf",
+  "fixed_release_http_run_evidence": "STEP3_AFTER_CLEANUP_INSPECTION.json"
+}

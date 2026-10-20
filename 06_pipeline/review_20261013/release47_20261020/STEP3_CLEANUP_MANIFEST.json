@@ -1,0 +1,7 @@
+{
+  "compressed_file": "STEP3_CLEANUP_FILES.csv.gz",
+  "gzip_sha256": "72dba9e95fbc174979e900d9fa7b9ebc3b01c978c1de4277bdadead622d2f804",
+  "original_csv_sha256": "a268cadfb2da967fe419e0157e9029ecc98cbb9871986d3ef26fcaf04a4105f8",
+  "files": 3057,
+  "paths_relative_to_symbolic_private_workspace": true
+}

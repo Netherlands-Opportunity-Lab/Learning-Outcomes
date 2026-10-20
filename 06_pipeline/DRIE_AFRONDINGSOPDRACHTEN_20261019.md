@@ -1,3 +1,13 @@
+## Actuele aflevering — 20 oktober 2026
+
+Current47 is uitgebracht als `v2026.10.20-current47-dashboard.1`; alle 554 live
+bestanden zijn op hash gecontroleerd. Paper/slides zijn privé bewaard; actuele
+openbare exemplaren, pakketkopieën en 21 CI-documentdownloads zijn teruggetrokken.
+Historische Git-toegang wacht op het afzonderlijke besluit over historieopschoning.
+De 36 landen en volledige nieuwe bronreplicatie zijn niet gestart. De controle na
+opruiming slaagt; geen RStudio-run nodig. Zie [het actuele einddossier](review_20261013/release47_20261020/STEP3_CLOSURE.md).
+Eerdere uitvoeringsstanden hieronder zijn historische bewijsstukken.
+
 <!-- Current execution boundary, 20 October 2026 -->
 Paper/slides and their editable content are private delivery only. The public
 release/package contains code, aggregates, scientific evidence and the dashboard.
@@ -8,7 +18,7 @@ entry point is `REPLICATE.py`; source estimation remains `START.R`/`RUN.R`.
 
 # Drie opdrachten om Learning Outcomes af te ronden
 
-**Nieuw expliciet besluit, 20 oktober: paper en slides uitsluitend voor eigen gebruik, nog niet online.** Dit vervangt eerdere publicatieopdrachten voor deze documenten. Bewaar eigen exemplaren; publiceer ze niet op GitHub Pages, in een openbare repository of in een publiek downloadpakket. Eerdere versies staan al online; stap 3 begint met het zorgvuldig terugtrekken daarvan. Verwijderde links zijn geen bewijs van privacy zolang bestanden in pakketten of Git-geschiedenis bereikbaar blijven. De website mag publiek blijven. De 36 uitgestelde landen en volledige bronreplicatie blijven uitgesteld. Zie `review_20261013/release47_20261020/PRIVATE_PRODUCTS_USER_DECISION_20261020.json`.
+**Nieuw expliciet besluit, 20 oktober: paper en slides uitsluitend voor eigen gebruik, nog niet online.** Dit vervangt eerdere publicatieopdrachten voor deze documenten. Bewaar eigen exemplaren; publiceer ze niet op GitHub Pages, in een openbare repository of in een publiek downloadpakket. Actuele openbare versies zijn teruggetrokken; historische Git-commits kunnen nog eerdere exemplaren bevatten. Verwijderde links zijn geen bewijs van privacy zolang bestanden in pakketten of Git-geschiedenis bereikbaar blijven. De website mag publiek blijven. De 36 uitgestelde landen en volledige bronreplicatie blijven uitgesteld. Zie `review_20261013/release47_20261020/PRIVATE_PRODUCTS_USER_DECISION_20261020.json`.
 
 **Hercontrole stap 2, 20 oktober:** de bestaande producten zijn beoordeeld en de paper is gericht hersteld. Zie [het productdossier](review_20261013/release47_20261020/STEP2_REVIEW_20261020.md). Opdracht 3 gebruikt de nieuwe paperhash; herhaal geen leerlingproductie of uitgestelde bronreplicatie.
 

@@ -27,5 +27,15 @@
   "step3_started": true,
   "overrides": "Earlier instructions to publish the paper, presentation or an all-product replication ZIP during step 3",
   "execution_decision": "USER_2026_10_20_WITHDRAW_PUBLIC_DOCUMENTS_KEEP_PRIVATE_DASHBOARD_ONLINE",
-  "private_restore_evidence": "PRIVATE_DOCUMENT_RESTORE_PROOF.json"
+  "private_restore_evidence": "PRIVATE_DOCUMENT_RESTORE_PROOF.json",
+  "current_public_copies_withdrawn": true,
+  "withdrawal_evidence": [
+    "PUBLIC_DOCUMENT_WITHDRAWAL.json",
+    "CI_DOCUMENT_WITHDRAWAL.json",
+    "LIVE_PUBLIC_READBACK.json"
+  ],
+  "historical_git_access": "STILL_POSSIBLE; specific history-rewrite decision requested and not yet received",
+  "private_products_preserved_and_restored": true,
+  "full_fresh_source_replication_executed": false,
+  "deferred36_executed": false
 }

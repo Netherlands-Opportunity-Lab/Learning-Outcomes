@@ -1,0 +1,17 @@
+{
+  "status": "RSTUDIO_RELEASE_DOWNLOAD_INSPECTION_PASS_AFTER_CLEANUP",
+  "checked_at_utc": "2026-10-20T21:26:07.151534+00:00",
+  "platform": "Windows R 4.6.1",
+  "script_sha256": "e523bc44f37be3f370ab0fcb96e6a93a9a54853a377308bd384c1ad1cf04adbf",
+  "package_sha256": "fe6924fe726a92e2c114ab78b9318d978264c4a51b01d1876e19850cace07158",
+  "log_sha256": "d7e8d0fdf587e0c8d2bbf2f7d6e068df8e7b03f268ef95cdc913bfeafe8b2764",
+  "seconds_including_public_download": 18.677,
+  "peak_process_tree_working_set_bytes": null,
+  "memory_evidence": "Measured Python inspection and reconstruction peaks remain in STEP3_PUBLIC_PACKAGE_VERIFICATION.json; this wrapper test records elapsed time and bounded extraction.",
+  "extracted_workspace_removed": true,
+  "owned_private_products_hashes_unchanged": true,
+  "targets": 90829,
+  "validated": 82142,
+  "unavailable": 8687,
+  "pupil_calculations": 0
+}

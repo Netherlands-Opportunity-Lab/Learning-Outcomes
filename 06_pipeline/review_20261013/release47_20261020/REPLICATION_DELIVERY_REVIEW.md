@@ -1,3 +1,5 @@
+Current delivery: [step-3 closure](STEP3_CLOSURE.md) and [FAIR review](STEP3_FAIR_REVIEW.md). Earlier measured proof below is historical and remains valid within its stated scope.
+
 # Replication delivery review — 20 October 2026
 
 The current 47-country selection is frozen separately from the deferred 36.

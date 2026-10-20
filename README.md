@@ -15,6 +15,8 @@ gezamenlijk getoonde groepen. De referentie weegt landen gelijk en sluit het
 hoofdland uit. Een lege referentie blijft leeg. Rangen gebruiken dezelfde basis;
 er is geen groepsranglijn. NL/EN delen één applicatie, gegevensset en selectielogica.
 
+[Vaste release](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/releases/tag/v2026.10.20-current47-dashboard.1) · [Actueel einddossier](06_pipeline/review_20261013/release47_20261020/STEP3_CLOSURE.md).
+
 ## Privé en openbaar
 
 Paper, slides, hun bewerkbare inhoud en private reconstructiebundel zijn uitsluitend

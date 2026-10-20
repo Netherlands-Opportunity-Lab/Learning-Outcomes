@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-20 — current47 public-only release
+
+- Released the strict bilingual dashboard and verified 71.5 MB package; preserved September.
+- Withdrew current private-document copies and CI artifacts; historical Git removal awaits its specific decision.
+- Passed six Windows/Linux workflows and 554 live hashes; deferred36 and full source replication were not run.
+- Removed bounded generated workspaces after recovery verification; actual RStudio-compatible inspection passes after cleanup.
+
 ## 2026-09-28 — final public dashboard integration
 
 - Added a file-by-file public data gate with `PUBLIC_OK`, `PUBLIC_SUMMARY_ONLY`, `PRIVATE_REPRODUCIBILITY_ONLY` and `DO_NOT_PUBLISH` states.

@@ -1,0 +1,27 @@
+{
+  "status": "LIVE_NL_EN_DESKTOP_MOBILE_AND_DOWNLOAD_BOUNDARY_RECHECKED",
+  "candidate_id": "2878cafc157c71414e51",
+  "app_shell_sha256": "2a8e260af4ae0430595338d5fe07f961b1d01f1d1f337ab25fd4a246fae019ea",
+  "screenshots": [
+    {
+      "path": "live-desktop-nl.jpg",
+      "sha256": "d95ba5821a9c29e9f80758d3f31fdc343af19ec608bdb3dc139ec27a7a27c1bc"
+    },
+    {
+      "path": "live-mobile-en.jpg",
+      "sha256": "aa582469eccc69037690081f8779cfcecdd75dfc714bee6b38ca86c29f98ba3d"
+    }
+  ],
+  "fresh_checks": [
+    "NL default: five fixed reference members, both switches on, all five PIRLS years rendered.",
+    "Search Germany, uncheck, apply: four members in URL.",
+    "NL to EN preserves actual members and uncertainty choice.",
+    "Mobile 390x844 rank: country only; no group line or rank interval.",
+    "Desktop 1280x900 and full-page captures inspected; no horizontal overflow or clipped content.",
+    "Both methods pages point to verified public ZIP and contain no private document links.",
+    "Returned to NL default; temporary viewport reset."
+  ],
+  "unchanged_behavior_evidence": "STEP2_BROWSER_RECHECK.json",
+  "reuse_basis": "Identical app, explorer and data hashes preserve earlier keyboard/focus, empty-state, country/gender and raw JSON download evidence.",
+  "physical_safari_tested": false
+}
