@@ -132,6 +132,11 @@ def figure_contract(bundle,allow_synthetic=False,decisions=None):
   # Only PISA's independently certified binary assessment-language construct
   # has one stable mapping here; do not coerce IEA frequency categories.
   if figure["survey"]=="PISA":
+   if family in ("GP_SES_LEVELS","GP_SES_GAP","GP_SES_BASIC"):
+    # The chosen Cobreros construct has four waves. Historical slide
+    # templates must not request unapproved pre-2015 SES observations.
+    # Full core-score anchors remain separate comparison requirements.
+    figure["required_years"]="2015;2018;2022;2025"
    if family=="EN_SES_PEER":
     figure["required_years"]="2015;2018;2022;2025"
     figure["expected_series"]="q1_target_pct_q4_peers;q4_target_pct_q1_peers;population_q1_share;population_q4_share"
