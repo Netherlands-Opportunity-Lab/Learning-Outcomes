@@ -23,7 +23,8 @@ def prepare(candidate,output):
   env=dict(os.environ,LO_BUILD_SEPTEMBER_ARCHIVE='1')
   subprocess.run([sys.executable,str(ROOT/'05_publication/build_public_pages.py')],env=env,check=True)
   proof['september_archive']='archive/2026-09-28/'
- from public_distribution import verify_tree
- proof['public_distribution']=verify_tree(output)
+ boundary_spec=importlib.util.spec_from_file_location('public_distribution',Path(__file__).with_name('public_distribution.py'))
+ boundary=importlib.util.module_from_spec(boundary_spec);boundary_spec.loader.exec_module(boundary)
+ proof['public_distribution']=boundary.verify_tree(output)
  print(json.dumps(proof,sort_keys=True))
 if __name__=='__main__':prepare(os.environ.get('DASHBOARD_CANDIDATE',''),ROOT/'public_site_dist')

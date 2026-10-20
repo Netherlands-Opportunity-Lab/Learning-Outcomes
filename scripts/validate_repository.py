@@ -28,6 +28,7 @@ for p in root.rglob("*"):
 # and the publication layer is separately validated under 05_publication/.
 PUBLICATION_OVERLAY_ALLOWLIST={
     "README.md",
+    "CITATION.cff",
     "DATA_LICENSE.md",
     "REPRODUCIBILITY.md",
     "KNOWN_LIMITATIONS.md",
@@ -39,6 +40,7 @@ PUBLICATION_OVERLAY_ALLOWLIST={
 # these complete byte blocks before checking the original September hash; any
 # removed/changed credential or pupil-data ignore rule must still fail.
 GITIGNORE_PUBLICATION_ADDITIONS=(
+    b'\n# Private-only documents: keep the owned bundle outside this public checkout.\n/04_products_or_release/current47/paper/Leerprestaties*\n/04_products_or_release/current47/paper/page-*.png\n/04_products_or_release/current47/paper/PAPER_PRODUCT_TRACE.json\n/04_products_or_release/current47/deck/final/*.pdf\n/04_products_or_release/current47/deck/final/*.pptx\n/04_products_or_release/current47/deck/renders/slide-*.png\n/04_products_or_release/current47/deck/POLICY_DECK_TRACE.json\n/04_products_or_release/current47/visual_review/\n/04_products_or_release/current47/scripts/build_paper.py\n/04_products_or_release/current47/scripts/build_policy_deck.mjs\n/private_products/\n',
     b"# Public brand design tokens contain only approved styles, no credentials.\n"
     b"!05_publication/verified_guided_candidates/*/assets/brand/brand_tokens.json\n",
     b"__pycache__/\n*.pyc\n",

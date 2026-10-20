@@ -1,0 +1,109 @@
+{
+  "status": "PRIOR_2037_PACKAGES_UNCHANGED_ADDED_METADATA_PACKAGE_AND_CRITICAL_REPORTS_RESTORED",
+  "reused_full_restore_proof_sha256": "e3baebd5c74f6bcd74cb3b5304e9f3b9b5f2b3a538f040dceb9e7981702996e4",
+  "pointer": {
+    "status": "REMOTE_STREAM_FULL_BYTES_VERIFIED",
+    "remote_object_sha256": "f728c727dcb85e361fdf0c7f852e343935118dd9b3bd7ee5d61a145f427c4d99",
+    "transferred_bytes": 1029178,
+    "restored_bytes": 1029178,
+    "restored_sha256": "f728c727dcb85e361fdf0c7f852e343935118dd9b3bd7ee5d61a145f427c4d99",
+    "seconds": 4.028
+  },
+  "critical_reports": {
+    "PRIVATE_MASTER_GRID.csv": {
+      "status": "REMOTE_STREAM_FULL_BYTES_VERIFIED",
+      "remote_object_sha256": "bf23aa1339b8b6b0716d2a0fd2fa94ed8a90a29bd3af38b74263847694a95294",
+      "transferred_bytes": 13869979,
+      "restored_bytes": 126170294,
+      "restored_sha256": "a3f41d058b94dd5d4136a1186cdbda2bcccd5285c34d7aa8acfb7f6934b1f38f",
+      "seconds": 6.424
+    },
+    "PRIVATE_ARCHIVE_EVIDENCE.csv": {
+      "status": "REMOTE_STREAM_FULL_BYTES_VERIFIED",
+      "remote_object_sha256": "472d697f128d7cb82552899be1f66d2a2904942ec467139b6ca40dc9f1da1bb7",
+      "transferred_bytes": 13420866,
+      "restored_bytes": 90718599,
+      "restored_sha256": "b2e40dc5c0a25d9a2e56c4e85a4bea7a2fef10b5b6d338f3885c9a9f71358f0d",
+      "seconds": 6.59
+    }
+  },
+  "private_git_history": {
+    "status": "REMOTE_STREAM_FULL_BYTES_VERIFIED",
+    "remote_object_sha256": "c4b85d022f196826da4fd2f4e9f914ab53e3eaeee996f4c477eb462d6270142c",
+    "transferred_bytes": 346634689,
+    "restored_bytes": 346634689,
+    "restored_sha256": "c4b85d022f196826da4fd2f4e9f914ab53e3eaeee996f4c477eb462d6270142c",
+    "seconds": 37.592
+  },
+  "prior_full_restore_packages": 2037,
+  "current_remote_packages": 2038,
+  "added_metadata_package": {
+    "status": "ADDITIONAL_METADATA_CHECKPOINT_FULL_FILE_RESTORE_VERIFIED",
+    "package_sha256": "605c3fde2c59a69d6a56e342751b55ca3659fc2403259569b2c9afdb676814d4",
+    "results": 0,
+    "members": 11,
+    "files": [
+      {
+        "sha256": "29d5d1ec5fc1862e33728808adc7f5b05af80067f34868a232c654cbbad0c630",
+        "bytes": 21199197,
+        "names": "0da1302166614105998a729c4ed9643d392b67cf3309f25c99064a4685dadcf1.json"
+      },
+      {
+        "sha256": "5fd82d8884b6ded049fc0f04b8780480bfd021348c5f9e707e545f4bd59107da",
+        "bytes": 21199026,
+        "names": "1047bf02a08912454fa29a840f78d2d88aeeeeba8c3835ecbadc7fee57c22eb5.json"
+      },
+      {
+        "sha256": "4b9b645966f9567c370df9dd2e60680da3bcc3514e32f1b65b49af9e51ddfd85",
+        "bytes": 21199197,
+        "names": "1c7b49d10f3a1b23b1c55cd75150fcbef1ee2b2dc6d01aef32f6f7a29f8e0551.json"
+      },
+      {
+        "sha256": "35c7238a697f14ba3e88153504281d09f2e0038f46a95d56100ffcfa60e00c54",
+        "bytes": 21199175,
+        "names": "3f943f2a72388d4d94dfa631d36940dd243b10c11d9a68e9d87374e5365f27ca.json"
+      },
+      {
+        "sha256": "7fbdb489d8aa7549b024a9f99116527432bc33a1574a964568f907afcaedeb38",
+        "bytes": 21199176,
+        "names": "681ea2c454a309af06f462074531e40662ebfc6924852f9174c847b1f978c914.json"
+      },
+      {
+        "sha256": "f47db68c2e00da278e990e2b3a0610f5c47d9adfbfa32e06100c824a3d89c95e",
+        "bytes": 21337518,
+        "names": "723a4d3fdc93663198fc27cd3f242b7bd47d80434370b50f035fec6da8c407cf.json"
+      },
+      {
+        "sha256": "5e4eeeaae8958ee37ca810252d38a3f09297023b6f525f800ff4637d578d8264",
+        "bytes": 21199325,
+        "names": "a596f8c95e41d362a9f4f1dcaee74c705a8f16efaba1fb0712c1fac292ae871d.json"
+      },
+      {
+        "sha256": "d59af55975f0e58f81fa4e4867504cf9a1abe4ab66e6595ee99791c31d2a454d",
+        "bytes": 21199175,
+        "names": "ae938fd20f34ad3513959b5be801a35327d5f28a3e31f5f8f6dcec2a2d602165.json"
+      },
+      {
+        "sha256": "d412b1b7cf4a1bcffdc1583f8d43ab33539a6d96cf9c20213e31ec5a881d78ea",
+        "bytes": 21199125,
+        "names": "c05cb66ad0477ba526290667d8a79cec80db47d565682eaefa6c7ed26e352ab5.json"
+      },
+      {
+        "sha256": "307ee20bf24b60a4c3a8b5e0965f10d386803c0d0b291a62c235061bbb80dc90",
+        "bytes": 21199325,
+        "names": "d72cda9145e5b5d4b7a1eb07029617b84c24210f4d45ed3fa335b0ead22bac22.json"
+      },
+      {
+        "sha256": "339d31b2201b745f78a39f00e97ad5212e9b0b601ba640ab31811db012e283dc",
+        "bytes": 21199172,
+        "names": "fc92939866eadf0a4ffd2e57007e483a260f18ccbae8bf8b6447dfd8f60b8b71.json"
+      }
+    ],
+    "pupil_estimations": 0,
+    "source_data_included": false
+  },
+  "prior_full_restore_versions": 83540,
+  "peak_stream_buffer_bytes": 1048576,
+  "full_package_restore_repeated": false,
+  "reason": "All 2037 original package records are byte-identical as JSON values; the only added package has zero result cells and eleven metadata files, restored separately. Private documents and two large reports were independently restored in full."
+}
