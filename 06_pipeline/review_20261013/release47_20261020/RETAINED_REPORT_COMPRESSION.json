@@ -1,0 +1,11 @@
+{
+  "status": "RETAINED_REPORTS_LOSSLESSLY_COMPRESSED_WITH_HASH_PARITY",
+  "files": 1067,
+  "logical_bytes_unchanged": 3095563401.0,
+  "free_bytes_before": 8399966208,
+  "free_bytes_after": 10328625152,
+  "measured_free_difference": 1928658944,
+  "deleted_files": 0,
+  "scientific_values_changed": 0,
+  "hashes_verified_before_and_after": true
+}

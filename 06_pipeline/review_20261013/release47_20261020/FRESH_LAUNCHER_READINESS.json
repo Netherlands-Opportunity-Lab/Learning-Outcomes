@@ -1,0 +1,14 @@
+{
+  "ready_for_space": true,
+  "free_bytes": 10327408640,
+  "required_bytes": 8589934592,
+  "estimations_run": 0,
+  "checked_at_utc": "2026-10-20T17:50:47Z",
+  "code_commit": "4f40f9f271faeeefdaa0eff09f6b233f311991cc",
+  "selected_countries": 47,
+  "source_files_located": 597,
+  "source_byte_verification": "Performed by the controller when the actual source run starts",
+  "output_run_created": false,
+  "environment": "Locked R/package environment check passed",
+  "launcher_sha256": "842607098ac45c4c56ac26aa173d19d06a51b9e1676599fd9c49c119bc775a29"
+}

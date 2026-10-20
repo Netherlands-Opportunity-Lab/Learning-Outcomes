@@ -1,0 +1,22 @@
+{
+  "status": "ISOLATED_LAUNCHER_WINDOWS_LINUX_CONTRACT_TESTS_PASS",
+  "commit": "4f40f9f271faeeefdaa0eff09f6b233f311991cc",
+  "workflow": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39468940303",
+  "jobs": [
+    {"platform": "windows-latest", "id": 118787582934, "conclusion": "success"},
+    {"platform": "ubuntu-latest", "id": 118787583314, "conclusion": "success"}
+  ],
+  "checks": [
+    "Preview does not create a result run or calculate cells",
+    "Selection excludes deferred countries",
+    "Changed settings bytes are rejected",
+    "Repository/output overlap is rejected",
+    "Insufficient free space stops before production",
+    "Resume requires the identical settings contract",
+    "Post-run numerical comparison matches estimates, SE, N, status and absence reasons independently of row order",
+    "Caller environment variables are restored"
+  ],
+  "pupil_estimations_run": 0,
+  "test_producer": "Synthetic fixture only",
+  "full_current47_source_replication_complete": false
+}

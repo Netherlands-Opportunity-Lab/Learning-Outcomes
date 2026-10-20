@@ -84,12 +84,13 @@
       "RETAINED_PISA_SOURCE_COMPRESSION.json",
       "VERIFIED_CACHE_COMPRESSION.json",
       "CHECKOUT_PARTITION_COMPRESSION.json",
-      "GIT_STORAGE_REPACK.json"
+      "GIT_STORAGE_REPACK.json",
+      "RETAINED_REPORT_COMPRESSION.json"
     ],
-    "free_bytes_last_measured": 8701497344
+    "free_bytes_last_measured": 10328625152
   },
   "fresh_source_launcher": {
-    "status": "PRIVATE_CONFIGURATION_PREPARED_SYNTHETIC_LAUNCHER_TEST_PASSED_SOURCE_RUN_NOT_STARTED",
+    "status": "WINDOWS_LINUX_TESTS_AND_REAL_PATH_ENVIRONMENT_SPACE_PREVIEW_PASSED_SOURCE_RUN_NOT_STARTED",
     "script": "scripts/START_FRESH_SOURCE_REPLICATION.R",
     "script_sha256": "842607098ac45c4c56ac26aa173d19d06a51b9e1676599fd9c49c119bc775a29",
     "source_files_located": 597,
@@ -99,6 +100,9 @@
     "initial_space_reserve_bytes": 8589934592,
     "published_package_rebuilt_again": false,
     "published_package_remains_pinned_to": "92d5e38016cde66923c02d59c4e6b9730dd546a3",
-    "note": "The optional launcher is added to repository code; the immutable published package already documents the same START.R fresh-source route."
+    "note": "The optional launcher is added to repository code; the immutable published package already documents the same START.R fresh-source route.",
+    "contract_tests": "FRESH_LAUNCHER_VERIFICATION.json",
+    "local_readiness": "FRESH_LAUNCHER_READINESS.json",
+    "source_run_started": false
   }
 }
