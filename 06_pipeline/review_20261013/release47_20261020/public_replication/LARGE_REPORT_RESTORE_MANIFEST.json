@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "scope": "all_required",
+  "kind": "PRIVATE_GENERATED_AGGREGATE_REVIEW_REPORTS",
+  "destination_sha256": "6b99f4a9432c398b291d28aa40a27d9eedbbbbb6b55ff1c7e580aac2dd65435f",
+  "files": {
+    "PRIVATE_MASTER_GRID.csv": {
+      "name": "PRIVATE_MASTER_GRID.csv",
+      "source_bytes": 126170294,
+      "source_sha256": "a3f41d058b94dd5d4136a1186cdbda2bcccd5285c34d7aa8acfb7f6934b1f38f",
+      "gzip_bytes": 13869979,
+      "gzip_sha256": "bf23aa1339b8b6b0716d2a0fd2fa94ed8a90a29bd3af38b74263847694a95294",
+      "relative_object": "objects/bf23aa1339b8b6b0716d2a0fd2fa94ed8a90a29bd3af38b74263847694a95294.csv.gz",
+      "restored_exact_bytes": true,
+      "status": "PRIVATE_DRIVE_DOWNLOAD_AND_FULL_RESTORE_VERIFIED"
+    },
+    "PRIVATE_ARCHIVE_EVIDENCE.csv": {
+      "name": "PRIVATE_ARCHIVE_EVIDENCE.csv",
+      "source_bytes": 90718599,
+      "source_sha256": "b2e40dc5c0a25d9a2e56c4e85a4bea7a2fef10b5b6d338f3885c9a9f71358f0d",
+      "gzip_bytes": 13420866,
+      "gzip_sha256": "472d697f128d7cb82552899be1f66d2a2904942ec467139b6ca40dc9f1da1bb7",
+      "relative_object": "objects/472d697f128d7cb82552899be1f66d2a2904942ec467139b6ca40dc9f1da1bb7.csv.gz",
+      "restored_exact_bytes": true,
+      "status": "PRIVATE_DRIVE_DOWNLOAD_AND_FULL_RESTORE_VERIFIED"
+    }
+  },
+  "code_sha256": "f8cfdb22c8e19fc4d3536bf86c31332627886874d90f4356576d4ca1d826f266"
+}

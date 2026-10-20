@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "profile": "PUBLIC_SOURCE_REPLICATION",
+  "historical_bundle_sha256": "ceddf194ab3ad60bee5100450145f879aec17073b7567ed6127bf071eb6869dc",
+  "manifest_sha256": "a34de2bccd5c8556697588c125e7afea65449b56a5cd3a1c6d17ab984c1e554f",
+  "files": [
+    {
+      "path": "COMMON42_REGISTER.csv",
+      "sha256": "8f11f87fc4be0cb3cdc2166e80981d1562303e29d392800251d93657840af741",
+      "original_sha256": "8f11f87fc4be0cb3cdc2166e80981d1562303e29d392800251d93657840af741",
+      "role": "APPROVED_CONTRACT",
+      "changed": false
+    },
+    {
+      "path": "PPP_COMPARATOR_MEMBERSHIP_v2.csv",
+      "sha256": "a1fa557b06db9a603c953b30e07c9ef1ef7be2261d0faa1b775893e4027f3a43",
+      "original_sha256": "a1fa557b06db9a603c953b30e07c9ef1ef7be2261d0faa1b775893e4027f3a43",
+      "role": "APPROVED_CONTRACT",
+      "changed": false
+    },
+    {
+      "path": "FIGURE_SERIES_CONTRACT_20261002.csv",
+      "sha256": "467feecd2fee7db8472669603d87d65163cf32fa4172941c3e779681baaf4ffe",
+      "original_sha256": "467feecd2fee7db8472669603d87d65163cf32fa4172941c3e779681baaf4ffe",
+      "role": "APPROVED_CONTRACT",
+      "changed": false
+    },
+    {
+      "path": "OPEN_PAPER_REQUIREMENTS.csv",
+      "sha256": "81d95fcd22fe22159eab6d415534aa3565bba1778b802afaabed07cb418acbda",
+      "original_sha256": "81d95fcd22fe22159eab6d415534aa3565bba1778b802afaabed07cb418acbda",
+      "role": "APPROVED_CONTRACT",
+      "changed": false
+    },
+    {
+      "path": "engine/TASKS.csv",
+      "sha256": "8fb89079cfcb6425fe09d98644af313def25f4a294b99383748323782802afd2",
+      "original_sha256": "8fb89079cfcb6425fe09d98644af313def25f4a294b99383748323782802afd2",
+      "role": "APPROVED_CONTRACT",
+      "changed": false
+    },
+    {
+      "path": "code/LO04_COMMON.R",
+      "sha256": "35e96bcd7d77229f23da9eae4bb566676fd5e1a2b5215625a12572da3bc1ec59",
+      "original_sha256": "35e96bcd7d77229f23da9eae4bb566676fd5e1a2b5215625a12572da3bc1ec59",
+      "role": "PUBLIC_ENGINE",
+      "changed": false
+    },
+    {
+      "path": "code/LO04_CACHE.R",
+      "sha256": "307e72916a6a1e4cdb4d307d2b880d661b89ddd66875715d0426234f5d70a16c",
+      "original_sha256": "307e72916a6a1e4cdb4d307d2b880d661b89ddd66875715d0426234f5d70a16c",
+      "role": "PUBLIC_ENGINE",
+      "changed": false
+    },
+    {
+      "path": "engine/BACKEND.R",
+      "sha256": "a82d553bcd4889a5cc31ace1b8bf3bc051b90a49e8011b16ea0708eaf7bbf5de",
+      "original_sha256": "6d0f91e562f3ed3d85f34761e98d148b8c222848cdd2542dc5557587e61e1aab",
+      "role": "PUBLIC_ENGINE",
+      "changed": true
+    },
+    {
+      "path": "engine/V11.R",
+      "sha256": "3e2f85a68062cb3cad15d0a4fba18ea7084fa9e25df9180aa64afa9fcf55baa4",
+      "original_sha256": "cdf8fd154028452698a5110044c63bf2ccfc957aa56f881a01fc424609ea29dc",
+      "role": "PUBLIC_ENGINE",
+      "changed": true
+    },
+    {
+      "path": "engine/REPAIRS.R",
+      "sha256": "b16a2d9959c91d86ebef955797a716f7e41ee179c42cc6fb644ab2920baff91d",
+      "original_sha256": "b16a2d9959c91d86ebef955797a716f7e41ee179c42cc6fb644ab2920baff91d",
+      "role": "PUBLIC_ENGINE",
+      "changed": false
+    },
+    {
+      "path": "engine/EXTENSIONS.R",
+      "sha256": "b5fa27950896241619bba39a7697cdda350176d3ab59888cb6a340daa2444bbc",
+      "original_sha256": "b5fa27950896241619bba39a7697cdda350176d3ab59888cb6a340daa2444bbc",
+      "role": "PUBLIC_ENGINE",
+      "changed": false
+    },
+    {
+      "path": "engine/engine.R",
+      "sha256": "00f9d4d84745185560bb3b2bdf46cc3fbae6781f720ac24d632741280b1b5fc9",
+      "original_sha256": "00f9d4d84745185560bb3b2bdf46cc3fbae6781f720ac24d632741280b1b5fc9",
+      "role": "PUBLIC_ENGINE",
+      "changed": false
+    },
+    {
+      "path": "engine/store.R",
+      "sha256": "15b1a42ce8498d8364f3a142a00949473202cd5727f5f287523c4808a526cfe9",
+      "original_sha256": "15b1a42ce8498d8364f3a142a00949473202cd5727f5f287523c4808a526cfe9",
+      "role": "PUBLIC_ENGINE",
+      "changed": false
+    }
+  ],
+  "excluded": [
+    "historical result candidates",
+    "microdata",
+    "machine-specific config"
+  ],
+  "engine_changes": "Existing public sanitized engine copies; verify parsed statistical expressions against the original before certifying numerical equivalence"
+}

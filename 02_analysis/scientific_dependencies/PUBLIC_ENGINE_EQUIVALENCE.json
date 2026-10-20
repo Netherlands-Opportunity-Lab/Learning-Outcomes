@@ -1,0 +1,25 @@
+{
+  "status": "EXACT_TEXT_EQUAL_AFTER_DOCUMENTED_PATH_AND_LINE_ENDING_SUBSTITUTION",
+  "files": [
+    {
+      "path": "engine/BACKEND.R",
+      "original_sha256": "6d0f91e562f3ed3d85f34761e98d148b8c222848cdd2542dc5557587e61e1aab",
+      "public_sha256": "a82d553bcd4889a5cc31ace1b8bf3bc051b90a49e8011b16ea0708eaf7bbf5de",
+      "changes": [
+        "Machine-specific fallback path replaced with ~/Downloads",
+        "Existing public copy uses CRLF line endings"
+      ],
+      "statistical_expressions_unchanged": true
+    },
+    {
+      "path": "engine/V11.R",
+      "original_sha256": "cdf8fd154028452698a5110044c63bf2ccfc957aa56f881a01fc424609ea29dc",
+      "public_sha256": "3e2f85a68062cb3cad15d0a4fba18ea7084fa9e25df9180aa64afa9fcf55baa4",
+      "changes": [
+        "Machine-specific fallback path replaced with ~/Downloads",
+        "Existing public copy uses CRLF line endings"
+      ],
+      "statistical_expressions_unchanged": true
+    }
+  ]
+}

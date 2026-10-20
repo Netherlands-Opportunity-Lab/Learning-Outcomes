@@ -6,6 +6,25 @@ spec=importlib.util.spec_from_file_location("lo_guided",SRC)
 mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
 def h(c):return c*64
 class GuidedDashboard(unittest.TestCase):
+ def test_selected_cobreros_four_waves_do_not_shorten_core_or_iea(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   b=Path(tmp);self.contracts(b)
+   path=b/"FIGURE_SERIES_CONTRACT_20261002.csv"
+   with path.open(encoding="utf-8") as stream:base=list(csv.DictReader(stream))[0]
+   full="2003;2006;2009;2012;2015;2018;2022;2025"
+   rows=[dict(base,required_years=full)]
+   for family in ("GP_SES_LEVELS","GP_SES_GAP","GP_SES_BASIC"):
+    rows.append(dict(base,figure_id=family+"_age15_reading",required_years=full,
+                     expected_series="q4_minus_q1" if family.endswith("GAP") else "q1;q4"))
+   rows.append(dict(base,figure_id="GP_SES_LEVELS_age10_reading",survey="PIRLS",
+                    age="age10",required_years="2001;2006;2011;2016;2021",expected_series="q1;q4"))
+   with path.open("w",newline="",encoding="utf-8") as stream:
+    writer=csv.DictWriter(stream,fieldnames=sorted(mod.CONTRACT_COLS));writer.writeheader();writer.writerows(rows)
+   actual={f["figure_id"]:f["required_years"] for f in mod.figure_contract(b,allow_synthetic=True)}
+   self.assertEqual(actual["TR_MEAN_age15_reading"],full)
+   self.assertEqual(actual["GP_SES_LEVELS_age10_reading"],"2001;2006;2011;2016;2021")
+   for family in ("GP_SES_LEVELS","GP_SES_GAP","GP_SES_BASIC"):
+    self.assertEqual(actual[family+"_age15_reading"],"2015;2018;2022;2025")
  def contracts(self,b):
   codes=["NLD"]+[f"X{i:02d}" for i in range(41)]
   common=b/"COMMON42_REGISTER.csv"

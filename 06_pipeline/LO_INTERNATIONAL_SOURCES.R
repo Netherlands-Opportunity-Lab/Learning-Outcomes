@@ -50,15 +50,21 @@ lo_international_cached_support <- function(existing,expected,receipt_path,contr
   TRUE
 }
 
-lo_international_sources <- function(repo,root,manifest_path) {
+lo_international_sources <- function(repo,root,manifest_path,scope=Sys.getenv('LO_SCOPE','all_required')) {
   for(f in c('LO_ATOMIC_CHECKPOINT.R','LO_IEA_SOURCE_BLOCK.R','LO_IEA_BACKGROUND.R',
-             'LO_PISA_SOURCE_BLOCK.R','LO_PISA_LEGACY_SOURCE.R','LO_BALANCED_MEMBERSHIP.R'))source(file.path(repo,'06_pipeline',f))
+             'LO_PISA_SOURCE_BLOCK.R','LO_PISA_LEGACY_SOURCE.R','LO_BALANCED_MEMBERSHIP.R','LO_COUNTRY_REGISTRY.R'))source(file.path(repo,'06_pipeline',f))
   manifest<-read.csv(manifest_path,colClasses='character',na.strings=character())
   required<-c('country','survey','year','raw_path','raw_sha256','source_country','control_path','index_path','allowed_grades','population_note','population_evidence')
   stopifnot(all(required%in%names(manifest)),!anyDuplicated(manifest[c('country','survey','year')]))
   master<-file.path(root,'master_reconciliation');out<-file.path(root,'international')
   support_path<-file.path(master,'SOURCE_SUPPORT_CONTRACTS.csv')
-  support<-read.csv(support_path,colClasses='character',na.strings=character())
+  dir.create(master,recursive=TRUE,showWarnings=FALSE)
+  support<-if(file.exists(support_path))read.csv(support_path,colClasses='character',na.strings=character())else lo_empty_support()
+  source(file.path(repo,'06_pipeline/LO_RUN_CONFIG.R'))
+  cfg<-lo_run_config(scope)
+  selected<-cfg$selection$countries
+  if(cfg$scope=='nld_only')selected<-'NLD'
+  if(length(selected))manifest<-manifest[manifest$country%in%selected,,drop=FALSE]
   row_indices<-byte_indices<-list()
   for(index_path in unique(manifest$index_path[nzchar(manifest$index_path)])) {
     x<-if(grepl('[.]rds$',index_path))readRDS(index_path)else jsonlite::fromJSON(index_path)
@@ -74,7 +80,7 @@ lo_international_sources <- function(repo,root,manifest_path) {
   for(p in names(partitions))assign(p,partitions[[p]]$raw_sha256,checked_hashes)
   for(i in seq_len(nrow(manifest))) {
     r<-manifest[i,];s<-r$survey;y<-as.integer(r$year);country<-r$country
-    if(country=='NLD')next
+    if(country=='NLD'&&Sys.getenv('LO_FRESH_REPLICATION','')!='1')next
     id<-paste(country,s,y,sep='_');block<-file.path(out,'sources',id)
     dir.create(block,recursive=TRUE,showWarnings=FALSE)
     tryCatch({
