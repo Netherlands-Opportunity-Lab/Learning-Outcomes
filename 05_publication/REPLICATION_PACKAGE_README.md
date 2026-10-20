@@ -1,126 +1,131 @@
-# Learning Outcomes — replication package, interim release
+# Learning Outcomes — current 47-country replication package
 
-This package contains the current analysis and publication code, its R environment
-lock, approved scope, source catalogues, and the aggregate observations displayed
-in the accompanying dashboard. Read `release_inputs/PROVENANCE.json` for the exact
-snapshot, code commit and validation evidence. Each point preserves its cell ID,
-input/code fingerprints, result hash, sample, standard error and observed sample N.
+This version contains the explicitly selected 47 countries/education systems.
+The other 36 are deferred, not deleted or treated as unavailable. Their approved
+targets and separate resume configuration remain in the repository. Do not use an
+unfiltered `all_required` run for the current phase.
 
-For the current production state and next execution step, read
-`06_pipeline/RUN_COMPLETION_INVENTORY_20261018.md`. Its dated counts and remaining
-context table are included; they are not a claim that the whole scientific
-project or the currently running R session has finished.
+The selected grid has 90,829 targets: 82,142 certified results, 8,687 documented
+unavailable targets and no unresolved calculations. These counts do not imply
+that every country has every outcome or a usable reference group.
+`release_inputs/PROVENANCE.json` identifies the exact release. Result records
+preserve producer, source, method, configuration, uncertainty and result hashes;
+the export commit is not necessarily the producer commit.
 
-## Rebuild the published figures
+## Three distinct reproduction routes
 
-With Python 3.11 or newer, extract the package into a fresh directory and run:
+On Windows, extract to a short directory name (for example `C:/LO47`) to avoid
+legacy path-length limits in older ZIP extraction tools. Use a new empty output
+directory; never extract over an existing result run.
 
-```sh
-python reproduce_dashboard.py
-python -m http.server 8769 --directory rebuilt_dashboard
-```
+1. **Dashboard from aggregates:** Python 3.12, standard library only:
 
-Open `http://localhost:8769/nl/` (or `/en/`). The first command verifies every
-package file and rebuilds the original dashboard runtime byte for byte. It fails
-on changed input or an existing output directory. This reconstructs the public
-figures from checked aggregates; it does not rerun pupil-level analysis. The
-additional release information and ZIP download on the hosted site are publication
-attachments; the reconstruction checks the original runtime and data before those
-attachments are added.
+   ```sh
+   python reproduce_dashboard.py --output rebuilt_dashboard
+   python -m http.server 8769 --directory rebuilt_dashboard
+   ```
 
-Only project-authored aggregate points required by approved dashboard figures are
-included. Appendix-only research results and complete bulk masters are excluded.
-Missing years/groups remain explicitly missing; no interpolation or zero fill is
-used. This interim version explicitly uses `AVAILABLE_CASES_PROVISIONAL`, as
-requested while production is incomplete. Countries with any approved figure
-points can be selected. Each year/series uses available selected countries with
-equal weights, excluding the focus; contributors and omissions are recorded.
-Reference lines connect adjacent available survey waves; the point-specific membership changes remain explicit. Missing waves and construct breaks still interrupt the line. Changes in a rank basis also interrupt rank lines. Ranks use the focus plus the available
-reference countries, and retain the point-specific basis and denominator. There
-is no group-rank line and no reference confidence interval. This is not a
-balanced-panel or final scientific certification. The displayed point count counts country/figure/year/
-series combinations: one underlying cell can support more than one product.
+   Open `http://localhost:8769/nl/` or `/en/`. The script checks package hashes,
+   rebuilds figures and their exact missing-point reasons, and checks the original
+   runtime manifest. Documentation and downloads are separate attachments.
+   This route does not estimate statistics from pupil records.
 
-## Display uncertainty, units and languages
+2. **Paper and editable presentation from aggregates:** install
+   `04_products_or_release/current47/requirements.txt`, then:
 
-The optional **Onzekerheidsmarge / Uncertainty range** switch defaults to on.
-Focus-country intervals are normal-approximation 95% confidence intervals:
-estimate ± 1.96 × the certified design/PV standard error. It adds no pupil-level
-calculation. Existing joint-variance SEs are used for approved gaps; covariance
-is never inferred from separate group SEs. No intervals are derived for reference
-means or ranks. Bounds are not clipped at 0 or 100. These intervals describe
-sampling/estimation uncertainty, not pupil dispersion or every source of bias;
-interval overlap is not a significance test.
+   ```sh
+   python 04_products_or_release/current47/REBUILD_PRODUCTS.py --output rebuilt_products
+   ```
 
-`assets/explorer.mjs` records the versioned display policy. `TR_BELOW` and
-`TR_HIGH` inputs are proportions and are scaled by 100 with their SEs/bounds.
-SES and peer percentages are already on the percent scale and are not rescaled.
-Underlying public inputs and result hashes remain unchanged. CSV/JSON downloads
-preserve original values, scale factor, parent hash and derived interval metadata.
+   See that directory's README and environment record. The PPTX retains editable
+   native charts. Every plotted value, interval, rank and written numerical claim
+   is checked against the sealed results. The R option `--render-figures` rebuilds
+   the scientific plots with the recorded libraries.
 
-There is one renderer, selection model, style sheet, figure registry and set of
-country data for both languages. The same HTML template is built at `/nl/` and
-`/en/`; locale dictionaries and bilingual text labels provide translations.
-The comparison and uncertainty switches default to on. Explicit `compare=0` and `uncertainty=0` links remain off when changing language. The controls are outcome/age, breakdown, measure and focus country; uncertainty and interim notices sit below the chart.
-The SVG/JSON export snapshots the selection before asynchronous asset loading.
+3. **Fresh estimates from official sources:** use the pinned Git checkout,
+   `START.R`, `06_pipeline/RUN.R`, and the locked `renv.lock`.
+   `02_analysis/scientific_dependencies/README.md` explains the public engine,
+   source bindings and pinned external SES author code. The original private
+   source ZIP is no longer required for this explicit fresh route. Obtain the
+   official pupil files under OECD/IEA conditions; they are not redistributed.
+   Calibration input countries do not automatically become output countries.
 
-## Recalculate from original sources
+   The stages remain `fixed-audit` → `fixed-produce` → `fixed-finalize`.
+   Set a new output root and `LO_FRESH_REPLICATION=1` for an independent run.
+   Use `CURRENT_RELEASE47_RUN_CONFIG.json` for this phase. The separate
+   `DEFERRED36_RUN_CONFIG.json` is for the later, user-initiated R run.
 
-The scientific entry point is `START.R` with `06_pipeline/RUN.R`. Follow
-`06_pipeline/REPLICATION_CURRENT.md`. The current executable workflow is
-`fixed-audit` → `fixed-produce` → `fixed-finalize` → `fixed-status`; `produce-approved`
-orchestrates these stages. Use a Git checkout pinned to the package's source commit
-for scientific production, restore the R environment from `renv.lock`, and bind
-official source files through the source catalogues and `LO_SOURCE_BINDINGS.R`.
-`06_pipeline/RUN_CONFIG.example.json` specifies the scope and optional exact filters.
-Use `all_required` for all admitted countries and approved analyses. The number of
-countries is determined by evidence, not by the historical names of country sets.
+Evidence distinguishes these routes. Q01–Q08 have been reviewed on this result
+basis. Genuine Windows source probes cover 58 cells in three studies, with
+absolute estimate/SE differences below `1e-9` and exact N. Technical installation
+and regression checks run on Windows and Linux. A new full 47-country source
+replication without old result caches has **not** yet been certified. Neither
+website operation nor aggregate reconstruction is represented as that full run.
+Consult current completion receipts rather than historical dated counts.
 
-Official OECD/IEA pupil files must be obtained by the replicator under their terms;
-they are not redistributed here. The current production runner also requires the
-retained, hash-locked `LEARNING_OUTCOMES_PIPELINE` source bundle and the identified
-external SES author code. Public sanitised copies of the historical engine are
-included with an original/public hash map, but are not a replacement for that
-original bundle. A clean installation using only this public ZIP has **not** been
-certified to reproduce every pupil-level result. This dependency and remaining
-scientific checks are open, not hidden by the working dashboard reproduction.
+## Country admission, comparisons and ranks
 
-## Code and result map
+Admission requires at least three comparable waves per country/age/domain
+combination. A country may qualify for some combinations only. Every figure
+retains the complete focus-country year anchor and all jointly displayed groups
+and learning environments. Reference membership is constant within the figure
+and may differ between figures. The historical rich-country pool is unchanged;
+no count of 19, 20, 34, 47 or 50 is forced.
+
+Reference countries weigh equally and exclude the focus. Checkboxes select
+eligible countries; an empty group stays empty. Ranks use the focus plus that
+same group, average exact ties, and the direction in the figure contract. There
+is no group-rank line; one additional country may share the same basis.
+This release uses verified strict balance, not historical available cases.
+
+## Definitions and uncertainty
+
+International grade 4 is Dutch group 6; PISA concerns 15-year-olds. Repeated
+cross sections do not identify individual cohorts or causal effects. Keep study
+scales, books quartiles, chosen four-wave Cobreros SES and official IEA Home-SES
+constructs separate. Appendix placement does not add dashboard controls.
+
+Separate girls remain separate where observed. Only otherwise is girls + other
+used, with its own label and definition break. Migration retains at least one
+foreign-born parent, both parents foreign-born, and first/second generation
+separately. Unknown birthplace is not native; third generation is not inferred.
+
+The default-on uncertainty switch shows focus-country normal-approximation 95%
+intervals, estimate ± 1.96 × certified SE. Gaps use joint-replication SEs.
+Reference means and ranks receive no interval. Interval overlap is not a trend
+test. The paper's three registered PISA trend tests include linking uncertainty
+and Holm correction; no automatic broad testing series is added.
+
+Core below-basic/high proportions and their SEs are multiplied by 100 only for
+display. SES/peer percentages are not multiplied again. Research values retain
+full precision; rounding is for presentation. Missing values remain missing,
+never zero-filled or interpolated. A valid zero with adequate support remains
+a result.
+
+## Code, results and product map
 
 | Location | Responsibility |
 |---|---|
-| `START.R`, `06_pipeline/RUN.R`, `LO_FIXED_CONTROLLER.R` | One run configuration, stage order, immutable execution version |
-| `MASTER_ESTIMATION_GRID.R`, `GRID_ARCHIVE_BATCH.R` | Exact targets, evidence validation, reuse and missing-cell accounting |
-| `LO_EXACT_DISPATCH.R`, `LO_EXACT_ESTIMATORS.R` | Approved estimators and exact-cell dispatch |
-| `LO_INTERNATIONAL_*.R`, `LO_*SOURCE*.R` | Source binding, country/year blocks, variable availability |
-| `LO_REMOTE_CHECKPOINT.R`, `LO_ATOMIC_CHECKPOINT.R` | Durable block receipts, verified Drive checkpoints and crash-safe writes |
-| `LO_FINAL_GUIDED_EXPORT.R` | Independently rechecked grid → approved public product rows |
-| `LO_FINAL_GUIDED_DASHBOARD_BUILD.py` | Product rows → figures, availability and bilingual website |
-| `05_publication/preview_overlay/` | Five-choice interface, chart rendering, exact reference and rank logic |
-| `LO_PARTIAL_DASHBOARD_RELEASE.py` | Interim publication gate; no claim of complete paper/scientific release |
+| `START.R`, `06_pipeline/RUN.R`, `LO_FIXED_CONTROLLER.R` | Entry point, configuration, stages and scope |
+| `MASTER_ESTIMATION_GRID.R`, `LO_EXACT_DISPATCH.R`, `LO_EXACT_ESTIMATORS.R` | Approved exact-cell estimation and reuse |
+| `LO_INTERNATIONAL_*.R`, `LO_*SOURCE*.R` | Source identity and country/wave bindings |
+| `LO_REMOTE_CHECKPOINT.R`, `LO_ATOMIC_CHECKPOINT.R` | Recoverable blocks and atomic receipts |
+| `LO_FINAL_GUIDED_EXPORT.R`, `LO_FINAL_GUIDED_DASHBOARD_BUILD.py` | Checked cells → bilingual dashboard |
+| `05_publication/preview_overlay/` | Shared NL/EN selection, reference and rank logic |
+| `04_results/review/all_required/` | Sealed aggregates and provenance |
+| `04_products_or_release/current47/` | Paper, slides, figures and claim lineage |
+| `06_pipeline/review_20261013/release47_20261020/` | Current/deferred scope and verification receipts |
 
-Not all files in the historical engine are executed by the active route. The
-current scope decisions and exact cell dispatcher, not archived broad run commands,
-determine production. Approved appendix and research extensions remain available
-in the pipeline but do not silently become dashboard products.
+An interrupted block may restart; certified completed blocks are reused only
+when source/method/configuration fingerprints match. Changed inputs invalidate
+affected dependencies. A zero compute queue alone does not prove completion.
 
-## Precision, resumability and storage
+Sources may remain locally. Private intermediate checkpoints belong on Drive;
+public code, aggregates and products belong on GitHub. A bounded local work
+directory remains necessary during R execution. Credentials and pupil/school
+microdata are excluded. Restore proofs and measured resource records are in the
+phase dossier. Preserve unique sources and active locks.
 
-Estimates and uncertainty retain full available numerical precision. Rounding is
-only for labels, tooltips and tables; CSV/JSON downloads preserve the stored values.
-Compression reduces size without truncating estimates. Completed and certified
-blocks are recorded before the next block; an identical resumed run reuses matching
-source/method/configuration fingerprints. A failure in a block may require that
-unfinished block to run again. Changed inputs are not treated as an identical run.
-
-Raw sources may stay locally; private intermediates/checkpoints belong on private
-Drive; approved code and public products belong on GitHub. Temporary local files
-and a small working result index remain necessary while R runs. GitHub and Drive
-credentials are deliberately absent. Do not delete source files or active locks.
-
-Code is under the repository MIT licence. OECD/IEA data conditions and brand/font
-licences remain applicable; see `DATA_LICENSE.md` and the included asset licences.
-The interim publication does not constitute acceptance of Q01–Q08, the paper,
-the 21-slide presentation or complete scientific replication.
-
-Country selection provenance: `release_inputs/REFERENCE_POLICY.json` records the explicit temporary authorisation and is checked against the release certificate. The older strict `release_inputs/BALANCED_REFERENCE_EXPORT.json` remains as evidence for final review; its membership is not asserted for temporary comparisons. Reconstruction independently rebuilds temporary eligibility from the included approved rows and country registry. Default members are available rich candidates, excluding the focus. Downloads carry selected/actual/omitted members, parent result hashes and the policy hash. Known girls versus girls + other definitions are not silently combined. After full production and review, rebuild without `--reference-policy` to restore strict full-support comparisons; never relabel this interim release as balanced.
+Code is MIT; source data, brand assets and SIL OFL fonts retain their own terms.
+See `LICENSE`, `DATA_LICENSE.md`, `CITATION.cff` and the source register.
+This reproducibility package does not claim AEA certification.

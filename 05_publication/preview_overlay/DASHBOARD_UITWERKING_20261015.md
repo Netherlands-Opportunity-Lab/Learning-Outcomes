@@ -11,7 +11,7 @@ Het pakket is als vormgevingsbron gelezen, niet als nieuwe onderzoeksscope.
 
 ## Bedieningsplan en implementatie
 
-1. **Hoofdland.** Alle landen uit de dynamische 6×3-brontoelatingsregistratie.
+1. **Hoofdland.** Alle landen met minstens één brongetoetste leeftijd-uitkomstcombinatie van minstens drie vergelijkbare golven; alleen toegelaten combinaties leveren figuren. Besluit 19 oktober vervangt de eerdere 6×3-eis.
    Een bron-toegelaten land kan nog lege figuren hebben: toelating is geen
    certificering van al zijn resultaten. Geen vaste 19, 20, 42 of 50 landen.
 2. **Uitkomst en leeftijd.** Precies zes combinaties: lezen, wiskunde en
