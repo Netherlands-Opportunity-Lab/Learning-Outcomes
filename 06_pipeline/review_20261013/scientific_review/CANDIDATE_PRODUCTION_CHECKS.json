@@ -29,17 +29,6 @@
     "files_restored": 41,
     "restore": "DOWNLOADED_RESULTS_AND_ALL_MEMBER_BYTES_VERIFIED"
   },
-  "checkpoint_policy": {
-    "max_new_cells": 500,
-    "max_elapsed_seconds": 180,
-    "evaluated_at": "completed_block_boundaries",
-    "force_flush": [
-      "new_country",
-      "caught_estimation_failure",
-      "normal_end"
-    ],
-    "hard_interruption": "Durable local results uploaded before further computation on resume"
-  },
   "scientific_expansion_complete": false,
   "reference_efficiency": {
     "status": "REAL_SOURCE_REFERENCE_NUMERICAL_EQUIVALENCE",
@@ -126,5 +115,50 @@
       "snapshot_code_sha256": "a5201e7917cc20cedf593ab78e0ffdcb065d19074091eca3d738c308b769f500"
     },
     "scope": "REVIEW_ADAPTER_PROBE_ONLY_NOT_EXPANDED_Q_APPROVAL"
+  },
+  "analysis_support_probe": {
+    "status": "ACTUAL_ANALYSIS_SUPPORT_REVIEWED",
+    "result_cells": 402,
+    "sources": 12,
+    "reused": 0,
+    "n_mismatches": 0,
+    "below_30_pupils": 62,
+    "below_5_schools": 34,
+    "code_sha256": {
+      "LO_ANALYSIS_SUPPORT_REVIEW.R": "36d1d500a0687bf01e7eb9ed4cda8651671e068dd8afaaf0bf2052f42262cd10",
+      "LO_IEA_BACKGROUND.R": "653f60e10b19213f6c16c0714d707263ccf97db3e8b8a1f3679e0d4d1ca2131b",
+      "LO_EXACT_ESTIMATORS.R": "0466dc38797d2cbe6aa78b3c9202b2fa75e5cf4b647af3f94b5455e4312553a3"
+    },
+    "outputs": {
+      "coverage": "c9a80e913cca47a6c41d3a87accdf876e227ddcc8505ddf1c92edfd44491e1ad",
+      "sources": "2e22a0a4cd0958abd4e16efa0f6e53f9addded9756ccff7c64294886589d92fa"
+    },
+    "interpretation": "Sample size is a separate quality attribute, not missing source data or a zero estimate. These counts do not alone establish reliability or disclosure clearance. PISA reporting uses at least 30 pupils and five schools; this report does not invent an IEA-specific official threshold. No estimate or target was changed.",
+    "private_report_sha256": "659a780697d162a5829b0bcac65ef9a9534f87d95b765b80d694bc595dda2fa0",
+    "selection": "Purposive implementation probe: one Dutch source per module plus sources with recorded N at most one; not a prevalence estimate or full expanded-scope approval.",
+    "no_result_or_target_changed": true
+  },
+  "historical_probe_checkpoint_policy": {
+    "max_new_cells": 500,
+    "max_elapsed_seconds": 180,
+    "evaluated_at": "completed_block_boundaries",
+    "force_flush": [
+      "new_country",
+      "caught_estimation_failure",
+      "normal_end"
+    ],
+    "hard_interruption": "Durable local results uploaded before further computation on resume"
+  },
+  "current_production_checkpoint_policy": {
+    "max_new_cells": 1000,
+    "max_elapsed_seconds": 600,
+    "execution_commit": "5fb49472682db7f5a65f241f18f2cd759639a500",
+    "configuration_sha256": "1e51ec36b705be1ff892d3d4dc42895cf9f7396d22d91d2b62f81c3d03035393",
+    "evaluated_at": "completed_block_boundaries",
+    "force_flush": [
+      "new_country",
+      "caught_estimation_failure",
+      "normal_end"
+    ]
   }
 }
