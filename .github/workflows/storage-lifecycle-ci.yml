@@ -42,6 +42,10 @@ jobs:
         run: python scripts/validate_repository.py
       - name: Verify committed aggregate and producer-code manifests
         run: python scripts/validate_result_snapshots.py
+      - name: Verify exact sample-quality coverage and unchanged target accounting
+        run: python 06_pipeline/tests/test_grid_coverage_report.py
+      - name: Verify compressed final reference evidence and exact membership
+        run: python 06_pipeline/tests/test_final_scientific_candidate.py
   r-entrypoint-parse:
     strategy:
       fail-fast: false

@@ -5,7 +5,8 @@
   "kind": "PRODUCT_QUALITY_CONDITION_NOT_ANALYSIS_SCOPE",
   "minimum_pupils": 30,
   "minimum_schools": 5,
-  "require_known_school_for_each_target_pupil": true,
+  "require_known_school_for_each_target_pupil": false,
+  "school_count_interpretation": "At least five distinct observed school identifiers prove the minimum. Additional unknown school identifiers remain a quality note and do not invalidate that lower bound. Peer/unit-specific estimators still require their own observed unit identifier.",
   "apply_to": "Every displayed estimate and every component of a displayed contrast, in every required plausible value; use focal peer targets rather than the full peer frame.",
   "treatment": "Retain the approved task, its estimate, certificate and provenance. Mark insufficient support as a separate product-quality restriction; do not plot it, use it in a reference mean or rank, replace it by zero, shorten the anchor, or relabel it as a missing questionnaire.",
   "source": {

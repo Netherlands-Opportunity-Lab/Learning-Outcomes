@@ -5,6 +5,7 @@ detects a missing R-to-Python binding even when both component tests succeed.
 """
 import argparse
 import csv
+import gzip
 import hashlib
 import json
 from collections import Counter
@@ -21,7 +22,8 @@ def read(path):
 
 
 def table(path):
-    with path.open(encoding='utf-8-sig', newline='') as handle:
+    with (gzip.open(path, 'rt', encoding='utf-8-sig', newline='') if path.suffix == '.gz'
+          else path.open(encoding='utf-8-sig', newline='')) as handle:
         return list(csv.DictReader(handle))
 
 
@@ -41,6 +43,10 @@ def verify(repo, root, output):
     assert qa['scientific_source_sha256'] == sha(state / 'PRIVATE_GUIDED_VALIDATED_ROWS.csv')
     assert qa['balanced_references_sha256'] == sha(state / 'BALANCED_REFERENCE_EXPORT.json')
     expected_path = repo / '06_pipeline/review_20261013/scientific_review/REFERENCE_BY_VIEW.csv'
+    compressed_path = expected_path.with_suffix('.csv.gz')
+    assert not (expected_path.exists() and compressed_path.exists()), 'Ambiguous public reference versions'
+    if not expected_path.exists():
+        expected_path = compressed_path
     expected = {(r['country'], r['figure_id']): r for r in table(expected_path)}
     review_manifest=work / 'SCIENTIFIC_REVIEW_MANIFEST.json'
     mapping_directory=Path(read(review_manifest).get('reference_mapping_directory',work / 'Q06_mapping_final')) if review_manifest.exists() else work / 'Q06_mapping_final'
