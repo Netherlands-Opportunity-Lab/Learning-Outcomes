@@ -1,74 +1,79 @@
 {
   "schema_version": 1,
   "status": "REVIEWED_SCIENTIFIC_BASIS_WITH_EXPLICIT_LIMITATIONS",
-  "result_basis": "ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2",
-  "private_manifest_sha256": "d50d201b6c130209b60bf86a1ea7660a0f0bfd9eee587a5a99fb2ab337449a9f",
-  "approval_sha256": "11e88b29916a96786728edfba25678bc1bb9d3742e1aeb744c16a228d490a821",
-  "reviewed_target_count": 77611,
+  "result_basis": "d36eea18980101ce354ebb05ce5f5d91280a70f8",
+  "historical_result_commit": "ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2",
+  "private_manifest_sha256": "8dd48869214d3753e2b4496c53cd62413e914432e991b7223ee14094cb2c8a4a",
+  "approval_sha256": "bc6a6c78e0e4030b761a82fcb68a8742c27bb7b769a29ab9f6cd9fdcc99ed5ec",
+  "reviewed_target_count": 90829,
   "scientific_review_requirements": 8,
   "source_reports": {
-    "Q01_SES_SAMPLE_REVIEW.json": "0a3b084dbf988a335c79a05a4896be4fa62f533eb6bfc2504d4434f75b26f884",
-    "Q02_OFFICIAL_SAMPLE_REVIEW.json": "aeb7164f7b98c6412a2e9b423b6fdb550206c310bb31718ede3e39a198e77bff",
-    "Q03_Q05_FROZEN_SES_REVIEW.json": "0f78af110b90d62e1ce97883094539a3f624135925759766b39c0824a1db35e4",
-    "Q06_REFERENCE_REVIEW.json": "2688ef239fd6af145b68437792f6ffad0b978e4e734b7517a4772381cde43988",
-    "Q06_PUBLICATION_REFERENCE_VERIFICATION.json": "599159875c831fd89e88d84e8cdb1a5f6cd3e4f1e8a75efa3af9ccff98be3123",
+    "Q01_SES_SAMPLE_REVIEW.json": "355a54207b97d823628f8d299e5fb78eaa43258f17b792af4c7412ac3db21cfa",
+    "Q01_ANALYSIS_SUPPORT_REVIEW.json": "5c8ad655a2ce321b2b4d8cd8e6bea08bf935942d81bafe9612328a8ddfd0dcc5",
+    "Q02_OFFICIAL_SAMPLE_REVIEW.json": "586fb54de717129cc7a977cbbebc06338623d7e30186cc40161a27c9420ebf8d",
+    "Q03_Q05_FROZEN_SES_REVIEW.json": "f2c6bc97b4e0a94ff28ec74e197b7a0c34acfff2f2efa6edbaf8f57ab5ee7906",
+    "Q06_REFERENCE_REVIEW.json": "02c11e1987006aea9f8780a15838abde4a4c17cbcdf36751444010d80cfab2a8",
+    "Q06_PUBLICATION_REFERENCE_VERIFICATION.json": "2c7eda82d3da3f910526f39a2d60f94fbe64030d39c113964b69f066a8616062",
     "Q08_PAPER_CLAIM_REVIEW.json": "8b51a45f19566bb007ff1461670c74cef62892cbeaa1648a8a01529bb98dbc4d",
-    "RESULT_ARTIFACT_VERIFICATION.json": "47cd00401d22ffd254f197982142f57f6c83b2f8bbd35e0079753edd72c37f58",
-    "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz": "d39ba1d9d61516db06cfcacc62696c98a45d7e9f34168285188eadf3836a00d3",
-    "SES_SOURCE_CHECKS.csv": "b6b8019c8c1a99878ee41cb15ff26a2aaf05ad5f849e2611aeb34f1609d69a8e",
-    "COUNTRY_CYCLE_SAMPLE_QUALITY.csv": "acabe62e68b503964ba6d8fb161e160839ed2af197557ce4ff731b4adc3f30fe",
-    "OFFICIAL_SAMPLE_TABLE_DEPENDENCIES.csv": "335048cfd10c0b933b89d6b67001efffb5676d3d6205cc7aa84d5d76dbcd3489",
-    "FROZEN_SES_COUNTRY_WAVE_REVIEW.csv": "00ca196d812fe07588891a25762b2673853a475a25a2c37c84790fc1dbcb0b06",
-    "REFERENCE_BY_VIEW.csv": "06ee6e37e7292e867665ef126d4957cf7e3bb4dbefd1528b616c23944dd4abb4",
-    "REFERENCE_NUMERICAL_PROBES.csv": "836170999f403141cb4c9ea004bc9ddb13be499c18aaad4c7224e9f219ad123f",
-    "RANK_NUMERICAL_PROBES.csv": "8b1a28952cb3634988cb53851e8cf1a63fe999558cd0b9be81f5369cf08c9386",
-    "REFERENCE_DEPENDENCIES.csv.gz": "7c13c2f617752ab0a07e1e9e4ca46112046a3e37613f401e973bfdeb89c11f51",
+    "RESULT_ARTIFACT_VERIFICATION.json": "c8c92f9ae669f31fc8a83109e82bedabc17c40289a72b1b23239c3290f1bee18",
+    "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz": "768b91990ae8a6f40ecbb5edb8ae13db9b0c0621b54e2644940e467fafe17ca1",
+    "SES_SOURCE_CHECKS.csv": "11ac03a71e88bc1eb4c63063ed919ebbaf74cb1b81bc249812aa79525a2c8753",
+    "SES_REVIEW_TARGET_BINDINGS.csv.gz": "9395b7359fb73916625ad7e64a8ce93b9961422f795562c2f88e868f7c55dd11",
+    "ANALYSIS_SUPPORT.csv.gz": "93236ab69b5d475893d4f480371264ee335434ae24b3875a569348c1c288e9ee",
+    "ANALYSIS_SUPPORT_SOURCES.csv": "bb97fc380239942e2c81ffc3a9e37e4a619966eeee9746a7d3f637b32ecb1589",
+    "COUNTRY_CYCLE_SAMPLE_QUALITY.csv": "e6733b234945689284142bb325cd66b6049c50eb7faa97b5fe3dbd6a43830181",
+    "OFFICIAL_SAMPLE_TABLE_DEPENDENCIES.csv": "418cbbb85b2f2f0baed98966701b4529b22ed08c733091ae1fa98a5877f4d8bb",
+    "FROZEN_SES_COUNTRY_WAVE_REVIEW.csv": "f6d90cb80c0709fd0702f942b1003a72b2915950e2ec3071848bdd8b3671ca66",
+    "REFERENCE_BY_VIEW.csv": "f17721cd5eb1bffe21c8086d4304a06655c3fcc629d7e284d4a92c51e9514cf3",
+    "REFERENCE_NUMERICAL_PROBES.csv": "37aa631343f6bf8b42ea76ef3ce32092b9f753b6011c4bbdbd3d3d9cd3cd8715",
+    "RANK_NUMERICAL_PROBES.csv": "6dba02b44fb72be99c1d26422c3ba9515cf5c98c103b2c8d3c949416c55e4f7c",
+    "REFERENCE_DEPENDENCIES.csv.gz": "065f879dc128e3126e74b34be6b06ef052128cc1f410d166f34a7e52dab987b5",
     "PAPER_CLAIM_RESULTS.csv": "44f4b03364ae39efb8207c363cbd76bc7d842e34a05180f7e2be4514ea99d2f5",
     "PAPER_CLAIM_DEPENDENCIES.csv": "ae0719561bc344687bf5d008b469d773339c9d6134a4873f5c2a5bfbad54c819",
-    "PRODUCT_DERIVATION_REVIEW.csv": "efc4f4fb3b018a7df65bbf1b02a49545b1b11b14f2b6b389bb785b33ce9e5853"
+    "PRODUCT_DERIVATION_REVIEW.csv": "9cb17da50b8f1600155fe03ec693b50154c69a481da55ce09d571f1c1bd6f6eb"
   },
   "assessments": [
     {
       "requirement_id": "Q01",
-      "assessment": "Actual weighted/unweighted analysis groups, SES missingness and saved result N verified; coverage is not a missing-at-random or representativeness claim.",
+      "assessment": "Actual weighted/unweighted SES groups and missingness verified. Every sealed result also has independently counted pupils and schools per contrast component and PV; insufficient support is a separate reporting restriction, never a deleted target or fabricated missing source. Coverage is not a missing-at-random or representativeness claim.",
       "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
-      "report_sha256": "0a3b084dbf988a335c79a05a4896be4fa62f533eb6bfc2504d4434f75b26f884"
+      "report_sha256": "355a54207b97d823628f8d299e5fb78eaa43258f17b792af4c7412ac3db21cfa"
     },
     {
       "requirement_id": "Q02",
       "assessment": "Official population, response, exclusions, mode and cycle qualifications reviewed for every used context. Documented unreported percentages remain unknown. AUT2009/ESP2018 trend qualifications, CAN2001 regional population and POL early grade-3 to grade-4 changes exclude comparable support without deleting historical targets.",
       "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
-      "report_sha256": "aeb7164f7b98c6412a2e9b423b6fdb550206c310bb31718ede3e39a198e77bff"
+      "report_sha256": "586fb54de717129cc7a977cbbebc06338623d7e30186cc40161a27c9420ebf8d"
     },
     {
       "requirement_id": "Q03",
       "assessment": "Pinned four-wave author code and parameter parity, plus every used canonical SES score and weight projection verified numerically. Author calibration countries are not dashboard admission.",
       "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
-      "report_sha256": "0f78af110b90d62e1ce97883094539a3f624135925759766b39c0824a1db35e4"
+      "report_sha256": "f2c6bc97b4e0a94ff28ec74e197b7a0c34acfff2f2efa6edbaf8f57ab5ee7906"
     },
     {
       "requirement_id": "Q04",
       "assessment": "NOT_APPLICABLE_PROVEN: no selected two-wave dependencies or targets; no historical two-wave rerun authorized or performed.",
       "applicability": "NOT_APPLICABLE_PROVEN",
-      "report_sha256": "f677411a6eb4990d2107d5f56d9aa87e8bd64d83fc821f46d53454d2dd3d4173"
+      "report_sha256": "34310f93e151dc5f9f2188d3a9d24209343ee130ae9d1683e5d9a345d58bb740"
     },
     {
       "requirement_id": "Q05",
       "assessment": "Frozen parameters, input mappings, observed components, imputation and extension-country coverage reviewed. Measurement invariance outside calibration remains a stated assumption, not an empirical finding.",
       "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
-      "report_sha256": "0f78af110b90d62e1ce97883094539a3f624135925759766b39c0824a1db35e4"
+      "report_sha256": "f2c6bc97b4e0a94ff28ec74e197b7a0c34acfff2f2efa6edbaf8f57ab5ee7906"
     },
     {
       "requirement_id": "Q06",
       "assessment": "User decision 19 October: admission is per age-domain combination with three comparable waves. Full selected-combination focus anchors and jointly selected series/peer definitions are enforced; membership is fixed within a figure and may differ between figures. Equal-country means and ranks are numerically tested. Empty references stay empty; no benchmark/rank CI or group rank line.",
       "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
-      "report_sha256": "2688ef239fd6af145b68437792f6ffad0b978e4e734b7517a4772381cde43988"
+      "report_sha256": "02c11e1987006aea9f8780a15838abde4a4c17cbcdf36751444010d80cfab2a8"
     },
     {
       "requirement_id": "Q07",
       "assessment": "Chosen PISA SES retained; no added official ESCS robustness. Home-SES appendix has one usable released wave per study and no spliced historical scale or trend claim.",
       "applicability": "APPLICABLE_REVIEWED_WITH_QUALIFICATIONS",
-      "report_sha256": "f677411a6eb4990d2107d5f56d9aa87e8bd64d83fc821f46d53454d2dd3d4173"
+      "report_sha256": "34310f93e151dc5f9f2188d3a9d24209343ee130ae9d1683e5d9a345d58bb740"
     },
     {
       "requirement_id": "Q08",
@@ -80,7 +85,7 @@
   "runtime_bindings": [
     {
       "path": "06_pipeline/BUNDLE_DISCOVERY.R",
-      "sha256": "40e8c3f6b1f851a1392dd43cb1378b7ea9364bcd9630920791273ece0c146961"
+      "sha256": "adaf97e687b5a7d60157ee580d2b9cfdc48fc9cb2326c09113a2ac068dee408b"
     },
     {
       "path": "06_pipeline/CANONICAL_RESULT_RECONCILIATION.R",
@@ -100,7 +105,7 @@
     },
     {
       "path": "06_pipeline/DRIVE_SYNC.R",
-      "sha256": "da5de493e59026e82eda9fb5bb20ce85c9345a37b73e862b596a40e4386ca3d8"
+      "sha256": "71ee7dc3391baacc32dbdabc3618d4e26f8b8634e4ec2d3e75c28987af002364"
     },
     {
       "path": "06_pipeline/EXISTING_LO02_EXPORT.R",
@@ -119,12 +124,20 @@
       "sha256": "eb4e252957bc43b9006eaa41fcb0d927b14fd9b153514c9f686feaa55a80a101"
     },
     {
+      "path": "06_pipeline/LO_ANALYSIS_SUPPORT_POLICY.R",
+      "sha256": "f1af6a40f76adb69cf0a020365fc5f6213e68923b23b9a556901120cd81b2524"
+    },
+    {
+      "path": "06_pipeline/LO_ANALYSIS_SUPPORT_REVIEW.R",
+      "sha256": "36d1d500a0687bf01e7eb9ed4cda8651671e068dd8afaaf0bf2052f42262cd10"
+    },
+    {
       "path": "06_pipeline/LO_APPROVED_EXTENSIONS.R",
       "sha256": "5434924a5d4b58644fff77efc4adb614ae073856ea5ead76e7d6c0ec72b991f5"
     },
     {
       "path": "06_pipeline/LO_ATOMIC_CHECKPOINT.R",
-      "sha256": "7ed6ba1e421712baac3600aa37954bca928f1df8ebec1d8c11c6055693967f95"
+      "sha256": "326e916e970ad2cfb9bd88778e1689f53fdd4e802b8b45cb0415abf513eb2e67"
     },
     {
       "path": "06_pipeline/LO_BACKGROUND_REFERENCE.R",
@@ -156,7 +169,7 @@
     },
     {
       "path": "06_pipeline/LO_CERTIFY_SOURCE_BLOCKS.R",
-      "sha256": "212d9c12b20d982a66d76177bd1eec643547f07d240b89549eaee3bba3e0fda1"
+      "sha256": "72e0a8e8f9c1bca406649559b99c20c75069b7659dbc7f818ae4b78ce4027012"
     },
     {
       "path": "06_pipeline/LO_CLOSE_VERIFIED_CANDIDATES.R",
@@ -165,6 +178,10 @@
     {
       "path": "06_pipeline/LO_COBREROS_PREPARE.R",
       "sha256": "ebea074bde1c3fa1289078553b794e3aa5848f4cd36aee654b7ccf97308f1154"
+    },
+    {
+      "path": "06_pipeline/LO_COBREROS_RAW_CLOSURE.R",
+      "sha256": "b6a442b8227262d34fbc1a7e56f0c9847ae843738128eb67a475eae03689add3"
     },
     {
       "path": "06_pipeline/LO_COMPACT_GRID_STORE.R",
@@ -188,11 +205,11 @@
     },
     {
       "path": "06_pipeline/LO_COUNTRY_TASKS.R",
-      "sha256": "e3e17aab89ae702d32a7ffb40c7059062d93b870ea108026048074e7d6c12b7f"
+      "sha256": "78bb6de406fb218f214b69a4bf4308dc63b27840c54688eed4e2b631626f68fd"
     },
     {
       "path": "06_pipeline/LO_DASHBOARD_COMPARABILITY.py",
-      "sha256": "c7ec992ff2b8231e2ac2556ad45fa5557b669c0647bf6ac27dc2b36a645740ac"
+      "sha256": "a1b83a8409aca57a97ef925d18ffd4840156e313118b3a0d673fb317ddb6e12c"
     },
     {
       "path": "06_pipeline/LO_DASHBOARD_PUBLIC_PACKAGE.py",
@@ -216,7 +233,7 @@
     },
     {
       "path": "06_pipeline/LO_ESTIMATION_AVAILABILITY.R",
-      "sha256": "fbf93f7aacba023d52b131ce8255c598f7175461aa43fa4dcce6ed4ee3d49a55"
+      "sha256": "0d26afe81c62bb5848899dae62b35beef1ef002957aa1f64f08a986c9538a1aa"
     },
     {
       "path": "06_pipeline/LO_EVIDENCE_HASHES.py",
@@ -240,7 +257,7 @@
     },
     {
       "path": "06_pipeline/LO_EXISTING_RESULT_REGISTRY.R",
-      "sha256": "5f493e3bdf3d4be49bc268ccbbff7e74611aabe28206ae514bf32223a20a0ac7"
+      "sha256": "922295a3cfc883f0911189c5700ea18f82b9d7e8ce04dc22cbc89a35e4afa7b7"
     },
     {
       "path": "06_pipeline/LO_FINAL_DASHBOARD_BUILD.py",
@@ -256,15 +273,15 @@
     },
     {
       "path": "06_pipeline/LO_FINAL_GUIDED_DASHBOARD_BUILD.py",
-      "sha256": "f55c2b022f7355d33cdb9cd7bff3088a585e1c463dd752c33991ea43049c2b81"
+      "sha256": "dc677d7e9225348f67400cb7e6433c05381eef2250bc9e2969ceb6f03e2e394e"
     },
     {
       "path": "06_pipeline/LO_FINAL_GUIDED_EXPORT.R",
-      "sha256": "7595ca7d26673e8e1833e7f179f87cfb0792064de24957c8f37dcae501cbf27c"
+      "sha256": "4377afe3ddd31c1ba95ab4e65e20e8210520d0d9342d5c1af77f1ab08e6f1cc0"
     },
     {
       "path": "06_pipeline/LO_FINAL_GUIDED_PUBLIC_RELEASE.py",
-      "sha256": "46253df8582c7f90597bc45b068814f5a18a03fb4076133baefeebcb07b7aba6"
+      "sha256": "726b22ee3cd3d1f6a4f4c36f88b1e6da5fa0b16a20e55eaebbdccdb187203a2a"
     },
     {
       "path": "06_pipeline/LO_FINAL_PUBLIC_GITHUB.py",
@@ -280,7 +297,7 @@
     },
     {
       "path": "06_pipeline/LO_FIXED_CONTROLLER.R",
-      "sha256": "a50525a55f8962f908554dd2c48d8fe0d9233e4fb3466881e45d45406d1b3d26"
+      "sha256": "c0c19acbeeab250abd8200bb6cfcaea0d84888ac6e89290666ac806f373a2b4e"
     },
     {
       "path": "06_pipeline/LO_FIXED_PRODUCERS.R",
@@ -292,7 +309,7 @@
     },
     {
       "path": "06_pipeline/LO_FROZEN_SES_REVIEW.R",
-      "sha256": "c097c37c10b198d159c510efd9750dd26193b126705f86403a388fe68a92bcc3"
+      "sha256": "6699df86863781d0f4a1542bae257bc987b342384e54f1cf1e1f9e9b6d94fa03"
     },
     {
       "path": "06_pipeline/LO_GENDER_POOL_POLICY.R",
@@ -308,7 +325,7 @@
     },
     {
       "path": "06_pipeline/LO_IEA_SOURCE_BLOCK.R",
-      "sha256": "2a2cbf3b5e9a7be7ad7c5352a6c4f25e70a4ffb0fc3b8da6424add3c6968977b"
+      "sha256": "800db56dccc16ab827b5ed67e1763361dbc95da6953f053c557ea26c7573215e"
     },
     {
       "path": "06_pipeline/LO_INTERNATIONAL_BACKGROUND.R",
@@ -316,19 +333,19 @@
     },
     {
       "path": "06_pipeline/LO_INTERNATIONAL_PRODUCTION.R",
-      "sha256": "eb95b8bad5d8f11a1cce2c184a400accfdfef4822e216459a3e6d848b925e08e"
+      "sha256": "785273cd4401c88edbbc73cbf9a7951ee7a44015a18b89fe6630fbda3ce59a5e"
     },
     {
       "path": "06_pipeline/LO_INTERNATIONAL_SES.R",
-      "sha256": "8c1e3e3236548049f8accef5529ef43e0eddd187348220db5256cab407cef032"
+      "sha256": "f68a37a479a1f4b739e7688034ac9bc732b12950132fc6ebc3e81bf90d9d22b3"
     },
     {
       "path": "06_pipeline/LO_INTERNATIONAL_SOURCES.R",
-      "sha256": "c323b38f44813f0e2fe748fae72722b9c4947a7473a804054309efef4c529407"
+      "sha256": "06d87eda9b8a1052b9bed3124b33a2b5375e381a0768efc404ac841a0e2a69bc"
     },
     {
       "path": "06_pipeline/LO_INTERNATIONAL_WORKLIST.R",
-      "sha256": "0a38e46944170de59200bd715c83a8a1d031380f02927f28befea43411beeb83"
+      "sha256": "44ecdf91dd69eb076ddaba7199a513e21bac7a46f5cbe8c13d688bc26ac57f2f"
     },
     {
       "path": "06_pipeline/LO_PAPER_CLAIM_REVIEW.R",
@@ -344,23 +361,27 @@
     },
     {
       "path": "06_pipeline/LO_PEER_REFERENCE.R",
-      "sha256": "aa9f3cb8461f2cd3a599a39fbbb08e51f8586df5c8af2da9d93da0e077de62d8"
+      "sha256": "50a650933722d66dc6fc39bb31f4d753ba1739fcd0122107d9571fc65b795fbe"
     },
     {
       "path": "06_pipeline/LO_PISA_LEGACY_SOURCE.R",
-      "sha256": "5364af6640a206883a20ff4f681fb2678de7229a9f653062ee08f89f13e41387"
+      "sha256": "a516de5054a1c0007fdf1e0409fc7cceacb886bf4969eb57244b942f3886460b"
     },
     {
       "path": "06_pipeline/LO_PISA_PARTITION.R",
-      "sha256": "3b5264b20213e868e82984e9249848f830cc11e636d7f715f3fc58df35f221fd"
+      "sha256": "69b7a132ae5d760d0bbcd4a538d6050cc8f7718b49ea9cf01c0b25bc97c30c68"
+    },
+    {
+      "path": "06_pipeline/LO_PISA_PROGRAM_IDENTITY.R",
+      "sha256": "f6dca9bebf6a8060084ce1043d370f1b4b75b25c1e89df6837989a0d68c33fc7"
     },
     {
       "path": "06_pipeline/LO_PISA_SOURCE_BLOCK.R",
-      "sha256": "82127b2516afc179042d1a85de2a02c20f6f167b09e539b48b7fb18133e670c7"
+      "sha256": "91dc416ef54c88435514717c1dba3c902f9853508a83e1319e2b32f26eb7b3ac"
     },
     {
       "path": "06_pipeline/LO_POPULATION_REVIEW.R",
-      "sha256": "ca3f10a90b86540c589a26008436c741d42bcca849e05d48f98dc3a3d50c10c5"
+      "sha256": "3b1fea47a758b934e41adb6ab3d07dbc54a8974a21b9d6accec3e63b8c9ee4c8"
     },
     {
       "path": "06_pipeline/LO_PREPARED_FETCH.R",
@@ -372,7 +393,7 @@
     },
     {
       "path": "06_pipeline/LO_PRODUCT_TRACE.R",
-      "sha256": "a28efe5c7567696ef2c84443655081fa9e0e5f0829df0a5098b3300f93d35941"
+      "sha256": "0526939892c22a25a3aae6a3eade30063b11ee39024a863937a9609e1204e92d"
     },
     {
       "path": "06_pipeline/LO_PRODUCTION_SPACE.R",
@@ -384,11 +405,11 @@
     },
     {
       "path": "06_pipeline/LO_REMOTE_CHECKPOINT.R",
-      "sha256": "98f2d5e54433c2b650b6a640504aec59ca54806e7ede01dfb635e3ba9bdf3e3c"
+      "sha256": "135256266e514425b37299ad8677147cb4550e061cfbb15a7ff84104e69ac8b4"
     },
     {
       "path": "06_pipeline/LO_RUN_CONFIG.R",
-      "sha256": "71727bd6d3006808ed6ac0cb38e9a39471f93b7db716e02a373245884d859b2f"
+      "sha256": "18be6eb2a24aace25c8f6293c130c8824be90c9754f73c960f7f7e1988f7b0c0"
     },
     {
       "path": "06_pipeline/LO_SCIENTIFIC_REVIEW_BINDING.R",
@@ -408,15 +429,15 @@
     },
     {
       "path": "06_pipeline/LO_SES_COVERAGE_REVIEW.R",
-      "sha256": "873f24c9c33e29e403720edd493b42885b23403081c851f8747def4c03702b22"
+      "sha256": "d39507aa0d80b16d6b15fa67e32cbf37cbdb7efb9d2471eeb17dea50c39fb4b4"
     },
     {
       "path": "06_pipeline/LO_SES_REFERENCE.R",
-      "sha256": "58be6278246086a913d506e2e5e78f08b7d5b3447d81519c4e24ed40bf7ebcd1"
+      "sha256": "1b2b0585e8a3a7acadbdcad11be16c585ae80132d0bad2799153073fa21e958a"
     },
     {
       "path": "06_pipeline/LO_SOURCE_BINDINGS.R",
-      "sha256": "790909f8de2c51a26052b67d211b728b59e875c1adb5b44698b5f4a64ce34134"
+      "sha256": "b0bc7e43d9ee1c9055f727fb486de6ccc83b2b4fbc89f12805936a00d94f8ed2"
     },
     {
       "path": "06_pipeline/LO_SOURCE_PROJECTION_REVIEW.R",
@@ -495,6 +516,10 @@
       "sha256": "8ac3a374dd0ca8ba8d78f79b8e619dedc6d893ff2f9325d8f03d633096789949"
     },
     {
+      "path": "06_pipeline/review_20261013/ANALYSIS_SUPPORT_POLICY.json",
+      "sha256": "5baff684c5312154eb7b0b64041618619e18c8ab30b826a4c88f7fe099a5e4a0"
+    },
+    {
       "path": "06_pipeline/review_20261013/BALANCE_USER_DECISION_20261019.json",
       "sha256": "efcbd76a0f3404343c9442275692f8405461489d12e1ca70406f392ace1928c9"
     },
@@ -520,7 +545,7 @@
     },
     {
       "path": "06_pipeline/review_20261013/POPULATION_CORRECTIONS.json",
-      "sha256": "3a0c2c89ac658574408869018a20c59d69e34fc1d5b1769bf76ada2b3f47c33b"
+      "sha256": "4bd2bfc639f2fae16501ad04791925356e9608e2873b1db1a558a89f6bb27c51"
     },
     {
       "path": "06_pipeline/review_20261013/PRODUCT_REQUIREMENTS.json",
@@ -529,6 +554,10 @@
     {
       "path": "06_pipeline/review_20261013/RANK_PRODUCT_CONTRACT.json",
       "sha256": "31be4b02ccfcd21a0cbdaaf061b182f31caf3f4d84b86eee33661db620b1b325"
+    },
+    {
+      "path": "06_pipeline/review_20261013/release47_20261020/RELEASE_PHASE_DECISION.json",
+      "sha256": "efa86d2a9ebb4a094f1bbd4d4b22978fd52b19af6e839e324aeecbcc4a456f43"
     },
     {
       "path": "06_pipeline/review_20261013/SOURCE_PROJECTION_REVIEWS.json",
@@ -556,7 +585,7 @@
     },
     {
       "path": "scripts/freeze_scientific_review.py",
-      "sha256": "26bad0cc697753e3386c130ff2dfb76f81fdd1b006c2c832a7d136425929ca78"
+      "sha256": "cac33cde2a41e352c242ca1509d330bdf86a48cd394f3f8af474641d21113922"
     },
     {
       "path": "scripts/verify_reference_review_export.py",
@@ -564,40 +593,51 @@
     }
   ],
   "outputs": {
+    "ANALYSIS_SUPPORT.csv.gz": "5607b2dd5d84283f2b2b66f4be7492258822aa7e3c5311a1c55acfef3cbd8cbc",
+    "ANALYSIS_SUPPORT_SOURCES.csv": "bb97fc380239942e2c81ffc3a9e37e4a619966eeee9746a7d3f637b32ecb1589",
+    "CANDIDATE_COUNTRY_CYCLE_COUNTS.csv": "7d65c0e8faad83784f828f93507620f937f188b981756fc22d750e20d210ad65",
+    "CANDIDATE_COUNTRY_SOURCE_ELIGIBILITY.csv": "0cafb7357898be2c89c042ee810badc6670e11f7b0eb8290e90366c867210daf",
+    "CANDIDATE_EXPANSION_REVIEW.json": "2bfda383e6712623dc58cdc917a4643dfe2cb0114e368ab47e811f4230c5e49b",
+    "CANDIDATE_PISA_PROGRAM_ACTUAL_PARITY.csv": "ebbf10288be5bd7592e0c16300fe330b8f0a6ffee98ec19e6cd389bb9871e48d",
+    "CANDIDATE_PRODUCTION_CHECKS.json": "964a9c694a2e9590ba26ea4dd0110360804d8f1736f554f82c29b12b65846172",
+    "CANDIDATE_VERIFIED_SOURCE_CONTEXTS.csv": "2b1406942c074b5b125d6f42a219e72222f2c592686198f840047ad79080f5fd",
     "COMBINATION_CANDIDATE_SCREEN.json": "ece4d52cbad85d9cd57128b68e3729539f7863e9ea44b4d254a4a7b857056cc4",
     "COMBINATION_SCOPE_IMPACT.json": "9133541d76973deb87989072170a44c575f328d58f4ca6b7da9d318a951a6e5e",
-    "COUNTRY_CYCLE_SAMPLE_QUALITY.csv": "acabe62e68b503964ba6d8fb161e160839ed2af197557ce4ff731b4adc3f30fe",
+    "COUNTRY_CYCLE_SAMPLE_QUALITY.csv": "e6733b234945689284142bb325cd66b6049c50eb7faa97b5fe3dbd6a43830181",
     "COUNTRY_PARTICIPATION_CLARIFICATIONS.json": "f5815184fba738123d310bae3e9b6b898579d69c94c2042ab3143ec69442635c",
-    "COUNTRY_REVIEW.csv": "9642b85316df225aa0c222bf5e4debf2291565f870115c0ba3ec079e296cee7c",
-    "COUNTRY_REVIEW_MANIFEST.json": "92c789e6d7b1fc880d84e15e2b079dc6fd16a30f241d356f3d9636068ae454a9",
-    "COUNTRY_SIX_COMBINATIONS.csv": "a869f4c4f8a341ad9f829c1de6a0d601a85468fd70ce6d55c0b07277c8c5d4ef",
-    "FROZEN_SES_COUNTRY_WAVE_REVIEW.csv": "00ca196d812fe07588891a25762b2673853a475a25a2c37c84790fc1dbcb0b06",
-    "METHOD_CONTRACTS.csv": "83807f1911e73f6c442186517f468dc84ca4f7eec85a87cc0eea234b2331fee8",
-    "MIGRATION_RECORDED_ANALYSIS_SAMPLES.csv": "b251b35cfd72af91555c815917d61265c58e68daf7975ab85af42b2ee47a1964",
-    "NLD_COMBINATION_REFERENCE_REVIEW.csv": "4337800b0b94b5be11204cfa462fc1482ff36bd6ef0b1538337d6fbb6c5b8493",
-    "NLD_CORE_REFERENCE_REVIEW.csv": "0ab89e7c73398e163b6108e5c44854256a9db4bef24755f7ff2b5a8f475b76fb",
-    "OFFICIAL_SAMPLE_TABLE_DEPENDENCIES.csv": "335048cfd10c0b933b89d6b67001efffb5676d3d6205cc7aa84d5d76dbcd3489",
+    "COUNTRY_REVIEW.csv": "ffe41119e0194333daf01e2dd24eba3b42cd928b7d437303ff63ef39b6e4989c",
+    "COUNTRY_REVIEW_MANIFEST.json": "734fe82fd4f7d4cafb37b9734f0bd1a25c044a78df0e45175547b7db41884030",
+    "COUNTRY_SIX_COMBINATIONS.csv": "fc04c48709e3cfe73aff80ae657532fe0df6d2447a428aaa1dc89786af620f6d",
+    "FROZEN_SES_COUNTRY_WAVE_REVIEW.csv": "f6d90cb80c0709fd0702f942b1003a72b2915950e2ec3071848bdd8b3671ca66",
+    "METHOD_CONTRACTS.csv": "39aea2d367bd55bbde1486fd2f3152a4ce33abc4eb3bd4417fc9eca91bc9bf7d",
+    "MIGRATION_RECORDED_ANALYSIS_SAMPLES.csv": "5d2d49b80f2adbd4a455236c81c39167bb56a0d933acb26c28dc4f24cc70647b",
+    "NLD_COMBINATION_REFERENCE_REVIEW.csv": "016023b894abb162f6ea4b2df02488def2ac9ec137c16c0015cfc5a86050d243",
+    "NLD_CORE_REFERENCE_REVIEW.csv": "37c1606867bb2af8ee5529c0a81eee637984dc3629831c3d6182d553a2eb1f3e",
+    "OFFICIAL_SAMPLE_TABLE_DEPENDENCIES.csv": "418cbbb85b2f2f0baed98966701b4529b22ed08c733091ae1fa98a5877f4d8bb",
     "PAPER_CLAIM_DEPENDENCIES.csv": "ae0719561bc344687bf5d008b469d773339c9d6134a4873f5c2a5bfbad54c819",
     "PAPER_CLAIM_RESULTS.csv": "44f4b03364ae39efb8207c363cbd76bc7d842e34a05180f7e2be4514ea99d2f5",
-    "PRODUCT_DERIVATION_REVIEW.csv": "efc4f4fb3b018a7df65bbf1b02a49545b1b11b14f2b6b389bb785b33ce9e5853",
-    "Q01_SES_SAMPLE_REVIEW.json": "43c2e9548a22af359e8cbee6d3845d9b0f0d48e396fd57aeb320bf4b604c24f2",
-    "Q02_OFFICIAL_SAMPLE_REVIEW.json": "79e3daa82d46b14cf261b6f5b1bf257c3f1006b9904cf3b3e5fe56d9e59ed0cc",
-    "Q03_Q05_FROZEN_SES_REVIEW.json": "0da048708590b74410ee9757ece821838d3530f4d35cc3e8b7a7717830c9f49d",
-    "Q06_PUBLICATION_REFERENCE_VERIFICATION.json": "38bf2f6a7053027a0b39ecb745037401d19671d9a1371fffbc2b7e81573f2a1b",
-    "Q06_REFERENCE_REVIEW.json": "909f1aa99a608c921acd10b7d9c973e1135945655576197dc07e55c5eceaa2ae",
+    "PRODUCT_DERIVATION_REVIEW.csv": "9cb17da50b8f1600155fe03ec693b50154c69a481da55ce09d571f1c1bd6f6eb",
+    "Q01_ANALYSIS_SUPPORT_REVIEW.json": "ba4210c97edc2f0f10565cac3835221b9a8962775c0f119151ee4f51a1c09890",
+    "Q01_SES_SAMPLE_REVIEW.json": "283d805c8f533b16fb1f887331c8c522c74f6fe185c550b5a6bb71e0dbfbe202",
+    "Q02_OFFICIAL_SAMPLE_REVIEW.json": "ef90ba9feb8e92bc6dddd5c888e1143d9f45388b0847575bf7cc5e3da83dfd5a",
+    "Q03_Q05_FROZEN_SES_REVIEW.json": "4f5adbf643a55931f158767cddc983bafde3f71eaadae2c8262caffd613f55d8",
+    "Q06_PUBLICATION_REFERENCE_VERIFICATION.json": "8b09e3ff611cd9c0f56c1cc68157d87600c7eeca0b12ce082b6abcb5d535c029",
+    "Q06_REFERENCE_REVIEW.json": "ad73619632ad168635425990f9760b7609ba78cf9949d20254d23c23d1984509",
     "Q08_PAPER_CLAIM_REVIEW.json": "06e7b5a94a2732dc4af1c2f2fb284303b845f68d5fdfd7280bd865b4d785f69d",
-    "RANK_NUMERICAL_PROBES.csv": "8b1a28952cb3634988cb53851e8cf1a63fe999558cd0b9be81f5369cf08c9386",
-    "REFERENCE_BY_VIEW.csv": "06ee6e37e7292e867665ef126d4957cf7e3bb4dbefd1528b616c23944dd4abb4",
-    "REFERENCE_DEPENDENCIES.csv.gz": "f2078008d58aedaf3cfdf89cf12899d1199e51c2fa7f305aa2a933f83c0f6e3e",
-    "REFERENCE_NUMERICAL_PROBES.csv": "836170999f403141cb4c9ea004bc9ddb13be499c18aaad4c7224e9f219ad123f",
+    "RANK_NUMERICAL_PROBES.csv": "6dba02b44fb72be99c1d26422c3ba9515cf5c98c103b2c8d3c949416c55e4f7c",
+    "REFERENCE_BY_VIEW.csv": "f17721cd5eb1bffe21c8086d4304a06655c3fcc629d7e284d4a92c51e9514cf3",
+    "REFERENCE_DEPENDENCIES.csv.gz": "bab1f72b9d06749e4c1cd4255cb5ed4ef5218cd664ded081b3ca2fc0d19b5a05",
+    "REFERENCE_NUMERICAL_PROBES.csv": "37aa631343f6bf8b42ea76ef3ce32092b9f753b6011c4bbdbd3d3d9cd3cd8715",
     "REGIONAL_SOURCE_IDENTITIES.csv": "0ebd683308008a149a19a12fab69cdba17205487cb0d9b93742c434a2d49fa13",
-    "RESULT_ARTIFACT_VERIFICATION.json": "54ca38d6ea06819cdf119a8b3b7e3ca1bcd20f3d4693837fdad18a86f1b3dbfb",
-    "RESULT_USE_RESTRICTIONS.csv": "c4ef67559eabd1df683181d937c4ba1251a22cf2f7dae403172374db39550405",
-    "SCOPE_METHOD_REVIEW.json": "f677411a6eb4990d2107d5f56d9aa87e8bd64d83fc821f46d53454d2dd3d4173",
-    "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz": "cc995d09b53e551e796466684be37e37ff6212154e6e18b0769c6e8abe1d6e22",
-    "SES_SOURCE_CHECKS.csv": "b6b8019c8c1a99878ee41cb15ff26a2aaf05ad5f849e2611aeb34f1609d69a8e",
-    "VERIFIED_COUNTRY_ADMISSION.csv": "3fa21e61e364e58a72a556c8e432efaf90eb5fec6cbab825cbc13381130eeecc",
-    "VERIFIED_COUNTRY_COMBINATIONS.csv": "a869f4c4f8a341ad9f829c1de6a0d601a85468fd70ce6d55c0b07277c8c5d4ef",
-    "VERIFIED_COUNTRY_SIX_COMBINATIONS.csv": "a869f4c4f8a341ad9f829c1de6a0d601a85468fd70ce6d55c0b07277c8c5d4ef"
+    "REGISTRY_IO_VALIDATION.json": "3da52dd7353807e0dd8994a86e6a3612bcbe45cfec1de9182129e3ba03a245aa",
+    "RESULT_ARTIFACT_VERIFICATION.json": "74fdcfdfa3efef2460d7b7998c4205707252d068d24715dc397af512ddd58731",
+    "RESULT_USE_RESTRICTIONS.csv": "57208eb488f1402ec527df661752a6643b191306ec6bffe68820d67e2dd156eb",
+    "SCOPE_METHOD_REVIEW.json": "34310f93e151dc5f9f2188d3a9d24209343ee130ae9d1683e5d9a345d58bb740",
+    "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz": "5ff66f6290ae73dcb1e1da116123da028d8259b26395b662e5e044be6d191408",
+    "SES_REVIEW_TARGET_BINDINGS.csv.gz": "e3362ff79d6743f7b4d6689ec5c84f993481070d79a3fac7f2d46a262a6a8633",
+    "SES_SOURCE_CHECKS.csv": "11ac03a71e88bc1eb4c63063ed919ebbaf74cb1b81bc249812aa79525a2c8753",
+    "VERIFIED_COUNTRY_ADMISSION.csv": "547a2f371218e131e983cd0c8736b19584a596eb3f67642abf5c0fa18e24a868",
+    "VERIFIED_COUNTRY_COMBINATIONS.csv": "fc04c48709e3cfe73aff80ae657532fe0df6d2447a428aaa1dc89786af620f6d",
+    "VERIFIED_COUNTRY_SIX_COMBINATIONS.csv": "fc04c48709e3cfe73aff80ae657532fe0df6d2447a428aaa1dc89786af620f6d"
   }
 }
