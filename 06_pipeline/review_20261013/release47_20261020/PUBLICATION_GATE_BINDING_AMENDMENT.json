@@ -1,0 +1,31 @@
+{
+  "status": "PUBLICATION_ONLY_GATE_REVIEWED_SCIENTIFIC_EVIDENCE_UNCHANGED",
+  "parent_private_manifest_sha256": "2d0ccd2d02ac6e6a57a42d2a20c1c77e89d7c321567a51bd11a335948ae9e2b7",
+  "frozen_public_scientific_manifest_sha256": "c205f624793a9d55fc25ced02540f91466e5e0e78a8b69fe8c801b229c928965",
+  "code_commit": "2e6e624579f1cafbbe886e0962729839822657ca",
+  "runtime_changes": [
+    {
+      "path": "06_pipeline/LO_PARTIAL_DASHBOARD_RELEASE.py",
+      "before_sha256": "a1bd3e8a67f730cfeec24fcba93eb5b7873b33ddaac07fdb222496601078093d",
+      "after_sha256": "1a1bb67d4434d979ea6d3a382c290459b0f969fcc0d7ee8c19e03434e897c31a"
+    }
+  ],
+  "reason": "Allow only named hash-bound compressed aggregate coverage/review tables; enforce bounded package size; stream ZIP verification; correctly classify empty construct views.",
+  "tests": [
+    "7 partial-release boundary tests passed on Windows, including unbound compressed proof rejection",
+    "4 actual publication/staging module integration regressions passed on Windows"
+  ],
+  "unchanged": [
+    "estimators",
+    "source identities",
+    "task identities",
+    "result values",
+    "all Q01-Q08 reports",
+    "8178 reference contracts",
+    "actual finalizer proof on 48f6b242ec20cc0f6ebea102e0d4de95255149a0"
+  ],
+  "no_pupil_calculation": true,
+  "no_scientific_review_repeated": true,
+  "full_fresh_source_replication_certified": false,
+  "updated_private_manifest_sha256": "14e0b2b69af8683f00fa280c2528141a0d5e9bd35439691220e27a622c14cd59"
+}
