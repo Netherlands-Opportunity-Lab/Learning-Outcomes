@@ -1,0 +1,51 @@
+{
+  "status": "PUBLIC_ONLY_PACKAGE_AND_FRESH_AGGREGATE_REBUILD_VERIFIED",
+  "code_commit": "b9bed3ac87853ac1f362cc91faa1db002aa6d97f",
+  "package": {
+    "files": 364,
+    "bytes": 71470480,
+    "sha256": "fe6924fe726a92e2c114ab78b9318d978264c4a51b01d1876e19850cace07158"
+  },
+  "expanded_bytes": 418876603,
+  "boundary": {
+    "status": "PUBLIC_TREE_EXCLUDES_PRIVATE_DOCUMENTS",
+    "files": 554,
+    "packages": [
+      {
+        "status": "PUBLIC_PACKAGE_EXCLUDES_PRIVATE_DOCUMENTS",
+        "files": 365
+      }
+    ]
+  },
+  "pupil_estimations": 0,
+  "full_source_replication": "DEFERRED_BY_OWNER",
+  "inspection": {
+    "seconds": 5.856,
+    "peak_working_set_bytes": 92352512,
+    "platform": "Windows",
+    "log_sha256": "b95b5ec6d64efc11afb8e2e6938019a0598eb2b3c1fe6ff381c46da20ec6a86d",
+    "exit_code": 0
+  },
+  "aggregate_reconstruction": {
+    "seconds": 117.04,
+    "peak_working_set_bytes": 720056320,
+    "platform": "Windows",
+    "log_sha256": "ce0d405f8c874fbac4c19a636f60e3522b9a5ab4288b04623677bd4ed8a7c63a",
+    "exit_code": 0
+  },
+  "identical_second_reconstruction": {
+    "status": "BOTH_REBUILDS_MATCH_SAME_CORE_MANIFEST",
+    "first_log_sha256": "0a4d12b76966eb21d67a96e4ba48911e10cccc4ecf932d3df10f894cf5307c7d",
+    "second_log_sha256": "ce0d405f8c874fbac4c19a636f60e3522b9a5ab4288b04623677bd4ed8a7c63a",
+    "source_commit": "b9bed3ac87853ac1f362cc91faa1db002aa6d97f"
+  },
+  "publication_gate": {
+    "candidate_manifest_sha256": "2878cafc157c71414e5160b6ab8e76aaa23e6357da99b9580830cb48aeab69d1",
+    "systems": 47,
+    "active_figures": 174,
+    "scientific_rows": 63384,
+    "release_kind": "PARTIAL_VERIFIED_RESULTS",
+    "release_gate": "PASS_PARTIAL_DISPLAY_ONLY_FULL_SCIENCE_INCOMPLETE"
+  },
+  "manifest_sha256": "2878cafc157c71414e5160b6ab8e76aaa23e6357da99b9580830cb48aeab69d1"
+}
