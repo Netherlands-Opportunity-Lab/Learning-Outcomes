@@ -72,11 +72,13 @@ def verify(repo, root, output):
         actual_years = set(row['required_years'].split(';')) if row['required_years'] else set()
         assert actual_years == {str(y) for y in years}, (key, 'full required years')
         if not actual_years:
-            # A deliberately unavailable combination has zero years. Splitting
-            # an empty text otherwise invents one empty year. Never permit an
-            # empty anchor for a view that either independent proof admits.
+            # Non-admitted combinations and a construct outside the country's
+            # actual cycles can have zero target years. Neither may inherit a
+            # Dutch template period. All three independently bound statuses
+            # must agree; an admitted, supported view may never lose years.
             assert (row['status'] == want['status'] == independent_views[key]['status']
-                    == 'AGE_DOMAIN_NOT_ADMITTED'), (key, 'unexplained empty anchor')
+                    and row['status'] in ('AGE_DOMAIN_NOT_ADMITTED', 'FOCUS_VIEW_INCOMPLETE')
+                    and not independent_views[key].get('target_cell_ids')), (key, 'unexplained empty anchor')
         assert row['focus'] not in row['eligible_members']
         assert row['focus_excluded'] and row['country_weights'] == 'EQUAL_PER_COUNTRY'
         assert row['benchmark_uncertainty'] is False
