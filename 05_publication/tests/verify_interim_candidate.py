@@ -4,6 +4,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / '05_publication'))
 from candidate_storage import materialize
+from public_distribution import verify_tree
 
 def main():
     pointer=ROOT/'05_publication/INTERIM_CURRENT.json'
@@ -23,12 +24,14 @@ def main():
         # Reproduce it with its exact packaged gate, after current path/byte
         # checks. Current-release policy is tested separately; never relabel
         # the old all-six approval as approval of the new combination rule.
+        verify_tree(site)
         package_check.verify_package(site/'replication/learning-outcomes-replication.zip')
         package=root/'package';package.mkdir()
         with zipfile.ZipFile(site/'replication/learning-outcomes-replication.zip') as z:z.extractall(package)
         spec=importlib.util.spec_from_file_location('historical_release',package/'06_pipeline/LO_FINAL_GUIDED_PUBLIC_RELEASE.py')
         release=importlib.util.module_from_spec(spec);spec.loader.exec_module(release)
         print(json.dumps(release.verify(site,certificate)))
+        subprocess.run([sys.executable,str(package/'REPLICATE.py'),'inspect'],check=True)
         subprocess.run([sys.executable,str(package/'reproduce_dashboard.py'),'--output',str(root/'rebuilt')],check=True)
 
 if __name__=='__main__':main()

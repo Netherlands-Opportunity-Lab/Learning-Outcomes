@@ -43,7 +43,7 @@ COPY = {
             ("Learning environment and missingness",
              "Peer measures exclude the pupil. IEA uses the observed class; PISA uses the education programme within the school where available, which is not complete class identification. The whole school is a separate measure. Low and high attainment use different thresholds. Missing source fields, questionnaires not administered, scales not defined and unusable groups remain distinct. Insufficiently supported small groups are not plotted. Valid zeros remain results."),
             ("Replication and limitations",
-             "Q01–Q08 have been reviewed on this result basis. The dashboard, paper and editable presentation use the same checked aggregates. Their reconstruction is distinct from fresh pupil-source estimation. The public source route now supplies the required historical engine and identifies pinned author code; the original private ZIP is not required for that route. A complete new 47-country source replication without old result caches has not yet been certified. Targeted source probes, Windows/Linux software checks and the completed restore test are separately documented. This is not AEA certification."),
+             "Q01–Q08 have been reviewed on this result basis. The dashboard uses the checked aggregates. The paper and presentation are private and are not included in the website or downloads. Their reconstruction is distinct from fresh pupil-source estimation. The public source route now supplies the required historical engine and identifies pinned author code; the original private ZIP is not required for that route. A complete new 47-country source replication without old result caches has not yet been certified. Targeted source probes, Windows/Linux software checks and the completed restore test are separately documented. This is not AEA certification."),
             ("Provenance and use",
              "SVG, CSV and JSON downloads retain selection, cells, definitions, source, code and result hashes. Research values retain precision; rounding is for display only. Dutch and English share one application. OECD/IEA terms and brand/font licences remain applicable. No pupil or school microdata are published."),
         ],
@@ -65,9 +65,7 @@ def build(site):
 <a href="../{other}/" lang="{other}">{text['other']}</a></header><main class="docs-content">
 <h1>{text['title']}</h1><p><a href="../../{lang}/">{text['back']}</a> ·
 <a href="../../replication/learning-outcomes-replication.zip" download>{text['package']}</a></p>
-{sections}<h2>{text['products']}</h2><ul>
-<li><a href="../../products/Leerprestaties_beleid_current47.pptx">PowerPoint</a> · <a href="../../products/Leerprestaties_beleid_current47.pdf">PDF</a></li>
-<li><a href="../../products/Leerprestaties_paper_current47.pdf">Paper (PDF, Nederlands)</a></li></ul>
+{sections}
 <p><a href="../../data/snapshot_provenance.json">Snapshot / provenance</a> ·
 <a href="../../GUIDED_QA.json">QA</a> · <a href="../../BUILD_SHA256_MANIFEST.json">SHA-256</a> ·
 <a href="../../archive/2026-09-28/">2026-09-28</a> ·
@@ -75,7 +73,7 @@ def build(site):
 </main></body></html>\n"""
         dest = site / "info" / lang / "index.html"
         dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_text(html, encoding="utf-8")
+        dest.write_text(html, encoding="utf-8", newline="\n")
 
 
 if __name__ == "__main__":

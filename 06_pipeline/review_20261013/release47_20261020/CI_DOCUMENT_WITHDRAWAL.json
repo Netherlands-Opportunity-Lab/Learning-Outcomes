@@ -1,0 +1,448 @@
+{
+  "status": "DOCUMENT_CI_DOWNLOADS_WITHDRAWN_AND_PRESERVED_PRIVATELY",
+  "timestamp_utc": "2026-10-20T20:34:23.196442+00:00",
+  "artifacts": [
+    {
+      "id": 12294782514,
+      "name": "product-proof-ubuntu-latest",
+      "bytes": 108408,
+      "sha256": "62e479b4c03285b4d9e55d852b0e3dc32b76940b4bf8e171ac61bc8c64661d40",
+      "original_run": {
+        "id": 39488876070,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "01a18ae786a697f7215e2368cda8d5da8c25f726"
+      },
+      "private_document_proof_members": [
+        "rebuilt_products/PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "rebuilt_products/paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12294353838,
+      "name": "product-proof-windows-latest",
+      "bytes": 108787,
+      "sha256": "f028e90e94c0ce5d000f754d56d13676f1f18bbb17bcf55f9e2f10ad10ab58ae",
+      "original_run": {
+        "id": 39488876070,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "01a18ae786a697f7215e2368cda8d5da8c25f726"
+      },
+      "private_document_proof_members": [
+        "rebuilt_products/PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "rebuilt_products/paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12293167322,
+      "name": "product-proof-ubuntu-latest",
+      "bytes": 108410,
+      "sha256": "eeb25cdb53a861ee16efe6d718864ab8dcc0c9a76bca5dbfc9aac67137de987c",
+      "original_run": {
+        "id": 39484736045,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "c477282a08efaaee3af820490467dfc985ce874e"
+      },
+      "private_document_proof_members": [
+        "rebuilt_products/PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "rebuilt_products/paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12293112364,
+      "name": "product-proof-windows-latest",
+      "bytes": 108788,
+      "sha256": "0bd9ee45248d5aea95c1e7a6e5fe3f7217222119864d94bde8034a72056ec9b4",
+      "original_run": {
+        "id": 39484736045,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "c477282a08efaaee3af820490467dfc985ce874e"
+      },
+      "private_document_proof_members": [
+        "rebuilt_products/PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "rebuilt_products/paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12288647451,
+      "name": "product-proof-ubuntu-latest",
+      "bytes": 11377,
+      "sha256": "8f614a6eee02b926a47b06aa0a7237c035e0ab7dc37a9fb8d0bd99ad30e84ecb",
+      "original_run": {
+        "id": 39475324261,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "27b4bb66942cf17ea6c5f482ffb8e83d637c80e2"
+      },
+      "private_document_proof_members": [
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12288038084,
+      "name": "product-proof-windows-latest",
+      "bytes": 11463,
+      "sha256": "cd6cd790dd92343c688d16dd50317a0727114c764a904f78d6dd389f56a64482",
+      "original_run": {
+        "id": 39475324261,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "27b4bb66942cf17ea6c5f482ffb8e83d637c80e2"
+      },
+      "private_document_proof_members": [
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12286745515,
+      "name": "product-proof-ubuntu-latest",
+      "bytes": 11376,
+      "sha256": "c2b5fa864b4839bd06bd23e238103f308080b4f0597db16400f7087b450836b3",
+      "original_run": {
+        "id": 39468940102,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "4f40f9f271faeeefdaa0eff09f6b233f311991cc"
+      },
+      "private_document_proof_members": [
+        "paper/PAPER_PRODUCT_TRACE.json",
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12286570801,
+      "name": "product-proof-windows-latest",
+      "bytes": 11464,
+      "sha256": "6a4c8ec0f215d3d0a68e5b2b3064d34cca75ffe4910ad1367ccb23efe5809df9",
+      "original_run": {
+        "id": 39468940102,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "4f40f9f271faeeefdaa0eff09f6b233f311991cc"
+      },
+      "private_document_proof_members": [
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12285518902,
+      "name": "product-proof-windows-latest",
+      "bytes": 11463,
+      "sha256": "a899ac812d021b85cbaeea5a8df34b2c4710b6b009dbbc9e2437fb79df046df0",
+      "original_run": {
+        "id": 39469897842,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "352ae0fb05403f9d538bd8e472208b50a7ce84ba"
+      },
+      "private_document_proof_members": [
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12285399786,
+      "name": "product-proof-ubuntu-latest",
+      "bytes": 11377,
+      "sha256": "f09fc5c80cdfdb1da947408010864cac056cce16299341a231317dfd52e5ea85",
+      "original_run": {
+        "id": 39469897842,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "352ae0fb05403f9d538bd8e472208b50a7ce84ba"
+      },
+      "private_document_proof_members": [
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12285225069,
+      "name": "product-proof-windows-latest",
+      "bytes": 11462,
+      "sha256": "29bd539a9824b9884ba5af215e5a5a08eb3db9eb8063ad64a23b272a66576b0a",
+      "original_run": {
+        "id": 39464020164,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "a36d5585119cc123a34f06c8b7b495bf582290cb"
+      },
+      "private_document_proof_members": [
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12283972896,
+      "name": "product-proof-ubuntu-latest",
+      "bytes": 11377,
+      "sha256": "2a2ae323f98445a18a91f057f20cf7f59f14abcfd34d30295aaa95a151741069",
+      "original_run": {
+        "id": 39464020164,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "a36d5585119cc123a34f06c8b7b495bf582290cb"
+      },
+      "private_document_proof_members": [
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12282630673,
+      "name": "product-proof-ubuntu-latest",
+      "bytes": 11376,
+      "sha256": "3fc41d96ed6ce90dc0196eb4fc2d51058988ca23bc3c4456448cc575e94050b9",
+      "original_run": {
+        "id": 39459695477,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "7d7fa3662c28828d9668dd3516a2cb62456e0f02"
+      },
+      "private_document_proof_members": [
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12282388012,
+      "name": "github-pages",
+      "bytes": 136420514,
+      "sha256": "b28bb349baaeec2d6b7b47e0461ffaf1a7661dddaf1de06f404e137ed8694764",
+      "original_run": {
+        "id": 39461388061,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "main",
+        "head_sha": "fa9f12ba12c91ef399579de8bde0d048db9b419f"
+      },
+      "private_document_proof_members": [
+        "./products/Leerprestaties_paper_current47.pdf",
+        "./products/Leerprestaties_beleid_current47.pdf",
+        "./products/Leerprestaties_beleid_current47.pptx"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12282381047,
+      "name": "product-proof-windows-latest",
+      "bytes": 11463,
+      "sha256": "7530d84b79824784af99d6fb2472528e9325a161149abd1e669c141e4e91fb02",
+      "original_run": {
+        "id": 39459695477,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "7d7fa3662c28828d9668dd3516a2cb62456e0f02"
+      },
+      "private_document_proof_members": [
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12281635506,
+      "name": "product-proof-windows-latest",
+      "bytes": 11464,
+      "sha256": "97a7e4c9efbbe4e99b7194ec4cf3317c53b019bef762f1d3a6d60f73a44b9710",
+      "original_run": {
+        "id": 39455935423,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "333f1eba119193bb16583dffefd8cf157e6c27cf"
+      },
+      "private_document_proof_members": [
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12281486000,
+      "name": "product-proof-ubuntu-latest",
+      "bytes": 11376,
+      "sha256": "8d4b7e9d7e79c5f44cf3253bb54bf7712d242949f30b6b69d661f0009a750dd0",
+      "original_run": {
+        "id": 39455935423,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "333f1eba119193bb16583dffefd8cf157e6c27cf"
+      },
+      "private_document_proof_members": [
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12281281782,
+      "name": "product-proof-ubuntu-latest",
+      "bytes": 11376,
+      "sha256": "30f15e224e9a27128a5ebc701bd2563d578123e3154247006bf35fecddf38ab6",
+      "original_run": {
+        "id": 39456520549,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "2e6e624579f1cafbbe886e0962729839822657ca"
+      },
+      "private_document_proof_members": [
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12281202594,
+      "name": "product-proof-ubuntu-latest",
+      "bytes": 11375,
+      "sha256": "a937f6758068ebd1af50949333b62c9b2ba2b37ae567ff43f97ec8dce44b1a74",
+      "original_run": {
+        "id": 39457139505,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "92d5e38016cde66923c02d59c4e6b9730dd546a3"
+      },
+      "private_document_proof_members": [
+        "paper/PAPER_PRODUCT_TRACE.json",
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12281032081,
+      "name": "product-proof-windows-latest",
+      "bytes": 11462,
+      "sha256": "6ccd6740b90e89b51e54ee7725d381054982afc781b7c2c11c42067d5170f88a",
+      "original_run": {
+        "id": 39456520549,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "2e6e624579f1cafbbe886e0962729839822657ca"
+      },
+      "private_document_proof_members": [
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    },
+    {
+      "id": 12279969184,
+      "name": "product-proof-windows-latest",
+      "bytes": 11463,
+      "sha256": "953b967074c17044edf39e1359507c779346b9879757447f01d379bdecf35d0d",
+      "original_run": {
+        "id": 39457139505,
+        "repository_id": 1375978333,
+        "head_repository_id": 1375978333,
+        "head_branch": "feat/reproducible-storage-and-cleanup-20261010",
+        "head_sha": "92d5e38016cde66923c02d59c4e6b9730dd546a3"
+      },
+      "private_document_proof_members": [
+        "PRODUCT_VALUES_AND_CLAIMS_REVIEW.json",
+        "paper/PAPER_PRODUCT_TRACE.json"
+      ],
+      "deletion": {
+        "http_status": 204
+      },
+      "readback_http": 404
+    }
+  ]
+}

@@ -1,0 +1,461 @@
+{
+  "status": "CURRENT_PUBLIC_CHECKOUT_AUTHORED_DOCUMENT_FILES_WITHDRAWN",
+  "files": [
+    {
+      "path": "04_products_or_release/current47/deck/POLICY_DECK_TRACE.json",
+      "bytes": 918681,
+      "sha256": "136e0342fade1db8345c0568161740e92b9f338d82d1ecaea719729bdf206b18",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/final/Leerprestaties_beleid_current47.pdf",
+      "bytes": 3662889,
+      "sha256": "f44f08da725103fdd918bc384365ea0107cb5f0b7b0c226979e0ab045a555eea",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/final/Leerprestaties_beleid_current47.pptx",
+      "bytes": 651877,
+      "sha256": "b80ec02032627e125a9839895a73516f43da744235a2d78acfc92ac83cc1df41",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-01.png",
+      "bytes": 132875,
+      "sha256": "458a6af07927e88449f1a81393ad31184764c7f73aa513e3acefc808c9ae3ba2",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-02.png",
+      "bytes": 240105,
+      "sha256": "1522ebe11eace5588265194bdbb5ea3c0718e875e22c73357a94e93aadf46352",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-03.png",
+      "bytes": 223455,
+      "sha256": "755ffa6e79a82d953b92316ff0828d9f257e63c75b4aa42eefe5b0d3f550f774",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-04.png",
+      "bytes": 184961,
+      "sha256": "59360aa740518c14706faf02db3d3edb42aace89831db532f7d28a1ce749b9ea",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-05.png",
+      "bytes": 141896,
+      "sha256": "9ca685b2ab4a6222857a41df3539ba41125b202c05eee9ad370fee7f4ea36957",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-06.png",
+      "bytes": 173461,
+      "sha256": "f7a41d4044c897e4cd8041a4554dcbf21671b3a0f8f45f934f42aac8d49ef1ba",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-07.png",
+      "bytes": 153983,
+      "sha256": "71b8b39a04a9ff4ca76e372f80a70813f9c781a2dc06254312243f932418d2ef",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-08.png",
+      "bytes": 125447,
+      "sha256": "fa1381fd1779822d7413b87687526b129c263ffa93ecd4d1716430ee01c0658b",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-09.png",
+      "bytes": 143157,
+      "sha256": "c4d8963332dd6e541ba22c625517a19459896335190742753380bbb963e7ca5f",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-10.png",
+      "bytes": 263044,
+      "sha256": "3de04a4029c310326e8745b2ad924d71773d6e3c9b671cd339517d3e1157bdc4",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-11.png",
+      "bytes": 239298,
+      "sha256": "a6dbe14517f54086d443d470dd7e6d85aa1f2e7c09f3109a5e3a9a1a79a1e45b",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-12.png",
+      "bytes": 214864,
+      "sha256": "6a8a9347e72fd21026231a0e77eb32c35d2d9e1ee806d9cf0f9be5427f8d9d78",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-13.png",
+      "bytes": 246608,
+      "sha256": "ceeda2386d71450fb53644e7746da2801d4f2f432ff37d26387a9a34d719585f",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-14.png",
+      "bytes": 224393,
+      "sha256": "24f8e6d65034b01f586d443c226ab33768505d607163897b36e14fbf9f4b0319",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-15.png",
+      "bytes": 121786,
+      "sha256": "9456738f815c1d3ea85be43b54f6754ce56a3c34e9cfe03ed36b8eeb9f10f2a1",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-16.png",
+      "bytes": 124094,
+      "sha256": "24d7cef56dcd28443cce417a931fd78801a9488b82a1a69172d0b3a814277fd6",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-17.png",
+      "bytes": 147524,
+      "sha256": "042bcb8b0703f07e4adf7960e9c1b7fc9c9f46806f8499b01a0e94bb21031d9a",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-18.png",
+      "bytes": 144666,
+      "sha256": "abeca2c90f8500e6d56f39c1082e75d53136db699aa8d768d6f4c7f6cf3223bf",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-19.png",
+      "bytes": 256367,
+      "sha256": "ee70282da99b08878cb61fffa3d064c4a130e114aafd27e8f89f8a33af17657c",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-20.png",
+      "bytes": 261488,
+      "sha256": "3313554d3d1fdc1f647b226cb6c60a3a3b1099584743f5894b2cc7c45a26502c",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-21.png",
+      "bytes": 173545,
+      "sha256": "4d428d34dd6a4707c56ec73d0ddc354747bbdc4184d63c9e166e41f4d1fd78d6",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/deck/renders/slide-22.png",
+      "bytes": 213954,
+      "sha256": "70e2a0dca7ca6b57ef66bfbf0ae84504800e80064cb79f7f8eccad37a411d7cf",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/Leerprestaties_paper_current47.md",
+      "bytes": 57819,
+      "sha256": "b7b4e1a11bd038573b8c2dc7f103da2f34d8f7abb4d4c16a1ff5f6d53cf4820e",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/Leerprestaties_paper_current47.pdf",
+      "bytes": 1606012,
+      "sha256": "62026eedf668a8ca0d29d5f69e69bc7b7d0c8335b8b37983139c74bf2cd222aa",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/PAPER_PRODUCT_TRACE.json",
+      "bytes": 184744,
+      "sha256": "75bccd5a209819a40f5d69f54959d26bced7657a76b4e07102078b717a683090",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-01.png",
+      "bytes": 225296,
+      "sha256": "f799df84af6155c02ea302d830c2387cc3657fa341d780a70bd708f4f57ebfdb",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-02.png",
+      "bytes": 242949,
+      "sha256": "d8b2d22ee6ce8a09b37cbc2053685d14ce060a8c218675c5c4a53553769c581b",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-03.png",
+      "bytes": 270330,
+      "sha256": "fc88bc406677b2087542de586e5a00f3967f470aea24486eff18956b49fbe2f6",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-04.png",
+      "bytes": 327493,
+      "sha256": "d251566ccb67f03328b1845e725e7fba3a3b7b398a4b12f5bf6e82ba64eff759",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-05.png",
+      "bytes": 160745,
+      "sha256": "8944c0be3ab5379b35e62ecef34e8340fb2bad116dbf1233da5d7e5e797c397f",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-06.png",
+      "bytes": 180319,
+      "sha256": "5e120f0557a09f7ffb9e870bb8215567d25c4400bda19d2533e916955fb02f78",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-07.png",
+      "bytes": 164241,
+      "sha256": "f923faf0ca3c735165e219b8e0c6fc6bc9cc02ce24a82cd13d4072a4fbce2f75",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-08.png",
+      "bytes": 183110,
+      "sha256": "717026252e7e9a7923b1e2dbb59b8b4652d844a72edaa29e0b31612715af68c2",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-09.png",
+      "bytes": 187017,
+      "sha256": "2264d24ae98b86653734792bac96d962e34314758cad87bdd6d5318b56666eb5",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-10.png",
+      "bytes": 251987,
+      "sha256": "ccbcc248eb2f4e619b6099b766d01623cc067ece6bd8b0e2306de60a97b9ce73",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-11.png",
+      "bytes": 166880,
+      "sha256": "ba0cedc77bd1fb2f03e177ab16f93dd87b5c0b4c2428a225f7121229d4ac8310",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-12.png",
+      "bytes": 127715,
+      "sha256": "58c02668ae7b0a6533e863d1cf63f01273a66de9ad77704238f6ff0dc7fe4754",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-13.png",
+      "bytes": 137214,
+      "sha256": "b0b0669839c7be29491e035587404ed4730b8deef789da6c9675179bd53405a3",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-14.png",
+      "bytes": 144805,
+      "sha256": "764cc61b9c3609a183d2417e95120e9a6b16533a04866c75c9ed699eb5c8db03",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-15.png",
+      "bytes": 117909,
+      "sha256": "129e6c9379a653ea2cc394662dcc8fa861ebba68f502d5ba894fc3a905989f8c",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-16.png",
+      "bytes": 110094,
+      "sha256": "6da8d20a58a212b4a9b3d3378b46b081f4b90ab0ef62adb9ef1a658ad49ba6d2",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-17.png",
+      "bytes": 186756,
+      "sha256": "1071e7d9d6583772d876cdc7c33f90b743a6dd44fddb319f6095cf2b1f2c3bfb",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-18.png",
+      "bytes": 186543,
+      "sha256": "52389fdc2021ce9578c115d327a88528886d01e703b9705729fca6ad888a79a1",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-19.png",
+      "bytes": 197500,
+      "sha256": "edaae8ad8b0e5f1ea97d1085746836563415c225376fc067f34defd1968d4437",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-20.png",
+      "bytes": 137893,
+      "sha256": "134e52b53a4d21f2100126f90ece3bcba42bfa544d5c42b20559d8b718f565d5",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-21.png",
+      "bytes": 187864,
+      "sha256": "368f21280658e7b9024cd4bf3d50489d97a9a694568e0735cf0d9b0e0603b9a3",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-22.png",
+      "bytes": 114522,
+      "sha256": "ddb94cfcc096ec1d7c99e3980dc8abdd4c2fcedc378c4807e42d899dc2009231",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-23.png",
+      "bytes": 77591,
+      "sha256": "45e87500f454840ceba58c7192f6bbc768419474f8a5664f5863cbdb7a989f98",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-24.png",
+      "bytes": 83022,
+      "sha256": "c9d090c2457a61209a3c68562969c69d6ccb318738ee6326fd353b08efab3d62",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-25.png",
+      "bytes": 120554,
+      "sha256": "8a71eac02c573d5d4c2540e5cc6e084884bfaff2a4c686c24836cd36a0f65142",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-26.png",
+      "bytes": 74889,
+      "sha256": "38bc82e98fbfb739ca8aa02a294449cd36f66a13708ffe8aea874fa687b6899f",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-27.png",
+      "bytes": 69240,
+      "sha256": "d41b2fc2e1abf2774c0347acc116c8fa1a88da916672078c6f92abdac8fb6ae0",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-28.png",
+      "bytes": 74638,
+      "sha256": "c6738652ced033346b2436ce06c7229b0c37c1c0ccb33c22fdc8952c3fce1491",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/paper/page-29.png",
+      "bytes": 182048,
+      "sha256": "ec9b60af16615cc5a6a5083f175b42e6e8c4722136bf8825a975cd6db8ef8eb1",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/scripts/build_paper.py",
+      "bytes": 46549,
+      "sha256": "17068085413e9d02134347a2b6e44542daa7465428c2e94e11c3ed6e3090123d",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/scripts/build_policy_deck.mjs",
+      "bytes": 16336,
+      "sha256": "3a6d2e6c42862063f2b2847d9d9b983179cd89c753d1dd20b591fb5c7236adf2",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/visual_review/deck-01.png",
+      "bytes": 725857,
+      "sha256": "6726fd05acf9554d0f757a41be79ebfd7875b1c63c806f58d7baea86fa9d26d7",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/visual_review/deck-02.png",
+      "bytes": 698017,
+      "sha256": "5ce658f396bf298917600654773db94d0cc7a99d72add6af54ef0d45b7b4324b",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/visual_review/deck-03.png",
+      "bytes": 622208,
+      "sha256": "b11810e327ec40f7e9fa19d234869d26487809429bddf2dab65ccd84f7a0e5f9",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/visual_review/deck-04.png",
+      "bytes": 647894,
+      "sha256": "2cacead9687ad94a3a54423e6040ce3a9bf5b5e5ed684f3c7a707a4dbc78f2ee",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/visual_review/paper-01.png",
+      "bytes": 1974580,
+      "sha256": "41f33d30fe6dd9a3aa86917f84cd4d5d36d31af1e27c9424f761fbd3c63651fb",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/visual_review/paper-02.png",
+      "bytes": 1079098,
+      "sha256": "c3da56dec3d44c9d540dfa068526d400ea89cae604e186e94c891cc5cb834247",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/visual_review/paper-03.png",
+      "bytes": 1169122,
+      "sha256": "918263c1830705940598ad88522ad54b7c06e592ad1dd0d302ebc9a861882557",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/visual_review/paper-04.png",
+      "bytes": 656252,
+      "sha256": "3b150a4cbaf8271d67d512637ea72a9a63f2b67896f41b26f2062f30324aca6d",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/visual_review/paper-05.png",
+      "bytes": 938577,
+      "sha256": "d251f38488f887e630d980131d18bfd7c1bdd56ec5208f5f6a722962462e4d57",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/visual_review/paper-06.png",
+      "bytes": 641765,
+      "sha256": "de7e46a7b194647595cfcb914f877eaa88f433c19c3920bbb1df589625619f51",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/visual_review/paper-07.png",
+      "bytes": 417884,
+      "sha256": "413953fcf9cde7b8e53f55b46e3fdacfcb1e2656dde0d0f0d8ee3de9f7c209bf",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "04_products_or_release/current47/visual_review/paper-08.png",
+      "bytes": 272686,
+      "sha256": "46846201a21dc5ec3a32920273be600f73d9be90d14e87a5d325c3ce920630e9",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "05_publication/verified_guided_candidates/ce55760e9df4f4b4428e/products/Leerprestaties_beleid_current47.pdf",
+      "bytes": 3662889,
+      "sha256": "f44f08da725103fdd918bc384365ea0107cb5f0b7b0c226979e0ab045a555eea",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "05_publication/verified_guided_candidates/ce55760e9df4f4b4428e/products/Leerprestaties_beleid_current47.pptx",
+      "bytes": 651877,
+      "sha256": "b80ec02032627e125a9839895a73516f43da744235a2d78acfc92ac83cc1df41",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "05_publication/verified_guided_candidates/ce55760e9df4f4b4428e/products/Leerprestaties_paper_current47.pdf",
+      "bytes": 1612112,
+      "sha256": "2134701a5d74f5e05a2a78012f56fda08f68bde328fa83510100418d82eb7bd4",
+      "kind": "PRIVATE_DOCUMENT_CONTENT"
+    },
+    {
+      "path": "05_publication/verified_guided_candidates/ce55760e9df4f4b4428e/replication/learning-outcomes-replication.zip",
+      "bytes": 97992084,
+      "sha256": "69703942a078647b1395b3fe063985c23c1416d82809112614bffc565f0bdd3d",
+      "kind": "PACKAGE_WITH_PRIVATE_DOCUMENT_CONTENT"
+    }
+  ],
+  "bytes": 129749944,
+  "private_copy_restore_proof": "PRIVATE_DOCUMENT_RESTORE_PROOF.json",
+  "original_git_bundle_sha256": "c4b85d022f196826da4fd2f4e9f914ab53e3eaeee996f4c477eb462d6270142c",
+  "git_history_removed": false,
+  "retained": "All aggregate data, scientific figures, generic rendering/analysis code, fonts and non-narrative review receipts retained.",
+  "note": "Current-tree withdrawal does not make old Git commits private. Exact historical copies are preserved privately."
+}

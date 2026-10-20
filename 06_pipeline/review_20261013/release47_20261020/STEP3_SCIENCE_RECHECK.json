@@ -1,0 +1,68 @@
+{
+  "status": "EXISTING_CURRENT47_SCIENTIFIC_EVIDENCE_RECHECKED",
+  "checked_at_utc": "2026-10-20T20:37:47.896932+00:00",
+  "reviewed_result_commit": "d36eea18980101ce354ebb05ce5f5d91280a70f8",
+  "scientific_runtime_files_checked": 127,
+  "allowed_publication_only_changes": [
+    {
+      "path": "06_pipeline/LO_PARTIAL_DASHBOARD_RELEASE.py",
+      "before_sha256": "a1bd3e8a67f730cfeec24fcba93eb5b7873b33ddaac07fdb222496601078093d",
+      "after_sha256": "1a1bb67d4434d979ea6d3a382c290459b0f969fcc0d7ee8c19e03434e897c31a"
+    }
+  ],
+  "scientific_outputs_checked": 46,
+  "coverage_outputs_checked": 12,
+  "result_files_checked": 8,
+  "selected_countries": 47,
+  "deferred_countries_excluded": 36,
+  "target_rows": 90829,
+  "validated_rows": 82142,
+  "unavailable_rows": 8687,
+  "valid_zero_estimates": 101,
+  "primary_reason_counts": {
+    "ANALYTIC_GROUP_UNUSABLE": 309,
+    "DOMAIN_NOT_VALID_IN_SOURCE": 37,
+    "GROUP_DEFINITION_NOT_OBSERVED": 161,
+    "LEARNING_ENVIRONMENT_NOT_OBSERVED": 1140,
+    "OFFICIAL_TREND_NOT_COMPARABLE": 289,
+    "QUESTIONNAIRE_NOT_ADMINISTERED": 63,
+    "REQUIRED_FIELD_NOT_OBSERVED": 3259,
+    "RESULT_AVAILABLE": 82142,
+    "SCALE_NOT_DEFINED_IN_CYCLE": 3429
+  },
+  "support_restrictions_separate_from_missingness": 1412,
+  "requirements": 921,
+  "unique_requirement_ids": 185,
+  "product_cell_links": 326460,
+  "ses_binding_rows": 20065,
+  "country_combinations": 282,
+  "admitted_country_combinations": 241,
+  "reference_views": 8178,
+  "reference_status_counts": {
+    "AGE_DOMAIN_NOT_ADMITTED": 1254,
+    "BALANCED_REFERENCE_AVAILABLE": 5079,
+    "FOCUS_VIEW_INCOMPLETE": 1473,
+    "NO_ELIGIBLE_REFERENCE": 12,
+    "FOCUS_CORE_INCOMPLETE": 360
+  },
+  "paper_claim_numerical_recheck": {
+    "registered_claims": 12,
+    "formal_tests": 3,
+    "joint_ses_gaps": 6
+  },
+  "input_sha256": {
+    "06_pipeline/review_20261013/scientific_review/SCIENTIFIC_REVIEW_MANIFEST.json": "c205f624793a9d55fc25ced02540f91466e5e0e78a8b69fe8c801b229c928965",
+    "06_pipeline/review_20261013/grid_coverage/manifest.json": "9259d38f9f9e176f74571c59a2e517f0a0769402e9121b4614902f64ef3b3a77",
+    "04_results/review/all_required/manifest.json": "5ab441b3036e794bcbc8e590fe2517619f0c5ed1ddae68e6cdd71593ed465122",
+    "06_pipeline/review_20261013/release47_20261020/RELEASE_PHASE_DECISION.json": "efa86d2a9ebb4a094f1bbd4d4b22978fd52b19af6e839e324aeecbcc4a456f43",
+    "06_pipeline/review_20261013/release47_20261020/SCIENTIFIC_REVIEW_COMPLETION.json": "a213fb7ef1e9a9b62985a03017276053cb11f29233b3372185129a71f18fa41d",
+    "06_pipeline/review_20261013/release47_20261020/PUBLICATION_GATE_BINDING_AMENDMENT.json": "a838f28aba24100967b7ae402bc537331c367609242f833977c2c68ce864d6b7",
+    "06_pipeline/review_20261013/PAPER_CLAIMS.json": "c01daa802fa77e9f40637207ca168dafdae3b5fd930c2d3f626730556563537a",
+    "06_pipeline/review_20261013/release47_20261020/CURRENT47_COMBINATION_COVERAGE.csv": "ee797517998155817cb21ff9ed2ff37f8b315afa99b5bf3487a598b7b79094c9"
+  },
+  "verifier_sha256": "3f12cca765eef0d2a7fd42bef0fe98f5de78be99e641dbecfa5d7e38f0f1bc8d",
+  "pupil_estimations": 0,
+  "scientific_approvals_written": 0,
+  "fresh_source_replication_certified": false,
+  "limits": "Verifies unchanged sealed evidence and selected aggregate derivations; does not repeat source estimators, re-assess unmeasured nonresponse/invariance, or execute the postponed full fresh-source replication."
+}

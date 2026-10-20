@@ -1,3 +1,11 @@
+<!-- Current execution boundary, 20 October 2026 -->
+Paper/slides and their editable content are private delivery only. The public
+release/package contains code, aggregates, scientific evidence and the dashboard.
+Older all-product publication instructions below are historical and do not
+authorize document publication. Deferred36 and the complete fresh pupil-source
+exercise are explicitly excluded from the current execution. The public package
+entry point is `REPLICATE.py`; source estimation remains `START.R`/`RUN.R`.
+
 # Replication guide
 
 **Version boundary:** the instructions below reproduce the historical September release.

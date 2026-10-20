@@ -53,6 +53,8 @@ def package(repo, site, inputs, source_commit, provenance):
     for name in ("START.R", "renv.lock", "LICENSE", "DATA_LICENSE.md"):
         add(repo / name)
     add(phase / "CITATION.cff", "CITATION.cff")
+    add(repo / "05_publication/REPLICATE.py", "REPLICATE.py")
+    add(repo / "05_publication/public_distribution.py", "public_distribution.py")
     for pattern in ("*.R", "*.py", "*.md", "*.csv", "*.json"):
         for path in sorted((repo / "06_pipeline").glob(pattern)):
             add(path)
@@ -61,7 +63,7 @@ def package(repo, site, inputs, source_commit, provenance):
     for directory in ("02_analysis/scientific_dependencies", "05_publication/preview_overlay",
                       "06_pipeline/review_20261013/international",
                       "06_pipeline/review_20261013/release47_20261020",
-                      "04_results/review/all_required", "04_products_or_release/current47"):
+                      "04_results/review/all_required", "replication"):
         for path in sorted((repo / directory).rglob("*")):
             if path.is_file() and "__pycache__" not in path.parts and path.suffix.lower() not in (".gz", ".pyc"):
                 add(path)
@@ -79,7 +81,7 @@ def package(repo, site, inputs, source_commit, provenance):
                               path.name in ("ANALYSIS_SUPPORT.csv.gz", "SES_REVIEW_TARGET_BINDINGS.csv.gz",
                                             "REFERENCE_DEPENDENCIES.csv.gz", "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz")):
             add(path)
-    for name in ("verify_public_raw_probes.R", "verify_final_scientific_candidate.py"):
+    for name in ("verify_public_raw_probes.R", "verify_final_scientific_candidate.py", "START_FRESH_SOURCE_REPLICATION.R"):
         add(repo / "scripts" / name)
     for name in ("review_final_availability.py", "build_release_info.py"):
         add(repo / "05_publication" / name)
@@ -91,6 +93,8 @@ def package(repo, site, inputs, source_commit, provenance):
     add(site / "data/balanced_references.json", "release_inputs/BALANCED_REFERENCE_EXPORT.json")
     for name in ("EXACT_CELL_COVERAGE.csv.gz", "PRODUCT_CELL_TRACE.csv.gz"):
         add(repo / "06_pipeline/review_20261013/grid_coverage" / name, "release_inputs/" + name)
+    from public_distribution import check_names
+    check_names(files)
     generated = {
         "release_inputs/PROVENANCE.json": (json.dumps(provenance, sort_keys=True, indent=2) + "\n").encode(),
         "release_inputs/DASHBOARD_REBUILD_MANIFEST.json": core_manifest,
@@ -110,7 +114,7 @@ def package(repo, site, inputs, source_commit, provenance):
     digests = {name: sha(path) for name, path in sorted(files.items())}
     digests.update({name: hashlib.sha256(data).hexdigest() for name, data in generated.items()})
     manifest = dict(schema_version=2, source_commit=source_commit, pupil_data_included=False,
-                    full_scientific_replication_certified=False, selected_countries=47,
+                    full_scientific_replication_certified=False, private_documents_included=False, selected_countries=47,
                     deferred_countries=36, files=dict(sorted(digests.items())))
     generated["PACKAGE_MANIFEST.json"] = (json.dumps(manifest, indent=2, sort_keys=True) + "\n").encode()
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -126,12 +130,6 @@ def package(repo, site, inputs, source_commit, provenance):
                 with archive.open(info, "w", force_zip64=True) as dst, files[name].open("rb") as src:
                     shutil.copyfileobj(src, dst, 1024 * 1024)
     build_info(site)
-    product = repo / "04_products_or_release/current47"
-    (site / "products").mkdir(exist_ok=True)
-    for rel in ("deck/final/Leerprestaties_beleid_current47.pptx",
-                "deck/final/Leerprestaties_beleid_current47.pdf",
-                "paper/Leerprestaties_paper_current47.pdf"):
-        shutil.copyfile(product / rel, site / "products" / Path(rel).name)
     put(site / "data/snapshot_provenance.json", provenance)
     qa = json.loads((site / "GUIDED_QA.json").read_text(encoding="utf-8"))
     qa["review_release"] = dict(
@@ -142,7 +140,7 @@ def package(repo, site, inputs, source_commit, provenance):
         reference_policy="VERIFIED_FULL_FOCUS_SUPPORT_PER_FIGURE",
         replication_package="replication/learning-outcomes-replication.zip",
         replication_package_sha256=sha(target), replication_package_bytes=target.stat().st_size)
-    qa["release_status"] = "CURRENT47_REVIEWED_PRODUCTS_FULL_FRESH_SOURCE_REPLICATION_PENDING"
+    qa["release_status"] = "CURRENT47_PUBLIC_DASHBOARD_REVIEWED_FULL_SOURCE_DEFERRED"
     put(site / "GUIDED_QA.json", qa)
     spec = importlib.util.spec_from_file_location("public_package", repo / "06_pipeline/LO_DASHBOARD_PUBLIC_PACKAGE.py")
     module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)

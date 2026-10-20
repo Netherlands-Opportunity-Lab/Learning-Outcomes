@@ -12,6 +12,18 @@ that every country has every outcome or a usable reference group.
 preserve producer, source, method, configuration, uncertainty and result hashes;
 the export commit is not necessarily the producer commit.
 
+## One entry point, three distinct routes
+
+Start with `python REPLICATE.py inspect`. Python 3.12 is the tested version;
+the entry point uses only the standard library. `python REPLICATE.py --help`
+lists the routes. Source estimation still delegates to `START.R`/`RUN.R`.
+The full source exercise and deferred36 are deliberately outside the current
+execution decision. They are not silently started by package inspection.
+
+Paper, slides, editable narrative, slide images and their private reconstruction
+bundle are not distributed here. Their reviewed private copies remain with the
+owner. This restriction does not remove the public statistical methods or data.
+
 ## Three distinct reproduction routes
 
 On Windows, extract to a short directory name (for example `C:/LO47`) to avoid
@@ -21,7 +33,7 @@ directory; never extract over an existing result run.
 1. **Dashboard from aggregates:** Python 3.12, standard library only:
 
    ```sh
-   python reproduce_dashboard.py --output rebuilt_dashboard
+   python REPLICATE.py dashboard --output rebuilt_dashboard
    python -m http.server 8769 --directory rebuilt_dashboard
    ```
 
@@ -30,17 +42,9 @@ directory; never extract over an existing result run.
    runtime manifest. Documentation and downloads are separate attachments.
    This route does not estimate statistics from pupil records.
 
-2. **Paper and editable presentation from aggregates:** install
-   `04_products_or_release/current47/requirements.txt`, then:
-
-   ```sh
-   python 04_products_or_release/current47/REBUILD_PRODUCTS.py --output rebuilt_products
-   ```
-
-   See that directory's README and environment record. The PPTX retains editable
-   native charts. Every plotted value, interval, rank and written numerical claim
-   is checked against the sealed results. The R option `--render-figures` rebuilds
-   the scientific plots with the recorded libraries.
+2. **Inspect results:** `python REPLICATE.py inspect` verifies every package hash,
+   the sealed result manifest, target status counts and the explicit current47
+   filter. It calculates no statistics and prints a machine-readable receipt.
 
 3. **Fresh estimates from official sources:** use the pinned Git checkout,
    `START.R`, `06_pipeline/RUN.R`, and the locked `renv.lock`.
@@ -113,7 +117,7 @@ a result.
 | `LO_FINAL_GUIDED_EXPORT.R`, `LO_FINAL_GUIDED_DASHBOARD_BUILD.py` | Checked cells → bilingual dashboard |
 | `05_publication/preview_overlay/` | Shared NL/EN selection, reference and rank logic |
 | `04_results/review/all_required/` | Sealed aggregates and provenance |
-| `04_products_or_release/current47/` | Paper, slides, figures and claim lineage |
+| `replication/` | Three example configurations, resource evidence and route documentation |
 | `06_pipeline/review_20261013/release47_20261020/` | Current/deferred scope and verification receipts |
 
 An interrupted block may restart; certified completed blocks are reused only
@@ -121,7 +125,7 @@ when source/method/configuration fingerprints match. Changed inputs invalidate
 affected dependencies. A zero compute queue alone does not prove completion.
 
 Sources may remain locally. Private intermediate checkpoints belong on Drive;
-public code, aggregates and products belong on GitHub. A bounded local work
+public code, aggregates and dashboard files belong on GitHub. Paper/slides and their content remain private and are excluded from this package. A bounded local work
 directory remains necessary during R execution. Credentials and pupil/school
 microdata are excluded. Restore proofs and measured resource records are in the
 phase dossier. Preserve unique sources and active locks.
@@ -129,3 +133,24 @@ phase dossier. Preserve unique sources and active locks.
 Code is MIT; source data, brand assets and SIL OFL fonts retain their own terms.
 See `LICENSE`, `DATA_LICENSE.md`, `CITATION.cff` and the source register.
 This reproducibility package does not claim AEA certification.
+
+## Configurations and resources
+
+`replication/config/nld_only.json`, `nld_plus_19.json` and `all_required.json`
+use the same controller schema. The second is a historical mode name, not a
+promise of 19 eligible reference countries; the current phase excludes the
+36 deferred countries. Within each figure, strict reference eligibility still
+applies. Empty lists in other selection fields mean all approved values in
+that dimension, not permission to add unapproved outcomes.
+
+See `replication/RESOURCE_EVIDENCE.json`, `replication/ROUTES.md`, the result
+README/dictionary and `06_pipeline/review_20261013/international/SOURCE_CATALOG.csv`.
+The source catalogue records exact file hashes, populations and access evidence;
+the separate home-source catalogue covers parent questionnaires. OECD/IEA data
+access is under their terms, not the repository MIT licence. External author
+code is pinned in `02_analysis/scientific_dependencies/README.md`.
+
+Source estimates/SE retain binary-double research precision in the stored
+aggregates. CSV decimal serialization and public JSON are distinct from display
+rounding. Inspect numeric tolerances in the recorded source/platform proofs.
+No full-run duration or peak memory is fabricated when it was not measured.
