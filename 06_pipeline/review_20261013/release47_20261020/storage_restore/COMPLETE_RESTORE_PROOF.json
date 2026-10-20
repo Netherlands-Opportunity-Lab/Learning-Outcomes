@@ -1,0 +1,21 @@
+{
+  "status": "ALL_REMOTE_CHECKPOINTS_AND_CURRENT_RESULT_RECORDS_RESTORED",
+  "expected_registry_sha256": "bc6a6c78e0e4030b761a82fcb68a8742c27bb7b769a29ab9f6cd9fdcc99ed5ec",
+  "restored_absence_registry_sha256": "74c693f7b77a34a8c515416debb0dd72c24d03e4d505ab6ec98b1bbfdc756533",
+  "remote_pointer_sha256": "7d4f930afffe5a920567d03826d7e896e7082be6469bcb8543a42398a2e02462",
+  "remote_packages": 2037,
+  "historical_cell_versions": 83540,
+  "current_cells": 83260,
+  "unique_evidence_members": 55103,
+  "compressed_bytes": 745561238,
+  "peak_batch_bytes": 171898899,
+  "largest_restored_member_bytes": 21337235,
+  "seconds": 3773.14,
+  "source_pupil_bytes_restored": false,
+  "source_dependency_policy": "Necessary raw sources are retained or reacquired by pinned source hash; not stored in aggregate checkpoints",
+  "restored_registry_sha256": "8e5bc89387aa322a41caf979a105ffa4db7a9eaa015b8e967b7655fdee61ba2b",
+  "package_receipts_sha256": "21036ff7f7aabe341fdd2d25f2d7463d91242769c1a57b051a04adf75c06a5ca",
+  "code_sha256": "496e5cf03b538625ef5121fa345727ce848368c9ef89b0973c8a7642fc37e993",
+  "private_full_proof_sha256": "a81e6211dce87d214513f5f472c57257457f2bacdae99219f116a088d96b7953",
+  "scope_note": "The recoverable registry includes the current47 results, retained deferred36 results and historical certified results outside the current target selection. Registry recovery counts are not counts of published or scientifically admitted cells."
+}

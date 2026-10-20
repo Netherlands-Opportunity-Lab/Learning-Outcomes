@@ -1,9 +1,11 @@
 {
   "status": "ACTUAL_RESULT_SOURCE_METHOD_CERTIFICATES_REVERIFIED",
-  "rows": 69775,
-  "approval_sha256": "11e88b29916a96786728edfba25678bc1bb9d3742e1aeb744c16a228d490a821",
-  "elapsed_seconds": 219.75,
-  "review_code_sha256": "eb4e252957bc43b9006eaa41fcb0d927b14fd9b153514c9f686feaa55a80a101",
+  "rows": 82142,
+  "approval_sha256": "bc6a6c78e0e4030b761a82fcb68a8742c27bb7b769a29ab9f6cd9fdcc99ed5ec",
+  "reviewed_grid_sha256": "a3f41d058b94dd5d4136a1186cdbda2bcccd5285c34d7aa8acfb7f6934b1f38f",
+  "elapsed_seconds": 264.3,
   "no_pupil_calculation": true,
-  "private_full_review_sha256": "47cd00401d22ffd254f197982142f57f6c83b2f8bbd35e0079753edd72c37f58"
+  "review_code_sha256": "eb4e252957bc43b9006eaa41fcb0d927b14fd9b153514c9f686feaa55a80a101",
+  "snapshot_code_sha256": "18ba4e10303824e6b729dbd07376539cc9a7fc14733376e32183ad6f4e71c9dd",
+  "private_full_review_sha256": "c8c92f9ae669f31fc8a83109e82bedabc17c40289a72b1b23239c3290f1bee18"
 }
