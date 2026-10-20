@@ -41,6 +41,22 @@ The exact same command resumes an interrupted fresh run from its own completed
 blocks. Changing fresh mode, source identity or configuration requires a new
 audit; it does not silently reuse the earlier meaning.
 
-During preparation on 20 October this adapter is tested separately on the
-preparation branch. The current47 release remains on its unchanged reviewed
-execution route until integration and actual source probes have passed.
+On 20 October the public bundle was loaded without the private source ZIP or
+old result caches for 58 approved cells: PIRLS 2021 (12), TIMSS 2023 (24) and
+PISA 2003 (22), all Netherlands. The direct official-source Windows probe took
+39 seconds. Its largest estimate difference was 7.96e-13 and largest SE
+difference 3.62e-13, below the fixed 1e-9 tolerance; every N matched exactly.
+See the hash-bound proof in
+`../../06_pipeline/review_20261013/release47_20261020/public_replication/`.
+The six technical Windows/Linux jobs also passed in workflow run
+39415511216. These are targeted source probes and technical platform tests,
+not a claim that every scientific result has been freshly recalculated on
+both platforms. Integration with the reviewed current47 route remains a
+separate versioned step.
+
+The portable numerical probe is `scripts/verify_public_raw_probes.R`. Its
+private configuration supplies official raw paths and hashes, exact tasks,
+expected aggregate hashes and source-population metadata. It reads expected
+values only after estimation, writes all estimates/SE/N and comparisons, and
+requires a new output directory. Source data are never copied into the public
+repository.
