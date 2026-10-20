@@ -3,7 +3,7 @@
   "status": "REVIEWED_SCIENTIFIC_BASIS_WITH_EXPLICIT_LIMITATIONS",
   "result_basis": "d36eea18980101ce354ebb05ce5f5d91280a70f8",
   "historical_result_commit": "ac9f0bdb15b5bf3fcf843f3e4f857995d182aef2",
-  "private_manifest_sha256": "8dd48869214d3753e2b4496c53cd62413e914432e991b7223ee14094cb2c8a4a",
+  "private_manifest_sha256": "2d0ccd2d02ac6e6a57a42d2a20c1c77e89d7c321567a51bd11a335948ae9e2b7",
   "approval_sha256": "bc6a6c78e0e4030b761a82fcb68a8742c27bb7b769a29ab9f6cd9fdcc99ed5ec",
   "reviewed_target_count": 90829,
   "scientific_review_requirements": 8,
@@ -297,7 +297,7 @@
     },
     {
       "path": "06_pipeline/LO_FIXED_CONTROLLER.R",
-      "sha256": "c0c19acbeeab250abd8200bb6cfcaea0d84888ac6e89290666ac806f373a2b4e"
+      "sha256": "ca9cb2e1b2d9956ebcc7997f649a96a84d7551b121da7c3d2684169f65d8a36f"
     },
     {
       "path": "06_pipeline/LO_FIXED_PRODUCERS.R",
@@ -413,7 +413,7 @@
     },
     {
       "path": "06_pipeline/LO_SCIENTIFIC_REVIEW_BINDING.R",
-      "sha256": "910be97437b53fbae7352a1065e5fc992f3686e13f613290b2800c0dbd3e1770"
+      "sha256": "aea29f09c24741bc6b7aa4abf6e01a2861f7f78925aa9b81d3b1c889d5d354c0"
     },
     {
       "path": "06_pipeline/LO_SCOPE_DECISIONS.R",
