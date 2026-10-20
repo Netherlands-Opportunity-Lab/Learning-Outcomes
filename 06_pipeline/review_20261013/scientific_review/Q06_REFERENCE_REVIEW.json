@@ -1,11 +1,11 @@
 {
   "status": "FULL_ANCHORS_AND_ACTUAL_MEAN_RANK_DERIVATIONS_VERIFIED",
-  "views": 5916,
+  "views": 8178,
   "probe_views": 42,
   "policy": "FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3",
-  "mapping_review_sha256": "faebe55ab22fae17330f8121ac07b3b3f91ca48156ae4b2a30e2e585a91db7c0",
-  "reference_export_sha256": "f43552712e6f59825741a8329135879568b44034bc1f0a4326e666734ac9230e",
-  "admitted_countries": 34,
+  "mapping_review_sha256": "cb621b89641a53fe6e9e58fd56fabf5f5340e1b371a387d909b497c9d85a9a9a",
+  "reference_export_sha256": "076bdbbc862a359b748589324550c8539a3ced22b644ceeaee2381d20407bc73",
+  "admitted_countries": 47,
   "figure_registry_sha256": "7abd68f0beb3ea69aff32bbdb567c0e9101ef0a48482c42664feacb68680a512",
   "rank_rule_policy_sha256": "31be4b02ccfcd21a0cbdaaf061b182f31caf3f4d84b86eee33661db620b1b325",
   "code_sha256": {
@@ -15,12 +15,12 @@
     "LO_DASHBOARD_REFERENCE_EXPORT.R": "aa9cb1e05619f601b0cca089c6adaa51c95efddfae7edcc095498fbc1e49fccf"
   },
   "output_sha256": {
-    "REFERENCE_BY_VIEW": "06ee6e37e7292e867665ef126d4957cf7e3bb4dbefd1528b616c23944dd4abb4",
-    "REFERENCE_NUMERICAL_PROBES": "836170999f403141cb4c9ea004bc9ddb13be499c18aaad4c7224e9f219ad123f",
-    "RANK_NUMERICAL_PROBES": "8b1a28952cb3634988cb53851e8cf1a63fe999558cd0b9be81f5369cf08c9386",
-    "REFERENCE_DEPENDENCIES": "7c13c2f617752ab0a07e1e9e4ca46112046a3e37613f401e973bfdeb89c11f51"
+    "REFERENCE_BY_VIEW": "4e5d6ac093ccb2b920a4f2638589caead996cea22b75e191e159fab9814cb65c",
+    "REFERENCE_NUMERICAL_PROBES": "944b33ab5d6097e36d61096891ea23c28b094a7f6398ae690c41b460ebeb9923",
+    "RANK_NUMERICAL_PROBES": "240c35d4f8b4c7f6b1bc82581c44597c8665c35f39747a50f86ee8bbdb90e8a3",
+    "REFERENCE_DEPENDENCIES": "134edd759cbbdf2b081a08b7fd2d43ef781d91a4efd33b6a9d7a4dd89ec14253"
   },
   "no_pupil_recalculation": true,
   "benchmark_or_rank_ci": false,
-  "private_full_review_sha256": "2688ef239fd6af145b68437792f6ffad0b978e4e734b7517a4772381cde43988"
+  "private_full_review_sha256": "32e4054d7abd72d57dc43d5fcc681443683c3dc3d61f1c2087610c592cac9df3"
 }

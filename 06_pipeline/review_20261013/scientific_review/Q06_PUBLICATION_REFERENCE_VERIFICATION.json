@@ -1,11 +1,11 @@
 {
   "status": "PASS",
-  "mapped_cells": 54095,
-  "views": 5916,
-  "admitted_result_countries": 34,
-  "reference_export_sha256": "f43552712e6f59825741a8329135879568b44034bc1f0a4326e666734ac9230e",
+  "mapped_cells": 63384,
+  "views": 8178,
+  "admitted_result_countries": 47,
+  "reference_export_sha256": "076bdbbc862a359b748589324550c8539a3ced22b644ceeaee2381d20407bc73",
   "figure_registry_sha256": "7abd68f0beb3ea69aff32bbdb567c0e9101ef0a48482c42664feacb68680a512",
-  "original_product_export_sha256": "f5aa2d9d25582ea8cb23578a827fe3ea3d7f227af02bbb29ddd1d6eca2a6a272",
+  "original_product_export_sha256": "6cc44a216c3568bf942e3f454438f3b3612ef816891ef1aa38a2f3c8940eda98",
   "code_sha256": {
     "LO_FINAL_GUIDED_DASHBOARD_BUILD.py": "f55c2b022f7355d33cdb9cd7bff3088a585e1c463dd752c33991ea43049c2b81",
     "LO_DASHBOARD_REFERENCE_VERIFY.py": "0725e6e33baa4fccb994f96cc8ad5d9eae560b9a76657772f7d8f93215036bdc"
@@ -13,5 +13,5 @@
   "verification_script_sha256": "338d92b1c9c7c20f0ed511cf70dc92889b0953f7ba352865af383652739755a8",
   "no_pupil_recalculation": true,
   "public_deployment": false,
-  "private_full_review_sha256": "599159875c831fd89e88d84e8cdb1a5f6cd3e4f1e8a75efa3af9ccff98be3123"
+  "private_full_review_sha256": "828cd1419aa1cd2c6b87d308ce6e401d3e01c0411dfc580e71e770b47e028151"
 }

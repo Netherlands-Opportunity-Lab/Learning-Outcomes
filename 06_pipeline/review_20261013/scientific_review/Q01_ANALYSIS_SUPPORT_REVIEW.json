@@ -1,0 +1,20 @@
+{
+  "status": "ACTUAL_ANALYSIS_SUPPORT_REVIEWED",
+  "result_cells": 82142,
+  "sources": 2365,
+  "reused": 0,
+  "n_mismatches": 0,
+  "below_30_pupils": 1326,
+  "below_5_schools": 223,
+  "code_sha256": {
+    "LO_ANALYSIS_SUPPORT_REVIEW.R": "36d1d500a0687bf01e7eb9ed4cda8651671e068dd8afaaf0bf2052f42262cd10",
+    "LO_IEA_BACKGROUND.R": "653f60e10b19213f6c16c0714d707263ccf97db3e8b8a1f3679e0d4d1ca2131b",
+    "LO_EXACT_ESTIMATORS.R": "0466dc38797d2cbe6aa78b3c9202b2fa75e5cf4b647af3f94b5455e4312553a3"
+  },
+  "outputs": {
+    "coverage": "93236ab69b5d475893d4f480371264ee335434ae24b3875a569348c1c288e9ee",
+    "sources": "bb97fc380239942e2c81ffc3a9e37e4a619966eeee9746a7d3f637b32ecb1589"
+  },
+  "interpretation": "Sample size is a separate quality attribute, not missing source data or a zero estimate. These counts do not alone establish reliability or disclosure clearance. PISA reporting uses at least 30 pupils and five schools; this report does not invent an IEA-specific official threshold. No estimate or target was changed.",
+  "private_full_review_sha256": "5c8ad655a2ce321b2b4d8cd8e6bea08bf935942d81bafe9612328a8ddfd0dcc5"
+}

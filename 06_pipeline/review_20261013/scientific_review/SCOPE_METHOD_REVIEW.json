@@ -2,18 +2,18 @@
   "schema_version": 1,
   "status": "ACTUAL_SELECTED_SCOPE_AND_PRODUCT_PLACEMENT_VERIFIED",
   "input_sha256": {
-    "tasks": "9366f5fba29f36fe8ca3422942ef7f37389c8cd98c8c8d4eeb291c3ff0212f65",
-    "grid": "2cf2a63a7b62f7736ffe1c7b66ca69ada394153de41d8d78c4a4795a81e104e8",
+    "tasks": "c220333de84b752ad1c4def4633a3860098ff1d4ee2540bb6d30cd1622f8aa8f",
+    "grid": "a3f41d058b94dd5d4136a1186cdbda2bcccd5285c34d7aa8acfb7f6934b1f38f",
     "decisions": "b8149f28d4c287120bf6259b6e10bfd9cff5622b889962aa9014c2802fd5cb5f",
     "products": "e70912ea418298fbcf30e70cf04f9dd25c4b25b50476712ddfacc909c6596e6c",
     "author_preparation": "ac83b4ca9765d3d799b8e356c108ba145f3700b0244c37129b6c0cd8f8a05c36",
-    "dashboard": "3269624cb59328ad2bff02d5d04a4c2265017d960463f923d5e6b0e34dcdabc0",
+    "dashboard": "6cc44a216c3568bf942e3f454438f3b3612ef816891ef1aa38a2f3c8940eda98",
     "gender_policy": "07d5072a7a107825a6957c0dd69c4cde823e9d82b6bbf01feb4fe483254d9e61",
-    "review_code": "5bf1ed7509edaa45821a9204a943c611da3d817fb67acbe3e3c36f05e000f1e0"
+    "review_code": "ca152c123b667321874a2161efffbcba0eee14a4337c64d1ed67552408be9dde"
   },
-  "tasks": 77611,
-  "grid_cells": 77611,
-  "chosen_PISA_SES_targets": 8127,
+  "tasks": 90829,
+  "grid_cells": 90829,
+  "chosen_PISA_SES_targets": 10521,
   "chosen_PISA_SES_definition": "Cobreros_fourwave_13item_trend_comparable",
   "two_wave_analysis_targets": 0,
   "official_PISA_ESCS_analysis_targets": 0,
@@ -24,19 +24,19 @@
       "survey": "PIRLS",
       "year": "2001",
       "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
-      "cells": 162
+      "cells": 153
     },
     {
       "survey": "PIRLS",
       "year": "2006",
       "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
-      "cells": 216
+      "cells": 207
     },
     {
       "survey": "PIRLS",
       "year": "2011",
       "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
-      "cells": 288
+      "cells": 270
     },
     {
       "survey": "PIRLS",
@@ -48,7 +48,7 @@
       "survey": "PIRLS",
       "year": "2016",
       "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
-      "cells": 297
+      "cells": 279
     },
     {
       "survey": "PIRLS",
@@ -60,7 +60,7 @@
       "survey": "PIRLS",
       "year": "2021",
       "status": "SCIENTIFICALLY_VALIDATED",
-      "cells": 270
+      "cells": 261
     },
     {
       "survey": "PIRLS",
@@ -78,19 +78,19 @@
       "survey": "TIMSS",
       "year": "2003",
       "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
-      "cells": 234
+      "cells": 252
     },
     {
       "survey": "TIMSS",
       "year": "2007",
       "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
-      "cells": 414
+      "cells": 432
     },
     {
       "survey": "TIMSS",
       "year": "2011",
       "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
-      "cells": 522
+      "cells": 558
     },
     {
       "survey": "TIMSS",
@@ -102,7 +102,7 @@
       "survey": "TIMSS",
       "year": "2015",
       "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
-      "cells": 540
+      "cells": 594
     },
     {
       "survey": "TIMSS",
@@ -114,13 +114,13 @@
       "survey": "TIMSS",
       "year": "2019",
       "status": "UNAVAILABLE_OFFICIAL_CONSTRUCT_IN_CYCLE",
-      "cells": 576
+      "cells": 630
     },
     {
       "survey": "TIMSS",
       "year": "2023",
       "status": "SCIENTIFICALLY_VALIDATED",
-      "cells": 504
+      "cells": 558
     },
     {
       "survey": "TIMSS",
@@ -129,9 +129,9 @@
       "cells": 54
     }
   ],
-  "home_SES_usable_cells": 774,
+  "home_SES_usable_cells": 819,
   "home_SES_temporal_claim": "One released comparable Home-SES wave per study in current scope; no within-study Home-SES trend and no cross-study joined scale.",
-  "dashboard_cells": 54771,
+  "dashboard_cells": 63384,
   "appendix_leaks": 0,
   "unmapped_chosen_products": 0,
   "migration_definitions": [
@@ -140,28 +140,28 @@
     "MIGRATION_GENERATION_SOURCE_LABELLED"
   ],
   "modules": {
-    "core": 8169,
-    "ses_national": 3227,
-    "gender": 3501,
-    "language_frequency_binary": 1383,
-    "migration": 7002,
-    "ses_peer_exposure": 1720,
-    "home_language_frequency_peer": 602,
-    "migration_binary_peer": 2176,
-    "high_proficiency_peer_exposure": 4668,
-    "peer_baseline": 7318,
-    "migration_generation": 5835,
-    "migration_peer_exposure": 2176,
-    "language_exact": 2118,
-    "home_language_peer_exposure": 486,
-    "ses_harmonized": 2709,
-    "extension_performance_school": 1167,
-    "extension_ses_school": 430,
-    "extension_performance_class": 1167,
-    "extension_ses_class": 430,
-    "extension_ses_gender": 10176,
-    "extension_home_ses": 4149,
-    "peer_below_basic": 7002
+    "core": 9793,
+    "ses_national": 3360,
+    "gender": 4197,
+    "language_frequency_binary": 1440,
+    "migration": 8394,
+    "ses_peer_exposure": 1896,
+    "home_language_frequency_peer": 614,
+    "migration_binary_peer": 2492,
+    "high_proficiency_peer_exposure": 5596,
+    "peer_baseline": 8432,
+    "migration_generation": 6995,
+    "migration_peer_exposure": 2492,
+    "language_exact": 2757,
+    "home_language_peer_exposure": 632,
+    "ses_harmonized": 3507,
+    "extension_performance_school": 1399,
+    "extension_ses_school": 474,
+    "extension_performance_class": 1399,
+    "extension_ses_class": 474,
+    "extension_ses_gender": 11772,
+    "extension_home_ses": 4320,
+    "peer_below_basic": 8394
   },
   "limitations": "Task-level scope audit; scientific numerical and sample validity require the separately linked Q dossiers. Historical slide titles are not approved empirical claims."
 }

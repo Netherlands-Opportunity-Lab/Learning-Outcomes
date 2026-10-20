@@ -1,20 +1,21 @@
 {
   "status": "ACTUAL_SES_SAMPLE_COUNTS_VERIFIED",
-  "selected_result_cells": 17617,
-  "source_files": 489,
-  "analysis_groups": 6925,
+  "selected_result_cells": 20065,
+  "source_files": 532,
+  "analysis_groups": 7855,
   "count_mismatches": 0,
   "reused_source_checks": 0,
   "source_rows_are_not_distinct_pupils_across_files": true,
   "outputs": {
-    "coverage": "d39ba1d9d61516db06cfcacc62696c98a45d7e9f34168285188eadf3836a00d3",
-    "sources": "b6b8019c8c1a99878ee41cb15ff26a2aaf05ad5f849e2611aeb34f1609d69a8e"
+    "coverage": "768b91990ae8a6f40ecbb5edb8ae13db9b0c0621b54e2644940e467fafe17ca1",
+    "sources": "11ac03a71e88bc1eb4c63063ed919ebbaf74cb1b81bc249812aa79525a2c8753",
+    "bindings": "9395b7359fb73916625ad7e64a8ce93b9961422f795562c2f88e868f7c55dd11"
   },
   "code_sha256": {
-    "LO_SES_COVERAGE_REVIEW.R": "873f24c9c33e29e403720edd493b42885b23403081c851f8747def4c03702b22",
+    "LO_SES_COVERAGE_REVIEW.R": "d39507aa0d80b16d6b15fa67e32cbf37cbdb7efb9d2471eeb17dea50c39fb4b4",
     "LO_IEA_BACKGROUND.R": "653f60e10b19213f6c16c0714d707263ccf97db3e8b8a1f3679e0d4d1ca2131b",
     "LO_EXACT_ESTIMATORS.R": "0466dc38797d2cbe6aa78b3c9202b2fa75e5cf4b647af3f94b5455e4312553a3"
   },
   "limitations": "Coverage does not establish missing-at-random, measurement invariance or representativeness after nonresponse. PISA chosen SES may use the documented author imputation; observed components require their separate Q05 review.",
-  "private_full_review_sha256": "0a3b084dbf988a335c79a05a4896be4fa62f533eb6bfc2504d4434f75b26f884"
+  "private_full_review_sha256": "355a54207b97d823628f8d299e5fb78eaa43258f17b792af4c7412ac3db21cfa"
 }
