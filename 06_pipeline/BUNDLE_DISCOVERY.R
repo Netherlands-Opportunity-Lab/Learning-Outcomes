@@ -4,6 +4,28 @@ lo_bundle_expected_sha <- "ceddf194ab3ad60bee5100450145f879aec17073b7567ed6127bf
 lo_bundle_verify <- function(bundle) {
   if(!requireNamespace("digest",quietly=TRUE))
     stop("Package digest is required for scientific source integrity")
+  # Explicit fresh replication uses a separate public dependency profile.
+  # Never relax or relabel the original 56-file October archive.
+  public <- file.path(bundle,"PUBLIC_REPLICATION_BUNDLE.json")
+  if(file.exists(public)) {
+    if(Sys.getenv("LO_FRESH_REPLICATION","")!="1")
+      stop("PUBLIC_BUNDLE_REQUIRES_EXPLICIT_FRESH_REPLICATION")
+    key <- file.path(bundle,"MANIFEST_SHA256.csv")
+    expected <- "a34de2bccd5c8556697588c125e7afea65449b56a5cd3a1c6d17ab984c1e554f"
+    if(!file.exists(key)||digest::digest(file=key,algo="sha256")!=expected)
+      stop("PUBLIC_SCIENCE_MANIFEST_CHANGED")
+    m <- read.csv(key,colClasses="character",stringsAsFactors=FALSE)
+    if(nrow(m)!=13L||anyDuplicated(m$path)||
+       any(grepl("(^/|^[A-Za-z]:|[.][.]/)",m$path))||
+       any(grepl(intToUtf8(92),m$path,fixed=TRUE)))
+      stop("PUBLIC_SCIENCE_MANIFEST_INVALID")
+    for(i in seq_len(nrow(m))) {
+      p <- file.path(bundle,m$path[i])
+      if(!file.exists(p)||digest::digest(file=p,algo="sha256")!=m$sha256[i])
+        stop("PUBLIC_SCIENCE_SOURCE_CHANGED: ",m$path[i])
+    }
+    return(invisible(TRUE))
+  }
   key <- file.path(bundle,"MANIFEST_SHA256.csv")
   if(!file.exists(key))stop("Bundle missing manifest")
   m <- read.csv(key,colClasses="character",stringsAsFactors=FALSE)
@@ -34,6 +56,13 @@ lo_bundle_discover <- function() {
     if(!dir.exists(explicit))stop("LO05_BUNDLE directory missing: ",explicit)
     lo_bundle_verify(explicit)
     return(normalizePath(explicit,winslash="/",mustWork=TRUE))
+  }
+  if(Sys.getenv("LO_FRESH_REPLICATION","")=="1") {
+    repo <- Sys.getenv("LO_REPO_ROOT","")
+    if(!nzchar(repo))stop("FRESH_REPLICATION_REPO_REQUIRED")
+    public <- file.path(repo,"02_analysis/scientific_dependencies")
+    lo_bundle_verify(public)
+    return(normalizePath(public,winslash="/",mustWork=TRUE))
   }
   home <- Sys.getenv("USERPROFILE",unset=path.expand("~"))
   bases <- unique(c(file.path(home,"Downloads"),

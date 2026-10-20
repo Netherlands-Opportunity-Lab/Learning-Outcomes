@@ -1,0 +1,43 @@
+﻿order,route_code,country_id,country_name_nl,country_name_en,selectable_reference,common42_member
+1,ALB,iso3:ALB,Albanië,Albania,True,True
+2,ARE,iso3:ARE,Verenigde Arabische Emiraten,United Arab Emirates,True,True
+3,AUS,iso3:AUS,Australië,Australia,True,True
+4,AZE,iso3:AZE,Azerbeidzjan,Azerbaijan,True,True
+5,BGR,iso3:BGR,Bulgarije,Bulgaria,True,True
+6,BRA,iso3:BRA,Brazilië,Brazil,True,True
+7,CYP,iso3:CYP,Cyprus,Cyprus,True,True
+8,CZE,iso3:CZE,Tsjechië,Czechia,True,True
+9,DEU,iso3:DEU,Duitsland,Germany,True,True
+10,DNK,iso3:DNK,Denemarken,Denmark,True,True
+11,ESP,iso3:ESP,Spanje,Spain,True,True
+12,FIN,iso3:FIN,Finland,Finland,True,True
+13,FRA,iso3:FRA,Frankrijk,France,True,True
+14,GEO,iso3:GEO,Georgië,Georgia,True,True
+15,HUN,iso3:HUN,Hongarije,Hungary,True,True
+16,IRL,iso3:IRL,Ierland,Ireland,True,True
+17,ITA,iso3:ITA,Italië,Italy,True,True
+18,JOR,iso3:JOR,Jordanië,Jordan,True,True
+19,KAZ,iso3:KAZ,Kazachstan,Kazakhstan,True,True
+20,LTU,iso3:LTU,Litouwen,Lithuania,True,True
+21,LVA,iso3:LVA,Letland,Latvia,True,True
+22,MAR,iso3:MAR,Marokko,Morocco,True,True
+23,MKD,iso3:MKD,Noord-Macedonië,North Macedonia,True,True
+24,MNE,iso3:MNE,Montenegro,Montenegro,True,True
+25,NLD,iso3:NLD,Nederland,Netherlands,True,True
+26,NOR,iso3:NOR,Noorwegen,Norway,True,True
+27,NZL,iso3:NZL,Nieuw-Zeeland,New Zealand,True,True
+28,POL,iso3:POL,Polen,Poland,True,True
+29,PRT,iso3:PRT,Portugal,Portugal,True,True
+30,QAT,iso3:QAT,Qatar,Qatar,True,True
+31,SAU,iso3:SAU,Saoedi-Arabië,Saudi Arabia,True,True
+32,SGP,iso3:SGP,Singapore,Singapore,True,True
+33,SRB,iso3:SRB,Servië,Serbia,True,True
+34,SVK,iso3:SVK,Slowakije,Slovakia,True,True
+35,SVN,iso3:SVN,Slovenië,Slovenia,True,True
+36,SWE,iso3:SWE,Zweden,Sweden,True,True
+37,TUR,iso3:TUR,Turkije,Türkiye,True,True
+38,TWN,iso3:TWN,Chinees Taipei,Chinese Taipei,True,True
+39,USA,iso3:USA,Verenigde Staten,United States,True,True
+40,HKG,iso3:HKG,Hongkong,Hong Kong,True,True
+41,MAC,iso3:MAC,Macau,Macao,True,True
+42,XKX,iso3:XKX,Kosovo,Kosovo,True,True

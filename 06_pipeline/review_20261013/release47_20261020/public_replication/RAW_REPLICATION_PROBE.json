@@ -1,0 +1,59 @@
+{
+  "status": "TARGETED_OFFICIAL_RAW_NUMERICAL_REPLICATION_PASS",
+  "full_source_replication": false,
+  "result_cache_used": false,
+  "legacy_bundle_used": false,
+  "cells": 58,
+  "contexts": {
+    "NLD_PIRLS_2021": {
+      "country": "NLD",
+      "survey": "PIRLS",
+      "year": 2021,
+      "raw_sha256": "60175213131221107fb02772341f426989f1cf0dbe80600dd5adbf9c94127136",
+      "source_receipt_sha256": "422bb82e347a24f75c00aee55a49dfd19612c4273609dcb70b87bbddff599b80",
+      "cells": 12,
+      "pupils": 4313,
+      "seconds": 5.879999999999999
+    },
+    "NLD_TIMSS_2023": {
+      "country": "NLD",
+      "survey": "TIMSS",
+      "year": 2023,
+      "raw_sha256": "af867a32dc63fa75aedeb994c45c685b81d4b86755539243806ef1336f7b3dc4",
+      "source_receipt_sha256": "3c7e3f887051c67b1a430291a1592b9c8b6f6bbb0fbbd638dc40569f84e00b2b",
+      "cells": 24,
+      "pupils": 3555,
+      "seconds": 3.0999999999999996
+    },
+    "NLD_PISA_2003": {
+      "country": "NLD",
+      "survey": "PISA",
+      "year": 2003,
+      "raw_sha256": "eecedc1eec86945724af3bd36a984a2d6a070162174d7283081e99be32a24bb4",
+      "source_receipt_sha256": "28812a16de313ab4cc574bfd52aceb96c55974c0f58897697727527e7d3e7f1f",
+      "cells": 22,
+      "pupils": 3992,
+      "seconds": 24.489999999999998
+    }
+  },
+  "seconds": 39.230000000000004,
+  "platform": "x86_64-w64-mingw32",
+  "R_version": "R version 4.6.1 (2026-06-24 ucrt)",
+  "config_sha256": "d86266360ce5de1509bd0906e4a6757efec88541c39e8f96a5ae921c40a21171",
+  "tasks_sha256": "1e4e5eea2bd9dbf5d7df7b874ce948224d69f142b3246b1f326fa57465522f86",
+  "expected_sha256": "b127145cc1104044f333cb3bbdfd0caffa51f0594df0299d84008517d319686e",
+  "results_sha256": "def873ac0adc90b40f8d39d3b844324b7cd060726cc176882f03ced4afc49b54",
+  "parity_sha256": "95b135c223b84b97cc8727b44b3fb8ece4596f91f1315cf02ad876db27933814",
+  "public_bundle_manifest_sha256": "a34de2bccd5c8556697588c125e7afea65449b56a5cd3a1c6d17ab984c1e554f",
+  "code_sha256": {
+    "scripts/verify_public_raw_probes.R": "1e5228d1cbc51929cd26d06bd828014d92df1dc2f5cab0462ca897028cbc45d4",
+    "06_pipeline/LO_IEA_SOURCE_BLOCK.R": "800db56dccc16ab827b5ed67e1763361dbc95da6953f053c557ea26c7573215e",
+    "06_pipeline/LO_PISA_LEGACY_SOURCE.R": "a516de5054a1c0007fdf1e0409fc7cceacb886bf4969eb57244b942f3886460b",
+    "06_pipeline/LO_EXACT_ESTIMATORS.R": "0466dc38797d2cbe6aa78b3c9202b2fa75e5cf4b647af3f94b5455e4312553a3",
+    "06_pipeline/LO_COMPACT_RECOMPUTE.R": "bec8b5c7d89d13b6da7862a219251156c932af896ad74890904d3febfdf95127"
+  },
+  "max_estimate_difference": 7.9580786405131221e-13,
+  "max_se_difference": 3.6193270602780103e-13,
+  "tolerance": 1.0000000000000001e-09,
+  "n_required_exact": true
+}

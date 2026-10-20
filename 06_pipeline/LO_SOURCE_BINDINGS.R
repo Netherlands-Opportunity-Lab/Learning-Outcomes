@@ -1,10 +1,20 @@
 # Portable binding of reviewed source identities to local paths. The caller
 # supplies a two-column sha256,path CSV; no directory search or guessed version.
-lo_bind_international_sources <- function(repo,root,bindings_path,python=Sys.getenv('LO_PYTHON','python')) {
+lo_bind_international_sources <- function(repo,root,bindings_path,python=Sys.getenv('LO_PYTHON','python'),countries=NULL,include_calibration_contexts=FALSE) {
   source(file.path(repo,'06_pipeline/LO_ATOMIC_CHECKPOINT.R'))
   catalogue<-file.path(repo,'06_pipeline/review_20261013/international')
   m<-read.csv(file.path(catalogue,'SOURCE_CATALOG.csv'),colClasses='character',na.strings=character())
   homes<-read.csv(file.path(catalogue,'HOME_SOURCE_CATALOG.csv'),colClasses='character',na.strings=character())
+  if(!is.null(countries)&&length(countries)) {
+    if(any(!countries%in%m$country))stop('SOURCE_BINDING_UNKNOWN_COUNTRY')
+    # Frozen-SES calibration and deterministic imputation may require input
+    # rows outside the output-country selection. These are input dependencies,
+    # never additional output targets or reference countries.
+    keep<-m$country%in%countries
+    if(include_calibration_contexts)keep<-keep|(m$survey=='PISA'&as.integer(m$year)>=2015L)
+    m<-m[keep,,drop=FALSE]
+    homes<-homes[homes$country%in%countries,,drop=FALSE]
+  }
   bindings<-read.csv(bindings_path,colClasses='character',na.strings=character())
   if(!all(c('sha256','path')%in%names(bindings))||anyDuplicated(bindings$sha256)||
      any(!grepl('^[a-f0-9]{64}$',bindings$sha256)))stop('SOURCE_BINDINGS_IDENTITY_INVALID')

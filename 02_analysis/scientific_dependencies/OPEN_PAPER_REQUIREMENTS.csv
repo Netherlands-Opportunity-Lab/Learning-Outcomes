@@ -1,0 +1,9 @@
+requirement_id,requirement,source_slide,paper_exhibit,required_statistics,source_contract,action,reason
+Q01,SES coverage by definition and analysis sample,21,E1;E5;Appendix D,n_total;weighted_total;n_valid;share_valid;share_missing;component_coverage;change_pp,SES_COVERAGE_SCHEMA,REVIEW,No complete validated task/source adapter in supplied production bundle
+Q02,Population and sample quality,,E1;Appendix A/B,target_population;response_school;response_student;exclusions;coverage;special_sample;mode;sample_n,08_REPRESENTATIVITY_QUALITY,REVIEW,No complete validated task/source adapter in supplied production bundle
+Q03,Exact Cobreros replication 4waves/34 systems,,Appendix D,author_parameters;quartiles;coverage;replication_differences,STEP1A_PIN_1da4b260,REVIEW,No complete validated task/source adapter in supplied production bundle
+Q04,Exact Cobreros replication 2waves/36 systems,,Appendix D,author_parameters;coverage;replication_differences,STEP1A_PIN_1da4b260,REVIEW,No complete validated task/source adapter in supplied production bundle
+Q05,Fixed-parameter project extension,,E5;Appendix D,mapping;overlap_sensitivity;missingness;calibration_id,STEP1A_EXTENSION,REVIEW,No complete validated task/source adapter in supplied production bundle
+Q06,"Reference membership, N and uncertainty",,E2-E7;Appendix F,frozen_panel_members;focus_exclusion;N;estimate;se;ci;coverage,TIME_SERIES_COMPARISON_EQUAL_COUNTRY_FROZEN_PANEL,REVIEW,No complete validated task/source adapter in supplied production bundle
+Q07,Official wave-specific SES robustness,,Appendix D/E,Q1/Q4 levels and gaps;coverage;within_wave_only,STEP1A_OFFICIAL_WAVE_SPECIFIC,REVIEW,No complete validated task/source adapter in supplied production bundle
+Q08,Trend changes with correct uncertainty,,E2-E6;Appendix C,first_last_change;contrast_covariance;linking_variance_if_applicable,METHOD_REVIEW_NO_INDEPENDENCE_ASSUMPTION,REVIEW,No complete validated task/source adapter in supplied production bundle

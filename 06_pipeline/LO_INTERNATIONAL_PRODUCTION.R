@@ -72,7 +72,8 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
   if(!is.null(countries))t<-t[t$country%in%countries,]
   # NLD is already certified in the shared registry; source-specific unresolved
   # cells remain governed by its explicit source-unavailability evidence.
-  t<-t[t$country!='NLD'|lo_gender_pooled(t),]
+  if(Sys.getenv('LO_FRESH_REPLICATION','')!='1')
+    t<-t[t$country!='NLD'|lo_gender_pooled(t),]
   # Back up prior sealed results before any new calculations; retry pending
   # transfers on resume without recomputing their scientific blocks.
   lo_remote_checkpoint(repo,root)
@@ -98,9 +99,16 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
   previous<-options(lo.pisa.partitions=partitions,lo.pisa.byte_indices=indices);on.exit(options(previous),add=TRUE)
   home<-read.csv(file.path(international,'HOME_SOURCE_MANIFEST.csv'),colClasses='character',na.strings=character())
   ses<-NULL
-  if(is.null(families_keep)||'PISA_SES'%in%families_keep) {
+  needs_ses<-any(t$survey=='PISA'&t$definition=='Cobreros_fourwave_13item_trend_comparable')
+  if(needs_ses&&(is.null(families_keep)||'PISA_SES'%in%families_keep)) {
     source(file.path(repo,'06_pipeline/LO_INTERNATIONAL_SES.R'))
     author<-Sys.getenv('LO_COBREROS_ROOT','');if(!nzchar(author))stop('LO_COBREROS_ROOT_REQUIRED')
+    if(Sys.getenv('LO_FRESH_REPLICATION','')=='1') {
+      source(file.path(repo,'06_pipeline/LO_COBREROS_PREPARE.R'))
+      source(file.path(repo,'06_pipeline/LO_COBREROS_RAW_CLOSURE.R'))
+      lo_prepare_cobreros_four(author,file.path(root,'cobreros_four'))
+      lo_cobreros_raw_closure(repo,author,root)
+    }
     ses<-lo_prepare_international_ses(repo,author,root,partitions,
       lo_ses_application_country_keys(info$selected,manifest))
   }
@@ -136,7 +144,7 @@ lo_international_produce <- function(repo,bundle,root,scope='all_required',count
       if(!nrow(q0))next
     }
     parent<-file.path(international,'sources',id)
-    if(country=='NLD') {
+    if(country=='NLD'&&Sys.getenv('LO_FRESH_REPLICATION','')!='1') {
       origin<-unique(support$source_path[support$country==country&support$survey==s&as.integer(support$year)==y])
       if(length(origin)!=1L)stop('NLD_SOURCE_IDENTITY_AMBIGUOUS')
       parent<-dirname(origin)

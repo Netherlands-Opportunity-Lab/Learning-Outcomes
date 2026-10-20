@@ -128,7 +128,8 @@ lo_fixed_input_manifest <- function(repo,bundle,root,scope) {
   hashes<-vapply(files,function(p)if(file.exists(p))
     digest::digest(file=p,algo="sha256") else "ABSENT",character(1))
   cfg<-lo_run_config(scope)
-  hashes<-c(hashes,run_configuration=lo_run_config_hash(cfg),
+  hashes<-c(hashes,fresh_source_replication=if(Sys.getenv('LO_FRESH_REPLICATION','')=='1')'ENABLED'else'DISABLED',
+    run_configuration=lo_run_config_hash(cfg),
     run_config_code=digest::digest(file=file.path(repo,"06_pipeline","LO_RUN_CONFIG.R"),algo="sha256"))
   list(scope=scope,configuration=cfg,sha256=as.list(hashes))
 }
