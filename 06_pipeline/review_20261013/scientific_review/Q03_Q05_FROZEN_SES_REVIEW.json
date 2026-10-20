@@ -1,7 +1,10 @@
 {
   "status": "PINNED_AUTHOR_AND_ALL_USED_CANONICAL_SCORES_VERIFIED",
   "calibration_sha256": "ba43a1c1ad1f270ab63eb2bccc6579f59386948325c4f505b5f54a80ed76338c",
-  "application_sha256": "23e9509746b5d92166fce8a7ac177c81abc0b5da02e4524169efcc9e42d51d02",
+  "application_sha256": [
+    "b1cc05fe415ad4603b1d1489f83f0ab0cdce71bed35761b1bbfe2741a8f23989",
+    "23e9509746b5d92166fce8a7ac177c81abc0b5da02e4524169efcc9e42d51d02"
+  ],
   "author_commit": "1da4b26097e84e732973af672355a1c3103d5d33",
   "calibration_countries": [
     "AUS",
@@ -44,16 +47,16 @@
     "discrimination": 1.0106915304675113e-11,
     "steps": 8.114753313748224e-11
   },
-  "canonical_sources_checked": 130,
-  "used_country_waves": 129,
+  "canonical_sources_checked": 169,
+  "used_country_waves": 164,
   "scored_canonical_max_difference": 0,
-  "extension_country_waves": 41,
+  "extension_country_waves": 60,
   "selected_two_wave_targets": 0,
   "official_PISA_ESCS_analysis_targets": 0,
   "author_preparation_selected": "four waves; 13 items; paper common countries excluding CRI; R regression-imputed ESCS only",
   "author_preparation_excluded": "Two-wave model; OECD35 extension; PCA; no-imputation variant; author figures and result tables",
-  "output_sha256": "00ca196d812fe07588891a25762b2673853a475a25a2c37c84790fc1dbcb0b06",
+  "output_sha256": "f6d90cb80c0709fd0702f942b1003a72b2915950e2ec3071848bdd8b3671ca66",
   "method_limitations": "Fixed calibrated item parameters and regression imputation are carried across countries. Numerical/source parity is verified; measurement invariance and ignorable missingness outside calibration are assumptions, not demonstrated findings. No unrequested refit or ESCS robustness analysis.",
-  "review_code_sha256": "c097c37c10b198d159c510efd9750dd26193b126705f86403a388fe68a92bcc3",
-  "private_full_review_sha256": "0f78af110b90d62e1ce97883094539a3f624135925759766b39c0824a1db35e4"
+  "review_code_sha256": "6699df86863781d0f4a1542bae257bc987b342384e54f1cf1e1f9e9b6d94fa03",
+  "private_full_review_sha256": "f2c6bc97b4e0a94ff28ec74e197b7a0c34acfff2f2efa6edbaf8f57ab5ee7906"
 }
