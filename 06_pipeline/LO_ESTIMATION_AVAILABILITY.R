@@ -43,6 +43,26 @@ lo_estimation_availability <- function(obj,q) {
           treatment='UNAVAILABLE_NOT_ZERO_NO_PV_OR_REPLICATE_DROPPED')
       next
     }
+    needs_environment<-m%in%c('extension_performance_school','extension_performance_class',
+      'extension_ses_school','extension_ses_class','ses_peer_exposure','peer_below_basic',
+      'high_proficiency_peer_exposure','migration_binary_peer','migration_peer_exposure',
+      'home_language_frequency_peer','home_language_peer_exposure')
+    if(needs_environment) {
+      environment<-as.character(required_column('SCHOOL'))
+      observed_environment<-!is.na(environment)&nzchar(environment)
+      if(grepl('_class$',m)||(z$peer_definition=='direct_learning_environment')) {
+        second<-as.character(required_column(if(grepl('_class$',m)||s!='PISA')'CLASS'else'PROGRAM'))
+        observed_environment<-observed_environment&!is.na(second)&nzchar(second)
+      }
+      if(!any(observed_environment)) {
+        reasons[k]<-'NO_OBSERVED_LEARNING_ENVIRONMENT_ID'
+        diagnostics[[length(diagnostics)+1L]]<-data.frame(cell_id=z$metric_key,pv=NA_integer_,
+          component='REQUIRED_LEARNING_ENVIRONMENT_ID',n_full_target=0L,full_weight=0,
+          empty_weight_indices=paste(0:(ncol(W)-1L),collapse=';'),reason=reasons[k],
+          treatment='UNAVAILABLE_NOT_ZERO_NO_PV_OR_REPLICATE_DROPPED')
+        next
+      }
+    }
     if(m%in%c('peer_below_basic','high_proficiency_peer_exposure')) {
       achievement_peer<-TRUE;peer<-TRUE
     }else if(m%in%c('migration','migration_binary_peer')||

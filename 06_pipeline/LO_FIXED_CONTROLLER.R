@@ -100,6 +100,7 @@ lo_fixed_controller <- function(repo,bundle,
   selected<-selected[selected$metric_key%in%chosen_ids,,drop=FALSE]
   new_peer_tasks<-new_peer_tasks[new_peer_tasks$metric_key%in%chosen_ids,,drop=FALSE]
   extensions<-extensions[extensions$metric_key%in%chosen_ids,,drop=FALSE]
+  scope_info<-lo_run_scope(scope_info,run_config)
   state<-file.path(root,"FIXED_PRODUCTION_V1",scope)
   dir.create(state,recursive=TRUE,showWarnings=FALSE)
   write.csv(attr(source_support,'population_exclusions'),

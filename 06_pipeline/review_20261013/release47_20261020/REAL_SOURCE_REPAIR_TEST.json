@@ -1,0 +1,11 @@
+{
+  "status": "REAL_LUX_SOURCE_GUARD_PASSED",
+  "selected": 57,
+  "valid_siblings": 54,
+  "unavailable_school_variances": 3,
+  "source_sha256": "22eb4eb0f04df94d38dffecc0acd3362db6e4b52ed426ff2d63cb580e3b25589",
+  "implementation_sha256": "0d26afe81c62bb5848899dae62b35beef1ef002957aa1f64f08a986c9538a1aa",
+  "test_script_sha256": "8e9085941a163dfa093982fab93a4f5346d755804548b7a12988c8c774e1fe60",
+  "estimators_run": false,
+  "existing_result_registry_changed": false
+}

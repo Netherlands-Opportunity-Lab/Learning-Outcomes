@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "scope": "all_required",
+  "selection": {
+    "surveys": [],
+    "years": [],
+    "domains": [],
+    "modules": [],
+    "countries": [
+      "LUX"
+    ],
+    "stats": [],
+    "groups": [],
+    "definitions": [],
+    "peer_environments": [],
+    "cell_ids": []
+  },
+  "max_compute_units": 100000,
+  "checkpoint": {
+    "max_new_cells": 1000,
+    "max_elapsed_seconds": 600
+  }
+}

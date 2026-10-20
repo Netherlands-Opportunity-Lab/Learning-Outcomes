@@ -291,6 +291,9 @@ def freeze(repo, root, reference_root=None, work=None):
     code += [repo / '06_pipeline/SCOPE_APPROVALS.csv', repo / '06_pipeline/COUNTRY_PRODUCTION_APPROVALS.csv',
              repo / 'renv.lock', repo / 'scripts/freeze_scientific_review.py',
              repo / 'scripts/verify_reference_review_export.py']
+    phase = repo / '06_pipeline/review_20261013/release47_20261020/RELEASE_PHASE_DECISION.json'
+    if phase.exists():
+        code.append(phase)
     bindings = [{'path': p.relative_to(repo).as_posix(), 'sha256': add(p)} for p in sorted(code)]
     assessments = {
         'Q01': 'Actual weighted/unweighted SES groups and missingness verified. Every sealed result also has independently counted pupils and schools per contrast component and PV; insufficient support is a separate reporting restriction, never a deleted target or fabricated missing source. Coverage is not a missing-at-random or representativeness claim.',
