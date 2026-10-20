@@ -1,0 +1,21 @@
+{
+  "status": "CURRENT47_PRODUCTS_RECONSTRUCTED_ON_WINDOWS_AND_LINUX",
+  "source_commit": "333f1eba119193bb16583dffefd8cf157e6c27cf",
+  "workflow_run_id": 39455935423,
+  "workflow_url": "https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/actions/runs/39455935423",
+  "jobs": [
+    {"id": 118742682611, "platform": "windows-latest", "conclusion": "success"},
+    {"id": 118742683083, "platform": "ubuntu-latest", "conclusion": "success"}
+  ],
+  "actual_checks": [
+    "Install pinned Python product dependencies",
+    "Rebuild paper and native-chart presentation from sealed aggregates",
+    "Verify values, intervals, ranks, chart data and written claims",
+    "Save generated product and verification artifacts"
+  ],
+  "paper_pages": 29,
+  "presentation_slides": 22,
+  "native_editable_charts": 90,
+  "pupil_estimations": 0,
+  "full_fresh_source_replication": "NOT_PERFORMED_BY_THIS_WORKFLOW"
+}

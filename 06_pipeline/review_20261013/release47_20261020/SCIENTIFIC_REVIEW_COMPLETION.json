@@ -34,7 +34,13 @@
   "scientific_quality_summary_sha256": "7d022d2fd1e37397be2cb01532cfeff313ebef9e2c67b95f6c72576a0cc145a5",
   "actual_finalizer_passed": true,
   "no_pupil_recalculation": true,
-  "step2_status": "PRODUCTS_REVIEWED_VERSIONED_DELIVERY_IN_PROGRESS",
+  "step2_status": "CURRENT47_DASHBOARD_PAPER_PRESENTATION_REVIEWED_WINDOWS_LINUX_REBUILD_PASS",
   "step3_status": "FULL_FRESH_SOURCE_REPLICATION_NOT_CERTIFIED",
-  "full_project_complete": false
+  "full_project_complete": false,
+  "step2_evidence": [
+    "DASHBOARD_BROWSER_QA_CURRENT47.json",
+    "PRODUCT_PLATFORM_ACCEPTANCE.json",
+    "WINDOWS_PRODUCTS_REBUILD_PROOF.json"
+  ],
+  "publication_only_code_amendment": "PUBLICATION_GATE_BINDING_AMENDMENT.json"
 }
