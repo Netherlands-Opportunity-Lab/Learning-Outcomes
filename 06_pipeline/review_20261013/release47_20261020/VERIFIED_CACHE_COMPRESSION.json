@@ -1,0 +1,11 @@
+{
+  "status": "SOURCE_CONTRACT_BOUND_CACHES_COMPRESSED_WITH_UNCHANGED_CONTENT",
+  "files": 797,
+  "logical_bytes_unchanged": 1877890653.0,
+  "free_bytes_before": 5093015552,
+  "free_bytes_after": 7297912832,
+  "measured_free_increase": 2204897280,
+  "deletion_count": 0,
+  "pupil_estimations": 0,
+  "evidence": "Every selected file matched its retained source/canonical SHA256 before and after NTFS compression"
+}

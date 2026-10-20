@@ -1,0 +1,46 @@
+{
+  "status": "FOUR_LEGACY_SOURCES_LOSSLESSLY_COMPRESSED_AND_HASH_VERIFIED",
+  "file_count": 4,
+  "source_bytes_unchanged": 3313372691.0,
+  "files": [
+    {
+      "study": "PISA",
+      "year": "2012",
+      "bytes": 1128408900,
+      "sha256": "9e0db6cdd19593ad71c8c29cf7b57db4b660a37766f36b6b27d4e22b87aa5961",
+      "ntfs_compressed": true,
+      "seconds": 25.9964909
+    },
+    {
+      "study": "PISA",
+      "year": "2009",
+      "bytes": 942655266,
+      "sha256": "91b3afe2e65cb73479cbf57cd2171b1461ce5b61fba18076bb360a52e06b0ad1",
+      "ntfs_compressed": true,
+      "seconds": 22.1573237
+    },
+    {
+      "study": "PISA",
+      "year": "2006",
+      "bytes": 721737500,
+      "sha256": "e8d880e480a0deba086135098959f3f316f373fe511a9734345b125ad496e7f5",
+      "ntfs_compressed": true,
+      "seconds": 16.7537716
+    },
+    {
+      "study": "PISA",
+      "year": "2003",
+      "bytes": 520571025,
+      "sha256": "eecedc1eec86945724af3bd36a984a2d6a070162174d7283081e99be32a24bb4",
+      "ntfs_compressed": true,
+      "seconds": 11.6027956
+    }
+  ],
+  "free_bytes_before": 3454377984,
+  "free_bytes_after": 5099753472,
+  "measured_free_increase": 1645375488,
+  "sources_deleted": 0,
+  "content_changes": 0,
+  "estimations_run": 0,
+  "prior_spss_action": "Stopped after three files because temporary space usage was high and gain was negligible; all three source hashes reverified"
+}

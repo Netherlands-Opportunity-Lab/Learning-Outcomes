@@ -1,0 +1,13 @@
+{
+  "status": "REDUNDANT_PREPARATION_WORKTREE_REMOVED",
+  "retained_commit": "a36d5585119cc123a34f06c8b7b495bf582290cb",
+  "remote_branches_verified": 2,
+  "working_changes": 0,
+  "ignored_material": "Generated Python __pycache__ directories only",
+  "retained_checkout": "Primary Learning-Outcomes checkout used by RStudio",
+  "scientific_manifest_references_to_removed_worktree": 0,
+  "unique_source_and_result_files_removed": 0,
+  "free_bytes_before": 2061647872,
+  "free_bytes_after": 3395026944,
+  "actual_free_increase": 1333379072
+}
