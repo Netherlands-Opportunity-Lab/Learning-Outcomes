@@ -1,0 +1,3560 @@
+{
+  "provenance": {
+    "result_manifest_sha256": "5ab441b3036e794bcbc8e590fe2517619f0c5ed1ddae68e6cdd71593ed465122",
+    "scientific_manifest_sha256": "c205f624793a9d55fc25ced02540f91466e5e0e78a8b69fe8c801b229c928965",
+    "support_sha256": "5607b2dd5d84283f2b2b66f4be7492258822aa7e3c5311a1c55acfef3cbd8cbc",
+    "primary_result_commit": "d36eea18980101ce354ebb05ce5f5d91280a70f8",
+    "target_count": 90829,
+    "research_scope": "CURRENT47",
+    "numeric_policy": "Full binary64 values; only rendered labels are rounded",
+    "builder_sha256": "df401abff676034bcf21c69f62385a917a2145ae4456fd027ccb94fc8e78c21c"
+  },
+  "figures_provenance": {
+    "schema_version": 1,
+    "result_scope": "CURRENT47_DEFERRED36_EXCLUDED",
+    "countries": [
+      "ALB",
+      "ARE",
+      "ARG",
+      "ARM",
+      "AUS",
+      "AUT",
+      "AZE",
+      "BEL",
+      "BGR",
+      "BHR",
+      "BRA",
+      "BRN",
+      "CAN",
+      "CHE",
+      "CHL",
+      "COL",
+      "CZE",
+      "DEU",
+      "DNK",
+      "ESP",
+      "FIN",
+      "FRA",
+      "GBR",
+      "GEO",
+      "HKG",
+      "HUN",
+      "IRL",
+      "ITA",
+      "LIE",
+      "LTU",
+      "LUX",
+      "LVA",
+      "MAR",
+      "NLD",
+      "NOR",
+      "NZL",
+      "POL",
+      "PRT",
+      "QAT",
+      "RUS",
+      "SAU",
+      "SGP",
+      "SVK",
+      "SVN",
+      "SWE",
+      "TWN",
+      "USA"
+    ],
+    "result_manifest_sha256": "5ab441b3036e794bcbc8e590fe2517619f0c5ed1ddae68e6cdd71593ed465122",
+    "scientific_manifest_sha256": "c205f624793a9d55fc25ced02540f91466e5e0e78a8b69fe8c801b229c928965",
+    "candidate_manifest_sha256": "7996726e25be3f8881a11dbd296e78831100663318383ad92fad44a3548f8be1",
+    "phase_sha256": "efa86d2a9ebb4a094f1bbd4d4b22978fd52b19af6e839e324aeecbcc4a456f43",
+    "explorer_sha256": "413a55a8f9b0d08c62f5d17988bb3ff6e4fa4a31e032064d9d2a187835685e68",
+    "source_deck": "BR_POLICY_21_20261001",
+    "source_deck_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+    "slide_count_change": "22 slides: retain the original narrative, split source slide 20 into separately approved low/high peer outcomes (A01/A03), move source slide 10 to the appendix (A02). No additional analysis family.",
+    "sources_are_aggregate_only": true,
+    "precision": "Full binary64 aggregate precision; display rounding only"
+  },
+  "sections": [
+    {
+      "claim_id": "PAPER_TABLE_01",
+      "table": "Tabel 1. Nederlandse basisreeksen",
+      "dependencies": [],
+      "displayed_headers": [
+        "Studie",
+        "Populatie",
+        "Domein",
+        "Meetjaren"
+      ],
+      "displayed_rows": [
+        [
+          "PIRLS",
+          "Groep 6",
+          "Lezen",
+          "2001, 2006, 2011, 2016, 2021"
+        ],
+        [
+          "PISA",
+          "15 jaar",
+          "Lezen",
+          "2003, 2006, 2009, 2012, 2015, 2018, 2022, 2025"
+        ],
+        [
+          "TIMSS",
+          "Groep 6",
+          "Rekenen/wiskunde",
+          "2003, 2007, 2011, 2015, 2019, 2023"
+        ],
+        [
+          "PISA",
+          "15 jaar",
+          "Rekenen/wiskunde",
+          "2003, 2006, 2009, 2012, 2015, 2018, 2022, 2025"
+        ],
+        [
+          "TIMSS",
+          "Groep 6",
+          "Natuurwetenschappen",
+          "2003, 2007, 2011, 2015, 2019, 2023"
+        ],
+        [
+          "PISA",
+          "15 jaar",
+          "Natuurwetenschappen",
+          "2006, 2009, 2012, 2015, 2018, 2022, 2025"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_02",
+      "table": "Tabel 2. Gehanteerde afkappunten",
+      "dependencies": [],
+      "displayed_headers": [
+        "Studie / domein",
+        "Onder basisniveau",
+        "Hoog / gevorderd"
+      ],
+      "displayed_rows": [
+        [
+          "PIRLS / lezen",
+          "< 475",
+          "≥ 625"
+        ],
+        [
+          "TIMSS / beide domeinen",
+          "< 475",
+          "≥ 625"
+        ],
+        [
+          "PISA / lezen",
+          "< 407,47",
+          "≥ 625,61"
+        ],
+        [
+          "PISA / wiskunde",
+          "< 420,07",
+          "≥ 606,99"
+        ],
+        [
+          "PISA / natuurwetenschappen",
+          "< 409,54",
+          "≥ 633,33"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_03",
+      "table": "Tabel 3. Geregistreerde langetermijnveranderingen",
+      "dependencies": [
+        "NLD_TREND_PIRLS_READING",
+        "NLD_TREND_TIMSS_MATHEMATICS",
+        "NLD_TREND_TIMSS_SCIENCE",
+        "NLD_TREND_PISA_READING",
+        "NLD_TREND_PISA_MATHEMATICS",
+        "NLD_TREND_PISA_SCIENCE"
+      ],
+      "displayed_headers": [
+        "Studie / domein",
+        "Periode",
+        "Verandering",
+        "95%-interval",
+        "Interpretatie"
+      ],
+      "displayed_rows": [
+        [
+          "PIRLS / lezen",
+          "2001-2021",
+          "-27,0",
+          "-33,8 tot -20,1",
+          "Conditioneel; beschrijvend"
+        ],
+        [
+          "TIMSS / rekenen/wiskunde",
+          "2003-2023",
+          "-3,2",
+          "-9,0 tot 2,5",
+          "Conditioneel; beschrijvend"
+        ],
+        [
+          "TIMSS / natuurwetenschappen",
+          "2003-2023",
+          "-8,2",
+          "-15,2 tot -1,2",
+          "Conditioneel; beschrijvend"
+        ],
+        [
+          "PISA / lezen",
+          "2003-2025",
+          "-71,8",
+          "-85,0 tot -58,6",
+          "Inclusief linking"
+        ],
+        [
+          "PISA / rekenen/wiskunde",
+          "2003-2025",
+          "-54,6",
+          "-68,5 tot -40,6",
+          "Inclusief linking"
+        ],
+        [
+          "PISA / natuurwetenschappen",
+          "2006-2025",
+          "-39,4",
+          "-51,6 tot -27,2",
+          "Inclusief linking"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_FIGURE_MEAN_TRENDS",
+      "figure": "mean_trends",
+      "image_sha256": "62de19d5d61547e80319ed1de30c26d42da6d70c166ff6d8e18e73c97ac6fc43",
+      "figure_ids": [
+        "TR_MEAN_age10_reading",
+        "TR_MEAN_age10_mathematics",
+        "TR_MEAN_age10_science",
+        "TR_MEAN_age15_reading",
+        "TR_MEAN_age15_mathematics",
+        "TR_MEAN_age15_science"
+      ],
+      "dependency_register": "PRODUCT_POINT_LINEAGE.json"
+    },
+    {
+      "claim_id": "PAPER_FIGURE_BASIC_LEVELS",
+      "figure": "basic_levels",
+      "image_sha256": "0d6523a30ec086dbea3e32827f791702552dcd58f103c4afd918a539769cfffc",
+      "figure_ids": [
+        "TR_BELOW_age10_reading",
+        "TR_BELOW_age10_mathematics",
+        "TR_BELOW_age10_science",
+        "TR_BELOW_age15_reading",
+        "TR_BELOW_age15_mathematics",
+        "TR_BELOW_age15_science"
+      ],
+      "dependency_register": "PRODUCT_POINT_LINEAGE.json"
+    },
+    {
+      "claim_id": "PAPER_TABLE_04",
+      "table": "Tabel 4. SES-kloof in het laatste meetjaar",
+      "dependencies": [
+        "NLD_SES_GAP_PIRLS_READING",
+        "NLD_SES_GAP_TIMSS_MATHEMATICS",
+        "NLD_SES_GAP_TIMSS_SCIENCE",
+        "NLD_SES_GAP_PISA_READING",
+        "NLD_SES_GAP_PISA_MATHEMATICS",
+        "NLD_SES_GAP_PISA_SCIENCE"
+      ],
+      "displayed_headers": [
+        "Studie / domein",
+        "Jaar",
+        "Q4 min Q1",
+        "95%-interval"
+      ],
+      "displayed_rows": [
+        [
+          "PIRLS / lezen",
+          "2021",
+          "48,9",
+          "39,8 tot 58,1"
+        ],
+        [
+          "TIMSS / rekenen/wiskunde",
+          "2023",
+          "38,9",
+          "30,0 tot 47,9"
+        ],
+        [
+          "TIMSS / natuurwetenschappen",
+          "2023",
+          "51,6",
+          "43,5 tot 59,6"
+        ],
+        [
+          "PISA / lezen",
+          "2025",
+          "97,5",
+          "85,1 tot 109,9"
+        ],
+        [
+          "PISA / rekenen/wiskunde",
+          "2025",
+          "104,8",
+          "92,3 tot 117,4"
+        ],
+        [
+          "PISA / natuurwetenschappen",
+          "2025",
+          "109,6",
+          "97,0 tot 122,3"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_FIGURE_SES_LEVELS",
+      "figure": "ses_levels",
+      "image_sha256": "6cbba0e6634f1e942be7b242abf1f8a8c901c532efbba7a569432090686e0b12",
+      "figure_ids": [
+        "GP_SES_LEVELS_age10_reading",
+        "GP_SES_LEVELS_age10_mathematics",
+        "GP_SES_LEVELS_age10_science",
+        "GP_SES_LEVELS_age15_reading",
+        "GP_SES_LEVELS_age15_mathematics",
+        "GP_SES_LEVELS_age15_science"
+      ],
+      "dependency_register": "PRODUCT_POINT_LINEAGE.json"
+    },
+    {
+      "claim_id": "PAPER_FIGURE_GENDER_LEVELS",
+      "figure": "gender_levels",
+      "image_sha256": "53bf0d87e5a4f322a8d65acb30f5826724a1e2faa38c1be8f400e6ab7c8800d3",
+      "figure_ids": [
+        "GP_GENDER_LEVELS_age10_reading",
+        "GP_GENDER_LEVELS_age10_mathematics",
+        "GP_GENDER_LEVELS_age10_science",
+        "GP_GENDER_LEVELS_age15_reading",
+        "GP_GENDER_LEVELS_age15_mathematics",
+        "GP_GENDER_LEVELS_age15_science"
+      ],
+      "dependency_register": "PRODUCT_POINT_LINEAGE.json"
+    },
+    {
+      "claim_id": "PAPER_FIGURE_MIGRATION_LEVELS",
+      "figure": "migration_levels",
+      "image_sha256": "bcb300ff72ee251b0e97e3904021243d423fdd2450accf4044436aa6163c70ab",
+      "figure_ids": [
+        "GP_MIGRATION_LEVELS_age10_reading",
+        "GP_MIGRATION_LEVELS_age10_mathematics",
+        "GP_MIGRATION_LEVELS_age10_science",
+        "GP_MIGRATION_LEVELS_age15_reading",
+        "GP_MIGRATION_LEVELS_age15_mathematics",
+        "GP_MIGRATION_LEVELS_age15_science"
+      ],
+      "dependency_register": "PRODUCT_POINT_LINEAGE.json"
+    },
+    {
+      "claim_id": "PAPER_FIGURE_PEER_BASIC",
+      "figure": "peer_basic",
+      "image_sha256": "d9835edeee0b2ec1e33384311b4b20a79418f3167ee4d29ff5fb7ea4a0fcb96f",
+      "figure_ids": [
+        "EN_PERFORMANCE_PEER_age10_reading_direct_learning_environment",
+        "EN_PERFORMANCE_PEER_age10_mathematics_direct_learning_environment",
+        "EN_PERFORMANCE_PEER_age10_science_direct_learning_environment",
+        "EN_PERFORMANCE_PEER_age15_reading_direct_learning_environment",
+        "EN_PERFORMANCE_PEER_age15_mathematics_direct_learning_environment",
+        "EN_PERFORMANCE_PEER_age15_science_direct_learning_environment"
+      ],
+      "dependency_register": "PRODUCT_POINT_LINEAGE.json"
+    },
+    {
+      "claim_id": "PAPER_TABLE_05",
+      "table": "Tabel 5. Aandeel van de geobserveerde variantie tussen scholen",
+      "dependencies": [
+        "NLD|PIRLS|2021|reading|extension_performance_school|between_variance_share|total|weighted_descriptive_between_share|school||percent|EXPLICIT_A11_20261014",
+        "NLD|PISA|2025|mathematics|extension_performance_school|between_variance_share|total|weighted_descriptive_between_share|school||percent|EXPLICIT_A11_20261014",
+        "NLD|PISA|2025|reading|extension_performance_school|between_variance_share|total|weighted_descriptive_between_share|school||percent|EXPLICIT_A11_20261014",
+        "NLD|PISA|2025|science|extension_performance_school|between_variance_share|total|weighted_descriptive_between_share|school||percent|EXPLICIT_A11_20261014",
+        "NLD|TIMSS|2023|mathematics|extension_performance_school|between_variance_share|total|weighted_descriptive_between_share|school||percent|EXPLICIT_A11_20261014",
+        "NLD|TIMSS|2023|science|extension_performance_school|between_variance_share|total|weighted_descriptive_between_share|school||percent|EXPLICIT_A11_20261014",
+        "NLD|PIRLS|2021|all|extension_ses_school|between_variance_share|total|books5_fractional|school||percent|EXPLICIT_A13_20261014",
+        "NLD|PISA|2025|all|extension_ses_school|between_variance_share|total|Cobreros_fourwave_13item_trend_comparable|school||percent|EXPLICIT_A13_20261014",
+        "NLD|TIMSS|2023|all|extension_ses_school|between_variance_share|total|books5_fractional|school||percent|EXPLICIT_A13_20261014"
+      ],
+      "displayed_headers": [
+        "Studie / jaar",
+        "Uitkomst",
+        "Aandeel (%)",
+        "SE"
+      ],
+      "displayed_rows": [
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "18,6",
+          "2,4"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wiskunde",
+          "61,6",
+          "1,3"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "54,6",
+          "1,5"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwetenschappen",
+          "59,3",
+          "1,4"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wiskunde",
+          "16,9",
+          "1,7"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwetenschappen",
+          "21,1",
+          "2,0"
+        ],
+        [
+          "PIRLS 2021",
+          "Boeken thuis",
+          "15,0",
+          "1,6"
+        ],
+        [
+          "PISA 2025",
+          "Cobreros-SES",
+          "25,0",
+          "1,7"
+        ],
+        [
+          "TIMSS 2023",
+          "Boeken thuis",
+          "10,6",
+          "1,1"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_06",
+      "table": "A1. Officiële Nederlandse cycluskenmerken",
+      "dependencies": [],
+      "displayed_headers": [
+        "Studie",
+        "Jaar",
+        "Mode",
+        "Schoolrespons vóór vervanging (%)",
+        "Uitsluiting (%)",
+        "Kwaliteitsnotitie"
+      ],
+      "displayed_rows": [
+        [
+          "PIRLS",
+          "2001",
+          "Papier",
+          "53,0",
+          "3,7",
+          "Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "PIRLS",
+          "2006",
+          "Papier",
+          "70,0",
+          "3,6",
+          "Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "PIRLS",
+          "2011",
+          "Papier",
+          "68,0",
+          "3,7",
+          "Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "PIRLS",
+          "2016",
+          "Papier",
+          "69,0",
+          "3,1",
+          "Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "PIRLS",
+          "2021",
+          "Papier",
+          "44,0",
+          "5,1",
+          "Uitsluiting > 5%; Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "TIMSS",
+          "2003",
+          "Papier",
+          "52,0",
+          "5,2",
+          "Uitsluiting > 5%; Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "TIMSS",
+          "2007",
+          "Papier",
+          "48,0",
+          "4,8",
+          "Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "TIMSS",
+          "2011",
+          "Papier",
+          "49,0",
+          "4,0",
+          "Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "TIMSS",
+          "2015",
+          "Papier",
+          "48,0",
+          "3,2",
+          "Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "TIMSS",
+          "2019",
+          "Digitaal, officiële trendkoppeling",
+          "46,0",
+          "3,5",
+          "Schoolrespons vóór vervanging < 85%; Gecombineerde respons < 75%"
+        ],
+        [
+          "TIMSS",
+          "2023",
+          "Digitaal, officiële trendkoppeling",
+          "54,0",
+          "4,4",
+          "Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "PISA",
+          "2003",
+          "Papier",
+          "82,6",
+          "1,9",
+          "Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "PISA",
+          "2006",
+          "Papier",
+          "75,7",
+          "0,1",
+          "Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "PISA",
+          "2009",
+          "Papier",
+          "80,4",
+          "3,5",
+          "Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "PISA",
+          "2012",
+          "Papier",
+          "75,3",
+          "4,4",
+          "Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "PISA",
+          "2015",
+          "Computer",
+          "63,3",
+          "3,7",
+          "Schoolrespons vóór vervanging < 85%"
+        ],
+        [
+          "PISA",
+          "2018",
+          "Computer",
+          "61,0",
+          "6,2",
+          "Uitsluiting > 5%; Schoolrespons vóór vervanging < 85%; Doelpopulatiedekking < 95%"
+        ],
+        [
+          "PISA",
+          "2022",
+          "Computer",
+          "65,5",
+          "8,4",
+          "Uitsluiting > 5%; Schoolrespons vóór vervanging < 85%; Doelpopulatiedekking < 95%"
+        ],
+        [
+          "PISA",
+          "2025",
+          "Computer",
+          "65,6",
+          "9,3",
+          "Uitsluiting > 5%; Schoolrespons vóór vervanging < 85%; Leerlingrespons onder de studiedrempel; Doelpopulatiedekking < 95%"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_07",
+      "table": "A2. SES-dekking en groepen",
+      "dependencies": [],
+      "displayed_headers": [
+        "Studie",
+        "Jaar",
+        "Domein",
+        "Groep",
+        "Geldige SES (n)",
+        "Gewogen dekking (%)",
+        "Groep (n)",
+        "Complete PV (n)"
+      ],
+      "displayed_rows": [
+        [
+          "PIRLS",
+          "2001",
+          "Lezen",
+          "Q1",
+          "3.999",
+          "97,3",
+          "1.441",
+          "1.441"
+        ],
+        [
+          "PIRLS",
+          "2001",
+          "Lezen",
+          "Q4",
+          "3.999",
+          "97,3",
+          "1.112",
+          "1.112"
+        ],
+        [
+          "PIRLS",
+          "2001",
+          "Lezen",
+          "Q4 min Q1",
+          "3.999",
+          "97,3",
+          "2.553",
+          "2.553"
+        ],
+        [
+          "PIRLS",
+          "2006",
+          "Lezen",
+          "Q1",
+          "4.082",
+          "98,0",
+          "1.427",
+          "1.427"
+        ],
+        [
+          "PIRLS",
+          "2006",
+          "Lezen",
+          "Q4",
+          "4.082",
+          "98,0",
+          "1.129",
+          "1.129"
+        ],
+        [
+          "PIRLS",
+          "2006",
+          "Lezen",
+          "Q4 min Q1",
+          "4.082",
+          "98,0",
+          "2.556",
+          "2.556"
+        ],
+        [
+          "PIRLS",
+          "2011",
+          "Lezen",
+          "Q1",
+          "3.941",
+          "98,7",
+          "1.304",
+          "1.304"
+        ],
+        [
+          "PIRLS",
+          "2011",
+          "Lezen",
+          "Q4",
+          "3.941",
+          "98,7",
+          "1.076",
+          "1.076"
+        ],
+        [
+          "PIRLS",
+          "2011",
+          "Lezen",
+          "Q4 min Q1",
+          "3.941",
+          "98,7",
+          "2.380",
+          "2.380"
+        ],
+        [
+          "PIRLS",
+          "2016",
+          "Lezen",
+          "Q1",
+          "4.148",
+          "98,6",
+          "1.464",
+          "1.464"
+        ],
+        [
+          "PIRLS",
+          "2016",
+          "Lezen",
+          "Q4",
+          "4.148",
+          "98,6",
+          "2.684",
+          "2.684"
+        ],
+        [
+          "PIRLS",
+          "2016",
+          "Lezen",
+          "Q4 min Q1",
+          "4.148",
+          "98,6",
+          "4.148",
+          "4.148"
+        ],
+        [
+          "PIRLS",
+          "2021",
+          "Lezen",
+          "Q1",
+          "4.228",
+          "98,0",
+          "1.722",
+          "1.722"
+        ],
+        [
+          "PIRLS",
+          "2021",
+          "Lezen",
+          "Q4",
+          "4.228",
+          "98,0",
+          "2.506",
+          "2.506"
+        ],
+        [
+          "PIRLS",
+          "2021",
+          "Lezen",
+          "Q4 min Q1",
+          "4.228",
+          "98,0",
+          "4.228",
+          "4.228"
+        ],
+        [
+          "PISA",
+          "2015",
+          "Rekenen/wisk.",
+          "Q1",
+          "5.322",
+          "98,9",
+          "1.311",
+          "1.311"
+        ],
+        [
+          "PISA",
+          "2015",
+          "Rekenen/wisk.",
+          "Q4",
+          "5.322",
+          "98,9",
+          "1.335",
+          "1.335"
+        ],
+        [
+          "PISA",
+          "2015",
+          "Rekenen/wisk.",
+          "Q4 min Q1",
+          "5.322",
+          "98,9",
+          "2.646",
+          "2.646"
+        ],
+        [
+          "PISA",
+          "2015",
+          "Lezen",
+          "Q1",
+          "5.322",
+          "98,9",
+          "1.311",
+          "1.311"
+        ],
+        [
+          "PISA",
+          "2015",
+          "Lezen",
+          "Q4",
+          "5.322",
+          "98,9",
+          "1.335",
+          "1.335"
+        ],
+        [
+          "PISA",
+          "2015",
+          "Lezen",
+          "Q4 min Q1",
+          "5.322",
+          "98,9",
+          "2.646",
+          "2.646"
+        ],
+        [
+          "PISA",
+          "2015",
+          "Natuurwet.",
+          "Q1",
+          "5.322",
+          "98,9",
+          "1.311",
+          "1.311"
+        ],
+        [
+          "PISA",
+          "2015",
+          "Natuurwet.",
+          "Q4",
+          "5.322",
+          "98,9",
+          "1.335",
+          "1.335"
+        ],
+        [
+          "PISA",
+          "2015",
+          "Natuurwet.",
+          "Q4 min Q1",
+          "5.322",
+          "98,9",
+          "2.646",
+          "2.646"
+        ],
+        [
+          "PISA",
+          "2018",
+          "Rekenen/wisk.",
+          "Q1",
+          "4.655",
+          "97,6",
+          "1.204",
+          "1.204"
+        ],
+        [
+          "PISA",
+          "2018",
+          "Rekenen/wisk.",
+          "Q4",
+          "4.655",
+          "97,6",
+          "1.145",
+          "1.145"
+        ],
+        [
+          "PISA",
+          "2018",
+          "Rekenen/wisk.",
+          "Q4 min Q1",
+          "4.655",
+          "97,6",
+          "2.349",
+          "2.349"
+        ],
+        [
+          "PISA",
+          "2018",
+          "Lezen",
+          "Q1",
+          "4.655",
+          "97,6",
+          "1.204",
+          "1.204"
+        ],
+        [
+          "PISA",
+          "2018",
+          "Lezen",
+          "Q4",
+          "4.655",
+          "97,6",
+          "1.145",
+          "1.145"
+        ],
+        [
+          "PISA",
+          "2018",
+          "Lezen",
+          "Q4 min Q1",
+          "4.655",
+          "97,6",
+          "2.349",
+          "2.349"
+        ],
+        [
+          "PISA",
+          "2018",
+          "Natuurwet.",
+          "Q1",
+          "4.655",
+          "97,6",
+          "1.204",
+          "1.204"
+        ],
+        [
+          "PISA",
+          "2018",
+          "Natuurwet.",
+          "Q4",
+          "4.655",
+          "97,6",
+          "1.145",
+          "1.145"
+        ],
+        [
+          "PISA",
+          "2018",
+          "Natuurwet.",
+          "Q4 min Q1",
+          "4.655",
+          "97,6",
+          "2.349",
+          "2.349"
+        ],
+        [
+          "PISA",
+          "2022",
+          "Rekenen/wisk.",
+          "Q1",
+          "4.857",
+          "96,0",
+          "1.242",
+          "1.242"
+        ],
+        [
+          "PISA",
+          "2022",
+          "Rekenen/wisk.",
+          "Q4",
+          "4.857",
+          "96,0",
+          "1.185",
+          "1.185"
+        ],
+        [
+          "PISA",
+          "2022",
+          "Rekenen/wisk.",
+          "Q4 min Q1",
+          "4.857",
+          "96,0",
+          "2.427",
+          "2.427"
+        ],
+        [
+          "PISA",
+          "2022",
+          "Lezen",
+          "Q1",
+          "4.857",
+          "96,0",
+          "1.242",
+          "1.242"
+        ],
+        [
+          "PISA",
+          "2022",
+          "Lezen",
+          "Q4",
+          "4.857",
+          "96,0",
+          "1.185",
+          "1.185"
+        ],
+        [
+          "PISA",
+          "2022",
+          "Lezen",
+          "Q4 min Q1",
+          "4.857",
+          "96,0",
+          "2.427",
+          "2.427"
+        ],
+        [
+          "PISA",
+          "2022",
+          "Natuurwet.",
+          "Q1",
+          "4.857",
+          "96,0",
+          "1.242",
+          "1.242"
+        ],
+        [
+          "PISA",
+          "2022",
+          "Natuurwet.",
+          "Q4",
+          "4.857",
+          "96,0",
+          "1.185",
+          "1.185"
+        ],
+        [
+          "PISA",
+          "2022",
+          "Natuurwet.",
+          "Q4 min Q1",
+          "4.857",
+          "96,0",
+          "2.427",
+          "2.427"
+        ],
+        [
+          "PISA",
+          "2025",
+          "Rekenen/wisk.",
+          "Q1",
+          "6.071",
+          "91,9",
+          "1.469",
+          "1.469"
+        ],
+        [
+          "PISA",
+          "2025",
+          "Rekenen/wisk.",
+          "Q4",
+          "6.071",
+          "91,9",
+          "1.580",
+          "1.580"
+        ],
+        [
+          "PISA",
+          "2025",
+          "Rekenen/wisk.",
+          "Q4 min Q1",
+          "6.071",
+          "91,9",
+          "3.049",
+          "3.049"
+        ],
+        [
+          "PISA",
+          "2025",
+          "Lezen",
+          "Q1",
+          "6.071",
+          "91,9",
+          "1.469",
+          "1.469"
+        ],
+        [
+          "PISA",
+          "2025",
+          "Lezen",
+          "Q4",
+          "6.071",
+          "91,9",
+          "1.580",
+          "1.580"
+        ],
+        [
+          "PISA",
+          "2025",
+          "Lezen",
+          "Q4 min Q1",
+          "6.071",
+          "91,9",
+          "3.049",
+          "3.049"
+        ],
+        [
+          "PISA",
+          "2025",
+          "Natuurwet.",
+          "Q1",
+          "6.071",
+          "91,9",
+          "1.469",
+          "1.469"
+        ],
+        [
+          "PISA",
+          "2025",
+          "Natuurwet.",
+          "Q4",
+          "6.071",
+          "91,9",
+          "1.580",
+          "1.580"
+        ],
+        [
+          "PISA",
+          "2025",
+          "Natuurwet.",
+          "Q4 min Q1",
+          "6.071",
+          "91,9",
+          "3.049",
+          "3.049"
+        ],
+        [
+          "TIMSS",
+          "2003",
+          "Rekenen/wisk.",
+          "Q1",
+          "2.878",
+          "98,0",
+          "844",
+          "844"
+        ],
+        [
+          "TIMSS",
+          "2003",
+          "Rekenen/wisk.",
+          "Q4",
+          "2.878",
+          "98,0",
+          "949",
+          "949"
+        ],
+        [
+          "TIMSS",
+          "2003",
+          "Rekenen/wisk.",
+          "Q4 min Q1",
+          "2.878",
+          "98,0",
+          "1.793",
+          "1.793"
+        ],
+        [
+          "TIMSS",
+          "2003",
+          "Natuurwet.",
+          "Q1",
+          "2.878",
+          "98,0",
+          "844",
+          "844"
+        ],
+        [
+          "TIMSS",
+          "2003",
+          "Natuurwet.",
+          "Q4",
+          "2.878",
+          "98,0",
+          "949",
+          "949"
+        ],
+        [
+          "TIMSS",
+          "2003",
+          "Natuurwet.",
+          "Q4 min Q1",
+          "2.878",
+          "98,0",
+          "1.793",
+          "1.793"
+        ],
+        [
+          "TIMSS",
+          "2007",
+          "Rekenen/wisk.",
+          "Q1",
+          "3.199",
+          "95,8",
+          "1.087",
+          "1.087"
+        ],
+        [
+          "TIMSS",
+          "2007",
+          "Rekenen/wisk.",
+          "Q4",
+          "3.199",
+          "95,8",
+          "813",
+          "813"
+        ],
+        [
+          "TIMSS",
+          "2007",
+          "Rekenen/wisk.",
+          "Q4 min Q1",
+          "3.199",
+          "95,8",
+          "1.900",
+          "1.900"
+        ],
+        [
+          "TIMSS",
+          "2007",
+          "Natuurwet.",
+          "Q1",
+          "3.199",
+          "95,8",
+          "1.087",
+          "1.087"
+        ],
+        [
+          "TIMSS",
+          "2007",
+          "Natuurwet.",
+          "Q4",
+          "3.199",
+          "95,8",
+          "813",
+          "813"
+        ],
+        [
+          "TIMSS",
+          "2007",
+          "Natuurwet.",
+          "Q4 min Q1",
+          "3.199",
+          "95,8",
+          "1.900",
+          "1.900"
+        ],
+        [
+          "TIMSS",
+          "2011",
+          "Rekenen/wisk.",
+          "Q1",
+          "3.169",
+          "98,1",
+          "1.119",
+          "1.119"
+        ],
+        [
+          "TIMSS",
+          "2011",
+          "Rekenen/wisk.",
+          "Q4",
+          "3.169",
+          "98,1",
+          "807",
+          "807"
+        ],
+        [
+          "TIMSS",
+          "2011",
+          "Rekenen/wisk.",
+          "Q4 min Q1",
+          "3.169",
+          "98,1",
+          "1.926",
+          "1.926"
+        ],
+        [
+          "TIMSS",
+          "2011",
+          "Natuurwet.",
+          "Q1",
+          "3.169",
+          "98,1",
+          "1.119",
+          "1.119"
+        ],
+        [
+          "TIMSS",
+          "2011",
+          "Natuurwet.",
+          "Q4",
+          "3.169",
+          "98,1",
+          "807",
+          "807"
+        ],
+        [
+          "TIMSS",
+          "2011",
+          "Natuurwet.",
+          "Q4 min Q1",
+          "3.169",
+          "98,1",
+          "1.926",
+          "1.926"
+        ],
+        [
+          "TIMSS",
+          "2015",
+          "Rekenen/wisk.",
+          "Q1",
+          "4.346",
+          "96,8",
+          "1.629",
+          "1.629"
+        ],
+        [
+          "TIMSS",
+          "2015",
+          "Rekenen/wisk.",
+          "Q4",
+          "4.346",
+          "96,8",
+          "2.717",
+          "2.717"
+        ],
+        [
+          "TIMSS",
+          "2015",
+          "Rekenen/wisk.",
+          "Q4 min Q1",
+          "4.346",
+          "96,8",
+          "4.346",
+          "4.346"
+        ],
+        [
+          "TIMSS",
+          "2015",
+          "Natuurwet.",
+          "Q1",
+          "4.346",
+          "96,8",
+          "1.629",
+          "1.629"
+        ],
+        [
+          "TIMSS",
+          "2015",
+          "Natuurwet.",
+          "Q4",
+          "4.346",
+          "96,8",
+          "2.717",
+          "2.717"
+        ],
+        [
+          "TIMSS",
+          "2015",
+          "Natuurwet.",
+          "Q4 min Q1",
+          "4.346",
+          "96,8",
+          "4.346",
+          "4.346"
+        ],
+        [
+          "TIMSS",
+          "2019",
+          "Rekenen/wisk.",
+          "Q1",
+          "3.255",
+          "97,2",
+          "1.355",
+          "1.355"
+        ],
+        [
+          "TIMSS",
+          "2019",
+          "Rekenen/wisk.",
+          "Q4",
+          "3.255",
+          "97,2",
+          "1.900",
+          "1.900"
+        ],
+        [
+          "TIMSS",
+          "2019",
+          "Rekenen/wisk.",
+          "Q4 min Q1",
+          "3.255",
+          "97,2",
+          "3.255",
+          "3.255"
+        ],
+        [
+          "TIMSS",
+          "2019",
+          "Natuurwet.",
+          "Q1",
+          "3.255",
+          "97,2",
+          "1.355",
+          "1.355"
+        ],
+        [
+          "TIMSS",
+          "2019",
+          "Natuurwet.",
+          "Q4",
+          "3.255",
+          "97,2",
+          "1.900",
+          "1.900"
+        ],
+        [
+          "TIMSS",
+          "2019",
+          "Natuurwet.",
+          "Q4 min Q1",
+          "3.255",
+          "97,2",
+          "3.255",
+          "3.255"
+        ],
+        [
+          "TIMSS",
+          "2023",
+          "Rekenen/wisk.",
+          "Q1",
+          "3.343",
+          "94,9",
+          "1.342",
+          "1.342"
+        ],
+        [
+          "TIMSS",
+          "2023",
+          "Rekenen/wisk.",
+          "Q4",
+          "3.343",
+          "94,9",
+          "875",
+          "875"
+        ],
+        [
+          "TIMSS",
+          "2023",
+          "Rekenen/wisk.",
+          "Q4 min Q1",
+          "3.343",
+          "94,9",
+          "2.217",
+          "2.217"
+        ],
+        [
+          "TIMSS",
+          "2023",
+          "Natuurwet.",
+          "Q1",
+          "3.343",
+          "94,9",
+          "1.342",
+          "1.342"
+        ],
+        [
+          "TIMSS",
+          "2023",
+          "Natuurwet.",
+          "Q4",
+          "3.343",
+          "94,9",
+          "875",
+          "875"
+        ],
+        [
+          "TIMSS",
+          "2023",
+          "Natuurwet.",
+          "Q4 min Q1",
+          "3.343",
+          "94,9",
+          "2.217",
+          "2.217"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_08",
+      "table": "B1. Hoog vaardigheidsniveau naar SES",
+      "dependencies": [
+        "NLD|PIRLS|2021|reading|ses_national|q1_high|q1|books5_fractional||625|proportion|",
+        "NLD|PIRLS|2021|reading|ses_national|q4_high|q4|books5_fractional||625|proportion|",
+        "NLD|PISA|2025|mathematics|ses_harmonized|q1_high|q1|Cobreros_fourwave_13item_trend_comparable||606.99|proportion|",
+        "NLD|PISA|2025|mathematics|ses_harmonized|q4_high|q4|Cobreros_fourwave_13item_trend_comparable||606.99|proportion|",
+        "NLD|PISA|2025|reading|ses_harmonized|q1_high|q1|Cobreros_fourwave_13item_trend_comparable||625.61|proportion|",
+        "NLD|PISA|2025|reading|ses_harmonized|q4_high|q4|Cobreros_fourwave_13item_trend_comparable||625.61|proportion|",
+        "NLD|PISA|2025|science|ses_harmonized|q1_high|q1|Cobreros_fourwave_13item_trend_comparable||633.33|proportion|",
+        "NLD|PISA|2025|science|ses_harmonized|q4_high|q4|Cobreros_fourwave_13item_trend_comparable||633.33|proportion|",
+        "NLD|TIMSS|2023|mathematics|ses_national|q1_high|q1|books5_fractional||625|proportion|",
+        "NLD|TIMSS|2023|mathematics|ses_national|q4_high|q4|books5_fractional||625|proportion|",
+        "NLD|TIMSS|2023|science|ses_national|q1_high|q1|books5_fractional||625|proportion|",
+        "NLD|TIMSS|2023|science|ses_national|q4_high|q4|books5_fractional||625|proportion|"
+      ],
+      "displayed_headers": [
+        "Studie / jaar",
+        "Domein",
+        "Construct",
+        "Uitkomst / groep",
+        "Schatting (SE)"
+      ],
+      "displayed_rows": [
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "Boekenkwartielen",
+          "Hoog/gevorderd (%) / Onderste kwart",
+          "2,7 (0,7)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "Boekenkwartielen",
+          "Hoog/gevorderd (%) / Bovenste kwart",
+          "11,1 (1,7)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "Cobreros-SES",
+          "Hoog/gevorderd (%) / Onderste kwart",
+          "4,0 (0,8)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "Cobreros-SES",
+          "Hoog/gevorderd (%) / Bovenste kwart",
+          "27,2 (1,9)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "Cobreros-SES",
+          "Hoog/gevorderd (%) / Onderste kwart",
+          "1,1 (0,3)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "Cobreros-SES",
+          "Hoog/gevorderd (%) / Bovenste kwart",
+          "9,5 (1,0)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "Cobreros-SES",
+          "Hoog/gevorderd (%) / Onderste kwart",
+          "2,1 (0,6)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "Cobreros-SES",
+          "Hoog/gevorderd (%) / Bovenste kwart",
+          "19,8 (1,7)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "Boekenkwartielen",
+          "Hoog/gevorderd (%) / Onderste kwart",
+          "3,2 (0,7)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "Boekenkwartielen",
+          "Hoog/gevorderd (%) / Bovenste kwart",
+          "12,8 (1,5)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "Boekenkwartielen",
+          "Hoog/gevorderd (%) / Onderste kwart",
+          "1,6 (0,5)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "Boekenkwartielen",
+          "Hoog/gevorderd (%) / Bovenste kwart",
+          "8,4 (1,5)"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_09",
+      "table": "B2. SES en geslacht",
+      "dependencies": [
+        "NLD|PIRLS|2021|reading|extension_ses_gender|below|q1_boy|books5_fractional||475|proportion|EXPLICIT_A06_20261014",
+        "NLD|PIRLS|2021|reading|extension_ses_gender|below|q1_girl|books5_fractional||475|proportion|EXPLICIT_A06_20261014",
+        "NLD|PIRLS|2021|reading|extension_ses_gender|below|q4_boy|books5_fractional||475|proportion|EXPLICIT_A06_20261014",
+        "NLD|PIRLS|2021|reading|extension_ses_gender|below|q4_girl|books5_fractional||475|proportion|EXPLICIT_A06_20261014",
+        "NLD|PIRLS|2021|reading|extension_ses_gender|high|q1_boy|books5_fractional||625|proportion|EXPLICIT_A06_20261014",
+        "NLD|PIRLS|2021|reading|extension_ses_gender|high|q1_girl|books5_fractional||625|proportion|EXPLICIT_A06_20261014",
+        "NLD|PIRLS|2021|reading|extension_ses_gender|high|q4_boy|books5_fractional||625|proportion|EXPLICIT_A06_20261014",
+        "NLD|PIRLS|2021|reading|extension_ses_gender|high|q4_girl|books5_fractional||625|proportion|EXPLICIT_A06_20261014",
+        "NLD|PIRLS|2021|reading|extension_ses_gender|mean|q1_boy|books5_fractional|||score_points|EXPLICIT_A06_20261014",
+        "NLD|PIRLS|2021|reading|extension_ses_gender|mean|q1_girl|books5_fractional|||score_points|EXPLICIT_A06_20261014",
+        "NLD|PIRLS|2021|reading|extension_ses_gender|mean|q4_boy|books5_fractional|||score_points|EXPLICIT_A06_20261014",
+        "NLD|PIRLS|2021|reading|extension_ses_gender|mean|q4_girl|books5_fractional|||score_points|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|mathematics|extension_ses_gender|below|q1_boy|Cobreros_fourwave_13item_trend_comparable||420.07|proportion|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|mathematics|extension_ses_gender|below|q1_girl|Cobreros_fourwave_13item_trend_comparable||420.07|proportion|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|mathematics|extension_ses_gender|below|q4_boy|Cobreros_fourwave_13item_trend_comparable||420.07|proportion|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|mathematics|extension_ses_gender|below|q4_girl|Cobreros_fourwave_13item_trend_comparable||420.07|proportion|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|mathematics|extension_ses_gender|high|q1_boy|Cobreros_fourwave_13item_trend_comparable||606.99|proportion|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|mathematics|extension_ses_gender|high|q1_girl|Cobreros_fourwave_13item_trend_comparable||606.99|proportion|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|mathematics|extension_ses_gender|high|q4_boy|Cobreros_fourwave_13item_trend_comparable||606.99|proportion|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|mathematics|extension_ses_gender|high|q4_girl|Cobreros_fourwave_13item_trend_comparable||606.99|proportion|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|mathematics|extension_ses_gender|mean|q1_boy|Cobreros_fourwave_13item_trend_comparable|||score_points|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|mathematics|extension_ses_gender|mean|q1_girl|Cobreros_fourwave_13item_trend_comparable|||score_points|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|mathematics|extension_ses_gender|mean|q4_boy|Cobreros_fourwave_13item_trend_comparable|||score_points|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|mathematics|extension_ses_gender|mean|q4_girl|Cobreros_fourwave_13item_trend_comparable|||score_points|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|reading|extension_ses_gender|below|q1_boy|Cobreros_fourwave_13item_trend_comparable||407.47|proportion|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|reading|extension_ses_gender|below|q1_girl|Cobreros_fourwave_13item_trend_comparable||407.47|proportion|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|reading|extension_ses_gender|below|q4_boy|Cobreros_fourwave_13item_trend_comparable||407.47|proportion|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|reading|extension_ses_gender|below|q4_girl|Cobreros_fourwave_13item_trend_comparable||407.47|proportion|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|reading|extension_ses_gender|high|q1_boy|Cobreros_fourwave_13item_trend_comparable||625.61|proportion|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|reading|extension_ses_gender|high|q1_girl|Cobreros_fourwave_13item_trend_comparable||625.61|proportion|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|reading|extension_ses_gender|high|q4_boy|Cobreros_fourwave_13item_trend_comparable||625.61|proportion|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|reading|extension_ses_gender|high|q4_girl|Cobreros_fourwave_13item_trend_comparable||625.61|proportion|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|reading|extension_ses_gender|mean|q1_boy|Cobreros_fourwave_13item_trend_comparable|||score_points|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|reading|extension_ses_gender|mean|q1_girl|Cobreros_fourwave_13item_trend_comparable|||score_points|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|reading|extension_ses_gender|mean|q4_boy|Cobreros_fourwave_13item_trend_comparable|||score_points|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|reading|extension_ses_gender|mean|q4_girl|Cobreros_fourwave_13item_trend_comparable|||score_points|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|science|extension_ses_gender|below|q1_boy|Cobreros_fourwave_13item_trend_comparable||409.54|proportion|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|science|extension_ses_gender|below|q1_girl|Cobreros_fourwave_13item_trend_comparable||409.54|proportion|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|science|extension_ses_gender|below|q4_boy|Cobreros_fourwave_13item_trend_comparable||409.54|proportion|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|science|extension_ses_gender|below|q4_girl|Cobreros_fourwave_13item_trend_comparable||409.54|proportion|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|science|extension_ses_gender|high|q1_boy|Cobreros_fourwave_13item_trend_comparable||633.33|proportion|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|science|extension_ses_gender|high|q1_girl|Cobreros_fourwave_13item_trend_comparable||633.33|proportion|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|science|extension_ses_gender|high|q4_boy|Cobreros_fourwave_13item_trend_comparable||633.33|proportion|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|science|extension_ses_gender|high|q4_girl|Cobreros_fourwave_13item_trend_comparable||633.33|proportion|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|science|extension_ses_gender|mean|q1_boy|Cobreros_fourwave_13item_trend_comparable|||score_points|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|science|extension_ses_gender|mean|q1_girl|Cobreros_fourwave_13item_trend_comparable|||score_points|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|PISA|2025|science|extension_ses_gender|mean|q4_boy|Cobreros_fourwave_13item_trend_comparable|||score_points|EXPLICIT_A06_20261014",
+        "NLD|PISA|2025|science|extension_ses_gender|mean|q4_girl|Cobreros_fourwave_13item_trend_comparable|||score_points|EXPLICIT_A06_20261014;FEMALE_OR_OTHER_WHEN_UNSEPARATED_20261015",
+        "NLD|TIMSS|2023|mathematics|extension_ses_gender|below|q1_boy|books5_fractional||475|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|mathematics|extension_ses_gender|below|q1_girl|books5_fractional||475|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|mathematics|extension_ses_gender|below|q4_boy|books5_fractional||475|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|mathematics|extension_ses_gender|below|q4_girl|books5_fractional||475|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|mathematics|extension_ses_gender|high|q1_boy|books5_fractional||625|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|mathematics|extension_ses_gender|high|q1_girl|books5_fractional||625|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|mathematics|extension_ses_gender|high|q4_boy|books5_fractional||625|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|mathematics|extension_ses_gender|high|q4_girl|books5_fractional||625|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|mathematics|extension_ses_gender|mean|q1_boy|books5_fractional|||score_points|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|mathematics|extension_ses_gender|mean|q1_girl|books5_fractional|||score_points|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|mathematics|extension_ses_gender|mean|q4_boy|books5_fractional|||score_points|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|mathematics|extension_ses_gender|mean|q4_girl|books5_fractional|||score_points|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|science|extension_ses_gender|below|q1_boy|books5_fractional||475|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|science|extension_ses_gender|below|q1_girl|books5_fractional||475|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|science|extension_ses_gender|below|q4_boy|books5_fractional||475|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|science|extension_ses_gender|below|q4_girl|books5_fractional||475|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|science|extension_ses_gender|high|q1_boy|books5_fractional||625|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|science|extension_ses_gender|high|q1_girl|books5_fractional||625|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|science|extension_ses_gender|high|q4_boy|books5_fractional||625|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|science|extension_ses_gender|high|q4_girl|books5_fractional||625|proportion|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|science|extension_ses_gender|mean|q1_boy|books5_fractional|||score_points|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|science|extension_ses_gender|mean|q1_girl|books5_fractional|||score_points|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|science|extension_ses_gender|mean|q4_boy|books5_fractional|||score_points|EXPLICIT_A06_20261014",
+        "NLD|TIMSS|2023|science|extension_ses_gender|mean|q4_girl|books5_fractional|||score_points|EXPLICIT_A06_20261014"
+      ],
+      "displayed_headers": [
+        "Studie / jaar",
+        "Domein",
+        "Construct",
+        "Uitkomst / groep",
+        "Schatting (SE)"
+      ],
+      "displayed_rows": [
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Onderste kwart, jongens",
+          "35,9 (3,0)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Onderste kwart, meisjes",
+          "28,6 (3,4)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Bovenste kwart, jongens",
+          "13,4 (2,4)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Bovenste kwart, meisjes",
+          "9,9 (1,9)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Onderste kwart, jongens",
+          "2,4 (0,9)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Onderste kwart, meisjes",
+          "3,2 (1,1)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Bovenste kwart, jongens",
+          "7,9 (1,8)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Bovenste kwart, meisjes",
+          "14,4 (2,2)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "SES × geslacht",
+          "Gemiddelde / Onderste kwart, jongens",
+          "496,4 (4,1)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "SES × geslacht",
+          "Gemiddelde / Onderste kwart, meisjes",
+          "508,4 (5,3)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "SES × geslacht",
+          "Gemiddelde / Bovenste kwart, jongens",
+          "544,9 (4,2)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "SES × geslacht",
+          "Gemiddelde / Bovenste kwart, meisjes",
+          "557,2 (4,1)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Onderste kwart, jongens",
+          "41,7 (3,0)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Onderste kwart meisjes + other",
+          "46,0 (3,0)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Bovenste kwart, jongens",
+          "12,2 (1,6)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Bovenste kwart meisjes + other",
+          "11,4 (1,8)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Onderste kwart, jongens",
+          "5,0 (1,3)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Onderste kwart meisjes + other",
+          "3,1 (0,8)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Bovenste kwart, jongens",
+          "30,4 (2,4)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Bovenste kwart meisjes + other",
+          "24,1 (2,1)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Gemiddelde / Onderste kwart, jongens",
+          "446,5 (6,0)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Gemiddelde / Onderste kwart meisjes + other",
+          "433,2 (5,3)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Gemiddelde / Bovenste kwart, jongens",
+          "548,5 (5,1)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Gemiddelde / Bovenste kwart meisjes + other",
+          "540,2 (5,1)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Onderste kwart, jongens",
+          "59,3 (2,7)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Onderste kwart meisjes + other",
+          "48,5 (3,0)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Bovenste kwart, jongens",
+          "24,4 (2,1)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Bovenste kwart meisjes + other",
+          "13,4 (1,7)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Onderste kwart, jongens",
+          "0,6 (0,4)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Onderste kwart meisjes + other",
+          "1,4 (0,5)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Bovenste kwart, jongens",
+          "6,7 (1,4)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Bovenste kwart meisjes + other",
+          "12,2 (1,5)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "SES × geslacht",
+          "Gemiddelde / Onderste kwart, jongens",
+          "386,0 (5,6)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "SES × geslacht",
+          "Gemiddelde / Onderste kwart meisjes + other",
+          "416,1 (5,9)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "SES × geslacht",
+          "Gemiddelde / Bovenste kwart, jongens",
+          "480,6 (5,5)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "SES × geslacht",
+          "Gemiddelde / Bovenste kwart meisjes + other",
+          "517,7 (5,0)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Onderste kwart, jongens",
+          "41,0 (2,8)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Onderste kwart meisjes + other",
+          "40,4 (2,8)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Bovenste kwart, jongens",
+          "12,5 (1,6)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Bovenste kwart meisjes + other",
+          "8,3 (1,5)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Onderste kwart, jongens",
+          "2,3 (0,9)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Onderste kwart meisjes + other",
+          "2,0 (0,7)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Bovenste kwart, jongens",
+          "19,2 (2,2)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Bovenste kwart meisjes + other",
+          "20,3 (2,2)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Gemiddelde / Onderste kwart, jongens",
+          "439,5 (6,2)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Gemiddelde / Onderste kwart meisjes + other",
+          "439,0 (5,7)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Gemiddelde / Bovenste kwart, jongens",
+          "544,1 (5,0)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Gemiddelde / Bovenste kwart meisjes + other",
+          "553,4 (4,9)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Onderste kwart, jongens",
+          "21,4 (3,3)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Onderste kwart, meisjes",
+          "31,0 (3,1)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Bovenste kwart, jongens",
+          "9,0 (2,0)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Bovenste kwart, meisjes",
+          "14,6 (2,4)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Onderste kwart, jongens",
+          "3,9 (1,1)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Onderste kwart, meisjes",
+          "2,5 (0,7)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Bovenste kwart, jongens",
+          "18,4 (2,5)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Bovenste kwart, meisjes",
+          "6,6 (1,3)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Gemiddelde / Onderste kwart, jongens",
+          "521,8 (4,2)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Gemiddelde / Onderste kwart, meisjes",
+          "506,0 (4,6)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Gemiddelde / Bovenste kwart, jongens",
+          "565,4 (4,3)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "SES × geslacht",
+          "Gemiddelde / Bovenste kwart, meisjes",
+          "540,1 (3,8)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Onderste kwart, jongens",
+          "37,6 (3,7)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Onderste kwart, meisjes",
+          "42,3 (3,9)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Bovenste kwart, jongens",
+          "13,1 (2,4)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Onder basisniveau (%) / Bovenste kwart, meisjes",
+          "17,2 (2,6)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Onderste kwart, jongens",
+          "1,7 (1,0)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Onderste kwart, meisjes",
+          "1,4 (0,6)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Bovenste kwart, jongens",
+          "10,2 (2,0)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Hoog/gevorderd (%) / Bovenste kwart, meisjes",
+          "6,5 (1,7)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Gemiddelde / Onderste kwart, jongens",
+          "493,1 (3,8)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Gemiddelde / Onderste kwart, meisjes",
+          "485,4 (5,2)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Gemiddelde / Bovenste kwart, jongens",
+          "545,9 (5,0)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "SES × geslacht",
+          "Gemiddelde / Bovenste kwart, meisjes",
+          "535,5 (4,2)"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_10",
+      "table": "B3. Officiële Home-SES",
+      "dependencies": [
+        "NLD|PIRLS|2021|reading|extension_home_ses|below|higher|IEA_OFFICIAL_HOME_SES_CYCLE_SPECIFIC||475|proportion|EXPLICIT_A04_20261014",
+        "NLD|PIRLS|2021|reading|extension_home_ses|below|lower|IEA_OFFICIAL_HOME_SES_CYCLE_SPECIFIC||475|proportion|EXPLICIT_A04_20261014",
+        "NLD|PIRLS|2021|reading|extension_home_ses|below|middle|IEA_OFFICIAL_HOME_SES_CYCLE_SPECIFIC||475|proportion|EXPLICIT_A04_20261014",
+        "NLD|PIRLS|2021|reading|extension_home_ses|high|higher|IEA_OFFICIAL_HOME_SES_CYCLE_SPECIFIC||625|proportion|EXPLICIT_A04_20261014",
+        "NLD|PIRLS|2021|reading|extension_home_ses|high|lower|IEA_OFFICIAL_HOME_SES_CYCLE_SPECIFIC||625|proportion|EXPLICIT_A04_20261014",
+        "NLD|PIRLS|2021|reading|extension_home_ses|high|middle|IEA_OFFICIAL_HOME_SES_CYCLE_SPECIFIC||625|proportion|EXPLICIT_A04_20261014",
+        "NLD|PIRLS|2021|reading|extension_home_ses|mean|higher|IEA_OFFICIAL_HOME_SES_CYCLE_SPECIFIC|||score_points|EXPLICIT_A04_20261014",
+        "NLD|PIRLS|2021|reading|extension_home_ses|mean|lower|IEA_OFFICIAL_HOME_SES_CYCLE_SPECIFIC|||score_points|EXPLICIT_A04_20261014",
+        "NLD|PIRLS|2021|reading|extension_home_ses|mean|middle|IEA_OFFICIAL_HOME_SES_CYCLE_SPECIFIC|||score_points|EXPLICIT_A04_20261014"
+      ],
+      "displayed_headers": [
+        "Studie / jaar",
+        "Domein",
+        "Construct",
+        "Uitkomst / groep",
+        "Schatting (SE)"
+      ],
+      "displayed_rows": [
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "Officiële Home-SES",
+          "Onder basisniveau (%) / Hoge Home-SES",
+          "9,3 (1,6)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "Officiële Home-SES",
+          "Onder basisniveau (%) / Lage Home-SES",
+          "35,8 (5,3)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "Officiële Home-SES",
+          "Onder basisniveau (%) / Midden Home-SES",
+          "18,0 (2,1)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "Officiële Home-SES",
+          "Hoog/gevorderd (%) / Hoge Home-SES",
+          "13,6 (1,9)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "Officiële Home-SES",
+          "Hoog/gevorderd (%) / Lage Home-SES",
+          "0,9 (0,8)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "Officiële Home-SES",
+          "Hoog/gevorderd (%) / Midden Home-SES",
+          "5,7 (1,2)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "Officiële Home-SES",
+          "Gemiddelde / Hoge Home-SES",
+          "559,3 (3,0)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "Officiële Home-SES",
+          "Gemiddelde / Lage Home-SES",
+          "496,7 (6,8)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "Officiële Home-SES",
+          "Gemiddelde / Midden Home-SES",
+          "530,3 (3,5)"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_11",
+      "table": "B4. Variantie tussen scholen en klassen",
+      "dependencies": [
+        "NLD|PIRLS|2021|all|extension_ses_class|between_variance_share|total|books5_fractional|class||percent|EXPLICIT_A14_20261014",
+        "NLD|PIRLS|2021|all|extension_ses_school|between_variance_share|total|books5_fractional|school||percent|EXPLICIT_A13_20261014",
+        "NLD|PIRLS|2021|reading|extension_performance_class|between_variance_share|total|weighted_descriptive_between_share|class||percent|EXPLICIT_A12_20261014",
+        "NLD|PIRLS|2021|reading|extension_performance_school|between_variance_share|total|weighted_descriptive_between_share|school||percent|EXPLICIT_A11_20261014",
+        "NLD|PISA|2025|mathematics|extension_performance_school|between_variance_share|total|weighted_descriptive_between_share|school||percent|EXPLICIT_A11_20261014",
+        "NLD|PISA|2025|reading|extension_performance_school|between_variance_share|total|weighted_descriptive_between_share|school||percent|EXPLICIT_A11_20261014",
+        "NLD|PISA|2025|science|extension_performance_school|between_variance_share|total|weighted_descriptive_between_share|school||percent|EXPLICIT_A11_20261014",
+        "NLD|PISA|2025|all|extension_ses_school|between_variance_share|total|Cobreros_fourwave_13item_trend_comparable|school||percent|EXPLICIT_A13_20261014",
+        "NLD|TIMSS|2023|all|extension_ses_class|between_variance_share|total|books5_fractional|class||percent|EXPLICIT_A14_20261014",
+        "NLD|TIMSS|2023|all|extension_ses_school|between_variance_share|total|books5_fractional|school||percent|EXPLICIT_A13_20261014",
+        "NLD|TIMSS|2023|mathematics|extension_performance_class|between_variance_share|total|weighted_descriptive_between_share|class||percent|EXPLICIT_A12_20261014",
+        "NLD|TIMSS|2023|mathematics|extension_performance_school|between_variance_share|total|weighted_descriptive_between_share|school||percent|EXPLICIT_A11_20261014",
+        "NLD|TIMSS|2023|science|extension_performance_class|between_variance_share|total|weighted_descriptive_between_share|class||percent|EXPLICIT_A12_20261014",
+        "NLD|TIMSS|2023|science|extension_performance_school|between_variance_share|total|weighted_descriptive_between_share|school||percent|EXPLICIT_A11_20261014"
+      ],
+      "displayed_headers": [
+        "Studie / jaar",
+        "Domein",
+        "Construct",
+        "Uitkomst / groep",
+        "Schatting (SE)"
+      ],
+      "displayed_rows": [
+        [
+          "PIRLS 2021",
+          "Leeromgeving",
+          "SES: tussen klassen",
+          "Aandeel variantie (%) / Alle leerlingen",
+          "16,9 (1,4)"
+        ],
+        [
+          "PIRLS 2021",
+          "Leeromgeving",
+          "SES: tussen scholen",
+          "Aandeel variantie (%) / Alle leerlingen",
+          "15,0 (1,6)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "Prestaties: tussen klassen",
+          "Aandeel variantie (%) / Alle leerlingen",
+          "22,0 (2,4)"
+        ],
+        [
+          "PIRLS 2021",
+          "Lezen",
+          "Prestaties: tussen scholen",
+          "Aandeel variantie (%) / Alle leerlingen",
+          "18,6 (2,4)"
+        ],
+        [
+          "PISA 2025",
+          "Leeromgeving",
+          "SES: tussen scholen",
+          "Aandeel variantie (%) / Alle leerlingen",
+          "25,0 (1,7)"
+        ],
+        [
+          "PISA 2025",
+          "Rekenen/wisk.",
+          "Prestaties: tussen scholen",
+          "Aandeel variantie (%) / Alle leerlingen",
+          "61,6 (1,3)"
+        ],
+        [
+          "PISA 2025",
+          "Lezen",
+          "Prestaties: tussen scholen",
+          "Aandeel variantie (%) / Alle leerlingen",
+          "54,6 (1,5)"
+        ],
+        [
+          "PISA 2025",
+          "Natuurwet.",
+          "Prestaties: tussen scholen",
+          "Aandeel variantie (%) / Alle leerlingen",
+          "59,3 (1,4)"
+        ],
+        [
+          "TIMSS 2023",
+          "Leeromgeving",
+          "SES: tussen klassen",
+          "Aandeel variantie (%) / Alle leerlingen",
+          "12,2 (1,0)"
+        ],
+        [
+          "TIMSS 2023",
+          "Leeromgeving",
+          "SES: tussen scholen",
+          "Aandeel variantie (%) / Alle leerlingen",
+          "10,6 (1,1)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "Prestaties: tussen klassen",
+          "Aandeel variantie (%) / Alle leerlingen",
+          "19,4 (1,8)"
+        ],
+        [
+          "TIMSS 2023",
+          "Rekenen/wisk.",
+          "Prestaties: tussen scholen",
+          "Aandeel variantie (%) / Alle leerlingen",
+          "16,9 (1,7)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "Prestaties: tussen klassen",
+          "Aandeel variantie (%) / Alle leerlingen",
+          "23,2 (2,0)"
+        ],
+        [
+          "TIMSS 2023",
+          "Natuurwet.",
+          "Prestaties: tussen scholen",
+          "Aandeel variantie (%) / Alle leerlingen",
+          "21,1 (2,0)"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_12",
+      "table": "C1. Gemiddelde score · Lezen · groep 6",
+      "dependencies": [
+        "NLD|PIRLS|2021|reading|core|mean|total|total|||score_points|",
+        "DEU|PIRLS|2021|reading|core|mean|total|total|||score_points|",
+        "FRA|PIRLS|2021|reading|core|mean|total|total|||score_points|",
+        "ITA|PIRLS|2021|reading|core|mean|total|total|||score_points|",
+        "SWE|PIRLS|2021|reading|core|mean|total|total|||score_points|",
+        "USA|PIRLS|2021|reading|core|mean|total|total|||score_points|"
+      ],
+      "displayed_headers": [
+        "Land",
+        "Jaar",
+        "Groep",
+        "Bronwaarde",
+        "Rang"
+      ],
+      "displayed_rows": [
+        [
+          "Verenigde Staten",
+          "2021",
+          "Alle leerlingen",
+          "547,5",
+          "1,0"
+        ],
+        [
+          "Zweden",
+          "2021",
+          "Alle leerlingen",
+          "543,5",
+          "2,0"
+        ],
+        [
+          "Italië",
+          "2021",
+          "Alle leerlingen",
+          "537,2",
+          "3,0"
+        ],
+        [
+          "Nederland",
+          "2021",
+          "Alle leerlingen",
+          "527,2",
+          "4,0"
+        ],
+        [
+          "Duitsland",
+          "2021",
+          "Alle leerlingen",
+          "524,0",
+          "5,0"
+        ],
+        [
+          "Frankrijk",
+          "2021",
+          "Alle leerlingen",
+          "513,7",
+          "6,0"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_13",
+      "table": "C2. Gemiddelde score · Rekenen/wiskunde · groep 6",
+      "dependencies": [
+        "NLD|TIMSS|2023|mathematics|core|mean|total|total|||score_points|",
+        "AUS|TIMSS|2023|mathematics|core|mean|total|total|||score_points|",
+        "ITA|TIMSS|2023|mathematics|core|mean|total|total|||score_points|",
+        "USA|TIMSS|2023|mathematics|core|mean|total|total|||score_points|"
+      ],
+      "displayed_headers": [
+        "Land",
+        "Jaar",
+        "Groep",
+        "Bronwaarde",
+        "Rang"
+      ],
+      "displayed_rows": [
+        [
+          "Nederland",
+          "2023",
+          "Alle leerlingen",
+          "537,1",
+          "1,0"
+        ],
+        [
+          "Australië",
+          "2023",
+          "Alle leerlingen",
+          "524,9",
+          "2,0"
+        ],
+        [
+          "Verenigde Staten",
+          "2023",
+          "Alle leerlingen",
+          "516,9",
+          "3,0"
+        ],
+        [
+          "Italië",
+          "2023",
+          "Alle leerlingen",
+          "513,1",
+          "4,0"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_14",
+      "table": "C3. Gemiddelde score · Natuurwetenschappen · groep 6",
+      "dependencies": [
+        "NLD|TIMSS|2023|science|core|mean|total|total|||score_points|",
+        "AUS|TIMSS|2023|science|core|mean|total|total|||score_points|",
+        "ITA|TIMSS|2023|science|core|mean|total|total|||score_points|",
+        "USA|TIMSS|2023|science|core|mean|total|total|||score_points|"
+      ],
+      "displayed_headers": [
+        "Land",
+        "Jaar",
+        "Groep",
+        "Bronwaarde",
+        "Rang"
+      ],
+      "displayed_rows": [
+        [
+          "Australië",
+          "2023",
+          "Alle leerlingen",
+          "549,5",
+          "1,0"
+        ],
+        [
+          "Verenigde Staten",
+          "2023",
+          "Alle leerlingen",
+          "532,4",
+          "2,0"
+        ],
+        [
+          "Nederland",
+          "2023",
+          "Alle leerlingen",
+          "516,9",
+          "3,0"
+        ],
+        [
+          "Italië",
+          "2023",
+          "Alle leerlingen",
+          "510,6",
+          "4,0"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_15",
+      "table": "C4. Gemiddelde score · Lezen · 15 jaar",
+      "dependencies": [
+        "NLD|PISA|2025|reading|core|mean|total|total|||score_points|",
+        "AUS|PISA|2025|reading|core|mean|total|total|||score_points|",
+        "BEL|PISA|2025|reading|core|mean|total|total|||score_points|",
+        "CAN|PISA|2025|reading|core|mean|total|total|||score_points|",
+        "CHE|PISA|2025|reading|core|mean|total|total|||score_points|",
+        "DEU|PISA|2025|reading|core|mean|total|total|||score_points|",
+        "DNK|PISA|2025|reading|core|mean|total|total|||score_points|",
+        "FIN|PISA|2025|reading|core|mean|total|total|||score_points|",
+        "FRA|PISA|2025|reading|core|mean|total|total|||score_points|",
+        "IRL|PISA|2025|reading|core|mean|total|total|||score_points|",
+        "ITA|PISA|2025|reading|core|mean|total|total|||score_points|",
+        "NOR|PISA|2025|reading|core|mean|total|total|||score_points|",
+        "SWE|PISA|2025|reading|core|mean|total|total|||score_points|"
+      ],
+      "displayed_headers": [
+        "Land",
+        "Jaar",
+        "Groep",
+        "Bronwaarde",
+        "Rang"
+      ],
+      "displayed_rows": [
+        [
+          "Ierland",
+          "2025",
+          "Alle leerlingen",
+          "500,4",
+          "1,0"
+        ],
+        [
+          "Australië",
+          "2025",
+          "Alle leerlingen",
+          "490,9",
+          "2,0"
+        ],
+        [
+          "Canada",
+          "2025",
+          "Alle leerlingen",
+          "489,8",
+          "3,0"
+        ],
+        [
+          "Finland",
+          "2025",
+          "Alle leerlingen",
+          "474,3",
+          "4,0"
+        ],
+        [
+          "Italië",
+          "2025",
+          "Alle leerlingen",
+          "474,3",
+          "5,0"
+        ],
+        [
+          "Zwitserland",
+          "2025",
+          "Alle leerlingen",
+          "470,1",
+          "6,0"
+        ],
+        [
+          "Zweden",
+          "2025",
+          "Alle leerlingen",
+          "466,4",
+          "7,0"
+        ],
+        [
+          "België",
+          "2025",
+          "Alle leerlingen",
+          "466,3",
+          "8,0"
+        ],
+        [
+          "Duitsland",
+          "2025",
+          "Alle leerlingen",
+          "465,3",
+          "9,0"
+        ],
+        [
+          "Denemarken",
+          "2025",
+          "Alle leerlingen",
+          "460,0",
+          "10,0"
+        ],
+        [
+          "Frankrijk",
+          "2025",
+          "Alle leerlingen",
+          "456,3",
+          "11,0"
+        ],
+        [
+          "Noorwegen",
+          "2025",
+          "Alle leerlingen",
+          "452,8",
+          "12,0"
+        ],
+        [
+          "Nederland",
+          "2025",
+          "Alle leerlingen",
+          "441,3",
+          "13,0"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_16",
+      "table": "C5. Gemiddelde score · Rekenen/wiskunde · 15 jaar",
+      "dependencies": [
+        "NLD|PISA|2025|mathematics|core|mean|total|total|||score_points|",
+        "AUS|PISA|2025|mathematics|core|mean|total|total|||score_points|",
+        "BEL|PISA|2025|mathematics|core|mean|total|total|||score_points|",
+        "CAN|PISA|2025|mathematics|core|mean|total|total|||score_points|",
+        "CHE|PISA|2025|mathematics|core|mean|total|total|||score_points|",
+        "DEU|PISA|2025|mathematics|core|mean|total|total|||score_points|",
+        "DNK|PISA|2025|mathematics|core|mean|total|total|||score_points|",
+        "FIN|PISA|2025|mathematics|core|mean|total|total|||score_points|",
+        "FRA|PISA|2025|mathematics|core|mean|total|total|||score_points|",
+        "IRL|PISA|2025|mathematics|core|mean|total|total|||score_points|",
+        "ITA|PISA|2025|mathematics|core|mean|total|total|||score_points|",
+        "NOR|PISA|2025|mathematics|core|mean|total|total|||score_points|",
+        "SWE|PISA|2025|mathematics|core|mean|total|total|||score_points|",
+        "USA|PISA|2025|mathematics|core|mean|total|total|||score_points|"
+      ],
+      "displayed_headers": [
+        "Land",
+        "Jaar",
+        "Groep",
+        "Bronwaarde",
+        "Rang"
+      ],
+      "displayed_rows": [
+        [
+          "Zwitserland",
+          "2025",
+          "Alle leerlingen",
+          "499,1",
+          "1,0"
+        ],
+        [
+          "Canada",
+          "2025",
+          "Alle leerlingen",
+          "485,3",
+          "2,0"
+        ],
+        [
+          "Nederland",
+          "2025",
+          "Alle leerlingen",
+          "483,3",
+          "3,0"
+        ],
+        [
+          "Ierland",
+          "2025",
+          "Alle leerlingen",
+          "479,9",
+          "4,0"
+        ],
+        [
+          "België",
+          "2025",
+          "Alle leerlingen",
+          "479,7",
+          "5,0"
+        ],
+        [
+          "Australië",
+          "2025",
+          "Alle leerlingen",
+          "477,5",
+          "6,0"
+        ],
+        [
+          "Denemarken",
+          "2025",
+          "Alle leerlingen",
+          "470,6",
+          "7,0"
+        ],
+        [
+          "Finland",
+          "2025",
+          "Alle leerlingen",
+          "468,7",
+          "8,0"
+        ],
+        [
+          "Italië",
+          "2025",
+          "Alle leerlingen",
+          "467,8",
+          "9,0"
+        ],
+        [
+          "Zweden",
+          "2025",
+          "Alle leerlingen",
+          "464,3",
+          "10,0"
+        ],
+        [
+          "Duitsland",
+          "2025",
+          "Alle leerlingen",
+          "463,8",
+          "11,0"
+        ],
+        [
+          "Verenigde Staten",
+          "2025",
+          "Alle leerlingen",
+          "462,8",
+          "12,0"
+        ],
+        [
+          "Frankrijk",
+          "2025",
+          "Alle leerlingen",
+          "457,7",
+          "13,0"
+        ],
+        [
+          "Noorwegen",
+          "2025",
+          "Alle leerlingen",
+          "451,8",
+          "14,0"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_17",
+      "table": "C6. Gemiddelde score · Natuurwetenschappen · 15 jaar",
+      "dependencies": [
+        "NLD|PISA|2025|science|core|mean|total|total|||score_points|",
+        "AUS|PISA|2025|science|core|mean|total|total|||score_points|",
+        "BEL|PISA|2025|science|core|mean|total|total|||score_points|",
+        "CAN|PISA|2025|science|core|mean|total|total|||score_points|",
+        "CHE|PISA|2025|science|core|mean|total|total|||score_points|",
+        "DEU|PISA|2025|science|core|mean|total|total|||score_points|",
+        "DNK|PISA|2025|science|core|mean|total|total|||score_points|",
+        "FIN|PISA|2025|science|core|mean|total|total|||score_points|",
+        "FRA|PISA|2025|science|core|mean|total|total|||score_points|",
+        "GBR|PISA|2025|science|core|mean|total|total|||score_points|",
+        "IRL|PISA|2025|science|core|mean|total|total|||score_points|",
+        "ITA|PISA|2025|science|core|mean|total|total|||score_points|",
+        "NOR|PISA|2025|science|core|mean|total|total|||score_points|",
+        "SWE|PISA|2025|science|core|mean|total|total|||score_points|",
+        "USA|PISA|2025|science|core|mean|total|total|||score_points|"
+      ],
+      "displayed_headers": [
+        "Land",
+        "Jaar",
+        "Groep",
+        "Bronwaarde",
+        "Rang"
+      ],
+      "displayed_rows": [
+        [
+          "Verenigd Koninkrijk",
+          "2025",
+          "Alle leerlingen",
+          "511,4",
+          "1,0"
+        ],
+        [
+          "Canada",
+          "2025",
+          "Alle leerlingen",
+          "510,1",
+          "2,0"
+        ],
+        [
+          "Australië",
+          "2025",
+          "Alle leerlingen",
+          "509,1",
+          "3,0"
+        ],
+        [
+          "Finland",
+          "2025",
+          "Alle leerlingen",
+          "504,4",
+          "4,0"
+        ],
+        [
+          "Verenigde Staten",
+          "2025",
+          "Alle leerlingen",
+          "501,6",
+          "5,0"
+        ],
+        [
+          "Zwitserland",
+          "2025",
+          "Alle leerlingen",
+          "501,2",
+          "6,0"
+        ],
+        [
+          "Ierland",
+          "2025",
+          "Alle leerlingen",
+          "499,6",
+          "7,0"
+        ],
+        [
+          "België",
+          "2025",
+          "Alle leerlingen",
+          "489,7",
+          "8,0"
+        ],
+        [
+          "Duitsland",
+          "2025",
+          "Alle leerlingen",
+          "485,5",
+          "9,0"
+        ],
+        [
+          "Nederland",
+          "2025",
+          "Alle leerlingen",
+          "485,5",
+          "10,0"
+        ],
+        [
+          "Zweden",
+          "2025",
+          "Alle leerlingen",
+          "485,1",
+          "11,0"
+        ],
+        [
+          "Frankrijk",
+          "2025",
+          "Alle leerlingen",
+          "483,4",
+          "12,0"
+        ],
+        [
+          "Italië",
+          "2025",
+          "Alle leerlingen",
+          "483,0",
+          "13,0"
+        ],
+        [
+          "Denemarken",
+          "2025",
+          "Alle leerlingen",
+          "477,5",
+          "14,0"
+        ],
+        [
+          "Noorwegen",
+          "2025",
+          "Alle leerlingen",
+          "470,2",
+          "15,0"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_18",
+      "table": "C7. SES-kloof · Lezen · groep 6",
+      "dependencies": [
+        "NLD|PIRLS|2021|reading|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|",
+        "DEU|PIRLS|2021|reading|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|",
+        "FRA|PIRLS|2021|reading|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|",
+        "ITA|PIRLS|2021|reading|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|",
+        "SWE|PIRLS|2021|reading|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|",
+        "USA|PIRLS|2021|reading|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|"
+      ],
+      "displayed_headers": [
+        "Land",
+        "Jaar",
+        "Groep",
+        "Bronwaarde",
+        "Rang"
+      ],
+      "displayed_rows": [
+        [
+          "Italië",
+          "2021",
+          "Q4 min Q1",
+          "37,0",
+          "1,0"
+        ],
+        [
+          "Nederland",
+          "2021",
+          "Q4 min Q1",
+          "48,9",
+          "2,0"
+        ],
+        [
+          "Frankrijk",
+          "2021",
+          "Q4 min Q1",
+          "66,7",
+          "3,0"
+        ],
+        [
+          "Duitsland",
+          "2021",
+          "Q4 min Q1",
+          "70,4",
+          "4,0"
+        ],
+        [
+          "Zweden",
+          "2021",
+          "Q4 min Q1",
+          "74,2",
+          "5,0"
+        ],
+        [
+          "Verenigde Staten",
+          "2021",
+          "Q4 min Q1",
+          "81,3",
+          "6,0"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_19",
+      "table": "C8. SES-kloof · Rekenen/wiskunde · groep 6",
+      "dependencies": [
+        "NLD|TIMSS|2023|mathematics|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|",
+        "AUS|TIMSS|2023|mathematics|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|",
+        "ITA|TIMSS|2023|mathematics|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|",
+        "USA|TIMSS|2023|mathematics|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|"
+      ],
+      "displayed_headers": [
+        "Land",
+        "Jaar",
+        "Groep",
+        "Bronwaarde",
+        "Rang"
+      ],
+      "displayed_rows": [
+        [
+          "Italië",
+          "2023",
+          "Q4 min Q1",
+          "33,2",
+          "1,0"
+        ],
+        [
+          "Nederland",
+          "2023",
+          "Q4 min Q1",
+          "38,9",
+          "2,0"
+        ],
+        [
+          "Verenigde Staten",
+          "2023",
+          "Q4 min Q1",
+          "66,2",
+          "3,0"
+        ],
+        [
+          "Australië",
+          "2023",
+          "Q4 min Q1",
+          "66,3",
+          "4,0"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_20",
+      "table": "C9. SES-kloof · Natuurwetenschappen · groep 6",
+      "dependencies": [
+        "NLD|TIMSS|2023|science|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|",
+        "AUS|TIMSS|2023|science|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|",
+        "ITA|TIMSS|2023|science|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|",
+        "USA|TIMSS|2023|science|ses_national|score_gap_q4_minus_q1|q4_minus_q1|books5_fractional|||score_points|"
+      ],
+      "displayed_headers": [
+        "Land",
+        "Jaar",
+        "Groep",
+        "Bronwaarde",
+        "Rang"
+      ],
+      "displayed_rows": [
+        [
+          "Italië",
+          "2023",
+          "Q4 min Q1",
+          "41,0",
+          "1,0"
+        ],
+        [
+          "Nederland",
+          "2023",
+          "Q4 min Q1",
+          "51,6",
+          "2,0"
+        ],
+        [
+          "Australië",
+          "2023",
+          "Q4 min Q1",
+          "59,8",
+          "3,0"
+        ],
+        [
+          "Verenigde Staten",
+          "2023",
+          "Q4 min Q1",
+          "65,9",
+          "4,0"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_21",
+      "table": "C10. SES-kloof · Lezen · 15 jaar",
+      "dependencies": [
+        "NLD|PISA|2025|reading|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "AUS|PISA|2025|reading|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "BEL|PISA|2025|reading|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "CAN|PISA|2025|reading|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "CHE|PISA|2025|reading|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "DEU|PISA|2025|reading|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "DNK|PISA|2025|reading|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "FIN|PISA|2025|reading|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "FRA|PISA|2025|reading|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "IRL|PISA|2025|reading|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "ITA|PISA|2025|reading|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "NOR|PISA|2025|reading|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "SWE|PISA|2025|reading|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|"
+      ],
+      "displayed_headers": [
+        "Land",
+        "Jaar",
+        "Groep",
+        "Bronwaarde",
+        "Rang"
+      ],
+      "displayed_rows": [
+        [
+          "Canada",
+          "2025",
+          "Q4 min Q1",
+          "65,5",
+          "1,0"
+        ],
+        [
+          "Denemarken",
+          "2025",
+          "Q4 min Q1",
+          "69,8",
+          "2,0"
+        ],
+        [
+          "Finland",
+          "2025",
+          "Q4 min Q1",
+          "73,2",
+          "3,0"
+        ],
+        [
+          "Ierland",
+          "2025",
+          "Q4 min Q1",
+          "77,9",
+          "4,0"
+        ],
+        [
+          "Noorwegen",
+          "2025",
+          "Q4 min Q1",
+          "78,8",
+          "5,0"
+        ],
+        [
+          "Italië",
+          "2025",
+          "Q4 min Q1",
+          "82,7",
+          "6,0"
+        ],
+        [
+          "Australië",
+          "2025",
+          "Q4 min Q1",
+          "84,4",
+          "7,0"
+        ],
+        [
+          "België",
+          "2025",
+          "Q4 min Q1",
+          "88,4",
+          "8,0"
+        ],
+        [
+          "Zwitserland",
+          "2025",
+          "Q4 min Q1",
+          "95,2",
+          "9,0"
+        ],
+        [
+          "Frankrijk",
+          "2025",
+          "Q4 min Q1",
+          "96,5",
+          "10,0"
+        ],
+        [
+          "Zweden",
+          "2025",
+          "Q4 min Q1",
+          "96,6",
+          "11,0"
+        ],
+        [
+          "Nederland",
+          "2025",
+          "Q4 min Q1",
+          "97,5",
+          "12,0"
+        ],
+        [
+          "Duitsland",
+          "2025",
+          "Q4 min Q1",
+          "117,8",
+          "13,0"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_22",
+      "table": "C11. SES-kloof · Rekenen/wiskunde · 15 jaar",
+      "dependencies": [
+        "NLD|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "AUS|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "BEL|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "CAN|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "CHE|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "DEU|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "DNK|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "FIN|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "FRA|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "IRL|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "ITA|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "NOR|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "SWE|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "USA|PISA|2025|mathematics|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|"
+      ],
+      "displayed_headers": [
+        "Land",
+        "Jaar",
+        "Groep",
+        "Bronwaarde",
+        "Rang"
+      ],
+      "displayed_rows": [
+        [
+          "Denemarken",
+          "2025",
+          "Q4 min Q1",
+          "67,2",
+          "1,0"
+        ],
+        [
+          "Canada",
+          "2025",
+          "Q4 min Q1",
+          "70,0",
+          "2,0"
+        ],
+        [
+          "Finland",
+          "2025",
+          "Q4 min Q1",
+          "73,1",
+          "3,0"
+        ],
+        [
+          "Ierland",
+          "2025",
+          "Q4 min Q1",
+          "77,0",
+          "4,0"
+        ],
+        [
+          "Noorwegen",
+          "2025",
+          "Q4 min Q1",
+          "77,6",
+          "5,0"
+        ],
+        [
+          "Italië",
+          "2025",
+          "Q4 min Q1",
+          "82,9",
+          "6,0"
+        ],
+        [
+          "Zweden",
+          "2025",
+          "Q4 min Q1",
+          "84,1",
+          "7,0"
+        ],
+        [
+          "Australië",
+          "2025",
+          "Q4 min Q1",
+          "88,6",
+          "8,0"
+        ],
+        [
+          "Frankrijk",
+          "2025",
+          "Q4 min Q1",
+          "98,2",
+          "9,0"
+        ],
+        [
+          "Verenigde Staten",
+          "2025",
+          "Q4 min Q1",
+          "99,2",
+          "10,0"
+        ],
+        [
+          "België",
+          "2025",
+          "Q4 min Q1",
+          "99,4",
+          "11,0"
+        ],
+        [
+          "Zwitserland",
+          "2025",
+          "Q4 min Q1",
+          "103,8",
+          "12,0"
+        ],
+        [
+          "Nederland",
+          "2025",
+          "Q4 min Q1",
+          "104,8",
+          "13,0"
+        ],
+        [
+          "Duitsland",
+          "2025",
+          "Q4 min Q1",
+          "115,0",
+          "14,0"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    },
+    {
+      "claim_id": "PAPER_TABLE_23",
+      "table": "C12. SES-kloof · Natuurwetenschappen · 15 jaar",
+      "dependencies": [
+        "NLD|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "AUS|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "BEL|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "CAN|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "CHE|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "DEU|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "DNK|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "FIN|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "FRA|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "GBR|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "IRL|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "ITA|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "NOR|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "SWE|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|",
+        "USA|PISA|2025|science|ses_harmonized|score_gap_q4_minus_q1|q4_minus_q1|Cobreros_fourwave_13item_trend_comparable|||score_points|"
+      ],
+      "displayed_headers": [
+        "Land",
+        "Jaar",
+        "Groep",
+        "Bronwaarde",
+        "Rang"
+      ],
+      "displayed_rows": [
+        [
+          "Canada",
+          "2025",
+          "Q4 min Q1",
+          "67,3",
+          "1,0"
+        ],
+        [
+          "Noorwegen",
+          "2025",
+          "Q4 min Q1",
+          "77,9",
+          "2,0"
+        ],
+        [
+          "Ierland",
+          "2025",
+          "Q4 min Q1",
+          "79,0",
+          "3,0"
+        ],
+        [
+          "Denemarken",
+          "2025",
+          "Q4 min Q1",
+          "80,5",
+          "4,0"
+        ],
+        [
+          "Finland",
+          "2025",
+          "Q4 min Q1",
+          "82,6",
+          "5,0"
+        ],
+        [
+          "Italië",
+          "2025",
+          "Q4 min Q1",
+          "82,7",
+          "6,0"
+        ],
+        [
+          "Verenigd Koninkrijk",
+          "2025",
+          "Q4 min Q1",
+          "87,3",
+          "7,0"
+        ],
+        [
+          "Australië",
+          "2025",
+          "Q4 min Q1",
+          "90,8",
+          "8,0"
+        ],
+        [
+          "Zweden",
+          "2025",
+          "Q4 min Q1",
+          "96,2",
+          "9,0"
+        ],
+        [
+          "België",
+          "2025",
+          "Q4 min Q1",
+          "101,3",
+          "10,0"
+        ],
+        [
+          "Frankrijk",
+          "2025",
+          "Q4 min Q1",
+          "104,9",
+          "11,0"
+        ],
+        [
+          "Zwitserland",
+          "2025",
+          "Q4 min Q1",
+          "105,9",
+          "12,0"
+        ],
+        [
+          "Nederland",
+          "2025",
+          "Q4 min Q1",
+          "109,6",
+          "13,0"
+        ],
+        [
+          "Verenigde Staten",
+          "2025",
+          "Q4 min Q1",
+          "112,8",
+          "14,0"
+        ],
+        [
+          "Duitsland",
+          "2025",
+          "Q4 min Q1",
+          "128,9",
+          "15,0"
+        ]
+      ],
+      "source_tables_sha256": "338668e9983be78b7f2c62625b4d3c8849771f6966624945dfba180a56b6fc70",
+      "result_or_definition_source": "RESEARCH_TABLES.json / RESEARCH_PRODUCT_DATA.json",
+      "formal_test_created": false
+    }
+  ],
+  "builder_sha256": "47dd57e60387b4ad9e9ccf1563885241f699224451ac047502b70064455318bd",
+  "pdf_sha256": "2134701a5d74f5e05a2a78012f56fda08f68bde328fa83510100418d82eb7bd4"
+}

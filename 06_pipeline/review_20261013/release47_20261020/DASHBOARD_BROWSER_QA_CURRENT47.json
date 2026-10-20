@@ -1,0 +1,38 @@
+{
+  "status": "ACTUAL_BROWSER_SELECTION_AND_DOWNLOADS_VERIFIED",
+  "environment": "Codex Chromium in-app browser; desktop and 390x844 viewport",
+  "actual_iphone_safari_tested": false,
+  "app_sha256": "2a8e260af4ae0430595338d5fe07f961b1d01f1d1f337ab25fd4a246fae019ea",
+  "candidate_manifest_sha256": "7996726e25be3f8881a11dbd296e78831100663318383ad92fad44a3548f8be1",
+  "checks": [
+    "Dutch and English share state, controls and data; language links preserve selections.",
+    "Four controls in requested order; comparison and uncertainty initially on; uncertainty below chart.",
+    "NLD PIRLS reading defaults to DEU/FRA/ITA/SWE/USA; unchecking Germany gives four.",
+    "Applying zero checked countries retains an explicitly empty group and plots zero reference points.",
+    "Escape closes the dialog and restores focus to Choose countries; restore default returns five.",
+    "Rank has a constant selected basis, no reference-group line and no uncertainty interval; optional SWE line works.",
+    "PISA SES uses 2015/2018/2022/2025; unsupported USA option is disabled.",
+    "PISA gender has eight waves and explicitly marks the pooled 2025 definition break.",
+    "Canada PIRLS is unavailable with the fewer-than-three-comparable-waves explanation.",
+    "Actual browser CSV and JSON downloads contain matching ten rows, five reference rows and full-precision values.",
+    "Actual SVG download parses as valid SVG; no browser-rendered screenshot is substituted for the export."
+  ],
+  "downloaded_files": [
+    {
+      "name": "leerprestaties_NLD_TR_MEAN_age10_reading.json",
+      "bytes": 33769,
+      "sha256": "51fec160bc161f336dc50bc6aa221dc3cfba246c93c4f37ce93b95a15da8c4d6"
+    },
+    {
+      "name": "leerprestaties_NLD_TR_MEAN_age10_reading (1).csv",
+      "bytes": 9998,
+      "sha256": "ba788ba97c317d41bc120d3f1efbb2756ff3ff0fa01351bee5946b848b2c1662"
+    },
+    {
+      "name": "leerprestaties_NLD_TR_MEAN_age10_reading (1).svg",
+      "bytes": 193599,
+      "sha256": "fa01e25147a2ffeeac1236216a0e705c5dd3e39c26c3e13499d0f522be6a84ca"
+    }
+  ],
+  "deferred36_used": false
+}

@@ -1,0 +1,158 @@
+{
+  "provenance": {
+    "schema_version": 1,
+    "result_scope": "CURRENT47_DEFERRED36_EXCLUDED",
+    "countries": [
+      "ALB",
+      "ARE",
+      "ARG",
+      "ARM",
+      "AUS",
+      "AUT",
+      "AZE",
+      "BEL",
+      "BGR",
+      "BHR",
+      "BRA",
+      "BRN",
+      "CAN",
+      "CHE",
+      "CHL",
+      "COL",
+      "CZE",
+      "DEU",
+      "DNK",
+      "ESP",
+      "FIN",
+      "FRA",
+      "GBR",
+      "GEO",
+      "HKG",
+      "HUN",
+      "IRL",
+      "ITA",
+      "LIE",
+      "LTU",
+      "LUX",
+      "LVA",
+      "MAR",
+      "NLD",
+      "NOR",
+      "NZL",
+      "POL",
+      "PRT",
+      "QAT",
+      "RUS",
+      "SAU",
+      "SGP",
+      "SVK",
+      "SVN",
+      "SWE",
+      "TWN",
+      "USA"
+    ],
+    "result_manifest_sha256": "5ab441b3036e794bcbc8e590fe2517619f0c5ed1ddae68e6cdd71593ed465122",
+    "scientific_manifest_sha256": "c205f624793a9d55fc25ced02540f91466e5e0e78a8b69fe8c801b229c928965",
+    "candidate_manifest_sha256": "7996726e25be3f8881a11dbd296e78831100663318383ad92fad44a3548f8be1",
+    "phase_sha256": "efa86d2a9ebb4a094f1bbd4d4b22978fd52b19af6e839e324aeecbcc4a456f43",
+    "explorer_sha256": "413a55a8f9b0d08c62f5d17988bb3ff6e4fa4a31e032064d9d2a187835685e68",
+    "source_deck": "BR_POLICY_21_20261001",
+    "source_deck_sha256": "cea8dc8a42c3e63e435c16ef13ea6cc1b634f5ca4d95af8c29dafba7397631ac",
+    "slide_count_change": "22 slides: retain the original narrative, split source slide 20 into separately approved low/high peer outcomes (A01/A03), move source slide 10 to the appendix (A02). No additional analysis family.",
+    "sources_are_aggregate_only": true,
+    "precision": "Full binary64 aggregate precision; display rounding only"
+  },
+  "figures": {
+    "mean_trends": {
+      "figure_ids": [
+        "TR_MEAN_age10_reading",
+        "TR_MEAN_age10_mathematics",
+        "TR_MEAN_age10_science",
+        "TR_MEAN_age15_reading",
+        "TR_MEAN_age15_mathematics",
+        "TR_MEAN_age15_science"
+      ],
+      "svg_sha256": "6b985c83cfbd3737818ffcbaa8b83f37b2210caf903bdf6e69281c49ab9cb96f",
+      "png_sha256": "62de19d5d61547e80319ed1de30c26d42da6d70c166ff6d8e18e73c97ac6fc43",
+      "points": 80,
+      "values": "Existing aggregate presentation transform; no new estimates",
+      "intervals": "Existing standard errors times 1.96; no reference intervals"
+    },
+    "basic_levels": {
+      "figure_ids": [
+        "TR_BELOW_age10_reading",
+        "TR_BELOW_age10_mathematics",
+        "TR_BELOW_age10_science",
+        "TR_BELOW_age15_reading",
+        "TR_BELOW_age15_mathematics",
+        "TR_BELOW_age15_science"
+      ],
+      "svg_sha256": "d5da212f9501bcbdd6f18e0214c976876e5824b81e15253495470ca6fed920d7",
+      "png_sha256": "0d6523a30ec086dbea3e32827f791702552dcd58f103c4afd918a539769cfffc",
+      "points": 40,
+      "values": "Existing aggregate presentation transform; no new estimates",
+      "intervals": "Existing standard errors times 1.96; no reference intervals"
+    },
+    "ses_levels": {
+      "figure_ids": [
+        "GP_SES_LEVELS_age10_reading",
+        "GP_SES_LEVELS_age10_mathematics",
+        "GP_SES_LEVELS_age10_science",
+        "GP_SES_LEVELS_age15_reading",
+        "GP_SES_LEVELS_age15_mathematics",
+        "GP_SES_LEVELS_age15_science"
+      ],
+      "svg_sha256": "fc86dbc648c6e617915bd0ea0e676bc639de279af771d9e146b195dedb96e5ad",
+      "png_sha256": "6cbba0e6634f1e942be7b242abf1f8a8c901c532efbba7a569432090686e0b12",
+      "points": 58,
+      "values": "Existing aggregate presentation transform; no new estimates",
+      "intervals": "Existing standard errors times 1.96; no reference intervals"
+    },
+    "gender_levels": {
+      "figure_ids": [
+        "GP_GENDER_LEVELS_age10_reading",
+        "GP_GENDER_LEVELS_age10_mathematics",
+        "GP_GENDER_LEVELS_age10_science",
+        "GP_GENDER_LEVELS_age15_reading",
+        "GP_GENDER_LEVELS_age15_mathematics",
+        "GP_GENDER_LEVELS_age15_science"
+      ],
+      "svg_sha256": "fc178dccb31db2cdd469d3e9d93a5527205a088f0f012f9453f284092bd98448",
+      "png_sha256": "53bf0d87e5a4f322a8d65acb30f5826724a1e2faa38c1be8f400e6ab7c8800d3",
+      "points": 80,
+      "values": "Existing aggregate presentation transform; no new estimates",
+      "intervals": "Existing standard errors times 1.96; no reference intervals"
+    },
+    "migration_levels": {
+      "figure_ids": [
+        "GP_MIGRATION_LEVELS_age10_reading",
+        "GP_MIGRATION_LEVELS_age10_mathematics",
+        "GP_MIGRATION_LEVELS_age10_science",
+        "GP_MIGRATION_LEVELS_age15_reading",
+        "GP_MIGRATION_LEVELS_age15_mathematics",
+        "GP_MIGRATION_LEVELS_age15_science"
+      ],
+      "svg_sha256": "53738ebeaa85007061af7f8ac7b46a44980026d2b7ceb742f87edc7011338a75",
+      "png_sha256": "bcb300ff72ee251b0e97e3904021243d423fdd2450accf4044436aa6163c70ab",
+      "points": 105,
+      "values": "Existing aggregate presentation transform; no new estimates",
+      "intervals": "Existing standard errors times 1.96; no reference intervals"
+    },
+    "peer_basic": {
+      "figure_ids": [
+        "EN_PERFORMANCE_PEER_age10_reading_direct_learning_environment",
+        "EN_PERFORMANCE_PEER_age10_mathematics_direct_learning_environment",
+        "EN_PERFORMANCE_PEER_age10_science_direct_learning_environment",
+        "EN_PERFORMANCE_PEER_age15_reading_direct_learning_environment",
+        "EN_PERFORMANCE_PEER_age15_mathematics_direct_learning_environment",
+        "EN_PERFORMANCE_PEER_age15_science_direct_learning_environment"
+      ],
+      "svg_sha256": "93f49b0edaf3538502f9ed682b1d48e9a015d9e539453cd157419e0e5116dcc9",
+      "png_sha256": "d9835edeee0b2ec1e33384311b4b20a79418f3167ee4d29ff5fb7ea4a0fcb96f",
+      "points": 120,
+      "values": "Existing aggregate presentation transform; no new estimates",
+      "intervals": "Existing standard errors times 1.96; no reference intervals"
+    }
+  },
+  "code_sha256": "cd6c4b581bf6038258053e6cfde74fa7966ae21bf0395e24d74f16afb83eb5fc"
+}
