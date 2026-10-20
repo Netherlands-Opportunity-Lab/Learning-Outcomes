@@ -13,6 +13,14 @@ KIND = "PARTIAL_VERIFIED_RESULTS"
 PACKAGE = "replication/learning-outcomes-replication.zip"
 FORBIDDEN = {".sav", ".zsav", ".dta", ".rds", ".rda", ".rdata", ".parquet",
              ".sqlite", ".db", ".sas7bdat", ".xls", ".xlsx", ".gz"}
+# Only explicitly hash-bound aggregate coverage/review tables may be gzip
+# members. Other opaque archives and every pupil-file format remain forbidden.
+PUBLIC_COVERAGE = {"release_inputs/EXACT_CELL_COVERAGE.csv.gz",
+                   "release_inputs/PRODUCT_CELL_TRACE.csv.gz"}
+SCIENCE_PREFIX = "06_pipeline/review_20261013/scientific_review/"
+PUBLIC_REVIEW_TABLES = {SCIENCE_PREFIX + name for name in
+                       ("ANALYSIS_SUPPORT.csv.gz", "SES_REVIEW_TARGET_BINDINGS.csv.gz",
+                        "REFERENCE_DEPENDENCIES.csv.gz", "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz")}
 
 def sha(path):
     with path.open("rb") as stream:
@@ -34,16 +42,21 @@ def verify_package(path):
         names = archive.namelist()
         if len(names) != len(set(names)) or any(not safe_relative(n) for n in names):
             fail("unsafe replication package member")
-        if any(Path(n).suffix.lower() in FORBIDDEN | {".zip"} for n in names):
+        if any(Path(n).suffix.lower() in FORBIDDEN | {".zip"} and
+               n not in PUBLIC_COVERAGE | PUBLIC_REVIEW_TABLES for n in names):
             fail("source/binary archive in replication package")
-        if sum(z.file_size for z in archive.infolist()) > 150_000_000:
+        # The reviewed 47-country reference evidence alone is 134 MB. Keep a
+        # finite expanded bound while allowing that proof and the sealed data.
+        if sum(z.file_size for z in archive.infolist()) > 750_000_000:
             fail("unexpected replication package size")
         manifest = json.loads(archive.read("PACKAGE_MANIFEST.json"))
         files = manifest["files"]
         if set(files) != set(names) - {"PACKAGE_MANIFEST.json"}:
             fail("replication package inventory mismatch")
         for name, digest in files.items():
-            if hashlib.sha256(archive.read(name)).hexdigest() != digest:
+            with archive.open(name) as stream:
+                actual_hash = hashlib.file_digest(stream, "sha256").hexdigest()
+            if actual_hash != digest:
                 fail("replication package hash mismatch")
         for needed in ("README.md", "reproduce_dashboard.py", "START.R", "06_pipeline/RUN.R",
                        "release_inputs/dashboard_cells.csv", "release_inputs/PROVENANCE.json"):
@@ -56,7 +69,7 @@ def verify(site, certificate):
     if cert.get("release_kind") != KIND:
         fail("wrong publication policy")
     for field in ("displayed_cell_validation", "rights_boundary", "scope_decisions",
-                  "dashboard_6x3", "static_site_QA", "dashboard_reproduction"):
+                  "dashboard_combination_admission", "static_site_QA", "dashboard_reproduction"):
         if cert.get(field) != "PASS":
             fail("missing evidence " + field)
     if cert.get("authorization") != "USER_2026_10_18_PUBLISH_AVAILABLE_LEAVE_MISSING_OPEN":
@@ -101,6 +114,24 @@ def verify(site, certificate):
         fail("package code version differs")
     if package["files"]["release_inputs/dashboard_cells.csv"] != qa["scientific_source_sha256"]:
         fail("replication data differs from verified public input")
+    if PUBLIC_REVIEW_TABLES & set(package["files"]):
+        review_name = SCIENCE_PREFIX + "SCIENTIFIC_REVIEW_MANIFEST.json"
+        expected_review = cert.get("scientific_review_manifest_sha256")
+        if not expected_review or package["files"].get(review_name) != expected_review:
+            fail("unbound scientific review tables")
+        with zipfile.ZipFile(site / PACKAGE) as archive:
+            science = json.loads(archive.read(review_name))
+        for name in PUBLIC_REVIEW_TABLES & set(package["files"]):
+            if science.get("outputs", {}).get(Path(name).name) != package["files"][name]:
+                fail("scientific review table differs from the reviewed manifest")
+    if PUBLIC_COVERAGE & set(package["files"]):
+        for name, key in (("EXACT_CELL_COVERAGE.csv.gz", "coverage_sha256"),
+                          ("PRODUCT_CELL_TRACE.csv.gz", "product_trace_sha256")):
+            if package["files"].get("release_inputs/" + name) != cert.get(key):
+                fail("unbound aggregate coverage archive " + name)
+        spec=importlib.util.spec_from_file_location("absence_verifier",Path(__file__).with_name("LO_FINAL_GUIDED_PUBLIC_RELEASE.py"))
+        absence=importlib.util.module_from_spec(spec);spec.loader.exec_module(absence)
+        absence.verify_reviewed_absence(site,cert,qa)
     countries = read(site / "data/common42.json")
     ids = [c["code"] for c in countries]
     figures = read(site / "data/figure_registry.json")["figures"]
@@ -128,7 +159,7 @@ def verify(site, certificate):
             for v in read(site/refs['country_files'][c])['figures']])
     policy=site/'data/reference_policy.json'
     provisional=policy.is_file()
-    expected_policy='AVAILABLE_CASES_PROVISIONAL' if provisional else 'FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3'
+    expected_policy='AVAILABLE_CASES_PROVISIONAL' if provisional else 'FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3'
     if refs.get("policy") != expected_policy:
         fail("reference policy changed")
     reference_keys = {(v["focus"], v["figure_id"]) for v in refs["figures"]}
@@ -191,12 +222,17 @@ def verify(site, certificate):
                 fail("invalid uncertainty/sample size")
         for f in figures:
             a = available[f["figure_id"]]
-            required = {(int(y), g) for y in f["required_years"].split(";") for g in f["expected_series"].split(";")}
+            reference=next(v for v in refs['figures'] if v['focus']==country and v['figure_id']==f['figure_id'])
+            years=reference.get('required_years',f['required_years'])
+            required = {(int(y), g) for y in filter(None,years.split(";")) for g in f["expected_series"].split(";")}
             present = {(r["year"], r["series_id"]) for r in rows if r["figure_id"] == f["figure_id"]}
             missing = {(v["year"], v["series_id"]) for v in a["missing_points"]}
             if not present <= required or missing != required - present or len(missing) != len(a["missing_points"]):
                 fail("missing points differ from exact grid")
-            state = "VALIDATED" if not missing else "PARTIAL" if present else a["display_state"]
+            unobserved_view = reference['status'] in ('AGE_DOMAIN_NOT_ADMITTED', 'FOCUS_VIEW_INCOMPLETE') and not required
+            state = "UNAVAILABLE" if unobserved_view else "VALIDATED" if not missing else "PARTIAL" if present else a["display_state"]
+            if reference['status']=='AGE_DOMAIN_NOT_ADMITTED' and present:
+                fail('numeric points outside admitted age-domain combination')
             if state != a["display_state"] or (not present and state not in ("PLACEHOLDER", "UNAVAILABLE")):
                 fail("misleading availability status")
             if a["available_points"] != len(present) or a["required_points"] != len(required):

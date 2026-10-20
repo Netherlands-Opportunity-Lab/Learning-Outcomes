@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "compressed": {
+    "data/balanced_references.json": {
+      "path": "_compressed/balanced_references.json.gz",
+      "sha256": "2f7ea4c777e67109ddb1d327cb09eaa3b668bb3a19ad8fa7e8f36ff98cd86b97"
+    }
+  }
+}

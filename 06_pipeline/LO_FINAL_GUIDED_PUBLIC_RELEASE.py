@@ -10,7 +10,7 @@ from pathlib import Path
 BAD_EXT={".sav",".zsav",".dta",".rdata",".rds",".rda",".sqlite",
  ".db",".parquet",".sas7bdat",".xls",".xlsx",".zip",".gz"}
 REQUIRED_CERT={k:"PASS" for k in ("scientific_status","rights_status",
- "Q01_Q08","approved_research_scope","dashboard_6x3","full_focus_balance","slides21",
+ "Q01_Q08","approved_research_scope","dashboard_combination_admission","full_focus_balance","slides21",
  "replication","static_site_QA","scope_decisions")}
 def fail(s):raise ValueError("GUIDED_PUBLIC_RELEASE_HOLD: "+s)
 def sha(p):
@@ -18,6 +18,55 @@ def sha(p):
  with p.open("rb") as f:
   for block in iter(lambda:f.read(1048576),b""):h.update(block)
  return h.hexdigest()
+
+def verify_reviewed_absence(site,cert,qa):
+ path=site/'data/absence_evidence.json'
+ if not path.exists():return {}
+ if sha(path)!=cert.get('reviewed_absence_evidence_sha256') or sha(path)!=qa.get('reviewed_absence_evidence_sha256'):
+  fail('missing-point evidence differs from reviewed certificate')
+ evidence=json.loads(path.read_text(encoding='utf-8'))
+ if evidence.get('status')!='ALL_MISSING_POINTS_HAVE_EXACT_REVIEWED_CAUSES':
+  fail('missing-point review unfinished')
+ for key in ('coverage_sha256','product_trace_sha256'):
+  if not re.fullmatch('[a-f0-9]{64}',evidence.get(key,'')) or evidence[key]!=cert.get(key):
+   fail('missing-point review is not bound to '+key)
+ points={}
+ for p in evidence['points']:
+  key=(p['country'],p['figure_id'],int(p['year']),p['series_id'])
+  if key in points or not p.get('cell_id') or not re.fullmatch('[a-f0-9]{64}',p.get('target_contract_sha256','')):
+   fail('missing or duplicate exact absent-point identity')
+  reason=p['main_reason']
+  if reason=='ANALYSIS_BELOW_PUBLICATION_THRESHOLD':
+   def small(v,limit):
+    try:return float(v)<limit
+    except (ValueError,TypeError):return False
+   if p['status']!='SCIENTIFICALLY_VALIDATED' or not (
+       small(p['analysis_min_component_n'],30) or small(p['analysis_min_component_school_n'],5)):
+    fail('small-group exclusion is not supported by actual counts')
+  elif reason=='OFFICIAL_TREND_NOT_COMPARABLE':
+   if not p.get('population_review_id'):fail('official trend exclusion lacks a source review')
+  elif reason not in {'SCALE_NOT_DEFINED_IN_CYCLE','REQUIRED_FIELD_NOT_OBSERVED',
+      'LEARNING_ENVIRONMENT_NOT_OBSERVED','ANALYTIC_GROUP_UNUSABLE',
+      'GROUP_DEFINITION_NOT_OBSERVED','QUESTIONNAIRE_NOT_ADMINISTERED','DOMAIN_NOT_VALID_IN_SOURCE'} or not p['status'].startswith('UNAVAILABLE_') or not p.get('hold_reason'):
+   fail('unresolved result cannot be relabelled as source absence')
+  points[key]=p
+ if len(points)!=evidence['reviewed_missing_points']:fail('missing-point evidence count')
+ return points
+def verify_reference_payloads(site,ids,recomputed):
+ # The browser lazily loads per-country contracts. A correct global export
+ # cannot certify a changed country file, even with a fresh self-manifest.
+ expected_index=dict(schema_version=2,policy=recomputed['policy'],
+   country_files={c:f'data/references/{c}.json' for c in sorted(ids)})
+ index=site/'data/explorer_references.json'
+ if not index.is_file() or json.loads(index.read_text(encoding='utf-8'))!=expected_index:
+  fail('reference index differs from independently verified country scope')
+ for country in ids:
+  path=site/f'data/references/{country}.json'
+  expected=dict(schema_version=1,policy=recomputed['policy'],
+    figures=[v for v in recomputed['figures'] if v['focus']==country])
+  if not path.is_file() or json.loads(path.read_text(encoding='utf-8'))!=expected:
+   fail('reference options differ from independently verified per-combination support: '+country)
+
 def verify(site,cert_file):
  if not site.is_dir() or not cert_file.is_file():
   fail("missing guided dashboard or source-verified certificate")
@@ -88,15 +137,25 @@ def verify(site,cert_file):
  balance_path=site/"data"/"balanced_references.json"
  if not balance_path.is_file() or sha(balance_path)!=qa["balanced_references_sha256"]:fail("balanced reference export missing or changed")
  balance=json.loads(balance_path.read_text(encoding="utf-8"))
- if balance.get("schema_version")==2:
-  if balance.get("policy")!="FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3":fail("unknown per-view reference policy")
+ if balance.get("schema_version")==3:
+  # Recompute membership from exact aggregate identities, not certificate labels.
+  import importlib.util
+  spec=importlib.util.spec_from_file_location('guided_builder',Path(__file__).with_name('LO_FINAL_GUIDED_DASHBOARD_BUILD.py'))
+  builder=importlib.util.module_from_spec(spec);spec.loader.exec_module(builder)
+  rows=[r for c in ids for r in json.loads((site/f'data/countries/{c}.json').read_text(encoding='utf-8'))['records']]
+  recomputed=builder.explorer_references(balance_path,ids,fig,rows,source_lock)
+  verify_reference_payloads(site,ids,recomputed)
+  iterator=[] # All v3 keys, missing views and membership were verified above.
+ elif balance.get("schema_version")==2:
+  if balance.get("policy")!="FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3":fail("unknown per-view reference policy")
   records=balance.get("views",[])
+  if isinstance(records,dict):records=list(records.values())
   if not isinstance(records,list) or {v.get("focus") for v in records}!=set(ids):fail("focus view coverage differs from country scope")
   if any(not v.get("view_cell_ids") for v in records):fail("exact view-to-figure binding missing")
   if not (site/"data/explorer_references.json").is_file():fail("interactive reference contract missing")
   iterator=[(v["focus"],v) for v in records]
  else:
-  if balance.get("policy")!="FULL_FOCUS_SUPPORT_6x3" or set(balance.get("focuses",{}))!=set(ids):fail("focus balance coverage differs from country scope")
+  if balance.get("policy")!="FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3" or set(balance.get("focuses",{}))!=set(ids):fail("focus balance coverage differs from country scope")
   iterator=list(balance["focuses"].items())
  for focus,record in iterator:
   members=record.get("default_members",[])
@@ -109,6 +168,8 @@ def verify(site,cert_file):
    if set(point["members"].split(";"))!=set(members) or point["n_countries"]!=len(members) or point["benchmark_se_displayed"]:fail("changing or invalid reference panel")
  if qa["availability_counts"].get("PLACEHOLDER",0)>0:
   fail("unreviewed incomplete figures must be resolved or documented unavailable")
+ absence=verify_reviewed_absence(site,cert,qa)
+ used_absence=set()
  for c in ids:
   rec=site/"data"/"countries"/(c+".json")
   ava=site/"data"/"availability"/(c+".json")
@@ -118,13 +179,27 @@ def verify(site,cert_file):
   av=json.loads(ava.read_text(encoding="utf-8"))["figures"]
   if len(av)!=len(ids_fig) or {v["figure_id"] for v in av}!=set(ids_fig):
    fail("missing figure availability decisions "+c)
-  if any(v["display_state"] not in ("VALIDATED","UNAVAILABLE")
-          for v in av):fail("unreviewed figure availability "+c)
+  for v in av:
+   if v["display_state"] not in ("VALIDATED","UNAVAILABLE","PARTIAL"):
+    fail("unreviewed figure availability "+c)
+   gaps=v.get('missing_points',[])
+   if v['display_state']=='PARTIAL' and not gaps:fail('partial figure has no explicit gaps')
+   if gaps and v.get('missingness_review')!='EXACT_REVIEWED_CELL_EVIDENCE':
+    fail('partial or unavailable figure lacks exact missing-point evidence')
+   for gap in gaps:
+    key=(c,v['figure_id'],int(gap['year']),gap['series_id'])
+    p=absence.get(key)
+    if not p or any(gap.get(k)!=p[k] for k in ('cell_id','main_reason','reason_nl','reason_en')):
+     fail('displayed missing-point explanation differs from reviewed cause')
+    used_absence.add(key)
   for row in data["records"]:
    if row["figure_id"] not in ids_fig:fail("uncontracted public result")
    if row.get("series_role")=="comparator":
     if "ci_low" in row or "ci_high" in row or "se" in row:
      fail("uncertainty bars on equal-weight comparator line")
+   if (c,row['figure_id'],int(row['year']),row['series_id']) in absence:
+    fail('a reviewed absent point also contains a numeric value')
+ if used_absence!=set(absence):fail('unused or omitted missing-point review evidence')
  for lang in ("nl","en"):
   for country in ids:
    for question in ("trends","distribution","gaps","environment"):

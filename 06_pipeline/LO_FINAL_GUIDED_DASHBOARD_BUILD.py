@@ -132,6 +132,11 @@ def figure_contract(bundle,allow_synthetic=False,decisions=None):
   # Only PISA's independently certified binary assessment-language construct
   # has one stable mapping here; do not coerce IEA frequency categories.
   if figure["survey"]=="PISA":
+   if family in ("GP_SES_LEVELS","GP_SES_GAP","GP_SES_BASIC"):
+    # The chosen Cobreros construct has four waves. Historical slide
+    # templates must not request unapproved pre-2015 SES observations.
+    # Full core-score anchors remain separate comparison requirements.
+    figure["required_years"]="2015;2018;2022;2025"
    if family=="EN_SES_PEER":
     figure["required_years"]="2015;2018;2022;2025"
     figure["expected_series"]="q1_target_pct_q4_peers;q4_target_pct_q1_peers;population_q1_share;population_q4_share"
@@ -300,11 +305,22 @@ def explorer_references(balance_path,countries,figures,rows,scientific_sha=None)
   spec=importlib.util.spec_from_file_location('reference_verify',Path(__file__).with_name('LO_DASHBOARD_REFERENCE_VERIFY.py'))
   verifier=importlib.util.module_from_spec(spec);spec.loader.exec_module(verifier)
   verifier.verify(evidence,rows,countries,figures,scientific_sha)
- views=array(evidence.get("views")); output=[]
+ raw_views=evidence.get("views")
+ # jsonlite serializes the named list returned by split/lapply as an object.
+ # Accept that documented v2 R representation as well as the v3 array. Treating
+ # the object as one view silently lost every real focus/reference binding.
+ if isinstance(raw_views,dict):
+  if evidence.get('schema_version')!=2 or any(not isinstance(v,dict) or not v.get('focus') or not v.get('view_id') for v in raw_views.values()):
+   fail('invalid named R reference views')
+  views=list(raw_views.values())
+ else:views=array(raw_views)
+ output=[]
  # The immutable evidence file can be large; hash it once for the entire build.
  evidence_sha=sha(balance_path) if balance_path else None
  views_by_country=defaultdict(list)
  for view in views:views_by_country[view.get('focus')].append(view)
+ combination_admission={(r['country'],r['survey'],r['domain']):bool(r['combination_pass'])
+                        for r in array(evidence.get('combination_admission'))}
  by_country=defaultdict(lambda:defaultdict(list))
  for row in rows:
   if row["series_role"]=="focus":by_country[row["country_id"].split(":")[-1]][row["figure_id"]].append(row)
@@ -314,8 +330,30 @@ def explorer_references(balance_path,countries,figures,rows,scientific_sha=None)
    cell_ids={r.get("cell_id") for r in current if r.get("cell_id")}
    matches=[v for v in views_by_country[country] if (v.get('figure_id')==f['figure_id'] or
        not v.get('figure_id') and cell_ids.intersection(array(v.get("view_cell_ids"))))]
+   if not matches and not current and f.get('historical_figure_id'):
+    # An entirely unavailable split still has required target years. Use its
+    # exact source contract/construct, never Dutch years or another definition.
+    for v in views_by_country[country]:
+     parts=v.get('view_id','').split('::')
+     if (len(parts)==5 and parts[0]==f['historical_figure_id'] and parts[1]==f['survey']
+         and (not f.get('outcome_construct') or parts[2]==f['outcome_construct'])):
+      matches.append(v)
    mapped=set().union(*(set(array(v.get("view_cell_ids"))) for v in matches)) if matches else set()
-   ready=bool(matches) and len(cell_ids)==len(current) and cell_ids<=mapped and figure_complete(current,f)
+   # Dutch templates do not define another focus country's period. The R
+   # contracts retain its own full target years, including unavailable cells.
+   required_years=f['required_years']
+   if country!='NLD' and matches and all('required_years' in v for v in matches):
+    required_years=';'.join(sorted({str(y) for v in matches for y in array(v['required_years'])}))
+   focus_figure=dict(f,required_years=required_years)
+   admitted=combination_admission.get((country,f['survey'],f['domain']),True)
+   if f['domain']=='all' and combination_admission:
+    admitted=any(ok for (c,s,d),ok in combination_admission.items() if (c,s)==(country,f['survey']))
+   if not admitted:
+    if current:fail('numeric product outside admitted age-domain combination')
+    required_years=''
+    focus_figure=dict(f,required_years='')
+   ready=bool(matches) and len(cell_ids)==len(current) and cell_ids<=mapped and figure_complete(current,focus_figure)
+   ready=ready and admitted
    ready=ready and all(v.get("status") in ("BALANCED_REFERENCE_AVAILABLE","NO_ELIGIBLE_REFERENCE") for v in matches)
    eligible=set(countries)-{country};defaults=set(eligible)
    if ready:
@@ -327,7 +365,7 @@ def explorer_references(balance_path,countries,figures,rows,scientific_sha=None)
      eligible &= allowed
      defaults &= set(array(v.get("default_members")))
     # Publishing a member also requires a complete exact figure payload.
-    eligible={c for c in eligible if figure_complete(by_country[c][f["figure_id"]],f)}
+    eligible={c for c in eligible if figure_complete(by_country[c][f["figure_id"]],focus_figure)}
     defaults &= eligible
    else:eligible=set();defaults=set()
    reasons=[]
@@ -339,15 +377,17 @@ def explorer_references(balance_path,countries,figures,rows,scientific_sha=None)
     reasons.append(dict(country=candidate,missing_cells=max((o.get('missing_cells',0) for o in bad),default=0),
       reason=bad[0]['reason'] if bad else 'FULL_BALANCED_SUPPORT' if candidate in eligible else 'FOCUS_NOT_READY',
       missing_examples=[dict(survey=k.split('|')[0],domain=k.split('|')[2],year=int(k.split('|')[3])) for k in keys[:3]]))
-   pending=next((v['status'] for v in matches if v['status'] in ('FOCUS_CORE_INCOMPLETE','FOCUS_VIEW_INCOMPLETE')),'COMPARABILITY_PENDING')
+   pending=next((v['status'] for v in matches if v['status'] in ('AGE_DOMAIN_NOT_ADMITTED','FOCUS_CORE_INCOMPLETE','FOCUS_VIEW_INCOMPLETE')),
+     'FOCUS_VIEW_INCOMPLETE' if matches and not figure_complete(current,focus_figure) else 'COMPARABILITY_PENDING')
+   if not admitted:pending='AGE_DOMAIN_NOT_ADMITTED'
    output.append(dict(focus=country,figure_id=f["figure_id"],
      status="BALANCED_REFERENCE_AVAILABLE" if ready and eligible else "NO_ELIGIBLE_REFERENCE" if ready else pending,
      eligible_members=sorted(eligible),default_members=sorted(defaults),
      eligibility=reasons,
      evidence_sha256=evidence_sha,
-     view_ids=sorted(v["view_id"] for v in matches),required_years=f["required_years"],
+     view_ids=sorted(v["view_id"] for v in matches),required_years=required_years,
      expected_series=f["expected_series"],focus_excluded=True,country_weights="EQUAL_PER_COUNTRY",benchmark_uncertainty=False))
- return dict(schema_version=1,policy="FULL_FOCUS_CORE_PLUS_JOINT_VIEW_SUPPORT_6x3",figures=output)
+ return dict(schema_version=1,policy="FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3",figures=output)
 
 def provisional_references(policy_path,countries,figures,rows,input_sha):
  """Explicit temporary display policy; never a scientific comparability PASS."""
@@ -428,6 +468,7 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
  (destination/"data"/"method_registry.json").write_text(
   json.dumps({"methods":method_text},ensure_ascii=False),encoding="utf-8",newline="\n")
  availability_states=defaultdict(int)
+ reference_by_view={(r['focus'],r['figure_id']):r for r in references['figures']}
  for country in sorted(ids):
   records=by_country[country]
   (destination/"data"/"countries"/(country+".json")).write_text(
@@ -442,20 +483,25 @@ def build(repo,bundle,destination,scientific_rows=None,synthetic_contract=False,
    # verified partial points on 18 Oct; missing pairs remain named gaps and
    # never relax full-period reference or rank requirements.
    years={str(row["year"]) for row in current if row["series_role"]=="focus"}
-   required=set(x for x in f["required_years"].split(";") if x)
+   reference=reference_by_view[(country,f['figure_id'])]
+   focus_figure=dict(f,required_years=reference.get('required_years',f['required_years']))
+   required=set(x for x in focus_figure['required_years'].split(';') if x)
    roles=set(row["series_id"] for row in current if row["series_role"]=="focus")
    expected={x for x in f["expected_series"].split(";") if x}
    present_pairs={(str(row["year"]),row["series_id"]) for row in current if row["series_role"]=="focus"}
-   fully=figure_complete(current,f)
+   fully=figure_complete(current,focus_figure)
+   admitted=reference.get('status')!='AGE_DOMAIN_NOT_ADMITTED'
    reviewed=unavailable.get((country,f["figure_id"]))
    if reviewed and current:
     fail("cannot mark a figure unavailable while releasing numeric rows")
-   st="VALIDATED" if fully else ("PARTIAL" if current else "UNAVAILABLE" if reviewed else "PLACEHOLDER")
+   st="UNAVAILABLE" if not admitted else "VALIDATED" if fully else ("PARTIAL" if current else "UNAVAILABLE" if reviewed else "PLACEHOLDER")
    availability_states[st]+=1
-   reason_nl=("Alle vereiste meetjaren en groepen wetenschappelijk gecontroleerd."
+   reason_nl=("Minder dan drie vergelijkbare meetgolven voor deze leeftijd en uitkomst."
+       if not admitted else "Alle vereiste meetjaren en groepen wetenschappelijk gecontroleerd."
        if fully else reviewed["reason_nl"] if reviewed else
        "De beschikbare punten zijn gecontroleerd. Ontbrekende meetjaren of groepen blijven open." if current else "Resultaten worden nog toegevoegd.")
-   reason_en=("All required survey waves and groups scientifically validated."
+   reason_en=("Fewer than three comparable survey waves for this age and outcome."
+       if not admitted else "All required survey waves and groups scientifically validated."
        if fully else reviewed["reason_en"] if reviewed else
        "Available points are verified. Missing years or groups remain open." if current else "Results will be added.")
    available.append(dict(figure_id=f["figure_id"],display_state=st,

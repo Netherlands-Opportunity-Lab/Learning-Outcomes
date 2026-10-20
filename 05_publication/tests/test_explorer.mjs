@@ -114,3 +114,16 @@ assert.equal(m.breakBetween({...point,year:2018},{...point,year:2022,series_brea
 assert.equal(m.breakBetween({...point,year:2018,comparison_membership_key:'AUT;CAN'},{...point,year:2022,series_role:'focus',unit:'rank',comparison_membership_key:'AUT'},f),true);
 assert.equal(m.readSelection('?uncertainty=0&compare=0',{}).uncertainty,false);
 assert.equal(m.readSelection('?uncertainty=0&compare=0',{}).compare,false);
+
+// Reference countries may have longer series than the focus, but no required
+// year/group may be silently dropped. The main-country contract sets the axis.
+const shorter=m.focusFigure(f,{required_years:'2022;2025'});
+assert.equal(shorter.required_years,'2022;2025');assert.equal(f.required_years,'2018;2022;2025');
+assert.equal(m.focusFigure(f,{required_years:''}).required_years,'');
+assert.equal(m.referenceRows(shorter,'NLD',['AUT','CAN'],payloads,contract).length,4);
+assert.equal(m.rankRows(shorter,'mean_score','NLD',['AUT','CAN'],payloads,contract).length,4);
+const incomplete=structuredClone(payloads);incomplete.CAN.records=incomplete.CAN.records.filter(r=>r.year!==2022);
+assert.throws(()=>m.referenceRows(shorter,'NLD',['CAN'],incomplete,contract),/REFERENCE_INCOMPLETE/);
+assert.deepEqual(m.referenceStatus({status:'AGE_DOMAIN_NOT_ADMITTED'},'CAN',[]),{ok:false,reason:'admission'});
+assert.equal(m.referenceOption({eligibility:[{country:'CAN',reason:'FAIL_SELECTED_COMBINATION_MIN3'}]},'NLD','CAN').reason,'admission');
+console.log('PASS own-country period, longer reference histories, exact gaps and combination admission');
