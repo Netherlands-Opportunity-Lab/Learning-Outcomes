@@ -1,4 +1,24 @@
-# Current replication entry point — 19 October 2026
+# Current replication entry point — 20 October 2026
+
+The current phase is **current47**, with the other 36 countries explicitly
+deferred. Step 1 is closed against 90,829 targets: 82,142 validated results,
+8,687 documented unavailable targets and zero remaining computations. The real
+finalizer accepted Q01–Q08 and its actual output matches all 8,178 independently
+reviewed full-support reference contracts. See
+`review_20261013/release47_20261020/SCIENTIFIC_REVIEW_COMPLETION.json`.
+
+The 29-page Dutch paper and editable 22-slide presentation, their exact point
+and claim lineage, and `REBUILD_PRODUCTS.py` are in
+`../04_products_or_release/current47/`. Product reconstruction from the sealed
+aggregates has passed on Windows and Linux. This is distinct from the completed
+58-cell official-source numerical probe and the verified complete Drive restore.
+The full clean pupil-source recalculation of all selected current47 results has
+**not** yet been executed; do not describe it as certified. The public fresh
+route, source hashes and author-code version are documented in
+`../02_analysis/scientific_dependencies/README.md`. Do not run deferred36 as
+part of current47 closure.
+
+The dated sections below are retained execution history, not current status.
 
 De nieuwe regel is ook via de bestaande R-keten afgesloten op code `66fa0712`, resultaatcommit `be46da02`: **76.809 doelen, 69.201 gevalideerd, 7.608 onderbouwd onbeschikbaar, nul resterend**. Q01–Q08 zijn voor deze 34 bronmatig geverifieerde landen opnieuw aan de actuele scope gebonden en geaccepteerd (8/8). Er zijn geen nieuwe leerlingberekeningen uitgevoerd. De echte eindkandidaat is onafhankelijk vergeleken met alle 5.916 referentiecontracten. Zie [het actuele uitvoeringsbewijs](review_20261013/SCIENTIFIC_EXECUTION_COMBINATION_RULE_20261019.json). De bredere inventaris van 50 aanvullende bronkandidaten blijft open; deze run certificeert hen niet en publiceert geen website.
 

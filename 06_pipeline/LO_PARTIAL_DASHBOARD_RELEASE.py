@@ -13,10 +13,14 @@ KIND = "PARTIAL_VERIFIED_RESULTS"
 PACKAGE = "replication/learning-outcomes-replication.zip"
 FORBIDDEN = {".sav", ".zsav", ".dta", ".rds", ".rda", ".rdata", ".parquet",
              ".sqlite", ".db", ".sas7bdat", ".xls", ".xlsx", ".gz"}
-# Only the two explicitly hash-bound aggregate coverage tables may be gzip
+# Only explicitly hash-bound aggregate coverage/review tables may be gzip
 # members. Other opaque archives and every pupil-file format remain forbidden.
 PUBLIC_COVERAGE = {"release_inputs/EXACT_CELL_COVERAGE.csv.gz",
                    "release_inputs/PRODUCT_CELL_TRACE.csv.gz"}
+SCIENCE_PREFIX = "06_pipeline/review_20261013/scientific_review/"
+PUBLIC_REVIEW_TABLES = {SCIENCE_PREFIX + name for name in
+                       ("ANALYSIS_SUPPORT.csv.gz", "SES_REVIEW_TARGET_BINDINGS.csv.gz",
+                        "REFERENCE_DEPENDENCIES.csv.gz", "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz")}
 
 def sha(path):
     with path.open("rb") as stream:
@@ -38,7 +42,8 @@ def verify_package(path):
         names = archive.namelist()
         if len(names) != len(set(names)) or any(not safe_relative(n) for n in names):
             fail("unsafe replication package member")
-        if any(Path(n).suffix.lower() in FORBIDDEN | {".zip"} and n not in PUBLIC_COVERAGE for n in names):
+        if any(Path(n).suffix.lower() in FORBIDDEN | {".zip"} and
+               n not in PUBLIC_COVERAGE | PUBLIC_REVIEW_TABLES for n in names):
             fail("source/binary archive in replication package")
         # The reviewed 47-country reference evidence alone is 134 MB. Keep a
         # finite expanded bound while allowing that proof and the sealed data.
@@ -49,7 +54,9 @@ def verify_package(path):
         if set(files) != set(names) - {"PACKAGE_MANIFEST.json"}:
             fail("replication package inventory mismatch")
         for name, digest in files.items():
-            if hashlib.sha256(archive.read(name)).hexdigest() != digest:
+            with archive.open(name) as stream:
+                actual_hash = hashlib.file_digest(stream, "sha256").hexdigest()
+            if actual_hash != digest:
                 fail("replication package hash mismatch")
         for needed in ("README.md", "reproduce_dashboard.py", "START.R", "06_pipeline/RUN.R",
                        "release_inputs/dashboard_cells.csv", "release_inputs/PROVENANCE.json"):
@@ -107,6 +114,16 @@ def verify(site, certificate):
         fail("package code version differs")
     if package["files"]["release_inputs/dashboard_cells.csv"] != qa["scientific_source_sha256"]:
         fail("replication data differs from verified public input")
+    if PUBLIC_REVIEW_TABLES & set(package["files"]):
+        review_name = SCIENCE_PREFIX + "SCIENTIFIC_REVIEW_MANIFEST.json"
+        expected_review = cert.get("scientific_review_manifest_sha256")
+        if not expected_review or package["files"].get(review_name) != expected_review:
+            fail("unbound scientific review tables")
+        with zipfile.ZipFile(site / PACKAGE) as archive:
+            science = json.loads(archive.read(review_name))
+        for name in PUBLIC_REVIEW_TABLES & set(package["files"]):
+            if science.get("outputs", {}).get(Path(name).name) != package["files"][name]:
+                fail("scientific review table differs from the reviewed manifest")
     if PUBLIC_COVERAGE & set(package["files"]):
         for name, key in (("EXACT_CELL_COVERAGE.csv.gz", "coverage_sha256"),
                           ("PRODUCT_CELL_TRACE.csv.gz", "product_trace_sha256")):

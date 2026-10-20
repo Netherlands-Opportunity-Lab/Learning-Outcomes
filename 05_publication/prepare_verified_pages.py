@@ -1,8 +1,10 @@
 """Prepare only a certified October dashboard; never mix September payloads."""
 import importlib.util,json,os,re,shutil,subprocess,sys
 from pathlib import Path
-from candidate_storage import materialize
 ROOT=Path(__file__).resolve().parents[1]
+storage_spec=importlib.util.spec_from_file_location('candidate_storage',Path(__file__).with_name('candidate_storage.py'))
+storage=importlib.util.module_from_spec(storage_spec);storage_spec.loader.exec_module(storage)
+materialize=storage.materialize
 spec=importlib.util.spec_from_file_location('release',ROOT/'06_pipeline/LO_FINAL_GUIDED_PUBLIC_RELEASE.py')
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 def prepare(candidate,output):
