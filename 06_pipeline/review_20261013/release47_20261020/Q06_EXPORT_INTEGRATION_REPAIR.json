@@ -1,0 +1,33 @@
+{
+  "status": "REVIEWED_EXPORT_INTEGRATION_REPAIR",
+  "parent_manifest_sha256": "8dd48869214d3753e2b4496c53cd62413e914432e991b7223ee14094cb2c8a4a",
+  "reason": "The legacy task-view export invented Dutch years for Liechtenstein SES. The existing independently verified Q06 public-figure export already retains the empty target period.",
+  "changed_runtime": [
+    {
+      "path": "06_pipeline/LO_FIXED_CONTROLLER.R",
+      "before_sha256": "c0c19acbeeab250abd8200bb6cfcaea0d84888ac6e89290666ac806f373a2b4e",
+      "after_sha256": "ca9cb2e1b2d9956ebcc7997f649a96a84d7551b121da7c3d2684169f65d8a36f"
+    },
+    {
+      "path": "06_pipeline/LO_SCIENTIFIC_REVIEW_BINDING.R",
+      "before_sha256": "910be97437b53fbae7352a1065e5fc992f3686e13f613290b2800c0dbd3e1770",
+      "after_sha256": "aea29f09c24741bc6b7aa4abf6e01a2861f7f78925aa9b81d3b1c889d5d354c0"
+    }
+  ],
+  "unchanged_science": [
+    "all approved targets",
+    "all results and source identities",
+    "Q01-Q08 reports",
+    "8178 Q06 figure contracts",
+    "48 numerical reference probes",
+    "pupil estimation and missingness evidence"
+  ],
+  "tests": [
+    "Windows: test_scientific_review_binding.R",
+    "Windows: test_final_export_checkpoint.R",
+    "8 guided-dashboard and 8 reference-proof Python regressions",
+    "3 explorer numerical/selection/interval checks"
+  ],
+  "no_pupil_estimation": true,
+  "code_commit": "4892a3d"
+}
