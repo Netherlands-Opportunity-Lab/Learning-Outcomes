@@ -1,0 +1,6 @@
+{
+  "status": "NO_OWNED_PRODUCER_OR_WATCHER_RUNNING",
+  "checked_at_utc": "2026-10-20T08:26:58.6382241Z",
+  "remaining_owned_processes": [],
+  "inspection": "Native Windows process table; project Rscript/Rterm workers and the automatic scientific closing watcher."
+}

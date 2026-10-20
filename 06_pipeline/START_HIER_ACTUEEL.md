@@ -1,5 +1,24 @@
 # Start hier — actuele besluiten en resterend werk
 
+## Laatste uitvoeringsbesluit — begrensde prioriteitsrun, 20 oktober
+
+Op uitdrukkelijk verzoek zijn de brede productierun en de automatische wetenschappelijke
+afsluiter gestopt. Daarna zijn het Verenigd Koninkrijk, Liechtenstein en Luxemburg
+afgehandeld, gevolgd door precies 140 gerichte PISA-2003-peerreparaties voor Denemarken,
+Duitsland, Letland, Nieuw-Zeeland, Rusland, Verenigde Staten en Zweden. De oude geldige
+resultaten zijn onveranderd; er zijn geen resultaten buiten deze selectie toegevoegd.
+
+De huidige totale stand is **131.436 doelen: 82.686 gevalideerd,
+9.511 onderbouwd onbeschikbaar en 39.239 open**.
+47 landen/stelsels hebben geen open rekentaken;
+36 hebben nog goedgekeurd werk. Dit is geen
+afsluiting van de uitgebreide Q01–Q08-, referentie- of productcontroles.
+
+Zie [het volledige statusrapport](review_20261013/priority_20261020/PRIORITY_RUN_20261020.md) en de bijbehorende landen-/werkvoorraadtabellen.
+Resultaten, code-/configuratieverbindingen en checkpoints zijn opgeslagen. Er draait
+geen verdere producer of automatische afsluiter. Hervat overige landen of de brede
+eindcontroles pas op een nieuwe opdracht. De onderstaande uitvoeringsstanden zijn historisch.
+
 ## Uitvoering bronuitbreiding — 19 oktober 2026
 
 Alle 50 aanvullende kandidaten zijn in de echte bronbestanden beoordeeld. Jemen valt na correctie van de officieel afgewezen steekproef uit 2003 af: 2007 en 2011 leveren slechts twee vergelijkbare golven. Van deze kandidaten zijn er 49 toegelaten. De
@@ -293,6 +312,7 @@ Oudere plannen, chats, slides en tabellen zijn bronmateriaal. Hun opdrachten, aa
 | D18 | Zeer goed geannoteerd, repliceerbaar en FAIR, met AER/AEA als kwaliteitsambitie. | Complete code en methoden, metadata, versies, licenties/toegangsroute, gecontroleerde heruitvoering en duurzame release. FAIR betekent niet dat beperkte leerlingdata openbaar moeten. Claim geen tijdschriftcertificering zonder externe beoordeling. |
 | D19 | Kritisch beoordelen wat gebruiker én assistent voorstellen; gevonden problemen direct oplossen. | Repareer binnen de goedgekeurde scope, test de foutconditie en leg bewijs vast. Alleen ontbrekend inhoudelijk besluit of externe bron/toegang kan afhankelijk werk laten wachten; werk aan onafhankelijke onderdelen gaat door. |
 | D20 | Opdracht 19 oktober: beoordeel de werkelijke wetenschappelijke basis; een historische analyse-eis dwingt geen nieuwe scope af. | Q04 wordt op toepasselijkheid beoordeeld; geen ongevraagde tweegolfanalyse. Q07 behoudt de gekozen PISA-SES en de Home-SES-appendix; geen extra officiële ESCS-robuustheidsanalyse. Q08 betreft uitsluitend geregistreerde noodzakelijke paperclaims. Zie `PAPER_QA_CURRENT.json`. |
+| D21 | 20 oktober: stop brede run; eerst GBR, LIE, LUX en de zeven genoemde peerreparaties; stop daarna en rapporteer. | De begrensde selectie is afgehandeld en opgeslagen. Andere landen en brede afsluitcontroles hervatten alleen na een nieuwe opdracht; zie het prioriteitsrapport. |
 | D21 | Afzonderlijke meisjes behouden waar beschikbaar; uitsluitend anders de expliciet goedgekeurde Female / Other-pooling. Behoud drie migratiedefinities. | Eigen labels, bron en identiteit voor pooling; geen nonrespons imputeren. Minstens één buitenlandse ouder, beide buitenlandse ouders en eerste/tweede generatie blijven onderscheiden. Geen derde generatie; noemers en onbeslisbare geboorteplaatsen zichtbaar. |
 | D22 | De tijdelijke available-cases-website is geen definitieve balansbeslissing. | Opdracht 19 oktober bevestigt volledige hoofdlandankers en gezamenlijke groepen. De vastgestelde populatie-/trendcorrecties en hun gevolgen staan in `SCIENTIFIC_BASIS_20261019.md`; historische resultaten blijven behouden. |
 

@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "result_commit": "39f386caa9e6e8856405d8bbe748d51b24771d95",
+  "pupil_recalculation": false,
+  "coverage_manifest_sha256": "d3f5150dc9f85f33cea0eb6c3d2780da07d3ef448bd02e65fdb209f4c0aa53d0",
+  "checks": [
+    {
+      "script": "scripts/report_grid_coverage.py",
+      "script_sha256": "645e0ee5b47c5cd422663bc749280e897fb2741b52d2c211c2aa6e4b6f880a81",
+      "exit_code": 0,
+      "output": "{\"targets\": 131436, \"counts\": {\"validated\": 82686, \"unavailable\": 9511, \"unresolved\": 39239}, \"orphan_cells\": 0, \"population_corrected_cells\": 1378, \"cache\": \"REBUILT\"}"
+    },
+    {
+      "script": "scripts/validate_repository.py",
+      "script_sha256": "0c5f72ffb0c641b1cf0bef3071a65ce6f383ba69a852ee6a29a5cb671ee6fa68",
+      "exit_code": 0,
+      "output": "PASS repository boundary, manifest, link and dashboard-contract checks"
+    },
+    {
+      "script": "scripts/validate_result_snapshots.py",
+      "script_sha256": "a6f69520253153bee7c7f7971f2430bd4586af72cd80fe363d13f073573f726b",
+      "exit_code": 0,
+      "output": "PASS 2 certified result snapshot(s), exact bytes and archived producer code\nPASS exact coverage, all population fields, product trace and current result fingerprints"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "canonical_sha256": "22eb4eb0f04df94d38dffecc0acd3362db6e4b52ed426ff2d63cb580e3b25589",
+  "verified_source_match": true,
+  "n": 6078,
+  "school_nonmissing": 0,
+  "distinct_schools": 0,
+  "raw_sha256": "6f6fa1e1ecce23d39183d44ec82ba05b245fe88a2416c8d8dc1b016d556fc379",
+  "raw_partition_sha256": "c6ac89fe8da4dabd6b76331f534a08893c59c1463c8472f085a6377efcdccb93",
+  "raw_school_field": "CNTSCHID",
+  "raw_school_missing": 6078,
+  "raw_school_mapping_exact": true,
+  "source_school_identifier_fields": "CNTSCHID",
+  "limitation": "No observed school identifier in the verified country source; school-level variance and school/programme peer environments are not identifiable. National pupil estimates retain their original valid scores and survey weights.",
+  "requested_country": "LUX",
+  "survey": "PISA",
+  "year": 2025,
+  "outcome": [
+    {
+      "domain": "READ",
+      "finite_n": 6078,
+      "full_variance": 11654.360478261564
+    },
+    {
+      "domain": "MATH",
+      "finite_n": 6078,
+      "full_variance": 9599.8935141330694
+    },
+    {
+      "domain": "SCIE",
+      "finite_n": 6078,
+      "full_variance": 12955.476623279683
+    }
+  ]
+}

@@ -1,0 +1,282 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "2026-10-20T08:27:33.368985+00:00",
+  "status": "REQUESTED_PRIORITY_WORK_COMPLETED_AND_STOPPED",
+  "user_instruction": "Stop broad run; complete GBR then LIE then LUX; repair only the 140 reopened peers in DNK DEU LVA NZL RUS USA SWE; stop and report.",
+  "code_commit": "5fb49472682db7f5a65f241f18f2cd759639a500",
+  "result_commit": "39f386caa9e6e8856405d8bbe748d51b24771d95",
+  "scientific_finalization": "NOT_RUN_USER_REQUESTED_STOP",
+  "website_publication": "NOT_RUN",
+  "broad_production": "STOPPED",
+  "automatic_closure_watcher": "STOPPED_BY_USER_REQUEST",
+  "stop_verification": {
+    "status": "NO_OWNED_PRODUCER_OR_WATCHER_RUNNING",
+    "checked_at_utc": "2026-10-20T08:26:58.6382241Z",
+    "remaining_owned_processes": [],
+    "inspection": "Native Windows process table; project Rscript/Rterm workers and the automatic scientific closing watcher."
+  },
+  "full_configuration_unchanged": true,
+  "exact_selected_targets": 2965,
+  "before": {
+    "targets": 131436,
+    "validated": 79987,
+    "unavailable": 9245,
+    "remaining": 42204
+  },
+  "after": {
+    "targets": 131436,
+    "validated": 82686,
+    "unavailable": 9511,
+    "remaining": 39239
+  },
+  "new_validated_results": 2699,
+  "existing_valid_results_changed": 0,
+  "new_results_outside_selection": 0,
+  "countries_with_no_open_computation": 47,
+  "countries_with_open_computation": 36,
+  "selected_pisa_target_years": {
+    "GBR": {
+      "reading": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "mathematics": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "science": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2022,
+        2025
+      ]
+    },
+    "LIE": {
+      "reading": [
+        2003,
+        2006,
+        2009,
+        2012
+      ],
+      "mathematics": [
+        2003,
+        2006,
+        2009,
+        2012
+      ],
+      "science": [
+        2006,
+        2009,
+        2012
+      ]
+    },
+    "LUX": {
+      "reading": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2025
+      ],
+      "mathematics": [
+        2003,
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2025
+      ],
+      "science": [
+        2006,
+        2009,
+        2012,
+        2015,
+        2018,
+        2025
+      ]
+    }
+  },
+  "nld_target_years_outside_selected_country_scope": {
+    "GBR": {
+      "reading": [],
+      "mathematics": [],
+      "science": []
+    },
+    "LIE": {
+      "reading": [
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "mathematics": [
+        2015,
+        2018,
+        2022,
+        2025
+      ],
+      "science": [
+        2015,
+        2018,
+        2022,
+        2025
+      ]
+    },
+    "LUX": {
+      "reading": [
+        2022
+      ],
+      "mathematics": [
+        2022
+      ],
+      "science": [
+        2022
+      ]
+    }
+  },
+  "reference_qualification": "Different country anchors and unavailable points do not authorize shorter reference periods; full figure-level balance remains to be certified.",
+  "phases": {
+    "01_GBR": {
+      "phase": "01_GBR",
+      "targets": 1270,
+      "validated": 1153,
+      "unavailable": 117,
+      "remaining": 0,
+      "grid_sha256": "6b2f589fe7f2a657152a005f8e66f34d559dc842f06eb2de28b1b6ab996c2dea",
+      "configuration_sha256": "9e6013968256e5db3da0747c10e86e79f9d7e3ec8b50c40a7004a295975175c9",
+      "timestamp_utc": "2026-10-20T06:12:47Z"
+    },
+    "02_LIE": {
+      "phase": "02_LIE",
+      "targets": 482,
+      "validated": 471,
+      "unavailable": 11,
+      "remaining": 0,
+      "grid_sha256": "7c7398b11027baa92bfab5297f66a9ebc7f7b13a99c2ed726d3ef7896bc918cb",
+      "configuration_sha256": "e03248287d7cdab0b185b519603ab2d273b4c30533c9447608da07e52a978745",
+      "timestamp_utc": "2026-10-20T06:30:55Z"
+    },
+    "03_LUX": {
+      "phase": "03_LUX",
+      "targets": 1073,
+      "validated": 935,
+      "unavailable": 138,
+      "remaining": 0,
+      "grid_sha256": "d4bdbb00309d6c9aa78563a91f048f451b950377105e608559f002a447fd7606",
+      "configuration_sha256": "b360ad264c34562a515467620e56f886d95a5978d403f65da1e119d0463dc814",
+      "timestamp_utc": "2026-10-20T07:31:04Z"
+    },
+    "04_PEER_REPAIRS": {
+      "phase": "04_PEER_REPAIRS",
+      "targets": 140,
+      "validated": 140,
+      "unavailable": 0,
+      "remaining": 0,
+      "grid_sha256": "b066255d592901a0bcd9d21908f47e0df20037a8662f50e9130ab079c6e48549",
+      "configuration_sha256": "7974164521a6e16b189b276a7e79bcf672a350a8f04b8e88b35705f819dc0383",
+      "timestamp_utc": "2026-10-20T08:00:27Z"
+    }
+  },
+  "peer_repairs_by_country": [
+    {
+      "country": "DNK",
+      "targets": 20,
+      "validated": 20,
+      "unavailable": 0
+    },
+    {
+      "country": "DEU",
+      "targets": 20,
+      "validated": 20,
+      "unavailable": 0
+    },
+    {
+      "country": "LVA",
+      "targets": 20,
+      "validated": 20,
+      "unavailable": 0
+    },
+    {
+      "country": "NZL",
+      "targets": 20,
+      "validated": 20,
+      "unavailable": 0
+    },
+    {
+      "country": "RUS",
+      "targets": 20,
+      "validated": 20,
+      "unavailable": 0
+    },
+    {
+      "country": "USA",
+      "targets": 20,
+      "validated": 20,
+      "unavailable": 0
+    },
+    {
+      "country": "SWE",
+      "targets": 20,
+      "validated": 20,
+      "unavailable": 0
+    }
+  ],
+  "luxembourg_source_limitation": {
+    "status": "VERIFIED_SOURCE_LIMITATION_RECORDED",
+    "country": "LUX",
+    "survey": "PISA",
+    "year": 2025,
+    "exact_selected_targets": 48,
+    "newly_documented_targets": 3,
+    "existing_unavailability_retained": 45,
+    "canonical_sha256": "22eb4eb0f04df94d38dffecc0acd3362db6e4b52ed426ff2d63cb580e3b25589",
+    "raw_sha256": "6f6fa1e1ecce23d39183d44ec82ba05b245fe88a2416c8d8dc1b016d556fc379",
+    "raw_partition_sha256": "c6ac89fe8da4dabd6b76331f534a08893c59c1463c8472f085a6377efcdccb93",
+    "missing_school_ids": 6078,
+    "source_field": "CNTSCHID",
+    "reason": "SCHOOL_IDENTIFIER_UNOBSERVED_IN_VERIFIED_SOURCE: LUX PISA 2025 CNTSCHID missing for all 6078 pupils; no alternative school identifier field. School variance and school/programme peer environments are not identifiable; national pupil statistics remain eligible.",
+    "valid_result_registry_unchanged": true,
+    "code_commit": "5fb49472682db7f5a65f241f18f2cd759639a500",
+    "probe_sha256": "8711bb25ead42dce1136a545432b8d6df9e1a0dae9b63a1b19d339a526843b0c",
+    "exact_targets_sha256": "06784a866527b11d4ca2e1b270c7a4251191c6b11f27eb75e8793fd1a1254aec",
+    "script_sha256": "7402857b292d7a20daca748529ee5ba5ccba7285d554b6cbc8aa1fda57379599",
+    "absence_registry_sha256": "74c693f7b77a34a8c515416debb0dd72c24d03e4d505ab6ec98b1bbfdc756533"
+  },
+  "luxembourg_ses_zero_observed_target_cells": 62,
+  "input_sha256": {
+    "CANDIDATE_COUNTRY_SOURCE_ELIGIBILITY.csv": "0cafb7357898be2c89c042ee810badc6670e11f7b0eb8290e90366c867210daf",
+    "PRIVATE_MASTER_GRID.csv": "6b44d47b8124fbd2807cc5f53a4f29213effa317a4f14da7422f40055b0f00ac",
+    "SCIENTIFICALLY_VALIDATED_GRID_CELLS.csv": "bc6a6c78e0e4030b761a82fcb68a8742c27bb7b769a29ab9f6cd9fdcc99ed5ec",
+    "SOURCE_UNAVAILABLE_CELLS.csv": "74c693f7b77a34a8c515416debb0dd72c24d03e4d505ab6ec98b1bbfdc756533"
+  },
+  "priority_plan_sha256": "fee0060bbb3469dff483b16e6b1dafc0ed6103baefb27b667ffccfa21f86a288",
+  "before_result_identities_sha256": "d16abd45029b0dc5e7c683158e5f0b6b94f332b7893fbea75e30873130a364e2",
+  "execution_receipt_sha256": "4f460404f0ff15cffd92e73dae1953068ff70dcfc746fd432c2301c90a68c0b8",
+  "execution_log_sha256": "0af5ffff25c784bccc130e973698caea3b5ee6010d907be700a9bedfd2cca0a8",
+  "remaining_work": [
+    "Before broad resumption, generalize the observed-school-ID prerequisite for school-variance and SES-peer blocks; preserve valid national siblings and exact source-absence evidence, as done for the bounded LUX case (I160).",
+    "Produce only remaining approved cells in the listed remaining countries; preserve certified results and source-unavailability evidence.",
+    "Bind the prepared Q01-Q08 evidence, component sample-size checks and exact balanced reference/rank derivations to the completed expanded result set.",
+    "Safely integrate the tested preparation branch, retaining independent result commits; test the final code/result binding on Windows and Linux.",
+    "Run the existing fixed-finalize path on that evidence, verify the final candidate, and deposit the closing evidence.",
+    "Dashboard/product publication, slides, paper and final replication/release belong to the subsequent approved steps."
+  ]
+}
