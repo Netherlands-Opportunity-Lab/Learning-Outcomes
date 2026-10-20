@@ -28,7 +28,9 @@ afzonderlijke private Drive-bestemming. De bestaande resultaatbasis wordt niet
 overschreven. `RUN_CURRENT47_SOURCE_REPLICATION.R` is het lokale RStudio-ingangspunt;
 zie [de uitleg en resterende aftekening](review_20261013/release47_20261020/FRESH_SOURCE_RUN.md).
 Het commando weigert een verkeerde scope, gewijzigde instellingen of onvoldoende
-ruimte. Het is een nieuwe verplichte replicatiecontrole, geen herhaling van de
+ruimte. De launcher-tests op Windows/Linux en de lokale pad-, omgevings- en
+ruimtecontrole zijn geslaagd. Er is circa 10,3 GB vrij; er draait geen bronrun.
+Het is een nieuwe verplichte replicatiecontrole, geen herhaling van de
 al afgesloten inventarisatie of productbouw. Start de 36 uitgestelde landen pas
 nadat deze bronreplicatie en de aansluiting van haar afleidingen zijn beoordeeld.
 
