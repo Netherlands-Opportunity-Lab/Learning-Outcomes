@@ -1,6 +1,7 @@
 """Prepare only a certified October dashboard; never mix September payloads."""
 import importlib.util,json,os,re,shutil,subprocess,sys
 from pathlib import Path
+from candidate_storage import materialize
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('release',ROOT/'06_pipeline/LO_FINAL_GUIDED_PUBLIC_RELEASE.py')
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
@@ -10,14 +11,7 @@ def prepare(candidate,output):
  # Stage() adds its certificate and receipt after the immutable manifest. Check
  # a clean working copy of exactly manifested assets, with the original hashes.
  if output.exists():raise ValueError('Output must be a fresh directory')
- entries=json.loads((site/'BUILD_SHA256_MANIFEST.json').read_text(encoding='utf-8'))
- for item in entries:
-  rel=Path(item['path'])
-  if rel.is_absolute() or '..' in rel.parts or ':' in str(rel) or '\\' in item['path']:raise ValueError('Unsafe asset path')
-  src=site/rel;dest=output/rel
-  if src.is_symlink() or not src.resolve().is_relative_to(site.resolve()):raise ValueError('Unsafe asset source')
-  dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src,dest)
- shutil.copyfile(site/'BUILD_SHA256_MANIFEST.json',output/'BUILD_SHA256_MANIFEST.json')
+ materialize(site,output)
  proof=m.verify(output,site/'PUBLIC_RELEASE_CERTIFICATION.json')
  cert=json.loads((site/'PUBLIC_RELEASE_CERTIFICATION.json').read_text(encoding='utf-8'))
  archive_sha=cert.get('preserved_september_runtime_sha256')

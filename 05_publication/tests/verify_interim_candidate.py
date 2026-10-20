@@ -2,6 +2,8 @@
 import importlib.util,json,shutil,subprocess,sys,tempfile,zipfile
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / '05_publication'))
+from candidate_storage import materialize
 
 def main():
     pointer=ROOT/'05_publication/INTERIM_CURRENT.json'
@@ -11,16 +13,9 @@ def main():
     candidate=ROOT/'05_publication/verified_guided_candidates'/current['candidate_id']
     spec=importlib.util.spec_from_file_location('package_check',ROOT/'06_pipeline/LO_PARTIAL_DASHBOARD_RELEASE.py')
     package_check=importlib.util.module_from_spec(spec);spec.loader.exec_module(package_check)
-    entries=json.loads((candidate/'BUILD_SHA256_MANIFEST.json').read_text(encoding='utf-8'))
     with tempfile.TemporaryDirectory() as td:
-        root=Path(td);site=root/'site';site.mkdir()
-        for entry in entries:
-            rel=Path(entry['path'])
-            if rel.is_absolute() or '..' in rel.parts or ':' in str(rel) or '\\' in entry['path']:raise ValueError('Unsafe release path')
-            source=candidate/rel
-            if source.stat().st_size!=entry['bytes'] or package_check.sha(source)!=entry['sha256']:raise ValueError('Historical candidate bytes changed')
-            dest=site/rel;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(source,dest)
-        shutil.copyfile(candidate/'BUILD_SHA256_MANIFEST.json',site/'BUILD_SHA256_MANIFEST.json')
+        root=Path(td);site=root/'site'
+        materialize(candidate,site)
         certificate=candidate/'PUBLIC_RELEASE_CERTIFICATION.json'
         if json.loads(certificate.read_text())['candidate_manifest_sha256']!=package_check.sha(site/'BUILD_SHA256_MANIFEST.json'):
             raise ValueError('Historical release certificate changed')

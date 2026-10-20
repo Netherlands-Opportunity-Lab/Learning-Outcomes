@@ -45,7 +45,8 @@ def main():
             raise SystemExit("Dashboard reproduction differs: " + entry["path"])
     print(json.dumps({"status": "DASHBOARD_REPRODUCED_BYTE_FOR_BYTE", "files": len(expected),
                       "source_commit": manifest["source_commit"],
-                      "pupil_level_replication": "NOT_RUN_SOURCE_ACCESS_AND_RETAINED_BUNDLE_REQUIRED"}))
+                      "pupil_level_replication": "NOT_RUN_BY_AGGREGATE_RECONSTRUCTION",
+                      "fresh_source_route": "02_analysis/scientific_dependencies/README.md"}))
     print("Preview: python -m http.server 8769 --directory " + str(args.output))
 
 if __name__ == "__main__":
