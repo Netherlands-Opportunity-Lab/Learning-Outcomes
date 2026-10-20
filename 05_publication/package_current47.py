@@ -69,7 +69,15 @@ def package(repo, site, inputs, source_commit, provenance):
             add(path)
     for name in ("RANK_PRODUCT_CONTRACT.json", "PAPER_QA_CURRENT.json", "BALANCE_USER_DECISION_20261019.json"):
         add(repo / "06_pipeline/review_20261013" / name)
-    add(repo / "06_pipeline/review_20261013/scientific_review/SCIENTIFIC_REVIEW_MANIFEST.json")
+    # Include the review tables required by prepare_research_tables.py, with
+    # their original compressed hashes. Removing them would make the aggregate
+    # rebuild depend on an undocumented file outside the downloaded package.
+    review = repo / "06_pipeline/review_20261013/scientific_review"
+    for path in sorted(review.iterdir()):
+        if path.is_file() and (path.suffix.lower() in (".csv", ".json", ".md") or
+                              path.name in ("ANALYSIS_SUPPORT.csv.gz", "SES_REVIEW_TARGET_BINDINGS.csv.gz",
+                                            "REFERENCE_DEPENDENCIES.csv.gz", "SES_ANALYSIS_SAMPLE_COVERAGE.csv.gz")):
+            add(path)
     for name in ("verify_public_raw_probes.R", "verify_final_scientific_candidate.py"):
         add(repo / "scripts" / name)
     for name in ("review_final_availability.py", "build_release_info.py"):

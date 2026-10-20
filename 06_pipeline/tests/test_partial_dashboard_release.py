@@ -102,6 +102,19 @@ class PartialRelease(unittest.TestCase):
                 for name,data in content.items():z.writestr(name,data)
             with self.assertRaisesRegex(ValueError,"unbound aggregate coverage"):self.check(site,cert)
 
+    def test_unbound_scientific_table_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            site=Path(td)/"site";site.mkdir();cert=self.fixture(site)
+            target=site/m.PACKAGE
+            with zipfile.ZipFile(target) as z:
+                content={n:z.read(n) for n in z.namelist() if n!="PACKAGE_MANIFEST.json"}
+            content[m.SCIENCE_PREFIX+"ANALYSIS_SUPPORT.csv.gz"]=b"not reviewed"
+            content["PACKAGE_MANIFEST.json"]=json.dumps(dict(source_commit="d"*40,
+                files={n:hashlib.sha256(v).hexdigest() for n,v in content.items()})).encode()
+            with zipfile.ZipFile(target,"w") as z:
+                for name,data in content.items():z.writestr(name,data)
+            with self.assertRaisesRegex(ValueError,"unbound scientific review tables"):self.check(site,cert)
+
     def test_temporary_policy_requires_explicit_binding_and_exact_available_options(self):
         with tempfile.TemporaryDirectory() as td:
             site=Path(td)/"site";site.mkdir();cert=self.fixture(site)
