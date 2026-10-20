@@ -1,5 +1,7 @@
 # AGENTS.md — Learning Outcomes / PISA–PIRLS–TIMSS
 
+Latest direct user decision, 20 October: paper and slides are for private personal delivery only, not online. This supersedes earlier step-3 publication authorization for those products, their editable content and public package copies. Prior versions are already publicly accessible; step 3 must withdraw them while preserving private copies and the public dashboard. Link removal alone does not remove Git history or caches. Do not destructively rewrite history or change whole-repository visibility without a specific decision. See `06_pipeline/review_20261013/release47_20261020/PRIVATE_PRODUCTS_USER_DECISION_20261020.json`. Neither deferred36 nor fresh-source replication is resumed.
+
 Latest direct review instruction, 20 October: check the three steps against completed current47 work, excluding both deferred36 production and the full fresh-source replication exercise. Do not start either deferred run. Reuse unchanged scientific evidence and repair actual findings. See `06_pipeline/review_20261013/release47_20261020/REVIEW_EXECUTION_DECISION_20261020.json`.
 
 Latest direct phase decision, 20 October: finish steps 1–3 for the explicit current47 selection; keep the deferred36 targets/results intact and run them in R only after those steps. This changes execution/release timing, not scientific admission, definitions, the rich candidate pool or full within-figure balance. See `06_pipeline/review_20261013/release47_20261020/RELEASE_PHASE_DECISION.json` (repository-relative).

@@ -1,5 +1,7 @@
 # Start hier — actuele besluiten en resterend werk
 
+**Nieuw expliciet besluit, 20 oktober: paper en slides uitsluitend voor eigen gebruik, nog niet online.** Dit vervangt eerdere publicatieopdrachten voor deze documenten. Bewaar eigen exemplaren; publiceer ze niet op GitHub Pages, in een openbare repository of in een publiek downloadpakket. Eerdere versies staan al online; stap 3 begint met het zorgvuldig terugtrekken daarvan. Verwijderde links zijn geen bewijs van privacy zolang bestanden in pakketten of Git-geschiedenis bereikbaar blijven. De website mag publiek blijven. De 36 uitgestelde landen en volledige bronreplicatie blijven uitgesteld. Zie `review_20261013/release47_20261020/PRIVATE_PRODUCTS_USER_DECISION_20261020.json`.
+
 ## Huidige opdracht — stap 2 opnieuw inhoudelijk en technisch beoordeeld
 
 **20 oktober: de releasekandidaten voor current47 zijn bijgewerkt.** Het dashboard
