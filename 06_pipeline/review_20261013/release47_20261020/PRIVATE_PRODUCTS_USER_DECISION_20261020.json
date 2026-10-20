@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-20",
+  "authority": "Latest direct user instruction",
+  "user_statement": "Ik wil het paper en de slides nog niet online, alleen zelf hebben, zal ik de instruxties van stap 3 invoeren?",
+  "paper_and_slides_publication_authorized": false,
+  "local_delivery_authorized": true,
+  "private_storage_authorized": true,
+  "public_dashboard_authorized": true,
+  "applies_to": [
+    "paper PDF and editable manuscript",
+    "presentation PPTX and PDF",
+    "copies in public download packages",
+    "publicly accessible manuscript/slide content and reproducing bundles"
+  ],
+  "observed_existing_exposure": {
+    "repository_visibility": "public",
+    "website_products_and_replication_downloads": "Previously published and not withdrawn in this preference-registration turn",
+    "git_history": "Contains earlier paper and presentation versions; removing links or latest-tree files alone does not remove historical access"
+  },
+  "step3_first_action": "Preserve private copies; withdraw paper and presentation from website, current public packages and public repository surfaces. Assess Git history and caches explicitly; do not claim privacy from link removal alone.",
+  "not_authorized_by_this_preference_alone": [
+    "Destructive Git history rewriting",
+    "Changing visibility of the entire repository or disabling the authorized public dashboard"
+  ],
+  "subsequent_publication_requires": "A new explicit user decision for paper/slides",
+  "deferred36_and_fresh_source_replication": "Remain deferred; do not start either run",
+  "step3_started": false,
+  "overrides": "Earlier instructions to publish the paper, presentation or an all-product replication ZIP during step 3"
+}
