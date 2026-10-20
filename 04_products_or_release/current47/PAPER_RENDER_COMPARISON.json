@@ -1,0 +1,186 @@
+{
+  "pdf_sha256": "62026eedf668a8ca0d29d5f69e69bc7b7d0c8335b8b37983139c74bf2cd222aa",
+  "prior_pdf_sha256": "2134701a5d74f5e05a2a78012f56fda08f68bde328fa83510100418d82eb7bd4",
+  "pages": [
+    {
+      "page": 1,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "f799df84af6155c02ea302d830c2387cc3657fa341d780a70bd708f4f57ebfdb"
+    },
+    {
+      "page": 2,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "d8b2d22ee6ce8a09b37cbc2053685d14ce060a8c218675c5c4a53553769c581b"
+    },
+    {
+      "page": 3,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "fc88bc406677b2087542de586e5a00f3967f470aea24486eff18956b49fbe2f6"
+    },
+    {
+      "page": 4,
+      "pixel_equal_to_prior": false,
+      "png_sha256": "d251566ccb67f03328b1845e725e7fba3a3b7b398a4b12f5bf6e82ba64eff759"
+    },
+    {
+      "page": 5,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "8944c0be3ab5379b35e62ecef34e8340fb2bad116dbf1233da5d7e5e797c397f"
+    },
+    {
+      "page": 6,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "5e120f0557a09f7ffb9e870bb8215567d25c4400bda19d2533e916955fb02f78"
+    },
+    {
+      "page": 7,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "f923faf0ca3c735165e219b8e0c6fc6bc9cc02ce24a82cd13d4072a4fbce2f75"
+    },
+    {
+      "page": 8,
+      "pixel_equal_to_prior": false,
+      "png_sha256": "717026252e7e9a7923b1e2dbb59b8b4652d844a72edaa29e0b31612715af68c2"
+    },
+    {
+      "page": 9,
+      "pixel_equal_to_prior": false,
+      "png_sha256": "2264d24ae98b86653734792bac96d962e34314758cad87bdd6d5318b56666eb5"
+    },
+    {
+      "page": 10,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "ccbcc248eb2f4e619b6099b766d01623cc067ece6bd8b0e2306de60a97b9ce73"
+    },
+    {
+      "page": 11,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "ba0cedc77bd1fb2f03e177ab16f93dd87b5c0b4c2428a225f7121229d4ac8310"
+    },
+    {
+      "page": 12,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "58c02668ae7b0a6533e863d1cf63f01273a66de9ad77704238f6ff0dc7fe4754"
+    },
+    {
+      "page": 13,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "b0b0669839c7be29491e035587404ed4730b8deef789da6c9675179bd53405a3"
+    },
+    {
+      "page": 14,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "764cc61b9c3609a183d2417e95120e9a6b16533a04866c75c9ed699eb5c8db03"
+    },
+    {
+      "page": 15,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "129e6c9379a653ea2cc394662dcc8fa861ebba68f502d5ba894fc3a905989f8c"
+    },
+    {
+      "page": 16,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "6da8d20a58a212b4a9b3d3378b46b081f4b90ab0ef62adb9ef1a658ad49ba6d2"
+    },
+    {
+      "page": 17,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "1071e7d9d6583772d876cdc7c33f90b743a6dd44fddb319f6095cf2b1f2c3bfb"
+    },
+    {
+      "page": 18,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "52389fdc2021ce9578c115d327a88528886d01e703b9705729fca6ad888a79a1"
+    },
+    {
+      "page": 19,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "edaae8ad8b0e5f1ea97d1085746836563415c225376fc067f34defd1968d4437"
+    },
+    {
+      "page": 20,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "134e52b53a4d21f2100126f90ece3bcba42bfa544d5c42b20559d8b718f565d5"
+    },
+    {
+      "page": 21,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "368f21280658e7b9024cd4bf3d50489d97a9a694568e0735cf0d9b0e0603b9a3"
+    },
+    {
+      "page": 22,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "ddb94cfcc096ec1d7c99e3980dc8abdd4c2fcedc378c4807e42d899dc2009231"
+    },
+    {
+      "page": 23,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "45e87500f454840ceba58c7192f6bbc768419474f8a5664f5863cbdb7a989f98"
+    },
+    {
+      "page": 24,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "c9d090c2457a61209a3c68562969c69d6ccb318738ee6326fd353b08efab3d62"
+    },
+    {
+      "page": 25,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "8a71eac02c573d5d4c2540e5cc6e084884bfaff2a4c686c24836cd36a0f65142"
+    },
+    {
+      "page": 26,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "38bc82e98fbfb739ca8aa02a294449cd36f66a13708ffe8aea874fa687b6899f"
+    },
+    {
+      "page": 27,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "d41b2fc2e1abf2774c0347acc116c8fa1a88da916672078c6f92abdac8fb6ae0"
+    },
+    {
+      "page": 28,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "c6738652ced033346b2436ce06c7229b0c37c1c0ccb33c22fdc8952c3fce1491"
+    },
+    {
+      "page": 29,
+      "pixel_equal_to_prior": true,
+      "png_sha256": "ec9b60af16615cc5a6a5083f175b42e6e8c4722136bf8825a975cd6db8ef8eb1"
+    }
+  ],
+  "text_outside_page": 0,
+  "renderer": "Poppler pdftoppm / 108 dpi",
+  "changed_pages": [
+    4,
+    8,
+    9
+  ],
+  "unchanged_pages": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ]
+}

@@ -108,5 +108,15 @@
   },
   "execution_decision": "REVIEW_EXECUTION_DECISION_20261020.json",
   "step1_recheck": "STEP1_EVIDENCE_RECHECK.json",
-  "step1_review": "STEP1_REVIEW_20261020.md"
+  "step1_review": "STEP1_REVIEW_20261020.md",
+  "step2_recheck": {
+    "status": "REVIEWED_AMENDED_PAPER_RELEASE_CANDIDATE",
+    "report": "STEP2_REVIEW_20261020.md",
+    "paper_pdf_sha256": "62026eedf668a8ca0d29d5f69e69bc7b7d0c8335b8b37983139c74bf2cd222aa",
+    "paper_on_existing_live_site_is_previous_version": true,
+    "dashboard_and_presentation_unchanged": true,
+    "new_pupil_estimations": 0,
+    "full_fresh_source_replication_executed": false,
+    "next_step": "Refresh package and publish amended paper in step 3; verify actual online hashes. Deferred36 and full fresh-source exercise remain excluded."
+  }
 }

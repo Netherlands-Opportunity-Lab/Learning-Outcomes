@@ -1,0 +1,43 @@
+{
+  "status": "WRITTEN_CURRENT47_CLAIMS_CHECKED_AGAINST_EXISTING_Q08",
+  "date": "2026-10-20",
+  "result_manifest_sha256": "5ab441b3036e794bcbc8e590fe2517619f0c5ed1ddae68e6cdd71593ed465122",
+  "scientific_manifest_sha256": "c205f624793a9d55fc25ced02540f91466e5e0e78a8b69fe8c801b229c928965",
+  "manuscript_sha256": "b7b4e1a11bd038573b8c2dc7f103da2f34d8f7abb4d4c16a1ff5f6d53cf4820e",
+  "paper_pdf_sha256": "62026eedf668a8ca0d29d5f69e69bc7b7d0c8335b8b37983139c74bf2cd222aa",
+  "paper_trace_sha256": "75bccd5a209819a40f5d69f54959d26bced7657a76b4e07102078b717a683090",
+  "registered_claim_ids": [
+    "NLD_TREND_PIRLS_READING",
+    "NLD_SES_GAP_PIRLS_READING",
+    "NLD_TREND_TIMSS_MATHEMATICS",
+    "NLD_SES_GAP_TIMSS_MATHEMATICS",
+    "NLD_TREND_TIMSS_SCIENCE",
+    "NLD_SES_GAP_TIMSS_SCIENCE",
+    "NLD_TREND_PISA_READING",
+    "NLD_SES_GAP_PISA_READING",
+    "NLD_TREND_PISA_MATHEMATICS",
+    "NLD_SES_GAP_PISA_MATHEMATICS",
+    "NLD_TREND_PISA_SCIENCE",
+    "NLD_SES_GAP_PISA_SCIENCE"
+  ],
+  "registered_claim_count": 12,
+  "traced_paragraphs": 53,
+  "formal_tests": 3,
+  "new_formal_tests": 0,
+  "registration_timing": "Retrospective registration before writing, not prospective preregistration.",
+  "checks": [
+    "All 12 registered claim estimates and their parent results retain the approved scientific evidence.",
+    "All 53 prose paragraphs have unique manuscript/trace IDs; empirical paragraphs link exact Q08 parents.",
+    "The six numerical trend estimates in the abstract match the unrounded claim calculations after display formatting.",
+    "Three PISA long-trend tests retain official linking uncertainty and Holm correction.",
+    "IEA long trends remain descriptive with conditional intervals; no unsupported significance claim.",
+    "SES gap uncertainty retains joint replicate/PV covariance, not independent marginal standard errors.",
+    "Table/figure/appendix/ranking lineage checked against the same result manifest."
+  ],
+  "invalidates_if_changed": [
+    "written text, numerical claims, parent cells, study/group definition, source/method/result identity",
+    "claim transformation, covariance, linking uncertainty or multiple-testing family",
+    "paper builder, figure builder, approved policy or scientific manifest"
+  ],
+  "scientific_recalculation_required_by_this_amendment": false
+}

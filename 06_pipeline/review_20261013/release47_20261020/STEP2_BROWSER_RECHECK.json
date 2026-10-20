@@ -1,0 +1,55 @@
+{
+  "status": "LIVE_CURRENT47_RENDERED_INTERACTIONS_AND_DOWNLOAD_CHECKED",
+  "date": "2026-10-20",
+  "url": "https://netherlands-opportunity-lab.github.io/Learning-Outcomes/nl/",
+  "candidate_manifest_sha256": "ce55760e9df4f4b4428e3520776c4ffb273ce04f4abf9f165878c06fa175ff33",
+  "app_shell_sha256": "2a8e260af4ae0430595338d5fe07f961b1d01f1d1f337ab25fd4a246fae019ea",
+  "explorer_sha256": "413a55a8f9b0d08c62f5d17988bb3ff6e4fa4a31e032064d9d2a187835685e68",
+  "viewports_inspected": [
+    {
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "checks": [
+    "Current live page reloaded: 47 countries, strict fixed reference; default comparison and uncertainty on.",
+    "Four dropdowns in approved order; six age/outcome combinations; uncertainty control and caveats below chart.",
+    "NLD PIRLS reading default references DEU FRA ITA SWE USA; all five years plotted.",
+    "Search Germany, deselect, apply: four countries; URL members match.",
+    "NL to EN preserves four custom members and explicit uncertainty choice; EN to NL roundtrip also preserves them.",
+    "Rank view: only country rank drawn on selected group plus focus; no group curve or rank interval.",
+    "Back to score restores uncertainty choice; explicit uncertainty off survives language change.",
+    "Empty custom group applies, members= remains in URL, no reference/rank fabricated, specific explanation visible.",
+    "Restore default returns five eligible rich countries; no focus country in its own reference.",
+    "Canada PIRLS reports fewer than three comparable waves; Canada PISA reading displays actual results.",
+    "NLD gender includes distinct Female / Other in 2025; definition break and source note visible.",
+    "Native dialog: Tab from close moves to search; Escape closes and returns focus to country button.",
+    "Mobile and desktop screenshots inspected: no clipped chart labels, horizontal overflow or overlapping controls.",
+    "JSON download completed through the UI; 16 focus values and SEs match deposited results within the fixed absolute 1e-9 tolerance; hashes match exactly."
+  ],
+  "download": {
+    "basename": "leerprestaties_NLD_GP_GENDER_LEVELS_age15_reading.json",
+    "sha256": "e5eda0e12d33521a71944aff97bfa7ac26b286bc5992982834c527df208fccf3",
+    "records": 32,
+    "focus_values_checked": 16,
+    "source_results_sha256": "28e64122fc1a9289b353a97394d528e2ba45a06af2a19827d009ef56134ea838",
+    "scientific_csv_significant_digits": 17,
+    "public_json_significant_digits": 15,
+    "maximum_absolute_estimate_difference": 4.547473508864641e-13,
+    "maximum_absolute_se_difference": 4.440892098500626e-15,
+    "verification_absolute_tolerance": 1e-09,
+    "display_rounding_applied_to_download": false,
+    "bitwise_identity_to_scientific_csv_claimed": false
+  },
+  "limitations": [
+    "Browser testing used the Chromium-based Codex browser, not physical iPhone Safari.",
+    "The native dialog may transfer focus to browser chrome at the tab boundary; no claim of a custom focus trap.",
+    "New paper PDF is a branch release candidate; the currently live paper remains the prior reviewed PDF until step 3."
+  ],
+  "temporary_viewport_override_reset": true,
+  "new_pupil_calculations": 0
+}

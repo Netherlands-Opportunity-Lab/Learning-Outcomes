@@ -26,6 +26,45 @@ def close(a, b, context):
         raise ValueError(f"Changed product value: {context}: {a} versus {b}")
 
 
+def verify_axes(model, figure_manifest):
+    panels = {p["id"]: p for p in model["panels"]}
+    checked = 0
+    for figure in figure_manifest["figures"].values():
+        proof = figure["rendered_axis_proof"]
+        assert [r["figure_id"] for r in proof] == figure["figure_ids"]
+        for row in proof:
+            panel = panels[row["figure_id"]]
+            years = panel["years"]
+            assert row["required_years"] == years, "Changed required paper years"
+            assert row["trained_x_range"] == [min(years), max(years)], "Truncated paper axis"
+            observed = {r["year"] for r in panel["rows"] if r["series_role"] != "comparator"}
+            assert row["missing_years"] == [y for y in years if y not in observed]
+            checked += 1
+    assert checked == 36
+    return checked
+
+
+def verify_prose(paper, tables, manuscript):
+    statements = paper["prose_statements"]
+    assert statements and len({r["claim_id"] for r in statements}) == len(statements)
+    referenced = set()
+    for row in statements:
+        assert "<!-- " + row["claim_id"] + " -->" in manuscript
+        assert row["text"] in manuscript, "Written statement differs from its trace"
+        assert hashlib.sha256(row["text"].encode("utf-8")).hexdigest() == row["text_sha256"]
+        parents = [p for p in tables["claim_dependencies"] if p["claim_id"] in row["registered_claim_ids"]]
+        assert parents == row["exact_parent_records"], "Written claim parents changed"
+        referenced.update(row["registered_claim_ids"])
+    assert referenced == {c["claim_id"] for c in tables["claims"]}
+    # Validate the actual numbers printed in the abstract, not only table rows.
+    abstract = next(r for r in statements if r["text"].startswith("De geschatte verandering"))
+    from build_paper import fmt
+    for c in tables["claims"]:
+        if c["type"] == "LONG_TERM_MEAN_CHANGE":
+            assert fmt(c["estimate"]) in abstract["text"], "Abstract estimate changed"
+    return len(statements)
+
+
 def verify(repo, products):
     data = products / "data"
     model = read(data / "RESEARCH_PRODUCT_DATA.json")
@@ -33,6 +72,13 @@ def verify(repo, products):
     lineage = read(data / "PRODUCT_POINT_LINEAGE.json")
     trace = read(products / "deck/POLICY_DECK_TRACE.json")
     paper = read(products / "paper/PAPER_PRODUCT_TRACE.json")
+    figure_manifest = read(data / "paper_figures/PAPER_FIGURE_MANIFEST.json")
+    assert figure_manifest["code_sha256"] == sha(Path(__file__).with_name("plot_paper_figures.R"))
+    axes = verify_axes(model, figure_manifest)
+    for name, entry in figure_manifest["figures"].items():
+        for key, suffix in [("png_sha256", ".png"), ("svg_sha256", ".svg"),
+                            ("points_sha256", "_points.csv"), ("anchors_sha256", "_anchors.csv")]:
+            assert entry[key] == sha(data / "paper_figures" / (name + suffix))
     assert trace["provenance"] == model["provenance"] == lineage["provenance"]
     assert paper["figures_provenance"] == model["provenance"]
     assert paper["provenance"] == tables["provenance"]
@@ -126,6 +172,9 @@ def verify(repo, products):
             charts += 1
     assert paper["pdf_sha256"] == sha(products / "paper/Leerprestaties_paper_current47.pdf")
     manuscript = (products / "paper/Leerprestaties_paper_current47.md").read_text(encoding="utf-8")
+    assert paper["manuscript_sha256"] == sha(products / "paper/Leerprestaties_paper_current47.md")
+    assert paper["bibliography_sha256"] == sha(products / "paper/BIBLIOGRAPHY.md")
+    prose_count = verify_prose(paper, tables, manuscript)
     for entry in paper["sections"]:
         assert entry.get("claim_id")
         if "table" in entry:
@@ -142,6 +191,7 @@ def verify(repo, products):
                  display_points_checked=point_count, country_ranks_checked=rank_count,
                  native_charts_checked=charts, native_chart_coordinates_checked=coordinates,
                  slides=22, registered_paper_claims=12, formal_tests=3,
+                 paper_panels_full_anchor_checked=axes, traced_prose_statements=prose_count,
                  new_formal_tests=0, pupil_estimations=0,
                  original_template_sha256=model["provenance"]["source_deck_sha256"],
                  paper_trace_sha256=sha(products / "paper/PAPER_PRODUCT_TRACE.json"),

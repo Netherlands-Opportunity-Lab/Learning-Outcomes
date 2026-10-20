@@ -1,28 +1,38 @@
 ![Leerprestaties](paper_figures/leerprestaties-logo.png)
 
+<!-- PAPER_TEXT_001 -->
 Nederlandse leerprestaties, sociale verschillen en leeromgevingen
 
+<!-- PAPER_TEXT_002 -->
 PIRLS, TIMSS en PISA in een reproduceerbaar internationaal kader
 
+<!-- PAPER_TEXT_003 -->
 Kansenlab / Netherlands Opportunity Lab
 Onderzoeksversie oktober 2026. Selectie: huidige 47 landen en onderwijssystemen.
 
 ## Samenvatting
 
+<!-- PAPER_TEXT_004 -->
 Dit onderzoek beschrijft de ontwikkeling van leerprestaties in Nederland, verschillen naar achtergrond en de samenstelling van de leeromgeving. Het combineert herhaalde internationale dwarsdoorsneden voor het vierde leerjaar (Nederlandse groep 6) en 15-jarigen. Lezen, rekenen/wiskunde en natuurwetenschappen worden per studie en populatie afzonderlijk geanalyseerd. Het pakket bevat een interactief dashboard, een beleidsgerichte presentatie en een volledig herleidbaar resultatengrid.
 
+<!-- PAPER_TEXT_005 -->
 De geschatte verandering in lezen in groep 6 tussen 2001 en 2021 bedraagt -27,0 PIRLS-punten. In TIMSS bedragen de veranderingen tussen 2003 en 2023 -3,2 punten voor rekenen en -8,2 punten voor natuurwetenschappen. Bij 15-jarigen bedragen de geregistreerde langetermijnveranderingen -71,8 PISA-punten voor lezen, -54,6 voor wiskunde en -39,4 voor natuurwetenschappen. Deze veranderingen betreffen verschillende perioden en schalen; zij worden niet onderling als leeftijdseffect vergeleken.
 
+<!-- PAPER_TEXT_006 -->
 Sociale verschillen worden bij de jongere leerlingen gemeten met nationale boekenkwartielen en bij PISA met een vooraf gekozen, trendvergelijkbare SES-constructie. Die constructen zijn niet uitwisselbaar. Verschillen en peerblootstelling zijn beschrijvend. Steekproefrespons, uitsluitingen, afnamemodus, ontbrekende achtergrondkenmerken en meetonzekerheid begrenzen de interpretatie.
 
 ## 1. Vraagstelling en onderzoeksopzet
 
+<!-- PAPER_TEXT_007 -->
 De centrale vraag is hoe Nederlandse leerprestaties zich door de tijd ontwikkelen, voor welke groepen verschillen zichtbaar zijn en hoe leerlingen over leeromgevingen zijn verdeeld. Het doel is een controleerbare beschrijving die dezelfde uitkomsten, definities en onzekerheid in alle producten gebruikt. De interactieve vergelijking met andere landen biedt context; zij verandert de Nederlandse doelgroep of meetjaren niet.
 
+<!-- PAPER_TEXT_008 -->
 De analyse volgt geen individuele leerlingen. Veranderingen kunnen naast onderwijs en leerprocessen ook samenhangen met veranderende populaties, selectieve deelname, meetomstandigheden en achtergrondmetingen. Het verschil tussen een jongere en oudere leeftijdsgroep is geen individuele ontwikkeling. De resultaten identificeren geen causaal beleidseffect, geen effect van ouderlijk inkomen en geen causaal effect van klasgenoten.
 
+<!-- PAPER_TEXT_009 -->
 De huidige afrondingsversie omvat 47 expliciet gekozen landen en onderwijssystemen. Van de bredere bronmatig onderzochte selectie zijn 36 systemen uitgesteld tot een latere R-run. Dat is een fasering van productie en publicatie. De toelatingseisen en historische rijke kandidatenpool zijn niet aangepast om een vooraf bepaald aantal vergelijkingslanden te bereiken.
 
+<!-- PAPER_TEXT_010 -->
 De analyse sluit aan bij de officiële PISA-, PIRLS- en TIMSS-rapportages over prestaties en verschillen tussen leerlinggroepen. Hun technische documentatie bepaalt de populaties, schalen en variantieberekening. Voor de vergelijkbaarheid van de PISA-SES-maat volgen we de expliciet gekozen methode van Cobreros en medeauteurs (2026); de numerieke overeenkomst met hun implementatie is afzonderlijk getoetst. Onze bijdrage is een consistente beschrijving van Nederland, met dezelfde definities en herleidbare cijfers in de tijdreeksen, internationale vergelijkingen en analyses van leeromgevingen. Een geharmoniseerde achtergrondmaat neemt de beperkingen van observationele vergelijkingen niet weg.
 
 ## 2. Bronnen, populaties en meetjaren
@@ -40,14 +50,18 @@ De analyse sluit aan bij de officiële PISA-, PIRLS- en TIMSS-rapportages over p
 
 Meetgolven zijn afzonderlijke afnames, geen jaarlijkse waarnemingen. Het SES-anker bij PISA begint in 2015.
 
+<!-- PAPER_TEXT_011 -->
 PIRLS meet lezen; TIMSS meet rekenen/wiskunde en natuurwetenschappen. De gebruikte IEA-populatie is het internationale vierde leerjaar, in Nederland groep 6. PISA betreft de officiële nationale doelpopulatie van schoolgaande 15-jarigen. Landen en regio’s worden niet gelijkgesteld: een subnationale steekproef wordt niet gebruikt als vervanging voor een nationale populatie in een andere studie.
 
+<!-- PAPER_TEXT_012 -->
 De broncatalogus legt voor iedere editie het officiële bestand, de bronhash, doelgroep, landidentiteit, jaar, mode en relevante kwaliteitsdocumentatie vast. Een bestandsnaam met 2025 of een zichtbaar grafiekpunt is geen bewijs van beschikbaarheid. De gebruikte PISA 2025-gegevens zijn getoetst aan de officiële databank en bijbehorende release- en kwaliteitsdocumentatie. De nog voorlopige status van onderdelen van het technische rapport blijft vermeld in het bronregister.
 
+<!-- PAPER_TEXT_013 -->
 Officiële uitsluitings- en responspercentages blijven afzonderlijk van de aantallen in onze analysegroepen. Een gewogen schatting corrigeert niet automatisch alle gevolgen van non-respons of veranderende populatiedekking. De Nederlandse cyclusgegevens staan in bijlage A en in NLD_OFFICIAL_SAMPLE_QUALITY.csv; de internationale gegevens staan in het wetenschappelijke brondossier.
 
 ## 3. Uitkomsten, achtergrondkenmerken en leeromgevingen
 
+<!-- PAPER_TEXT_014 -->
 De basis beschrijft gemiddelde prestaties, geselecteerde percentielen, de spreiding tussen het 90e en 10e percentiel, en aandelen onder het basisniveau en op hoog/gevorderd niveau. Een plausible value is een trekking uit een verdeling voor populatieschatting, geen individuele toetsscore. Alle vereiste plausible values worden daarom in iedere toepasselijke schatting verwerkt.
 
 ### Tabel 2. Gehanteerde afkappunten
@@ -62,40 +76,57 @@ De basis beschrijft gemiddelde prestaties, geselecteerde percentielen, de spreid
 
 PISA: onder niveau 2 en vanaf niveau 5. IEA: onder het Intermediate International Benchmark en vanaf het Advanced International Benchmark. Dit zijn twee verschillende afkappunten; de lage en hoge staart zijn geen complementen.
 
+<!-- PAPER_TEXT_015 -->
 Bij IEA gebruiken we het aantal boeken thuis om binnen elk land en meetjaar gewogen kwartielen te bepalen. Bij gelijke antwoorden aan een kwartielgrens worden leerlingen fractioneel toegewezen. Daardoor is het aantal leerlingen met positieve groepsdeelname niet noodzakelijk een kwart van de steekproef. De gewogen groepsmassa en de ongewogen aantallen worden afzonderlijk verantwoord.
 
+<!-- PAPER_TEXT_016 -->
 Bij PISA gebruiken we uitsluitend de gekozen viergolvenvariant met dertien gemeenschappelijke items uit de implementatie van Cobreros en medeauteurs (2026). Auteurscode, kalibratiesteekproef, itemparameters, schaaltoepassing en regressie-imputatie zijn gepind en numeriek gecontroleerd. De vier golven zijn 2015, 2018, 2022 en 2025. De oudere tweegolfvariant en een extra officiële-ESCS-robuustheidsanalyse zijn niet gebruikt. Het kalibratiepanel van de auteurs bepaalt niet de dashboardlanden.
 
+<!-- PAPER_TEXT_017 -->
 De vaste kalibratie wordt ook toegepast buiten de oorspronkelijke kalibratiesteekproef. Controle van veldkoppelingen, scoreberekening en ontbrekende waarden bewijst numerieke reproduceerbaarheid, maar bewijst geen meetinvariantie of willekeurige ontbrekendheid in die aanvullende landen. Onzekerheidsmarges zijn conditioneel op deze constructie en op de vastgezette kalibratieparameters.
 
+<!-- PAPER_TEXT_018 -->
 Geslacht wordt aan de hand van de officiële veldlabels per broneditie gekoppeld. Afzonderlijke meisjes blijven afzonderlijk waar zij worden waargenomen. Alleen waar de openbare bron meisjes niet apart van “Other” bevat, wordt de expliciet goedgekeurde categorie “Meisjes + other” gebruikt. Die categorie houdt een eigen definitie en zichtbaar label; zij wordt niet als identiek aan een afzonderlijke meisjescategorie behandeld.
 
+<!-- PAPER_TEXT_019 -->
 Migratieachtergrond heeft drie afzonderlijke definities: minstens één in het buitenland geboren ouder; beide ouders in het buitenland geboren; en eerste of tweede generatie afzonderlijk. De laatste definitie gebruikt ook de geboorteplaats van de leerling. Een derde generatie wordt niet afgeleid. De noemer is per definitie bepaald door de beschikbare geboorteplaatsen: onbekende geboorteplaatsen zijn geen geboorten in het land van afname.
 
+<!-- PAPER_TEXT_020 -->
 Taalgebruik thuis wordt volgens de bronvraag onderscheiden. Een frequentie van de toetstaal thuis is een ander construct dan uitsluitend de opgegeven thuistaal. Labels en breuken in vergelijkbaarheid worden behouden. De afgewezen interactie tussen taal en migratie wordt niet toegevoegd.
 
+<!-- PAPER_TEXT_021 -->
 Peerblootstelling is het leerlinggewogen aandeel van een kenmerk bij andere leerlingen in dezelfde beschikbare leeromgeving, met uitsluiting van de leerling zelf. IEA gebruikt de geïdentificeerde klas; PISA gebruikt waar beschikbaar het onderwijsprogramma binnen de school. Dat laatste is geen volledige klasidentificatie. De gehele school vormt een afzonderlijke uitkomst. Ontbrekende unitcodes en eenheden zonder andere geldige leerlingen leveren geen kunstmatig nulpercentage op.
 
+<!-- PAPER_TEXT_022 -->
 Zowel peers onder basisniveau als hoog vaardige peers zijn opgenomen. De groepsindeling op eigen vaardigheid en de peeruitkomst worden per plausible value bepaald. De noemers gebruiken waargenomen kenmerken en de betreffende leerlinggewichten. De school- en klasvarianten van prestatie- en SES-variantie zijn beschrijvende spreidingsaandelen; zij worden niet als schoolkwaliteit of als schatting van een causaal schooleffect geïnterpreteerd.
 
 ## 4. Weging, onzekerheid en vergelijkingen
 
+<!-- PAPER_TEXT_023 -->
 PISA-schattingen gebruiken het studentgewicht en alle 80 BRR-replicatiegewichten, met Fay-factor 0,5 en de bijbehorende variantiefactor 1/20. Bij de oudere gebruikte cycli worden vijf plausible values verwerkt en vanaf 2015 tien. PIRLS en TIMSS gebruiken de officiële studentgewichten, vijf plausible values en het bijbehorende cyclusgebonden jackknife-ontwerp. Variantie wordt gepoold over de plausible values volgens de bronmethode.
 
+<!-- PAPER_TEXT_024 -->
 Kloven worden binnen dezelfde replicaties en plausible values berekend. Hun standaardfout omvat daardoor de gezamenlijke covariantie van de twee groepen. Het optellen van afzonderlijke groepsvarianties zonder die covariantie is hier geen vervanging. Bij de SES-indeling worden de relevante gewogen groepen ook binnen de replicaties opgebouwd.
 
-Getoonde puntintervallen zijn normaalbenaderingen van 95%: schatting plus of min 1,96 maal de gecertificeerde standaardfout. Zij beschrijven steekproef- en plausible-value-onzekerheid, geen spreiding van individuele leerlingen en geen volledige correctie voor non-respons of meetproblemen. Overlap van twee puntintervallen is geen toets van een verandering. Percentages worden alleen voor weergave met 100 vermenigvuldigd; alle opgeslagen waarden behouden volledige precisie.
+<!-- PAPER_TEXT_025 -->
+Getoonde puntintervallen zijn normaalbenaderingen van 95%: schatting plus of min 1,96 maal de gecertificeerde standaardfout. Zij beschrijven steekproef- en plausible-value-onzekerheid, geen spreiding van individuele leerlingen en geen volledige correctie voor non-respons of meetproblemen. Overlap van twee puntintervallen is geen toets van een verandering. Als een bronresultaat een proportie is, worden de schatting en standaardfout voor de procentweergave met 100 vermenigvuldigd. Resultaten die al percentages zijn, blijven ongewijzigd. Alle opgeslagen waarden behouden volledige precisie.
 
+<!-- PAPER_TEXT_026 -->
 Voor de drie geregistreerde PISA-langetermijnveranderingen wordt de officiële extra onzekerheid van de koppeling tussen het begin- en eindjaar toegevoegd aan de variantie van het verschil. Die linking error betreft de vergelijkbaarheid van scores over afnames: ook als de steekproeven groot zijn, is de verbinding tussen twee meetschalen niet exact. Zij verandert de geschatte verandering niet, maar vergroot de onzekerheidsmarge. De drie p-waarden krijgen gezamenlijk een Holm-correctie.
 
+<!-- PAPER_TEXT_027 -->
 Bij de IEA-langetermijnveranderingen is de beschikbare steekproef/PV-onzekerheid niet aangevuld met een volledig gekwantificeerde langetermijn-linkingvariantie. Deze veranderingen en hun conditionele intervallen worden uitsluitend beschrijvend gerapporteerd. Er wordt geen formele significantieclaim aan verbonden. De twaalf Nederlandse paperclaims zijn geregistreerd nadat resultaten beschikbaar waren, vóór het schrijven van de paper; dit is geen prospectieve preregistratie. Wijzigingen in claims of ouderschattingen vereisen een nieuwe Q08-controle.
 
+<!-- PAPER_TEXT_028 -->
 Voor openbare figuren vereist het project ten minste dertig doelgroepleerlingen in elk noodzakelijk onderdeel en iedere vereiste plausible value. Waar schoolidentificaties worden waargenomen, zijn ten minste vijf waargenomen scholen vereist. Ontbrekende schoolidentificatie is geen waarneming van nul scholen en wordt afzonderlijk verantwoord. Een tekort blijft een kwaliteitsvoorbehoud: de taak en gecertificeerde schatting blijven bewaard, maar het punt komt niet in een figuur, referentiegemiddelde of rang. Voldoende aantallen zijn op zichzelf geen bewijs van representativiteit. Een geldige nul met voldoende ondersteuning blijft wel een resultaat.
 
+<!-- PAPER_TEXT_029 -->
 Een land kan voor een bepaalde leeftijd-domeincombinatie worden toegelaten na minstens drie vergelijkbare meetgolven. Een referentieland moet bovendien alle jaren van het hoofdland en alle samen getoonde groepen en leeromgevingen in die figuur volledig dekken. De groep blijft binnen de figuur gelijk. Tussen figuren mogen groepen verschillen. Jaren, groepen of de hoofdlandpopulatie worden niet verkort om een vergelijking mogelijk te maken.
 
+<!-- PAPER_TEXT_030 -->
 De standaard kiest de passende landen uit de historisch vastgelegde rijke OESO-kandidatenpool en sluit het hoofdland uit. Ieder referentieland telt even zwaar. Dit is een gemiddelde van landen, niet een gepoold leerlinggemiddelde. Een lege groep blijft leeg. De huidige 47-landenafbakening geldt ook voor referenties; uitgestelde landen tellen nu niet mee.
 
+<!-- PAPER_TEXT_031 -->
 Rangen worden berekend op de ongeronde uitkomsten binnen het hoofdland plus dezelfde geselecteerde referentielanden. Exact gelijke waarden krijgen de gemiddelde rang. Voor scores en hoge vaardigheid komt de hoogste waarde eerst; voor het aandeel onder basisniveau, spreiding en de absolute grootte van een kloof de laagste. Het teken van een kloof blijft bewaard bij de bronwaarde. Rangen zijn beschrijvend en hebben geen overgenomen score-standaardfout. De internationale groep krijgt geen eigen ranglijn.
 
 ## 5. Nederlandse resultaten
@@ -115,10 +146,12 @@ Eenheden: punten op de eigen studieschaal. PISA: drie tests, Holm-gecorrigeerde 
 
 ![Figuur 1. Gemiddelde Nederlandse scores. De passende internationale referentie is per paneel vast; de samenstelling staat in de meegeleverde referentietabel. Puntintervallen zijn geen trendtoets.](paper_figures/mean_trends.png)
 
+<!-- PAPER_TEXT_032 -->
 De leesprestaties dalen tussen begin- en eindjaar in beide geregistreerde Nederlandse leeftijdspopulaties. De TIMSS-puntverandering voor rekenen is klein vergeleken met de omvang van het conditionele interval. Dat laat geen stellige conclusie over een verandering toe. De drie PISA-trendtoetsen wijzen onder de gebruikte steekproef- en linkingveronderstellingen op lagere eindjaarsgemiddelden. Dit ontslaat de interpretatie niet van de nationale kwaliteitsvoorbehouden.
 
 ![Figuur 2. Aandeel leerlingen onder het gekozen basisniveau. Drempels en studieschalen blijven afzonderlijk; ontbrekende punten zijn niet geïnterpoleerd.](paper_figures/basic_levels.png)
 
+<!-- PAPER_TEXT_033 -->
 De aandelen onder basisniveau geven een andere samenvatting dan het gemiddelde. Een beweging van het gemiddelde legt niet vast hoeveel leerlingen een afkappunt passeren; dat hangt ook af van de verdeling. De tweede, hogere grens beschrijft de bovenste vaardigheidsgroep. Het aandeel onder basisniveau is daarom niet het complement van het aandeel hoog/gevorderd.
 
 ### Tabel 4. SES-kloof in het laatste meetjaar
@@ -136,16 +169,19 @@ Joint-PV/replicatie-intervallen. Boekenkwartielen (IEA) en de gekozen Cobreros-S
 
 ![Figuur 3. Gemiddelde prestaties in het onderste en bovenste SES-kwartiel. Nederlandse boekenkwartielen bij groep 6; trendvergelijkbare Cobreros-SES bij 15-jarigen.](paper_figures/ses_levels.png)
 
+<!-- PAPER_TEXT_034 -->
 In alle zes laatste Nederlandse combinaties ligt de geschatte gemiddelde prestatie in het bovenste SES-kwartiel hoger dan in het onderste. De tabel kwantificeert dat verschil binnen de betreffende studie en gekozen maat. Zij laat niet zien wat de prestatie van een leerling zou zijn bij een ander gezinsinkomen, en de grotere PISA-puntverschillen zijn geen bewijs dat ongelijkheid tussen de twee leeftijden is toegenomen.
 
 ![Figuur 4. Gemiddelde scores naar de waargenomen geslachtscategorie. Een gepoolde categorie meisjes + other krijgt een eigen label; een definitiebreuk blijft zichtbaar.](paper_figures/gender_levels.png)
 
+<!-- PAPER_TEXT_035 -->
 Uitsplitsingen naar geslacht, thuistaal en migratieachtergrond beschrijven groepen met verschillende samenstelling en soms verschillende respons. Zij worden niet als afzonderlijke verklarende effecten bij elkaar opgeteld. De definities voor minstens één buitenlandse ouder, beide buitenlandse ouders en migratiegeneratie blijven onderscheiden in dashboard en tabellen.
 
 ![Figuur 5. Gemiddelde scores naar migratiegeneratie, uitsluitend voor voldoende ondersteunde analysegroepen. Een ontbrekende generatiecategorie is geen waargenomen nul.](paper_figures/migration_levels.png)
 
 ![Figuur 6. Aandeel peers onder basisniveau naar eigen vaardigheidsniveau, met zelfuitsluiting binnen de beschikbare directe leeromgeving.](paper_figures/peer_basic.png)
 
+<!-- PAPER_TEXT_036 -->
 Verschillen in peerblootstelling laten zien met welke andere leerlingen de waargenomen groepen dezelfde leeromgeving delen. Zelfuitsluiting voorkomt de mechanische bijdrage van het eigen kenmerk aan het peeraandeel. Zij lost selectie tussen scholen, programma’s en klassen niet op. Zowel de lage als de hoge vaardigheidsstaart is beschikbaar in de presentatie en het dashboard; de exacte cijfers per meetgolf staan in de resultaatbijlage.
 
 ### 5.1. Verschillen tussen scholen
@@ -166,22 +202,29 @@ Verschillen in peerblootstelling laten zien met welke andere leerlingen de waarg
 
 Laatste meetjaar per construct; A11 en A13. Gewogen beschrijvende decompositie. De brondefinitie en de schaal blijven per rij afzonderlijk. Volledige reeksen en klasvarianten staan in de resultaatbijlage.
 
+<!-- PAPER_TEXT_037 -->
 Deze aandelen beschrijven hoeveel van de geobserveerde spreiding samenhangt met verschillen tussen de gewogen schoolgemiddelden. Zij omvatten selectie van leerlingen en verschillen in samenstelling. Een groot aandeel is daarom geen schatting van het aandeel dat scholen veroorzaken en ook geen rangorde van schoolkwaliteit. Bij PISA kan de nationale indeling naar onderwijsprogramma samenhangen met de verdeling over scholen. De boekencategorieën bij IEA en de gekalibreerde PISA-SES zijn verschillende schalen; hun variantieaandelen worden niet als dezelfde grootheid door de leeftijden heen verbonden. Klasvarianten blijven beperkt tot bronnen met vergelijkbare echte klasidentificaties.
 
 ## 6. Interpretatie en beperkingen
 
+<!-- PAPER_TEXT_038 -->
 De beschrijving geeft aanleiding om de ontwikkeling van lezen en de aanhoudende verschillen tussen sociale groepen afzonderlijk te volgen. Zij biedt geen identificatie van de bijdrage van één hervorming, schooltype, digitale afname of bevolkingsverandering. Een passende internationale referentie helpt het Nederlandse verloop in context te plaatsen, maar is geen controlegroep in een causaal onderzoeksontwerp.
 
+<!-- PAPER_TEXT_039 -->
 De belangrijkste beperkingen liggen in de doelpopulatie en deelname per cyclus, de constructie en ontbrekendheid van achtergrondkenmerken, de gekalibreerde SES-schaal buiten haar ontwikkelsteekproef en de onvolledig gekwantificeerde linking-onzekerheid bij lange IEA-vergelijkingen. Een kleine standaardfout of hoge rang corrigeert deze beperkingen niet. De verschillende IEA Home-SES-schalen zijn daarom niet tot een historische reeks samengevoegd.
 
+<!-- PAPER_TEXT_040 -->
 Een volledig afgehandeld resultatengrid betekent dat elk gekozen doel óf een gecertificeerde schatting óf een onderbouwde onbeschikbaarheidsreden heeft. Het betekent niet dat alle 47 landen voor ieder uitkomsttype een complete reeks hebben. Bronafwezigheid, niet-afgenomen vragenlijsten, een nog niet bestaande schaal en een onbruikbare analysegroep zijn afzonderlijke hoofdredenen. Kwaliteitsbeperkingen worden daar niet mee vermengd.
 
 ## 7. Reproduceerbaarheid
 
+<!-- PAPER_TEXT_041 -->
 Code, keuzes, bronidentiteiten en resultaten worden als afzonderlijke maar gekoppelde versies bewaard. De exportcommit is niet automatisch de commit die een schatting produceerde. Iedere cel houdt haar taakcontract, broneditie, methode, producent, onzekerheidsregels en resultaat- en certificaathash. Afgeleide kloven, complementen, landenmiddelen en rangen houden hun exacte ouderschattingen.
 
+<!-- PAPER_TEXT_042 -->
 De R-keten gebruikt START.R en RUN.R met de bestaande volgorde fixed-audit, fixed-produce en fixed-finalize. Een identieke hervatting hergebruikt geldige cellen; een gewijzigde bron, methode of relevante configuratie maakt de betreffende afhankelijkheden ongeldig. Bronreplicatie, inspectie van opgeslagen resultaten en reconstructie van producten uit aggregaten zijn verschillende routes. De README rapporteert welke routes werkelijk op Windows en Linux zijn uitgevoerd.
 
+<!-- PAPER_TEXT_043 -->
 De getallen in deze paper zijn gebonden aan resultaatcommit d36eea18980101ce354ebb05ce5f5d91280a70f8. De bijgeleverde PRODUCT_POINT_LINEAGE.json en PAPER_PRODUCT_TRACE.json koppelen figuren, tabellen en claims aan de gebruikte resultaten. Volledige numerieke precisie blijft in de gegevens; tabellen ronden alleen voor leesbaarheid af.
 
 
@@ -311,6 +354,7 @@ Q1: onderste kwart; Q4: bovenste kwart. Natuurwet.: natuurwetenschappen. n is on
 
 ## Bijlage B. Goedgekeurde wetenschappelijke uitbreidingen
 
+<!-- PAPER_TEXT_044 -->
 A02 (hoog vaardigheidsniveau naar SES), A04 (officiële IEA Home-SES), A06 (SES × geslacht) en A14 (SES-variantie tussen klassen) zijn appendixonderdelen. A11 en A13 beschrijven spreiding tussen scholen; A12 wordt alleen gebruikt waar klassen vergelijkbaar zijn. De onderstaande compacte tabellen tonen per reeks het laatste beschikbare jaar. Alle gekozen jaren, exacte definities, eventuele kwaliteitsbeperkingen en resultaatidentiteiten staan in PAPER_APPENDIX_POINT_LINEAGE.csv.
 
 ### B1. Hoog vaardigheidsniveau naar SES
@@ -448,10 +492,12 @@ Punten voor gemiddelde prestaties; percentages voor aandelen en variantieaandele
 
 Punten voor gemiddelde prestaties; percentages voor aandelen en variantieaandelen. De eigen schaal en definitie per rij zijn bindend. Een kwaliteitsbeperking is geen nul.
 
+<!-- PAPER_TEXT_045 -->
 Home-SES is niet beschikbaar vóór PIRLS 2021 en TIMSS 2023: de eerdere Home Resources-schalen zijn andere constructen. Bovendien is de Nederlandse TIMSS-oudervragenlijst in 2023 niet afgenomen. Die Nederlandse Home-SES-cellen zijn daarom niet berekenbaar. Dit is een afnamebeperking en wordt niet met een andere vragenlijst of imputatie aangevuld.
 
 ## Bijlage C. Landenrangen en referenties
 
+<!-- PAPER_TEXT_046 -->
 Deze tabellen gebruiken de Nederlandse standaardreferentie, met volledige Nederlandse jaren en alle gezamenlijk getoonde groepen. De rangbasis bestaat uit Nederland plus de vermelde passende rijke landen binnen de huidige afrondingsselectie. Het zijn puntordeningen; kleine rangverschillen hoeven geen statistisch onderscheid te betekenen. De basis mag tussen tabellen verschillen.
 
 ### C1. Gemiddelde score · Lezen · groep 6
@@ -652,16 +698,23 @@ Vaste basis: NLD, AUS, BEL, CAN, CHE, DEU, DNK, FIN, FRA, GBR, IRL, ITA, NOR, SW
 
 ## Bronnen en bijbehorende bestanden
 
+<!-- PAPER_TEXT_047 -->
 OECD. PISA Data and Methodology en de gebruikte cyclusbestanden, technische rapporten en Reader’s Guides. https://www.oecd.org/en/about/programmes/pisa/pisa-data.html
 
+<!-- PAPER_TEXT_048 -->
 IEA / TIMSS & PIRLS International Study Center. PIRLS 2021 Methods and Procedures, hoofdstuk 13 over standaardfouten. https://pirls2021.org/wp-content/uploads/2023/08/P21_MP_Ch13-standard-errors.pdf
 
+<!-- PAPER_TEXT_049 -->
 IEA / TIMSS & PIRLS International Study Center. TIMSS 2023 Technical Report, hoofdstuk 13. https://timss2023.org/wp-content/uploads/2024/12/T23_TR_Chap13.pdf
 
+<!-- PAPER_TEXT_050 -->
 Cobreros, L., Colomer, M., Correig-Fraga, E., Gortazar, L. en Sayol, I. (2026). Explaining the learning decline in PISA 2025 by socioeconomic quartiles through methodological changes. Versie 24 september 2026. https://www.innovamat.com/wp-content/uploads/2026/09/PISA2025_WP.pdf
 
+<!-- PAPER_TEXT_051 -->
 Innovamat Research Lab. pisa_2025, gepinde auteurscode 1da4b26097e84e732973af672355a1c3103d5d33. https://github.com/Innovamat-Research-Lab/pisa_2025
 
+<!-- PAPER_TEXT_052 -->
 NCES. PISA 2025 Technical Notes, tabel met linking errors voor vergelijking met eerdere cycli. https://nces.ed.gov/surveys/pisa/pisa2025/technical-notes/index.asp
 
+<!-- PAPER_TEXT_053 -->
 Learning Outcomes. Wetenschappelijke Q01-Q08-dossiers, broncatalogus, besluiten, resultaatmanifest en resultaatgrid. https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes

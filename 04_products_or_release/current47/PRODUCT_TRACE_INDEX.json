@@ -1,0 +1,40 @@
+{
+  "status": "CURRENT47_PRODUCT_TO_RESULT_INDEX",
+  "result_manifest_sha256": "5ab441b3036e794bcbc8e590fe2517619f0c5ed1ddae68e6cdd71593ed465122",
+  "scientific_manifest_sha256": "c205f624793a9d55fc25ced02540f91466e5e0e78a8b69fe8c801b229c928965",
+  "products": {
+    "dashboard": {
+      "contracts": 174,
+      "country_figure_contracts": 8178,
+      "proof": "../../06_pipeline/review_20261013/release47_20261020/STEP2_DASHBOARD_SELECTION_RECHECK.json",
+      "candidate_manifest_sha256": "ce55760e9df4f4b4428e3520776c4ffb273ce04f4abf9f165878c06fa175ff33",
+      "selection_code_sha256": "413a55a8f9b0d08c62f5d17988bb3ff6e4fa4a31e032064d9d2a187835685e68"
+    },
+    "policy_deck": {
+      "slides": 22,
+      "native_charts": 90,
+      "trace": "deck/POLICY_DECK_TRACE.json",
+      "sha256": "136e0342fade1db8345c0568161740e92b9f338d82d1ecaea719729bdf206b18"
+    },
+    "paper": {
+      "pages": 29,
+      "prose_statements": 53,
+      "registered_claims": 12,
+      "trace": "paper/PAPER_PRODUCT_TRACE.json",
+      "sha256": "75bccd5a209819a40f5d69f54959d26bced7657a76b4e07102078b717a683090",
+      "written_q08": "PAPER_WRITTEN_Q08_REVIEW.json",
+      "written_q08_sha256": "32c9614618b1994fe03ea5198804aa7045db8f74ba6a533b8d371c0c4462665d"
+    },
+    "shared_figure_parents": {
+      "path": "data/PRODUCT_POINT_LINEAGE.json",
+      "sha256": "0d2c29b3e320dc993d129590e299985c2e410ba5183b0025add99d3e9eb6ada6",
+      "checked_points": 3554,
+      "checked_country_ranks": 112
+    },
+    "approved_appendix": {
+      "path": "data/PAPER_APPENDIX_POINT_LINEAGE.csv",
+      "sha256": "099ab1d4b0aeeecb86c7792c3c953338b560afbd07f878c8be3a9515afea09d7"
+    }
+  },
+  "invalidation": "REBUILD_PRODUCTS validates every sealed dependency before reconstruction; result/scientific manifest, exact parents, claim calculations, figure-builder source, actual axis evidence and written text are checked again by verify_research_products. A changed dependency requires rebuilding and renewed visual/claim review; updating the manifest alone is not approval."
+}

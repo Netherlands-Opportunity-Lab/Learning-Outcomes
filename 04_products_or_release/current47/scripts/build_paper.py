@@ -105,13 +105,29 @@ def main(data_dir, fonts, out):
         'small': ParagraphStyle('small', fontName='Oswald', fontSize=9, leading=12, textColor=colors.HexColor('#59636A'), spaceAfter=7),
         'cell': ParagraphStyle('cell', fontName='Oswald', fontSize=9, leading=12),
     }
-    story, md, trace = [], [], []
+    story, md, trace, prose = [], [], [], []
+    current_section = 'Titel'
 
-    def p(text, style='body'):
+    def p(text, style='body', claim_ids=()):
         story.append(Paragraph(escape(text).replace('\n', '<br/>'), styles[style]))
+        text_id = f'PAPER_TEXT_{len(prose)+1:03d}'
+        # IDs live next to the editable text and in the trace, without filling
+        # the reader-facing PDF with internal identifiers.
+        md.append(f'<!-- {text_id} -->')
         md.append(text + '\n')
+        parent_rows = [r for r in data['claim_dependencies'] if r['claim_id'] in claim_ids]
+        if claim_ids and {r['claim_id'] for r in parent_rows} != set(claim_ids):
+            raise ValueError('A written result statement has no exact claim parents')
+        prose.append(dict(claim_id=text_id, section=current_section, text=text,
+            text_sha256=hashlib.sha256(text.encode('utf-8')).hexdigest(),
+            registered_claim_ids=list(claim_ids), exact_parent_records=parent_rows,
+            source_tables_sha256=sha(data_dir / 'RESEARCH_TABLES.json'),
+            interpretation='existing_registered_results' if claim_ids else 'method_scope_or_context',
+            new_formal_test=False))
 
     def heading(text, level=1):
+        nonlocal current_section
+        current_section = text
         story.append(Paragraph(escape(text), styles['h1' if level == 1 else 'h2']))
         md.append('#' * (level + 1) + ' ' + text + '\n')
 
@@ -184,7 +200,8 @@ def main(data_dir, fonts, out):
     heading('Samenvatting')
     p('Dit onderzoek beschrijft de ontwikkeling van leerprestaties in Nederland, verschillen naar achtergrond en de samenstelling van de leeromgeving. Het combineert herhaalde internationale dwarsdoorsneden voor het vierde leerjaar (Nederlandse groep 6) en 15-jarigen. Lezen, rekenen/wiskunde en natuurwetenschappen worden per studie en populatie afzonderlijk geanalyseerd. Het pakket bevat een interactief dashboard, een beleidsgerichte presentatie en een volledig herleidbaar resultatengrid.')
     tr = lambda study, domain: claims[f'NLD_TREND_{study}_{domain.upper()}']
-    p(f"De geschatte verandering in lezen in groep 6 tussen 2001 en 2021 bedraagt {fmt(tr('PIRLS','reading')['estimate'])} PIRLS-punten. In TIMSS bedragen de veranderingen tussen 2003 en 2023 {fmt(tr('TIMSS','mathematics')['estimate'])} punten voor rekenen en {fmt(tr('TIMSS','science')['estimate'])} punten voor natuurwetenschappen. Bij 15-jarigen bedragen de geregistreerde langetermijnveranderingen {fmt(tr('PISA','reading')['estimate'])} PISA-punten voor lezen, {fmt(tr('PISA','mathematics')['estimate'])} voor wiskunde en {fmt(tr('PISA','science')['estimate'])} voor natuurwetenschappen. Deze veranderingen betreffen verschillende perioden en schalen; zij worden niet onderling als leeftijdseffect vergeleken.")
+    p(f"De geschatte verandering in lezen in groep 6 tussen 2001 en 2021 bedraagt {fmt(tr('PIRLS','reading')['estimate'])} PIRLS-punten. In TIMSS bedragen de veranderingen tussen 2003 en 2023 {fmt(tr('TIMSS','mathematics')['estimate'])} punten voor rekenen en {fmt(tr('TIMSS','science')['estimate'])} punten voor natuurwetenschappen. Bij 15-jarigen bedragen de geregistreerde langetermijnveranderingen {fmt(tr('PISA','reading')['estimate'])} PISA-punten voor lezen, {fmt(tr('PISA','mathematics')['estimate'])} voor wiskunde en {fmt(tr('PISA','science')['estimate'])} voor natuurwetenschappen. Deze veranderingen betreffen verschillende perioden en schalen; zij worden niet onderling als leeftijdseffect vergeleken.",
+      claim_ids=[k for k in claims if k.startswith('NLD_TREND_')])
     p('Sociale verschillen worden bij de jongere leerlingen gemeten met nationale boekenkwartielen en bij PISA met een vooraf gekozen, trendvergelijkbare SES-constructie. Die constructen zijn niet uitwisselbaar. Verschillen en peerblootstelling zijn beschrijvend. Steekproefrespons, uitsluitingen, afnamemodus, ontbrekende achtergrondkenmerken en meetonzekerheid begrenzen de interpretatie.')
 
     heading('1. Vraagstelling en onderzoeksopzet')
@@ -222,7 +239,7 @@ def main(data_dir, fonts, out):
     heading('4. Weging, onzekerheid en vergelijkingen')
     p('PISA-schattingen gebruiken het studentgewicht en alle 80 BRR-replicatiegewichten, met Fay-factor 0,5 en de bijbehorende variantiefactor 1/20. Bij de oudere gebruikte cycli worden vijf plausible values verwerkt en vanaf 2015 tien. PIRLS en TIMSS gebruiken de officiële studentgewichten, vijf plausible values en het bijbehorende cyclusgebonden jackknife-ontwerp. Variantie wordt gepoold over de plausible values volgens de bronmethode.')
     p('Kloven worden binnen dezelfde replicaties en plausible values berekend. Hun standaardfout omvat daardoor de gezamenlijke covariantie van de twee groepen. Het optellen van afzonderlijke groepsvarianties zonder die covariantie is hier geen vervanging. Bij de SES-indeling worden de relevante gewogen groepen ook binnen de replicaties opgebouwd.')
-    p('Getoonde puntintervallen zijn normaalbenaderingen van 95%: schatting plus of min 1,96 maal de gecertificeerde standaardfout. Zij beschrijven steekproef- en plausible-value-onzekerheid, geen spreiding van individuele leerlingen en geen volledige correctie voor non-respons of meetproblemen. Overlap van twee puntintervallen is geen toets van een verandering. Percentages worden alleen voor weergave met 100 vermenigvuldigd; alle opgeslagen waarden behouden volledige precisie.')
+    p('Getoonde puntintervallen zijn normaalbenaderingen van 95%: schatting plus of min 1,96 maal de gecertificeerde standaardfout. Zij beschrijven steekproef- en plausible-value-onzekerheid, geen spreiding van individuele leerlingen en geen volledige correctie voor non-respons of meetproblemen. Overlap van twee puntintervallen is geen toets van een verandering. Als een bronresultaat een proportie is, worden de schatting en standaardfout voor de procentweergave met 100 vermenigvuldigd. Resultaten die al percentages zijn, blijven ongewijzigd. Alle opgeslagen waarden behouden volledige precisie.')
     p('Voor de drie geregistreerde PISA-langetermijnveranderingen wordt de officiële extra onzekerheid van de koppeling tussen het begin- en eindjaar toegevoegd aan de variantie van het verschil. Die linking error betreft de vergelijkbaarheid van scores over afnames: ook als de steekproeven groot zijn, is de verbinding tussen twee meetschalen niet exact. Zij verandert de geschatte verandering niet, maar vergroot de onzekerheidsmarge. De drie p-waarden krijgen gezamenlijk een Holm-correctie.')
     p('Bij de IEA-langetermijnveranderingen is de beschikbare steekproef/PV-onzekerheid niet aangevuld met een volledig gekwantificeerde langetermijn-linkingvariantie. Deze veranderingen en hun conditionele intervallen worden uitsluitend beschrijvend gerapporteerd. Er wordt geen formele significantieclaim aan verbonden. De twaalf Nederlandse paperclaims zijn geregistreerd nadat resultaten beschikbaar waren, vóór het schrijven van de paper; dit is geen prospectieve preregistratie. Wijzigingen in claims of ouderschattingen vereisen een nieuwe Q08-controle.')
     p('Voor openbare figuren vereist het project ten minste dertig doelgroepleerlingen in elk noodzakelijk onderdeel en iedere vereiste plausible value. Waar schoolidentificaties worden waargenomen, zijn ten minste vijf waargenomen scholen vereist. Ontbrekende schoolidentificatie is geen waarneming van nul scholen en wordt afzonderlijk verantwoord. Een tekort blijft een kwaliteitsvoorbehoud: de taak en gecertificeerde schatting blijven bewaard, maar het punt komt niet in een figuur, referentiegemiddelde of rang. Voldoende aantallen zijn op zichzelf geen bewijs van representativiteit. Een geldige nul met voldoende ondersteuning blijft wel een resultaat.')
@@ -246,14 +263,16 @@ def main(data_dir, fonts, out):
           trend_rows, [124, 66, 66, 106, 125], 'Eenheden: punten op de eigen studieschaal. PISA: drie tests, Holm-gecorrigeerde p < 0,001. IEA: geen formele trendtoets.',
           [x for x in claims if '_TREND_' in x])
     figure('mean_trends', 'Figuur 1. Gemiddelde Nederlandse scores. De passende internationale referentie is per paneel vast; de samenstelling staat in de meegeleverde referentietabel. Puntintervallen zijn geen trendtoets.')
-    p('De leesprestaties dalen tussen begin- en eindjaar in beide geregistreerde Nederlandse leeftijdspopulaties. De TIMSS-puntverandering voor rekenen is klein vergeleken met de omvang van het conditionele interval. Dat laat geen stellige conclusie over een verandering toe. De drie PISA-trendtoetsen wijzen onder de gebruikte steekproef- en linkingveronderstellingen op lagere eindjaarsgemiddelden. Dit ontslaat de interpretatie niet van de nationale kwaliteitsvoorbehouden.')
+    p('De leesprestaties dalen tussen begin- en eindjaar in beide geregistreerde Nederlandse leeftijdspopulaties. De TIMSS-puntverandering voor rekenen is klein vergeleken met de omvang van het conditionele interval. Dat laat geen stellige conclusie over een verandering toe. De drie PISA-trendtoetsen wijzen onder de gebruikte steekproef- en linkingveronderstellingen op lagere eindjaarsgemiddelden. Dit ontslaat de interpretatie niet van de nationale kwaliteitsvoorbehouden.',
+      claim_ids=[k for k in claims if k.startswith('NLD_TREND_')])
     figure('basic_levels', 'Figuur 2. Aandeel leerlingen onder het gekozen basisniveau. Drempels en studieschalen blijven afzonderlijk; ontbrekende punten zijn niet geïnterpoleerd.')
     p('De aandelen onder basisniveau geven een andere samenvatting dan het gemiddelde. Een beweging van het gemiddelde legt niet vast hoeveel leerlingen een afkappunt passeren; dat hangt ook af van de verdeling. De tweede, hogere grens beschrijft de bovenste vaardigheidsgroep. Het aandeel onder basisniveau is daarom niet het complement van het aandeel hoog/gevorderd.')
     table('Tabel 4. SES-kloof in het laatste meetjaar', ['Studie / domein', 'Jaar', 'Q4 min Q1', '95%-interval'], gap_rows,
           [190, 52, 96, 149], 'Joint-PV/replicatie-intervallen. Boekenkwartielen (IEA) en de gekozen Cobreros-SES (PISA) meten verschillende constructen. Geen vergelijking van causale of leeftijdseffecten.',
           [x for x in claims if '_SES_GAP_' in x])
     figure('ses_levels', 'Figuur 3. Gemiddelde prestaties in het onderste en bovenste SES-kwartiel. Nederlandse boekenkwartielen bij groep 6; trendvergelijkbare Cobreros-SES bij 15-jarigen.')
-    p('In alle zes laatste Nederlandse combinaties ligt de geschatte gemiddelde prestatie in het bovenste SES-kwartiel hoger dan in het onderste. De tabel kwantificeert dat verschil binnen de betreffende studie en gekozen maat. Zij laat niet zien wat de prestatie van een leerling zou zijn bij een ander gezinsinkomen, en de grotere PISA-puntverschillen zijn geen bewijs dat ongelijkheid tussen de twee leeftijden is toegenomen.')
+    p('In alle zes laatste Nederlandse combinaties ligt de geschatte gemiddelde prestatie in het bovenste SES-kwartiel hoger dan in het onderste. De tabel kwantificeert dat verschil binnen de betreffende studie en gekozen maat. Zij laat niet zien wat de prestatie van een leerling zou zijn bij een ander gezinsinkomen, en de grotere PISA-puntverschillen zijn geen bewijs dat ongelijkheid tussen de twee leeftijden is toegenomen.',
+      claim_ids=[k for k in claims if k.startswith('NLD_SES_GAP_')])
     figure('gender_levels', 'Figuur 4. Gemiddelde scores naar de waargenomen geslachtscategorie. Een gepoolde categorie meisjes + other krijgt een eigen label; een definitiebreuk blijft zichtbaar.')
     p('Uitsplitsingen naar geslacht, thuistaal en migratieachtergrond beschrijven groepen met verschillende samenstelling en soms verschillende respons. Zij worden niet als afzonderlijke verklarende effecten bij elkaar opgeteld. De definities voor minstens één buitenlandse ouder, beide buitenlandse ouders en migratiegeneratie blijven onderscheiden in dashboard en tabellen.')
     figure('migration_levels', 'Figuur 5. Gemiddelde scores naar migratiegeneratie, uitsluitend voor voldoende ondersteunde analysegroepen. Een ontbrekende generatiecategorie is geen waargenomen nul.')
@@ -376,6 +395,7 @@ def main(data_dir, fonts, out):
     ]
     for source in sources:
         p(source, 'small')
+    (out / 'BIBLIOGRAPHY.md').write_text('\n\n'.join(sources) + '\n', encoding='utf-8')
 
     def page(canvas, doc):
         canvas.saveState()
@@ -394,7 +414,9 @@ def main(data_dir, fonts, out):
     doc.build(story)
     (out / 'Leerprestaties_paper_current47.md').write_text('\n'.join(md), encoding='utf-8')
     (out / 'PAPER_PRODUCT_TRACE.json').write_text(json.dumps(dict(provenance=data['provenance'],
-        figures_provenance=figures['provenance'], sections=trace, builder_sha256=sha(Path(__file__)),
+        figures_provenance=figures['provenance'], sections=trace, prose_statements=prose,
+        manuscript_sha256=sha(out / 'Leerprestaties_paper_current47.md'),
+        bibliography_sha256=sha(out / 'BIBLIOGRAPHY.md'), builder_sha256=sha(Path(__file__)),
         pdf_sha256=sha(pdf)), ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(dict(status='PAPER_BUILT_FROM_CERTIFIED_AGGREGATES', pdf=str(pdf), formal_claims=3, registered_claims=12)))
 

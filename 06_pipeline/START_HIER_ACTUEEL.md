@@ -1,6 +1,28 @@
 # Start hier — actuele besluiten en resterend werk
 
-## Huidige opdracht — stap 1 controleren op bestaand bewijs
+## Huidige opdracht — stap 2 opnieuw inhoudelijk en technisch beoordeeld
+
+**20 oktober: de releasekandidaten voor current47 zijn bijgewerkt.** Het dashboard
+is gecontroleerd over alle 174 figuurcontracten en 8.178 land-figuurkeuzes. De
+22 slides zijn volledig opnieuw bekeken; hun 90 bewerkbare grafieken sluiten
+aan op dezelfde resultaten. De paper van 29 pagina's is gecorrigeerd: volledige
+jaarassen bij ontbrekende golven, onderscheidende peerkleuren en tekst-ID's met
+exacte claimouders. De twaalf claims en drie formele toetsen blijven ongewijzigd.
+Zie [de productreview](review_20261013/release47_20261020/STEP2_REVIEW_20261020.md).
+
+De bestaande live dashboardapplicatie blijft gelijk. **De nieuw gecorrigeerde
+paper is nog een branchkandidaat; de live paper en het downloadpakket bevatten
+tot opdracht 3 de vorige versie.** De onderstaande historische online hashcontrole
+blijft alleen bewijs voor die vorige publicatie. Publiceer en controleer de nieuwe
+producthashes bij opdracht 3. Er is nu geen RStudio-handeling nodig.
+
+De 36 uitgestelde landen én de volledige nieuwe leerlingbronreplicatie blijven
+uitgesteld. Het controleren en reconstrueren van deze aggregaatproducten start
+geen van beide. Vormgevingsreparaties wijzigen geen goedgekeurde analysescope,
+resultaat of onderzoeksdefinitie; inhoudelijke A-besluiten blijven ongewijzigd.
+
+## Afgesloten hercontrole — stap 1
+
 
 **Latere gebruikersafbakening, 20 oktober:** controleer de drie opdrachten beurtelings op het al afgeronde werk, zonder de 36 uitgestelde landen en zonder de volledige nieuwe bronreplicatie. Hergebruik ongewijzigd bewijs en herstel concrete fouten. De wetenschappelijke toelating blijft per leeftijd-uitkomstcombinatie met minstens drie vergelijkbare meetgolven. Zie [de vastgelegde keuze](review_20261013/release47_20261020/REVIEW_EXECUTION_DECISION_20261020.json).
 
