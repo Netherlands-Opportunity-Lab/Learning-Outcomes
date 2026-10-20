@@ -13,6 +13,28 @@ lo_existing_result_evidence <- function(bundle, tasks, state,
     science_fingerprint=character(),source_sha256=character(),
     scientific_status=character(),code_fingerprint=character(),
     result_hash=character(),is_current=character(),stringsAsFactors=FALSE)
+  if(Sys.getenv("LO_FRESH_REPLICATION","")=="1") {
+    # Fresh replication has no historical candidate discovery. Its own durable
+    # certified registry is still read separately by the existing controller.
+    # In particular, never inspect another local project's caches or Downloads.
+    empty$country<-character();empty$has_estimate_and_se<-logical()
+    empty$has_sample_n<-logical();empty$has_input_sha256<-logical()
+    empty$reuse_gate<-character()
+    out<-file.path(state,"FINAL_FIXED_PIPELINE")
+    dir.create(out,recursive=TRUE,showWarnings=FALSE)
+    need<-data.frame(metric_key=keys,country=tasks$country,survey=tasks$survey,
+      year=tasks$year,module=tasks$module,archive_candidates=0L,
+      status="FRESH_SOURCE_REPLICATION_NO_HISTORICAL_CANDIDATES",
+      approved_to_compute="NO",stringsAsFactors=FALSE)
+    summary<-data.frame(scope_contracts=nrow(tasks),keys_with_archive_candidates=0L,
+      without_archive_candidate=nrow(tasks),archive_record_versions=0L,
+      approved_to_reuse=0L,approved_to_compute=0L,
+      status="FRESH_SOURCE_REPLICATION_NO_HISTORICAL_CANDIDATES")
+    write.csv(empty,file.path(out,"PRIVATE_ARCHIVE_EVIDENCE.csv"),row.names=FALSE)
+    write.csv(need,file.path(out,"PRIVATE_GRID_MATCH_STATUS.csv"),row.names=FALSE)
+    write.csv(summary,file.path(out,"RECONCILIATION_SUMMARY.csv"),row.names=FALSE)
+    return(invisible(list(summary=summary,evidence=empty,match=need)))
+  }
   normal <- function(x,source) {
     if(!nrow(x))return(empty)
     col <- function(k)if(k%in%names(x))as.character(x[[k]]) else

@@ -70,13 +70,20 @@ lo_fixed_controller <- function(repo,bundle,
   master_lock<-lo_process_lock(file.path(root,'master_reconciliation','.SCIENTIFIC_MASTER_WRITER.lck'))
   on.exit(lo_process_unlock(master_lock),add=TRUE)
   international_manifest<-file.path(root,'international','SOURCE_RUN_MANIFEST.csv')
-  if(scope!='nld_only'&&stage=='audit'&&!file.exists(international_manifest)&&nzchar(Sys.getenv('LO_SOURCE_BINDINGS',''))) {
+  fresh_replication<-Sys.getenv('LO_FRESH_REPLICATION','')=='1'
+  if((scope!='nld_only'||fresh_replication)&&stage=='audit'&&!file.exists(international_manifest)&&nzchar(Sys.getenv('LO_SOURCE_BINDINGS',''))) {
     source(file.path(repo,'06_pipeline/LO_SOURCE_BINDINGS.R'),local=environment())
-    lo_bind_international_sources(repo,root,Sys.getenv('LO_SOURCE_BINDINGS'))
+    countries<-if(scope=='nld_only')'NLD'else run_config$selection$countries
+    modules<-run_config$selection$modules
+    needs_ses<-!length(modules)||any(modules%in%c('ses_harmonized','extension_ses_gender',
+      'extension_ses_school','ses_peer_exposure','peer_baseline'))
+    lo_bind_international_sources(repo,root,Sys.getenv('LO_SOURCE_BINDINGS'),
+      countries=if(length(countries))countries else NULL,
+      include_calibration_contexts=fresh_replication&&needs_ses)
   }
-  if(scope!='nld_only'&&stage=='audit'&&file.exists(international_manifest)) {
+  if((scope!='nld_only'||fresh_replication)&&stage=='audit'&&file.exists(international_manifest)) {
     source(file.path(repo,'06_pipeline/LO_INTERNATIONAL_SOURCES.R'),local=environment())
-    lo_international_sources(repo,root,international_manifest)
+    lo_international_sources(repo,root,international_manifest,scope=scope)
   }
   if(nzchar(Sys.getenv("LO_REPRODUCE_COMMIT",""))) {
     source(file.path(repo,"06_pipeline","LO_ENVIRONMENT.R"),local=environment())
