@@ -42,6 +42,23 @@ lo_drive_run <- function(exe,args) {
   }
 }
 
+lo_drive_verified_large_report <- function(path,state,remote) {
+  proof<-file.path(state,'LARGE_REPORT_RESTORE_MANIFEST.json')
+  if(!file.exists(proof)||!file.exists(path))return(NULL)
+  p<-tryCatch(jsonlite::fromJSON(proof,simplifyVector=FALSE),error=function(e)NULL)
+  if(!is.list(p)||!is.list(p$files)||!identical(p$kind,'PRIVATE_GENERATED_AGGREGATE_REVIEW_REPORTS')||
+     !identical(p$scope,basename(state))||
+     !identical(p$destination_sha256,digest::digest(remote,algo='sha256',serialize=FALSE)))return(NULL)
+  r<-p$files[[basename(path)]]
+  if(is.null(r)||!identical(r$status,'PRIVATE_DRIVE_DOWNLOAD_AND_FULL_RESTORE_VERIFIED')||
+     !isTRUE(r$restored_exact_bytes)||!identical(r$source_sha256,digest::digest(file=path,algo='sha256'))||
+     !identical(as.numeric(r$source_bytes),as.numeric(file.info(path)$size))||
+     !is.character(r$gzip_sha256)||length(r$gzip_sha256)!=1L||
+     !grepl('^[a-f0-9]{64}$',r$gzip_sha256)||
+     !identical(r$relative_object,paste0('objects/',r$gzip_sha256,'.csv.gz')))return(NULL)
+  list(path=proof,sha256=digest::digest(file=proof,algo='sha256'))
+}
+
 lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_override="",
                           producer_commit="UNKNOWN",results_root_override="",fixed_scope="") {
   action <- match.arg(action)
@@ -357,14 +374,21 @@ lo_drive_sync <- function(config,action=c("publish","preview","watch"),rclone_ov
           file.path(base,"FINAL_FIXED_PIPELINE",rel)
         else file.path(base,rel)
         if(!file.exists(p)) {
+          # The active pipeline writes a balanced export, not the obsolete
+          # fixed-size comparator. Absence of that historical report is not a
+          # missing backup of a current product.
+          replaced<-rel=="PRIVATE_FIXED_COMPARATOR_POINTS.csv"&&
+            file.exists(file.path(base,"BALANCED_REFERENCE_EXPORT.json"))
           cover[[length(cover)+1L]] <- data.frame(file=rel,
-              status="MISSING_NOT_BACKED_UP",bytes=0)
+              status=if(replaced)"NOT_APPLICABLE_REPLACED_BY_BALANCED_EXPORT"else"MISSING_NOT_BACKED_UP",bytes=0)
           next
         }
         sz <- file.info(p)$size
         if(!is.finite(sz) || sz>min(maxbytes,64*1024^2)) {
+          restored<-lo_drive_verified_large_report(p,base,remote)
+          if(!is.null(restored))safe<-unique(c(safe,restored$path))
           cover[[length(cover)+1L]] <- data.frame(file=rel,
-              status="OVERSIZE_NOT_BACKED_UP",bytes=as.numeric(sz))
+              status=if(!is.null(restored))"VERIFIED_PRIVATE_GZIP_RESTORE"else"OVERSIZE_NOT_BACKED_UP",bytes=as.numeric(sz))
           next
         }
         headers <- tryCatch(names(read.csv(p,nrows=0,

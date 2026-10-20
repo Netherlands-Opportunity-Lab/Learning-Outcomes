@@ -72,6 +72,8 @@ jobs:
         run: Rscript 06_pipeline/tests/test_run.R
       - name: Test R-native private Drive reports and reviewed return ZIP
         run: Rscript 06_pipeline/tests/test_drive_sync_r.R
+      - name: Compressed private backup binds exact content and destination
+        run: Rscript 06_pipeline/tests/test_large_report_restore_binding.R
       - name: Test exact-run LO02 read-only export, without pupil data
         run: Rscript 06_pipeline/tests/test_existing_lo02_export.R
       - name: Test product-driven minimum computations with synthetic contracts
