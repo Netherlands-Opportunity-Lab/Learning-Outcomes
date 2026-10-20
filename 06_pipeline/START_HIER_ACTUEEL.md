@@ -1,5 +1,11 @@
 # Start hier — actuele besluiten en resterend werk
 
+## Huidige opdracht — stap 1 controleren op bestaand bewijs
+
+**Latere gebruikersafbakening, 20 oktober:** controleer de drie opdrachten beurtelings op het al afgeronde werk, zonder de 36 uitgestelde landen en zonder de volledige nieuwe bronreplicatie. Hergebruik ongewijzigd bewijs en herstel concrete fouten. De wetenschappelijke toelating blijft per leeftijd-uitkomstcombinatie met minstens drie vergelijkbare meetgolven. Zie [de vastgelegde keuze](review_20261013/release47_20261020/REVIEW_EXECUTION_DECISION_20261020.json).
+
+**Stap 1 is opnieuw gecontroleerd en afgesloten voor current47.** De [inhoudelijke eindreview](review_20261013/release47_20261020/STEP1_REVIEW_20261020.md) en [uitvoerbare bewijscontrole](review_20261013/release47_20261020/STEP1_EVIDENCE_RECHECK.json) sluiten aan op 90.829 doelen, 82.142 resultaten en 8.687 onderbouwd onbeschikbare doelen. Er zijn nul nieuwe leerlingberekeningen nodig. De twaalf paperclaims zijn opnieuw numeriek gecontroleerd. Voer nu geen RStudio-bronrun uit; de twee uitgestelde onderdelen blijven bewaard voor later. De onderstaande aflever- en historische uitvoeringsstanden zijn geen nieuwe rekenopdracht.
+
 ## Afgeleverd — 20 oktober: huidige 47, uitgestelde 36 blijven buiten beeld
 
 **Stap 1 en stap 2 zijn afgesloten voor current47.** Gebruik het bestaande bewijs;
@@ -30,9 +36,11 @@ zie [de uitleg en resterende aftekening](review_20261013/release47_20261020/FRES
 Het commando weigert een verkeerde scope, gewijzigde instellingen of onvoldoende
 ruimte. De launcher-tests op Windows/Linux en de lokale pad-, omgevings- en
 ruimtecontrole zijn geslaagd. Er is circa 10,3 GB vrij; er draait geen bronrun.
-Het is een nieuwe verplichte replicatiecontrole, geen herhaling van de
-al afgesloten inventarisatie of productbouw. Start de 36 uitgestelde landen pas
-nadat deze bronreplicatie en de aansluiting van haar afleidingen zijn beoordeeld.
+De gebruiker heeft deze volledige nieuwe bronreplicatie inmiddels expliciet
+uitgesteld, samen met de 36 resterende landen. De voorbereiding blijft beschikbaar;
+start geen van beide tijdens de huidige drie controles. Uitstel is geen geslaagde
+bronreplicatie. Een latere hervatting vereist een nieuwe uitvoeringsopdracht en
+een actuele controle van configuratie, bronnen en schijfruimte.
 
 [Live dashboard](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/nl/)
 · [Paper, presentatie en pakket](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/info/nl/)
@@ -60,7 +68,7 @@ uitvoeringsstanden hieronder zijn historisch; het huidige besluit hervat alleen
 de afronding voor deze 47 landen.
 
 
-## Laatste uitvoeringsbesluit — begrensde prioriteitsrun, 20 oktober
+## Historische uitvoering — begrensde prioriteitsrun, 20 oktober
 
 Op uitdrukkelijk verzoek zijn de brede productierun en de automatische wetenschappelijke
 afsluiter gestopt. Daarna zijn het Verenigd Koninkrijk, Liechtenstein en Luxemburg
@@ -79,7 +87,7 @@ Resultaten, code-/configuratieverbindingen en checkpoints zijn opgeslagen. Er dr
 geen verdere producer of automatische afsluiter. Hervat overige landen of de brede
 eindcontroles pas op een nieuwe opdracht. De onderstaande uitvoeringsstanden zijn historisch.
 
-## Uitvoering bronuitbreiding — 19 oktober 2026
+## Historische uitvoering bronuitbreiding — 19 oktober 2026
 
 Alle 50 aanvullende kandidaten zijn in de echte bronbestanden beoordeeld. Jemen valt na correctie van de officieel afgewezen steekproef uit 2003 af: 2007 en 2011 leveren slechts twee vergelijkbare golven. Van deze kandidaten zijn er 49 toegelaten. De
 toelating per combinatie geeft **83 landen/stelsels, 360 combinaties en 131.436
@@ -376,6 +384,7 @@ Oudere plannen, chats, slides en tabellen zijn bronmateriaal. Hun opdrachten, aa
 | D21 | Afzonderlijke meisjes behouden waar beschikbaar; uitsluitend anders de expliciet goedgekeurde Female / Other-pooling. Behoud drie migratiedefinities. | Eigen labels, bron en identiteit voor pooling; geen nonrespons imputeren. Minstens één buitenlandse ouder, beide buitenlandse ouders en eerste/tweede generatie blijven onderscheiden. Geen derde generatie; noemers en onbeslisbare geboorteplaatsen zichtbaar. |
 | D22 | De tijdelijke available-cases-website is geen definitieve balansbeslissing. | Opdracht 19 oktober bevestigt volledige hoofdlandankers en gezamenlijke groepen. De vastgestelde populatie-/trendcorrecties en hun gevolgen staan in `SCIENTIFIC_BASIS_20261019.md`; historische resultaten blijven behouden. |
 | D24 | 20 oktober: stel 36 resterende landen uit tot na stap 1, 2 en 3. | Huidige afronding betreft 47 landen; 90.829 doelen: 82.142 gevalideerd en 8.687 onderbouwd onbeschikbaar. Bewaar alle 40.607 doelen van de 36 uitgestelde landen, inclusief 544 bestaande resultaten en 39.239 open taken. Geen gewijzigde wetenschappelijke toelating of ingekort figuuranker. |
+| D25 | 20 oktober: controleer de drie opdrachten beurtelings met bestaand bewijs, zonder deferred36 en zonder de volledige nieuwe bronreplicatie. | Huidige review current47; geen van beide lange runs starten. Uitgestelde controles blijven expliciet niet uitgevoerd. Zie `REVIEW_EXECUTION_DECISION_20261020.json` en `STEP1_REVIEW_20261020.md` in het current47-dossier. |
 
 ## Bestaande methodische afspraken en kwaliteitsvoorwaarden
 
@@ -403,9 +412,9 @@ De dynamische bronregistry, volledige-focus-balansadapter, exacte dispatcher en 
 
 De actuele Nederlandse `fixed-audit` bevat **2.678 doelcellen**, waarvan **2.373 wetenschappelijk gevalideerd**, **281 met aangetoonde ontbrekende bronvelden/constructen** en **24 nog niet gecertificeerd**. Er staan nul reeds gecertificeerde rekenbatches open; dat betekent niet dat alle inhoudelijke werkzaamheden klaar zijn. De 400 gekozen prestatiepeeruitkomsten zijn gecontroleerd, inclusief alle 240 lage-peercellen. De volledige Nederlandse basisjaaranker van 40 combinaties is met officiële bronbestanden onderbouwd. De controller heeft de gecertificeerde batches uitgevoerd en bij een identieke tweede run zonder herberekening hergebruikt. Nieuwe goedgekeurde uitbreidingen hebben afzonderlijke celcontracten, producentfuncties en een appendix/science-export. Bestaande registerlabels bewijzen geen wetenschappelijke geldigheid. De actuele bewijs- en bestandsmaten staan in `review_20261013/STEP1_EXECUTION_EVIDENCE_20261014.json`.
 
-De besluiten van 14 oktober voegen toe: beide prestatiepeeruitkomsten (A01/A03), hoog/gevorderd naar SES in de appendix (A02), Home-SES in de appendix met consistente definitie en ontbrekende-jarenrapport (A04), SES × geslacht in de appendix (A06), prestatievariantie tussen scholen/vergelijkbare klassen (A11/A12), SES-variantie tussen scholen (A13) en tussen vergelijkbare klassen in de appendix (A14). A05/A07/A08 zijn afgewezen; A10 wordt na de vier opdrachten heroverwogen; A15/A16 zijn uitgesteld. A17 autoriseert alleen noodzakelijke paperclaimtoetsen, geen systematische toetsensuite. A09 is goedgekeurd: rangontwikkeling in het dashboard en een ranglijst uitsluitend in de wetenschappelijke paper. Geen appendixuitbreiding automatisch op het beleidsdeck plaatsen.
+De besluiten van 14 oktober voegen toe: beide prestatiepeeruitkomsten (A01/A03), hoog/gevorderd naar SES in de appendix (A02), Home-SES in de appendix met consistente definitie en ontbrekende-jarenrapport (A04), SES × geslacht in de appendix (A06), prestatievariantie tussen scholen/vergelijkbare klassen (A11/A12), SES-variantie tussen scholen (A13) en tussen vergelijkbare klassen in de appendix (A14). A05/A07/A08 zijn afgewezen; A10 blijft uitgesteld tot een afzonderlijk nieuw inhoudelijk besluit; A15/A16 zijn uitgesteld. A17 autoriseert alleen noodzakelijke paperclaimtoetsen, geen systematische toetsensuite. A09 is goedgekeurd: rangontwikkeling in het dashboard en een ranglijst uitsluitend in de wetenschappelijke paper. Geen appendixuitbreiding automatisch op het beleidsdeck plaatsen.
 
-Op 15 oktober heeft de gebruiker rechtstreeks opgedragen: **“doe alle landen en alle benodigde resultaten”**. Dit vervangt de eerdere eis van een afzonderlijk akkoord op de concrete landenlijst. Alle landen die aan de bestaande bron-, populatie- en 6×3-regels voldoen zijn nu voor productie geautoriseerd; de rijke pool is nog steeds geen automatische eindlijst. Volledige referentiebalans en alle afzonderlijke A01–A17-besluiten blijven gelden. Zie `COUNTRY_PRODUCTION_APPROVALS.csv`, beleidsrij `ALL_SOURCE_ELIGIBLE`. De PISA-SES-bronvoorkeur is de opgegeven Innovamat-repository/paper; de 34-/36-landen auteurpanels en verschillende codeprotocollen blijven onderscheiden van dashboardlanden.
+Op 15 oktober heeft de gebruiker rechtstreeks opgedragen: **“doe alle landen en alle benodigde resultaten”**. Dit vervangt de eerdere eis van een afzonderlijk akkoord op de concrete landenlijst. De algemene productieautorisatie geldt met de latere bron-/populatieregels en toelating per combinatie van 19 oktober; de uitvoering is op 20 oktober begrensd tot current47; de rijke pool is nog steeds geen automatische eindlijst. Volledige referentiebalans en alle afzonderlijke A01–A17-besluiten blijven gelden. Zie `COUNTRY_PRODUCTION_APPROVALS.csv`, beleidsrij `ALL_SOURCE_ELIGIBLE`. De PISA-SES-bronvoorkeur is de opgegeven Innovamat-repository/paper; de 34-/36-landen auteurpanels en verschillende codeprotocollen blijven onderscheiden van dashboardlanden.
 
 De actieve bouwlocatie is `05_publication/preview_overlay/`, met `.github/workflows/pages.yml`. De vormgeving uit `04_DASHBOARD_BRON_20261001/03_dashboard/app` is daarin teruggezet op expliciet gebruikersbesluit. Behoud die opzet voor GitHub Pages; een ChatGPT-websiteproduct is hiervoor geen vereiste. Nieuwe producten gebruiken één gevalideerde resultaatversie. Uitbreidingen die niet zijn gekozen verschijnen niet als ontbrekend verplicht resultaat.
 
@@ -419,7 +428,7 @@ Gemeten pilots begrenzen pupilomvang, PV/replicatieontwerp en tijdelijk werk voo
 
 ## Afronding en wijzigingsbeheer
 
-Er zijn vier resterende werkopdrachten, maar drie bestaande R-uitvoeringsfasen: opdracht 1 bereidt `fixed-audit` voor en sluit deze af; opdracht 2 gebruikt `fixed-produce`; opdracht 3 gebruikt `fixed-finalize` voor private producten; opdracht 4 verzorgt onafhankelijke replicatie, gecontroleerde release en opslagafsluiting. `fixed-status` blijft alleen-lezen, `fixed-cleanup-plan` is een apart reviewhulpmiddel. Geen vierde wetenschappelijke runner.
+Er zijn drie inhoudelijke afrondingsopdrachten: wetenschap en scope; producten; replicatie/publicatie/opslag. De huidige opdracht controleert het reeds afgeronde werk voor current47, met volledige nieuwe bronreplicatie en deferred36 expliciet uitgesteld. Dit is geen één-op-éénindeling van de bestaande R-fasen `fixed-audit → fixed-produce → fixed-finalize`; die keten blijft intact. `fixed-status` blijft alleen-lezen, `fixed-cleanup-plan` is een apart reviewhulpmiddel. Geen vierde wetenschappelijke runner.
 
 Werk [ACCEPTATIE_EN_VOORTGANG.csv](ACCEPTATIE_EN_VOORTGANG.csv) bij met werkelijke bewijslinks en commit/resultaatversies. Voor A-besluiten is [SCOPE_APPROVALS.csv](SCOPE_APPROVALS.csv) de machineleesbare actuele status; de eerdere beslisbladtabel is de gedateerde toelichting. Bij een echt gebruikersbesluit worden code, productregister, scope-overlay, benodigde celcontracten en tests samen aangepast. Een CSV-status alleen maakt een niet-geïmplementeerde uitbreiding niet uitvoerbaar. Voer bij elke opdracht een kritische eindreview uit van juistheid, onnodige complexiteit, bron-/scopeafwijkingen en productkwaliteit. Een groene softwaretest is geen wetenschappelijke vrijgave, een manifest is geen hersteltest, en een plan is geen opgeleverd product.
 
@@ -444,7 +453,7 @@ De gebruiker kiest rangontwikkeling van het hoofdland en eventueel één ander l
 
 A09 is hiermee inhoudelijk goedgekeurd; de oude vaste 13-/32-/45-landenpanels zijn niet opnieuw gekozen. Rangen zijn afleidingen van exact gecertificeerde uitkomsten (waaronder SES-kloven), met expliciete constante landenbasis en herleidbare oudercellen. De trace registreert kandidaat-oudercellen; de uiteindelijke selectie volgt de gekozen uitkomst en vergelijking. Dit voegt geen aparte leerlingberekeningen toe en geeft geen gegevens vrij. Een rangnummer is niet automatisch een statistisch significant verschil; score-SE's worden geen rang-SE's.
 
-Nadere gebruikersbesluiten: geen groepsrang; wel eventueel één ander land naast het hoofdland, met rangen relatief tot dezelfde gekozen internationale vergelijkingsgroep; die groep krijgt geen lijn. ‘Groep 4’ is bevestigd als internationaal vierde leerjaar, dus Nederlandse groep 6 (rond tien jaar). Alle A-besluiten zijn hiermee beantwoord. De numerieke rangafleiding en dashboardbediening zijn nog niet gebouwd. Zie `review_20261013/RANK_PRODUCT_CONTRACT.json`.
+Nadere gebruikersbesluiten: geen groepsrang; wel eventueel één ander land naast het hoofdland, met rangen relatief tot dezelfde gekozen internationale vergelijkingsgroep; die groep krijgt geen lijn. ‘Groep 4’ is bevestigd als internationaal vierde leerjaar, dus Nederlandse groep 6 (rond tien jaar). Alle A-besluiten zijn hiermee beantwoord. De numerieke rangafleiding en dashboardbediening zijn inmiddels gebouwd en getoetst; zie het actuele current47-bewijs bovenaan. Zie `review_20261013/RANK_PRODUCT_CONTRACT.json`.
 
 
 ## Internationale productie — uitvoering 15 oktober

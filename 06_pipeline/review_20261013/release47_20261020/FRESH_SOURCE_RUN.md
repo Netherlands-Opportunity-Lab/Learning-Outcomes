@@ -1,9 +1,11 @@
-# Resterende bronreplicatie van de huidige 47 landen
+# Voorbereide bronreplicatie — uitvoering uitgesteld
+
+**Gebruikersbesluit 20 oktober:** deze volledige nieuwe bronreplicatie wordt later gedaan. De huidige controle van de drie stappen sluit haar en deferred36 uit. Het onderstaande is een bewaarde uitvoeringshandleiding voor een latere expliciete hervatting, geen opdracht om nu te starten.
 
 Stap 1 en de producten van stap 2 zijn afgerond. De al geslaagde pakketbouw,
 Windows/Linux-productherbouw, volledige Drive-herstelcontrole en live publicatie
 hoeven niet opnieuw. De volledige nieuwe leerlingbronreplicatie van current47
-is de resterende controle van stap 3. De 36 uitgestelde landen blijven uitgesloten.
+blijft een afzonderlijke, nu uitgestelde controle. De 36 uitgestelde landen blijven uitgesloten.
 
 `scripts/START_FRESH_SOURCE_REPLICATION.R` configureert uitsluitend de bestaande
 `START.R` / `RUN.R`-keten. Het is geen tweede rekenmethode. Het leest een private
@@ -44,5 +46,6 @@ Nieuwe resultaten gaan naar een afzonderlijk private Drive-checkpoint.
 Automatische vervanging van de beoordeelde GitHub-resultaatbasis staat uit.
 Na numerieke overeenstemming moeten de gezamenlijke afleidingen en
 wetenschappelijke/productbewijzen nog op de nieuwe run worden aangesloten.
-`FULL_SOURCE_REPLICATION_PARITY.json` benoemt dat expliciet. Pas daarna kan
-stap 3 volledig worden afgetekend en kan de uitgestelde landenrun beginnen.
+`FULL_SOURCE_REPLICATION_PARITY.json` benoemt dat expliciet. Pas na die beoordeling mag volledige bronreplicatie worden geclaimd. De huidige
+controle van stap 3 heeft op gebruikersverzoek een beperktere scope. Ook de
+uitgestelde landenrun begint alleen na een latere expliciete hervatting.

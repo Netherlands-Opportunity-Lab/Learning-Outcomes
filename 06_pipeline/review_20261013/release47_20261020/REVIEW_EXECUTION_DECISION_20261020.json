@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "decision_date": "2026-10-20",
+  "authority": "DIRECT_USER_EXECUTION_SCOPE",
+  "direct_user_instruction": "Ok dit doen we later, heeft het zij om beurtelings de tekst van de drie stappen invoer en jij grondig checkt of je alles goed hebt gedaan? Zonder de 36 uitgestelde landen en de replicatie-oefening",
+  "task": "Review the three instructions in turn against already completed current47 work; repair concrete findings.",
+  "current_step": 1,
+  "current_selection": "RELEASE_PHASE_DECISION.json#current_countries",
+  "deferred36_production": "DEFERRED_BY_USER",
+  "full_fresh_source_replication": "DEFERRED_BY_USER_NOT_EXECUTED",
+  "unchanged": [
+    "scientific country-combination admission",
+    "complete within-figure balance",
+    "rich candidate pool",
+    "A01-A17 decisions",
+    "sealed results and source identities"
+  ],
+  "does_not_certify_full_source_replication": true,
+  "does_not_authorize_deferred_runs": true,
+  "requires_no_new_pupil_estimation_when_evidence_unchanged": true,
+  "supersedes_only_execution_timing_in": [
+    "START_HIER_ACTUEEL.md",
+    "CURRENT47_DELIVERY.json",
+    "FRESH_SOURCE_RUN.md",
+    "ACCEPTATIE_EN_VOORTGANG.csv",
+    "PR #5 next-action text"
+  ],
+  "retained_later_handoff": "FRESH_SOURCE_RUN.md"
+}

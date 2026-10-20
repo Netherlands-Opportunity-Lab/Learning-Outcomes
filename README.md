@@ -17,7 +17,7 @@ Het [replicatiepakket](https://netherlands-opportunity-lab.github.io/Learning-Ou
 - De figuurdownloads bewaren SE, N, exacte cellen en bron-/code-/resultaathashes en de exacte vergelijkingsbasis. Afronding gebeurt alleen bij weergave.
 - [Septemberarchief](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/archive/2026-09-28/) en de historische code blijven behouden.
 
-De volledige nieuwe bronreplicatie van alle gekozen 47-landenresultaten, zonder oude resultaatcaches, is nog niet uitgevoerd. De 58 echte bronproeven en geslaagde aggregaatherbouw vervangen die eindcontrole niet. De openbare bronroute heeft de benodigde historische engine en gepinde auteurscode; de oorspronkelijke private ZIP is niet meer vereist. Leerling-/schoolmicrodata worden niet gepubliceerd. De 36 uitgestelde landen worden pas daarna in R afgehandeld.
+De volledige nieuwe bronreplicatie van alle gekozen 47-landenresultaten, zonder oude resultaatcaches, is nog niet uitgevoerd. De 58 echte bronproeven en geslaagde aggregaatherbouw vervangen die eindcontrole niet. De openbare bronroute heeft de benodigde historische engine en gepinde auteurscode; de oorspronkelijke private ZIP is niet meer vereist. Leerling-/schoolmicrodata worden niet gepubliceerd. De gebruiker heeft zowel deze volledige bronreplicatie als de 36 resterende landen uitgesteld. De huidige controle van de drie stappen gebruikt het al afgeronde bewijs; geen van beide runs wordt nu gestart. Zie [de inhoudelijke hercontrole van stap 1](06_pipeline/review_20261013/release47_20261020/STEP1_REVIEW_20261020.md).
 
 ---
 

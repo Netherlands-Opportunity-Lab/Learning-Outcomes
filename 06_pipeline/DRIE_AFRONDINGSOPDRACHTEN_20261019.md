@@ -1,5 +1,7 @@
 # Drie opdrachten om Learning Outcomes af te ronden
 
+**Latere gebruikersafbakening, 20 oktober:** controleer de drie opdrachten beurtelings op het al afgeronde werk, zonder de 36 uitgestelde landen en zonder de volledige nieuwe bronreplicatie. Hergebruik ongewijzigd bewijs en herstel concrete fouten. De wetenschappelijke toelating blijft per leeftijd-uitkomstcombinatie met minstens drie vergelijkbare meetgolven. Zie [de vastgelegde keuze](review_20261013/release47_20261020/REVIEW_EXECUTION_DECISION_20261020.json).
+
 Latest direct phase decision, 20 October: finish steps 1–3 for the explicit current47 selection; keep the deferred36 targets/results intact and run them in R only after those steps. This changes execution/release timing, not scientific admission, definitions, the rich candidate pool or full within-figure balance. See `06_pipeline/review_20261013/release47_20261020/RELEASE_PHASE_DECISION.json` (repository-relative).
 
 **Latere expliciete wijziging op 19 oktober:** toelating geldt voortaan per afzonderlijke leeftijd-uitkomstcombinatie (minstens drie vergelijkbare golven), met een vast volledig hoofdlandanker en alle gezamenlijke groepen binnen iedere figuur. Tussen figuren mag de referentiegroep verschillen. Dit vervangt de oude zes-combinaties-eis in de historische opdrachten hieronder. Zie [het besluit](review_20261013/BALANCE_USER_DECISION_20261019.json).

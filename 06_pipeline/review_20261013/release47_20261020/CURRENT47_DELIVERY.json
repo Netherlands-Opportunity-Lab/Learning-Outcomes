@@ -1,5 +1,5 @@
 {
-  "status": "CURRENT47_SCIENCE_AND_PRODUCTS_DELIVERED_FULL_SOURCE_REPLICATION_REMAINS",
+  "status": "CURRENT47_SCIENCE_AND_PRODUCTS_DELIVERED_SOURCE_REPLICATION_DEFERRED_BY_USER",
   "release": {
     "candidate_manifest_sha256": "ce55760e9df4f4b4428e3520776c4ffb273ce04f4abf9f165878c06fa175ff33",
     "systems": 47,
@@ -44,9 +44,9 @@
   "steps": {
     "1": "COMPLETE_CURRENT47",
     "2": "COMPLETE_CURRENT47",
-    "3": "PACKAGE_REBUILD_RESTORE_PUBLICATION_VERIFIED_FULL_SOURCE_RUN_REMAINS"
+    "3": "PACKAGE_REBUILD_RESTORE_PUBLICATION_VERIFIED_FULL_SOURCE_RUN_DEFERRED_BY_USER"
   },
-  "remaining_required_check": "Complete fresh pupil-source replication of the same current47 selection, with parity against the sealed results; no deferred36 production.",
+  "remaining_required_check": "Full fresh pupil-source replication remains unexecuted and is explicitly deferred by the user; it is outside the present three-step review, as is deferred36 production.",
   "new_source_run_started": false,
   "live_verification": {
     "files": 557,
@@ -103,6 +103,10 @@
     "note": "The optional launcher is added to repository code; the immutable published package already documents the same START.R fresh-source route.",
     "contract_tests": "FRESH_LAUNCHER_VERIFICATION.json",
     "local_readiness": "FRESH_LAUNCHER_READINESS.json",
-    "source_run_started": false
-  }
+    "source_run_started": false,
+    "execution_status": "DEFERRED_BY_USER_DO_NOT_START_DURING_CURRENT_REVIEW"
+  },
+  "execution_decision": "REVIEW_EXECUTION_DECISION_20261020.json",
+  "step1_recheck": "STEP1_EVIDENCE_RECHECK.json",
+  "step1_review": "STEP1_REVIEW_20261020.md"
 }
