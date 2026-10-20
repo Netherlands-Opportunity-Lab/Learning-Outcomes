@@ -30,6 +30,14 @@ def main():
                   scope_decisions=inputs / "SCOPE_APPROVALS.csv",
                   balance_export=balance if balance.is_file() else None,
                   reference_policy=reference_policy if reference_policy.is_file() else None)
+    coverage=inputs/'EXACT_CELL_COVERAGE.csv.gz'
+    trace=inputs/'PRODUCT_CELL_TRACE.csv.gz'
+    if coverage.exists() or trace.exists():
+        if not coverage.is_file() or not trace.is_file():
+            raise SystemExit('Incomplete exact missing-point review inputs')
+        spec=importlib.util.spec_from_file_location('availability_review',root/'05_publication/review_final_availability.py')
+        availability=importlib.util.module_from_spec(spec);spec.loader.exec_module(availability)
+        availability.review(args.output,coverage,trace)
     expected = json.loads((inputs / "DASHBOARD_REBUILD_MANIFEST.json").read_text(encoding="utf-8"))
     for entry in expected:
         path = args.output / entry["path"]
