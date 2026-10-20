@@ -1,10 +1,13 @@
 {
-  "candidate_id": "ea0632b132508dff805d",
-  "snapshot_utc": "2026-10-18T09:59:58Z",
-  "dashboard_points": 51304,
-  "countries": 34,
-  "source_commit": "fda6d579c87a2376ff9f7e8e3bf7df395d722d45",
+  "candidate_id": "ce55760e9df4f4b4428e",
+  "snapshot_utc": "2026-10-20T16:22:24Z",
+  "dashboard_points": 63384,
+  "countries": 47,
+  "source_commit": "92d5e38016cde66923c02d59c4e6b9730dd546a3",
   "release_kind": "PARTIAL_VERIFIED_RESULTS",
-  "reference_mode": "AVAILABLE_CASES_PROVISIONAL",
-  "full_scientific_release": false
+  "reference_mode": "FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3",
+  "full_scientific_release": false,
+  "phase": "CURRENT47_DEFERRED36_EXCLUDED",
+  "selected_countries": 47,
+  "full_fresh_source_replication_certified": false
 }

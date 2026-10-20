@@ -2,20 +2,22 @@
 
 **[Open het dashboard](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/nl/)** · **[English](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/en/)** · **[Methode en replicatiepakket](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/info/nl/)**
 
-De tussenstand van 18 oktober 2026 bevat **51.304 gecontroleerde dashboardpunten voor 34 landen**. Kies achtereenvolgens leeftijd/domein, uitsplitsing, Weergave en hoofdland. Beschikbare punten worden getoond; ontbrekende jaren en groepen blijven open. Op uitdrukkelijk verzoek zijn tijdelijk landen met beschikbare figuurpunten selecteerbaar. Ieder vergelijkingspunt vermeldt de gebruikte en ontbrekende landen; rangen bewaren de beschikbare landenbasis per punt. De volledige balanscontrole volgt na complete productie. De website markeert deze stand als voorlopig.
+De gecontroleerde versie van 20 oktober 2026 bevat **63.384 dashboardpunten voor 47 landen en onderwijsstelsels**. De overige 36 landen zijn uitgesteld. Alle 90.829 gekozen doelen zijn verantwoord: 82.142 gevalideerde resultaten en 8.687 onderbouwd onbeschikbare doelen. Q01–Q08 zijn voor deze selectie afgesloten. Kies achtereenvolgens leeftijd/domein, uitsplitsing, Weergave en hoofdland.
+
+De internationale vergelijking gebruikt nu de volledig gecontroleerde referentiegroep per figuur: dezelfde landen over alle hoofdlandjaren en gezamenlijk getoonde groepen. Tussen figuren mogen de groepen verschillen. De 8.178 land-figuurcontracten zijn onafhankelijk gecontroleerd. Ontbrekende punten behouden hun exacte reden; een lege vergelijkingsgroep blijft leeg.
 
 De schakelaar **Onzekerheidsmarge / Uncertainty range** toont optioneel 95%-betrouwbaarheidsintervallen voor het hoofdland. Hij staat standaard aan en geldt niet voor rangen of de vergelijkingsgroep. Nederlands en Engels delen één applicatie en dezelfde gegevens; de taalwissel bewaart alle keuzes. Procentreeksen worden op de juiste schaal getoond en downloads bewaren de oorspronkelijke waarden en afleiding.
 
-Het [replicatiepakket](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/replication/learning-outcomes-replication.zip) bevat 179 bestanden en is circa 13,1 MB: actuele analysescripts, omgevingsversies, scope, broncatalogi, dashboardaggregaten en herkomst. De openbare figuren worden met `python reproduce_dashboard.py` opnieuw opgebouwd en byte voor byte gecontroleerd. Volledige replicatie vanaf leerlingbestanden heeft nog de vastgelegde bronbundel nodig en is niet als afgerond gecertificeerd.
+Het [replicatiepakket](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/replication/learning-outcomes-replication.zip) bevat 458 bestanden plus het pakketmanifest en is circa 98 MB. Het dashboard is vanuit dit pakket byte voor byte herbouwd; de onderzoekstabellen komen exact overeen. De paper telt 29 pagina's en de bewerkbare presentatie 22 slides met 90 native grafieken. Hun herbouw en numerieke aansluiting zijn op Windows en Linux geslaagd.
 
-- Publicatiekandidaat: `ea0632b132508dff805d`; volledige bestandsvingerafdrukken staan in de website en kandidaatmap.
-- Vastgelegde analyse- en dashboardcode: [fda6d579c87a](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/tree/fda6d579c87a2376ff9f7e8e3bf7df395d722d45). Deze code blijft afzonderlijk ontwikkeld op de bestaande ontwikkelbranch en PR #5.
-- [Actuele wetenschappelijke uitvoeringshandleiding](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/blob/fda6d579c87a2376ff9f7e8e3bf7df395d722d45/06_pipeline/REPLICATION_CURRENT.md) en [besluitregister](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/blob/fda6d579c87a2376ff9f7e8e3bf7df395d722d45/06_pipeline/START_HIER_ACTUEEL.md).
-- [Welke opdracht nu draaien en wat daarna overblijft](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/blob/fda6d579c87a2376ff9f7e8e3bf7df395d722d45/06_pipeline/RUN_COMPLETION_INVENTORY_20261018.md): inventaris met gedateerde stand, resterende landen/modules en alle uitvoeringsfasen.
+- Publicatiekandidaat: `ce55760e9df4f4b4428e`; zie [de exacte afleverstatus](06_pipeline/review_20261013/release47_20261020/CURRENT47_DELIVERY.json).
+- Gepinde pakketcode: [92d5e38016cd](https://github.com/Netherlands-Opportunity-Lab/Learning-Outcomes/tree/92d5e38016cde66923c02d59c4e6b9730dd546a3). Historische producentcommits blijven per resultaat bewaard; de exportcommit is geen nieuwe producent.
+- [Paper, presentatie, figuurbronnen en productherbouw](04_products_or_release/current47/README.md).
+- [Actuele uitvoeringshandleiding](06_pipeline/REPLICATION_CURRENT.md), [besluitregister](06_pipeline/START_HIER_ACTUEEL.md) en [afrondingsbewijs voor de huidige 47](06_pipeline/review_20261013/release47_20261020/SCIENTIFIC_REVIEW_COMPLETION.json).
 - De figuurdownloads bewaren SE, N, exacte cellen en bron-/code-/resultaathashes en de exacte vergelijkingsbasis. Afronding gebeurt alleen bij weergave.
 - [Septemberarchief](https://netherlands-opportunity-lab.github.io/Learning-Outcomes/archive/2026-09-28/) en de historische code blijven behouden.
 
-Deze publicatie verandert de wetenschappelijke productie niet en verleent geen PASS aan open paper-, presentatie- of vergelijkbaarheidscontroles. Leerling-/schoolbestanden en complete afgeleide bulkmasters worden niet publiek gemaakt.
+De volledige nieuwe bronreplicatie van alle gekozen 47-landenresultaten, zonder oude resultaatcaches, is nog niet uitgevoerd. De 58 echte bronproeven en geslaagde aggregaatherbouw vervangen die eindcontrole niet. De openbare bronroute heeft de benodigde historische engine en gepinde auteurscode; de oorspronkelijke private ZIP is niet meer vereist. Leerling-/schoolmicrodata worden niet gepubliceerd. De 36 uitgestelde landen worden pas daarna in R afgehandeld.
 
 ---
 

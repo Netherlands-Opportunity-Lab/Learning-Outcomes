@@ -50,8 +50,9 @@ def package(repo, site, inputs, source_commit, provenance):
             raise ValueError("Duplicate public dependency: " + key)
         files[key] = path
 
-    for name in ("START.R", "renv.lock", "LICENSE", "DATA_LICENSE.md", "CITATION.cff"):
+    for name in ("START.R", "renv.lock", "LICENSE", "DATA_LICENSE.md"):
         add(repo / name)
+    add(phase / "CITATION.cff", "CITATION.cff")
     for pattern in ("*.R", "*.py", "*.md", "*.csv", "*.json"):
         for path in sorted((repo / "06_pipeline").glob(pattern)):
             add(path)

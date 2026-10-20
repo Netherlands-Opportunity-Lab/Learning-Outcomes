@@ -1,0 +1,18 @@
+{
+  "candidate_manifest_sha256": "ce55760e9df4f4b4428e3520776c4ffb273ce04f4abf9f165878c06fa175ff33",
+  "systems": 47,
+  "active_figures": 174,
+  "scientific_rows": 63384,
+  "release_kind": "PARTIAL_VERIFIED_RESULTS",
+  "release_gate": "PASS_PARTIAL_DISPLAY_ONLY_FULL_SCIENCE_INCOMPLETE",
+  "release_id": "ce55760e9df4f4b4428e",
+  "status": "STAGED_ON_FEATURE_BRANCH_NOT_DEPLOYED",
+  "storage": {
+    "status": "EXACT_CANDIDATE_STORED_LOSSLESSLY",
+    "compressed_files": 1,
+    "candidate_manifest_sha256": "ce55760e9df4f4b4428e3520776c4ffb273ce04f4abf9f165878c06fa175ff33"
+  },
+  "full_fresh_source_replication_certified": false,
+  "scientific_basis": "CURRENT47_Q01_Q08_ACCEPTED",
+  "products": "PAPER_AND_PRESENTATION_REVIEWED"
+}
