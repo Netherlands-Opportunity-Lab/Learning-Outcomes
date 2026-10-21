@@ -1,0 +1,70 @@
+{
+  "status": "ALL_PUBLIC_BRANCHES_AND_TAGS_SANITIZED_AND_REMOTE_VERIFIED",
+  "checked_at_utc": "2026-10-21T04:40:15.889657+00:00",
+  "refs": [
+    {
+      "ref": "refs/heads/codex/problem-blocks-final-checks-20261018",
+      "old": "c62b5b07f9cc407ec194930678d8d13d46e96a83",
+      "new": "db31dbe4e3ca3f681121ca4376dca70608deee6c"
+    },
+    {
+      "ref": "refs/heads/codex/publish-reference-selection-20261018",
+      "old": "d9592dee1da062cc55e5ffcd2e200cbb9f1efa0e",
+      "new": "70e3c9a4d64caff6b93a497a42940a1b6736194a"
+    },
+    {
+      "ref": "refs/heads/dashboard-rc1-20260922",
+      "old": "ddf7a226e3ed89aadf9d3eeb4e122d98cea9dc9c",
+      "new": "ddf7a226e3ed89aadf9d3eeb4e122d98cea9dc9c"
+    },
+    {
+      "ref": "refs/heads/dashboard-step4-20260924",
+      "old": "2456ad919b01c53ed119b0ef10c11923a4ec7f36",
+      "new": "2456ad919b01c53ed119b0ef10c11923a4ec7f36"
+    },
+    {
+      "ref": "refs/heads/feat/reproducible-storage-and-cleanup-20261010",
+      "old": "c62b5b07f9cc407ec194930678d8d13d46e96a83",
+      "new": "db31dbe4e3ca3f681121ca4376dca70608deee6c"
+    },
+    {
+      "ref": "refs/heads/final-reproducible-20260928",
+      "old": "fa576a711dfe0bfc7832fba08543bbf05fe87932",
+      "new": "fa576a711dfe0bfc7832fba08543bbf05fe87932"
+    },
+    {
+      "ref": "refs/heads/guided-landing-preview-20261001-v1",
+      "old": "a165fd1276e4b46c9d91f013fef36c7848331883",
+      "new": "a294318db7472a88cd3a27a8e6df0d03bf8b07b3"
+    },
+    {
+      "ref": "refs/heads/lo-run-status",
+      "old": "66b6df4a5a802cd2b14e9067e245de2c2a9b1e7a",
+      "new": "e7d612f008ad43d18a11d627a90c27f94dc30006"
+    },
+    {
+      "ref": "refs/heads/main",
+      "old": "c62b5b07f9cc407ec194930678d8d13d46e96a83",
+      "new": "db31dbe4e3ca3f681121ca4376dca70608deee6c"
+    },
+    {
+      "ref": "refs/heads/public-dashboard-final-20260928",
+      "old": "ac272c8175a61eef25b0e28a7c89281e810ec73b",
+      "new": "b8c966c5b48592ece269e957a1617cedb39fb835"
+    },
+    {
+      "ref": "refs/heads/v9-working-integration-20261002",
+      "old": "564cf04130cd633ba4dfaca4f40d49056a1016f7",
+      "new": "8974d17ede993332efce9bef2fb70c05559979c3"
+    },
+    {
+      "ref": "refs/tags/v2026.10.20-current47-dashboard.1",
+      "old": "6ee45ef41da9ab23b2a4d6f167f4ebba881df6f7",
+      "new": "047a559001205064b517a2e0eee50147f0dfbd60"
+    }
+  ],
+  "removed_paths": 75,
+  "removed_blob_versions": 113,
+  "private_backup_verified": true,
+  "github_pull_request_refs_and_cache_purge": "Requires separate GitHub server-side review; not claimed removed by force push"
+}

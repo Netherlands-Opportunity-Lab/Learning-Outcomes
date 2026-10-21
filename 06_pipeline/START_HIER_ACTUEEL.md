@@ -1,3 +1,5 @@
+Latest direct decision / actueel 21 oktober: the owner explicitly authorizes removal of all paper/slide versions from GitHub, including rewritten history. All public branches and the release tag have been sanitized; the old-to-new commit map is in 06_pipeline/review_20261013/privacy_20261021/COMMIT_REWRITE_MAP.txt. Preserve historical scientific producer IDs and verify original file hashes. Private Word and sharp-corner figure delivery are authorized. Older notes saying the history decision is pending are historical and superseded. GitHub PR/cache retention is a separate server-side limitation, not an unanswered user decision. Deferred36 and full fresh-source replication remain excluded.
+
 ## Actuele aflevering — 20 oktober 2026
 
 Current47 is uitgebracht als `v2026.10.20-current47-dashboard.1`; alle 554 live

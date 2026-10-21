@@ -1,0 +1,11 @@
+{
+  "status": "SANITIZED_HISTORY_VERIFIED_BEFORE_PUSH",
+  "removed_paths": 75,
+  "removed_blob_versions": 113,
+  "commits_preserved": 636,
+  "current_tree_byte_identical": true,
+  "old_head": "c62b5b07f9cc407ec194930678d8d13d46e96a83",
+  "new_head": "db31dbe4e3ca3f681121ca4376dca70608deee6c",
+  "historical_source_commit_hashes_preserved_as_provenance": true,
+  "commit_map_sha256": "c02ac4f4b3599c1d44b1ddc5135fafd2d0e414ed2fac31cf3851460797a0d170"
+}
