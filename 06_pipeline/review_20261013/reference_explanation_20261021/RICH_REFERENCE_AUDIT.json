@@ -1,0 +1,118 @@
+{
+  "status": "CURRENT_MEAN_MEMBERSHIP_EXPLAINED_AND_MATCHED",
+  "focus": "NLD",
+  "income_rule": "OECD as of 2024-12-31; GDP per capita PPP 2024 strictly above Czechia; pinned snapshot",
+  "threshold": 57625.0961715706,
+  "income_snapshot_lastupdated": "2026-07-13",
+  "rich_candidates": [
+    "AUS",
+    "AUT",
+    "BEL",
+    "CAN",
+    "CHE",
+    "DEU",
+    "DNK",
+    "ESP",
+    "FIN",
+    "FRA",
+    "GBR",
+    "IRL",
+    "ISL",
+    "ITA",
+    "KOR",
+    "LUX",
+    "NLD",
+    "NOR",
+    "SWE",
+    "USA"
+  ],
+  "deferred_rich_candidates": [
+    "ISL",
+    "KOR"
+  ],
+  "checked_country_figure_pairs": 114,
+  "figure_counts": [
+    {
+      "figure_id": "TR_MEAN_age10_reading",
+      "income_pool_including_NLD": 20,
+      "income_candidates_excluding_NLD": 19,
+      "candidates_in_current_release_excluding_NLD": 17,
+      "default_reference_count": 5,
+      "default_countries": "DEU;FRA;ITA;SWE;USA",
+      "all_eligible_checkbox_countries": 13,
+      "source_complete_rich_candidates_including_deferred": 5,
+      "source_complete_candidates": "DEU;FRA;ITA;SWE;USA"
+    },
+    {
+      "figure_id": "TR_MEAN_age10_mathematics",
+      "income_pool_including_NLD": 20,
+      "income_candidates_excluding_NLD": 19,
+      "candidates_in_current_release_excluding_NLD": 17,
+      "default_reference_count": 3,
+      "default_countries": "AUS;ITA;USA",
+      "all_eligible_checkbox_countries": 11,
+      "source_complete_rich_candidates_including_deferred": 3,
+      "source_complete_candidates": "AUS;ITA;USA"
+    },
+    {
+      "figure_id": "TR_MEAN_age10_science",
+      "income_pool_including_NLD": 20,
+      "income_candidates_excluding_NLD": 19,
+      "candidates_in_current_release_excluding_NLD": 17,
+      "default_reference_count": 3,
+      "default_countries": "AUS;ITA;USA",
+      "all_eligible_checkbox_countries": 11,
+      "source_complete_rich_candidates_including_deferred": 3,
+      "source_complete_candidates": "AUS;ITA;USA"
+    },
+    {
+      "figure_id": "TR_MEAN_age15_reading",
+      "income_pool_including_NLD": 20,
+      "income_candidates_excluding_NLD": 19,
+      "candidates_in_current_release_excluding_NLD": 17,
+      "default_reference_count": 12,
+      "default_countries": "AUS;BEL;CAN;CHE;DEU;DNK;FIN;FRA;IRL;ITA;NOR;SWE",
+      "all_eligible_checkbox_countries": 21,
+      "source_complete_rich_candidates_including_deferred": 14,
+      "source_complete_candidates": "AUS;BEL;CAN;CHE;DEU;DNK;FIN;FRA;IRL;ISL;ITA;KOR;NOR;SWE"
+    },
+    {
+      "figure_id": "TR_MEAN_age15_mathematics",
+      "income_pool_including_NLD": 20,
+      "income_candidates_excluding_NLD": 19,
+      "candidates_in_current_release_excluding_NLD": 17,
+      "default_reference_count": 13,
+      "default_countries": "AUS;BEL;CAN;CHE;DEU;DNK;FIN;FRA;IRL;ITA;NOR;SWE;USA",
+      "all_eligible_checkbox_countries": 22,
+      "source_complete_rich_candidates_including_deferred": 15,
+      "source_complete_candidates": "AUS;BEL;CAN;CHE;DEU;DNK;FIN;FRA;IRL;ISL;ITA;KOR;NOR;SWE;USA"
+    },
+    {
+      "figure_id": "TR_MEAN_age15_science",
+      "income_pool_including_NLD": 20,
+      "income_candidates_excluding_NLD": 19,
+      "candidates_in_current_release_excluding_NLD": 17,
+      "default_reference_count": 14,
+      "default_countries": "AUS;BEL;CAN;CHE;DEU;DNK;FIN;FRA;GBR;IRL;ITA;NOR;SWE;USA",
+      "all_eligible_checkbox_countries": 30,
+      "source_complete_rich_candidates_including_deferred": 16,
+      "source_complete_candidates": "AUS;BEL;CAN;CHE;DEU;DNK;FIN;FRA;GBR;IRL;ISL;ITA;KOR;NOR;SWE;USA"
+    }
+  ],
+  "source_complete_count_is_not_certified_membership": true,
+  "notes": [
+    "Source coverage, usable certified results and production phase are separate requirements.",
+    "Missing support does not establish nonparticipation or physical source unavailability.",
+    "No new scientific decision, pupil calculation, shorter anchor or product modification."
+  ],
+  "input_sha256": {
+    "income": "279c53c225d8a50c705c92e5d5e1dfa223b2a0905f13747327e52a7788d02184",
+    "combinations": "fc04c48709e3cfe73aff80ae657532fe0df6d2447a428aaa1dc89786af620f6d",
+    "phases": "b8dc3eb7d6714595c025fa3e4974551bf49aba066a8c4276be8e3b89d9b193a8",
+    "qualifications": "4bd2bfc639f2fae16501ad04791925356e9608e2873b1db1a558a89f6bb27c51",
+    "current_references": "beb3eab717c821f1b79eeebf69c8dc89d20de8746aab040b52e147a2d1990574",
+    "balanced_export": "a26627b176ff7246b5ab202af16cb65a3c1e84256d041712e84a3e54ec17579a",
+    "public_reference": "2d223e249e0a98993e3a5dae9d8c5def2eeb9d1de63e9902ceeaed5f2adfa3d1"
+  },
+  "code_sha256": "dbc9338b03578a8ecce305fd5c84db2f25b4653bf3fcdb10c37804e02bee31f9"
+}

@@ -1,3 +1,5 @@
+Referentiecontrole 21 oktober: de inkomenspool bevat 20 kandidaten inclusief Nederland; 19 mogelijke Nederlandse vergelijkingslanden. IJsland en Zuid-Korea blijven uitgesteld. De volledige jaarankers en bron-/kwaliteitseisen leveren bij gemiddelde scores 5/3/3/12/13/14 standaardleden op. Alle 114 rijke-kandidaat/figuurcombinaties zijn verklaard en de live NL-referenties zijn op hash gecontroleerd; geen selectie- of resultaatwijziging. Zie review_20261013/reference_explanation_20261021.
+
 Laatste privérevisie 21 oktober: de 90 jaarassen in de presentatie hebben gehele grenzen en labels. Alle slides met een internationale referentie noemen de daadwerkelijk gebruikte landen per figuur. De 22 slides en PDF zijn beoordeeld en privé op Drive hersteld. Documentinhoud blijft buiten GitHub. Zie review_20261013/privacy_20261021/PRIVATE_SLIDE_REVISION_20261021.json.
 
 Actuele levering 21 oktober: de privé-Wordversie is op alle 33 pagina's

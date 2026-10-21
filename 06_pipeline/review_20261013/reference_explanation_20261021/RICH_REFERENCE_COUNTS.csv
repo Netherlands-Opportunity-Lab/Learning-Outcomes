@@ -1,0 +1,7 @@
+﻿figure_id,income_pool_including_NLD,income_candidates_excluding_NLD,candidates_in_current_release_excluding_NLD,default_reference_count,default_countries,all_eligible_checkbox_countries,source_complete_rich_candidates_including_deferred,source_complete_candidates
+TR_MEAN_age10_reading,20,19,17,5,DEU;FRA;ITA;SWE;USA,13,5,DEU;FRA;ITA;SWE;USA
+TR_MEAN_age10_mathematics,20,19,17,3,AUS;ITA;USA,11,3,AUS;ITA;USA
+TR_MEAN_age10_science,20,19,17,3,AUS;ITA;USA,11,3,AUS;ITA;USA
+TR_MEAN_age15_reading,20,19,17,12,AUS;BEL;CAN;CHE;DEU;DNK;FIN;FRA;IRL;ITA;NOR;SWE,21,14,AUS;BEL;CAN;CHE;DEU;DNK;FIN;FRA;IRL;ISL;ITA;KOR;NOR;SWE
+TR_MEAN_age15_mathematics,20,19,17,13,AUS;BEL;CAN;CHE;DEU;DNK;FIN;FRA;IRL;ITA;NOR;SWE;USA,22,15,AUS;BEL;CAN;CHE;DEU;DNK;FIN;FRA;IRL;ISL;ITA;KOR;NOR;SWE;USA
+TR_MEAN_age15_science,20,19,17,14,AUS;BEL;CAN;CHE;DEU;DNK;FIN;FRA;GBR;IRL;ITA;NOR;SWE;USA,30,16,AUS;BEL;CAN;CHE;DEU;DNK;FIN;FRA;GBR;IRL;ISL;ITA;KOR;NOR;SWE;USA
