@@ -23,3 +23,11 @@ verwijdering. Zie de officiële GitHub-documentatie over removing sensitive data
 De huidige figuren gebruiken rechte segmenten, miter-hoeken en vlakke
 lijneinden. Cijfers, onzekerheid, selectie en lijnonderbrekingen veranderen niet.
 Word, paper-PDF, PPTX, slide-PDF en het historische 50-slide-deck blijven privé.
+
+De aanvullende artifactcontrole heeft alle 21 resterende CI-pakketten geopend.
+Eén oudere Pages-artifact bevatte nog de drie documenten; die is privé bewaard,
+verwijderd en met HTTP 404 gecontroleerd. De gecontroleerde oude raw-commitlink,
+PR-5-documentlink en live paper-URL geven eveneens HTTP 404. Dit bewijst de
+gecontroleerde routes; het is geen uitspraak over niet-publieke serverback-ups
+van GitHub of kopieën die derden eerder hebben gedownload.
+Zie REMOTE_DOCUMENT_RESIDUE.json voor de exacte controles.

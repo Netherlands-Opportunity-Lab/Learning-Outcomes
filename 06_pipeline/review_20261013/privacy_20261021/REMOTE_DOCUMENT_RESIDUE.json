@@ -1,0 +1,154 @@
+{
+  "checked_at_utc": "2026-10-21T04:48:23.748907+00:00",
+  "artifacts": [
+    {
+      "id": 12298871650,
+      "name": "step1-evidence-ubuntu-latest",
+      "sha256": "ac226b8dbb24d2fd5b5eef580f230782732f5b83d3e339b2816a0282981d1209",
+      "document_members": []
+    },
+    {
+      "id": 12298751925,
+      "name": "step1-evidence-windows-latest",
+      "sha256": "761fbbcad9b3f97ecbc96e20dee0b909845a395abbb20cee7ba7b429693b817b",
+      "document_members": []
+    },
+    {
+      "id": 12298450498,
+      "name": "step1-evidence-windows-latest",
+      "sha256": "15cdfa759db025923e5681236916edb27e4e87407cadddde699f8d036a0e95ee",
+      "document_members": []
+    },
+    {
+      "id": 12298419405,
+      "name": "github-pages",
+      "sha256": "e9f658b3041f2df1ed30bba476631eb9997ae4bde8740a845ba33599242d4139",
+      "document_members": []
+    },
+    {
+      "id": 12297936628,
+      "name": "dashboard-proof-ubuntu-latest",
+      "sha256": "3127290d176d6e9511cbdfed658ef6f915f043452aa31aca7bef49a3133cbeb1",
+      "document_members": []
+    },
+    {
+      "id": 12297856889,
+      "name": "dashboard-proof-windows-latest",
+      "sha256": "85190558aff92feda7d7824f53aca35b712dc7a67472acc994c78d71a3fb24c8",
+      "document_members": []
+    },
+    {
+      "id": 12297833173,
+      "name": "dashboard-proof-ubuntu-latest",
+      "sha256": "ef31fc2710223dddedb5eb14e10bf94653b55342d43ba3a2a8eac4d5de3f9ebe",
+      "document_members": []
+    },
+    {
+      "id": 12297677707,
+      "name": "step1-evidence-ubuntu-latest",
+      "sha256": "68483bd0f3fbbc7d5773b8cf653609f1307b2ab131600205eb2575fcb7f4939c",
+      "document_members": []
+    },
+    {
+      "id": 12297439797,
+      "name": "dashboard-proof-windows-latest",
+      "sha256": "5db1cb71417b2ec1de81d39a5764ac9945be5bfc9751f8b8dfb527cad9e2b07a",
+      "document_members": []
+    },
+    {
+      "id": 12297372448,
+      "name": "dashboard-proof-windows-latest",
+      "sha256": "3cb533e02bd6797d914888f6607634ec82f539a9986226dd4c69a84a79179a38",
+      "document_members": []
+    },
+    {
+      "id": 12296983890,
+      "name": "dashboard-proof-ubuntu-latest",
+      "sha256": "37c3fc9b58ebbe002b28c94c72390b9471284db0dbed4f2d6be26c33c1e8a048",
+      "document_members": []
+    },
+    {
+      "id": 12295255551,
+      "name": "step1-evidence-windows-latest",
+      "sha256": "a4744614e68515b2da9ec5485ce78af7f0e61095746133257f4bd4aa2d50e91f",
+      "document_members": []
+    },
+    {
+      "id": 12294787444,
+      "name": "step1-evidence-ubuntu-latest",
+      "sha256": "516a29f337f390c010074f58bc9f435571dc3003bd2c9cea7e44e125262cf5d4",
+      "document_members": []
+    },
+    {
+      "id": 12293715271,
+      "name": "step1-evidence-windows-latest",
+      "sha256": "f65b57b6276b46b6b3e2b0d49255db3d9adc0556657069e7964e918ab8bed96e",
+      "document_members": []
+    },
+    {
+      "id": 12293196720,
+      "name": "step1-evidence-ubuntu-latest",
+      "sha256": "c7ed5d32a18c8bfffbd1256b356b99ef5a4d896cf62693d4a1f4c0e826c40361",
+      "document_members": []
+    },
+    {
+      "id": 12289351968,
+      "name": "step1-evidence-ubuntu-latest",
+      "sha256": "f006cd79dca532ba75a80f892f820063c5d80b5556050de8eb4f752a2197b7b6",
+      "document_members": []
+    },
+    {
+      "id": 12288862604,
+      "name": "step1-evidence-windows-latest",
+      "sha256": "5c90048a15f1206ea831dd6ba6ceca6a92603a466278e6afc81e7d7a4713ed99",
+      "document_members": []
+    },
+    {
+      "id": 12283071041,
+      "name": "github-pages",
+      "sha256": "9ea8ef4a4024e9a3ce97574fb918f9eeefe08ff1e7c772db90427c69b73a3d0f",
+      "document_members": [
+        "./products/Leerprestaties_paper_current47.pdf",
+        "./products/Leerprestaties_beleid_current47.pdf",
+        "./products/Leerprestaties_beleid_current47.pptx"
+      ],
+      "delete": {
+        "http_status": 204
+      },
+      "verified_http": 404
+    },
+    {
+      "id": 10992397094,
+      "name": "final-public-dashboard-release",
+      "sha256": "ff95c48b896d995ae748a5f2798098628580537fdc7baee5e19922ef4a44b47e",
+      "document_members": []
+    },
+    {
+      "id": 10991477693,
+      "name": "final-public-dashboard-release",
+      "sha256": "af7c5263565ca5421ea3c74f34ffd5c545b8d667dd40a602aaf2ea31079f5dda",
+      "document_members": []
+    },
+    {
+      "id": 10991386837,
+      "name": "final-public-dashboard-release",
+      "sha256": "8191dbfc00dcc1cf2e5a82e85db6f38175772268f285b67d5824acbafb941607",
+      "document_members": []
+    }
+  ],
+  "remaining_old_document_url_checks": [
+    {
+      "url": "https://raw.githubusercontent.com/Netherlands-Opportunity-Lab/Learning-Outcomes/fa9f12ba12c91ef399579de8bde0d048db9b419f/04_products_or_release/current47/paper/Leerprestaties_paper_current47.pdf",
+      "status": 404
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Netherlands-Opportunity-Lab/Learning-Outcomes/refs/pull/5/head/04_products_or_release/current47/paper/Leerprestaties_paper_current47.pdf",
+      "status": 404
+    },
+    {
+      "url": "https://netherlands-opportunity-lab.github.io/Learning-Outcomes/products/Leerprestaties_paper_current47.pdf",
+      "status": 404
+    }
+  ],
+  "branches_and_tag_already_sanitized": true
+}

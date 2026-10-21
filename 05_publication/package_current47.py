@@ -63,6 +63,7 @@ def package(repo, site, inputs, source_commit, provenance):
     for directory in ("02_analysis/scientific_dependencies", "05_publication/preview_overlay",
                       "06_pipeline/review_20261013/international",
                       "06_pipeline/review_20261013/release47_20261020",
+                      "06_pipeline/review_20261013/privacy_20261021",
                       "04_results/review/all_required", "replication"):
         for path in sorted((repo / directory).rglob("*")):
             if path.is_file() and "__pycache__" not in path.parts and path.suffix.lower() not in (".gz", ".pyc"):
