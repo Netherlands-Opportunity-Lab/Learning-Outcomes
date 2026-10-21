@@ -1,0 +1,19 @@
+{
+  "status": "PINNED_LAUNCHER_COMMITS_MAPPED_NO_R_EXECUTION",
+  "changes": [
+    {
+      "file": "RESUME_WITH_FINAL_CHECKS.R",
+      "old_commit": "4be4d2a066b33bb59af17a2889115c64cb73b9f0",
+      "mapped_commit": "1f31ab22dc215df2edbed16cddf42ae62c40f84d",
+      "before_sha256": "37b7a17e1ad0097e077e67badd468dfb755e78748f441d8741ad9af992ff73c1",
+      "after_sha256": "bee9bad223102d7a7e3a1106dd776024b9ca98fdec0db6ce3c48ff05778b58b1"
+    },
+    {
+      "file": "review_20261013/integrate_prepared_repairs_20261018.R",
+      "old_commit": "32c48305e3db57e43fb14da49fae7c0f70de5541",
+      "mapped_commit": "5ef9547d8c0ff3ce41be971b9618bbd633f6073e",
+      "before_sha256": "68bd4edcf0cee3ff2ffb7af9c2dd1cf2472d076d644d4099eb0e8afd9e979afd",
+      "after_sha256": "878bd0511e9d1e825a8f2631eec01a98f9831f03ee047a8c36da35c4532e87e4"
+    }
+  ]
+}

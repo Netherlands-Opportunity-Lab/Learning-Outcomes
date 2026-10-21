@@ -1,0 +1,18 @@
+{
+  "status": "ONLY_RECONSTRUCTABLE_REVIEW_COPIES_REMOVED",
+  "directories": [
+    "public_site_v2",
+    "package_check_v2",
+    "reconstructed_v2",
+    "final\\public_site_v2",
+    "final\\package_check_v2",
+    "final\\reconstructed_v2"
+  ],
+  "files": 2999,
+  "selected_bytes": 2094078998.0,
+  "free_before": 4952854528,
+  "free_after": 7050031104,
+  "measured_freed_bytes": 2097176576,
+  "private_deliverables_preserved": true,
+  "source_data_touched": false
+}
