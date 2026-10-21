@@ -1,9 +1,9 @@
 {
-  "candidate_id": "2878cafc157c71414e51",
-  "snapshot_utc": "2026-10-20T20:43:38Z",
+  "candidate_id": "b595afad2e84dcd6da83",
+  "snapshot_utc": "2026-10-21T04:54:50Z",
   "dashboard_points": 63384,
   "countries": 47,
-  "source_commit": "b9bed3ac87853ac1f362cc91faa1db002aa6d97f",
+  "source_commit": "b3248202263da60c643407c343816ca430f69a37",
   "release_kind": "PARTIAL_VERIFIED_RESULTS",
   "reference_mode": "FULL_FOCUS_COMBINATION_PLUS_JOINT_VIEW_SUPPORT_MIN3",
   "full_scientific_release": false,
@@ -11,6 +11,6 @@
   "selected_countries": 47,
   "full_fresh_source_replication_certified": false,
   "private_documents_included": false,
-  "package_sha256": "fe6924fe726a92e2c114ab78b9318d978264c4a51b01d1876e19850cace07158",
-  "package_bytes": 71470480
+  "package_sha256": "50684e47fc1f3f1936d923ddadb221ce8534fb3bed5f13026cf3d57787686fb3",
+  "package_bytes": 71687853
 }

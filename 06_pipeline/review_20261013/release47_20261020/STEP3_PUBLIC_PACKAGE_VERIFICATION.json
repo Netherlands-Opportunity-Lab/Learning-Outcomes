@@ -1,51 +1,54 @@
 {
   "status": "PUBLIC_ONLY_PACKAGE_AND_FRESH_AGGREGATE_REBUILD_VERIFIED",
-  "code_commit": "b9bed3ac87853ac1f362cc91faa1db002aa6d97f",
+  "code_commit": "b3248202263da60c643407c343816ca430f69a37",
   "package": {
-    "files": 364,
-    "bytes": 71470480,
-    "sha256": "fe6924fe726a92e2c114ab78b9318d978264c4a51b01d1876e19850cace07158"
+    "files": 392,
+    "bytes": 71687853,
+    "sha256": "50684e47fc1f3f1936d923ddadb221ce8534fb3bed5f13026cf3d57787686fb3",
+    "source_commit": "b3248202263da60c643407c343816ca430f69a37",
+    "pupil_recalculation": false
   },
-  "expanded_bytes": 418876603,
-  "boundary": {
-    "status": "PUBLIC_TREE_EXCLUDES_PRIVATE_DOCUMENTS",
-    "files": 554,
-    "packages": [
-      {
-        "status": "PUBLIC_PACKAGE_EXCLUDES_PRIVATE_DOCUMENTS",
-        "files": 365
-      }
-    ]
-  },
-  "pupil_estimations": 0,
-  "full_source_replication": "DEFERRED_BY_OWNER",
+  "expanded_bytes": 419186079,
   "inspection": {
-    "seconds": 5.856,
-    "peak_working_set_bytes": 92352512,
+    "seconds": 14.018,
+    "peak_working_set_bytes": 92835840,
     "platform": "Windows",
-    "log_sha256": "b95b5ec6d64efc11afb8e2e6938019a0598eb2b3c1fe6ff381c46da20ec6a86d",
+    "log_sha256": "71e66135c6e3893da0c47f0d68b1b8509f21718e7bf6bb83216006ee4238d189",
     "exit_code": 0
   },
   "aggregate_reconstruction": {
-    "seconds": 117.04,
-    "peak_working_set_bytes": 720056320,
+    "seconds": 69.547,
+    "peak_working_set_bytes": 717029376,
     "platform": "Windows",
-    "log_sha256": "ce0d405f8c874fbac4c19a636f60e3522b9a5ab4288b04623677bd4ed8a7c63a",
+    "log_sha256": "8c1bff00ad181e8a2459d377fd67c07db6b225c5c58d6546540536981684e4c0",
     "exit_code": 0
   },
-  "identical_second_reconstruction": {
-    "status": "BOTH_REBUILDS_MATCH_SAME_CORE_MANIFEST",
-    "first_log_sha256": "0a4d12b76966eb21d67a96e4ba48911e10cccc4ecf932d3df10f894cf5307c7d",
-    "second_log_sha256": "ce0d405f8c874fbac4c19a636f60e3522b9a5ab4288b04623677bd4ed8a7c63a",
-    "source_commit": "b9bed3ac87853ac1f362cc91faa1db002aa6d97f"
+  "identical_second_inspection": {
+    "seconds": 7.567,
+    "peak_working_set_bytes": 92520448,
+    "platform": "Windows",
+    "log_sha256": "dbb079ba3de1587e76891f97b510371716460543e4c29c28a09c83993e1b8ce6",
+    "exit_code": 0
   },
   "publication_gate": {
-    "candidate_manifest_sha256": "2878cafc157c71414e5160b6ab8e76aaa23e6357da99b9580830cb48aeab69d1",
+    "candidate_manifest_sha256": "b595afad2e84dcd6da83539e806ed5b03e224608a5c8422860360428dca83448",
     "systems": 47,
     "active_figures": 174,
     "scientific_rows": 63384,
     "release_kind": "PARTIAL_VERIFIED_RESULTS",
     "release_gate": "PASS_PARTIAL_DISPLAY_ONLY_FULL_SCIENCE_INCOMPLETE"
   },
-  "manifest_sha256": "2878cafc157c71414e5160b6ab8e76aaa23e6357da99b9580830cb48aeab69d1"
+  "boundary": {
+    "status": "PUBLIC_TREE_EXCLUDES_PRIVATE_DOCUMENTS",
+    "files": 554,
+    "packages": [
+      {
+        "status": "PUBLIC_PACKAGE_EXCLUDES_PRIVATE_DOCUMENTS",
+        "files": 393
+      }
+    ]
+  },
+  "pupil_estimations": 0,
+  "full_source_replication": "DEFERRED_BY_OWNER",
+  "manifest_sha256": "b595afad2e84dcd6da83539e806ed5b03e224608a5c8422860360428dca83448"
 }
