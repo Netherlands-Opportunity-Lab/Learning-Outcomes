@@ -1,3 +1,5 @@
+Laatste privérevisie 21 oktober: de 90 jaarassen in de presentatie hebben gehele grenzen en labels. Alle slides met een internationale referentie noemen de daadwerkelijk gebruikte landen per figuur. De 22 slides en PDF zijn beoordeeld en privé op Drive hersteld. Documentinhoud blijft buiten GitHub. Zie review_20261013/privacy_20261021/PRIVATE_SLIDE_REVISION_20261021.json.
+
 Actuele levering 21 oktober: de privé-Wordversie is op alle 33 pagina's
 gecontroleerd. De 23 tabellen en manuscripttekst zijn exact behouden; de zes
 paperfiguren en 90 native presentatiegrafieken gebruiken scherpe verbindingen.

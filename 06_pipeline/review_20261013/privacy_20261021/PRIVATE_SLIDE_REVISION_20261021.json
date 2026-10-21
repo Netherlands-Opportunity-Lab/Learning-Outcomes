@@ -1,0 +1,33 @@
+{
+  "private_only": true,
+  "slides": 22,
+  "charts": 90,
+  "all_year_axes_integer_bounds": true,
+  "year_number_format": "0; sourceLinked=false",
+  "all_chart_points_unchanged": true,
+  "reviewed_rendered_slides": 22,
+  "comparison_membership_from_certified_trace": true,
+  "comparison_slide_numbers": [
+    2
+  ],
+  "all_comparison_slides_have_country_names": true,
+  "pdf_pages": 22,
+  "pdf_embedded_pixels_match_reviewed_pngs": true,
+  "native_powerpoint_render_performed": false,
+  "pptx_sha256": "f643798a64c3b442231b4c7c1d3c8772b30f3eb7a2100cf124302af5bc7231c1",
+  "pdf_sha256": "d5f6c3cf5bbbee43702a71a302f01aedb20e13a36ddd961d2283a9bdd66c458b",
+  "user_decision_date": "2026-10-21",
+  "basis_commit": "165783e45e045066a9f488691142a4a21040adbf",
+  "change": "Remove fractional year-axis origin; name actual reference countries on every slide using an international comparator.",
+  "research_results_changed": false,
+  "dashboard_changed": false,
+  "paper_changed": false,
+  "historical_scientific_deck_changed": false,
+  "private_archive_restore": {
+    "status": "PRIVATE_DRIVE_RESTORE_VERIFIED",
+    "archive_sha256": "483be914ee64c041428698e95fb27ce46fe40baec3207f71bcfb3dc5498dc291",
+    "bytes": 5589039,
+    "restored_files": 36
+  },
+  "render_review": "All 22 slide renders inspected; final PDF pixels equal reviewed PNGs. Native PowerPoint execution not claimed."
+}
