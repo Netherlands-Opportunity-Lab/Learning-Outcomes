@@ -1,0 +1,19 @@
+{
+  "code_commit": "d46e6ec05d83ad7504cd52f95b62b50135181902",
+  "pages_run": 39547332092,
+  "pages_build_and_deploy": "success",
+  "public_reconstruction_run": 39547341436,
+  "platforms": {
+    "windows-latest": "success",
+    "ubuntu-latest": "success"
+  },
+  "full_source_replication_executed": false,
+  "browser": {
+    "nl_rendered": true,
+    "en_rendered": true,
+    "series_join": "miter",
+    "series_cap": "butt",
+    "svg_segments": "M/L only; exact source points",
+    "language_switch_preserves_query": true
+  }
+}

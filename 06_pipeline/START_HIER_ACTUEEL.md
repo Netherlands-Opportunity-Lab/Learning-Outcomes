@@ -1,3 +1,18 @@
+Actuele levering 21 oktober: de privé-Wordversie is op alle 33 pagina's
+gecontroleerd. De 23 tabellen en manuscripttekst zijn exact behouden; de zes
+paperfiguren en 90 native presentatiegrafieken gebruiken scherpe verbindingen.
+Het historische wetenschappelijke deck van 50 slides is privé teruggevonden.
+De nieuwe documenten en volledige Git-herstelbundel zijn vanuit private Drive
+volledig teruggelezen en met hashes gecontroleerd.
+
+Dashboardkandidaat b595afad2e84dcd6da83 is gepubliceerd; alle 554 live bestanden
+komen exact overeen. Windows/Linux-pakketinspectie en reconstructie slagen.
+Alle branches/tags zijn van documenten ontdaan en documenthoudende CI-pakketten
+zijn verwijderd. GitHub bewaart nog oude objecten via PR #4/#5; serveropschoning
+door GitHub is daarom nog open. Dit is geen open gebruikersbesluit over het
+verwijderen van bestanden. Het concrete Support-verzoek is voorbereid.
+Zie review_20261013/privacy_20261021 voor de actuele bewijsstukken.
+
 Latest direct decision / actueel 21 oktober: the owner explicitly authorizes removal of all paper/slide versions from GitHub, including rewritten history. All public branches and the release tag have been sanitized; the old-to-new commit map is in 06_pipeline/review_20261013/privacy_20261021/COMMIT_REWRITE_MAP.txt. Preserve historical scientific producer IDs and verify original file hashes. Private Word and sharp-corner figure delivery are authorized. Older notes saying the history decision is pending are historical and superseded. GitHub PR/cache retention is a separate server-side limitation, not an unanswered user decision. Deferred36 and full fresh-source replication remain excluded.
 
 ## Actuele aflevering — 20 oktober 2026

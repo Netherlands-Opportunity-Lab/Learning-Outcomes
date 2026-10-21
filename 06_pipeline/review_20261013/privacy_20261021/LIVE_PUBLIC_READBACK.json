@@ -1,0 +1,34 @@
+{
+  "status": "LIVE_PUBLIC_BYTES_AND_DOCUMENT_WITHDRAWAL_VERIFIED",
+  "site": "https://netherlands-opportunity-lab.github.io/Learning-Outcomes/",
+  "checked_at_utc": "2026-10-21T05:05:33.694144+00:00",
+  "candidate_id": "b595afad2e84dcd6da83",
+  "manifest_sha256": "b595afad2e84dcd6da83539e806ed5b03e224608a5c8422860360428dca83448",
+  "verified_files": 554,
+  "verified_bytes": 349757702,
+  "archive_index": {
+    "path": "archive/2026-09-28/index.html",
+    "bytes": 6655,
+    "sha256": "91bc0b6d52edab9ca55ad8c9ebf6cf05781092d2f2ee2fed419b39932e1b4c08"
+  },
+  "withdrawn_document_routes": [
+    {
+      "path": "products/Leerprestaties_beleid_current47.pdf",
+      "status": 404
+    },
+    {
+      "path": "products/Leerprestaties_beleid_current47.pptx",
+      "status": 404
+    },
+    {
+      "path": "products/Leerprestaties_paper_current47.pdf",
+      "status": 404
+    }
+  ],
+  "seconds": 43.27,
+  "git_history_withdrawn": false,
+  "branches_and_tags_sanitized": true,
+  "server_pr_retention_pending": true,
+  "detail": "LIVE_PUBLIC_READBACK.json.gz",
+  "detail_sha256": "f5fdd715d480948b5fb73b7d19cee0f8324e9296a14e23e457473d5159d02d85"
+}

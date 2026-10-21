@@ -1,0 +1,20 @@
+{
+  "status": "PRIVATE_DELIVERY_AND_PREWITHDRAWAL_HISTORY_REMOTE_READBACK_VERIFIED",
+  "objects": [
+    {
+      "file": "private-delivery-20261021.zip",
+      "sha256": "6df8566a89154988a51f5b1ea0c71119188540acd086f8a7898860c38b9b9f0b",
+      "bytes": 15322624,
+      "remote_full_readback": true,
+      "seconds": 21.002,
+      "restored_files_verified": 94
+    },
+    {
+      "file": "learning-outcomes-before-history-cleanup-20261021.bundle",
+      "sha256": "d261c532c64f6b893b8a575f4f403184a63cd2ac35b67e89909a03dab34c3777",
+      "bytes": 433371813,
+      "remote_full_readback": true,
+      "seconds": 68.656
+    }
+  ]
+}
