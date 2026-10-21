@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-21",
+  "authority": "Direct user messages in the project conversation",
+  "resume_countries": ["ISL", "KOR"],
+  "other_deferred_countries": "remain deferred",
+  "full_source_replication": "remains deferred",
+  "migration": "At least one foreign-born parent is sufficient; drop first/second generation split. Retain historical cells, but new targeted production excludes generation and both-parent definitions.",
+  "explicit_period_panels": {
+    "full_anchor_retained": true,
+    "additional_start_rules": ["first survey wave strictly after 2003", "first survey wave strictly after 2007"],
+    "timss_confirmed_starts": [2007, 2011],
+    "membership": "constant over all required years and jointly displayed series of each labelled period",
+    "weights": "equal country weights; exclude focus country from comparator mean",
+    "ranks": "same fixed countries plus focus; no group rank line; report n and countries for each line"
+  },
+  "private_slides": "Preserve design; observed-year ticks only; write out socioeconomic status; two language display labels with study-specific definitions retained; clarify peer composition.",
+  "privacy": "Paper and slides remain private. GitHub Support submission authorized; no repository deletion requested."
+}

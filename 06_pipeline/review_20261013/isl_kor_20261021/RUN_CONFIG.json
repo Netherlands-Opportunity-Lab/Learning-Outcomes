@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "scope": "all_required",
+  "selection": {
+    "surveys": [],
+    "years": [],
+    "domains": [],
+    "modules": [],
+    "countries": [
+      "ISL",
+      "KOR"
+    ],
+    "stats": [],
+    "groups": [],
+    "definitions": [
+      "Cobreros_fourwave_13item_trend_comparable",
+      "IEA_OFFICIAL_HOME_SES_CYCLE_SPECIFIC",
+      "MIGRATION_ANY_PARENT_ABROAD",
+      "below_basic_exclude_self_direct_or_school",
+      "books5_fractional",
+      "frequency_always_almost_vs_sometimes_never",
+      "gender",
+      "high_peer_raw_sample",
+      "home_language_peer_exposure",
+      "same_as_assessment_language_vs_other",
+      "total",
+      "weighted_descriptive_between_share"
+    ],
+    "peer_environments": [],
+    "cell_ids": []
+  },
+  "max_compute_units": 100000,
+  "checkpoint": {
+    "max_new_cells": 1000,
+    "max_elapsed_seconds": 600
+  }
+}
