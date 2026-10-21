@@ -31,3 +31,12 @@ PR-5-documentlink en live paper-URL geven eveneens HTTP 404. Dit bewijst de
 gecontroleerde routes; het is geen uitspraak over niet-publieke serverback-ups
 van GitHub of kopieën die derden eerder hebben gedownload.
 Zie REMOTE_DOCUMENT_RESIDUE.json voor de exacte controles.
+
+Een diepere controle van de Git-object-API geeft voor twee oude documentobjecten
+nog HTTP 200 zonder aanmelding. De eerdere 404-controle betrof alleen de genoemde
+downloadroutes. PR #4 en #5 bewaren read-only verwijzingen naar de oude historie.
+Volledige serververwijdering is dus nog niet voltooid. Het concrete verzoek aan
+GitHub Support is privé voorbereid; verzending vraagt toestemming om namens de
+eigenaar contact op te nemen. Zie SERVER_RETENTION_STATUS.json. Er zijn geen
+publieke forks gerapporteerd. Deze aanvullende serveractie vergt geen nieuwe
+toestemming voor de reeds geautoriseerde bestandsverwijdering.

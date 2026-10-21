@@ -1,0 +1,12 @@
+{
+  "status": "BRANCHES_TAGS_AND_PACKAGES_SANITIZED_SERVER_PR_REFERENCES_REQUIRE_GITHUB",
+  "checked_at_utc": "2026-10-21T04:55:51.812284+00:00",
+  "affected_pull_requests": [
+    4,
+    5
+  ],
+  "unauthenticated_old_document_objects_retrievable": 2,
+  "all_known_forks": 0,
+  "support_request": "Prepared privately; sending awaits explicit permission to contact GitHub Support",
+  "private_document_bytes_published_in_this_report": false
+}
